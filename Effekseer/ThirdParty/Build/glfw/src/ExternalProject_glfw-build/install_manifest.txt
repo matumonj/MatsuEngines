@@ -1,0 +1,8 @@
+C:/Users/K020G1414/effekseerNew/Effekseer/ThirdParty/Install/glfw/include/GLFW/glfw3.h
+C:/Users/K020G1414/effekseerNew/Effekseer/ThirdParty/Install/glfw/include/GLFW/glfw3native.h
+C:/Users/K020G1414/effekseerNew/Effekseer/ThirdParty/Install/glfw/lib/cmake/glfw3/glfw3Config.cmake
+C:/Users/K020G1414/effekseerNew/Effekseer/ThirdParty/Install/glfw/lib/cmake/glfw3/glfw3ConfigVersion.cmake
+C:/Users/K020G1414/effekseerNew/Effekseer/ThirdParty/Install/glfw/lib/cmake/glfw3/glfw3Targets.cmake
+C:/Users/K020G1414/effekseerNew/Effekseer/ThirdParty/Install/glfw/lib/cmake/glfw3/glfw3Targets-release.cmake
+C:/Users/K020G1414/effekseerNew/Effekseer/ThirdParty/Install/glfw/lib/pkgconfig/glfw3.pc
+C:/Users/K020G1414/effekseerNew/Effekseer/ThirdParty/Install/glfw/lib/glfw3.lib

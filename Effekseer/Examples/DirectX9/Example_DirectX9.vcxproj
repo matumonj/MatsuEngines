@@ -1,0 +1,349 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{7A6013A5-555A-3A96-A1B6-5D268F491B3E}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <ProjectName>Example_DirectX9</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\K020G1414\effekseerNew\Effekseer\Examples\DirectX9\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Example_DirectX9.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Example_DirectX9</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\K020G1414\effekseerNew\Effekseer\Examples\DirectX9\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Example_DirectX9.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Example_DirectX9</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\K020G1414\effekseerNew\Effekseer\Examples\DirectX9\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Example_DirectX9.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Example_DirectX9</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\K020G1414\effekseerNew\Effekseer\Examples\DirectX9\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Example_DirectX9.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Example_DirectX9</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\K020G1414\effekseerNew\Effekseer\Dev\Cpp\Effekseer;C:\Users\K020G1414\effekseerNew\Effekseer\Dev\Cpp\EffekseerRendererDX9;C:\Users\K020G1414\effekseerNew\Effekseer\Dev\Cpp\EffekseerSoundXAudio2;C:\Users\K020G1414\effekseerNew\Effekseer\Examples\DirectX9\..\Utils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;__EFFEKSEER_BUILD_DX12__;EFK_EXAMPLE_ASSETS_DIR="C:/Users/K020G1414/effekseerNew/Effekseer/Examples/Resources/";EFK_EXAMPLE_ASSETS_DIR_U16=u"C:/Users/K020G1414/effekseerNew/Effekseer/Examples/Resources/";CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;__EFFEKSEER_BUILD_DX12__;EFK_EXAMPLE_ASSETS_DIR=\"C:/Users/K020G1414/effekseerNew/Effekseer/Examples/Resources/\";EFK_EXAMPLE_ASSETS_DIR_U16=u\"C:/Users/K020G1414/effekseerNew/Effekseer/Examples/Resources/\";CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\K020G1414\effekseerNew\Effekseer\Dev\Cpp\Effekseer;C:\Users\K020G1414\effekseerNew\Effekseer\Dev\Cpp\EffekseerRendererDX9;C:\Users\K020G1414\effekseerNew\Effekseer\Dev\Cpp\EffekseerSoundXAudio2;C:\Users\K020G1414\effekseerNew\Effekseer\Examples\DirectX9\..\Utils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\K020G1414\effekseerNew\Effekseer\Dev\Cpp\Effekseer;C:\Users\K020G1414\effekseerNew\Effekseer\Dev\Cpp\EffekseerRendererDX9;C:\Users\K020G1414\effekseerNew\Effekseer\Dev\Cpp\EffekseerSoundXAudio2;C:\Users\K020G1414\effekseerNew\Effekseer\Examples\DirectX9\..\Utils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>..\..\Dev\Cpp\Effekseer\Debug\Effekseer.lib;..\..\Dev\Cpp\EffekseerRendererDX9\Debug\EffekseerRendererDX9.lib;..\..\Dev\Cpp\EffekseerSoundXAudio2\Debug\EffekseerSoundXAudio2.lib;..\Utils\Debug\Example_Utils.lib;..\..\Dev\Cpp\Effekseer\Debug\Effekseer.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Users/K020G1414/effekseerNew/Effekseer/Examples/DirectX9/Debug/Example_DirectX9.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Users/K020G1414/effekseerNew/Effekseer/Examples/DirectX9/Debug/Example_DirectX9.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\K020G1414\effekseerNew\Effekseer\Dev\Cpp\Effekseer;C:\Users\K020G1414\effekseerNew\Effekseer\Dev\Cpp\EffekseerRendererDX9;C:\Users\K020G1414\effekseerNew\Effekseer\Dev\Cpp\EffekseerSoundXAudio2;C:\Users\K020G1414\effekseerNew\Effekseer\Examples\DirectX9\..\Utils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;__EFFEKSEER_BUILD_DX12__;EFK_EXAMPLE_ASSETS_DIR="C:/Users/K020G1414/effekseerNew/Effekseer/Examples/Resources/";EFK_EXAMPLE_ASSETS_DIR_U16=u"C:/Users/K020G1414/effekseerNew/Effekseer/Examples/Resources/";CMAKE_INTDIR="Release"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;__EFFEKSEER_BUILD_DX12__;EFK_EXAMPLE_ASSETS_DIR=\"C:/Users/K020G1414/effekseerNew/Effekseer/Examples/Resources/\";EFK_EXAMPLE_ASSETS_DIR_U16=u\"C:/Users/K020G1414/effekseerNew/Effekseer/Examples/Resources/\";CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\K020G1414\effekseerNew\Effekseer\Dev\Cpp\Effekseer;C:\Users\K020G1414\effekseerNew\Effekseer\Dev\Cpp\EffekseerRendererDX9;C:\Users\K020G1414\effekseerNew\Effekseer\Dev\Cpp\EffekseerSoundXAudio2;C:\Users\K020G1414\effekseerNew\Effekseer\Examples\DirectX9\..\Utils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\K020G1414\effekseerNew\Effekseer\Dev\Cpp\Effekseer;C:\Users\K020G1414\effekseerNew\Effekseer\Dev\Cpp\EffekseerRendererDX9;C:\Users\K020G1414\effekseerNew\Effekseer\Dev\Cpp\EffekseerSoundXAudio2;C:\Users\K020G1414\effekseerNew\Effekseer\Examples\DirectX9\..\Utils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>..\..\Dev\Cpp\Effekseer\Release\Effekseer.lib;..\..\Dev\Cpp\EffekseerRendererDX9\Release\EffekseerRendererDX9.lib;..\..\Dev\Cpp\EffekseerSoundXAudio2\Release\EffekseerSoundXAudio2.lib;..\Utils\Release\Example_Utils.lib;..\..\Dev\Cpp\Effekseer\Release\Effekseer.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Users/K020G1414/effekseerNew/Effekseer/Examples/DirectX9/Release/Example_DirectX9.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Users/K020G1414/effekseerNew/Effekseer/Examples/DirectX9/Release/Example_DirectX9.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\K020G1414\effekseerNew\Effekseer\Dev\Cpp\Effekseer;C:\Users\K020G1414\effekseerNew\Effekseer\Dev\Cpp\EffekseerRendererDX9;C:\Users\K020G1414\effekseerNew\Effekseer\Dev\Cpp\EffekseerSoundXAudio2;C:\Users\K020G1414\effekseerNew\Effekseer\Examples\DirectX9\..\Utils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;__EFFEKSEER_BUILD_DX12__;EFK_EXAMPLE_ASSETS_DIR="C:/Users/K020G1414/effekseerNew/Effekseer/Examples/Resources/";EFK_EXAMPLE_ASSETS_DIR_U16=u"C:/Users/K020G1414/effekseerNew/Effekseer/Examples/Resources/";CMAKE_INTDIR="MinSizeRel"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;__EFFEKSEER_BUILD_DX12__;EFK_EXAMPLE_ASSETS_DIR=\"C:/Users/K020G1414/effekseerNew/Effekseer/Examples/Resources/\";EFK_EXAMPLE_ASSETS_DIR_U16=u\"C:/Users/K020G1414/effekseerNew/Effekseer/Examples/Resources/\";CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\K020G1414\effekseerNew\Effekseer\Dev\Cpp\Effekseer;C:\Users\K020G1414\effekseerNew\Effekseer\Dev\Cpp\EffekseerRendererDX9;C:\Users\K020G1414\effekseerNew\Effekseer\Dev\Cpp\EffekseerSoundXAudio2;C:\Users\K020G1414\effekseerNew\Effekseer\Examples\DirectX9\..\Utils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\K020G1414\effekseerNew\Effekseer\Dev\Cpp\Effekseer;C:\Users\K020G1414\effekseerNew\Effekseer\Dev\Cpp\EffekseerRendererDX9;C:\Users\K020G1414\effekseerNew\Effekseer\Dev\Cpp\EffekseerSoundXAudio2;C:\Users\K020G1414\effekseerNew\Effekseer\Examples\DirectX9\..\Utils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>..\..\Dev\Cpp\Effekseer\MinSizeRel\Effekseer.lib;..\..\Dev\Cpp\EffekseerRendererDX9\MinSizeRel\EffekseerRendererDX9.lib;..\..\Dev\Cpp\EffekseerSoundXAudio2\MinSizeRel\EffekseerSoundXAudio2.lib;..\Utils\MinSizeRel\Example_Utils.lib;..\..\Dev\Cpp\Effekseer\MinSizeRel\Effekseer.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Users/K020G1414/effekseerNew/Effekseer/Examples/DirectX9/MinSizeRel/Example_DirectX9.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Users/K020G1414/effekseerNew/Effekseer/Examples/DirectX9/MinSizeRel/Example_DirectX9.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\K020G1414\effekseerNew\Effekseer\Dev\Cpp\Effekseer;C:\Users\K020G1414\effekseerNew\Effekseer\Dev\Cpp\EffekseerRendererDX9;C:\Users\K020G1414\effekseerNew\Effekseer\Dev\Cpp\EffekseerSoundXAudio2;C:\Users\K020G1414\effekseerNew\Effekseer\Examples\DirectX9\..\Utils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;__EFFEKSEER_BUILD_DX12__;EFK_EXAMPLE_ASSETS_DIR="C:/Users/K020G1414/effekseerNew/Effekseer/Examples/Resources/";EFK_EXAMPLE_ASSETS_DIR_U16=u"C:/Users/K020G1414/effekseerNew/Effekseer/Examples/Resources/";CMAKE_INTDIR="RelWithDebInfo"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;__EFFEKSEER_BUILD_DX12__;EFK_EXAMPLE_ASSETS_DIR=\"C:/Users/K020G1414/effekseerNew/Effekseer/Examples/Resources/\";EFK_EXAMPLE_ASSETS_DIR_U16=u\"C:/Users/K020G1414/effekseerNew/Effekseer/Examples/Resources/\";CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\K020G1414\effekseerNew\Effekseer\Dev\Cpp\Effekseer;C:\Users\K020G1414\effekseerNew\Effekseer\Dev\Cpp\EffekseerRendererDX9;C:\Users\K020G1414\effekseerNew\Effekseer\Dev\Cpp\EffekseerSoundXAudio2;C:\Users\K020G1414\effekseerNew\Effekseer\Examples\DirectX9\..\Utils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\K020G1414\effekseerNew\Effekseer\Dev\Cpp\Effekseer;C:\Users\K020G1414\effekseerNew\Effekseer\Dev\Cpp\EffekseerRendererDX9;C:\Users\K020G1414\effekseerNew\Effekseer\Dev\Cpp\EffekseerSoundXAudio2;C:\Users\K020G1414\effekseerNew\Effekseer\Examples\DirectX9\..\Utils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>..\..\Dev\Cpp\Effekseer\RelWithDebInfo\Effekseer.lib;..\..\Dev\Cpp\EffekseerRendererDX9\RelWithDebInfo\EffekseerRendererDX9.lib;..\..\Dev\Cpp\EffekseerSoundXAudio2\RelWithDebInfo\EffekseerSoundXAudio2.lib;..\Utils\RelWithDebInfo\Example_Utils.lib;..\..\Dev\Cpp\Effekseer\RelWithDebInfo\Effekseer.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Users/K020G1414/effekseerNew/Effekseer/Examples/DirectX9/RelWithDebInfo/Example_DirectX9.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Users/K020G1414/effekseerNew/Effekseer/Examples/DirectX9/RelWithDebInfo/Example_DirectX9.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\K020G1414\effekseerNew\Effekseer\Examples\DirectX9\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Users/K020G1414/effekseerNew/Effekseer/Examples/DirectX9/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/K020G1414/effekseerNew/Effekseer -BC:/Users/K020G1414/effekseerNew/Effekseer --check-stamp-file C:/Users/K020G1414/effekseerNew/Effekseer/Examples/DirectX9/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\K020G1414\effekseerNew\Effekseer\Examples\DirectX9\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/Users/K020G1414/effekseerNew/Effekseer/Examples/DirectX9/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/K020G1414/effekseerNew/Effekseer -BC:/Users/K020G1414/effekseerNew/Effekseer --check-stamp-file C:/Users/K020G1414/effekseerNew/Effekseer/Examples/DirectX9/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\K020G1414\effekseerNew\Effekseer\Examples\DirectX9\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/Users/K020G1414/effekseerNew/Effekseer/Examples/DirectX9/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/K020G1414/effekseerNew/Effekseer -BC:/Users/K020G1414/effekseerNew/Effekseer --check-stamp-file C:/Users/K020G1414/effekseerNew/Effekseer/Examples/DirectX9/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\K020G1414\effekseerNew\Effekseer\Examples\DirectX9\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/Users/K020G1414/effekseerNew/Effekseer/Examples/DirectX9/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/K020G1414/effekseerNew/Effekseer -BC:/Users/K020G1414/effekseerNew/Effekseer --check-stamp-file C:/Users/K020G1414/effekseerNew/Effekseer/Examples/DirectX9/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\K020G1414\effekseerNew\Effekseer\Examples\DirectX9\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="C:\Users\K020G1414\effekseerNew\Effekseer\Examples\DirectX9\main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="C:\Users\K020G1414\effekseerNew\Effekseer\ZERO_CHECK.vcxproj">
+      <Project>{FFE61C0C-5D9D-3032-910D-8917D196B4D2}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\K020G1414\effekseerNew\Effekseer\Dev\Cpp\Effekseer\Effekseer.vcxproj">
+      <Project>{79D9F2DD-A543-3D80-A588-3C73185D2B20}</Project>
+      <Name>Effekseer</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\K020G1414\effekseerNew\Effekseer\Dev\Cpp\EffekseerRendererDX9\EffekseerRendererDX9.vcxproj">
+      <Project>{648B4A7F-4966-3F2A-86C1-9DCE2A3E0302}</Project>
+      <Name>EffekseerRendererDX9</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\K020G1414\effekseerNew\Effekseer\Dev\Cpp\EffekseerSoundXAudio2\EffekseerSoundXAudio2.vcxproj">
+      <Project>{F8AEA183-EEBF-3A1E-BC23-CE84BE7BAD24}</Project>
+      <Name>EffekseerSoundXAudio2</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\K020G1414\effekseerNew\Effekseer\Examples\Utils\Example_Utils.vcxproj">
+      <Project>{6C08FFB6-0F96-39C3-AFFC-AA09DFD57510}</Project>
+      <Name>Example_Utils</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

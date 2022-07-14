@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\K020G1414\effekseerNew\Effekseer\CMakeFiles\76a5e6ae864d38edebe95909c85c3422\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{374E92A8-48A3-34C0-9E3E-895BCC0454BE}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\K020G1414\effekseerNew\Effekseer\CMakeFiles\826b37803a22116aa941c50221f6eb14\ExternalProject_glfw-mkdir.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\K020G1414\effekseerNew\Effekseer\CMakeFiles\826b37803a22116aa941c50221f6eb14\ExternalProject_glfw-download.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\K020G1414\effekseerNew\Effekseer\CMakeFiles\826b37803a22116aa941c50221f6eb14\ExternalProject_glfw-update.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\K020G1414\effekseerNew\Effekseer\CMakeFiles\826b37803a22116aa941c50221f6eb14\ExternalProject_glfw-patch.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\K020G1414\effekseerNew\Effekseer\CMakeFiles\826b37803a22116aa941c50221f6eb14\ExternalProject_glfw-configure.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\K020G1414\effekseerNew\Effekseer\CMakeFiles\826b37803a22116aa941c50221f6eb14\ExternalProject_glfw-build.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\K020G1414\effekseerNew\Effekseer\CMakeFiles\826b37803a22116aa941c50221f6eb14\ExternalProject_glfw-install.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\K020G1414\effekseerNew\Effekseer\CMakeFiles\74ebf55967d7a8e434c4cb5bb6330270\ExternalProject_glfw-complete.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\K020G1414\effekseerNew\Effekseer\CMakeFiles\4ed68339507b6b0bc359a2e3ae1f02c3\ExternalProject_glfw.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\K020G1414\effekseerNew\Effekseer\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Users\K020G1414\effekseerNew\Effekseer\CMakeFiles\ExternalProject_glfw" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{374E92A8-48A3-34C0-9E3E-895BCC0454BE}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

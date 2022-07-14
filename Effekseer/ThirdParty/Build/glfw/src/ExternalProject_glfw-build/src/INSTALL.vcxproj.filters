@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\K020G1414\effekseerNew\Effekseer\ThirdParty\Build\glfw\src\ExternalProject_glfw-build\CMakeFiles\6043fb39766ca85ba869e00511f0b1d2\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{9F145307-FB2A-386A-80BE-A64E90AC577F}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
