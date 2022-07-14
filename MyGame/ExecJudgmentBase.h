@@ -1,0 +1,9 @@
+#pragma once
+class Enemy;
+
+// é¿çsîªíË
+class ExecJudgmentBase
+{
+public:
+	virtual bool Judgment(Enemy* enemy) = 0;
+};
