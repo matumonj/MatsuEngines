@@ -84,11 +84,11 @@ protected:	//メンバ変数
 	//定数バッファ
 	ComPtr<ID3D12Resource> constBuffTransform;
 	//ローカルスケール
-	XMFLOAT3 scale = { 0.1, 0.1, 0.1 };
+	XMFLOAT3 scale = { 0.1f, 0.1f, 0.1f };
 	//X,Y,Z軸回りのローカル回転角
-	XMFLOAT3 rotation = { 0, 0, 0 };
+	XMFLOAT3 rotation = { 0.0f, 0.0f, 0.0f };
 	//ローカル座標
-	XMFLOAT3 position = { 0, 0, 0 };
+	XMFLOAT3 position = { 0.0f, 0.0f, 0.0f };
 	//ローカルワールド変換行列
 	XMMATRIX matWorld;
 	//モデル
@@ -119,4 +119,7 @@ public:	//定数
 	{
 		XMMATRIX bones[MAX_BONES];
 	};
+	bool stopFlag;
+	void SeteCurrent(bool f) { stopFlag = f; }
+	FbxTime SetCurrent() { return currentTime = startTime; }
 };

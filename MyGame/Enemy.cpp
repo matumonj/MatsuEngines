@@ -29,8 +29,7 @@ Enemy::~Enemy()
 //初期化処理
 bool Enemy::Initialize(DebugCamera* camera)
 {
-	
-	_state = new EnemyWalkState();
+	//Object3d::Initialize(camera);
 	return true;
 }
 
@@ -60,7 +59,7 @@ void Enemy::SearchAction(DebugCamera* camera)
 	}
 	//stime->びっくりアイコン出してる時間
 	if (stime == 0 && searchTexSet) {
-		if (Collision::GetLength(Player::GetInstance()->GetPosition(),Position) <10) {
+		if (Collision::GetLength(Player::GetInstance()->GetPosition(),position) <10) {
 			searchFlag = true;
 		}
 	}
@@ -80,7 +79,7 @@ void Enemy::SearchAction(DebugCamera* camera)
 	SearchTex->SetAnchorPoint({ 0.0,0 });
 	SearchTex->SetRotation({ 180,0,0 });
 	SearchTex->SetScale({ 1,1,1 });
-	SearchTex->SetPosition({ Position.x,Position.y+10,Position.z });
+	SearchTex->SetPosition({ position.x,position.y+10,position.z });
 	SearchTex->Update(camera);
 }
 void Enemy::SearchDraw()
@@ -110,14 +109,14 @@ void Enemy::Action()
 	if (onGround == true) {
 
 		if (onGroundTime % 30 == 0) {
-			tempx = Position.x;
-			tempz = Position.z;
+			tempx = position.x;
+			tempz = position.z;
 		}
 		if (wf && MoveFlag) {
-			Position = {
-				Position.x + move.m128_f32[0],
-				Position.y,
-				Position.z + move.m128_f32[2] }
+			position = {
+				position.x + move.m128_f32[0],
+				position.y,
+				position.z + move.m128_f32[2] }
 			;
 			movement++;
 			//enemy->SetMovement(enemy->GetMovement() + 1);
@@ -125,7 +124,7 @@ void Enemy::Action()
 
 	} else if (onGround == false) {
 		if (MoveFlag != false) {
-			Position = { tempx,Position.y,tempz };
+			position = { tempx,position.y,tempz };
 		}
 	}
 	if (EnemyHP < 0) {
@@ -143,7 +142,7 @@ void Enemy::EnemyPop(int HP)
 	if (state == DEAD) {
 		PopCount++;
 		if (PopCount >600) {
-			Position = StartPosition;
+			position = StartPosition;
 			EnemyHP = HP;
 			wf = true;
 			state = ALIVE; 
@@ -170,9 +169,9 @@ void Enemy::Finalize()
 float Enemy::Distance(Player* player)
 {
 
-		distance = sqrtf(((player->GetPosition().x - Position.x) * (player->GetPosition().x - Position.x))
-			+ ((player->GetPosition().y - Position.y) * (player->GetPosition().y - Position.y))
-			+ ((player->GetPosition().z - Position.z) * (player->GetPosition().z - Position.z)));
+		distance = sqrtf(((player->GetPosition().x - position.x) * (player->GetPosition().x - position.x))
+			+ ((player->GetPosition().y - position.y) * (player->GetPosition().y - position.y))
+			+ ((player->GetPosition().z - position.z) * (player->GetPosition().z - position.z)));
 		return distance;
 	
 }
@@ -192,106 +191,7 @@ void Enemy::ChangeState(EnemyState* newState)
 void Enemy::CollisionField(DebugCamera*camera)
 {
 
-	// ワールド行列更新
-	UpdateWorldMatrix();
-	float x, z;
-
-	// 落下処理
-	if (!onGround) {
-		// 下向き加速度
-		const float fallAcc = -0.01f;
-		const float fallVYMin = -0.5f;
-		// 加速
-		fallV.m128_f32[1] = max(fallV.m128_f32[1] + fallAcc, fallVYMin);
-		// 移動
-		//Position.x += fallV.m128_f32[0];
-		Position.y += fallV.m128_f32[1];
-		//Position.z += fallV.m128_f32[2];
-
-	}
 	
-	// ワールド行列更新
-	UpdateWorldMatrix();
-	collider->Update();
-
-	SphereCollider* sphereCollider = dynamic_cast<SphereCollider*>(collider);
-	assert(sphereCollider);
-
-	// クエリーコールバッククラス
-	class PlayerQueryCallback : public QueryCallback
-	{
-	public:
-		PlayerQueryCallback(Sphere* sphere) : sphere(sphere) {};
-
-		// 衝突時コールバック関数
-		bool OnQueryHit(const QueryHit& info) {
-
-			const XMVECTOR up = { 0,1,0,0 };
-
-			XMVECTOR rejectDir = XMVector3Normalize(info.reject);
-			float cos = XMVector3Dot(rejectDir, up).m128_f32[0];
-
-			// 地面判定しきい値
-			const float threshold = cosf(XMConvertToRadians(30.0f));
-
-			if (-threshold < cos && cos < threshold) {
-				sphere->center += info.reject;
-				move += info.reject;
-			}
-
-			return true;
-		}
-
-		Sphere* sphere = nullptr;
-		DirectX::XMVECTOR move = {};
-	};
-
-	PlayerQueryCallback callback(sphereCollider);
-
-	// 球と地形の交差を全検索
-	CollisionManager::GetInstance()->QuerySphere(*sphereCollider, &callback, COLLISION_ATTR_LANDSHAPE);
-	// 交差による排斥分動かす
-	Position.x += callback.move.m128_f32[0];
-	Position.y += callback.move.m128_f32[1];
-	Position.z += callback.move.m128_f32[2];
-	// ワールド行列更新
-	UpdateWorldMatrix();
-	collider->Update();
-
-	// 球の上端から球の下端までのレイキャスト
-	Ray ray;
-	ray.start = sphereCollider->center;
-	ray.start.m128_f32[1] += sphereCollider->GetRadius();
-	ray.dir = { 0,-1,0,0 };
-	RaycastHit raycastHit;
-
-	// 接地状態
-	if (onGround) {
-		// スムーズに坂を下る為の吸着距離
-		const float adsDistance = 5.0f;
-		// 接地を維持
-		if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit, sphereCollider->GetRadius() * 2.0f + adsDistance)) {
-			onGround = true;
-			Position.y -= (raycastHit.distance - sphereCollider->GetRadius() * 2.0f);
-		}
-		// 地面がないので落下
-		else {
-			onGround = false;
-			fallV = {};
-		}
-	}
-	// 落下状態
-	else if (fallV.m128_f32[1] <= 0.0f) {
-		if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit, sphereCollider->GetRadius() * 2.0f)) {
-			// 着地
-			onGround = true;
-			Position.y -= (raycastHit.distance - sphereCollider->GetRadius() * 2.0f);
-		}
-	}
-	//RecvDamagef = false;
-	// 行列の更新など
-	Object3d::Update({ 1,1,1,1 }, camera);
-
 }
 
 
@@ -323,30 +223,31 @@ void Enemy::Walk()
 			sf = true;
 		}
 	}
+	animeflag = false;
 }
 
 void Enemy::Stop()
 {
 	//enemy->SetMovement(0);
 
-		if (StayCount == 0) {
-			//イージング掛ける前の敵の向き
-			BeforeRot =Rotation.y;
-			//掛けた後の敵の向き
-			AfterRot =Rotation.y + RandMove;
-		}
+	if (StayCount == 0) {
+		//イージング掛ける前の敵の向き
+		BeforeRot = Rotation.y;
+		//掛けた後の敵の向き
+		AfterRot = Rotation.y + RandMove;
+	}
 
-		if (sf) {
+	if (sf) {
 		StayCount++;
 
 		if (StayCount > 190) {//停止時間
 			RotTime += 0.01f;
-			Rotation={
+			Rotation = {
 				Rotation.x,
 				//enemy->GetRotation().y+80,
 				Easing::EaseOut(RotTime,BeforeRot, AfterRot),
 				Rotation.z
-				};
+			};
 
 			//enemy->ChangeState(new EnemyWalkState());
 		//}
@@ -360,27 +261,31 @@ void Enemy::Stop()
 			wf = true;
 		}
 	}
+	if (sf) {
+		animeflag = true;
+	}
+	if (wf) {
+		animeflag = false;
+	}
 }
 
 void Enemy::Follow()
 {
-	wf = false;
-	sf = false;
 	float angleX, angleZ, dis;
 	//追跡スピード
 	float centerSpeed = 0.1f;
 
-	angleX = (Player::GetInstance()->GetPosition().x - Position.x);
-	angleZ = (Player::GetInstance()->GetPosition().z - Position.z);
+	angleX = (Player::GetInstance()->GetPosition().x - position.x);
+	angleZ = (Player::GetInstance()->GetPosition().z - position.z);
 
 	//敵とプレイヤーの距離求め
-	dis = sqrtf((Position.x - Player::GetInstance()->GetPosition().x) * (Position.x - Player::GetInstance()->GetPosition().x)
-		+ (Position.z - Player::GetInstance()->GetPosition().z) * (Position.z - Player::GetInstance()->GetPosition().z));
+	dis = sqrtf((position.x - Player::GetInstance()->GetPosition().x) * (position.x - Player::GetInstance()->GetPosition().x)
+		+ (position.z - Player::GetInstance()->GetPosition().z) * (position.z - Player::GetInstance()->GetPosition().z));
 
 
 	//敵がプエレイヤーの方向く処理
 	XMVECTOR positionA = { Player::GetInstance()->GetPosition().x,Player::GetInstance()->GetPosition().y, Player::GetInstance()->GetPosition().z };
-	XMVECTOR positionB = { Position.x,Position.y,Position.z };
+	XMVECTOR positionB = { position.x,position.y,position.z };
 	//プレイヤーと敵のベクトルの長さ(差)を求める
 	XMVECTOR SubVector = DirectX::XMVectorSubtract(positionB, positionA);// positionA - positionB;
 
@@ -389,11 +294,19 @@ void Enemy::Follow()
 
 	Rotation={0,RotY * 60 + 180,0 };
 	//座標のセット
-	Position={ Position.x + (angleX / dis) * centerSpeed,Position.y,Position.z + (angleZ / dis) * centerSpeed };
+	position={ position.x + (angleX / dis) * centerSpeed,position.y,position.z + (angleZ / dis) * centerSpeed };
 
 	time++;
-	if (time > 180) {
+	if (time >= 180) {
+		wf = true;
+		endsearch = true;
+		//GetSearchPlayer = false;
 		time = 0;
+	}
+	else {
+		wf = false;
+		sf = false;
+		endsearch = false;
 	}
 }
 
@@ -419,6 +332,6 @@ int Enemy::AttackCoolTime()
 	return cooltime;
 }
 bool Enemy::GetSearchPlayer() {
-	if (Collision::GetLength(Player::GetInstance()->GetPosition(), Position) < 10) { return true; }
-	return false;
+	if (Collision::GetLength(Player::GetInstance()->GetPosition(), position) < 10) { return true; }
+	else { return false; }
 }

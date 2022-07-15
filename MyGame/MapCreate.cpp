@@ -72,17 +72,16 @@ void MapCreate::EnemyArgment(DebugCamera* camera)
 	if (savef) {
 
 		LoadEnemyParam();
-		int index = enemys.size();
 		std::ofstream pofs("EnemyParam_CSV/position.csv");
 		std::ofstream ofs("EnemyParam_CSV/open.csv");  // ファイルパスを指定する
-		ofs << "Enemy_Quantity" << "," << index << std::endl;
+		ofs << "Enemy_Quantity" << "," << enemys.size() << std::endl;
 
 		for (int i = 0; i < enemys.size(); i++) {
 			ofs << "Wait" << "," << 120 << std::endl;
 			ofs << "Number" << "," << Number[i] << std::endl;
-			ofs << "POP" << "," << enemys[i]->GetPosition().x
-				<< "," << enemys[i]->GetPosition().y 
-				<< "," << enemys[i]->GetPosition().z << std::endl;
+			ofs << "POP" << "," << enemys[i]->GetEnemyPosition().x
+				<< "," << enemys[i]->GetEnemyPosition().y
+				<< "," << enemys[i]->GetEnemyPosition().z << std::endl;
 			
 		}
 		EnemyPosition.resize(enemys.size());
@@ -100,7 +99,7 @@ void MapCreate::EnemyArgment(DebugCamera* camera)
 			newEnemy = std::make_unique<BossEnemy>(&behavior, 100.0f, 100.0f, 30.0f, 10.0f);
 		}
 		newEnemy->Initialize(camera);
-		newEnemy->SetPosition(pos);
+		newEnemy->SetEnemyPosition(pos);
 		enemys.push_back(std::move(newEnemy));
 		MobArgment = false;
 		BossArgment = false;
@@ -113,6 +112,7 @@ void MapCreate::EnemyArgment(DebugCamera* camera)
 				enemy->SetMoveFlag(true);
 			}
 			enemy->Update({ 1,1,1,1 }, camera);
+			//enemy->CollisionField(camera);
 		}
 	}
 	if ( EnemyDelete&&enemys.size()>1) {

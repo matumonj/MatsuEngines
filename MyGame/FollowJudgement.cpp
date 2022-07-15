@@ -5,9 +5,9 @@
 bool FollowJudgement::Judgment(Enemy* enemy)
 {
 
-	if (enemy->GetSearchFlag()&& enemy->GetSearchPlayer() ==false)//追跡を開始するフラグ
+	if ( enemy->GetSearchPlayer() ==false&&enemy->GetSearchFlag()==true)//追跡を開始するフラグ
 	{
-		enemy->SetSearchNow(true);//追跡をしているフラグ
+		//追跡をしているフラグ
 		return true;
 	}
 

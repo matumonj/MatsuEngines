@@ -5,6 +5,8 @@
 #include"Player.h"
 #include"Texture.h"
 #include"Sprite.h"
+#include"f_Object3d.h"
+#include"f_Model.h"
 class MobEnemy :
     public Enemy
 {
@@ -24,9 +26,12 @@ private:
 
     Enemy* mob;
     //オブジェクトのインスタンス
-    Object3d* MobObject = nullptr;
+    //Object3d* MobObject = nullptr;
+    f_Object3d* MobObject = nullptr;
     //モデルのインスタンス
-    Model* MobModel = nullptr;
+    //Model* MobModel = nullptr;
+    f_Model* MobModel = nullptr;
+    //
     //
     Texture* SearchPlayerTexture = nullptr;
 public:
@@ -41,7 +46,7 @@ public:
     /// </summary>
     void Update(XMFLOAT4 color, DebugCamera* camera)override;
 
-
+    void CollisionField(DebugCamera* camera)override;
     /// <summary>
     /// 描画処理
     /// </summary>

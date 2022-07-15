@@ -251,19 +251,23 @@ void f_Object3d::Updata(bool animeloop)
 	std::vector<f_Model::Bone>& bones = model->GetBones();
 
 	//アニメーション
-	if (isPlay) {
-		//1フレーム進める
-		currentTime += frameTime;
-		//最後まで再生したら先頭に戻す
-		if (currentTime > endTime) {
-			if (animeloop == TRUE) {
-				currentTime = startTime;
-			} else {
-				currentTime = endTime;
+	if (!stopFlag) {
+		if (isPlay) {
+			//1フレーム進める
+			currentTime += frameTime;
+			//最後まで再生したら先頭に戻す
+			if (currentTime > endTime) {
+				if (animeloop == TRUE) {
+					currentTime = startTime;
+				} else {
+					currentTime = endTime;
+				}
 			}
 		}
 	}
-
+	else if (stopFlag) {
+		currentTime = startTime;
+	}
 
 	//定数バッファへデータ転送
 	ConstBufferDataSkin* constMapSkin = nullptr;

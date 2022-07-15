@@ -474,7 +474,7 @@ void PlayScene::LoadParam()
 			}
 
 			enemys[i]->Initialize(camera);
-			enemys[i]->SetPosition(stpos[i]);
+			enemys[i]->SetEnemyPosition(stpos[i]);
 			enemys[i]->SearchInit();
 		}
 		

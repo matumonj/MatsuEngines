@@ -4,7 +4,7 @@
 #include"Collision.h"
 bool WalkJudgment::Judgment(Enemy* enemy)
 {
-	if(Collision::GetLength(Player::GetInstance()->GetPosition(),enemy->GetPosition())>1&& enemy->GetSearchPlayer() == false)
+	if(Collision::GetLength(Player::GetInstance()->GetPosition(),enemy->GetPosition())>1&& enemy->GetSearchPlayer() == false||enemy->getendsearch())
 	{
 		return true;
 	}

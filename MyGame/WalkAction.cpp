@@ -10,9 +10,9 @@ EnemyActionBase::STATE WalkAction::Run(Enemy* enemy)
 	bool SearchPlayer = Collision::GetLength(enemy->GetPosition(), Player::GetInstance()->GetPosition()) < DetectionRange;
 	enemy->Walk();
 	enemy->Stop();
-	//if (SearchPlayer) {
+	if (enemy->GetSearchFlag()) {
 	return EnemyActionBase::STATE::COMPLETE;
-	//}
+	}
 }
 //
 //void WalkAction::Walk(Enemy* enemy)

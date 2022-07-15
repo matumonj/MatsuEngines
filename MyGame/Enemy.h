@@ -66,6 +66,7 @@ protected:
 protected:
 	bool MoveFlag;
 	int Number;
+	bool animeflag;
 private:
 	//Ú’nƒtƒ‰ƒO
 	bool onGround = true;
@@ -133,7 +134,8 @@ public:
 
 	virtual float Distance(Player* player);
 
-	XMFLOAT3 GetPosition() { return Position; }
+	void SetEnemyPosition(XMFLOAT3 position) { this->position = position; }
+	XMFLOAT3 GetEnemyPosition() { return position; }
 	void Getposition(float* x, float* y, float* z) {
 		*x = this->Position.x;
 		*y = this->Position.y;
@@ -151,14 +153,16 @@ public:
 
 	void SetScale(XMFLOAT3 scale) { Scale = scale; }
 
-	void CollisionField(DebugCamera* camera);
+	virtual void CollisionField(DebugCamera* camera);
 	virtual void ChangeState(EnemyState* newState);
 
-	float GetTime() { return time; }
+	int GetTime() { return time; }
 	void Walk();
 	void Stop();
 	void Follow();
 	bool GetSearchFlag() { return searchFlag; }
+	bool endsearch;
+	bool getendsearch() { return endsearch; }
 	bool State_Dead() {
 		if (state == DEAD) { return true; }
 		return false;
@@ -167,7 +171,8 @@ public:
 	void Attack();
 	int AttackCoolTime();
 private:
-	float cooltime=0;
+	
+	int cooltime=0;
 	bool AttackFlag;
 	bool AfterAttack;
 	XMVECTOR move;

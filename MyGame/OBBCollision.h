@@ -13,6 +13,6 @@ class OBBCollision:public OBB
 	using XMVECTOR = DirectX::XMVECTOR;
 public:
 	bool ColOBBs(OBB& obb1, OBB& obb2);
-	FLOAT LenSegOnSeparateAxis(XMVECTOR* Sep, XMVECTOR* e1, XMVECTOR* e2, XMVECTOR* e3=0);
+	double LenSegOnSeparateAxis(XMVECTOR* Sep, XMVECTOR* e1, XMVECTOR* e2, XMVECTOR* e3=0);
 };
 

@@ -16,10 +16,10 @@ bool OBBCollision::ColOBBs(OBB& obb1, OBB& obb2)
     XMVECTOR Interval = obb1.GetPos_W() - obb2.GetPos_W();
     
     // •ª—£Ž² : Ae1
-    FLOAT rA =sqrt((Ae1.m128_f32[0] * Ae1.m128_f32[0]) + (Ae1.m128_f32[1] * Ae1.m128_f32[1]) + (Ae1.m128_f32[2] * Ae1.m128_f32[2]));
-    FLOAT rB = LenSegOnSeparateAxis(&NAe1, &Be1, &Be2, &Be3);
+    double rA =sqrt((Ae1.m128_f32[0] * Ae1.m128_f32[0]) + (Ae1.m128_f32[1] * Ae1.m128_f32[1]) + (Ae1.m128_f32[2] * Ae1.m128_f32[2]));
+    double rB = LenSegOnSeparateAxis(&NAe1, &Be1, &Be2, &Be3);
     //XMVECTOR L = XMVector3Dot(Interval,NAe1);
-    FLOAT fL = fabs((Interval.m128_f32[0] * NAe1.m128_f32[0]) + (Interval.m128_f32[1] * NAe1.m128_f32[1]) + (Interval.m128_f32[2] * NAe1.m128_f32[2]));
+    double fL = fabs((Interval.m128_f32[0] * NAe1.m128_f32[0]) + (Interval.m128_f32[1] * NAe1.m128_f32[1]) + (Interval.m128_f32[2] * NAe1.m128_f32[2]));
     if (fL > rA + rB) {
         return false;
     }
@@ -161,15 +161,15 @@ bool OBBCollision::ColOBBs(OBB& obb1, OBB& obb2)
 
 
 // •ª—£Ž²‚É“Š‰e‚³‚ê‚½Ž²¬•ª‚©‚ç“Š‰eü•ª’·‚ðŽZo
-FLOAT OBBCollision::LenSegOnSeparateAxis(XMVECTOR* Sep, XMVECTOR* e1, XMVECTOR* e2, XMVECTOR* e3)
+double OBBCollision::LenSegOnSeparateAxis(XMVECTOR* Sep, XMVECTOR* e1, XMVECTOR* e2, XMVECTOR* e3)
 {
     // 3‚Â‚Ì“àÏ‚Ìâ‘Î’l‚Ì˜a‚Å“Š‰eü•ª’·‚ðŒvŽZ
     // •ª—£Ž²Sep‚Í•W€‰»‚³‚ê‚Ä‚¢‚é‚±‚Æ
     //XMVECTOR r1 = XMVector3Dot(Sep, e1);
-    FLOAT fr1=fabs((Sep->m128_f32[0]*e1->m128_f32[0])+ (Sep->m128_f32[1] * e1->m128_f32[1])+ (Sep->m128_f32[2] * e1->m128_f32[2]));
+    double fr1=fabs((Sep->m128_f32[0]*e1->m128_f32[0])+ (Sep->m128_f32[1] * e1->m128_f32[1])+ (Sep->m128_f32[2] * e1->m128_f32[2]));
    // FLOAT r2 = fabs(D3DXVec3Dot(Sep, e2));
-    FLOAT fr2 = fabs((Sep->m128_f32[0] * e2->m128_f32[0]) + (Sep->m128_f32[1] * e2->m128_f32[1]) + (Sep->m128_f32[2] * e2->m128_f32[2]));
+    double fr2 = fabs((Sep->m128_f32[0] * e2->m128_f32[0]) + (Sep->m128_f32[1] * e2->m128_f32[1]) + (Sep->m128_f32[2] * e2->m128_f32[2]));
    // FLOAT r3 = e3 ? (fabs(D3DXVec3Dot(Sep, e3))) : 0;
-    FLOAT fr3 = e3 ? (fabs((Sep->m128_f32[0] * e3->m128_f32[0]) + (Sep->m128_f32[1] * e3->m128_f32[1]) + (Sep->m128_f32[2] * e3->m128_f32[2]))) : 0;
+    double fr3 = e3 ? (fabs((Sep->m128_f32[0] * e3->m128_f32[0]) + (Sep->m128_f32[1] * e3->m128_f32[1]) + (Sep->m128_f32[2] * e3->m128_f32[2]))) : 0;
     return fr1 + fr2 + fr3;
 }

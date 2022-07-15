@@ -399,10 +399,10 @@ bool Sprite::Initialize()
 #pragma endregion
 void Sprite::SpriteUpdate(XMMATRIX matview, XMMATRIX matprojection, XMFLOAT4 color)
 {
-	XMMATRIX matScale, matRot, matTrans;
+	XMMATRIX matScale;
 
 	//スケール、回転、平行移動等の計算
-	matScale = XMMatrixScaling(size.x, size.y, 1);
+	matScale = XMMatrixScaling(size.x, size.y, 1.0f);
 	//ワールド行列の更新
 		// ワールド行列の更新
 	this->matWorld = XMMatrixIdentity();

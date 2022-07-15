@@ -49,12 +49,12 @@ private:
 
 	int Damage;//コンボで威力変わるためconstはナシ
 
-	typedef enum DamageValue
+	enum DamageValue
 	{
 		FIRSTATTACKDAMAGE = 10,
 		SECONDATTACKDAMAGE = 15,
 		THIRDAttackDamage = 10,
-		COMBOBONUS = 10
+		COMBOBONUS = 10,
 	};
 	int FirstAttackDamage=10;
 	int SecondAttackDamage=15;

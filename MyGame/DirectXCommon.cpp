@@ -206,7 +206,7 @@ void DirectXCommon::BeginDraw()
 	cmdList->OMSetRenderTargets(1, &rtvH, false, &dsvH);
 
 	//画面クリア　描画色の指定
-	float clearColor[] = { 0.5,0.5,0.7,1 };
+	float clearColor[] = { 0.5f,0.5f,0.7f,1.0f };
 	//レンダーターゲット　クリア
 	cmdList->ClearRenderTargetView(rtvH, clearColor, 0, nullptr);
 	//深度バッファ　クリア
@@ -297,6 +297,7 @@ void DirectXCommon::ClearDepthBuffer(ID3D12GraphicsCommandList* cmdList)
 
 void DirectXCommon::ImguiDraw()
 {
+	
 	ImGui::Begin("WindowSize");
 	ImGui::SliderFloat("window_width", &wx, 0, WinApp::window_width);
 	ImGui::SliderFloat("window_height", &wy, 0, WinApp::window_height);

@@ -72,7 +72,7 @@ void Player::Update(XMFLOAT4 color, DebugCamera* camera)
 	//エフェクトのパラメータセット
 	RotationStatus();
 	//position.y = -2;
-	object1->SetScale({0.01, 0.01, 0.01
+	object1->SetScale({0.01f, 0.01f, 0.01f
 });
 	//エフェクトの再生
 	//effect->Load_Effect();
@@ -80,9 +80,9 @@ void Player::Update(XMFLOAT4 color, DebugCamera* camera)
 	if (Input::GetInstance()->Pushkey(DIK_C)) {
 		effect->Stop_Effect();
 	}
-	scale = { 0.01,0.01,0.01 };
+	scale = { 0.01f,0.01f,0.01f };
 	//移動ベクトルをy軸周りの角度で回転
-	XMVECTOR move = { 0,0,0.1f,0 };
+	XMVECTOR move = { 0.0f,0.0f,0.1f,0.0f };
 	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(rotation.y));
 	move = XMVector3TransformNormal(move, matRot);
 
@@ -248,9 +248,9 @@ void Player::CollisionField(DebugCamera* camera)
 		// 加速
 		fallV.m128_f32[1] = max(fallV.m128_f32[1] + fallAcc, fallVYMin);
 		// 移動
-		position.x += fallV.m128_f32[0];
+		//position.x += fallV.m128_f32[0];
 		position.y += fallV.m128_f32[1];
-		position.z += fallV.m128_f32[2];
+		//position.z += fallV.m128_f32[2];
 
 	}
 	// ジャンプ操作
