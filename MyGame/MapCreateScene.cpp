@@ -89,9 +89,8 @@ void MapCreateScene::Update()
 	//マウスの入力状態取得
 	
 	//カメラ関係の処理
-	camera->SetDistance(0);
-	camera->SetEye({0,20,-100});
-	camera->SetTarget({0,0,0});
+	camera->SetEye({ MapCreate::GetBoxPosition().x,MapCreate::GetBoxPosition().y+30,MapCreate::GetBoxPosition().z-100});
+	camera->SetTarget({MapCreate::GetBoxPosition()});
 	camera->Update();
 
 
@@ -175,6 +174,13 @@ void MapCreateScene::ImGuiDraw()
 		BaseScene* scene = new TitleScene(sceneManager_);//次のシーンのインスタンス生成
 		sceneManager_->SetnextScene(scene);//シーンのセット
 	}
+	ImGui::End();
+
+
+	ImGui::Begin("CameraPosition");
+	ImGui::SliderFloat("CameraPosx", &CameraPosition.x, -200, 200);
+	ImGui::SliderFloat("CameraPosy", &CameraPosition.y, -100, 100);
+	ImGui::SliderFloat("CameraPosz", &CameraPosition.z, -200, 200);
 	ImGui::End();
 }
 #pragma region 解放部分

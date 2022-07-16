@@ -30,6 +30,7 @@ void Field::Update(DebugCamera* camera)
 	CelestialSphereObject->SetScale({ 10,10,10 });
 
 	//フィールド
+	FieldObject->SetScale(2.0f);
 	FieldObject->SetPosition({ 0,-20,0 });
 
 

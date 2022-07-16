@@ -87,6 +87,7 @@ public:
 	void SearchAction(DebugCamera*camera);
 	void SearchDraw();
 	void SetRotTime(float t) { RotTime = t; }
+
 	float GetRotTime() { return RotTime; }
 	void SetMoveFlag(bool f) { MoveFlag = f; }
 	bool GetMoveFlag() { return MoveFlag; }
@@ -167,7 +168,7 @@ public:
 		if (state == DEAD) { return true; }
 		return false;
 	}
-	bool GetSearchPlayer();
+	bool GetSearchPlayer_Distance();
 	void Attack();
 	int AttackCoolTime();
 private:

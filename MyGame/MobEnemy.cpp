@@ -30,10 +30,10 @@ MobEnemy::~MobEnemy()
 bool MobEnemy::Initialize(DebugCamera* camera)
 {
 
-	MobModel = FbxLoader::GetInstance()->LoadModelFromFile("Knight");
+	MobModel = FbxLoader::GetInstance()->LoadModelFromFile("monster");
 	
-	RandMove = rand() % 90+60;
-	RandMovement = rand() % 180 + 120;
+	RandMove = rand() % 90+20;
+	RandMovement = rand() % 100 + 80;
 		
 	InitAction();
 	EnemyHP = 150.0f;
@@ -72,8 +72,8 @@ bool MobEnemy::Initialize(DebugCamera* camera)
 //XVˆ—
 void MobEnemy::Update(XMFLOAT4 color, DebugCamera* camera)
 {
-	MobObject->SetScale({ 0.1f, 0.1f, 0.1f
-		});
+	scale={ 0.02f, 0.02f, 0.02f
+		};
 	//position = { 0,0,0 };
 		Action();
 		EnemyPop(150);
@@ -82,10 +82,11 @@ void MobEnemy::Update(XMFLOAT4 color, DebugCamera* camera)
 		//if (animeflag) {
 			MobObject->SeteCurrent(animeflag);
 		//}
-		//Object3d::SetScale({ 0.5,0.5,0.5 });
+			MobObject->SetScale(scale);
 		//Object3d::SetRotation(Rotation);
-		MobObject->SetPosition(position);
-		MobObject->SetRotation({ Rotation.x, Rotation.y + 180, Rotation.z });
+			//rotation = { 0,0,0 };
+			MobObject->SetPosition({ position.x,position.y-3,position.z });
+		MobObject->SetRotation({ rotation.x-70, rotation.y, rotation.z });
 		MobObject->Updata(true);
 
 

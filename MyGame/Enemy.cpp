@@ -207,7 +207,7 @@ void Enemy::Walk()
 	//ˆÚ“®ƒxƒNƒgƒ‹‚ðyŽ²Žü‚è‚ÌŠp“x‚Å‰ñ“]
 	move = { 0,0,0.1f,0 };
 
-	matRot = XMMatrixRotationY(XMConvertToRadians(Rotation.y));
+	matRot = XMMatrixRotationY(XMConvertToRadians(rotation.y));
 
 	move = XMVector3TransformNormal(move, matRot);
 
@@ -232,9 +232,9 @@ void Enemy::Stop()
 
 	if (StayCount == 0) {
 		//ƒC[ƒWƒ“ƒOŠ|‚¯‚é‘O‚Ì“G‚ÌŒü‚«
-		BeforeRot = Rotation.y;
+		BeforeRot = rotation.y;
 		//Š|‚¯‚½Œã‚Ì“G‚ÌŒü‚«
-		AfterRot = Rotation.y + RandMove;
+		AfterRot = rotation.y + RandMove;
 	}
 
 	if (sf) {
@@ -242,11 +242,11 @@ void Enemy::Stop()
 
 		if (StayCount > 190) {//’âŽ~ŽžŠÔ
 			RotTime += 0.01f;
-			Rotation = {
-				Rotation.x,
+			rotation = {
+				rotation.x,
 				//enemy->GetRotation().y+80,
 				Easing::EaseOut(RotTime,BeforeRot, AfterRot),
-				Rotation.z
+				rotation.z
 			};
 
 			//enemy->ChangeState(new EnemyWalkState());
@@ -254,7 +254,7 @@ void Enemy::Stop()
 
 		}
 
-		if (Rotation.y >= AfterRot) {
+		if (rotation.y >= AfterRot) {
 			RotTime = 0;
 			StayCount = 0;
 			sf = false;
@@ -297,8 +297,9 @@ void Enemy::Follow()
 	position={ position.x + (angleX / dis) * centerSpeed,position.y,position.z + (angleZ / dis) * centerSpeed };
 
 	time++;
-	if (time >= 180) {
+	if ( Collision::GetLength(Player::GetInstance()->GetPosition(),position) > 20) {
 		wf = true;
+		searchFlag = false;
 		endsearch = true;
 		//GetSearchPlayer = false;
 		time = 0;
@@ -331,7 +332,7 @@ int Enemy::AttackCoolTime()
 	}
 	return cooltime;
 }
-bool Enemy::GetSearchPlayer() {
+bool Enemy::GetSearchPlayer_Distance() {
 	if (Collision::GetLength(Player::GetInstance()->GetPosition(), position) < 10) { return true; }
 	else { return false; }
 }

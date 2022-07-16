@@ -35,6 +35,7 @@ public:
 	static void DrawBoxModel();
 	static void CreateMapMode();
 	static void CreateMapMode_MoveCamera(DebugCamera*camera, XMFLOAT3 map);
+	
 	static void ImguiDraw_Enemy();
 	static void EnemyArgment(DebugCamera* camera);
 	static void EnemyDraw();
@@ -55,5 +56,8 @@ private:
 	static std::vector <int> randmovement;
 	static std::vector<int>Number;
 	static std::vector<std::unique_ptr<Enemy>>enemys;
+
+public:
+	static XMFLOAT3 GetBoxPosition() { return BoxObj->GetPosition(); }
 };
 

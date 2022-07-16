@@ -5,7 +5,7 @@
 #include"Collision.h"
 bool EnemyAttackJudgement::Judgment(Enemy* enemy)
 {
-	if (enemy->GetSearchPlayer()==true&&enemy->AttackCoolTime()==0)
+	if (enemy->GetSearchPlayer_Distance()==true&&enemy->AttackCoolTime()==0)
 	{
 		return true;
 	}

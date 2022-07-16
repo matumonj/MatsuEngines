@@ -1,7 +1,13 @@
-Enemy_Quantity,2
+Enemy_Quantity,4
 Wait,120
 Number,1
-POP,0,-6.34598,-25.879
+POP,0,7.30804,-121.725
 Wait,120
 Number,1
-POP,16.294,-6.34598,-33.546
+POP,186.901,-10,-121.725
+Wait,120
+Number,1
+POP,27.796,7.30804,-121.725
+Wait,120
+Number,1
+POP,0.958,7.30804,-60.383
