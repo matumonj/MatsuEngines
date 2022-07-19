@@ -24,6 +24,7 @@
 #include"OBBCollision.h"
 #include"HintBoard.h"
 #include"BehaviorTree.h"
+#include"Wood.h"
 #include "PhysicsAction.h"
 #include<fstream>
 #include<string>
@@ -89,11 +90,15 @@ private:
 	PostEffect* postEffect = nullptr;
 	DebugCamera* camera;
 	int Enemy_Quantity;
+	int Wood_Quantity;
 	//XMFLOAT3 posxs;
 	FILE* fp;
 	//std::vector<Enemy> enemys;
+
 	std::vector<std::unique_ptr<Enemy>>enemys;
 	std::vector <XMFLOAT3>Load_EnemyPosition;
+	std::vector<std::unique_ptr<Wood>>woods;
+	std::vector <XMFLOAT3>Load_WoodPosition;
 	Effects* effects;
 private:
 	float u;
@@ -126,6 +131,7 @@ private://“_ŒõŒ¹
 	float SpotLightPos[3] = {10,0,0};
 	float SpotLightColor[3] = {1,1,1};
 	std::vector<int> Num;
+	std::vector<int> Wood_Num;
 public:
 	void SpriteCreate();
 	void ModelCreate(DebugCamera* camera);
@@ -141,6 +147,7 @@ public:
 	void PreBackGround();
 	void BackGround();
 	void LoadParam();
+	void LoadParam_Wood();
 	void PostBackGround();
 	void SpriteDraw();
 	void ImGuiDraw();
@@ -158,6 +165,7 @@ private:
 	float staycount;
 	bool stayf;
 	std::vector<XMFLOAT3> stpos;
+	std::vector<XMFLOAT3> woodpos;
 	std::string line;
 	std::stringstream popcom;
 	std::string line2;

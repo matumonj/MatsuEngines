@@ -8,15 +8,22 @@
 #include"StayAction.h"
  std::ifstream MapCreate::file;
  std::stringstream MapCreate::popcom;
+ std::ifstream MapCreate::file2;
+ std::stringstream MapCreate::popcom2;
 std::vector<MapCreate::XMFLOAT3> MapCreate::EnemyPosition;
+std::vector<MapCreate::XMFLOAT3> MapCreate::WoodPosition;
 bool MapCreate::MobArgment;
 bool MapCreate::BossArgment;
+bool MapCreate::WoodArgment;
 bool MapCreate::EnemyDelete;
+bool MapCreate::WoodDelete;
 std::vector<std::unique_ptr<Enemy>> MapCreate::enemys;
+std::vector<std::unique_ptr<Wood>> MapCreate::woods;
 //デバッグ用
 std::vector <int>MapCreate::randmove;
 std::vector <int>MapCreate::randmovement;
 MapCreate::XMFLOAT3 MapCreate::pos;
+MapCreate::XMFLOAT3 MapCreate::wood_pos;
 float MapCreate::a;
 FILE* MapCreate::fp;
 bool MapCreate::savef;
@@ -24,6 +31,8 @@ bool MapCreate::MoveFlags;
 std::vector<int> MapCreate::Number;
 Model* MapCreate::BoxModel;
 Object3d* MapCreate::BoxObj;
+Model* MapCreate::WoodModel;
+Object3d* MapCreate::WoodObj;
 BehaviorTree MapCreate::behavior;
 MapCreate::MapCreate()
 {
@@ -44,6 +53,11 @@ void MapCreate::SetBoxModel(DebugCamera*camera)
 	BoxModel = Model::CreateFromOBJ("box");
 	BoxObj= Object3d::Create(camera);
 	BoxObj->SetModel(BoxModel);
+
+
+	WoodModel = Model::CreateFromOBJ("wood");
+	WoodObj = Object3d::Create(camera);
+	WoodObj->SetModel(WoodModel);
 	
 }
 void MapCreate::UpdateBoxModel(DebugCamera* camera)
@@ -51,6 +65,9 @@ void MapCreate::UpdateBoxModel(DebugCamera* camera)
 	BoxObj->SetPosition(pos);
 	BoxObj->SetScale({ 5,5,5 });
 	BoxObj->Update({ 1,0,0,0.5 }, camera);
+	WoodObj->SetPosition(wood_pos);
+	WoodObj->SetScale({ 2,3,2 });
+	WoodObj->Update({ 1,0,0,0.5 }, camera);
 }
 
 void MapCreate::DrawBoxModel()
@@ -58,6 +75,10 @@ void MapCreate::DrawBoxModel()
 	BoxObj->PreDraw();
 	BoxObj->Draw();
 	BoxObj->PostDraw();
+
+	WoodObj->PreDraw();
+	WoodObj->Draw();
+	WoodObj->PostDraw();
 }
 void MapCreate::LoadEnemyParam()
 {
@@ -66,6 +87,7 @@ void MapCreate::LoadEnemyParam()
 	popcom << file.rdbuf();
 
 	file.close();
+
 }
 void MapCreate::EnemyArgment(DebugCamera* camera)
 {
@@ -123,6 +145,54 @@ void MapCreate::EnemyArgment(DebugCamera* camera)
 	
 }
 
+
+void MapCreate::WoodArgments(DebugCamera* camera)
+{
+	if (savef) {
+
+		file2.open("wood.csv");
+
+		popcom2 << file2.rdbuf();
+
+		file2.close();
+		///std::ofstream pofs("EnemyParam_CSV/position.csv");
+		std::ofstream ofs("EnemyParam_CSV/wood.csv");  // ファイルパスを指定する
+		ofs << "Wood_Quantity" << "," << woods.size() << std::endl;
+
+		for (int i = 0; i < woods.size(); i++) {
+			ofs << "POP" << "," << woods[i]->GetPosition().x
+				<< "," << woods[i]->GetPosition().y
+				<< "," << woods[i]->GetPosition().z << std::endl;
+
+		}
+		WoodPosition.resize(enemys.size());
+		
+		//fwrite(&EnemyPosition, sizeof(XMFLOAT3),EnemyPosition.size(), fp);
+	}
+	if (WoodArgment) {
+
+		std::unique_ptr<Wood>newWood;
+		if (WoodArgment) {
+			newWood= std::make_unique<Wood>();
+		}
+		
+		newWood->Initialize(camera);
+		newWood->SetPosition(wood_pos);
+		woods.push_back(std::move(newWood));
+		WoodArgment = false;
+	}
+	for (std::unique_ptr<Wood>& wood : woods) {
+		if (wood!= nullptr) {
+			wood->Update(camera);
+		}
+	}
+	if (WoodDelete && woods.size() > 1) {
+		woods.pop_back();
+		WoodDelete = false;
+	}
+
+}
+
 void MapCreate::EnemyDraw()
 {
 		for (std::unique_ptr<Enemy>& enemy : enemys) {
@@ -174,5 +244,51 @@ void MapCreate::ImguiDraw_Enemy()
 	ImGui::End();
 
 	ImGui::Begin("Scene");
+
+}
+
+
+void MapCreate::WoodDraw()
+{
+	for (std::unique_ptr<Wood>&wood : woods) {
+		if (wood != nullptr) {
+			//enemy->PreDraw();
+			wood->Draw();
+			//enemy->PostDraw();
+		}
+	}
+}
+
+void MapCreate::ImguiDraw_Wood()
+{
+	ImGui::Begin("SelectWood");
+	if (ImGui::Button("Wood", ImVec2(90, 50))) {
+		WoodArgment = true;
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("B", ImVec2(90, 50))) {
+		
+	}
+	if (ImGui::Button("C", ImVec2(90, 50))) {
+	}
+	ImGui::SameLine();
+
+
+	if (ImGui::Button("DeleteObj", ImVec2(90, 50))) {
+
+		WoodDelete = true;
+	}
+
+	if (ImGui::Button("Save", ImVec2(90, 50))) {
+		savef = true;
+	}
+
+	{
+		ImGui::SliderFloat("posX", &wood_pos.x, -300, 300);
+		ImGui::SliderFloat("posY", &wood_pos.y, -300, 300);
+		ImGui::SliderFloat("posZ", &wood_pos.z, -300, 300);
+
+	}
+	ImGui::End();
 
 }

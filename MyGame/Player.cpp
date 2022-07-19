@@ -51,7 +51,16 @@ bool Player::Initialize( DebugCamera* camera)
 	{
 		return false;
 	}
-	position = { 0,0,-20 };
+
+
+	//model2 = Model::CreateFromOBJ("newfield");
+	swm = Model::CreateFromOBJ("enemy-arm");
+	sw = new Object3d();
+	
+	sw->Initialize(camera);
+	sw->SetModel(swm);
+
+	position = { 0,7,-120 };
 
 	fbxmodel = FbxLoader::GetInstance()->LoadModelFromFile("Knight");
 
@@ -64,6 +73,7 @@ bool Player::Initialize( DebugCamera* camera)
 	object1->Initialize();
 	object1->SetModel(fbxmodel);
 	object1->PlayAnimation();
+	
 	return true;
 }
 void Player::Update(XMFLOAT4 color, DebugCamera* camera)
@@ -107,12 +117,24 @@ void Player::Update(XMFLOAT4 color, DebugCamera* camera)
 	//else {
 	//	position.x = x;
 	//	position.z = z;
-	
-	//}
+			//}
 	effect->EffekseerUpdate(camera);
 	object1->SetPosition(position);
 	object1->SetRotation({ rotation.x, rotation.y+180, rotation.z });
 	object1->Updata( TRUE);
+	//sw->SetMatrot(object1->GetmatRot());
+	sw->setr(true);
+	sw->SetMatrot(object1->GetHandBone());
+	sw->SetMatRot(object1->GetMatRot());
+	sw->SetMatTrans(object1->GetMatTrans());
+	sw->SetMatScale(object1->GetMatScale());
+	//object1.getm
+	//sw->SetPosition(object1->GetPosition());
+
+	//sw->SetScale({ 1.6,0.6,3 });
+	//
+	sw->Update({ 1,1,1,1 }, camera);
+	//sw->SetRotation(object1->GetmatRot());
 
 	CollisionField(camera);
 
@@ -350,7 +372,9 @@ void Player::CollisionField(DebugCamera* camera)
 void Player::Draw()
 {
 	object1->Draw();
-
+	sw->PreDraw();
+	sw->Draw();
+	sw->PostDraw();
 }
 
 void Player::ImguiDraw()
@@ -361,6 +385,11 @@ void Player::ImguiDraw()
 		ImGui::Text(" PositionX   [%5f]", position.x);
 		ImGui::Text(" PositionY   [%5f]", position.y);
 		ImGui::Text(" PositionZ   [%5f]", position.z);
+
+		XMFLOAT3 swp = sw->GetPosition();
+		ImGui::Text(" bPositionX   [%5f]",swp.x);
+		ImGui::Text(" bPositionY   [%5f]", swp.y);
+		ImGui::Text(" bPositionZ   [%5f]", swp.z);
 		ImGui::TreePop();
 	}
 	//Rotation

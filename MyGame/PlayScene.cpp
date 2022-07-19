@@ -74,6 +74,7 @@ void PlayScene::ModelCreate(DebugCamera* camera)
 #pragma region オブジェクト+ライトの更新処理
 void PlayScene::objUpdate(DebugCamera* camera)
 {
+	XMFLOAT3 oldp = Player::GetInstance()->GetPosition();
 	Player::GetInstance()->Update({ 1,1,1,p_alpha }, camera);
 
 	for (int i = 0; i < Enemy_Quantity; i++) {
@@ -81,6 +82,22 @@ void PlayScene::objUpdate(DebugCamera* camera)
 			enemys[i]->SetMoveFlag(true);
 			enemys[i]->Update({ 1,1,1,e_alpha }, camera);
 			enemys[i]->SearchAction(camera);
+		}
+	}
+	for (int i = 0; i < Wood_Quantity; i++) {
+		if (woods[i] != nullptr) {
+
+			woods[i]->Update(camera);
+		}
+	}
+	for (int i = 0; i < Wood_Quantity; i++) {
+
+		if (woods[i]->CollideWood() == true) {
+			Player::GetInstance()->SetPosition(oldp);
+			Player::GetInstance()->SetGround(true);
+			break;
+		} else {
+			turnoff_player = false;
 		}
 	}
 
@@ -133,7 +150,7 @@ void PlayScene::Update()
 	lightGroup->SpotLightUpdate();
 
 	LoadParam();
-
+	LoadParam_Wood();
 	if (Input::GetInstance()->Pushkey(DIK_RIGHT)) {
 		charaAngle += 0.5f;
 		cameraAngle -= 0.5f;
@@ -211,6 +228,11 @@ void PlayScene::SpriteDraw()
 				enemys[i]->Draw();
 				enemys[i]->SearchDraw();
 			}
+		}
+	}
+	for (int i = 0; i < Wood_Quantity; i++) {
+		if (woods[i] != nullptr) {
+			woods[i]->Draw();
 		}
 	}
 
@@ -395,15 +417,16 @@ void PlayScene::Finalize()
 void PlayScene::LoadParam()
 {
 	if(LoadEnemy){
-		file2.open("EnemyParam_CSV/position.csv");
+		//file2.open("EnemyParam_CSV/position.csv");
 		file.open("EnemyParam_CSV/open.csv");
+		//file2.open("EnemyParam_CSV/wood.csv");
 
 		popcom << file.rdbuf();
 
-		popcom2 << file2.rdbuf();
+		//popcom2 << file2.rdbuf();
 		
 		file.close();
-		file2.close();
+		//file2.close();
 		//return oi;
 		//fopen_s(&fp, "posxx.json", "r");
 		/*流れとしては
@@ -478,6 +501,89 @@ void PlayScene::LoadParam()
 			enemys[i]->SearchInit();
 		}
 		
+		//fclose(fp);
+		//LoadEnemy = false;
+		hudload = true;
+	}
+}
+
+
+
+void PlayScene::LoadParam_Wood()
+{
+	if (LoadEnemy) {
+		//file2.open("EnemyParam_CSV/position.csv");
+		//file.open("EnemyParam_CSV/open.csv");
+		file2.open("EnemyParam_CSV/wood.csv");
+
+		//popcom << file.rdbuf();
+
+		popcom2 << file2.rdbuf();
+
+		//file.close();
+		file2.close();
+		//return oi;
+		//fopen_s(&fp, "posxx.json", "r");
+		/*流れとしては
+		敵の数読み込み->
+		読み込んだ敵の数分エネミーのパラメータ配列の要素数増やす->
+		敵の数分作ったら配列の中身をロードしたものに->
+		敵の番号が1だったらα,2だったらβでインスタンス生成、初期化
+		*/
+		//fread(&Enemy_Quantity, sizeof(int), 1, fp);
+		while (std::getline(popcom2, line2)) {
+			std::istringstream line_stream(line2);
+			std::string word;
+			std::getline(line_stream, word, ',');
+
+			if (word.find("//") == 0) {
+				continue;
+			}
+			if (word.find("Wood_Quantity") == 0) {
+				std::getline(line_stream, word, ',');
+				int quantity = (int)std::atof(word.c_str());
+				Wood_Quantity = quantity;
+				break;
+			}
+		}
+		Wood_Num.resize(Wood_Quantity);
+		woodpos.resize(Wood_Quantity);
+		for (int i = 0; i < Wood_Quantity; i++) {
+			while (std::getline(popcom2, line2)) {
+				std::istringstream line_stream(line2);
+				std::string word;
+				std::getline(line_stream, word, ',');
+
+				if (word.find("//") == 0) {
+					continue;
+				}
+				 if (word.find("POP") == 0) {
+					std::getline(line_stream, word, ',');
+					float x = (float)std::atof(word.c_str());
+
+					std::getline(line_stream, word, ',');
+					float y = (float)std::atof(word.c_str());
+
+					std::getline(line_stream, word, ',');
+					float z = (float)std::atof(word.c_str());
+
+					woodpos[i] = { x,y,z };
+					break;
+				}
+			}
+		}
+		woods.resize(Wood_Quantity);
+
+		Load_WoodPosition.resize(Wood_Quantity);
+
+		for (int i = 0; i < Wood_Quantity; i++) {
+
+			woods[i] = std::make_unique<Wood>();
+			
+			woods[i]->Initialize(camera);
+			woods[i]->SetPosition(woodpos[i]);
+		}
+
 		//fclose(fp);
 		LoadEnemy = false;
 		hudload = true;

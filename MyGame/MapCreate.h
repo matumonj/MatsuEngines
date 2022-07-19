@@ -7,6 +7,7 @@
 #include <DirectXMath.h>
 #include"DebugCamera.h"
 #include"Enemy.h"
+#include"Wood.h"
 #include<fstream>
 #include<string>
 #include<sstream>
@@ -20,7 +21,10 @@ public:
 private:
 
 	static std::ifstream file;
+	static std::ifstream file2;
 	static std::stringstream popcom;
+
+	static std::stringstream popcom2;
 	//Microosoft::WRL::Çè»ó™
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 	//DirectX::Çè»ó™
@@ -39,23 +43,35 @@ public:
 	static void ImguiDraw_Enemy();
 	static void EnemyArgment(DebugCamera* camera);
 	static void EnemyDraw();
+
+	static void ImguiDraw_Wood();
+	static void WoodArgments(DebugCamera* camera);
+	static void WoodDraw();
 private:
 	static BehaviorTree behavior;
 	static Model* BoxModel;
 	static Object3d* BoxObj;
+	static Model* WoodModel;
+	static Object3d* WoodObj;
 	static bool savef;
 	static std::vector<XMFLOAT3>EnemyPosition;
+	static std::vector<XMFLOAT3>WoodPosition;
 	static FILE* fp;
 	static bool MoveFlags;
 	static bool MobArgment;
+	static bool WoodArgment;
 	static bool BossArgment;
 	static bool EnemyDelete;
+	static bool WoodDelete;
 	static float a;
 	static XMFLOAT3 pos;
+	static XMFLOAT3 wood_pos;
 	static  std::vector <int>randmove;
 	static std::vector <int> randmovement;
 	static std::vector<int>Number;
 	static std::vector<std::unique_ptr<Enemy>>enemys;
+	static std::vector<std::unique_ptr<Wood>>woods;
+private:
 
 public:
 	static XMFLOAT3 GetBoxPosition() { return BoxObj->GetPosition(); }

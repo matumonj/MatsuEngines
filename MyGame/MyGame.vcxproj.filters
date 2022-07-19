@@ -36,9 +36,6 @@
     <Filter Include="ソース ファイル\base %28Dxcmn  Winapp  Input%29">
       <UniqueIdentifier>{d329b92f-f1df-4fd0-8987-7702493d45c0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\camera">
-      <UniqueIdentifier>{133564d7-a6f9-464b-959e-0a1b2ee172da}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\collision">
       <UniqueIdentifier>{a5d15daa-90ff-4b7f-a438-af2ba141053a}</UniqueIdentifier>
     </Filter>
@@ -114,6 +111,9 @@
     </Filter>
     <Filter Include="ソース ファイル\gameobject\Enemy\Behavior\NewFilter1">
       <UniqueIdentifier>{f68aec14-0133-485a-8493-f739f8943ce1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\camera">
+      <UniqueIdentifier>{133564d7-a6f9-464b-959e-0a1b2ee172da}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -399,6 +399,9 @@
     </ClCompile>
     <ClCompile Include="EnemyAttackJudgement.cpp">
       <Filter>ソース ファイル\gameobject\Enemy\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="Wood.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -692,6 +695,9 @@
     </ClInclude>
     <ClInclude Include="EnemyAttackJudgement.h">
       <Filter>ソース ファイル\gameobject\Enemy\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="Wood.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -36,6 +36,7 @@ public:
 	void Draw();
 
 	static Player* GetInstance();
+	void SetGround(bool f) { onGround = f; }
 private:
 	enum class Attack {
 		NormalAttack,//’ÊíUŒ‚
@@ -58,7 +59,12 @@ private:
 	XMFLOAT3 Effect_SCl;
 	static XMFLOAT3 Effect_Pos;
 	Input* input = Input::GetInstance();
+	
 private:
+	Object3d* sw;
+	Model* swm;
+
+
 	XMVECTOR move = { 0,0,0.1f,0 };
 	//ƒLƒƒƒ‰‚ª4•ûŒü‚Ì‚Ç‚±‚ğŒü‚¢‚Ä‚¢‚é‚©
 	enum class RotationPrm {

@@ -91,7 +91,7 @@ void FbxLoader::ParseNodeRecursive(f_Model* model, FbxNode* fbxNode, Node* paren
     FbxDouble3 rotation = fbxNode->LclRotation.Get();
     FbxDouble3 scaling = fbxNode->LclScaling.Get();
     FbxDouble3 translation = fbxNode->LclTranslation.Get();
-
+   
     //Œ`Ž®•ÏŠ·‚µ‚Ä‘ã“ü
     node.rotation = { (float)rotation[0], (float)rotation[1], (float)rotation[2], 0.0f };
     node.scaling = { (float)scaling[0], (float)scaling[1], (float)scaling[2], 0.0f };
@@ -441,4 +441,10 @@ std::string FbxLoader::ExtractFileName(const std::string& path)
     }
 
     return path;
+}
+
+XMFLOAT3 FbxLoader::Getahand()
+{
+    XMFLOAT3 a = { HandNode.rotation.m128_f32[0] , HandNode.rotation.m128_f32[1],HandNode.rotation.m128_f32[2] };
+    return a;
 }

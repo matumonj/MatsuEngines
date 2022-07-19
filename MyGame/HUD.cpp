@@ -157,7 +157,7 @@ void HUD::EnemyHPGauge_MultiUpdate(bool &loadf,DebugCamera* camera, std::vector<
 		//ƒpƒ‰ƒ[ƒ^‚ÌÝ’è
 		if (enemy[i] != nullptr && EnemyHP_Border_Multi.size() > 1) {
 			if (enemy[i]->GetRecvDamage() == true) {
-				multi_NowHP[i] = enemy[i]->GetHP() / 35;
+				multi_NowHP[i] = enemy[i]->GetHP() / 70;
 				multi_Hpt[i] += 0.01f;
 				multi_sizel[i] = { Easing::EaseOut(multi_Hpt[i] ,multi_OldHP[i] ,multi_NowHP[i]),1.5,1 };
 				EnemyHP_Inner_Multi[i]->SetScale(multi_sizel[i]);
@@ -165,18 +165,18 @@ void HUD::EnemyHPGauge_MultiUpdate(bool &loadf,DebugCamera* camera, std::vector<
 					enemy[i]->SetRecvDamage(false);
 				}
 			} else {
-				multi_OldHP[i] = enemy[i]->GetHP() / 35;
+				multi_OldHP[i] = enemy[i]->GetHP() / 70;
 				multi_Hpt[i] = 0;
-				EnemyHP_Inner_Multi[i]->SetScale({ enemy[i]->GetHP() / 35,1.5,1 });
+				EnemyHP_Inner_Multi[i]->SetScale({ enemy[i]->GetHP() / 70,0.8,1 });
 			}
 			
 			
 			EnemyHP_Inner_Multi[i]->Update(camera);
 			EnemyHP_Border_Multi[i]->Update(camera);
-			EnemyHP_Border_Multi[i]->SetScale({4.5,2,1 });
+			EnemyHP_Border_Multi[i]->SetScale({2.5,1,1 });
 			EnemyHP_Border_Multi[i]->SetPosition({ enemy[i]->GetPosition().x, enemy[i]->GetPosition().y + 10.0f, enemy[i]->GetPosition().z });
 
-			EnemyHP_Inner_Multi[i]->SetPosition({ EnemyHP_Border_Multi[i]->GetPosition().x,EnemyHP_Border_Multi[i]->GetPosition().y+1, EnemyHP_Border_Multi[i]->GetPosition().z });
+			EnemyHP_Inner_Multi[i]->SetPosition({ EnemyHP_Border_Multi[i]->GetPosition().x,EnemyHP_Border_Multi[i]->GetPosition().y, EnemyHP_Border_Multi[i]->GetPosition().z });
 		
 		}
 	}

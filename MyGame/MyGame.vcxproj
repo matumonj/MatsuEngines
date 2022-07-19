@@ -227,6 +227,7 @@
     <ClCompile Include="WalkAction.cpp" />
     <ClCompile Include="WalkJudgement.cpp" />
     <ClCompile Include="WinApp.cpp" />
+    <ClCompile Include="Wood.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="BasicPS.hlsl">
@@ -428,6 +429,7 @@
     <ClInclude Include="WalkJudgement.h" />
     <ClInclude Include="WinApp.h" />
     <ClInclude Include="ExecJudgmentBase.h" />
+    <ClInclude Include="Wood.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DirectXTex\DirectXTex_Desktop_2019_Win10.vcxproj">

@@ -46,7 +46,6 @@ public:
     /// </summary>
     void Update(XMFLOAT4 color, DebugCamera* camera)override;
 
-    void CollisionField(DebugCamera* camera)override;
     /// <summary>
     /// •`‰æˆ—
     /// </summary>

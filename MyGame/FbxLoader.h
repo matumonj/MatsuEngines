@@ -12,7 +12,11 @@ class FbxLoader
 private:	//エイリアス
 //std::を省略
 	using string = std::string;
-
+	using XMFLOAT2 = DirectX::XMFLOAT2;
+	using XMFLOAT3 = DirectX::XMFLOAT3;
+	using XMFLOAT4 = DirectX::XMFLOAT4;
+	using XMMATRIX = DirectX::XMMATRIX;
+	using XMVECTOR = DirectX::XMVECTOR;
 
 public:
 	/// <summary>
@@ -86,9 +90,13 @@ private:
 	FbxManager* fbxManager = nullptr;
 	//FBXインポータ
 	FbxImporter* fbxImporter = nullptr;
-
+	Node HandNode;
+	FbxDouble3 hrotation;// = fbxNode->LclRotation.Get();
+	FbxDouble3 hscaling;// = fbxNode->LclScaling.Get();
+	FbxDouble3 htranslation;// = fbxNode->LclTranslation.Get();
 
 public:	//定数
+	XMFLOAT3 Getahand();
 	//モデル格納ルートパス
 	static const string baseDirectory;
 	//テクスチャがない場合の標準テクスチャファイル名

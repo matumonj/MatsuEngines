@@ -1,9 +1,12 @@
 cbuffer cbuff0 : register(b0)
 {
+
 	float4 color;
 	matrix viewproj; // ビュープロジェクション行列
 	matrix world; // ワールド行列
 	float3 cameraPos; // カメラ座標（ワールド座標）
+	float fak;
+	float2 time;
 };
 
 cbuffer cbuff1 : register(b1)
@@ -16,6 +19,7 @@ cbuffer cbuff1 : register(b1)
 
 // 平行光源の数
 static const int DIRLIGHT_NUM = 3;
+
 
 struct DirLight
 {

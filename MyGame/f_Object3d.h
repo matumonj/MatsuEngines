@@ -105,12 +105,18 @@ protected:	//メンバ変数
 	FbxTime currentTime;
 	//アニメーション再生中
 	bool isPlay = false;
+	XMMATRIX matScale, matRot, matTrans;
 
 public:	//定数
 	void SetPosition(XMFLOAT3 pos) { position = pos; }
 	void SetRotation(XMFLOAT3 rot) { rotation = rot; }
 	void SetScale(XMFLOAT3 scl) { scale = scl; }
 
+	XMMATRIX GetMatRot() { return matRot; }
+
+	XMMATRIX GetMatTrans() { return matTrans; }
+
+	XMMATRIX GetMatScale () { return matScale; }
 		//ボーンの最大数
 	static const int MAX_BONES = 80;
 	XMFLOAT3 GetPosition() { return position; }
@@ -121,5 +127,11 @@ public:	//定数
 	};
 	bool stopFlag;
 	void SeteCurrent(bool f) { stopFlag = f; }
+	XMMATRIX hand;
+	XMMATRIX handa;
+	XMMATRIX hRot;
+	XMMATRIX GetMatrot() { return matRot; }
+	XMMATRIX GetmatRot(){return hRot;}
+	XMMATRIX GetHandBone() { return handa; }
 	FbxTime SetCurrent() { return currentTime = startTime; }
 };

@@ -213,8 +213,7 @@ void f_Object3d::Initialize()
 
 void f_Object3d::Updata(bool animeloop)
 {
-	XMMATRIX matScale, matRot, matTrans;
-
+	
 	//スケール、回転、平行移動行列の計算
 	matScale = XMMatrixScaling(scale.x, scale.y, scale.z);
 	matRot = XMMatrixIdentity();
@@ -229,6 +228,7 @@ void f_Object3d::Updata(bool animeloop)
 	matWorld *= matRot;				//ワールド行列に回転を反映
 	matWorld *= matTrans;			//ワールド行列に平行移動を反映
 
+	//handa = modelTransform * matWorld;
 	//ビュープロジェクション行列
 	const XMMATRIX& matViewProjection = camera->GetViewProjectionMatrix();
 	//モデルのメッシュトランスフォーム
@@ -236,6 +236,7 @@ void f_Object3d::Updata(bool animeloop)
 	//カメラ座標
 	const XMFLOAT3& cameraPos = camera->GetEye();
 
+	handa = modelTransform * matWorld;
 	HRESULT result;
 	//定数バッファへのデータ転送
 	ConstBufferDataTransform* constMap = nullptr;
@@ -281,7 +282,17 @@ void f_Object3d::Updata(bool animeloop)
 		FbxLoader::ConvertMatrixFromFbx(&matCurrentPose, fbxCurrentPose);
 		//合成してスキニング行列に
 		constMapSkin->bones[i] = bones[i].invInitialPose * matCurrentPose;
+		//hand = bones[0].fbxCluster->GetTransformLinkMatrix();
 	}
+	int hb = 8;
+	FbxLoader::ConvertMatrixFromFbx(&hand, bones[hb].fbxCluster->GetLink()->EvaluateGlobalTransform(currentTime));
+	//FbxLoader::ConvertMatrixFromFbx(&hRot, bones[hb].fbxCluster->GetLink().rotati);
+
+	//handa *= modelTransform;
+	//handa=handa;
+
+	//XMFLOAT3 rots = { handa.r->m128_f32[0]};
+	hRot = handa *matRot;
 	constBuffSkin->Unmap(0, nullptr);
 }
 

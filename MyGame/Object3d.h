@@ -41,6 +41,8 @@ public: // サブクラス
 		XMMATRIX viewproj;    // ビュープロジェクション行列
 		XMMATRIX world; // ワールド行列
 		XMFLOAT3 cameraPos; // カメラ座標（ワールド座標）
+		float dj;
+		XMFLOAT2 time;
 	};
 
 private: // 定数
@@ -229,9 +231,15 @@ protected: // メンバ変数
 	XMMATRIX matWorld;
 	// 親オブジェクト
 	Object3d* parent = nullptr;
-	
+	bool rf;
+	XMMATRIX rm,rt,rr,rs;
 public:
-
+	void setr(bool f) { rf = f; }
+	XMMATRIX GetMatrot() {return matRot; }
+	void SetMatrot(XMMATRIX rot) { rm = rot; }
+	void SetMatRot(XMMATRIX rot) { rt = rot; }
+	void SetMatTrans(XMMATRIX rot) { rt = rot; }
+	void SetMatScale(XMMATRIX rot) { rs = rot; }
 	void UpdateWorldMatrix();
 	void SetCollider(BaseCollider* collider);
 	virtual void OnCollision(const CollisionInfo& info) {}
@@ -241,7 +249,7 @@ protected:
 	BaseCollider* collider = nullptr;
 	private:
 		XMMATRIX matScale, matRot, matTrans;
-
+		XMFLOAT2 time;
 public:
 	/// <summary>
 	/// モデルを取得

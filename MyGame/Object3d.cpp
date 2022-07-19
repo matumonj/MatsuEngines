@@ -366,16 +366,21 @@ bool Object3d::Initialize(DebugCamera* camera)
 
 void Object3d::Update(XMFLOAT4 color, DebugCamera* camera)
 {
+	time.x+=0.001f;
+	if (time.x > 1.0f) {
+		time.x = 0.0f;
+	}
+
+	time.y += 0.001f;
+	if (time.y > 1.0f) {
+		time.y = 0.0f;
+	}
 	HRESULT result;
 
 	//rotation.y = 90;
 	//rotation.x = 50;
 	// 親オブジェクトがあれば
-	if (parent != nullptr) {
-		// 親オブジェクトのワールド行列を掛ける
-		matWorld *= parent->matWorld;
-	}
-
+	
 	const XMMATRIX& matViewProjection = camera->GetViewProjectionMatrix();
 	const XMFLOAT3& cameraPos = camera->GetEye();
 	UpdateWorldMatrix();
@@ -386,6 +391,8 @@ void Object3d::Update(XMFLOAT4 color, DebugCamera* camera)
 	constMap->viewproj = camera->GetViewProjectionMatrix();
 	constMap->world = matWorld;
 	constMap->color = color;
+	constMap->dj = 0;
+	constMap->time = time;
 	// 定数バッファへデータ転送
 	//ConstBufferDataB0* constMap = nullptr;
 	//result = constBuffB0->Map(0, nullptr, (void**)&constMap);
@@ -401,6 +408,7 @@ void Object3d::Update(XMFLOAT4 color, DebugCamera* camera)
 		collider->Update();
 	}
 }
+
 
 void Object3d::Draw()
 {
@@ -454,5 +462,8 @@ void Object3d::UpdateWorldMatrix()
 	if (parent != nullptr) {
 		// 親オブジェクトのワールド行列を掛ける
 		matWorld *= parent->matWorld;
+	}
+	if (rf) {
+		matWorld *= rm;
 	}
 }
