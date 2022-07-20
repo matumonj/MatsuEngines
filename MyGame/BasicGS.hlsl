@@ -9,7 +9,6 @@ float rand(float2 seed) {
 [maxvertexcount(vnum)]
 void main(
 	triangle VSOutput input[3]:SV_POSITION,
-	//point VSOutput input[1] : SV_POSITION,
 	inout TriangleStream< GSOutput > output
 )
 {
@@ -17,32 +16,24 @@ void main(
 	float3 posworld = mul(world, float3(center));
 	float3 dist= length(cameraPos -posworld);
 	float destruction = clamp(50-dist, 0, 1);
-	float4 offset = float4(0, 0, 0, 0);
-
+	
 	float3 vec1 = input[1].svpos.xyz - input[0].svpos.xyz;
 	float3 vec2 = input[2].svpos.xyz - input[0].svpos.xyz;
 	float3 gnormal = normalize(cross(vec1, vec2));
 	float random = rand(center.xy);
 	float randms = random.xxx;
+
 	[unroll]
 	for (uint i = 0; i < vnum; i++) {
-		
 		GSOutput element;
 		element.worldpos = input[i].worldpos;
-		//float dist = length(cameraPos - input[i].worldpos);
-		//float destruction = clamp(dist, 0, 1);
 		element.svpos = input[i].svpos;
 
 		if (flag) {
-			element.svpos.xyz+= gnormal * (destruction) * 50;
-			//element.svpos = mul(viewproj, element.svpos);
+			element.svpos.xyz+= gnormal * (destruction) * 100;
 		}
-		//element.color=input[i].color;
-		//element.svpos = input[i].svpos;
-		
 		element.normal = input[i].normal;
 		element.uv = input[i].uv;
-
 		output.Append(element);
 	}
 	output.RestartStrip();
