@@ -169,6 +169,8 @@ bool Object3d::InitializeGraphicsPipeline()
 	HRESULT result = S_FALSE;
 	ComPtr<ID3DBlob> vsBlob; // 頂点シェーダオブジェクト
 	ComPtr<ID3DBlob> psBlob;	// ピクセルシェーダオブジェクト
+	ComPtr<ID3DBlob> gsBlob;	// ピクセルシェーダオブジェクト
+
 	ComPtr<ID3DBlob> errorBlob; // エラーオブジェクト
 
 	// 頂点シェーダの読み込みとコンパイル
@@ -219,6 +221,29 @@ bool Object3d::InitializeGraphicsPipeline()
 		exit(1);
 	}
 
+	// ピクセルシェーダの読み込みとコンパイル
+	result = D3DCompileFromFile(
+		//L"Resources/shaders/BasicPixelShader.hlsl",	// シェーダファイル名
+		L"BasicGS.hlsl",
+		nullptr,
+		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
+		"main", "gs_5_0",	// エントリーポイント名、シェーダーモデル指定
+		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // デバッグ用設定
+		0,
+		&gsBlob, &errorBlob);
+	if (FAILED(result)) {
+		// errorBlobからエラー内容をstring型にコピー
+		std::string errstr;
+		errstr.resize(errorBlob->GetBufferSize());
+
+		std::copy_n((char*)errorBlob->GetBufferPointer(),
+			errorBlob->GetBufferSize(),
+			errstr.begin());
+		errstr += "\n";
+		// エラー内容を出力ウィンドウに表示
+		OutputDebugStringA(errstr.c_str());
+		exit(1);
+	}
 	// 頂点レイアウト
 	D3D12_INPUT_ELEMENT_DESC inputLayout[] = {
 		{ // xy座標(1行で書いたほうが見やすい)
@@ -243,7 +268,7 @@ bool Object3d::InitializeGraphicsPipeline()
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC gpipeline{};
 	gpipeline.VS = CD3DX12_SHADER_BYTECODE(vsBlob.Get());
 	gpipeline.PS = CD3DX12_SHADER_BYTECODE(psBlob.Get());
-
+	gpipeline.GS = CD3DX12_SHADER_BYTECODE(gsBlob.Get());
 	// サンプルマスク
 	gpipeline.SampleMask = D3D12_DEFAULT_SAMPLE_MASK; // 標準設定
 	// ラスタライザステート
@@ -366,10 +391,7 @@ bool Object3d::Initialize(DebugCamera* camera)
 
 void Object3d::Update(XMFLOAT4 color, DebugCamera* camera)
 {
-	time.x+=0.001f;
-	if (time.x > 1.0f) {
-		time.x = 0.0f;
-	}
+	time.x+=0.1f;
 
 	time.y += 0.001f;
 	if (time.y > 1.0f) {
@@ -393,6 +415,7 @@ void Object3d::Update(XMFLOAT4 color, DebugCamera* camera)
 	constMap->color = color;
 	constMap->dj = 0;
 	constMap->time = time;
+	constMap->f = setef;
 	// 定数バッファへデータ転送
 	//ConstBufferDataB0* constMap = nullptr;
 	//result = constBuffB0->Map(0, nullptr, (void**)&constMap);

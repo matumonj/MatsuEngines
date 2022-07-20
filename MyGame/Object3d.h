@@ -43,6 +43,7 @@ public: // サブクラス
 		XMFLOAT3 cameraPos; // カメラ座標（ワールド座標）
 		float dj;
 		XMFLOAT2 time;
+		bool f;
 	};
 
 private: // 定数
@@ -233,7 +234,9 @@ protected: // メンバ変数
 	Object3d* parent = nullptr;
 	bool rf;
 	XMMATRIX rm,rt,rr,rs;
+	bool setef=false;
 public:
+	void setSetf(bool f) { setef = f; }
 	void setr(bool f) { rf = f; }
 	XMMATRIX GetMatrot() {return matRot; }
 	void SetMatrot(XMMATRIX rot) { rm = rot; }

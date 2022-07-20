@@ -5,7 +5,7 @@ Texture2D<float4> tex1 : register(t1);  // 0番スロットに設定されたテクスチャ
 
 SamplerState smp : register(s0);      // 0番スロットに設定されたサンプラー
 
-PSOutPut main(VSOutput input) : SV_TARGET
+PSOutPut main(GSOutput input) : SV_TARGET
 {
 	
 	// テクスチャマッピング

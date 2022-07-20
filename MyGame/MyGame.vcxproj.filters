@@ -155,6 +155,9 @@
     </FxCompile>
     <FxCompile Include="TexturePS.hlsl" />
     <FxCompile Include="TextureVS.hlsl" />
+    <FxCompile Include="BasicGS.hlsl">
+      <Filter>ソース ファイル</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

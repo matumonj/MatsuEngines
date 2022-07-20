@@ -7,6 +7,7 @@ cbuffer cbuff0 : register(b0)
 	float3 cameraPos; // カメラ座標（ワールド座標）
 	float fak;
 	float2 time;
+	bool flag;
 };
 
 cbuffer cbuff1 : register(b1)
@@ -63,6 +64,7 @@ cbuffer cbuff2 : register(b2)
 // 頂点シェーダーからピクセルシェーダーへのやり取りに使用する構造体
 struct VSOutput
 {
+	//float4 color:COLOR;
 	float4 svpos : SV_POSITION; // システム用頂点座標
 	float4 worldpos : POSITION; // ワールド座標
 	float3 normal :NORMAL; // 法線
@@ -77,4 +79,13 @@ struct PSOutPut
 	float depth : SV_TARGET1;
 
 
+};
+
+struct GSOutput
+{
+	//float4 color:COLOR;
+	float4 svpos:SV_POSITION;
+	float4 worldpos : POSITION; // ワールド座標
+	float3 normal:NORMAL;
+	float2 uv:TEXCOORD;
 };
