@@ -43,7 +43,7 @@ private:
 		MagicAttack,//–‚–@UŒ‚
 	};
 	bool attackflag = false;
-
+	bool stopf;
 	float ex, ey, ez;
 	int HP;
 	const int MaxHP = 100;

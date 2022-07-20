@@ -107,13 +107,11 @@ void Player::Update(XMFLOAT4 color, DebugCamera* camera)
 		if (input->Pushkey(DIK_W) || input->Pushkey(DIK_A) || input->Pushkey(DIK_D) || input->Pushkey(DIK_S)){
 		position.x += move.m128_f32[0] * movespeed;
 		position.z += move.m128_f32[2] * movespeed;
-		
-		//if (time % 10 == 0) {
-			
-		//}
-		
-	//}
+		stopf = false;
 	}
+		else {
+			stopf = true;
+		}
 	//else {
 	//	position.x = x;
 	//	position.z = z;
@@ -129,6 +127,7 @@ void Player::Update(XMFLOAT4 color, DebugCamera* camera)
 	sw->SetMatTrans(object1->GetMatTrans());
 	sw->SetMatScale(object1->GetMatScale());
 	//object1.getm
+	
 	//sw->SetPosition(object1->GetPosition());
 
 	//sw->SetScale({ 1.6,0.6,3 });
@@ -136,6 +135,7 @@ void Player::Update(XMFLOAT4 color, DebugCamera* camera)
 	sw->Update({ 1,1,1,1 }, camera);
 	//sw->SetRotation(object1->GetmatRot());
 
+	object1->SeteCurrent(stopf);
 	CollisionField(camera);
 
 	//s—ñ‚ÌXV‚Æ‚©

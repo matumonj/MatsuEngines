@@ -37,4 +37,4 @@ void main(
 		output.Append(element);
 	}
 	output.RestartStrip();
-}
+}//
