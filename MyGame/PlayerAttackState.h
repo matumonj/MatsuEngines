@@ -1,6 +1,7 @@
 
 #include"Enemy.h"
 #include"TargetMarker.h"
+#include"Input.h"
 class PlayerAttackState
 {
 public:
@@ -56,6 +57,7 @@ private:
 		THIRDAttackDamage = 10,
 		COMBOBONUS = 10,
 	};
+	bool AttackJudgeMent = false;
 	int FirstAttackDamage=10;
 	int SecondAttackDamage=15;
 	int ThirdAttackDamage=20;

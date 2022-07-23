@@ -17,6 +17,7 @@ private:
 
 
 public:
+	//Sprite();
 	//スプライト用
 	struct VertexPosUv
 	{
@@ -59,6 +60,7 @@ protected:
 	static ComPtr<ID3D12Resource> texBuff[srvCount];
 public:
 	//コンストラクタ
+	Sprite();
 	Sprite(UINT texNumber, XMFLOAT2 position, XMFLOAT2 size, XMFLOAT4 color, XMFLOAT2 anchorpoint);
 	//初期化
 	bool Initialize();

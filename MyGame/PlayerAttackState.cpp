@@ -27,20 +27,25 @@ void PlayerAttackState::ComboAction()
 void PlayerAttackState::Update(std::vector<std::unique_ptr<Enemy>>&enemy)
 {
 	//enemys=std::move(enemy);
-
+	
+	if (Input::GetInstance()->PushButton(Input::GetInstance()->Button_RB)) {
+		AttackJudgeMent = true;
+	}
+	else {
+		AttackJudgeMent = false;
+	}
 	index = TargetMarker::GetInstance()->GetNearIndex();
 
-	if (Input::GetInstance()->TriggerKey(DIK_1)&&CoolDownTime==0) {
-		Skill = First;
-	}
-	else if (Input::GetInstance()->TriggerKey(DIK_2)&& CoolDownTime == 0) {
-		Skill = Second;
-	}
-	else if (Input::GetInstance()->TriggerKey(DIK_3)&&CoolDownTime == 0) {
-		Skill = Third;
-	}
-	else if (Input::GetInstance()->TriggerKey(DIK_4) && BufCoolDownTime == 0) {
-		BuffFlag = true;
+	if (AttackJudgeMent) {
+		if (Input::GetInstance()->PushButton(Input::GetInstance()->Button_B) && CoolDownTime == 0) {
+			Skill = First;
+		} else if (Input::GetInstance()->PushButton(Input::GetInstance()->Button_A) && CoolDownTime == 0) {
+			Skill = Second;
+		} else if (Input::GetInstance()->PushButton(Input::GetInstance()->Button_X) && CoolDownTime == 0) {
+			Skill = Third;
+		} else if (Input::GetInstance()->PushButton(Input::GetInstance()->Button_Y) && BufCoolDownTime == 0) {
+			BuffFlag = true;
+		}
 	}
 	if (BuffFlag) {
 		//ƒoƒtŒp‘±ŽžŠÔ

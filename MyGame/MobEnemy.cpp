@@ -41,12 +41,7 @@ bool MobEnemy::Initialize(DebugCamera* camera)
 	//MobModel = Model::CreateFromOBJ("subenemy");
 	//ƒ‚ƒfƒ‹Š„‚è“–‚Äcamera
 	Object3d::Initialize(camera);
-	
-	//mob = new Enemy();
-	//Object3d::Initialize(camera);
-	//Object3d::SetModel(MobModel);
-	
-	//
+
 	Texture::LoadTexture(11, L"Resources/Sertch.png");
 	SearchPlayerTexture = Texture::Create(11, { 0,-50,50 }, { 1,1,1 }, { 1,1,1,1 });
 	SearchPlayerTexture->CreateTexture();

@@ -23,10 +23,6 @@ void HUDLayOut::Update()
 
 	NowOperation();
 
-	if (Input::GetInstance()->TriggerKey(DIK_G)) {
-		LayOutMode = true;
-	}
-	
 	if (LayOutMode) {
 		if (operation != ENEMYHP&&operation !=Skill) {//プレイヤー以外のHUDがいじられてないときだけHUD動かせるように
 			HUD::GetInstance()->GetPlayerHP()->ChangePosition_PlayerHP({ x,y });

@@ -36,8 +36,6 @@ bool Enemy::Initialize(DebugCamera* camera)
 //XVˆ—
 void Enemy::Update(XMFLOAT4 color, DebugCamera* camera)
 {
-
-	//_state->Update(this,player);
 }
 
 void Enemy::SearchInit()
@@ -290,7 +288,7 @@ void Enemy::Follow()
 
 	time++;
 	if ( Collision::GetLength(Player::GetInstance()->GetPosition(),position) > 20) {
-		wf = true;
+		//wf = true;
 		//searchFlag = false;
 		endsearch = true;
 		//GetSearchPlayer = false;

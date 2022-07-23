@@ -19,9 +19,9 @@ bool Wood::Initialize(DebugCamera* camera)
 
 void Wood::Update(DebugCamera* camera)
 {
-	//WoodObject->setSetf(true);
+	WoodObject->setSetf(true);
 	//フィールド
-	WoodObject->SetRotation({ 0,0,10 });
+	WoodObject->SetRotation({ 0,0,0 });
 	WoodObject->SetScale({2,3,2});
 	WoodObject->SetPosition(Position);
 	WoodObject->Update({ 1,1,1,1 }, camera);

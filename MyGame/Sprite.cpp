@@ -23,6 +23,11 @@ ComPtr<ID3D12DescriptorHeap> Sprite::descHeap;
 ComPtr<ID3D12Resource> Sprite::texBuff[srvCount];
 
 //コンストラクタ
+
+Sprite::Sprite()
+{
+
+}
 Sprite::Sprite(UINT texNumber, XMFLOAT2 position, XMFLOAT2 size, XMFLOAT4 color, XMFLOAT2 anchorpoint)
 {
 

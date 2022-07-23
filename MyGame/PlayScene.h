@@ -59,6 +59,7 @@ private:
 	// コマンドリスト
 	static ID3D12GraphicsCommandList* cmdList;
 private:
+	Input* input;
 	int obbf = 0;
 	unsigned long prev_time = timeGetTime();
 	int count_frame = 0;

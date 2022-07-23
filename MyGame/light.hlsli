@@ -83,7 +83,7 @@ struct PSOutPut
 
 struct GSOutput
 {
-	//float4 color:COLOR;
+	//float color_Alpha:COLOR;
 	float4 svpos:SV_POSITION;
 	float4 worldpos : POSITION; // ƒ[ƒ‹ƒhÀ•W
 	float3 normal:NORMAL;

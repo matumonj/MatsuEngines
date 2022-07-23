@@ -18,6 +18,7 @@ public:
 	void Update();
 	void NowOperation();
 
+	void SetLayOutMode(bool f) { LayOutMode = f; }
 	bool GetLayOutMode() { return LayOutMode; }
 private:
 	enum Operation{

@@ -115,6 +115,9 @@
     <Filter Include="ソース ファイル\camera">
       <UniqueIdentifier>{133564d7-a6f9-464b-959e-0a1b2ee172da}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Config">
+      <UniqueIdentifier>{077ed855-3902-457a-805f-209d6816ad7a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="BlurPS.hlsl">
@@ -158,6 +161,8 @@
     <FxCompile Include="BasicGS.hlsl">
       <Filter>ソース ファイル</Filter>
     </FxCompile>
+    <FxCompile Include="TesserationHL.hlsl" />
+    <FxCompile Include="TesserationDS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -280,13 +285,7 @@
     <ClCompile Include="TargetMarker.cpp">
       <Filter>ソース ファイル\UI</Filter>
     </ClCompile>
-    <ClCompile Include="OBBCollision.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Character.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="HintBoard.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="LoadScene.cpp">
@@ -306,12 +305,6 @@
     </ClCompile>
     <ClCompile Include="EnemyFollowState.cpp">
       <Filter>ソース ファイル\gameobject\Enemy\敵の行動遷移</Filter>
-    </ClCompile>
-    <ClCompile Include="FieldCollision.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerAttackState.cpp">
-      <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="RenderTarget.cpp">
       <Filter>ソース ファイル</Filter>
@@ -352,9 +345,6 @@
     <ClCompile Include="Field.cpp">
       <Filter>ソース ファイル\gameobject\Field</Filter>
     </ClCompile>
-    <ClCompile Include="CustomButton.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="BehaviorTree.cpp">
       <Filter>ソース ファイル\gameobject\Enemy\Behavior</Filter>
     </ClCompile>
@@ -369,9 +359,6 @@
     </ClCompile>
     <ClCompile Include="WalkJudgement.cpp">
       <Filter>ソース ファイル\gameobject\Enemy\Behavior</Filter>
-    </ClCompile>
-    <ClCompile Include="BehaviorDatas.cpp">
-      <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="WalkAction.cpp">
       <Filter>ソース ファイル</Filter>
@@ -388,12 +375,6 @@
     <ClCompile Include="FollowJudgement.cpp">
       <Filter>ソース ファイル\gameobject\Enemy\Behavior</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyHUD.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerHUD.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="IHUD.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -405,6 +386,36 @@
     </ClCompile>
     <ClCompile Include="Wood.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="WoodManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="ConfigSprite.cpp">
+      <Filter>ソース ファイル\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="SistemConfig.cpp">
+      <Filter>ソース ファイル\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="BehaviorDatas.cpp">
+      <Filter>ソース ファイル\gameobject\Enemy\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerHUD.cpp">
+      <Filter>ソース ファイル\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerAttackState.cpp">
+      <Filter>ソース ファイル\gameobject\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="OBBCollision.cpp">
+      <Filter>ソース ファイル\collision</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyHUD.cpp">
+      <Filter>ソース ファイル\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="FieldCollision.cpp">
+      <Filter>ソース ファイル\collision</Filter>
+    </ClCompile>
+    <ClCompile Include="CustomButton.cpp">
+      <Filter>ソース ファイル\HUD</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -567,9 +578,6 @@
     <ClInclude Include="OBBCollision.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="OBB.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Character.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -598,9 +606,6 @@
       <Filter>ソース ファイル\collision</Filter>
     </ClInclude>
     <ClInclude Include="FieldCollision.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerAttackState.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="RenderTarget.h">
@@ -663,9 +668,6 @@
     <ClInclude Include="WalkJudgement.h">
       <Filter>ソース ファイル\gameobject\Enemy\Behavior</Filter>
     </ClInclude>
-    <ClInclude Include="BehaviorDatas.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="WalkAction.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -684,9 +686,6 @@
     <ClInclude Include="Destroy.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyHUD.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerHUD.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -701,6 +700,27 @@
     </ClInclude>
     <ClInclude Include="Wood.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="WoodManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigSprite.h">
+      <Filter>ソース ファイル\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="SistemConfig.h">
+      <Filter>ソース ファイル\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAttackState.h">
+      <Filter>ソース ファイル\gameobject\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="OBB.h">
+      <Filter>ソース ファイル\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyHUD.h">
+      <Filter>ソース ファイル\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviorDatas.h">
+      <Filter>ソース ファイル\gameobject\Enemy\Behavior</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

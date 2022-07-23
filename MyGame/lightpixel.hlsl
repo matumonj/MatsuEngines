@@ -5,9 +5,8 @@ Texture2D<float4> tex1 : register(t1);  // 0番スロットに設定されたテクスチャ
 
 SamplerState smp : register(s0);      // 0番スロットに設定されたサンプラー
 
-PSOutPut main(GSOutput input) : SV_TARGET
+PSOutPut main(VSOutput input) : SV_TARGET
 {
-	
 	// テクスチャマッピング
 	float4 texcolor = tex.Sample(smp, input.uv);
 	PSOutPut output;
@@ -96,13 +95,13 @@ PSOutPut main(GSOutput input) : SV_TARGET
 			shadecolor.rgb += atten * (diffuse + specular) * spotLights[i].lightcolor;
 		}
 	}
-//	float4 coltex0= tex.Sample(smp, input.uv);
-	output.target0 = (shadecolor * color*texcolor);
-	output.target1 = float4(1 - (shadecolor * (texcolor*color)).rgb, 1);
+	//	float4 coltex0= tex.Sample(smp, input.uv);
+		output.target0 = (shadecolor * color * texcolor);
+		output.target1 = float4(1 - (shadecolor * (texcolor * color)).rgb, 1);
 
-	// output.depth= input.depth;
+		// output.depth= input.depth;
 
-	return output;
-	// シェーディングによる色で描画
-	//return shadecolor * texcolor;
+		return output;
+		// シェーディングによる色で描画
+		//return shadecolor * texcolor;
 }

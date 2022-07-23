@@ -41,12 +41,7 @@ bool Player::Initialize( DebugCamera* camera)
 {
 	HP = MaxHP;
 	rotate = RotationPrm::FRONT;
-	effect = new mEffekseer();
-	//effect->Initialize(dxcomn, camera);
-
-	//エフェクトのセット(3引き数に)
-	effect->EffekseerSetting(camera, (const EFK_CHAR*)L"Effect/10/attack.efk", (const EFK_CHAR*)L"effect/10");
-
+	
 	if (!Object3d::Initialize(camera))
 	{
 		return false;
@@ -84,27 +79,15 @@ void Player::Update(XMFLOAT4 color, DebugCamera* camera)
 	//position.y = -2;
 	object1->SetScale({0.01f, 0.01f, 0.01f
 });
-	//エフェクトの再生
-	//effect->Load_Effect();
-	//エフェクトのアニメーション止める
-	if (Input::GetInstance()->Pushkey(DIK_C)) {
-		effect->Stop_Effect();
-	}
+	
 	scale = { 0.01f,0.01f,0.01f };
 	//移動ベクトルをy軸周りの角度で回転
 	XMVECTOR move = { 0.0f,0.0f,0.1f,0.0f };
 	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(rotation.y));
 	move = XMVector3TransformNormal(move, matRot);
 
-	//向いてる方向に移動
-
-	
-	
-	
-	//if (onGround) {
-		//x = position.x;
-		//z = position.z;
-		if (input->Pushkey(DIK_W) || input->Pushkey(DIK_A) || input->Pushkey(DIK_D) || input->Pushkey(DIK_S)){
+		if (input->Pushkey(DIK_W) || input->Pushkey(DIK_A) || input->Pushkey(DIK_D) || input->Pushkey(DIK_S)
+			|| (input->LeftTiltStick(input->Left)|| input->LeftTiltStick(input->Right)|| input->LeftTiltStick(input->Up)|| input->LeftTiltStick(input->Down))){
 		position.x += move.m128_f32[0] * movespeed;
 		position.z += move.m128_f32[2] * movespeed;
 		stopf = false;
@@ -112,11 +95,7 @@ void Player::Update(XMFLOAT4 color, DebugCamera* camera)
 		else {
 			stopf = true;
 		}
-	//else {
-	//	position.x = x;
-	//	position.z = z;
-			//}
-	effect->EffekseerUpdate(camera);
+	
 	object1->SetPosition(position);
 	object1->SetRotation({ rotation.x, rotation.y+180, rotation.z });
 	object1->Updata( TRUE);
@@ -126,15 +105,9 @@ void Player::Update(XMFLOAT4 color, DebugCamera* camera)
 	sw->SetMatRot(object1->GetMatRot());
 	sw->SetMatTrans(object1->GetMatTrans());
 	sw->SetMatScale(object1->GetMatScale());
-	//object1.getm
-	
-	//sw->SetPosition(object1->GetPosition());
 
-	//sw->SetScale({ 1.6,0.6,3 });
-	//
 	sw->Update({ 1,1,1,1 }, camera);
-	//sw->SetRotation(object1->GetmatRot());
-
+	
 	object1->SeteCurrent(stopf);
 	CollisionField(camera);
 
@@ -148,29 +121,13 @@ void Player::OnCollision(const CollisionInfo& info)
 }
 void Player::normalAttack(TargetMarker*target, std::vector<std::unique_ptr<Enemy>>enemy, DebugCamera* camera)
 {
-	//float ex, ey, ez;
-	Effect_Pos.x = position.x;
-	Effect_Pos.y = position.y;
-	Effect_Pos.z = position.z;
 	
-		EffectRot.y = rotation.y;
-		EffectRot.z = 70;
-		effect->SetScale(1, 1, 1);
-	effect->SetRotation(EffectRot.x, EffectRot.y, EffectRot.z);
-	//effect->SetPosition(ex,ey,ez);
-	effect->SetPosition(Effect_Pos.x, Effect_Pos.y, Effect_Pos.z);
-
-	effect->EffekseerUpdate( camera);
 	if (input->TriggerKey(DIK_SPACE) && !coolflag) {
 		if (!attackflag) {
 			attackflag = true;
 		}
 	}
 	if (attackflag) {
-		//Effect_Pos.x = enemy[target->GetNearIndex()]->GetPosition().x-10;
-		//Effect_Pos.y = enemy[target->GetNearIndex()]->GetPosition().y;
-		//Effect_Pos.z = enemy[target->GetNearIndex()]->GetPosition().z;
-		effect->Load_Effect();
 		coolflag = true;
 		float distance = sqrtf(((enemy[target->GetNearIndex()]->GetPosition().x - position.x) * (enemy[target->GetNearIndex()]->GetPosition().x - position.x))
 			+ ((enemy[target->GetNearIndex()]->GetPosition().y - position.y) * (enemy[target->GetNearIndex()]->GetPosition().y - position.y))
@@ -188,17 +145,14 @@ void Player::normalAttack(TargetMarker*target, std::vector<std::unique_ptr<Enemy
 			cooldowntime = 0;
 		}
 	}
-	effect->SetPosition(Effect_Pos.x, Effect_Pos.y, Effect_Pos.z);
-
-	effect->EffekseerDraw();
-
+	
 }
 
 void Player::RotationStatus()
 {
 
 	//左方向への移動
-	if (rotate != RotationPrm::LEFT && input->TriggerKey(DIK_A)) {//今向いている方向が左じゃなくAキーが押され、
+	if (rotate != RotationPrm::LEFT && input->LeftTiltStick(input->Left)) {//今向いている方向が左じゃなくAキーが押され、
 		if (rotate == RotationPrm::FRONT) {//右以外を向いていたら
 			rotation.y = rotation.y - 90;
 		} 
@@ -213,7 +167,7 @@ void Player::RotationStatus()
 	}
 
 	//右方向への移動
-	else if (rotate != RotationPrm::RIGHT && input->TriggerKey(DIK_D)) {//今向いている方向が右じゃなくＤキーが押され、
+	else if (rotate != RotationPrm::RIGHT && input->LeftTiltStick(input->Right)) {//今向いている方向が右じゃなくＤキーが押され、
 		if (rotate == RotationPrm::FRONT) {//右以外を向いていたら
 			rotation.y = rotation.y + 90;
 		} else if (rotate == RotationPrm::BACK) {//右を向いていたら
@@ -226,7 +180,7 @@ void Player::RotationStatus()
 	}
 
 	//前方向への移動
-	if (rotate != RotationPrm::FRONT && input->TriggerKey(DIK_W)) {//今向いている方向が右じゃなくＤキーが押され、
+	if (rotate != RotationPrm::FRONT && input->LeftTiltStick(input->Up)) {//今向いている方向が右じゃなくＤキーが押され、
 		if (rotate == RotationPrm::RIGHT) {//もし右を向いてたら
 			rotation.y = rotation.y - 90;
 		} else if (rotate == RotationPrm::LEFT) {//もし左を向いてたら
@@ -239,7 +193,7 @@ void Player::RotationStatus()
 	}
 
 	//後ろ方向へ移動
-	if (rotate != RotationPrm::BACK && input->TriggerKey(DIK_S)) {//今向いている方向が右じゃなくＤキーが押され、
+	if (rotate != RotationPrm::BACK && input->LeftTiltStick(input->Down)) {//今向いている方向が右じゃなくＤキーが押され、
 		if (rotate == RotationPrm::RIGHT) {//もし右を向いてたら
 			rotation.y = rotation.y + 90;
 		} else if (rotate == RotationPrm::LEFT) {//もし左を向いてたら
