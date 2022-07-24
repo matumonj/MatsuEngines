@@ -24,13 +24,20 @@ public:
 	MapCreate();
 	static void LoadEnemyParam();
 private:
+	//設置オブジェクトの数[木・柵・敵]
 	static const int ObjType_Num=3;
+	//設置オブジェクト
 	static CreateObjManager* placeobj[ObjType_Num];
 public:
+	//ImGui
 	static void ImGuiDraw();
+	//設置処理
 	static void ObjectArgment(DebugCamera* camera);
+	//初期化
 	static void ObjectInitialize(DebugCamera*camera);
+	//更新処理
 	static void ObjectUpdate(DebugCamera* camera);
+	//描画
 	static void ObjectDraw();
 
 private:

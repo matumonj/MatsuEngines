@@ -19,6 +19,8 @@ protected:
 	using XMMATRIX = DirectX::XMMATRIX;
 
 public:
+	virtual ~CreateObjManager();
+
 	virtual void Initialize(DebugCamera*camera)=0;
 
 	virtual void ArgMent(DebugCamera* camera)=0;
