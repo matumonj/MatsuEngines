@@ -207,5 +207,7 @@ private:
 		bool CameraViewPoint_First=true;
 		bool CameraViewPoint_Third;
 		bool t, y;
+
+		bool TutorialFenceOpen;
 };
 

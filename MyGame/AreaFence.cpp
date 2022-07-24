@@ -9,7 +9,7 @@ bool AreaFence::Initialize(DebugCamera* camera)
 	AreaFenceObject = std::make_unique<Object3d>();
 
 	//model2 = Model::CreateFromOBJ("newAreaFence");
-	AreaFenceModel = Model::CreateFromOBJ("Wood");
+	AreaFenceModel = Model::CreateFromOBJ("Fence");
 
 	//フィールドにモデル割り当て
 	AreaFenceObject->Initialize(camera);
@@ -23,7 +23,7 @@ void AreaFence::Update(DebugCamera* camera)
 	AreaFenceObject->setSetf(true);
 	//フィールド
 	AreaFenceObject->SetRotation({ 0,0,0 });
-	AreaFenceObject->SetScale({ 2,3,2 });
+	AreaFenceObject->SetScale({ 10,10,10 });
 	AreaFenceObject->SetPosition(Position);
 	AreaFenceObject->Update({ 1,1,1,1 }, camera);
 }
@@ -64,10 +64,10 @@ bool AreaFence::CollideAreaFence()
 void AreaFence::FenceOpenCondition(bool condition)
 {
 	if (condition) {
-		Position.y -= 1;
+		Position.y -= 0.2f;
 	}
 	else {
-		FencePosY_Min = Position.y - 10;
+		FencePosY_Min = Position.y - 30;
 	}
 	Position.y = max(Position.y, FencePosY_Min);
 }

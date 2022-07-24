@@ -194,6 +194,9 @@ void PlayScene::Update()
 		HUD::GetInstance()->EnemyHPGauge_MultiUpdate(hudload, camera, enemys);
 
 		PlayerAttackState::GetInstance()->Update(enemys);
+		
+		TutorialFenceOpen = enemys[0]->GetHP() <= 0;
+		fences[0]->FenceOpenCondition(TutorialFenceOpen);
 	}
 
 	objUpdate(camera);//オブジェクトの更新処理
@@ -650,7 +653,7 @@ void PlayScene::LoadParam_Fence()
 				if (word.find("//") == 0) {
 					continue;
 				}
-				if (word.find("POP_F") == 0) {
+				if (word.find("POP") == 0) {
 					std::getline(line_stream, word, ',');
 					float x = (float)std::atof(word.c_str());
 

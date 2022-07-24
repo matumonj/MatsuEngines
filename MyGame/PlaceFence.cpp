@@ -3,7 +3,7 @@
 
 void PlaceFence::Initialize(DebugCamera* camera)
 {
-	Model = Model::CreateFromOBJ("Wood");
+	Model = Model::CreateFromOBJ("Fence");
 	Obj = Object3d::Create(camera);
 	Obj->SetModel(Model);
 }
@@ -54,7 +54,7 @@ void PlaceFence::ArgMent(DebugCamera* camera)
 void PlaceFence::Update(DebugCamera* camera)
 {
 	Obj->SetPosition(pos);
-	Obj->SetScale({ 2,3,2 });
+	Obj->SetScale({10,10,10 });
 	Obj->Update({ 1,0,0,0.5 }, camera);
 }
 

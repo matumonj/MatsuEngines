@@ -36,10 +36,11 @@ public:
 protected:
 	std::ifstream file;
 	std::stringstream popcom;
-
+	//配置フラグ
 	bool ArgmentFlag;
+	//削除フラグ
 	bool DeleteFlag;
-	//配置オブジェジェクトモデル
+	//配置オブジェクト、モデル
 	Model* Model;
 	Object3d* Obj;
 

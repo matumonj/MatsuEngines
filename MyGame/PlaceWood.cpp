@@ -51,8 +51,6 @@ void PlaceWood::ArgMent(DebugCamera* camera)
 }
 void PlaceWood::Update(DebugCamera* camera)
 {
-	
-
 	Obj->SetPosition(pos);
 	Obj->SetScale({ 2,3,2 });
 	Obj->Update({ 1,0,0,0.5 }, camera);
