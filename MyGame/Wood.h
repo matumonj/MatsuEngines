@@ -3,9 +3,9 @@
 #include"Object3d.h"
 #include"Model.h"
 #include"DebugCamera.h"
-#include<memory>
-#include"Player.h"
 
+#include"Player.h"
+#include<memory>
 #include"OBBCollision.h"
 	class Wood
 	{

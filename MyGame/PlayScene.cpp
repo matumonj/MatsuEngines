@@ -92,6 +92,12 @@ void PlayScene::objUpdate(DebugCamera* camera)
 			woods[i]->Update(camera);
 		}
 	}
+	for (int i = 0; i < Fence_Quantity; i++) {
+		if (fences[i] != nullptr) {
+
+			fences[i]->Update(camera);
+		}
+	}
 	for (int i = 0; i < Wood_Quantity; i++) {
 
 		if (woods[i]->CollideWood() == true) {
@@ -155,7 +161,7 @@ void PlayScene::Update()
 	SistemConfig::GetInstance()->Update();
 	LoadParam();
 	LoadParam_Wood();
-
+	LoadParam_Fence();
 	if (input->Pushkey(DIK_RIGHT)) {
 		charaAngle += 0.5f;
 		cameraAngle -= 0.5f;
@@ -241,7 +247,11 @@ void PlayScene::SpriteDraw()
 			woods[i]->Draw();
 		}
 	}
-
+	for (int i = 0; i < Fence_Quantity; i++) {
+		if (fences[i] != nullptr) {
+			fences[i]->Draw();
+		}
+	}
 }
 //sプライと以外の描画
 void PlayScene::MyGameDraw()
@@ -586,8 +596,89 @@ void PlayScene::LoadParam_Wood()
 		}
 
 		//fclose(fp);
-		LoadEnemy = false;
 		hudload = true;
+	}
+}
+
+
+
+void PlayScene::LoadParam_Fence()
+{
+	if (LoadEnemy) {
+		//file2.open("EnemyParam_CSV/position.csv");
+		//file.open("EnemyParam_CSV/open.csv");
+		file3.open("EnemyParam_CSV/fence.csv");
+
+		//popcom << file.rdbuf();
+
+		popcom3 << file3.rdbuf();
+
+		//file.close();
+		file3.close();
+		//return oi;
+		//fopen_s(&fp, "posxx.json", "r");
+		/*流れとしては
+		敵の数読み込み->
+		読み込んだ敵の数分エネミーのパラメータ配列の要素数増やす->
+		敵の数分作ったら配列の中身をロードしたものに->
+		敵の番号が1だったらα,2だったらβでインスタンス生成、初期化
+		*/
+		//fread(&Enemy_Quantity, sizeof(int), 1, fp);
+		while (std::getline(popcom3, line3)) {
+			std::istringstream line_stream(line3);
+			std::string word;
+			std::getline(line_stream, word, ',');
+
+			if (word.find("//") == 0) {
+				continue;
+			}
+			if (word.find("Fence_Quantity") == 0) {
+				std::getline(line_stream, word, ',');
+				int quantity = (int)std::atof(word.c_str());
+				Fence_Quantity = quantity;
+				break;
+			}
+		}
+		Fence_Num.resize(Fence_Quantity);
+		fencepos.resize(Fence_Quantity);
+		for (int i = 0; i <Fence_Quantity; i++) {
+			while (std::getline(popcom3, line3)) {
+				std::istringstream line_stream(line3);
+				std::string word;
+				std::getline(line_stream, word, ',');
+
+				if (word.find("//") == 0) {
+					continue;
+				}
+				if (word.find("POP_F") == 0) {
+					std::getline(line_stream, word, ',');
+					float x = (float)std::atof(word.c_str());
+
+					std::getline(line_stream, word, ',');
+					float y = (float)std::atof(word.c_str());
+
+					std::getline(line_stream, word, ',');
+					float z = (float)std::atof(word.c_str());
+
+					fencepos[i] = { x,y,z };
+					break;
+				}
+			}
+		}
+		fences.resize(Fence_Quantity);
+
+		Load_FencePosition.resize(Fence_Quantity);
+
+		for (int i = 0; i < Fence_Quantity; i++) {
+
+			fences[i] = std::make_unique<AreaFence>();
+
+			fences[i]->Initialize(camera);
+			fences[i]->SetPosition(fencepos[i]);
+		}
+
+		//fclose(fp);
+		LoadEnemy = false;
 	}
 }
 #pragma endregion

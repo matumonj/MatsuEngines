@@ -51,11 +51,7 @@ void SistemConfig::Update()
 			HUDLayOut::GetInstance()->SetLayOutMode(true);
 		}
 	}
-	if(HUDLayOut::GetInstance()->GetLayOutMode()==true){
-		if (input->TriggerButton(input->Button_B)) {
-			HUDLayOut::GetInstance()->SetLayOutMode(false);
-		}
-	}
+	
 	configSprite->Update();
 }
 

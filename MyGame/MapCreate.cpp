@@ -10,20 +10,27 @@
  std::stringstream MapCreate::popcom;
  std::ifstream MapCreate::file2;
  std::stringstream MapCreate::popcom2;
+ std::ifstream MapCreate::file3;
+ std::stringstream MapCreate::popcom3;
 std::vector<MapCreate::XMFLOAT3> MapCreate::EnemyPosition;
 std::vector<MapCreate::XMFLOAT3> MapCreate::WoodPosition;
+std::vector<MapCreate::XMFLOAT3> MapCreate::FencePosition;
 bool MapCreate::MobArgment;
 bool MapCreate::BossArgment;
 bool MapCreate::WoodArgment;
+bool MapCreate::FenceArgment;
 bool MapCreate::EnemyDelete;
 bool MapCreate::WoodDelete;
+bool MapCreate::FenceDelete;
 std::vector<std::unique_ptr<Enemy>> MapCreate::enemys;
 std::vector<std::unique_ptr<Wood>> MapCreate::woods;
+std::vector<std::unique_ptr<AreaFence>> MapCreate::fences;
 //デバッグ用
 std::vector <int>MapCreate::randmove;
 std::vector <int>MapCreate::randmovement;
 MapCreate::XMFLOAT3 MapCreate::pos;
 MapCreate::XMFLOAT3 MapCreate::wood_pos;
+MapCreate::XMFLOAT3 MapCreate::fence_pos;
 float MapCreate::a;
 FILE* MapCreate::fp;
 bool MapCreate::savef;
@@ -33,7 +40,11 @@ Model* MapCreate::BoxModel;
 Object3d* MapCreate::BoxObj;
 Model* MapCreate::WoodModel;
 Object3d* MapCreate::WoodObj;
+Model* MapCreate::FenceModel;
+Object3d* MapCreate::FenceObj;
 BehaviorTree MapCreate::behavior;
+PlaceWood* MapCreate::placewood;
+ PlaceFence* MapCreate::placefence;
 MapCreate::MapCreate()
 {
 	
@@ -54,20 +65,19 @@ void MapCreate::SetBoxModel(DebugCamera*camera)
 	BoxObj= Object3d::Create(camera);
 	BoxObj->SetModel(BoxModel);
 
+	placefence = new PlaceFence();
+	placewood = new PlaceWood();
 
-	WoodModel = Model::CreateFromOBJ("wood");
-	WoodObj = Object3d::Create(camera);
-	WoodObj->SetModel(WoodModel);
-	
+	placefence->Initialize(camera);
+	placewood->Initialize(camera);
 }
 void MapCreate::UpdateBoxModel(DebugCamera* camera)
 {
 	BoxObj->SetPosition(pos);
 	BoxObj->SetScale({ 5,5,5 });
 	BoxObj->Update({ 1,0,0,0.5 }, camera);
-	WoodObj->SetPosition(wood_pos);
-	WoodObj->SetScale({ 2,3,2 });
-	WoodObj->Update({ 1,0,0,0.5 }, camera);
+	placefence->Update(camera);
+	placewood->Update(camera);
 }
 
 void MapCreate::DrawBoxModel()
@@ -76,9 +86,8 @@ void MapCreate::DrawBoxModel()
 	BoxObj->Draw();
 	BoxObj->PostDraw();
 
-	WoodObj->PreDraw();
-	WoodObj->Draw();
-	WoodObj->PostDraw();
+	placefence->Draw();
+	placewood->Draw();
 }
 void MapCreate::LoadEnemyParam()
 {
@@ -149,47 +158,10 @@ void MapCreate::EnemyArgment(DebugCamera* camera)
 void MapCreate::WoodArgments(DebugCamera* camera)
 {
 	if (savef) {
-
-		file2.open("wood.csv");
-
-		popcom2 << file2.rdbuf();
-
-		file2.close();
-		///std::ofstream pofs("EnemyParam_CSV/position.csv");
-		std::ofstream ofs("EnemyParam_CSV/wood.csv");  // ファイルパスを指定する
-		ofs << "Wood_Quantity" << "," << woods.size() << std::endl;
-
-		for (int i = 0; i < woods.size(); i++) {
-			ofs << "POP" << "," << woods[i]->GetPosition().x
-				<< "," << woods[i]->GetPosition().y
-				<< "," << woods[i]->GetPosition().z << std::endl;
-
-		}
-		WoodPosition.resize(enemys.size());
-		
+		placewood->FileWriting();
 		//fwrite(&EnemyPosition, sizeof(XMFLOAT3),EnemyPosition.size(), fp);
 	}
-	if (WoodArgment) {
-
-		std::unique_ptr<Wood>newWood;
-		if (WoodArgment) {
-			newWood= std::make_unique<Wood>();
-		}
-		
-		newWood->Initialize(camera);
-		newWood->SetPosition(wood_pos);
-		woods.push_back(std::move(newWood));
-		WoodArgment = false;
-	}
-	for (std::unique_ptr<Wood>& wood : woods) {
-		if (wood!= nullptr) {
-			wood->Update(camera);
-		}
-	}
-	if (WoodDelete && woods.size() > 1) {
-		woods.pop_back();
-		WoodDelete = false;
-	}
+	placewood->ArgMent(camera);
 
 }
 
@@ -248,47 +220,32 @@ void MapCreate::ImguiDraw_Enemy()
 }
 
 
+
+void MapCreate::FenceArgments(DebugCamera* camera)
+{
+	if (savef) {
+		placefence->FileWriting();
+	}
+	placefence->ArgMent(camera);
+}
+
+void MapCreate::FenceDraw()
+{
+	placefence->Draw();
+}
+void MapCreate::ImguiDraw_Fence()
+{
+	placefence->ImGui_Draw();
+}
+
+
+
 void MapCreate::WoodDraw()
 {
-	for (std::unique_ptr<Wood>&wood : woods) {
-		if (wood != nullptr) {
-			//enemy->PreDraw();
-			wood->Draw();
-			//enemy->PostDraw();
-		}
-	}
+	placewood->Draw();
 }
 
 void MapCreate::ImguiDraw_Wood()
 {
-	ImGui::Begin("SelectWood");
-	if (ImGui::Button("Wood", ImVec2(90, 50))) {
-		WoodArgment = true;
-	}
-	ImGui::SameLine();
-	if (ImGui::Button("B", ImVec2(90, 50))) {
-		
-	}
-	if (ImGui::Button("C", ImVec2(90, 50))) {
-	}
-	ImGui::SameLine();
-
-
-	if (ImGui::Button("DeleteObj", ImVec2(90, 50))) {
-
-		WoodDelete = true;
-	}
-
-	if (ImGui::Button("Save", ImVec2(90, 50))) {
-		savef = true;
-	}
-
-	{
-		ImGui::SliderFloat("posX", &wood_pos.x, -300, 300);
-		ImGui::SliderFloat("posY", &wood_pos.y, -300, 300);
-		ImGui::SliderFloat("posZ", &wood_pos.z, -300, 300);
-
-	}
-	ImGui::End();
-
+	placewood->ImGui_Draw();
 }

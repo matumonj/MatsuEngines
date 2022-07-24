@@ -118,6 +118,27 @@
     <Filter Include="ソース ファイル\Config">
       <UniqueIdentifier>{077ed855-3902-457a-805f-209d6816ad7a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\gameobject\Wood">
+      <UniqueIdentifier>{1e53207f-98d4-4911-ac85-c4378f04ff61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\gameobject\Fence">
+      <UniqueIdentifier>{a110c02c-7630-436b-bbe5-6062e42a135e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\配置管理">
+      <UniqueIdentifier>{827fe566-6788-49a5-a4b4-41e4680b1b18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\配置管理\配置管理%28基底%29">
+      <UniqueIdentifier>{8b70acb0-a16e-4816-923c-87b06e9be80e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\配置管理\木">
+      <UniqueIdentifier>{7654b652-08a8-4952-a1df-e51d4d1f5131}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\配置管理\フェンス">
+      <UniqueIdentifier>{79bfb59c-0748-41da-bda3-2801e2b01cd4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\配置管理\敵">
+      <UniqueIdentifier>{4a80af31-86c4-427f-a61a-d3c249b08ff3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="BlurPS.hlsl">
@@ -384,9 +405,6 @@
     <ClCompile Include="EnemyAttackJudgement.cpp">
       <Filter>ソース ファイル\gameobject\Enemy\Behavior</Filter>
     </ClCompile>
-    <ClCompile Include="Wood.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="WoodManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -416,6 +434,24 @@
     </ClCompile>
     <ClCompile Include="CustomButton.cpp">
       <Filter>ソース ファイル\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="Wood.cpp">
+      <Filter>ソース ファイル\gameobject\Wood</Filter>
+    </ClCompile>
+    <ClCompile Include="AreaFence.cpp">
+      <Filter>ソース ファイル\gameobject\Fence</Filter>
+    </ClCompile>
+    <ClCompile Include="CreateObjManager.cpp">
+      <Filter>Editor\配置管理\配置管理%28基底%29</Filter>
+    </ClCompile>
+    <ClCompile Include="PlaceWood.cpp">
+      <Filter>Editor\配置管理\木</Filter>
+    </ClCompile>
+    <ClCompile Include="PlaceFence.cpp">
+      <Filter>Editor\配置管理\フェンス</Filter>
+    </ClCompile>
+    <ClCompile Include="PlaceEnemy.cpp">
+      <Filter>Editor\配置管理\敵</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -698,9 +734,6 @@
     <ClInclude Include="EnemyAttackJudgement.h">
       <Filter>ソース ファイル\gameobject\Enemy\Behavior</Filter>
     </ClInclude>
-    <ClInclude Include="Wood.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="WoodManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -721,6 +754,24 @@
     </ClInclude>
     <ClInclude Include="BehaviorDatas.h">
       <Filter>ソース ファイル\gameobject\Enemy\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="Wood.h">
+      <Filter>ソース ファイル\gameobject\Wood</Filter>
+    </ClInclude>
+    <ClInclude Include="AreaFence.h">
+      <Filter>ソース ファイル\gameobject\Fence</Filter>
+    </ClInclude>
+    <ClInclude Include="CreateObjManager.h">
+      <Filter>Editor\配置管理\配置管理%28基底%29</Filter>
+    </ClInclude>
+    <ClInclude Include="PlaceWood.h">
+      <Filter>Editor\配置管理\木</Filter>
+    </ClInclude>
+    <ClInclude Include="PlaceFence.h">
+      <Filter>Editor\配置管理\フェンス</Filter>
+    </ClInclude>
+    <ClInclude Include="PlaceEnemy.h">
+      <Filter>Editor\配置管理\敵</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

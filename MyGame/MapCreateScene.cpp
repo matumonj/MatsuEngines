@@ -98,6 +98,7 @@ void MapCreateScene::Update()
 	//Player::GetInstance()->Update({ 1,1,1,1 }, camera);
 	MapCreate::EnemyArgment(camera);
 	MapCreate::WoodArgments(camera);
+	MapCreate::FenceArgments(camera);
 	//シーンチェンジ
 
 	if (Input::GetInstance()->TriggerKey(DIK_R)) {//押されたら
@@ -117,7 +118,7 @@ void MapCreateScene::SpriteDraw()
 
 	MapCreate::EnemyDraw();
 	MapCreate::WoodDraw();
-
+	MapCreate::FenceDraw();
 	MapCreate::DrawBoxModel();
 	
 }
@@ -168,6 +169,7 @@ void MapCreateScene::ImGuiDraw()
 {
 	MapCreate::ImguiDraw_Enemy();
 	MapCreate::ImguiDraw_Wood();
+	MapCreate::ImguiDraw_Fence();
 
 	if (ImGui::RadioButton("Scene_Create", t)) {
 		BaseScene* scene = new PlayScene(sceneManager_);//次のシーンのインスタンス生成

@@ -27,8 +27,9 @@ private:
 	bool m_ConfigFlag;
 	//スプライト座標指定用
 	int m_number = 0;
+	//画面がすぐ切り替わらないようにするためのカウンタ
 	int count = 0;
-	XMFLOAT3 SpritePosition[MaxSprite];
+	
 public:
 	static SistemConfig* GetInstance();
 
@@ -39,10 +40,12 @@ public:
 
 	};
 	Config config;
+
+	//初期化
 	void Initialize();
-
+	//更新処理
 	void Update();
-
+	//描画
 	void Draw();
 
 private:

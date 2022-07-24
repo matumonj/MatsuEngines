@@ -22,6 +22,7 @@
 #include"TargetMarker.h"
 #include"GameUI.h"
 #include"OBBCollision.h"
+#include"AreaFence.h"
 #include"HintBoard.h"
 #include"BehaviorTree.h"
 #include"Wood.h"
@@ -92,6 +93,7 @@ private:
 	DebugCamera* camera;
 	int Enemy_Quantity;
 	int Wood_Quantity;
+	int Fence_Quantity;
 	//XMFLOAT3 posxs;
 	FILE* fp;
 	//std::vector<Enemy> enemys;
@@ -100,6 +102,8 @@ private:
 	std::vector <XMFLOAT3>Load_EnemyPosition;
 	std::vector<std::unique_ptr<Wood>>woods;
 	std::vector <XMFLOAT3>Load_WoodPosition;
+	std::vector<std::unique_ptr<AreaFence>>fences;
+	std::vector <XMFLOAT3>Load_FencePosition;
 	Effects* effects;
 private:
 	float u;
@@ -133,6 +137,7 @@ private://“_ŒõŒ¹
 	float SpotLightColor[3] = {1,1,1};
 	std::vector<int> Num;
 	std::vector<int> Wood_Num;
+	std::vector<int> Fence_Num;
 public:
 	void SpriteCreate();
 	void ModelCreate(DebugCamera* camera);
@@ -149,6 +154,7 @@ public:
 	void BackGround();
 	void LoadParam();
 	void LoadParam_Wood();
+	void LoadParam_Fence();
 	void PostBackGround();
 	void SpriteDraw();
 	void ImGuiDraw();
@@ -167,12 +173,16 @@ private:
 	bool stayf;
 	std::vector<XMFLOAT3> stpos;
 	std::vector<XMFLOAT3> woodpos;
+	std::vector<XMFLOAT3> fencepos;
 	std::string line;
 	std::stringstream popcom;
 	std::string line2;
 	std::stringstream popcom2;
 	std::ifstream file;
 	std::ifstream file2;
+	std::string line3;
+	std::stringstream popcom3;
+	std::ifstream file3;
 	float ey;// = enemys[0]->GetRotation().y;
 	float ey1;// = enemys[1]->GetRotation().y;
 	BehaviorTree behavior;
