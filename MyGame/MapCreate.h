@@ -16,89 +16,24 @@
 #include <iostream>
 #include"PlaceFence.h"
 #include"PlaceWood.h"
+#include"PlaceEnemy.h"
+#include"CreateObjManager.h"
 class MapCreate
 {
 public:
 	MapCreate();
 	static void LoadEnemyParam();
 private:
-	static PlaceWood* placewood;
-	static PlaceFence* placefence;
-	static std::ifstream file;
-	static std::ifstream file2;
-	static std::stringstream popcom;
-	static std::ifstream file3;
-	static std::stringstream popcom3;
-	static std::stringstream popcom2;
-	//Microosoft::WRL::Çè»ó™
-	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
-	//DirectX::Çè»ó™
-	using XMFLOAT2 = DirectX::XMFLOAT2;
-	using XMFLOAT3 = DirectX::XMFLOAT3;
-	using XMFLOAT4 = DirectX::XMFLOAT4;
-	using XMMATRIX = DirectX::XMMATRIX;
-	using XMVECTOR = DirectX::XMVECTOR;
+	static const int ObjType_Num=3;
+	static CreateObjManager* placeobj[ObjType_Num];
 public:
-	static void SetBoxModel(DebugCamera* camera);
-	static void UpdateBoxModel(DebugCamera* camera);
-	static void DrawBoxModel();
-	static void CreateMapMode();
-	static void CreateMapMode_MoveCamera(DebugCamera*camera, XMFLOAT3 map);
-	
-	static void ImguiDraw_Enemy();
-	static void EnemyArgment(DebugCamera* camera);
-	static void EnemyDraw();
-
-	static void ImguiDraw_Wood();
-	static void WoodArgments(DebugCamera* camera);
-	static void WoodDraw();
-
-	static void ImguiDraw_Fence();
-	static void FenceArgments(DebugCamera* camera);
-	static void FenceDraw();
-private:
-	static BehaviorTree behavior;
-	static Model* BoxModel;
-	static Object3d* BoxObj;
-	static std::vector<XMFLOAT3>EnemyPosition;
-
-	static bool MobArgment;
+	static void ImGuiDraw();
+	static void ObjectArgment(DebugCamera* camera);
+	static void ObjectInitialize(DebugCamera*camera);
+	static void ObjectUpdate(DebugCamera* camera);
+	static void ObjectDraw();
 
 private:
-	static Model* WoodModel;
-	static Object3d* WoodObj;
-	static std::vector<XMFLOAT3>WoodPosition;
-
-private:
-	static Model* FenceModel;
-	static Object3d* FenceObj;
-	static std::vector<XMFLOAT3>FencePosition;
-
 	static bool savef;
-
-	static FILE* fp;
-	static bool MoveFlags;
-	static bool WoodArgment;
-	static bool BossArgment;
-	static bool FenceArgment;
-	static bool FenceDelete;
-	static bool EnemyDelete;
-	static bool WoodDelete;
-	static float a;
-	static XMFLOAT3 pos;
-	static XMFLOAT3 wood_pos;
-	static XMFLOAT3 fence_pos;
-	static  std::vector <int>randmove;
-	static std::vector <int> randmovement;
-	static std::vector<int>Number;
-	static std::vector<std::unique_ptr<Enemy>>enemys;
-	static std::vector<std::unique_ptr<Wood>>woods;
-	static std::vector<std::unique_ptr<AreaFence>>fences;
-private:
-
-public:
-	static XMFLOAT3 GetBoxPosition() { return BoxObj->GetPosition(); }
-
-	void LoadFile(wchar_t* filename);
 };
 

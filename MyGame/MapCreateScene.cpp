@@ -42,7 +42,7 @@ void MapCreateScene::ModelCreate(DebugCamera* camera)
 	//パラメータの設定
 	lightGroup->LightSetting();
 
-	MapCreate::SetBoxModel(camera);
+	MapCreate::ObjectInitialize(camera);
 
 }
 #pragma endregion
@@ -53,7 +53,7 @@ void MapCreateScene::objUpdate(DebugCamera* camera)
 {
 	Field::GetInstance()->Update(camera);
 
-	MapCreate::UpdateBoxModel(camera);
+	MapCreate::ObjectUpdate(camera);
 }
 #pragma endregion
 
@@ -77,6 +77,8 @@ void MapCreateScene::Initialize()
 	//
 	c_postEffect = Default;
 
+	CameraPosition.z = -190;
+	CameraPosition.y = 50;
 }
 #pragma endregion
 
@@ -89,16 +91,14 @@ void MapCreateScene::Update()
 	//マウスの入力状態取得
 	
 	//カメラ関係の処理
-	camera->SetEye({ MapCreate::GetBoxPosition().x,MapCreate::GetBoxPosition().y+30,MapCreate::GetBoxPosition().z-100});
-	camera->SetTarget({MapCreate::GetBoxPosition()});
+	camera->SetEye(CameraPosition);
+	camera->SetTarget({ CameraPosition.x,CameraPosition.y-15,CameraPosition.z+20});
 	camera->Update();
 
 
 	objUpdate(camera);//オブジェクトの更新処理
 	//Player::GetInstance()->Update({ 1,1,1,1 }, camera);
-	MapCreate::EnemyArgment(camera);
-	MapCreate::WoodArgments(camera);
-	MapCreate::FenceArgments(camera);
+	MapCreate::ObjectArgment(camera);
 	//シーンチェンジ
 
 	if (Input::GetInstance()->TriggerKey(DIK_R)) {//押されたら
@@ -109,24 +109,12 @@ void MapCreateScene::Update()
 }
 #pragma endregion 
 
-//スプライトの描画
-#pragma region モデルの描画
-void MapCreateScene::SpriteDraw()
-{
 
-	Field::GetInstance()->Draw();
-
-	MapCreate::EnemyDraw();
-	MapCreate::WoodDraw();
-	MapCreate::FenceDraw();
-	MapCreate::DrawBoxModel();
-	
-}
 //sプライと以外の描画
 void MapCreateScene::MyGameDraw()
 {
-	SpriteDraw();
-
+	Field::GetInstance()->Draw();
+	MapCreate::ObjectDraw();
 }
 #pragma endregion
 //↓に入る
@@ -167,10 +155,7 @@ void MapCreateScene::Draw()
 
 void MapCreateScene::ImGuiDraw()
 {
-	MapCreate::ImguiDraw_Enemy();
-	MapCreate::ImguiDraw_Wood();
-	MapCreate::ImguiDraw_Fence();
-
+	MapCreate::ImGuiDraw();
 	if (ImGui::RadioButton("Scene_Create", t)) {
 		BaseScene* scene = new PlayScene(sceneManager_);//次のシーンのインスタンス生成
 		sceneManager_->SetnextScene(scene);//シーンのセット

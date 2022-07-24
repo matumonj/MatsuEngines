@@ -60,9 +60,9 @@ void PlaceFence::Update(DebugCamera* camera)
 
 void PlaceFence::Draw()
 {
-	//Obj->PreDraw();
+	Obj->PreDraw();
 	Obj->Draw();
-	//Obj->PostDraw();
+	Obj->PostDraw();
 	for (std::unique_ptr<AreaFence>& fence : fences) {
 		if (fence != nullptr) {
 			//enemy->PreDraw();

@@ -67,8 +67,9 @@ void PlaceWood::Draw()
 			//enemy->PostDraw();
 		}
 	}
+	Obj->PreDraw();
 	Obj->Draw();
-	//Obj->PostDraw();
+	Obj->PostDraw();
 
 }
 
