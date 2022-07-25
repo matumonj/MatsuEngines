@@ -19,9 +19,10 @@ MapCreate::MapCreate()
 
 void MapCreate::ObjectInitialize(DebugCamera*camera)
 {
-	placeobj.push_back(new PlaceFence());
-	placeobj.push_back(new PlaceWood());
-	placeobj.push_back(new PlaceEnemy());
+	//ここに設置物newしていくだけ
+	placeobj.push_back(new PlaceFence());//柵
+	placeobj.push_back(new PlaceWood());//木
+	placeobj.push_back(new PlaceEnemy());//敵
 	
 	for (auto obj :placeobj)
 		obj->Initialize(camera);//モデル用意、初期化
