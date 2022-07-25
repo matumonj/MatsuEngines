@@ -21,7 +21,7 @@ private: // エイリアス
 	using XMVECTOR = DirectX::XMVECTOR;
 
 private:
-	std::unique_ptr<Player>player;
+	//std::unique_ptr<Player>player;
 	int Enemy_Quantity;
 	std::vector<std::unique_ptr<Enemy>>enemys;
 	std::vector <XMFLOAT3>Load_EnemyPosition;
@@ -34,6 +34,8 @@ private:
 
 	BehaviorTree behavior;
 public:
+	static EnemyControl* GetInstance();
+
 	void LoadEnemy(DebugCamera*camera);
 
 	void Initialize(DebugCamera* camera);
@@ -43,5 +45,8 @@ public:
 	void Draw();
 
 	void ImGuiDraw();
+
+	std::unique_ptr<Enemy>&GetEnemy(int index) { return enemys[index]; }
+	int GetQuentity() { return Enemy_Quantity; }
 };
 

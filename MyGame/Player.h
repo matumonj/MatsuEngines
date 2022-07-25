@@ -108,6 +108,7 @@ public:
 	void ImguiDraw();
 	void RecvDamage(int Damage) { HP = HP - Damage; }
 	int GetHP() { return HP; }
+
 private:
 	//imgui•\Ž¦—p
 	//Œã‚Åconst‚È‚Ç‚É’u‚«Š·‚¦

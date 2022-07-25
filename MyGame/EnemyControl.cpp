@@ -11,6 +11,12 @@
 #include"SistemConfig.h"
 #include"EnemyAttackJudgement.h"
 
+EnemyControl* EnemyControl::GetInstance()
+{
+	static EnemyControl instance;
+	return &instance;
+}
+
 void EnemyControl::LoadEnemy(DebugCamera*camera)
 {
 	file.open("EnemyParam_CSV/open.csv");

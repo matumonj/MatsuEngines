@@ -23,6 +23,9 @@
 #include"EnemyAttackAction.h"
 #include"SistemConfig.h"
 #include"EnemyAttackJudgement.h"
+#include"EnemyControl.h"
+#include"WoodControl.h"
+#include"FenceControl.h"
 //シーンのコンストラクタ
 PlayScene::PlayScene(SceneManager* sceneManager)
 	:BaseScene(sceneManager)
@@ -79,36 +82,13 @@ void PlayScene::objUpdate(DebugCamera* camera)
 	XMFLOAT3 oldp = Player::GetInstance()->GetPosition();
 	Player::GetInstance()->Update({ 1,1,1,p_alpha }, camera);
 
-	for (int i = 0; i < Enemy_Quantity; i++) {
-		if (enemys[i] != nullptr) {
-			enemys[i]->SetMoveFlag(true);
-			enemys[i]->Update({ 1,1,1,e_alpha }, camera);
-			enemys[i]->SearchAction(camera);
-		}
-	}
-	for (int i = 0; i < Wood_Quantity; i++) {
-		if (woods[i] != nullptr) {
+	if (EnemyControl::GetInstance()->GetQuentity() > 1) {
+		EnemyControl::GetInstance()->Update(camera);
 
-			woods[i]->Update(camera);
-		}
-	}
-	for (int i = 0; i < Fence_Quantity; i++) {
-		if (fences[i] != nullptr) {
+		FenceControl::GetInstance()->Update(camera);
 
-			fences[i]->Update(camera);
-		}
+		WoodControl::GetInstance()->Update(camera);
 	}
-	for (int i = 0; i < Wood_Quantity; i++) {
-
-		if (woods[i]->CollideWood() == true) {
-			Player::GetInstance()->SetPosition(oldp);
-			Player::GetInstance()->SetGround(true);
-			break;
-		} else {
-			turnoff_player = false;
-		}
-	}
-
 }
 #pragma endregion
 
@@ -116,17 +96,7 @@ void PlayScene::objUpdate(DebugCamera* camera)
 void PlayScene::Initialize()
 {
 	input = Input::GetInstance();
-	behavior.AddNode("", "Root", 0, BehaviorTree::SELECT_RULE::PRIORITY, NULL, NULL);
-	behavior.AddNode("Root", "Attack", 1, BehaviorTree::SELECT_RULE::NON, EnemyAttackJudgement::GetInstance(), EnemyAttackAction::GetInstance());
-	behavior.AddNode("Root", "Walk", 2, BehaviorTree::SELECT_RULE::NON, WalkJudgment::GetInstance(), WalkAction::GetInstance());
-	behavior.AddNode("Root", "Follow", 3, BehaviorTree::SELECT_RULE::NON, FollowJudgement::GetInstance(), FollowAction::GetInstance());
-	//behavior.AddNode("Att", "MagicAttack", 2, BehaviorTree::SELECT_RULE::NON, MagicAttackJudgment::GetInstance(), MagicAction::GetInstance());
-		//behavior.AddNode("Attack", "SkillAttack", 3, BehaviorTree::SELECT_RULE::NON, SkillAttackJudgment::GetInstance(), SkillAction::GetInstance());
-
-
 	TargetMarker::GetInstance()->Initialize();
-	//
-	pobbcol = new OBBCollision();
 	// カメラ生成
 	camera = new DebugCamera(WinApp::window_width, WinApp::window_height/*input*/);
 	// 3Dオブジェクトにカメラをセット
@@ -145,6 +115,7 @@ void PlayScene::Initialize()
 	//グラフィックパイプライン生成
 	f_Object3d::CreateGraphicsPipeline();
 
+	EnemyControl::GetInstance()->Initialize(camera);
 	Player::GetInstance()->Initialize(camera);
 
 	postEffect = new PostEffect();
@@ -195,8 +166,6 @@ void PlayScene::Update()
 
 		PlayerAttackState::GetInstance()->Update(enemys);
 		
-		TutorialFenceOpen = enemys[0]->GetHP() <= 0;
-		fences[0]->FenceOpenCondition(TutorialFenceOpen);
 	}
 
 	objUpdate(camera);//オブジェクトの更新処理
@@ -230,23 +199,13 @@ void PlayScene::SpriteDraw()
 		Player::GetInstance()->Draw();
 	}
 	Player::GetInstance()->PostDraw();
-	for (int i = 0; i < Enemy_Quantity; i++) {
-		if (enemys[i] != nullptr&&enemys[i]->State_Dead()==false) {
-			if (!turnoff_enemy) {//デバッグ用
-				enemys[i]->Draw();
-				enemys[i]->SearchDraw();
-			}
-		}
-	}
-	for (int i = 0; i < Wood_Quantity; i++) {
-		if (woods[i] != nullptr) {
-			woods[i]->Draw();
-		}
-	}
-	for (int i = 0; i < Fence_Quantity; i++) {
-		if (fences[i] != nullptr) {
-			fences[i]->Draw();
-		}
+
+	if (EnemyControl::GetInstance()->GetQuentity()>1) {
+		EnemyControl::GetInstance()->Draw();
+
+		WoodControl::GetInstance()->Draw();
+
+		FenceControl::GetInstance()->Draw();
 	}
 }
 //sプライと以外の描画
@@ -371,21 +330,7 @@ void PlayScene::ImGuiDraw()
 		ImGui::End();
 	}
 	//
-	{//敵
-		ImGui::Begin("Enemy");
-		POINT p;
-		GetCursorPos(&p);
-		ImGui::Text(" Maus %d", p.x);
-		///ScreenToClient(FindWindowA("DirectX", nullptr), &p);
 
-		ImGui::Text(" Enemy_Quantitys %d", Enemy_Quantity);
-
-		ImGui::Text(" EY %f", ey);
-
-		ImGui::Text(" EY2 %f", ey1);
-		
-		ImGui::End();
-	}
 	{
 		ImGui::Begin("Drawing");
 		ImGui::Checkbox("TurnOff_Player", &turnoff_player);
@@ -425,256 +370,23 @@ void PlayScene::Finalize()
 void PlayScene::LoadParam()
 {
 	if(LoadEnemy){
-		//file2.open("EnemyParam_CSV/position.csv");
-		file.open("EnemyParam_CSV/open.csv");
-		//file2.open("EnemyParam_CSV/wood.csv");
-
-		popcom << file.rdbuf();
-
-		//popcom2 << file2.rdbuf();
-		
-		file.close();
-		//file2.close();
-		//return oi;
-		//fopen_s(&fp, "posxx.json", "r");
-		/*流れとしては
-		敵の数読み込み->
-		読み込んだ敵の数分エネミーのパラメータ配列の要素数増やす->
-		敵の数分作ったら配列の中身をロードしたものに->
-		敵の番号が1だったらα,2だったらβでインスタンス生成、初期化
-		*/
-		//fread(&Enemy_Quantity, sizeof(int), 1, fp);
-		while (std::getline(popcom, line)) {
-			std::istringstream line_stream(line);
-			std::string word;
-			std::getline(line_stream, word, ',');
-
-			if (word.find("//") == 0) {
-				continue;
-			}
-			if (word.find("Enemy_Quantity") == 0) {
-				std::getline(line_stream, word, ',');
-				int quantity = (int)std::atof(word.c_str());
-				Enemy_Quantity = quantity;
-				break;
-			}
-		}
-		Num.resize(Enemy_Quantity);
-		stpos.resize(Enemy_Quantity);
-		for (int i = 0; i < Enemy_Quantity; i++) {
-			while (std::getline(popcom, line)) {
-				std::istringstream line_stream(line);
-				std::string word;
-				std::getline(line_stream, word, ',');
-
-				if (word.find("//") == 0) {
-					continue;
-				}
-				if (word.find("Number") == 0) {
-					std::getline(line_stream, word, ',');
-					int number = (int)std::atof(word.c_str());
-					Num[i] = number;
-				}
-				else if (word.find("POP") == 0) {
-					std::getline(line_stream, word, ',');
-					float x = (float)std::atof(word.c_str());
-
-					std::getline(line_stream, word, ',');
-					float y = (float)std::atof(word.c_str());
-
-					std::getline(line_stream, word, ',');
-					float z = (float)std::atof(word.c_str());
-					
-					stpos[i] = { x,y,z };
-					break;
-				}
-			}
-		}
-		enemys.resize(Enemy_Quantity);
-
-		Load_EnemyPosition.resize(Enemy_Quantity);
-
-		for (int i = 0; i < Enemy_Quantity; i++) {
-
-			//初期化処理
-			if (Num[i] == 1) {
-				enemys[i] = std::make_unique<MobEnemy>(&behavior, 100.0f, 100.0f, 30.0f, 10.0f);
-			}
-			if (Num[i] == 2) {
-				enemys[i] = std::make_unique<BossEnemy>(&behavior, 100.0f, 100.0f, 30.0f, 10.0f);
-			}
-
-			enemys[i]->Initialize(camera);
-			enemys[i]->SetEnemyPosition(stpos[i]);
-			enemys[i]->SearchInit();
-		}
-		
-		//fclose(fp);
-		//LoadEnemy = false;
+		EnemyControl::GetInstance()->LoadEnemy(camera);
 		hudload = true;
 	}
 }
-
-
 
 void PlayScene::LoadParam_Wood()
 {
 	if (LoadEnemy) {
-		//file2.open("EnemyParam_CSV/position.csv");
-		//file.open("EnemyParam_CSV/open.csv");
-		file2.open("EnemyParam_CSV/wood.csv");
-
-		//popcom << file.rdbuf();
-
-		popcom2 << file2.rdbuf();
-
-		//file.close();
-		file2.close();
-		//return oi;
-		//fopen_s(&fp, "posxx.json", "r");
-		/*流れとしては
-		敵の数読み込み->
-		読み込んだ敵の数分エネミーのパラメータ配列の要素数増やす->
-		敵の数分作ったら配列の中身をロードしたものに->
-		敵の番号が1だったらα,2だったらβでインスタンス生成、初期化
-		*/
-		//fread(&Enemy_Quantity, sizeof(int), 1, fp);
-		while (std::getline(popcom2, line2)) {
-			std::istringstream line_stream(line2);
-			std::string word;
-			std::getline(line_stream, word, ',');
-
-			if (word.find("//") == 0) {
-				continue;
-			}
-			if (word.find("Wood_Quantity") == 0) {
-				std::getline(line_stream, word, ',');
-				int quantity = (int)std::atof(word.c_str());
-				Wood_Quantity = quantity;
-				break;
-			}
-		}
-		Wood_Num.resize(Wood_Quantity);
-		woodpos.resize(Wood_Quantity);
-		for (int i = 0; i < Wood_Quantity; i++) {
-			while (std::getline(popcom2, line2)) {
-				std::istringstream line_stream(line2);
-				std::string word;
-				std::getline(line_stream, word, ',');
-
-				if (word.find("//") == 0) {
-					continue;
-				}
-				 if (word.find("POP") == 0) {
-					std::getline(line_stream, word, ',');
-					float x = (float)std::atof(word.c_str());
-
-					std::getline(line_stream, word, ',');
-					float y = (float)std::atof(word.c_str());
-
-					std::getline(line_stream, word, ',');
-					float z = (float)std::atof(word.c_str());
-
-					woodpos[i] = { x,y,z };
-					break;
-				}
-			}
-		}
-		woods.resize(Wood_Quantity);
-
-		Load_WoodPosition.resize(Wood_Quantity);
-
-		for (int i = 0; i < Wood_Quantity; i++) {
-
-			woods[i] = std::make_unique<Wood>();
-			
-			woods[i]->Initialize(camera);
-			woods[i]->SetPosition(woodpos[i]);
-		}
-
-		//fclose(fp);
+		WoodControl::GetInstance()->LoadWood(camera);
 		hudload = true;
 	}
 }
 
-
-
 void PlayScene::LoadParam_Fence()
 {
 	if (LoadEnemy) {
-		//file2.open("EnemyParam_CSV/position.csv");
-		//file.open("EnemyParam_CSV/open.csv");
-		file3.open("EnemyParam_CSV/fence.csv");
-
-		//popcom << file.rdbuf();
-
-		popcom3 << file3.rdbuf();
-
-		//file.close();
-		file3.close();
-		//return oi;
-		//fopen_s(&fp, "posxx.json", "r");
-		/*流れとしては
-		敵の数読み込み->
-		読み込んだ敵の数分エネミーのパラメータ配列の要素数増やす->
-		敵の数分作ったら配列の中身をロードしたものに->
-		敵の番号が1だったらα,2だったらβでインスタンス生成、初期化
-		*/
-		//fread(&Enemy_Quantity, sizeof(int), 1, fp);
-		while (std::getline(popcom3, line3)) {
-			std::istringstream line_stream(line3);
-			std::string word;
-			std::getline(line_stream, word, ',');
-
-			if (word.find("//") == 0) {
-				continue;
-			}
-			if (word.find("Fence_Quantity") == 0) {
-				std::getline(line_stream, word, ',');
-				int quantity = (int)std::atof(word.c_str());
-				Fence_Quantity = quantity;
-				break;
-			}
-		}
-		Fence_Num.resize(Fence_Quantity);
-		fencepos.resize(Fence_Quantity);
-		for (int i = 0; i <Fence_Quantity; i++) {
-			while (std::getline(popcom3, line3)) {
-				std::istringstream line_stream(line3);
-				std::string word;
-				std::getline(line_stream, word, ',');
-
-				if (word.find("//") == 0) {
-					continue;
-				}
-				if (word.find("POP") == 0) {
-					std::getline(line_stream, word, ',');
-					float x = (float)std::atof(word.c_str());
-
-					std::getline(line_stream, word, ',');
-					float y = (float)std::atof(word.c_str());
-
-					std::getline(line_stream, word, ',');
-					float z = (float)std::atof(word.c_str());
-
-					fencepos[i] = { x,y,z };
-					break;
-				}
-			}
-		}
-		fences.resize(Fence_Quantity);
-
-		Load_FencePosition.resize(Fence_Quantity);
-
-		for (int i = 0; i < Fence_Quantity; i++) {
-
-			fences[i] = std::make_unique<AreaFence>();
-
-			fences[i]->Initialize(camera);
-			fences[i]->SetPosition(fencepos[i]);
-		}
-
-		//fclose(fp);
+		FenceControl::GetInstance()->LoadFences(camera);
 		LoadEnemy = false;
 	}
 }
