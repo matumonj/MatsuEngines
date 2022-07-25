@@ -21,17 +21,8 @@
 #include"Effects.h"
 #include"TargetMarker.h"
 #include"GameUI.h"
-#include"OBBCollision.h"
-#include"AreaFence.h"
-#include"HintBoard.h"
-#include"BehaviorTree.h"
-#include"Wood.h"
-#include "PhysicsAction.h"
-#include<fstream>
-#include<string>
-#include<sstream>
-#include<ostream>
-#include <iostream>
+#include"ControlBase.h"
+
 #pragma comment(lib,"winmm.lib")
 class CollisionManager;
 class Player;
@@ -74,37 +65,10 @@ private:
 	DirectXCommon* dxcomn;
 	Sprite* background = nullptr;
 	DebugTxt* debugText;
-	OBB pobb;// = nullptr;
-	OBB eobb;// = nullptr;
-	OBBCollision* pobbcol = nullptr;
-	
-	//Player* player = nullptr;
-	
-	Object3d* yugudo3d = nullptr;
 
-
-	Model* playermodel = nullptr;
-	Model* model = nullptr;
-	Model* model2 = nullptr;
-	Model* model5;
-	Model* yugudo = nullptr;
-	
 	PostEffect* postEffect = nullptr;
 	DebugCamera* camera;
-	int Enemy_Quantity;
-	int Wood_Quantity;
-	int Fence_Quantity;
-	//XMFLOAT3 posxs;
-	FILE* fp;
-	//std::vector<Enemy> enemys;
 
-	std::vector<std::unique_ptr<Enemy>>enemys;
-	std::vector <XMFLOAT3>Load_EnemyPosition;
-	std::vector<std::unique_ptr<Wood>>woods;
-	std::vector <XMFLOAT3>Load_WoodPosition;
-	std::vector<std::unique_ptr<AreaFence>>fences;
-	std::vector <XMFLOAT3>Load_FencePosition;
-	Effects* effects;
 private:
 	float u;
 	XMFLOAT3 Player_Pos;// = player->GetPosition();
@@ -135,14 +99,9 @@ private://点光源
 
 	float SpotLightPos[3] = {10,0,0};
 	float SpotLightColor[3] = {1,1,1};
-	std::vector<int> Num;
-	std::vector<int> Wood_Num;
-	std::vector<int> Fence_Num;
+	
 public:
-	void SpriteCreate();
-	void ModelCreate(DebugCamera* camera);
-	void MyGameDraw();
-	void SetPrm();
+void MyGameDraw();
 	void objUpdate( DebugCamera* camera);
 
 public:
@@ -150,42 +109,15 @@ public:
 	void Initialize()override;
 	void Update()override;
 	void Draw()override;
-	void PreBackGround();
-	void BackGround();
 	void LoadParam();
-	void LoadParam_Wood();
-	void LoadParam_Fence();
-	void PostBackGround();
 	void SpriteDraw();
 	void ImGuiDraw();
 	void Finalize()override;
-	void r(size_t u);
 public:
 	XMFLOAT3 efkposition = { -50,-10,90 };
 	//エフェクト用(ただプログラムでつくれるものはプログラムで作る方がいい　多用はいくない)
-
-	f_Model* fbxmodel = nullptr;
-	f_Object3d* object1 = nullptr;
-
 	int c_postEffect=Default;
 private:
-	float staycount;
-	bool stayf;
-	std::vector<XMFLOAT3> stpos;
-	std::vector<XMFLOAT3> woodpos;
-	std::vector<XMFLOAT3> fencepos;
-	std::string line;
-	std::stringstream popcom;
-	std::string line2;
-	std::stringstream popcom2;
-	std::ifstream file;
-	std::ifstream file2;
-	std::string line3;
-	std::stringstream popcom3;
-	std::ifstream file3;
-	float ey;// = enemys[0]->GetRotation().y;
-	float ey1;// = enemys[1]->GetRotation().y;
-	BehaviorTree behavior;
 	enum {
 		Blur,
 		Default,
@@ -208,6 +140,8 @@ private:
 		bool CameraViewPoint_Third;
 		bool t, y;
 
-		bool TutorialFenceOpen;
+		private:
+			std::vector<Enemy*>subenemy;
+			
 };
 

@@ -10,43 +10,34 @@
 class EnemyControl :
     public ControlBase
 {
-private: // エイリアス
-// Microsoft::WRL::を省略
-	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
-	// DirectX::を省略
-	using XMFLOAT2 = DirectX::XMFLOAT2;
-	using XMFLOAT3 = DirectX::XMFLOAT3;
-	using XMFLOAT4 = DirectX::XMFLOAT4;
-	using XMMATRIX = DirectX::XMMATRIX;
-	using XMVECTOR = DirectX::XMVECTOR;
 
 private:
 	//std::unique_ptr<Player>player;
-	int Enemy_Quantity;
 	std::vector<std::unique_ptr<Enemy>>enemys;
 	std::vector <XMFLOAT3>Load_EnemyPosition;
 
-	std::vector<XMFLOAT3> stpos;
-	std::string line;
-	std::stringstream popcom;
-	std::ifstream file;
-	std::vector<int> Num;
-
 	BehaviorTree behavior;
+private:
+	enum {
+		ALPHAENEMY=1,
+		BETAENEMY=2,
+	};
 public:
 	static EnemyControl* GetInstance();
 
-	void LoadEnemy(DebugCamera*camera);
+	void Load(DebugCamera*camera)override;
 
-	void Initialize(DebugCamera* camera);
+	void Initialize(DebugCamera* camera)override;
 
-	void Update(DebugCamera* camera);
+	void Update(DebugCamera* camera)override;
 
-	void Draw();
+	void Draw()override;
 
 	void ImGuiDraw();
 
-	std::unique_ptr<Enemy>&GetEnemy(int index) { return enemys[index]; }
-	int GetQuentity() { return Enemy_Quantity; }
+	std::vector<std::unique_ptr<Enemy>> &GetEnemyindex(int index);// { return enemys[index].get(); }
+
+private:
+	//::vector<Enemy*>
 };
 

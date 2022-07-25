@@ -14,10 +14,10 @@
 EnemyControl* EnemyControl::GetInstance()
 {
 	static EnemyControl instance;
-	return &instance;
-}
 
-void EnemyControl::LoadEnemy(DebugCamera*camera)
+	return&instance;
+}
+void EnemyControl::Load(DebugCamera*camera)
 {
 	file.open("EnemyParam_CSV/open.csv");
 	//file2.open("EnemyParam_CSV/wood.csv");
@@ -48,13 +48,13 @@ void EnemyControl::LoadEnemy(DebugCamera*camera)
 		if (word.find("Enemy_Quantity") == 0) {
 			std::getline(line_stream, word, ',');
 			int quantity = (int)std::atof(word.c_str());
-			Enemy_Quantity = quantity;
+			Quantity = quantity;
 			break;
 		}
 	}
-	Num.resize(Enemy_Quantity);
-	stpos.resize(Enemy_Quantity);
-	for (int i = 0; i < Enemy_Quantity; i++) {
+	Num.resize(Quantity);
+	pos.resize(Quantity);
+	for (int i = 0; i < Quantity; i++) {
 		while (std::getline(popcom, line)) {
 			std::istringstream line_stream(line);
 			std::string word;
@@ -77,27 +77,27 @@ void EnemyControl::LoadEnemy(DebugCamera*camera)
 				std::getline(line_stream, word, ',');
 				float z = (float)std::atof(word.c_str());
 
-				stpos[i] = { x,y,z };
+				pos[i] = { x,y,z };
 				break;
 			}
 		}
 	}
-	enemys.resize(Enemy_Quantity);
+	enemys.resize(Quantity);
 
-	Load_EnemyPosition.resize(Enemy_Quantity);
+	Load_EnemyPosition.resize(Quantity);
 
-	for (int i = 0; i < Enemy_Quantity; i++) {
+	for (int i = 0; i < Quantity; i++) {
 
 		//‰Šú‰»ˆ—
-		if (Num[i] == 1) {
+		if (Num[i] == ALPHAENEMY) {
 			enemys[i] = std::make_unique<MobEnemy>(&behavior, 100.0f, 100.0f, 30.0f, 10.0f);
 		}
-		if (Num[i] == 2) {
+		if (Num[i] == BETAENEMY) {
 			enemys[i] = std::make_unique<BossEnemy>(&behavior, 100.0f, 100.0f, 30.0f, 10.0f);
 		}
 
 		enemys[i]->Initialize(camera);
-		enemys[i]->SetEnemyPosition(stpos[i]);
+		enemys[i]->SetEnemyPosition(pos[i]);
 		enemys[i]->SearchInit();
 	}
 }
@@ -112,7 +112,7 @@ void EnemyControl::Initialize(DebugCamera* camera)
 
 void EnemyControl::Update(DebugCamera* camera)
 {
-	for (int i = 0; i < Enemy_Quantity; i++) {
+	for (int i = 0; i < Quantity; i++) {
 		if (enemys[i] != nullptr) {
 			enemys[i]->SetMoveFlag(true);
 			enemys[i]->Update({ 1,1,1,1 }, camera);
@@ -123,7 +123,7 @@ void EnemyControl::Update(DebugCamera* camera)
 
 void EnemyControl::Draw()
 {
-	for (int i = 0; i < Enemy_Quantity; i++) {
+	for (int i = 0; i < Quantity; i++) {
 		if (enemys[i] != nullptr && enemys[i]->State_Dead() == false) {
 				enemys[i]->Draw();
 				enemys[i]->SearchDraw();
@@ -133,14 +133,10 @@ void EnemyControl::Draw()
 
 void EnemyControl::ImGuiDraw()
 {
-	{//“G
-		ImGui::Begin("Enemy");
-		POINT p;
-		GetCursorPos(&p);
-		ImGui::Text(" Maus %d", p.x);
-		///ScreenToClient(FindWindowA("DirectX", nullptr), &p);
 
-		ImGui::Text(" Enemy_Quantitys %d", Enemy_Quantity);
-		ImGui::End();
-	}
+}
+
+std::vector<std::unique_ptr<Enemy>> &EnemyControl::GetEnemyindex(int index)
+{
+	return enemys;
 }

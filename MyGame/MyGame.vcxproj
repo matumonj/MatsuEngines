@@ -233,6 +233,7 @@
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="TouchableObject.cpp" />
+    <ClCompile Include="UI.cpp" />
     <ClCompile Include="WalkAction.cpp" />
     <ClCompile Include="WalkJudgement.cpp" />
     <ClCompile Include="WinApp.cpp" />
@@ -476,6 +477,7 @@
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="TouchableObject.h" />
+    <ClInclude Include="UI.h" />
     <ClInclude Include="WalkAction.h" />
     <ClInclude Include="WalkJudgement.h" />
     <ClInclude Include="WinApp.h" />
