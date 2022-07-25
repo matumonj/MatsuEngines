@@ -139,6 +139,9 @@
     <Filter Include="Editor\配置管理\敵">
       <UniqueIdentifier>{4a80af31-86c4-427f-a61a-d3c249b08ff3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Control">
+      <UniqueIdentifier>{5c24b4a8-8a3e-455d-8388-92ad21b1dd11}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="BlurPS.hlsl">
@@ -405,9 +408,6 @@
     <ClCompile Include="EnemyAttackJudgement.cpp">
       <Filter>ソース ファイル\gameobject\Enemy\Behavior</Filter>
     </ClCompile>
-    <ClCompile Include="WoodManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="ConfigSprite.cpp">
       <Filter>ソース ファイル\Config</Filter>
     </ClCompile>
@@ -452,6 +452,21 @@
     </ClCompile>
     <ClCompile Include="PlaceEnemy.cpp">
       <Filter>Editor\配置管理\敵</Filter>
+    </ClCompile>
+    <ClCompile Include="ControlBase.cpp">
+      <Filter>ソース ファイル\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyControl.cpp">
+      <Filter>ソース ファイル\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="FenceControl.cpp">
+      <Filter>ソース ファイル\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="WoodControl.cpp">
+      <Filter>ソース ファイル\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="WoodManager.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -772,6 +787,18 @@
     </ClInclude>
     <ClInclude Include="PlaceEnemy.h">
       <Filter>Editor\配置管理\敵</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyControl.h">
+      <Filter>ソース ファイル\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="FenceControl.h">
+      <Filter>ソース ファイル\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="ControlBase.h">
+      <Filter>ソース ファイル\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="WoodControl.h">
+      <Filter>ソース ファイル\Control</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

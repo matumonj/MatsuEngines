@@ -27,7 +27,7 @@ private:
 	//設置オブジェクトの数[木・柵・敵]
 	static const int ObjType_Num=3;
 	//設置オブジェクト
-	static CreateObjManager* placeobj[ObjType_Num];
+	static std::vector<CreateObjManager*> placeobj;
 public:
 	//ImGui
 	static void ImGuiDraw();

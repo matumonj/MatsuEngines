@@ -150,6 +150,7 @@
     <ClCompile Include="BehaviorDatas.cpp" />
     <ClCompile Include="BehaviorTree.cpp" />
     <ClCompile Include="ConfigSprite.cpp" />
+    <ClCompile Include="ControlBase.cpp" />
     <ClCompile Include="CreateObjManager.cpp" />
     <ClCompile Include="EnemyActionBase.cpp" />
     <ClCompile Include="Audio.cpp" />
@@ -178,7 +179,9 @@
     <ClCompile Include="EnemyState.cpp" />
     <ClCompile Include="EnemyStayState.cpp" />
     <ClCompile Include="EnemyWalkState.cpp" />
+    <ClCompile Include="EnemyControl.cpp" />
     <ClCompile Include="FbxLoader.cpp" />
+    <ClCompile Include="FenceControl.cpp" />
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="FieldCollision.cpp" />
     <ClCompile Include="FollowAction.cpp" />
@@ -234,6 +237,7 @@
     <ClCompile Include="WalkJudgement.cpp" />
     <ClCompile Include="WinApp.cpp" />
     <ClCompile Include="Wood.cpp" />
+    <ClCompile Include="WoodControl.cpp" />
     <ClCompile Include="WoodManager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -380,6 +384,7 @@
     <ClInclude Include="BehaviorDatas.h" />
     <ClInclude Include="BehaviorTree.h" />
     <ClInclude Include="ConfigSprite.h" />
+    <ClInclude Include="ControlBase.h" />
     <ClInclude Include="CreateObjManager.h" />
     <ClInclude Include="Destroy.h" />
     <ClInclude Include="EnemyActionBase.h" />
@@ -413,7 +418,9 @@
     <ClInclude Include="EnemyState.h" />
     <ClInclude Include="EnemyStayState.h" />
     <ClInclude Include="EnemyWalkState.h" />
+    <ClInclude Include="EnemyControl.h" />
     <ClInclude Include="FbxLoader.h" />
+    <ClInclude Include="FenceControl.h" />
     <ClInclude Include="Field.h" />
     <ClInclude Include="FieldCollision.h" />
     <ClInclude Include="FollowAction.h" />
@@ -474,6 +481,7 @@
     <ClInclude Include="WinApp.h" />
     <ClInclude Include="ExecJudgmentBase.h" />
     <ClInclude Include="Wood.h" />
+    <ClInclude Include="WoodControl.h" />
     <ClInclude Include="WoodManager.h" />
   </ItemGroup>
   <ItemGroup>

@@ -10,7 +10,7 @@
 #include"PlaceFence.h"
 #include"PlaceWood.h"
 #include"PlaceEnemy.h"
-CreateObjManager* MapCreate::placeobj[] = {};
+std::vector<CreateObjManager*> MapCreate::placeobj = {};
  bool MapCreate::savef = false;
 MapCreate::MapCreate()
 {
@@ -19,37 +19,33 @@ MapCreate::MapCreate()
 
 void MapCreate::ObjectInitialize(DebugCamera*camera)
 {
-	placeobj[0] = new PlaceFence();//柵
-	placeobj[1] = new PlaceWood();//木
-	placeobj[2] = new PlaceEnemy();//敵
-
-	for (int i = 0; i < ObjType_Num; i++) {
-		placeobj[i]->Initialize(camera);//モデル用意、初期化
-	}
+	placeobj.push_back(new PlaceFence());
+	placeobj.push_back(new PlaceWood());
+	placeobj.push_back(new PlaceEnemy());
+	
+	for (auto obj :placeobj)
+		obj->Initialize(camera);//モデル用意、初期化
 }
 void MapCreate::ObjectUpdate(DebugCamera* camera)
 {
-	for (int i = 0; i < ObjType_Num; i++) {
-		placeobj[i]->Update(camera);//モデル更新
-	}
+	for (auto obj : placeobj)
+		obj->Update(camera);//モデル更新
 }
 
 void MapCreate::ObjectArgment(DebugCamera* camera)
 {
 	if (savef) {
-		for (int i = 0; i < ObjType_Num; i++) {
-			placeobj[i]->FileWriting();//csvへの書き込み
-		}
+		for (auto obj : placeobj)
+			obj->FileWriting();//csvへの書き込み
 	}
-	for (int i = 0; i < ObjType_Num; i++) {
-		placeobj[i]->ArgMent(camera);//配置オブジェクトの設置、更新
-	}
+	for (auto obj : placeobj) 
+		obj->ArgMent(camera);//配置オブジェクトの設置、更新
 }
 
 void MapCreate::ImGuiDraw()
 {	//ImGui描画周り
-	for (int i = 0; i < ObjType_Num; i++) {
-		placeobj[i]->ImGui_Draw();
+	for (auto obj : placeobj) {
+		obj->ImGui_Draw();
 	}
 	ImGui::Begin("SaveButton");
 	if (ImGui::Button("Save", ImVec2(90, 50))) {
@@ -59,8 +55,7 @@ void MapCreate::ImGuiDraw()
 }
 void MapCreate::ObjectDraw()
 {
-	for (int i = 0; i < ObjType_Num; i++) {
-		placeobj[i]->Draw();//モデル、設置物の描画
-	}
+	for (auto obj : placeobj )
+		obj->Draw();//モデル、設置物の描画
 }
 
