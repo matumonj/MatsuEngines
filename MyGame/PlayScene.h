@@ -142,6 +142,6 @@ private:
 
 		private:
 			std::vector<Enemy*>subenemy;
-			
+			std::vector<ControlBase*>AllObjectControl;
 };
 

@@ -6,7 +6,7 @@ class PlayerAttackState
 {
 public:
 
-	void Update(std::vector<std::unique_ptr<Enemy>>&enemy);
+	void Update();
 
 	enum AttackSkill
 	{

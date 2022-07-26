@@ -40,7 +40,7 @@ public://“G‘Ì—Í‚ÌHUD
 	std::vector<Texture*> EnemyHP_Border_Multi;
 	std::vector<Texture*>EnemyHP_Inner_Multi;
 	void EnemyHPGauge_MultiInitialize();
-	void EnemyHPGauge_MultiUpdate(bool& loadf,DebugCamera*camera, std::vector<Enemy*>enemy);
+	void EnemyHPGauge_MultiUpdate(bool& loadf,DebugCamera*camera, std::vector<std::unique_ptr<Enemy>>& enemy);
 	void EnemyHPGauge_MultiDraw();
 public:
 	XMFLOAT2 GetCenterPosition() { return CenterPosition; }

@@ -1,7 +1,7 @@
 
 #include "PlayerAttackState.h"
 #include"Input.h"
-
+#include"EnemyControl.h"
 PlayerAttackState* PlayerAttackState::GetInstance()
 {
 	static PlayerAttackState instance;
@@ -24,7 +24,7 @@ void PlayerAttackState::ComboAction()
 	
 }
 //std::vector<std::unique_ptr<Enemy>>
-void PlayerAttackState::Update(std::vector<std::unique_ptr<Enemy>>&enemy)
+void PlayerAttackState::Update()
 {
 	//enemys=std::move(enemy);
 	
@@ -59,13 +59,15 @@ void PlayerAttackState::Update(std::vector<std::unique_ptr<Enemy>>&enemy)
 	case PlayerAttackState::None:
 		break;
 	case PlayerAttackState::First:
-		FirstAttack(enemy);
+		FirstAttack(EnemyControl::GetInstance()->GetEnemyindex(1));
 		break;
 	case PlayerAttackState::Second:
-		SecondAttack(enemy);
+		SecondAttack(EnemyControl::GetInstance()->GetEnemyindex(1)
+		);
 		break;
 	case PlayerAttackState::Third:
-		ThirdAttack(enemy);
+		ThirdAttack(EnemyControl::GetInstance()->GetEnemyindex(1)
+		);
 		break;
 	}
 	//スキルクールダウン処理

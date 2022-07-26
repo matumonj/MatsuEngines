@@ -28,14 +28,14 @@ PlayScene::PlayScene(SceneManager* sceneManager)
 #pragma region オブジェクト+ライトの更新処理
 void PlayScene::objUpdate(DebugCamera* camera)
 {
-	XMFLOAT3 oldp = Player::GetInstance()->GetPosition();
-	
+
 	Player::GetInstance()->Update({ 1,1,1,p_alpha }, camera);
+	
 	if (EnemyControl::GetInstance()->GetQuentity() > 1) {
-		WoodControl::GetInstance()->Update(camera);
-		EnemyControl::GetInstance()->Update(camera);
-		FenceControl::GetInstance()->Update(camera);
-		PlayerAttackState::GetInstance()->Update(EnemyControl::GetInstance()->GetEnemyindex(1));
+		for (int i = 0; i < AllObjectControl.size(); i++) {
+			AllObjectControl[i]->Update(camera);
+		}
+		PlayerAttackState::GetInstance()->Update();
 		UI::GetInstance()->HUDUpdate(hudload, camera);
 
 	}
@@ -48,7 +48,10 @@ void PlayScene::objUpdate(DebugCamera* camera)
 #pragma region 初期化
 void PlayScene::Initialize()
 {
-	
+	AllObjectControl.push_back(WoodControl::GetInstance());
+	AllObjectControl.push_back(FenceControl::GetInstance());
+	AllObjectControl.push_back(EnemyControl::GetInstance());
+
 	input = Input::GetInstance();
 	TargetMarker::GetInstance()->Initialize();
 
@@ -83,10 +86,9 @@ void PlayScene::Initialize()
 	//グラフィックパイプライン生成
 	f_Object3d::CreateGraphicsPipeline();
 
-	WoodControl::GetInstance()->Initialize(camera);
-	EnemyControl::GetInstance()->Initialize(camera);
-	FenceControl::GetInstance()->Initialize(camera);
-
+	for (int i = 0; i < AllObjectControl.size(); i++) {
+		AllObjectControl[i]->Initialize(camera);
+	}
 	Player::GetInstance()->Initialize(camera);
 
 	postEffect = new PostEffect();
@@ -154,12 +156,9 @@ void PlayScene::SpriteDraw()
 	}
 	Player::GetInstance()->PostDraw();
 
-	if (EnemyControl::GetInstance()->GetQuentity()>1) {
-		WoodControl::GetInstance()->Draw();
-		EnemyControl::GetInstance()->Draw();
-		FenceControl::GetInstance()->Draw();
-
-	}
+		for (int i = 0; i < AllObjectControl.size(); i++) {
+			AllObjectControl[i]->Draw();
+		}
 }
 //sプライと以外の描画
 void PlayScene::MyGameDraw()
@@ -297,10 +296,9 @@ void PlayScene::Finalize()
 void PlayScene::LoadParam()
 {
 	if(LoadEnemy){
-		WoodControl::GetInstance()->Load(camera);
-		EnemyControl::GetInstance()->Load(camera);
-		FenceControl::GetInstance()->Load(camera);
-
+		for (int i = 0; i < AllObjectControl.size();i++) {
+			AllObjectControl[i]->Load(camera);
+		}
 		hudload = true;
 		LoadEnemy = false;
 	}

@@ -128,7 +128,7 @@ void HUD::EnemyHPGauge_MultiInitialize()
 	
 }
 
-void HUD::EnemyHPGauge_MultiUpdate(bool &loadf,DebugCamera* camera, std::vector<Enemy*>enemy)
+void HUD::EnemyHPGauge_MultiUpdate(bool &loadf,DebugCamera* camera, std::vector<std::unique_ptr<Enemy>>& enemy)
 {
 	if (loadf) {
 		for (int i = 0; i < enemy.size(); i++) {
