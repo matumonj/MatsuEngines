@@ -39,7 +39,7 @@ bool BossEnemy::Initialize(DebugCamera* camera)
 
 	//
 	Texture::LoadTexture(11, L"Resources/Sertch.png");
-	SearchPlayerTexture = Texture::Create(11, { 0,-50,50 }, { 1,1,1 }, { 1,1,1,1 });
+	SearchPlayerTexture = Texture::Create(11, { 0,-50,50 }, {1,1,1}, { 1, 1, 1, 1 });
 	SearchPlayerTexture->CreateTexture();
 	//パラメータのセット
 	Scale = { 2,2,2 };

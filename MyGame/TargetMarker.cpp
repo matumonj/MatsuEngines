@@ -12,10 +12,10 @@ TargetMarker* TargetMarker::GetInstance()
 }
 void TargetMarker::Initialize()
 {
-	Texture::LoadTexture(8, L"Resources/targetcircle.png");
-	TargetMakerTexture = Texture::Create(8, { 0,-50,50 }, { 1,1,1 }, { 1,1,1,1 });
+	Texture::LoadTexture(86, L"Resources/target.png");
+	TargetMakerTexture = Texture::Create(86, { 0,-50,50 }, { 1,1,1 }, { 1,1,1,1 });
 	TargetMakerTexture->CreateTexture();
-
+	TargetMakerTexture->SetAnchorPoint({ 0.5,0.5});
 	//MarkerPosition = { -10,2,0 };
 }
 
@@ -72,16 +72,16 @@ int TargetMarker::NearEnemySearch(std::vector<std::unique_ptr<Enemy>>& enemy, Pl
 	this->nearindex = nearindex;
 	return nearindex;
 }
-void TargetMarker::Update( DebugCamera* camera, Player* player)
+void TargetMarker::Update(DebugCamera* camera, Player* player)
 {
 	int tindex;
 	float ex, ey, ez;
 	tindex = NearEnemySearch(EnemyControl::GetInstance()->GetEnemyindex(1), player);
 	if (tindex != -1) {
-		GetEnemyPosition(EnemyControl::GetInstance()->GetEnemyindex(1),  tindex, &ex, &ey, &ez);//{ enemy[0]->GetPosition().x ,0, enemy[0]->GetPosition().z };
+		GetEnemyPosition(EnemyControl::GetInstance()->GetEnemyindex(1), tindex, &ex, &ey, &ez);//{ enemy[0]->GetPosition().x ,0, enemy[0]->GetPosition().z };
 	}
 	//マーカー位置をnowTargetに合わせる
-	MarkerPosition = { ex,ey,ez };
+	MarkerPosition = { ex,ey+10,ez };
 	nowTarget = MarkerPosition;
 
 	if (Input::GetInstance()->Pushkey(DIK_L)) {
@@ -91,17 +91,17 @@ void TargetMarker::Update( DebugCamera* camera, Player* player)
 		MarkerPosition.y -= 0.2f;
 	}
 
-	TargetMakerTexture->SetRotation({ rot, 0, 0 });
-
-	TargetMakerTexture->SetPosition(MarkerPosition);
 	TargetMakerTexture->Update(camera);
+	TargetMakerTexture->SetRotation({180, 0,0
+});
+	TargetMakerTexture->SetScale({3,3,3});
+	TargetMakerTexture->SetPosition(MarkerPosition);
+	
 }
 
 void TargetMarker::Draw()
 {
-	//Texture::PreDraw(dxcomn->GetCmdList());
 	TargetMakerTexture->Draw();
-	//Texture::PostDraw();
 }
 void TargetMarker::Finalize()
 {

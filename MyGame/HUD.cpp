@@ -142,8 +142,8 @@ void HUD::EnemyHPGauge_MultiUpdate(bool &loadf,DebugCamera* camera, std::vector<
 			Texture::LoadTexture(122, L"Resources/bosshp.png");
 			Texture::LoadTexture(123, L"Resources/lifegauge.png");
 
-			EnemyHP_Inner_Multi[i] = Texture::Create(122, { 0.0f,-200.0f,1 }, { 1,1,1 }, {1,1,1,1});
-			EnemyHP_Border_Multi[i] = Texture::Create(123, { 0.0f,-200.0f,1 }, { 1,1,1 }, { 1,1,1,1 });
+			EnemyHP_Inner_Multi[i] = Texture::Create(122, { 0.0f,-200.0f,1 }, { 1,1,1 } ,{1,1,1,1});
+			EnemyHP_Border_Multi[i] = Texture::Create(123, { 0.0f,-200.0f,1 }, { 1,1,1 } ,{ 1,1,1,1 });
 			//EnemyHP_Border_Multi[i]->SetPosition({ 80,860,1 });
 			EnemyHP_Inner_Multi[i]->CreateTexture();
 			EnemyHP_Border_Multi[i]->CreateTexture();
@@ -173,7 +173,7 @@ void HUD::EnemyHPGauge_MultiUpdate(bool &loadf,DebugCamera* camera, std::vector<
 			
 			EnemyHP_Inner_Multi[i]->Update(camera);
 			EnemyHP_Border_Multi[i]->Update(camera);
-			EnemyHP_Border_Multi[i]->SetScale({2.5,1,1 });
+			EnemyHP_Border_Multi[i]->SetScale({2.5,1,1});
 			EnemyHP_Border_Multi[i]->SetPosition({ enemy[i]->GetPosition().x, enemy[i]->GetPosition().y + 10.0f, enemy[i]->GetPosition().z });
 
 			EnemyHP_Inner_Multi[i]->SetPosition({ EnemyHP_Border_Multi[i]->GetPosition().x,EnemyHP_Border_Multi[i]->GetPosition().y, EnemyHP_Border_Multi[i]->GetPosition().z });

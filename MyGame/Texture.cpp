@@ -519,7 +519,7 @@ void Texture::Draw()
 }
 void Texture::TransferVertices()
 {
-	texSize = { 130,130};
+	
 	size = { scale.x,scale.y };
 	HRESULT result = S_FALSE;
 
@@ -543,6 +543,7 @@ void Texture::TransferVertices()
 	if (texbuff[texNumber])
 	{
 		D3D12_RESOURCE_DESC resDesc = texbuff[texNumber]->GetDesc();
+		texSize = { (float)resDesc.Width, (float)resDesc.Height };
 
 		float tex_left = texBase.x / resDesc.Width;
 		float tex_right = (texBase.x + texSize.x) / resDesc.Width;
@@ -567,17 +568,19 @@ Texture* Texture::Create(UINT texNumber, XMFLOAT3 position, XMFLOAT3 size, XMFLO
 {
 	// 仮サイズ
 	//size = { 10.0f, 10.0f,3 };
-
+	XMFLOAT3 ssize = { 100.0f, 100.0f,0 };
+	
 	if (texbuff[texNumber])
 	{
 		// テクスチャ情報取得
 		D3D12_RESOURCE_DESC resDesc = texbuff[texNumber]->GetDesc();
 		// スプライトのサイズをテクスチャのサイズに設定
-		size = { 1,1, 1 };
+		size = { (float)resDesc.Width, (float)resDesc.Height,0 };
+
 	}
 
 	// Spriteのインスタンスを生成
-	Texture* texture = new Texture(texNumber, position, size, color);
+	Texture* texture = new Texture(texNumber, position, ssize, color);
 	if (texture == nullptr) {
 		return nullptr;
 	}

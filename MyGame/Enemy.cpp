@@ -42,7 +42,7 @@ void Enemy::SearchInit()
 {
 	//普通のテクスチャ(スプライトじゃないよ)
 	Texture::LoadTexture(64, L"Resources/Sertch.png");
-	SearchTex = Texture::Create(64, { 0,0,0 }, { 20,20,1 }, { 1,1,1,1 });
+	SearchTex = Texture::Create(64, { 0,0,0 }, { 1,1,1 }, { 1,1,1,1 });
 	SearchTex->CreateTexture();
 }
 void Enemy::SearchAction(DebugCamera* camera)

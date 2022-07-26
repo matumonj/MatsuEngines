@@ -30,17 +30,11 @@
     <Filter Include="ソース ファイル\2d %28DebugTxt  Sprite Texture%29\posteffect">
       <UniqueIdentifier>{3aec48ac-9748-421e-b3b2-330ac8332409}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\audio">
-      <UniqueIdentifier>{3a331b0b-7e8a-4e0c-b7a3-7b527867ea08}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\base %28Dxcmn  Winapp  Input%29">
       <UniqueIdentifier>{d329b92f-f1df-4fd0-8987-7702493d45c0}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\collision">
       <UniqueIdentifier>{a5d15daa-90ff-4b7f-a438-af2ba141053a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\meffekseer">
-      <UniqueIdentifier>{c78c38e5-dd88-4b91-9520-79476c552f16}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\UI">
       <UniqueIdentifier>{dd958707-cbce-4c7f-9484-fc9b5fe5c097}</UniqueIdentifier>
@@ -53,9 +47,6 @@
     </Filter>
     <Filter Include="ソース ファイル\Scene\basescene">
       <UniqueIdentifier>{ba3e160d-6499-4593-ad7e-388c395ab9f1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\light">
-      <UniqueIdentifier>{183d173f-2d44-495f-b8c2-3ba74039a818}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\gameobject">
       <UniqueIdentifier>{21df807f-5c3c-43d9-9a7d-fa929d490fa6}</UniqueIdentifier>
@@ -90,9 +81,6 @@
     <Filter Include="ソース ファイル\Scene\framework">
       <UniqueIdentifier>{a1bad7c0-fa12-4aaf-8391-fafcad7f2b9f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\HUD">
-      <UniqueIdentifier>{bd73972b-f908-4972-97d0-c9526e6c2f1b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\gameobject\Field">
       <UniqueIdentifier>{73610235-772e-4e34-a679-8aa9b69c88a4}</UniqueIdentifier>
     </Filter>
@@ -111,12 +99,6 @@
     </Filter>
     <Filter Include="ソース ファイル\gameobject\Enemy\Behavior\NewFilter1">
       <UniqueIdentifier>{f68aec14-0133-485a-8493-f739f8943ce1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\camera">
-      <UniqueIdentifier>{133564d7-a6f9-464b-959e-0a1b2ee172da}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Config">
-      <UniqueIdentifier>{077ed855-3902-457a-805f-209d6816ad7a}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\gameobject\Wood">
       <UniqueIdentifier>{1e53207f-98d4-4911-ac85-c4378f04ff61}</UniqueIdentifier>
@@ -139,8 +121,26 @@
     <Filter Include="Editor\配置管理\敵">
       <UniqueIdentifier>{4a80af31-86c4-427f-a61a-d3c249b08ff3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Control">
+    <Filter Include="ソース ファイル\UI\HUD">
+      <UniqueIdentifier>{bd73972b-f908-4972-97d0-c9526e6c2f1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\gameobject\Control">
       <UniqueIdentifier>{5c24b4a8-8a3e-455d-8388-92ad21b1dd11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\UI\Config">
+      <UniqueIdentifier>{077ed855-3902-457a-805f-209d6816ad7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\gameobject\meffekseer">
+      <UniqueIdentifier>{c78c38e5-dd88-4b91-9520-79476c552f16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\gameobject\light">
+      <UniqueIdentifier>{183d173f-2d44-495f-b8c2-3ba74039a818}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\base %28Dxcmn  Winapp  Input%29\audio">
+      <UniqueIdentifier>{3a331b0b-7e8a-4e0c-b7a3-7b527867ea08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\gameobject\camera">
+      <UniqueIdentifier>{133564d7-a6f9-464b-959e-0a1b2ee172da}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -226,7 +226,7 @@
       <Filter>ソース ファイル\3d %28Model  Obj  Fbx%29\obj</Filter>
     </ClCompile>
     <ClCompile Include="Audio.cpp">
-      <Filter>ソース ファイル\audio</Filter>
+      <Filter>ソース ファイル\base %28Dxcmn  Winapp  Input%29\audio</Filter>
     </ClCompile>
     <ClCompile Include="DirectXCommon.cpp">
       <Filter>ソース ファイル\base %28Dxcmn  Winapp  Input%29</Filter>
@@ -238,10 +238,10 @@
       <Filter>ソース ファイル\base %28Dxcmn  Winapp  Input%29</Filter>
     </ClCompile>
     <ClCompile Include="DebugCamera.cpp">
-      <Filter>ソース ファイル\camera</Filter>
+      <Filter>ソース ファイル\gameobject\camera</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
-      <Filter>ソース ファイル\camera</Filter>
+      <Filter>ソース ファイル\gameobject\camera</Filter>
     </ClCompile>
     <ClCompile Include="BaseCollider.cpp">
       <Filter>ソース ファイル\collision</Filter>
@@ -274,7 +274,7 @@
       <Filter>ソース ファイル\Scene\basescene</Filter>
     </ClCompile>
     <ClCompile Include="LightGroup.cpp">
-      <Filter>ソース ファイル\light</Filter>
+      <Filter>ソース ファイル\gameobject\light</Filter>
     </ClCompile>
     <ClCompile Include="Effects.cpp">
       <Filter>ソース ファイル\gameobject\Effect</Filter>
@@ -292,7 +292,7 @@
       <Filter>ソース ファイル\gameobject\Enemy\派生クラス</Filter>
     </ClCompile>
     <ClCompile Include="mEffekseer.cpp">
-      <Filter>ソース ファイル\meffekseer</Filter>
+      <Filter>ソース ファイル\gameobject\meffekseer</Filter>
     </ClCompile>
     <ClCompile Include="GameUI.cpp">
       <Filter>ソース ファイル\UI</Filter>
@@ -355,10 +355,10 @@
       <Filter>ソース ファイル\collision</Filter>
     </ClCompile>
     <ClCompile Include="HUD.cpp">
-      <Filter>ソース ファイル\HUD</Filter>
+      <Filter>ソース ファイル\UI\HUD</Filter>
     </ClCompile>
     <ClCompile Include="HUDLayOut.cpp">
-      <Filter>ソース ファイル\HUD</Filter>
+      <Filter>ソース ファイル\UI\HUD</Filter>
     </ClCompile>
     <ClCompile Include="MapCreate.cpp">
       <Filter>Editor</Filter>
@@ -409,16 +409,16 @@
       <Filter>ソース ファイル\gameobject\Enemy\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="ConfigSprite.cpp">
-      <Filter>ソース ファイル\Config</Filter>
+      <Filter>ソース ファイル\UI\Config</Filter>
     </ClCompile>
     <ClCompile Include="SistemConfig.cpp">
-      <Filter>ソース ファイル\Config</Filter>
+      <Filter>ソース ファイル\UI\Config</Filter>
     </ClCompile>
     <ClCompile Include="BehaviorDatas.cpp">
       <Filter>ソース ファイル\gameobject\Enemy\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="PlayerHUD.cpp">
-      <Filter>ソース ファイル\HUD</Filter>
+      <Filter>ソース ファイル\UI\HUD</Filter>
     </ClCompile>
     <ClCompile Include="PlayerAttackState.cpp">
       <Filter>ソース ファイル\gameobject\Player</Filter>
@@ -427,13 +427,13 @@
       <Filter>ソース ファイル\collision</Filter>
     </ClCompile>
     <ClCompile Include="EnemyHUD.cpp">
-      <Filter>ソース ファイル\HUD</Filter>
+      <Filter>ソース ファイル\UI\HUD</Filter>
     </ClCompile>
     <ClCompile Include="FieldCollision.cpp">
       <Filter>ソース ファイル\collision</Filter>
     </ClCompile>
     <ClCompile Include="CustomButton.cpp">
-      <Filter>ソース ファイル\HUD</Filter>
+      <Filter>ソース ファイル\UI\HUD</Filter>
     </ClCompile>
     <ClCompile Include="Wood.cpp">
       <Filter>ソース ファイル\gameobject\Wood</Filter>
@@ -454,16 +454,16 @@
       <Filter>Editor\配置管理\敵</Filter>
     </ClCompile>
     <ClCompile Include="ControlBase.cpp">
-      <Filter>ソース ファイル\Control</Filter>
+      <Filter>ソース ファイル\gameobject\Control</Filter>
     </ClCompile>
     <ClCompile Include="EnemyControl.cpp">
-      <Filter>ソース ファイル\Control</Filter>
+      <Filter>ソース ファイル\gameobject\Control</Filter>
     </ClCompile>
     <ClCompile Include="FenceControl.cpp">
-      <Filter>ソース ファイル\Control</Filter>
+      <Filter>ソース ファイル\gameobject\Control</Filter>
     </ClCompile>
     <ClCompile Include="WoodControl.cpp">
-      <Filter>ソース ファイル\Control</Filter>
+      <Filter>ソース ファイル\gameobject\Control</Filter>
     </ClCompile>
     <ClCompile Include="WoodManager.cpp">
       <Filter>ソース ファイル</Filter>
@@ -531,7 +531,7 @@
       <Filter>ソース ファイル\3d %28Model  Obj  Fbx%29\obj</Filter>
     </ClInclude>
     <ClInclude Include="Audio.h">
-      <Filter>ソース ファイル\audio</Filter>
+      <Filter>ソース ファイル\base %28Dxcmn  Winapp  Input%29\audio</Filter>
     </ClInclude>
     <ClInclude Include="DirectXCommon.h">
       <Filter>ソース ファイル\base %28Dxcmn  Winapp  Input%29</Filter>
@@ -543,10 +543,10 @@
       <Filter>ソース ファイル\base %28Dxcmn  Winapp  Input%29</Filter>
     </ClInclude>
     <ClInclude Include="DebugCamera.h">
-      <Filter>ソース ファイル\camera</Filter>
+      <Filter>ソース ファイル\gameobject\camera</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
-      <Filter>ソース ファイル\camera</Filter>
+      <Filter>ソース ファイル\gameobject\camera</Filter>
     </ClInclude>
     <ClInclude Include="CollisionTypes.h">
       <Filter>ソース ファイル\collision</Filter>
@@ -585,16 +585,16 @@
       <Filter>ソース ファイル\Scene\basescene</Filter>
     </ClInclude>
     <ClInclude Include="DirectionalLight.h">
-      <Filter>ソース ファイル\light</Filter>
+      <Filter>ソース ファイル\gameobject\light</Filter>
     </ClInclude>
     <ClInclude Include="PointLight.h">
-      <Filter>ソース ファイル\light</Filter>
+      <Filter>ソース ファイル\gameobject\light</Filter>
     </ClInclude>
     <ClInclude Include="SpotLight.h">
-      <Filter>ソース ファイル\light</Filter>
+      <Filter>ソース ファイル\gameobject\light</Filter>
     </ClInclude>
     <ClInclude Include="LightGroup.h">
-      <Filter>ソース ファイル\light</Filter>
+      <Filter>ソース ファイル\gameobject\light</Filter>
     </ClInclude>
     <ClInclude Include="Effects.h">
       <Filter>ソース ファイル\gameobject\Effect</Filter>
@@ -612,7 +612,7 @@
       <Filter>ソース ファイル\gameobject\Enemy\派生クラス</Filter>
     </ClInclude>
     <ClInclude Include="mEffekseer.h">
-      <Filter>ソース ファイル\meffekseer</Filter>
+      <Filter>ソース ファイル\gameobject\meffekseer</Filter>
     </ClInclude>
     <ClInclude Include="GameUI.h">
       <Filter>ソース ファイル\UI</Filter>
@@ -690,10 +690,10 @@
       <Filter>ソース ファイル\collision</Filter>
     </ClInclude>
     <ClInclude Include="HUDLayOut.h">
-      <Filter>ソース ファイル\HUD</Filter>
+      <Filter>ソース ファイル\UI\HUD</Filter>
     </ClInclude>
     <ClInclude Include="HUD.h">
-      <Filter>ソース ファイル\HUD</Filter>
+      <Filter>ソース ファイル\UI\HUD</Filter>
     </ClInclude>
     <ClInclude Include="MapCreateScene.h">
       <Filter>Editor</Filter>
@@ -759,10 +759,10 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="ConfigSprite.h">
-      <Filter>ソース ファイル\Config</Filter>
+      <Filter>ソース ファイル\UI\Config</Filter>
     </ClInclude>
     <ClInclude Include="SistemConfig.h">
-      <Filter>ソース ファイル\Config</Filter>
+      <Filter>ソース ファイル\UI\Config</Filter>
     </ClInclude>
     <ClInclude Include="PlayerAttackState.h">
       <Filter>ソース ファイル\gameobject\Player</Filter>
@@ -771,7 +771,7 @@
       <Filter>ソース ファイル\collision</Filter>
     </ClInclude>
     <ClInclude Include="EnemyHUD.h">
-      <Filter>ソース ファイル\HUD</Filter>
+      <Filter>ソース ファイル\UI\HUD</Filter>
     </ClInclude>
     <ClInclude Include="BehaviorDatas.h">
       <Filter>ソース ファイル\gameobject\Enemy\Behavior</Filter>
@@ -795,16 +795,16 @@
       <Filter>Editor\配置管理\敵</Filter>
     </ClInclude>
     <ClInclude Include="EnemyControl.h">
-      <Filter>ソース ファイル\Control</Filter>
+      <Filter>ソース ファイル\gameobject\Control</Filter>
     </ClInclude>
     <ClInclude Include="FenceControl.h">
-      <Filter>ソース ファイル\Control</Filter>
+      <Filter>ソース ファイル\gameobject\Control</Filter>
     </ClInclude>
     <ClInclude Include="ControlBase.h">
-      <Filter>ソース ファイル\Control</Filter>
+      <Filter>ソース ファイル\gameobject\Control</Filter>
     </ClInclude>
     <ClInclude Include="WoodControl.h">
-      <Filter>ソース ファイル\Control</Filter>
+      <Filter>ソース ファイル\gameobject\Control</Filter>
     </ClInclude>
     <ClInclude Include="UI.h">
       <Filter>ヘッダー ファイル</Filter>
