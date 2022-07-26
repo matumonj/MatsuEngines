@@ -35,36 +35,34 @@ void PlayScene::objUpdate(DebugCamera* camera)
 		for (int i = 0; i < AllObjectControl.size(); i++) {
 			AllObjectControl[i]->Update(camera);
 		}
+		TargetMarker::GetInstance()->Update(camera, Player::GetInstance());
 		PlayerAttackState::GetInstance()->Update();
 		UI::GetInstance()->HUDUpdate(hudload, camera);
 
 	}
 	//TargetMarker::GetInstance()->Update(enemys, camera, Player::GetInstance());
-			
-	}
+	Field::GetInstance()->Update(camera);
+
+}
 
 #pragma endregion
 
 #pragma region 初期化
 void PlayScene::Initialize()
 {
-	AllObjectControl.push_back(WoodControl::GetInstance());
-	AllObjectControl.push_back(FenceControl::GetInstance());
-	AllObjectControl.push_back(EnemyControl::GetInstance());
-
 	input = Input::GetInstance();
+
+	if (AllObjectControl.size() == 0) {
+		AllObjectControl.push_back(WoodControl::GetInstance());
+		AllObjectControl.push_back(FenceControl::GetInstance());
+		AllObjectControl.push_back(EnemyControl::GetInstance());
+	}
 	TargetMarker::GetInstance()->Initialize();
 
 	// カメラ生成
 	camera = new DebugCamera(WinApp::window_width, WinApp::window_height/*input*/);
 	// 3Dオブジェクトにカメラをセット
 	Object3d::SetCamera(camera);
-
-	camera->SetEye({ Player_Pos.x,Player_Pos.y + 5,Player_Pos.z - 15 });
-
-	UI::GetInstance()->Initialize();
-	SistemConfig::GetInstance()->Initialize();
-	
 	// ライト生成
 	lightGroup = LightGroup::Create();
 	// 3Dオブエクトにライトをセット
@@ -76,11 +74,8 @@ void PlayScene::Initialize()
 	
 	lightGroup->SetSpotLightColor(SpotLightColor);
 
-	Field::GetInstance()->Initialize(camera);
-
 	collisionManager = CollisionManager::GetInstance();
 
-	//f_Object3d::SetDevice();
 	//カメラをセット
 	f_Object3d::SetCamera(camera);
 	//グラフィックパイプライン生成
@@ -90,6 +85,9 @@ void PlayScene::Initialize()
 		AllObjectControl[i]->Initialize(camera);
 	}
 	Player::GetInstance()->Initialize(camera);
+	UI::GetInstance()->Initialize();
+	SistemConfig::GetInstance()->Initialize();
+	Field::GetInstance()->Initialize(camera);
 
 	postEffect = new PostEffect();
 	postEffect->Initialize();
@@ -101,15 +99,13 @@ void PlayScene::Initialize()
 void PlayScene::Update()
 {
 	lightGroup->SpotLightUpdate();
-	SistemConfig::GetInstance()->Update();
-
-	LoadParam();
 	
+	SistemConfig::GetInstance()->Update();
 	if (input->Pushkey(DIK_RIGHT)) {
 		charaAngle += 0.5f;
 		cameraAngle -= 0.5f;
 		Player::GetInstance()->SetCharaRotation(charaAngle);
-	} else if (input->Pushkey(DIK_LEFT)||input->RightTiltStick(input->Left)) {
+	} else if (input->Pushkey(DIK_LEFT) || input->RightTiltStick(input->Left)) {
 		cameraAngle += 0.5f;
 		charaAngle -= 0.5f;
 		Player::GetInstance()->SetCharaRotation(charaAngle);
@@ -117,8 +113,6 @@ void PlayScene::Update()
 	if (cameraAngle >= 360 + 90 || cameraAngle <= -360) {
 		cameraAngle = 0;
 	}
-	//FBXモデルの更新
-	//object1->Updata(TRUE);
 	CameraPosition.x = Player::GetInstance()->GetPosition().x + cosf((float)(cameraAngle) * 3.14f / 180.0f) * CameraDis;
 	CameraPosition.z = Player::GetInstance()->GetPosition().z + sinf((float)(cameraAngle) * 3.14f / 180.0f) * CameraDis;
 	CameraPosition.y = Player::GetInstance()->GetPosition().y + CameraHeight;
@@ -129,10 +123,18 @@ void PlayScene::Update()
 	camera->SetTarget({ Player::GetInstance()->GetPosition() });
 	camera->Update();
 
-	Field::GetInstance()->Update(camera);
-
+	LoadParam(camera);
+	
+	
+	
 	objUpdate(camera);//オブジェクトの更新処理
 	
+	if (SistemConfig::GetInstance()->GetConfigJudgMent()) {
+		c_postEffect = Blur;
+	} else {
+		c_postEffect = Default;
+	}
+
 	if (input->TriggerKey(DIK_R)) {//押されたら
 		BaseScene* scene = new MapCreateScene(sceneManager_);//次のシーンのインスタンス生成
 		sceneManager_->SetnextScene(scene);//シーンのセット
@@ -141,41 +143,21 @@ void PlayScene::Update()
 }
 #pragma endregion 
 
-//スプライトの描画
-#pragma region モデルの描画
-void PlayScene::SpriteDraw()
-{
-	if (SistemConfig::GetInstance()->GetConfigJudgMent()) {
-		c_postEffect = Blur;
-	} else {
-		c_postEffect = Default;
-	}
-	Player::GetInstance()->PreDraw();
-	if (!turnoff_player) {//デバッグ用
-		Player::GetInstance()->Draw();
-	}
-	Player::GetInstance()->PostDraw();
-
-		for (int i = 0; i < AllObjectControl.size(); i++) {
-			AllObjectControl[i]->Draw();
-		}
-}
-//sプライと以外の描画
 void PlayScene::MyGameDraw()
 {
-
 	Field::GetInstance()->Draw();
-
-	SpriteDraw();
+	
+	Player::GetInstance()->Draw();
+	
+	for (int i = 0; i < AllObjectControl.size(); i++) {
+		AllObjectControl[i]->Draw();
+	}
 
 	Texture::PreDraw();
 	TargetMarker::GetInstance()->Draw();
 	Texture::PostDraw();
-
 }
-#pragma endregion
-//↓に入る
-#pragma region 描画(imguiとスプライトとモデルまとめたもの)
+
 void PlayScene::Draw()
 {
 	//ポストエフェクトの場合わけ(Bでぼかし Dがデフォルト)
@@ -191,7 +173,7 @@ void PlayScene::Draw()
 		if (HUD::GetInstance()->GetLayOutMode()) {
 			UI::GetInstance()->HUDDraw();
 		}
-			SistemConfig::GetInstance()->Draw();
+		SistemConfig::GetInstance()->Draw();
 		if (DirectXCommon::GetInstance()->GetFullScreen() == false) {
 			ImGuiDraw();
 		}
@@ -287,13 +269,8 @@ void PlayScene::ImGuiDraw()
 		ImGui::End();
 	}
 }
-#pragma region 解放部分
-void PlayScene::Finalize()
-{
-	//delete model, model5, model2;
-}
 
-void PlayScene::LoadParam()
+void PlayScene::LoadParam(DebugCamera*camera)
 {
 	if(LoadEnemy){
 		for (int i = 0; i < AllObjectControl.size();i++) {
@@ -302,4 +279,9 @@ void PlayScene::LoadParam()
 		hudload = true;
 		LoadEnemy = false;
 	}
+}
+
+void PlayScene::Finalize()
+{
+
 }

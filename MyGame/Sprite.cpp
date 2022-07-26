@@ -42,8 +42,6 @@ Sprite::Sprite(UINT texNumber, XMFLOAT2 position, XMFLOAT2 size, XMFLOAT4 color,
 #pragma region 静的初期化とパイプラインの設定
 bool Sprite::StaticInitialize( int window_width, int window_height)
 {
-	// nullptrチェック
-	assert(device);
 
 	Sprite::device = DirectXCommon::GetInstance()->GetDev();
 	Sprite::cmdList = DirectXCommon::GetInstance()->GetCmdList();

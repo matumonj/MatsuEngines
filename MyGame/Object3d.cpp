@@ -4,10 +4,10 @@
 #include <DirectXTex.h>
 #include <fstream>
 #include<sstream>
-#include<string>
 #include<vector>
 #include"BaseCollider.h"
 #include"CollisionManager.h"
+#include"DirectXCommon.h"
 #pragma comment(lib, "d3dcompiler.lib")
 using namespace std;
 using namespace DirectX;
@@ -43,8 +43,6 @@ Object3d::~Object3d()
 }
 bool Object3d::StaticInitialize(int window_width, int window_height, Camera* camera)
 {
-	// nullptrチェック
-	assert(device);
 
 	Object3d::device = DirectXCommon::GetInstance()->GetDev();
 	Object3d::cmdList = DirectXCommon::GetInstance()->GetCmdList();

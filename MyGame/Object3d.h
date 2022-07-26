@@ -1,16 +1,9 @@
 #pragma once
 
-#include <Windows.h>
-#include <wrl.h>
-#include <d3d12.h>
-#include <DirectXMath.h>
-#include <d3dx12.h>
 #include<string>
 #include"Model.h"
 #include"LightGroup.h"
-#include"Camera.h"
 #include"CollisionInfo.h"
-#include"DirectXCommon.h"
 #include"DebugCamera.h"
 //#include"CollisionManager.h"
 class BaseCollider;

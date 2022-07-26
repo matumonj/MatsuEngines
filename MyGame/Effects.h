@@ -21,8 +21,8 @@ private:
 
 private:
 	//エフェクト用(ただプログラムでつくれるものはプログラムで作る方がいい　多用はいくない)
-	mEffekseer* efk = nullptr;
-	mEffekseer* efk1 = nullptr;
+	//mEffekseer* efk = nullptr;
+	//mEffekseer* efk1 = nullptr;
 
 public:
 	//XMFLOAT3 GetPosition

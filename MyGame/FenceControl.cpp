@@ -91,8 +91,8 @@ void FenceControl::Update(DebugCamera* camera)
 		}*/
 	}
 
-		TutorialFenceOpen = EnemyControl::GetInstance()->GetEnemyindex(0)[0]->GetHP() <= 0;
-		fences[0]->FenceOpenCondition(TutorialFenceOpen);
+		TutorialFenceOpen = EnemyControl::GetInstance()->GetEnemyindex(0)[TYUTORIAL]->GetHP() <= 1000;
+		fences[TYUTORIAL]->FenceOpenCondition(TutorialFenceOpen);
 }
 
 void FenceControl::Draw()

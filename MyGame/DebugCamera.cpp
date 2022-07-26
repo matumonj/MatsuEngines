@@ -6,7 +6,6 @@ using namespace DirectX;
 DebugCamera::DebugCamera(int window_width, int window_height /*Input* input*/)
 	: Camera(window_width, window_height)
 {
-	assert(input);
 
 	this->input = input;
 	// 画面サイズに対する相対的なスケールに調整

@@ -14,8 +14,6 @@ void UI::Initialize()
 
 void UI::HUDUpdate(bool&hudload, DebugCamera* camera)
 {
-	Subenemys.resize(EnemyControl::GetInstance()->GetQuentity());
-
 	
 	HUD::GetInstance()->EnemyHPGaugeUpdate(EnemyControl::GetInstance()->GetEnemyindex(0));
 	HUD::GetInstance()->EnemyHPGauge_MultiUpdate(hudload, camera, EnemyControl::GetInstance()->GetEnemyindex(0));

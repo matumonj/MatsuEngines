@@ -42,7 +42,7 @@ void MapCreateScene::ModelCreate(DebugCamera* camera)
 	//パラメータの設定
 	lightGroup->LightSetting();
 
-	MapCreate::ObjectInitialize(camera);
+	MapCreate::GetInstance()->ObjectInitialize(camera);
 
 }
 #pragma endregion
@@ -53,7 +53,7 @@ void MapCreateScene::objUpdate(DebugCamera* camera)
 {
 	Field::GetInstance()->Update(camera);
 
-	MapCreate::ObjectUpdate(camera);
+	MapCreate::GetInstance()->ObjectUpdate(camera);
 }
 #pragma endregion
 
@@ -98,7 +98,7 @@ void MapCreateScene::Update()
 
 	objUpdate(camera);//オブジェクトの更新処理
 	//Player::GetInstance()->Update({ 1,1,1,1 }, camera);
-	MapCreate::ObjectArgment(camera);
+	MapCreate::GetInstance()->ObjectArgment(camera);
 	//シーンチェンジ
 
 	if (Input::GetInstance()->TriggerKey(DIK_R)) {//押されたら
@@ -114,7 +114,7 @@ void MapCreateScene::Update()
 void MapCreateScene::MyGameDraw()
 {
 	Field::GetInstance()->Draw();
-	MapCreate::ObjectDraw();
+	MapCreate::GetInstance()->ObjectDraw();
 }
 #pragma endregion
 //↓に入る
@@ -155,7 +155,7 @@ void MapCreateScene::Draw()
 
 void MapCreateScene::ImGuiDraw()
 {
-	MapCreate::ImGuiDraw();
+	MapCreate::GetInstance()->ImGuiDraw();
 	if (ImGui::RadioButton("Scene_Create", t)) {
 		BaseScene* scene = new PlayScene(sceneManager_);//次のシーンのインスタンス生成
 		sceneManager_->SetnextScene(scene);//シーンのセット

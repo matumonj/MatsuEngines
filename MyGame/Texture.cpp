@@ -48,8 +48,6 @@ Texture::Texture(UINT texNumber, XMFLOAT3 position, XMFLOAT3 size, XMFLOAT4 colo
 
 bool Texture::StaticInitialize(int window_width, int window_height)
 {
-	// nullptrチェック
-	assert(device);
 
 	Texture::device = DirectXCommon::GetInstance()->GetDev();
 	Texture::cmdList = DirectXCommon::GetInstance()->GetCmdList();
@@ -68,9 +66,7 @@ bool Texture::StaticInitialize(int window_width, int window_height)
 
 void Texture::PreDraw()
 {
-	// PreDrawとPostDrawがペアで呼ばれていなければエラー
-	assert(Texture::cmdList == nullptr);
-
+	
 	// コマンドリストをセット
 	Texture::cmdList = DirectXCommon::GetInstance()->GetCmdList();
 

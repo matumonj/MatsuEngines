@@ -34,6 +34,7 @@ public:
 	virtual void Draw()=0;
 
 protected:
+	std::vector<int>Number;
 	std::ifstream file;
 	std::stringstream popcom;
 	//配置フラグ

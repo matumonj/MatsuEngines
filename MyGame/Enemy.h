@@ -123,7 +123,8 @@ public:
 	void SetMovement(int movement) { this->movement = movement; }
 	int GetMovement() { return movement; }
 	void EnemyPop(int HP);
-	void SetStartPosition(XMFLOAT3 position) { StartPosition = position; }
+	void SetStartPosition(XMFLOAT3 position) {
+		StartPosition = { 0,0,0}; }
 	/// <summary>
 	/// ‰ğ•úˆ—
 	/// </summary>
@@ -168,6 +169,7 @@ public:
 		if (state == DEAD) { return true; }
 		return false;
 	}
+	bool GetEndSearch() { return endsearch; }
 	bool GetSearchPlayer_Distance();
 	void Attack();
 	int AttackCoolTime();

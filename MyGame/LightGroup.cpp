@@ -15,12 +15,8 @@ void LightGroup::StaticInitialize()
 
 	LightGroup::device = DirectXCommon::GetInstance()->GetDev();
 	LightGroup::cmdList = DirectXCommon::GetInstance()->GetCmdList();
-	// 再初期化チェック
-	assert(!LightGroup::device);
-
-	// nullptrチェック
-	assert(device);
-
+	
+	
 }
 
 LightGroup* LightGroup::Create()

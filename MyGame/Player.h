@@ -9,6 +9,7 @@
 #include"DirectXCommon.h"
 #include"f_Model.h"
 #include"f_Object3d.h"
+#include"Input.h"
 class Enemy;
 class TargetMarker;
 class Player :public Object3d
@@ -50,7 +51,7 @@ private:
 	//プレイヤーの回転用
 	float angle;
 private:
-	mEffekseer* effect = nullptr;
+	//mEffekseer* effect = nullptr;
 	//エフェクト描画のフラグ
 	bool drawf = false;
 	//

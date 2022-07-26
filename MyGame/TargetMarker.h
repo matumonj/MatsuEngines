@@ -26,7 +26,7 @@ public:
 	bool GetEnemyPosition(std::vector<std::unique_ptr<Enemy>>& enemy, int index, float* x, float* y, float* z);
 	int NearEnemySearch(std::vector<std::unique_ptr<Enemy>>& enemy, Player* player);
 	void Initialize();
-	void Update(std::vector<std::unique_ptr<Enemy>>& enemy, DebugCamera* camera, Player* player);
+	void Update(DebugCamera* camera, Player* player);
 	void Draw();
 	void Finalize();
 private:

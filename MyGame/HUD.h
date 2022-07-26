@@ -3,6 +3,7 @@
 #include"Sprite.h"
 #include"Player.h"
 #include<memory>
+#include<vector>
 class HUD
 {
 public:

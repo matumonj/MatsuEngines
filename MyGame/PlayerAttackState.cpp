@@ -34,7 +34,7 @@ void PlayerAttackState::Update()
 	else {
 		AttackJudgeMent = false;
 	}
-	index = TargetMarker::GetInstance()->GetNearIndex();
+	index =  TargetMarker::GetInstance()->GetNearIndex();
 
 	if (AttackJudgeMent) {
 		if (Input::GetInstance()->PushButton(Input::GetInstance()->Button_B) && CoolDownTime == 0) {

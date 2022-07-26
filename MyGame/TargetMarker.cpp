@@ -3,7 +3,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<algorithm>
-
+#include"EnemyControl.h"
 TargetMarker* TargetMarker::GetInstance()
 {
 	static TargetMarker instance;
@@ -22,15 +22,15 @@ void TargetMarker::Initialize()
 bool TargetMarker::GetEnemyPosition(std::vector<std::unique_ptr<Enemy>>& enemy, int index, float* x, float* y, float* z)
 {
 	float tempx, tempy, tempz;
-	if (enemy[index] == nullptr||enemy[index]->State_Dead()) {
+	if (enemy[index] == nullptr||enemy[index]->GetHP()<0) {
 	
 		return false;
 	}
 		//指定された添え字の敵座標を取得
 		enemy[index]->Getposition(&tempx, &tempy, &tempz);
-		*x = tempx;
-		*y = tempy;
-		*z = tempz;
+		*x = enemy[index]->GetPosition().x;
+		*y = enemy[index]->GetPosition().y;
+		*z = enemy[index]->GetPosition().z;
 
 		return true;
 }
@@ -72,13 +72,13 @@ int TargetMarker::NearEnemySearch(std::vector<std::unique_ptr<Enemy>>& enemy, Pl
 	this->nearindex = nearindex;
 	return nearindex;
 }
-void TargetMarker::Update(std::vector<std::unique_ptr<Enemy>>& enemy, DebugCamera* camera, Player* player)
+void TargetMarker::Update( DebugCamera* camera, Player* player)
 {
 	int tindex;
 	float ex, ey, ez;
-	tindex = NearEnemySearch(enemy, player);
+	tindex = NearEnemySearch(EnemyControl::GetInstance()->GetEnemyindex(1), player);
 	if (tindex != -1) {
-		GetEnemyPosition(enemy, tindex, &ex, &ey, &ez);//{ enemy[0]->GetPosition().x ,0, enemy[0]->GetPosition().z };
+		GetEnemyPosition(EnemyControl::GetInstance()->GetEnemyindex(1),  tindex, &ex, &ey, &ez);//{ enemy[0]->GetPosition().x ,0, enemy[0]->GetPosition().z };
 	}
 	//マーカー位置をnowTargetに合わせる
 	MarkerPosition = { ex,ey,ez };

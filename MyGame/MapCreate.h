@@ -22,25 +22,27 @@ class MapCreate
 {
 public:
 	MapCreate();
+
 	static void LoadEnemyParam();
 private:
 	//設置オブジェクトの数[木・柵・敵]
-	static const int ObjType_Num=3;
+	const int ObjType_Num=3;
 	//設置オブジェクト
-	static std::vector<CreateObjManager*> placeobj;
+	std::vector<CreateObjManager*> placeobj;
 public:
+	static MapCreate* GetInstance();
 	//ImGui
-	static void ImGuiDraw();
+	void ImGuiDraw();
 	//設置処理
-	static void ObjectArgment(DebugCamera* camera);
+	void ObjectArgment(DebugCamera* camera);
 	//初期化
-	static void ObjectInitialize(DebugCamera*camera);
+	void ObjectInitialize(DebugCamera*camera);
 	//更新処理
-	static void ObjectUpdate(DebugCamera* camera);
+	void ObjectUpdate(DebugCamera* camera);
 	//描画
-	static void ObjectDraw();
+	void ObjectDraw();
 
 private:
-	static bool savef;
+	bool savef;
 };
 

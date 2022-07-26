@@ -21,6 +21,11 @@ private:
 	XMFLOAT3 Player_OldPos;
 
 	bool TutorialFenceOpen;
+private:
+	enum {
+		TYUTORIAL,
+		STAGE1_1,
+	};
 public:
 	static FenceControl* GetInstance();
 

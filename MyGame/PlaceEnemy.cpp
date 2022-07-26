@@ -56,6 +56,9 @@ void PlaceEnemy::ArgMent(DebugCamera* camera)
 		newEnemy->Initialize(camera);
 		newEnemy->SetEnemyPosition(pos);
 		enemys.push_back(std::move(newEnemy));
+		if (ArgmentFlag) {
+			Number.push_back(1);
+		}
 		ArgmentFlag = false;
 		BossArgmentFlag = false;
 	}
@@ -97,7 +100,6 @@ void PlaceEnemy::ImGui_Draw()
 	ImGui::Begin("SelectEnemy");
 	if (ImGui::Button("AlphaEnemy", ImVec2(90, 50))) {
 		ArgmentFlag = true;
-		Number.push_back(1);
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("BetaEnemy", ImVec2(90, 50))) {

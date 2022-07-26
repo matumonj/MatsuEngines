@@ -1,6 +1,5 @@
 #include "PlaceFence.h"
-#include "PlaceFence.h"
-
+#include"imgui.h"
 void PlaceFence::Initialize(DebugCamera* camera)
 {
 	Model = Model::CreateFromOBJ("Fence");
