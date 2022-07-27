@@ -3,12 +3,14 @@
 #include"DebugTxt.h"
 #include"SphereCollider.h"
 #include"TargetMarker.h"
-
+#include"Collision.h"
 #include"SphereCollider.h"
 #include"CollisionManager.h"
 #include"CollisionAttribute.h"
 #include"PlayerAttackState.h"
 #include"imgui.h"
+#include"WoodControl.h"
+#include"FenceControl.h"
 #define PI 3.145265
 using namespace DirectX;
 XMFLOAT3 Player::Effect_Pos = { -50,-10,-100 };
@@ -73,7 +75,7 @@ bool Player::Initialize( DebugCamera* camera)
 }
 void Player::Update(XMFLOAT4 color, DebugCamera* camera)
 {
-
+	oldpos = position;
 	//エフェクトのパラメータセット
 	RotationStatus();
 	//position.y = -2;
@@ -95,7 +97,10 @@ void Player::Update(XMFLOAT4 color, DebugCamera* camera)
 		else {
 			stopf = true;
 		}
-	
+		if (Collision::GetCollideOBB() == true) {
+			position = oldpos;
+			
+}
 	object1->SetPosition(position);
 	object1->SetRotation({ rotation.x, rotation.y+180, rotation.z });
 	object1->Updata( TRUE);

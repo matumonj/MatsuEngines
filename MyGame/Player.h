@@ -38,7 +38,10 @@ public:
 
 	static Player* GetInstance();
 	void SetGround(bool f) { onGround = f; }
+
+	void isOldPos() { position = oldpos; }
 private:
+
 	enum class Attack {
 		NormalAttack,//通常攻撃
 		MagicAttack,//魔法攻撃
@@ -111,6 +114,7 @@ public:
 	int GetHP() { return HP; }
 
 private:
+	XMFLOAT3 oldpos;
 	//imgui表示用
 	//後でconstなどに置き換え
 	float movespeed = 3.0f;

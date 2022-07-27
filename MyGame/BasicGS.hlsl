@@ -36,7 +36,7 @@ void main(
 
 		if (flag) {
 				element.svpos.xyz = center + (element.svpos.xyz - center) * (1 - destruction *0.9);//mul(viewproj, element.svpos);
-				element.svpos.xyz += gnormal * (destruction) * 50;
+				//element.svpos.xyz += gnormal * (destruction) * 50;
 
 		}
 		//element.color=input[i].color;

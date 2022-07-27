@@ -2,7 +2,7 @@
 #include "Wood.h"
 #include"TouchableObject.h"
 #include"CollisionManager.h"
-
+#include"Collision.h"
 bool Wood::Initialize(DebugCamera* camera)
 {
 	WoodObject = std::make_unique<Object3d>();
@@ -21,6 +21,7 @@ void Wood::Update(DebugCamera* camera)
 {
 	WoodObject->setSetf(true);
 	//フィールド
+	CollideWood();
 	WoodObject->SetRotation({ 0,0,0 });
 	WoodObject->SetScale({2,3,2});
 	WoodObject->SetPosition(Position);
@@ -54,9 +55,12 @@ bool Wood::CollideWood()
 	woodOBB.m_Pos = { WoodObject->GetPosition().x,  WoodObject->GetPosition().y, WoodObject->GetPosition().z };
 
 	if (ps0->ColOBBs(playerOBB,woodOBB)) {
+		Player::GetInstance()->isOldPos();
+		//Collision::SetCollideOBB(true);
 		return true;
 	} 
 	else {
+		//Collision::SetCollideOBB(false);
 		return false;
 	}
 }

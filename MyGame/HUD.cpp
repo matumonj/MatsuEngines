@@ -73,6 +73,13 @@ void HUD::EnemyHPGaugeUpdate(std::vector<std::unique_ptr<Enemy>>& enemy)
 			EnemyHP_Inner->SetSize({ enemy[index]->GetHP() * 10,20 });
 		}
 	}
+	if (Collision::GetLength(Player::GetInstance()->GetPosition(), enemy[index]->GetPosition()) < 30) {
+		EnemyHPDrawFlag = true;
+	}
+	else {
+		EnemyHPDrawFlag = false;
+	}
+	TargetMarker::GetInstance()->SetTargetMarkerDraw(EnemyHPDrawFlag);
 	EnemyHP_Border->SetSize({ 1700,40 });
 	EnemyHP_Inner->SetPosition({ EnemyHP_Border->GetPosition().x + 20,  EnemyHP_Border->GetPosition().y+10});
 
@@ -118,8 +125,10 @@ void HUD::SkillBottonUpdate()
 }
 void HUD::EnemyHPGaugeDraw()
 {
-	EnemyHP_Border->Draw();
-	EnemyHP_Inner->Draw();
+	if (EnemyHPDrawFlag) {
+		EnemyHP_Border->Draw();
+		EnemyHP_Inner->Draw();
+	}
 }
 
 

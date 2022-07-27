@@ -1,5 +1,8 @@
 #include "Collision.h"//collision
+bool Collision::ColFlag;
 
+void Collision::SetCollideOBB(bool f) { ColFlag = f; }
+bool Collision::GetCollideOBB() { return ColFlag; }
 float Collision::GetLength(XMFLOAT3 position, XMFLOAT3 position2)
 {
 

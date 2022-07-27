@@ -44,7 +44,11 @@ private:
 	float nearresult2;
 	std::vector<Enemy*> enemy = { nullptr };
 	Texture* TargetMakerTexture = nullptr;
+	bool EnemyTargetDrawFlag;
+
+
 public:
+	void SetTargetMarkerDraw(bool f) { EnemyTargetDrawFlag = f; }
 	int GetNearIndex2() { return nearindex2; }
 	int GetNearIndex() { return nearindex; }
 	XMFLOAT3 GetMarkerPosition() { return MarkerPosition; }

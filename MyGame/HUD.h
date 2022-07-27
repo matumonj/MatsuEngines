@@ -65,6 +65,7 @@ public:
 	float oldhp;
 	float Hpt;
 
+	bool EnemyHPDrawFlag;
 	//bool load;
 	std::vector<float> multi_NowHP;
 	std::vector <XMFLOAT3> multi_sizel;

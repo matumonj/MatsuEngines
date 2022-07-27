@@ -13,7 +13,11 @@ public:
 		float Left;
 		float Right;
 	};
+	static bool ColFlag;
 public:
+
+	static void SetCollideOBB(bool f);
+	static bool GetCollideOBB();
 	/// <summary>
 	/// 点と三角形の最近接点を求める
 	/// </summary>

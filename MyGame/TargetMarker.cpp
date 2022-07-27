@@ -101,7 +101,9 @@ void TargetMarker::Update(DebugCamera* camera, Player* player)
 
 void TargetMarker::Draw()
 {
-	TargetMakerTexture->Draw();
+	if (EnemyTargetDrawFlag) {
+		TargetMakerTexture->Draw();
+	}
 }
 void TargetMarker::Finalize()
 {
