@@ -46,6 +46,7 @@ public:	//サブクラス
 	//定数バッファ用データ構造体（座標変換行列）
 	struct ConstBufferDataTransform
 	{
+		XMFLOAT4 color;
 		XMMATRIX viewproj;	//ビュープロジェクション行列
 		XMMATRIX world;		//ワールド行列
 		XMFLOAT3 cameraPos;	//カメラ行列（ワールド座標）
@@ -106,8 +107,9 @@ protected:	//メンバ変数
 	//アニメーション再生中
 	bool isPlay = false;
 	XMMATRIX matScale, matRot, matTrans;
-
+	XMFLOAT4 color;
 public:	//定数
+	void SetColor(XMFLOAT4 color) { this->color = color; }
 	void SetPosition(XMFLOAT3 pos) { position = pos; }
 	void SetRotation(XMFLOAT3 rot) { rotation = rot; }
 	void SetScale(XMFLOAT3 scl) { scale = scl; }

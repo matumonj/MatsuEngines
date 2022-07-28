@@ -19,7 +19,7 @@ MapCreate* MapCreate::GetInstance()
 void MapCreate::ObjectInitialize(DebugCamera* camera)
 {
 	//‚±‚±‚Éİ’u•¨new‚µ‚Ä‚¢‚­‚¾‚¯
-	if (placeobj.size() == 0) {
+	if (placeobj.size() == 0) {//create->playscene->create‚Æ‚¢‚Á‚½‚Æ‚«‚É“ñ‰ñnew‚³‚ê‚é‚Ì–h‚®
 		placeobj.push_back(new PlaceFence());//ò
 		placeobj.push_back(new PlaceWood());//–Ø
 		placeobj.push_back(new PlaceEnemy());//“G

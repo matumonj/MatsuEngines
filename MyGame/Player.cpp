@@ -81,7 +81,7 @@ void Player::Update(XMFLOAT4 color, DebugCamera* camera)
 	//position.y = -2;
 	object1->SetScale({0.01f, 0.01f, 0.01f
 });
-	
+
 	scale = { 0.01f,0.01f,0.01f };
 	//移動ベクトルをy軸周りの角度で回転
 	XMVECTOR move = { 0.0f,0.0f,0.1f,0.0f };
@@ -235,11 +235,12 @@ void Player::CollisionField(DebugCamera* camera)
 
 	}
 	// ジャンプ操作
-	else if (Input::GetInstance()->TriggerKey(DIK_SPACE)) {
+	else if (Input::GetInstance()->TriggerButton(Input::GetInstance()->Button_A)) {
 		onGround = false;
-		const float jumpVYFist = 1.2f;
+		const float jumpVYFist = 0.2f;
 		fallV = { 0, jumpVYFist, 0, 0 };
 	}
+	
 
 	// ワールド行列更新
 	UpdateWorldMatrix();

@@ -67,6 +67,12 @@ bool MobEnemy::Initialize(DebugCamera* camera)
 //XVˆ—
 void MobEnemy::Update(XMFLOAT4 color, DebugCamera* camera)
 {
+	if (FollowFlag) {
+		MobObject->SetColor({ 1,0,0,1 });
+	}
+	else {
+		MobObject->SetColor({ 1,1,1,1 });
+	}
 	scale={ 0.02f, 0.02f, 0.02f
 		};
 	//position = { 0,0,0 };

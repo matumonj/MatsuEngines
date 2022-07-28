@@ -36,9 +36,6 @@
     <Filter Include="ソース ファイル\collision">
       <UniqueIdentifier>{a5d15daa-90ff-4b7f-a438-af2ba141053a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\UI">
-      <UniqueIdentifier>{dd958707-cbce-4c7f-9484-fc9b5fe5c097}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Scene">
       <UniqueIdentifier>{71571380-9e3e-4eae-8be2-8821f123a3af}</UniqueIdentifier>
     </Filter>
@@ -121,14 +118,8 @@
     <Filter Include="Editor\配置管理\敵">
       <UniqueIdentifier>{4a80af31-86c4-427f-a61a-d3c249b08ff3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\UI\HUD">
-      <UniqueIdentifier>{bd73972b-f908-4972-97d0-c9526e6c2f1b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\gameobject\Control">
       <UniqueIdentifier>{5c24b4a8-8a3e-455d-8388-92ad21b1dd11}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\UI\Config">
-      <UniqueIdentifier>{077ed855-3902-457a-805f-209d6816ad7a}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\gameobject\meffekseer">
       <UniqueIdentifier>{c78c38e5-dd88-4b91-9520-79476c552f16}</UniqueIdentifier>
@@ -141,6 +132,15 @@
     </Filter>
     <Filter Include="ソース ファイル\gameobject\camera">
       <UniqueIdentifier>{133564d7-a6f9-464b-959e-0a1b2ee172da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\UI">
+      <UniqueIdentifier>{dd958707-cbce-4c7f-9484-fc9b5fe5c097}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\UI\HUD">
+      <UniqueIdentifier>{bd73972b-f908-4972-97d0-c9526e6c2f1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\UI\Config">
+      <UniqueIdentifier>{077ed855-3902-457a-805f-209d6816ad7a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -182,11 +182,11 @@
     </FxCompile>
     <FxCompile Include="TexturePS.hlsl" />
     <FxCompile Include="TextureVS.hlsl" />
-    <FxCompile Include="BasicGS.hlsl">
-      <Filter>ソース ファイル</Filter>
-    </FxCompile>
     <FxCompile Include="TesserationHL.hlsl" />
     <FxCompile Include="TesserationDS.hlsl" />
+    <FxCompile Include="BasicGS.hlsl">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

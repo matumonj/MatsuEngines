@@ -6,8 +6,6 @@
 bool Wood::Initialize(DebugCamera* camera)
 {
 	WoodObject = std::make_unique<Object3d>();
-
-	//model2 = Model::CreateFromOBJ("newWood");
 	WoodModel = Model::CreateFromOBJ("wood");
 
 	//フィールドにモデル割り当て
@@ -43,7 +41,7 @@ bool Wood::CollideWood()
 	playerOBB.m_fLength[0] = 1;//x方向の長さ
 	playerOBB.m_fLength[1] = 1;//y方向の長さ
 	playerOBB.m_fLength[2] = 1;//z方向の長さ
-	//敵のOBB 回転ベクトル
+	//OBB 回転ベクトル
 	woodOBB.m_NormaDirect[0] = { WoodObject->GetMatrot().r[0].m128_f32[0],WoodObject->GetMatrot().r[0].m128_f32[1],WoodObject->GetMatrot().r[0].m128_f32[2] };
 	woodOBB.m_NormaDirect[1] = { WoodObject->GetMatrot().r[1].m128_f32[0], WoodObject->GetMatrot().r[1].m128_f32[1], WoodObject->GetMatrot().r[1].m128_f32[2] };
 	woodOBB.m_NormaDirect[2] = { WoodObject->GetMatrot().r[2].m128_f32[0], WoodObject->GetMatrot().r[2].m128_f32[1], WoodObject->GetMatrot().r[2].m128_f32[2] };
@@ -54,13 +52,12 @@ bool Wood::CollideWood()
 	playerOBB.m_Pos = { Player::GetInstance()->GetPosition().x,Player::GetInstance()->GetPosition().y,Player::GetInstance()->GetPosition().z };
 	woodOBB.m_Pos = { WoodObject->GetPosition().x,  WoodObject->GetPosition().y, WoodObject->GetPosition().z };
 
-	if (ps0->ColOBBs(playerOBB,woodOBB)) {
-		Player::GetInstance()->isOldPos();
-		//Collision::SetCollideOBB(true);
-		return true;
-	} 
-	else {
-		//Collision::SetCollideOBB(false);
-		return false;
+	if (Collision::GetLength(Player::GetInstance()->GetPosition(), Position) < 20) {
+		if (ps0->ColOBBs(playerOBB, woodOBB)) {
+			Player::GetInstance()->isOldPos();
+			return true;
+		} else {
+				return false;
+		}
 	}
 }

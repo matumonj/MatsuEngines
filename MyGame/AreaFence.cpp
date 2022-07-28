@@ -27,7 +27,7 @@ void AreaFence::Update(DebugCamera* camera)
 	AreaFenceObject->SetRotation({ 0,0,0 });
 	AreaFenceObject->SetScale({ 10,10,10 });
 	AreaFenceObject->SetPosition(Position);
-	AreaFenceObject->Update({ 1,1,1,1 }, camera);
+	AreaFenceObject->Update({ 0.5,0.5,1,1 }, camera);
 }
 
 void AreaFence::Draw()
@@ -65,7 +65,7 @@ bool AreaFence::CollideAreaFence()
 
 void AreaFence::FenceOpenCondition(bool condition)
 {
-	const float FenceDownSpeed = 0.2f;
+	const float FenceDownSpeed = 0.1f;
 	if (condition) {
 		Position.y -=FenceDownSpeed;
 	}

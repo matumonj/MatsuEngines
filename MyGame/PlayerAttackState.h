@@ -74,6 +74,7 @@ private:
 public:
 	static PlayerAttackState* GetInstance();
 	AttackSkill GetSkill() { return OldSkill; }
+	AttackSkill GetNowSkill() { return Skill; }
 	int GetCoolTime() { return CoolDownTime; };
 
 };

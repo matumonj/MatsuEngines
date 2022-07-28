@@ -39,7 +39,6 @@ void PlaceEnemy::FileWriting()
 	Position.resize(enemys.size());
 	Number.resize(enemys.size());
 
-	//fwrite(&EnemyPosition, sizeof(XMFLOAT3),EnemyPosition.size(), fp);
 }
 
 void PlaceEnemy::ArgMent(DebugCamera* camera)
@@ -65,7 +64,6 @@ void PlaceEnemy::ArgMent(DebugCamera* camera)
 	for (std::unique_ptr<Enemy>& enemy : enemys) {
 		if (enemy != nullptr) {
 			enemy->Update({ 1,1,1,1 }, camera);
-			//enemy->CollisionField(camera);
 		}
 	}
 	if (DeleteFlag && enemys.size() > 1) {
@@ -88,9 +86,7 @@ void PlaceEnemy::Draw()
 	Obj->PostDraw();
 	for (std::unique_ptr<Enemy>& enemy : enemys) {
 		if (enemy != nullptr) {
-			//enemy->PreDraw();
 			enemy->Draw();
-			//enemy->PostDraw();
 		}
 	}
 }

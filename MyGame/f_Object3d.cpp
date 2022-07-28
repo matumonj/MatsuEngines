@@ -209,6 +209,8 @@ void f_Object3d::Initialize()
 
 	//1ƒtƒŒ[ƒ€•ª‚ÌŽžŠÔ‚ð60FPS‚ÅÝ’è
 	frameTime.SetTime(0, 0, 0, 1, 0, FbxTime::EMode::eFrames60);
+
+	color = { 1,1,1,1 };
 }
 
 void f_Object3d::Updata(bool animeloop)
@@ -242,6 +244,7 @@ void f_Object3d::Updata(bool animeloop)
 	ConstBufferDataTransform* constMap = nullptr;
 	result = constBuffTransform->Map(0, nullptr, (void**)&constMap);
 	if (SUCCEEDED(result)) {
+		constMap->color = color;
 		constMap->viewproj = matViewProjection;
 		constMap->world = modelTransform * matWorld;
 		constMap->cameraPos = cameraPos;

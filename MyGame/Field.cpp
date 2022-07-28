@@ -10,10 +10,8 @@ Field* Field::GetInstance()
 bool Field::Initialize(DebugCamera* camera)
 {
 	CelestialSphereObject = std::make_unique<Object3d>();
-
-	//model2 = Model::CreateFromOBJ("newfield");
 	CelestialSphereModel = Model::CreateFromOBJ("skydome");
-	FieldModel= Model::CreateFromOBJ("field");
+	FieldModel= Model::CreateFromOBJ("LowPoly_Landscape");
 
 	//フィールドにモデル割り当て
 	FieldObject = TouchableObject::Create(FieldModel,camera);
@@ -29,8 +27,7 @@ void Field::Update(DebugCamera* camera)
 	CelestialSphereObject->SetPosition({ 0,30,0 });
 	CelestialSphereObject->SetScale({ 10,10,10 });
 
-	//フィールド
-	FieldObject->SetScale(2.0f);
+	FieldObject->SetScale(10.0f);
 	FieldObject->SetPosition({ 0,-20,0 });
 
 

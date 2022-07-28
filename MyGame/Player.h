@@ -39,7 +39,11 @@ public:
 	static Player* GetInstance();
 	void SetGround(bool f) { onGround = f; }
 
-	void isOldPos() { position = oldpos; }
+	void isOldPos() {
+		position.x = oldpos.x; position.z = oldpos.z;
+	}
+	float tempx, tempz;
+	int onGroundTime = 0;
 private:
 
 	enum class Attack {

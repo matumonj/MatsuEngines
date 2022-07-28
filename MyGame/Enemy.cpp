@@ -123,7 +123,7 @@ void Enemy::Action()
 			position = { tempx,position.y,tempz };
 		}
 	}
-	if (EnemyHP < 0) {
+	if (EnemyHP <= 0) {
 		state = DEAD;
 	}
 	move = { 0,0,0.1f,0 };
@@ -135,7 +135,7 @@ void Enemy::Action()
 }
 void Enemy::RecvDamage(int Damage) 
 {
-	RecvDamagef = true;
+	RecvDamageJudg = true;
 	EnemyHP = EnemyHP - Damage;
 }
 void Enemy::EnemyPop(int HP)
@@ -191,22 +191,9 @@ void Enemy::ChangeState(EnemyState* newState)
 
 void Enemy::Walk()
 {
-	//索敵範囲
-	//const float DetectionRange = 10.0f;
-	////プレイヤーが索敵範囲入ったら
-	//bool SearchPlayer = Collision::GetLength(enemy->GetPosition(), Player::GetInstance()->GetPosition()) < DetectionRange;
-	//if (Player::GetInstance() != nullptr) {
-	//	SearchPlayer = false;
-	//}
-	//移動ベクトルをy軸周りの角度で回転
-
-	//向いてる方向に移動
-	//歩いている
-
 	onGroundTime++;
 	if (wf) {
-		//if (enemy->GetMovement() > enemy->GetRandMoveMent()) {
-		if (movement > RandMovement) {
+	if (movement > RandMovement) {
 			wf = false;
 			movement = 0;
 			sf = true;
@@ -217,8 +204,6 @@ void Enemy::Walk()
 
 void Enemy::Stop()
 {
-	//enemy->SetMovement(0);
-
 	if (StayCount == 0) {
 		endsearch = false;
 		//イージング掛ける前の敵の向き
@@ -238,10 +223,6 @@ void Enemy::Stop()
 				Easing::EaseOut(RotTime,BeforeRot, AfterRot),
 				rotation.z
 			};
-
-			//enemy->ChangeState(new EnemyWalkState());
-		//}
-
 		}
 
 		if (rotation.y >= AfterRot) {
@@ -265,7 +246,7 @@ void Enemy::Follow()
 	animeflag = false;
 	float angleX, angleZ, dis;
 	//追跡スピード
-	float centerSpeed = 0.1f;
+	float centerSpeed = 0.2f;
 
 	angleX = (Player::GetInstance()->GetPosition().x - position.x);
 	angleZ = (Player::GetInstance()->GetPosition().z - position.z);
@@ -289,15 +270,16 @@ void Enemy::Follow()
 	if (Collision::GetLength(Player::GetInstance()->GetPosition(), position) > 10) {
 		position = { position.x + (angleX / dis) * centerSpeed,position.y,position.z + (angleZ / dis) * centerSpeed };
 	}
-	time++;
 	if (time> 210) {
 		wf = true;
-		//searchFlag = false;
 		endsearch = true;
-		//GetSearchPlayer = false;
+		RecvDamageJudg = false;
+		FollowFlag = false;
 		time = 0;
 	}
 	else {
+		time++;
+		FollowFlag = true;
 		wf = false;
 		sf = false;
 	}
@@ -344,10 +326,7 @@ void Enemy::CollisionField(DebugCamera* camera)
 		// 加速
 		fallV.m128_f32[1] = max(fallV.m128_f32[1] + fallAcc, fallVYMin);
 		// 移動
-		//position.x += fallV.m128_f32[0];
 		position.y += fallV.m128_f32[1];
-		//position.z += fallV.m128_f32[2];
-
 	}
 
 	// ワールド行列更新

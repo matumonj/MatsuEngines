@@ -2,6 +2,7 @@
 #include "PlayerAttackState.h"
 #include"Input.h"
 #include"EnemyControl.h"
+#include"Collision.h"
 PlayerAttackState* PlayerAttackState::GetInstance()
 {
 	static PlayerAttackState instance;
@@ -36,17 +37,17 @@ void PlayerAttackState::Update()
 	}
 	index =  TargetMarker::GetInstance()->GetNearIndex();
 
-	if (AttackJudgeMent) {
+//	if (AttackJudgeMent) {
 		if (Input::GetInstance()->PushButton(Input::GetInstance()->Button_B) && CoolDownTime == 0) {
 			Skill = First;
-		} else if (Input::GetInstance()->PushButton(Input::GetInstance()->Button_A) && CoolDownTime == 0) {
+		} /*else if (Input::GetInstance()->PushButton(Input::GetInstance()->Button_A) && CoolDownTime == 0) {
 			Skill = Second;
 		} else if (Input::GetInstance()->PushButton(Input::GetInstance()->Button_X) && CoolDownTime == 0) {
 			Skill = Third;
 		} else if (Input::GetInstance()->PushButton(Input::GetInstance()->Button_Y) && BufCoolDownTime == 0) {
 			BuffFlag = true;
-		}
-	}
+		}*/
+	//}
 	if (BuffFlag) {
 		//バフ継続時間
 		BuffTime++;
@@ -150,8 +151,9 @@ void PlayerAttackState::DetailAttack(std::vector<std::unique_ptr<Enemy>>& enemy,
 		BuffAction();
 	}
 	//1番近くの敵に対して攻撃
-	enemy[index]->RecvDamage(Damage);
-	
+	if (Collision::GetLength(Player::GetInstance()->GetPosition(), enemy[index]->GetPosition()) < 30) {
+		enemy[index]->RecvDamage(Damage);
+	}
 	//if (/*fbxのモーション終わったら*/) {
 	Skill = None;
 }

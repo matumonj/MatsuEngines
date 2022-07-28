@@ -3,21 +3,16 @@
 #include"DirectXCommon.h"
 #include"TitleScene.h"
 #include"SceneManager.h"
-#include"MeshCollider.h"
-#include"TouchableObject.h"
-#include"CollisionManager.h"
-#include"SphereCollider.h"
 #include"MapCreateScene.h"
 #include"Field.h"
 #include"HUD.h"
 #include"PlayerAttackState.h"
-#include "PhysicsAction.h"
 #include"SistemConfig.h"
-#include"EnemyAttackJudgement.h"
 #include"EnemyControl.h"
 #include"WoodControl.h"
 #include"FenceControl.h"
 #include"UI.h"
+#include"Effects.h"
 //シーンのコンストラクタ
 PlayScene::PlayScene(SceneManager* sceneManager)
 	:BaseScene(sceneManager)
@@ -38,6 +33,7 @@ void PlayScene::objUpdate(DebugCamera* camera)
 		TargetMarker::GetInstance()->Update(camera, Player::GetInstance());
 		PlayerAttackState::GetInstance()->Update();
 		UI::GetInstance()->HUDUpdate(hudload, camera);
+		Effects::GetInstance()->Update(camera);
 
 	}
 	//TargetMarker::GetInstance()->Update(enemys, camera, Player::GetInstance());
@@ -74,8 +70,6 @@ void PlayScene::Initialize()
 	
 	lightGroup->SetSpotLightColor(SpotLightColor);
 
-	collisionManager = CollisionManager::GetInstance();
-
 	//カメラをセット
 	f_Object3d::SetCamera(camera);
 	//グラフィックパイプライン生成
@@ -91,6 +85,8 @@ void PlayScene::Initialize()
 
 	postEffect = new PostEffect();
 	postEffect->Initialize();
+
+	Effects::GetInstance()->Initialize(camera);
 
 }
 #pragma endregion
@@ -134,7 +130,6 @@ void PlayScene::Update()
 	} else {
 		c_postEffect = Default;
 	}
-
 	if (input->TriggerKey(DIK_R)) {//押されたら
 		BaseScene* scene = new MapCreateScene(sceneManager_);//次のシーンのインスタンス生成
 		sceneManager_->SetnextScene(scene);//シーンのセット
@@ -152,7 +147,7 @@ void PlayScene::MyGameDraw()
 	for (int i = 0; i < AllObjectControl.size(); i++) {
 		AllObjectControl[i]->Draw();
 	}
-
+	Effects::GetInstance()->Draw();
 	Texture::PreDraw();
 	TargetMarker::GetInstance()->Draw();
 	Texture::PostDraw();

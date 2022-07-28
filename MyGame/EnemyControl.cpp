@@ -20,23 +20,16 @@ EnemyControl* EnemyControl::GetInstance()
 void EnemyControl::Load(DebugCamera*camera)
 {
 	file.open("EnemyParam_CSV/open.csv");
-	//file2.open("EnemyParam_CSV/wood.csv");
 
 	popcom << file.rdbuf();
 
-	//popcom2 << file2.rdbuf();
-
 	file.close();
-	//file2.close();
-	//return oi;
-	//fopen_s(&fp, "posxx.json", "r");
 	/*流れとしては
 	敵の数読み込み->
 	読み込んだ敵の数分エネミーのパラメータ配列の要素数増やす->
 	敵の数分作ったら配列の中身をロードしたものに->
 	敵の番号が1だったらα,2だったらβでインスタンス生成、初期化
 	*/
-	//fread(&Enemy_Quantity, sizeof(int), 1, fp);
 	while (std::getline(popcom, line)) {
 		std::istringstream line_stream(line);
 		std::string word;

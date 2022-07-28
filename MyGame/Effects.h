@@ -1,10 +1,4 @@
 #pragma once
-#include <Windows.h>
-#include <wrl.h>
-#include <d3d12.h>
-#include <d3dx12.h>
-#include <DirectXMath.h>
-#include <string>
 #include"mEffekseer.h"
 #include"DirectXCommon.h"
 #include"DebugCamera.h"
@@ -21,9 +15,11 @@ private:
 
 private:
 	//エフェクト用(ただプログラムでつくれるものはプログラムで作る方がいい　多用はいくない)
-	//mEffekseer* efk = nullptr;
+	mEffekseer* efk = nullptr;
 	//mEffekseer* efk1 = nullptr;
-
+	bool ff;
+	bool sf;
+	bool tf;
 public:
 	//XMFLOAT3 GetPosition
 	XMFLOAT3 Effect_Pos = { -50,-10,90 };
@@ -31,8 +27,9 @@ public:
 	XMFLOAT3 Effect_SCl;
 
 public:
-	void Initialize( DebugCamera* camera);
-	void Update( DebugCamera* camera);
+	static Effects* GetInstance();
+	void Initialize(DebugCamera* camera);
+	void Update(DebugCamera* camera);
 	void Draw();
 	void Finalize();
 

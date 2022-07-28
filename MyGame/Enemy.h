@@ -78,8 +78,12 @@ private:
 	bool searchMarkDrawFlag;
 	bool RecvDamagef;
 	float OldHP;
-	
+protected:
+	bool FollowFlag;
+	bool RecvDamageJudg;
 public:
+
+	bool GetRecvDamageJudg() { return RecvDamageJudg; }
 	bool GetRecvDamage() { return RecvDamagef; }
 	void SetRecvDamage(bool f) { RecvDamagef = f; }
 	void SetSearchNow(bool f) { SearchNowFlag = f; }
