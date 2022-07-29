@@ -26,7 +26,11 @@ public:
 	static void LoadEnemyParam();
 private:
 	//設置オブジェクトの数[木・柵・敵]
-	const int ObjType_Num=3;
+	enum {
+		WOOD=0,
+		FENCE=1,
+		ENEMY=2
+	};
 	//設置オブジェクト
 	std::vector<CreateObjManager*> placeobj;
 public:
@@ -42,7 +46,13 @@ public:
 	//描画
 	void ObjectDraw();
 
+	bool Error();
 private:
 	bool savef;
+	enum SaveJudg{
+		SAVE_OK,
+		SAVE_NG,
+	};
+	SaveJudg saveJudg;
 };
 

@@ -94,6 +94,7 @@ void PlayScene::Initialize()
 #pragma region XVˆ—
 void PlayScene::Update()
 {
+	
 	lightGroup->SpotLightUpdate();
 	
 	SistemConfig::GetInstance()->Update();

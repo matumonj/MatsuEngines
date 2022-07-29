@@ -59,3 +59,15 @@ void WinApp::Deletewindow()
 {
 	UnregisterClass(w.lpszClassName, w.hInstance);
 }
+
+int WinApp::CreateErrorWindow(bool errorjudg, LPCTSTR text)
+{
+	if (errorjudg) {
+		int id = MessageBox(NULL, text, TEXT("Œ‹‰Ê"), MB_ICONWARNING);
+	
+		return id;
+	}
+
+	return 0;
+	//id=
+}

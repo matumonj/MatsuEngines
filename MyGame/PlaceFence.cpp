@@ -22,11 +22,18 @@ void PlaceFence::FileWriting()
 		ofs << "POP" << "," << fences[i]->GetPosition().x
 			<< "," << fences[i]->GetPosition().y
 			<< "," << fences[i]->GetPosition().z << std::endl;
+		ofs << "ROTATION" << "," << fences[i]->GetRotation().x
+			<< "," << fences[i]->GetRotation().y
+			<< "," << fences[i]->GetRotation().z << std::endl;
 
 	}
 	Position.resize(fences.size());
 }
 
+bool PlaceFence::ErrorJudg()
+{
+	return false;
+}
 void PlaceFence::ArgMent(DebugCamera* camera)
 {
 	if (ArgmentFlag) {
@@ -37,6 +44,7 @@ void PlaceFence::ArgMent(DebugCamera* camera)
 
 		newFence->Initialize(camera);
 		newFence->SetPosition(pos);
+		newFence->SetRotation(rot);
 		fences.push_back(std::move(newFence));
 		ArgmentFlag = false;
 	}
@@ -53,6 +61,7 @@ void PlaceFence::ArgMent(DebugCamera* camera)
 void PlaceFence::Update(DebugCamera* camera)
 {
 	Obj->SetPosition(pos);
+	Obj->SetRotation(rot);
 	Obj->SetScale({10,10,10 });
 	Obj->Update({ 1,0,0,0.5 }, camera);
 }
@@ -64,9 +73,7 @@ void PlaceFence::Draw()
 	Obj->PostDraw();
 	for (std::unique_ptr<AreaFence>& fence : fences) {
 		if (fence != nullptr) {
-			//enemy->PreDraw();
 			fence->Draw();
-			//enemy->PostDraw();
 		}
 	}
 }
@@ -85,9 +92,15 @@ void PlaceFence::ImGui_Draw()
 	}
 
 	{
-		ImGui::SliderFloat("posX", &pos.x, -300, 300);
+		ImGui::SliderFloat("posX", &pos.x, -500, 500);
 		ImGui::SliderFloat("posY", &pos.y, -300, 300);
-		ImGui::SliderFloat("posZ", &pos.z, -300, 300);
+		ImGui::SliderFloat("posZ", &pos.z, -500, 500);
+
+	}
+	{
+		ImGui::SliderFloat("rotX", &rot.x, 0, 360);
+		ImGui::SliderFloat("rotY", &rot.y, 0, 360);
+		ImGui::SliderFloat("rotZ", &rot.z, 0, 360);
 
 	}
 	ImGui::End();

@@ -26,5 +26,6 @@ public:
 	bool Processmassage();
 	void Deletewindow();
 	void Finalize();
+	static int CreateErrorWindow(bool errorjudg,LPCTSTR text);
 };
 

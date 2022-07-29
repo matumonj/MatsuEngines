@@ -17,6 +17,7 @@ public:
 
 	void Draw()override;
 
+	bool ErrorJudg()override;
 private:
 	BehaviorTree behavior;
 	//Enemyのみ複数種類配置するのでまた別のフラグ用意

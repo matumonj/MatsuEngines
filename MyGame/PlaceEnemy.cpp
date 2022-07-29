@@ -17,8 +17,16 @@ void PlaceEnemy::Initialize(DebugCamera* camera)
 	Obj->SetModel(Model);
 }
 
+bool PlaceEnemy::ErrorJudg()
+{
+	if (enemys.size() < 2||enemys.size()>30) {
+		return true;
+	}
+	return false;
+}
 void PlaceEnemy::FileWriting()
 {
+	
 	file.open("open.csv");
 
 	popcom << file.rdbuf();

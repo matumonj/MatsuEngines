@@ -168,9 +168,9 @@ void MapCreateScene::ImGuiDraw()
 
 
 	ImGui::Begin("CameraPosition");
-	ImGui::SliderFloat("CameraPosx", &CameraPosition.x, -200, 200);
-	ImGui::SliderFloat("CameraPosy", &CameraPosition.y, -100, 100);
-	ImGui::SliderFloat("CameraPosz", &CameraPosition.z, -200, 200);
+	ImGui::SliderFloat("CameraPosx", &CameraPosition.x, -300, 300);
+	ImGui::SliderFloat("CameraPosy", &CameraPosition.y, -200, 200);
+	ImGui::SliderFloat("CameraPosz", &CameraPosition.z, -600, 300);
 	ImGui::End();
 }
 #pragma region ‰ð•ú•”•ª

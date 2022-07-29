@@ -28,6 +28,7 @@ private:
 
 	Model* AreaFenceModel;
 	XMFLOAT3 Position;
+	XMFLOAT3 Rotation;
 
 	float FencePosY_Min;
 public:
@@ -37,7 +38,9 @@ public:
 	
 	void FenceOpenCondition(bool Condition);
 	XMFLOAT3 GetPosition() { return Position; }
+	XMFLOAT3 GetRotation() { return Rotation; }
 	void SetPosition(XMFLOAT3 pos) { Position = pos; }
+	void SetRotation(XMFLOAT3 rot) { Rotation = rot; }
 	bool CollideAreaFence();
 };
 

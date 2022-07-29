@@ -33,7 +33,11 @@ public:
 
 	virtual void Draw()=0;
 
+	virtual bool ErrorJudg()=0;
+	//bool GetErrorJudg() { return ErrorJudg; }
 protected:
+	bool ErrorJudgm;
+
 	std::vector<int>Number;
 	std::ifstream file;
 	std::stringstream popcom;
@@ -47,8 +51,10 @@ protected:
 
 	//
 	std::vector<XMFLOAT3>Position;
+	std::vector<XMFLOAT3>Rotation;
 	//
 	XMFLOAT3 pos;
+	XMFLOAT3 rot;
 
 };
 

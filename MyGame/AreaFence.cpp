@@ -24,7 +24,7 @@ void AreaFence::Update(DebugCamera* camera)
 	AreaFenceObject->setSetf(true);
 	CollideAreaFence();
 	//フィールド
-	AreaFenceObject->SetRotation({ 0,0,0 });
+	AreaFenceObject->SetRotation(Rotation);
 	AreaFenceObject->SetScale({ 10,10,10 });
 	AreaFenceObject->SetPosition(Position);
 	AreaFenceObject->Update({ 0.5,0.5,1,1 }, camera);

@@ -26,6 +26,10 @@ void PlaceWood::FileWriting()
 	Position.resize(woods.size());
 }
 
+bool PlaceWood::ErrorJudg()
+{
+	return false;
+}
 void PlaceWood::ArgMent(DebugCamera* camera)
 {
 	if (ArgmentFlag) {

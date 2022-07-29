@@ -16,6 +16,8 @@ public:
 	void ArgMent(DebugCamera* camera)override;
 
 	void Draw()override;
+
+	bool ErrorJudg()override;
 private:
 	std::vector<std::unique_ptr<Wood>>woods;
 };
