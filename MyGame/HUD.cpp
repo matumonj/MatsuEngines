@@ -5,6 +5,14 @@
 #include"PlayerAttackState.h"
 #include"Collision.h"
 #include"Player.h"
+HUD::~HUD()
+{
+	delete PlayerHP, EnemyHP_Border, EnemyHP_Inner;
+	delete FirstAttackSprite, SecondAttackSprite, ThirdAttackSprite;
+	delete coolDownSprite[0], coolDownSprite[1], coolDownSprite[2], coolDownSprite[3], BuffSprite;
+
+
+}
 HUD* HUD::GetInstance()
 {
 	static HUD instance;

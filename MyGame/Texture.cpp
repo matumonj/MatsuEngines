@@ -14,9 +14,9 @@ using namespace Microsoft::WRL;
 /// </summary>
 const float Texture::radius = 5.0f;				// íÍñ ÇÃîºåa
 const float Texture::prizmHeight = 8.0f;// íåÇÃçÇÇ≥
-ID3D12Device* Texture::device = nullptr;
+ComPtr<ID3D12Device> Texture::device = nullptr;
 UINT Texture::descriptorHandleIncrementSize = 0;
-ID3D12GraphicsCommandList* Texture::cmdList = nullptr;
+ComPtr<ID3D12GraphicsCommandList> Texture::cmdList = nullptr;
 ComPtr<ID3D12RootSignature> Texture::rootsignature;
 ComPtr<ID3D12PipelineState> Texture::pipelinestate;
 ComPtr<ID3D12DescriptorHeap> Texture::descHeap;

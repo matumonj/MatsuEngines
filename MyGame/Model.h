@@ -24,8 +24,8 @@ private:
 
 private: // 静的メンバ変数
 	// デバイス
-	static ID3D12Device* device;
-	static ID3D12GraphicsCommandList* cmdList;
+	static ComPtr<ID3D12Device> device;
+	static ComPtr<ID3D12GraphicsCommandList> cmdList;
 	// デスクリプタサイズ
 	static UINT descriptorHandleIncrementSize;
 

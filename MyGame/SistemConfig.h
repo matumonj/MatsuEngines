@@ -5,6 +5,8 @@
 #include"ConfigSprite.h"
 class SistemConfig
 {
+public:
+	~SistemConfig();
 private:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 	// DirectX::‚ğÈ—ª

@@ -22,7 +22,9 @@ Enemy::Enemy(BehaviorTree* ai_tree, float max_hp, float max_mp, float attack, fl
 
 Enemy::~Enemy()
 {
+	delete m_BehaviorData;
 	delete _state;
+	delete SearchTex;
 }
 
 

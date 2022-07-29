@@ -14,6 +14,12 @@
 #define PI 3.145265
 using namespace DirectX;
 XMFLOAT3 Player::Effect_Pos = { -50,-10,-100 };
+
+Player::~Player()
+{
+	delete fbxmodel;
+	delete object1;
+}
 Player* Player::GetInstance()
 {
 	static Player instance;
@@ -49,15 +55,7 @@ bool Player::Initialize( DebugCamera* camera)
 		return false;
 	}
 
-
-	//model2 = Model::CreateFromOBJ("newfield");
-	swm = Model::CreateFromOBJ("enemy-arm");
-	sw = new Object3d();
-	
-	sw->Initialize(camera);
-	sw->SetModel(swm);
-
-	position = { 0,7,-120 };
+	position = {125,-25,-760 };
 
 	fbxmodel = FbxLoader::GetInstance()->LoadModelFromFile("Knight");
 
@@ -105,14 +103,7 @@ void Player::Update(XMFLOAT4 color, DebugCamera* camera)
 	object1->SetRotation({ rotation.x, rotation.y+180, rotation.z });
 	object1->Updata( TRUE);
 	//sw->SetMatrot(object1->GetmatRot());
-	sw->setr(true);
-	sw->SetMatrot(object1->GetHandBone());
-	sw->SetMatRot(object1->GetMatRot());
-	sw->SetMatTrans(object1->GetMatTrans());
-	sw->SetMatScale(object1->GetMatScale());
 
-	sw->Update({ 1,1,1,1 }, camera);
-	
 	object1->SeteCurrent(stopf);
 	CollisionField(camera);
 
@@ -332,9 +323,7 @@ void Player::CollisionField(DebugCamera* camera)
 void Player::Draw()
 {
 	object1->Draw();
-	sw->PreDraw();
-	sw->Draw();
-	sw->PostDraw();
+	
 }
 
 void Player::ImguiDraw()
@@ -346,7 +335,7 @@ void Player::ImguiDraw()
 		ImGui::Text(" PositionY   [%5f]", position.y);
 		ImGui::Text(" PositionZ   [%5f]", position.z);
 
-		XMFLOAT3 swp = sw->GetPosition();
+		XMFLOAT3 swp = { 1,1,1 };
 		ImGui::Text(" bPositionX   [%5f]",swp.x);
 		ImGui::Text(" bPositionY   [%5f]", swp.y);
 		ImGui::Text(" bPositionZ   [%5f]", swp.z);

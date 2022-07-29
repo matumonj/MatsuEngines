@@ -1,7 +1,11 @@
 #include "Field.h"
 #include"TouchableObject.h"
 #include"CollisionManager.h"
-
+Field::~Field()
+{
+	delete CelestialSphereModel, CelestialSphereObject;
+	delete FieldObject, FieldModel;
+}
 Field* Field::GetInstance()
 {
 	static Field instance;

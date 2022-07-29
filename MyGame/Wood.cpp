@@ -5,6 +5,10 @@
 #include"TouchableObject.h"
 #include"CollisionManager.h"
 #include"Collision.h"
+Wood::~Wood()
+{
+	delete ps0;
+}
 void Wood::Initialize(DebugCamera* camera)
 {
 	m_Object = std::make_unique<Object3d>();

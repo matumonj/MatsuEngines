@@ -229,7 +229,7 @@ void DirectXCommon::EndDraw()
 	ImGui::Render();
 	ID3D12DescriptorHeap* ppHeaps[] = { imguiHeap.Get() };
 	cmdList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
-	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), cmdList);
+	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), cmdList.Get());
 
 	//リソースバリアを表示用に
 	cmdList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(backbuffers[bbIndex].Get(),
@@ -237,7 +237,7 @@ void DirectXCommon::EndDraw()
 	//命令をクローズ
 	cmdList->Close();
 	//コマンドリストの実行
-	ID3D12CommandList* cmdLists[] = { cmdList };
+	ID3D12CommandList* cmdLists[] = { cmdList.Get() };
 	cmdQueue->ExecuteCommandLists(1, cmdLists);
 	//実行待ち
 	cmdQueue->Signal(fence.Get(), ++fenceVal);

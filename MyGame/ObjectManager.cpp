@@ -4,6 +4,13 @@
 #include"TouchableObject.h"
 #include"CollisionManager.h"
 #include"Collision.h"
+ObjectManager::~ObjectManager()
+{
+	m_Object.reset();
+	m_fbxObject.reset();
+	delete m_Model;
+	delete m_fbxModel;
+}
 void ObjectManager::SetCollider()
 {
 	float radius = 5.0f;
@@ -105,7 +112,6 @@ void ObjectManager::CollisionField(DebugCamera* camera)
 			Position.y -= (raycastHit.distance - sphereCollider->GetRadius() * 2.0f);
 		}
 	}
-	//RecvDamagef = false;
 	// s—ñ‚ÌXV‚È‚Ç
 	m_Object->Update({ 1,1,1,1 }, camera);
 

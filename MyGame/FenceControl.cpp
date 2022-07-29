@@ -73,24 +73,31 @@ void FenceControl::Initialize(DebugCamera* camera)
 
 void FenceControl::Update(DebugCamera* camera)
 {
-	Player_OldPos = Player::GetInstance()->GetPosition();
-	for (int i = 0; i < Quantity; i++) {
-		if (fences[i] != nullptr) {
-			fences[i]->Update(camera);
+	//if (fences[0].get() == nullptr)return;
+		Player_OldPos = Player::GetInstance()->GetPosition();
+		for (int i = 0; i < Quantity; i++) {
+			if (fences[i] != nullptr) {
+				fences[i]->Update(camera);
+			}
 		}
-	}
 
 		TutorialFenceOpen = EnemyControl::GetInstance()->GetEnemyindex(0)[TYUTORIAL]->GetHP() <= 0;
-		fences[TYUTORIAL]->FenceOpenCondition(TutorialFenceOpen);
+		for (int i = 0; i < fences.size(); i++) {
+			fences[i]->FenceOpenCondition(TutorialFenceOpen);
+		}
 }
 
 void FenceControl::Draw()
 {
-	for (int i = 0; i <Quantity; i++) {
-		if (fences[i] != nullptr) {
-			fences[i]->Draw();
+	//if (fences[0].get() == nullptr)return;
+	//if (fences[0].get() != nullptr) {
+
+		for (int i = 0; i < Quantity; i++) {
+			if (fences[i] != nullptr) {
+				fences[i]->Draw();
+			}
 		}
-	}
+	//}
 }
 
 void FenceControl::ImGuiDraw()

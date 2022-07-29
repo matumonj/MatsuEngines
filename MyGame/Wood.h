@@ -13,7 +13,7 @@ class Wood :public ObjectManager
 
 public:
 	Wood() {};
-	~Wood() {};
+	~Wood() ;
 
 private:
 	OBB playerOBB;

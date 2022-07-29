@@ -9,7 +9,7 @@ class Field
 {
 public:
 	Field() {};
-	~Field() {};
+	~Field() ;
 	static Field* GetInstance();
 
 private:

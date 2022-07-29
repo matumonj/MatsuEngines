@@ -6,6 +6,10 @@ ConfigSprite* ConfigSprite::GetInstance()
 
 	return &instance;
 }
+ConfigSprite::~ConfigSprite()
+{
+	delete RayOutSprite, EnemyHPSelectSprite;
+}
 void ConfigSprite::Initialize()
 {
 	Sprite::LoadTexture(123, L"Resources/lifegauge.png");

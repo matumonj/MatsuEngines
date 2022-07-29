@@ -60,9 +60,14 @@ void AreaFence::FenceOpenCondition(bool condition)
 	const float FenceDownSpeed = 0.1f;
 	if (condition) {
 		Position.y -=FenceDownSpeed;
+		if (Position.y < FencePosY_Min) {
+			
+		}
 	}
 	else {
 		FencePosY_Min = Position.y - 30;
 	}
 	Position.y = max(Position.y, FencePosY_Min);
+
+	
 }

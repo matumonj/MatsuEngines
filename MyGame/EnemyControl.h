@@ -10,7 +10,8 @@
 class EnemyControl :
     public ControlBase
 {
-
+public:
+	~EnemyControl() {};
 private:
 	//std::unique_ptr<Player>player;
 	std::vector<std::unique_ptr<Enemy>>enemys;

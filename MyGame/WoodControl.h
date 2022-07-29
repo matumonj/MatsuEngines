@@ -9,6 +9,7 @@
 class WoodControl :
     public ControlBase
 {
+	~WoodControl();
 private:
 	std::vector<std::unique_ptr<Wood>>woods;
 	std::vector <XMFLOAT3>Load_WoodPosition;

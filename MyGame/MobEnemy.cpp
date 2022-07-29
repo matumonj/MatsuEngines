@@ -24,6 +24,7 @@ MobEnemy::MobEnemy(BehaviorTree* ai_tree, float max_hp, float max_mp, float atta
 /// </summary>
 MobEnemy::~MobEnemy()
 {
+	m_Object.reset();
 	//delete mob, MobModel;
 }
 
@@ -39,24 +40,22 @@ void MobEnemy::Initialize(DebugCamera* camera)
 
 	InitAction();
 	EnemyHP = 150.0f;
-	//モデルの読込
-	//MobModel = Model::CreateFromOBJ("subenemy");
-	//モデル割り当てcamera
-
+	
 	Texture::LoadTexture(11, L"Resources/Sertch.png");
 	SearchPlayerTexture = Texture::Create(11, { 0,-50,50 }, { 1,1,1 }, { 1,1,1,1 });
 	SearchPlayerTexture->CreateTexture();
 	//パラメータのセット
-	//Scale = { 2,2,2 };
-	Rotation = { -70,180,0 };
-	//Position = { -12,-5,-2 };
 
+	Rotation = { -70,180,0 };
+	
 
 	m_fbxObject = std::make_unique<f_Object3d>();
 	m_fbxObject->Initialize();
 	m_fbxObject->SetModel(m_fbxModel);
 	m_fbxObject->PlayAnimation();
 	radius_adjustment = 0;
+	Scale = { 0.02f, 0.02f, 0.02f
+	};
 	SetCollider();
 }
 
@@ -68,30 +67,25 @@ void MobEnemy::Update(DebugCamera* camera)
 	} else {
 		m_fbxObject->SetColor({ 1,1,1,1 });
 	}
-	Scale = { 0.02f, 0.02f, 0.02f
-	};
-	//Position = { 0,0,0 };
+	
 	Action();
 
 	EnemyPop(150);
 
 	m_fbxObject->SeteCurrent(animeflag);
-	ParameterSet_Fbx(camera);
-	//m_Object->SetPosition(Position);
 
+	ParameterSet_Fbx(camera);
+	
 	CollisionField(camera);
 }
 
 //描画処理
 void MobEnemy::Draw()
 {
-
 	Draw_Fbx();
 	Texture::PreDraw();
 	SearchPlayerTexture->Draw();
-
 	Texture::PostDraw();
-
 }
 //解放処理
 void MobEnemy::Finalize()

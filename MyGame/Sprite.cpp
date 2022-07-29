@@ -13,9 +13,9 @@ using namespace Microsoft::WRL;
 /// <summary>
 /// Ã“Iƒƒ“ƒo•Ï”‚ÌÀ‘Ì
 /// </summary>
-ID3D12Device* Sprite::device = nullptr;
+ComPtr<ID3D12Device> Sprite::device = nullptr;
 UINT Sprite::descriptorHandleIncrementSize;
-ID3D12GraphicsCommandList* Sprite::cmdList = nullptr;
+ComPtr<ID3D12GraphicsCommandList> Sprite::cmdList = nullptr;
 ComPtr<ID3D12RootSignature> Sprite::rootSignature;
 ComPtr<ID3D12PipelineState> Sprite::pipelineState;
 XMMATRIX Sprite::matProjection;

@@ -14,6 +14,8 @@ class Enemy;
 class TargetMarker;
 class Player :public Object3d
 {
+public:
+	~Player();
 private: // エイリアス
 // Microsoft::WRL::を省略
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
@@ -69,10 +71,7 @@ private:
 	Input* input = Input::GetInstance();
 	
 private:
-	Object3d* sw;
-	Model* swm;
-
-
+	
 	XMVECTOR move = { 0,0,0.1f,0 };
 	//キャラが4方向のどこを向いているか
 	enum class RotationPrm {

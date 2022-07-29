@@ -125,7 +125,7 @@ void PlaceEnemy::ImGui_Draw()
 	{
 		ImGui::SliderFloat("posX", &pos.x, -300, 300);
 		ImGui::SliderFloat("posY", &pos.y, -300, 300);
-		ImGui::SliderFloat("posZ", &pos.z, -300, 300);
+		ImGui::SliderFloat("posZ", &pos.z, -800, 800);
 
 	}
 

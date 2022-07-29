@@ -26,7 +26,7 @@ private:
 	ComPtr<IDXGISwapChain4> swapchain;
 	ComPtr<IDXGISwapChain1> swapchain1;
 	ComPtr<ID3D12CommandAllocator>cmdAllocator;
-	ID3D12GraphicsCommandList* cmdList;
+	ComPtr<ID3D12GraphicsCommandList> cmdList;
 	ComPtr<ID3D12CommandQueue>cmdQueue;
 	ComPtr<ID3D12DescriptorHeap>rtvHeaps;
 	ComPtr<ID3D12DescriptorHeap>dsvHeap;
@@ -60,7 +60,7 @@ public:
 	void EndDraw();
 	//ÉQÉbÉ^Å[
 	ID3D12Device* GetDev() { return dev.Get(); }
-	ID3D12GraphicsCommandList* GetCmdList() { return cmdList; }
+	ID3D12GraphicsCommandList* GetCmdList() { return cmdList.Get(); }
 	ID3D12CommandQueue* GetcmdQue() { return cmdQueue.Get(); };
 	//
 private:

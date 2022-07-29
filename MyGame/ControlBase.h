@@ -10,6 +10,8 @@
 class ControlBase
 {
 public:
+	virtual ~ControlBase();
+public:
 	virtual void Load(DebugCamera* camera)=0;
 
 	virtual void Initialize(DebugCamera* camera)=0;

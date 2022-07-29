@@ -3,6 +3,8 @@
 #include"Sprite.h"
 class ConfigSprite
 {
+public:
+	~ConfigSprite();
 private:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 	// DirectX::‚ğÈ—ª

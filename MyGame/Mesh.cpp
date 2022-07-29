@@ -9,8 +9,8 @@ using namespace DirectX;
 /// <summary>
 /// 静的メンバ変数の実体
 /// </summary>
-ID3D12Device* Mesh::device = nullptr;
-ID3D12GraphicsCommandList* Mesh::cmdList = nullptr;
+ComPtr <ID3D12Device> Mesh::device = nullptr;
+ComPtr<ID3D12GraphicsCommandList> Mesh::cmdList = nullptr;
 void Mesh::StaticInitialize()
 {
 	// 再初期化チェック

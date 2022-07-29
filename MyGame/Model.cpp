@@ -9,8 +9,8 @@ using namespace std;
 /// Ã“Iƒƒ“ƒo•Ï”‚ÌÀ‘Ì
 /// </summary>
 const std::string Model::baseDirectory = "Resources/";
-ID3D12Device* Model::device = nullptr;
-ID3D12GraphicsCommandList* Model::cmdList = nullptr;
+ComPtr <ID3D12Device>Model::device = nullptr;
+ComPtr <ID3D12GraphicsCommandList> Model::cmdList = nullptr;
 UINT Model::descriptorHandleIncrementSize = 0;
 
 void Model::StaticInitialize()

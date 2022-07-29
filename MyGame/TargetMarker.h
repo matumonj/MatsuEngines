@@ -11,7 +11,8 @@
 #include"DebugCamera.h"
 class TargetMarker
 {
-
+public:
+	~TargetMarker();
 private:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 	// DirectX::‚ğÈ—ª

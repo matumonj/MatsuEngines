@@ -7,6 +7,11 @@ SistemConfig* SistemConfig::GetInstance()
 
 	return &instance;
 }
+
+SistemConfig::~SistemConfig()
+{
+	delete SelectSprite;
+}
 void SistemConfig::Initialize()
 {
 	input = Input::GetInstance();

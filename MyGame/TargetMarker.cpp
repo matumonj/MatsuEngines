@@ -4,6 +4,10 @@
 #include<stdlib.h>
 #include<algorithm>
 #include"EnemyControl.h"
+TargetMarker::~TargetMarker()
+{
+	delete TargetMakerTexture;
+}
 TargetMarker* TargetMarker::GetInstance()
 {
 	static TargetMarker instance;

@@ -8,8 +8,8 @@ using namespace std;
 /// <summary>
 /// 静的メンバ変数の実体
 /// </summary>
-ID3D12Device* Material::device = nullptr;
-ID3D12GraphicsCommandList* Material::cmdList = nullptr;
+ComPtr<ID3D12Device> Material::device = nullptr;
+ComPtr <ID3D12GraphicsCommandList> Material::cmdList = nullptr;
 void Material::StaticInitialize()
 {
 	// 再初期化チェック

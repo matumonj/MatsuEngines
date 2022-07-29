@@ -6,6 +6,11 @@ WoodControl* WoodControl::GetInstance()
 	return &instance;
 }
 
+WoodControl::~WoodControl()
+{
+	
+}
+
 void WoodControl::Load(DebugCamera* camera)
 {
 	file.open("EnemyParam_CSV/wood.csv");

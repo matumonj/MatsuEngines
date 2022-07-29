@@ -7,6 +7,8 @@
 #include<memory>
 class ObjectManager
 {
+public:
+	virtual ~ObjectManager();
 protected:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 	//DirectX::‚ğÈ—ª

@@ -93,7 +93,7 @@ void PlaceFence::ImGui_Draw()
 	{
 		ImGui::SliderFloat("posX", &pos.x, -500, 500);
 		ImGui::SliderFloat("posY", &pos.y, -300, 300);
-		ImGui::SliderFloat("posZ", &pos.z, -500, 500);
+		ImGui::SliderFloat("posZ", &pos.z, -800, 800);
 
 	}
 	{

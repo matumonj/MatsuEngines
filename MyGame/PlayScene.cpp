@@ -33,7 +33,7 @@ void PlayScene::objUpdate(DebugCamera* camera)
 		TargetMarker::GetInstance()->Update(camera, Player::GetInstance());
 		PlayerAttackState::GetInstance()->Update();
 		UI::GetInstance()->HUDUpdate(hudload, camera);
-		Effects::GetInstance()->Update(camera);
+		//Effects::GetInstance()->Update(camera);
 
 	}
 	//TargetMarker::GetInstance()->Update(enemys, camera, Player::GetInstance());
@@ -86,7 +86,7 @@ void PlayScene::Initialize()
 	postEffect = new PostEffect();
 	postEffect->Initialize();
 
-	Effects::GetInstance()->Initialize(camera);
+	//Effects::GetInstance()->Initialize(camera);
 
 }
 #pragma endregion
@@ -148,7 +148,7 @@ void PlayScene::MyGameDraw()
 	for (int i = 0; i < AllObjectControl.size(); i++) {
 		AllObjectControl[i]->Draw();
 	}
-	Effects::GetInstance()->Draw();
+	//Effects::GetInstance()->Draw();
 	Texture::PreDraw();
 	TargetMarker::GetInstance()->Draw();
 	Texture::PostDraw();
@@ -279,5 +279,10 @@ void PlayScene::LoadParam(DebugCamera*camera)
 
 void PlayScene::Finalize()
 {
-
+	SistemConfig::GetInstance()->~SistemConfig();
+	delete camera;
+	delete postEffect, lightGroup;
+	for (int i = 0; i < AllObjectControl.size(); i++) {
+		delete AllObjectControl[i];
+	} 
 }
