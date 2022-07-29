@@ -79,7 +79,6 @@ void WoodControl::Update(DebugCamera* camera)
 	Player_OldPos= Player::GetInstance()->GetPosition();
 	for (int i = 0; i < Quantity; i++) {
 		if (woods[i] != nullptr) {
-
 			woods[i]->Update(camera);
 		}
 	}

@@ -223,6 +223,7 @@
     <ClCompile Include="NodeBase.cpp" />
     <ClCompile Include="OBBCollision.cpp" />
     <ClCompile Include="Object3d.cpp" />
+    <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="PhysicsAction.cpp" />
     <ClCompile Include="PlaceEnemy.cpp" />
     <ClCompile Include="PlaceFence.cpp" />
@@ -468,6 +469,7 @@
     <ClInclude Include="OBB.h" />
     <ClInclude Include="OBBCollision.h" />
     <ClInclude Include="Object3d.h" />
+    <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="PhysicsAction.h" />
     <ClInclude Include="PlaceEnemy.h" />
     <ClInclude Include="PlaceFence.h" />

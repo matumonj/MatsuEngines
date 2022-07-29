@@ -7,38 +7,23 @@
 #include"Player.h"
 #include<memory>
 #include"OBBCollision.h"
-	class Wood
-	{
-	private: // エイリアス
-// Microsoft::WRL::を省略
-		template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
-		// DirectX::を省略
-		using XMFLOAT2 = DirectX::XMFLOAT2;
-		using XMFLOAT3 = DirectX::XMFLOAT3;
-		using XMFLOAT4 = DirectX::XMFLOAT4;
-		using XMMATRIX = DirectX::XMMATRIX;
-		using XMVECTOR = DirectX::XMVECTOR;
+#include"ObjectManager.h"
+class Wood :public ObjectManager
+{
 
-	public:
-		Wood() {};
-		~Wood() {};
-		
-	private:
-		OBB playerOBB;
-		OBB woodOBB;// = nullptr;
-		OBBCollision* ps0 = nullptr;
-		std::unique_ptr <Object3d>  WoodObject;
+public:
+	Wood() {};
+	~Wood() {};
 
-		Model* WoodModel;
-		XMFLOAT3 Position;
-	public:
-		bool Initialize(DebugCamera* camera);
-		void Update(DebugCamera* camera);
-		void Draw();
-		float randRot = rand() % 30 - 60;
-		float randRotZ = rand() % 30 - 60;
-		XMFLOAT3 GetPosition() { return Position; }
-		void SetPosition(XMFLOAT3 pos) { Position = pos; }
-		bool CollideWood();
-	};
+private:
+	OBB playerOBB;
+	OBB woodOBB;// = nullptr;
+	OBBCollision* ps0 = nullptr;
+
+public:
+	void Initialize(DebugCamera* camera)override;
+	void Update(DebugCamera* camera)override;
+	void Draw()override;
+	bool CollideWood();
+};
 

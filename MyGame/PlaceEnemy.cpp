@@ -19,7 +19,10 @@ void PlaceEnemy::Initialize(DebugCamera* camera)
 
 bool PlaceEnemy::ErrorJudg()
 {
-	if (enemys.size() < 2||enemys.size()>30) {
+	const int Min_EnemySize = 2;//İ’u‚Å‚«‚é“G‚ÌÅ¬”
+	const int Max_EnemySize = 30;//İ’u‚Å‚«‚é“G‚ÌÅ‘å”
+
+	if (enemys.size() < Min_EnemySize||enemys.size()>Max_EnemySize) {
 		return true;
 	}
 	return false;
@@ -39,14 +42,11 @@ void PlaceEnemy::FileWriting()
 	for (int i = 0; i < enemys.size(); i++) {
 		ofs << "Wait" << "," << 120 << std::endl;
 		ofs << "Number" << "," << Number[i] << std::endl;
-		ofs << "POP" << "," << enemys[i]->GetEnemyPosition().x
-			<< "," << enemys[i]->GetEnemyPosition().y
-			<< "," << enemys[i]->GetEnemyPosition().z << std::endl;
+		ofs << "POP" << "," << enemys[i]->GetPosition().x
+			<< "," << enemys[i]->GetPosition().y
+			<< "," << enemys[i]->GetPosition().z << std::endl;
 
 	}
-	Position.resize(enemys.size());
-	Number.resize(enemys.size());
-
 }
 
 void PlaceEnemy::ArgMent(DebugCamera* camera)
@@ -61,7 +61,7 @@ void PlaceEnemy::ArgMent(DebugCamera* camera)
 			newEnemy = std::make_unique<BossEnemy>(&behavior, 100.0f, 100.0f, 30.0f, 10.0f);
 		}
 		newEnemy->Initialize(camera);
-		newEnemy->SetEnemyPosition(pos);
+		newEnemy->SetPosition(pos);
 		enemys.push_back(std::move(newEnemy));
 		if (ArgmentFlag) {
 			Number.push_back(1);
@@ -71,7 +71,7 @@ void PlaceEnemy::ArgMent(DebugCamera* camera)
 	}
 	for (std::unique_ptr<Enemy>& enemy : enemys) {
 		if (enemy != nullptr) {
-			enemy->Update({ 1,1,1,1 }, camera);
+			enemy->Update( camera);
 		}
 	}
 	if (DeleteFlag && enemys.size() > 1) {

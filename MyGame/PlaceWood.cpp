@@ -23,7 +23,6 @@ void PlaceWood::FileWriting()
 			<< "," << woods[i]->GetPosition().z << std::endl;
 
 	}
-	Position.resize(woods.size());
 }
 
 bool PlaceWood::ErrorJudg()
@@ -46,6 +45,7 @@ void PlaceWood::ArgMent(DebugCamera* camera)
 	for (std::unique_ptr<Wood>& wood : woods) {
 		if (wood != nullptr) {
 			wood->Update(camera);
+			wood->CollisionField(camera);
 		}
 	}
 	if (DeleteFlag && woods.size() > 1) {

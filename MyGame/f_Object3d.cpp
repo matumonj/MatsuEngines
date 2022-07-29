@@ -2,6 +2,10 @@
 #include "f_Model.h"
 #include "FbxLoader.h"
 #include"DirectXCommon.h"
+
+#include<vector>
+#include"BaseCollider.h"
+#include"CollisionManager.h"
 #include <d3dcompiler.h>
 #pragma comment(lib, "d3dcompiler.lib")
 
@@ -339,3 +343,4 @@ void f_Object3d::PlayAnimation()
 	//Ä¶’†ó‘Ô‚É‚·‚é
 	isPlay = true;
 }
+

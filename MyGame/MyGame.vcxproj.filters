@@ -1,85 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="ソース ファイル">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
     <Filter Include="リソース ファイル">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="ソース ファイル\2d %28DebugTxt  Sprite Texture%29">
-      <UniqueIdentifier>{89448607-1f71-4fa2-81d3-a098497fd03e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\3d %28Model  Obj  Fbx%29">
-      <UniqueIdentifier>{c85e5191-d41d-42d7-965e-2909d1472162}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\3d %28Model  Obj  Fbx%29\fbx">
-      <UniqueIdentifier>{ba43dd49-6aa5-4fff-8b68-8672c915be4d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\3d %28Model  Obj  Fbx%29\obj">
-      <UniqueIdentifier>{7f66ef81-f622-425c-85f0-bc4fc79503dd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\2d %28DebugTxt  Sprite Texture%29\sprite">
-      <UniqueIdentifier>{c35e7984-0336-4ead-98e9-4c5d055a7d42}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\2d %28DebugTxt  Sprite Texture%29\texture">
-      <UniqueIdentifier>{3e806fd0-a6b2-4fe8-bf08-baafb4aac7a9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\2d %28DebugTxt  Sprite Texture%29\posteffect">
-      <UniqueIdentifier>{3aec48ac-9748-421e-b3b2-330ac8332409}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\base %28Dxcmn  Winapp  Input%29">
-      <UniqueIdentifier>{d329b92f-f1df-4fd0-8987-7702493d45c0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\collision">
-      <UniqueIdentifier>{a5d15daa-90ff-4b7f-a438-af2ba141053a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Scene">
-      <UniqueIdentifier>{71571380-9e3e-4eae-8be2-8821f123a3af}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Scene\title,play">
-      <UniqueIdentifier>{1c29f6ca-2414-4584-bc7f-019dad1dc8ef}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Scene\basescene">
-      <UniqueIdentifier>{ba3e160d-6499-4593-ad7e-388c395ab9f1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\gameobject">
-      <UniqueIdentifier>{21df807f-5c3c-43d9-9a7d-fa929d490fa6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\gameobject\Effect">
-      <UniqueIdentifier>{cde7b5c8-229f-4dbe-af23-76f702f8ffbc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\gameobject\Player">
-      <UniqueIdentifier>{82a94310-85ef-4641-b334-083a5d0e8f8f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\gameobject\Enemy">
-      <UniqueIdentifier>{44632ff4-800b-42a1-b3ca-1a2202c89452}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\gameobject\Enemy\派生クラス">
-      <UniqueIdentifier>{fea36ed0-c819-4898-a60b-a019703658a8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\gameobject\Enemy\敵の行動遷移">
-      <UniqueIdentifier>{0bf36934-c558-4f7c-b477-238364207591}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\gameobject\Enemy\派生クラス\alpha">
-      <UniqueIdentifier>{f0dec463-be94-4bfc-b8b2-176a68a0c9a8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\gameobject\Enemy\派生クラス\beta">
-      <UniqueIdentifier>{c0e73475-3619-4d59-a88e-9f7e90387ec6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\gameobject\Enemy\派生クラス\cammma">
-      <UniqueIdentifier>{203e1d72-7537-4c8e-b44e-70a33f8619b5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Scene\SceneManager">
-      <UniqueIdentifier>{56fcbf9e-9fe0-4faa-aa45-1615c0d8fd02}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Scene\framework">
-      <UniqueIdentifier>{a1bad7c0-fa12-4aaf-8391-fafcad7f2b9f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\gameobject\Field">
-      <UniqueIdentifier>{73610235-772e-4e34-a679-8aa9b69c88a4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Editor">
       <UniqueIdentifier>{fc7a5df8-2857-43db-89dd-fb1a86e32698}</UniqueIdentifier>
@@ -87,21 +11,6 @@
     <Filter Include="ヘッダー ファイル">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="ソース ファイル\gameobject\Enemy\Behavior">
-      <UniqueIdentifier>{ccede856-fc9f-467c-ac4e-4119ac75945e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\gameobject\Enemy\基底クラス">
-      <UniqueIdentifier>{ffb227aa-a1e9-49e1-a3c2-fa58367f9f19}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\gameobject\Enemy\Behavior\NewFilter1">
-      <UniqueIdentifier>{f68aec14-0133-485a-8493-f739f8943ce1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\gameobject\Wood">
-      <UniqueIdentifier>{1e53207f-98d4-4911-ac85-c4378f04ff61}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\gameobject\Fence">
-      <UniqueIdentifier>{a110c02c-7630-436b-bbe5-6062e42a135e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Editor\配置管理">
       <UniqueIdentifier>{827fe566-6788-49a5-a4b4-41e4680b1b18}</UniqueIdentifier>
@@ -118,28 +27,119 @@
     <Filter Include="Editor\配置管理\敵">
       <UniqueIdentifier>{4a80af31-86c4-427f-a61a-d3c249b08ff3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\gameobject\Control">
-      <UniqueIdentifier>{5c24b4a8-8a3e-455d-8388-92ad21b1dd11}</UniqueIdentifier>
+    <Filter Include="Game">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="ソース ファイル\gameobject\meffekseer">
-      <UniqueIdentifier>{c78c38e5-dd88-4b91-9520-79476c552f16}</UniqueIdentifier>
+    <Filter Include="Game\2d %28DebugTxt  Sprite Texture%29">
+      <UniqueIdentifier>{89448607-1f71-4fa2-81d3-a098497fd03e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\gameobject\light">
-      <UniqueIdentifier>{183d173f-2d44-495f-b8c2-3ba74039a818}</UniqueIdentifier>
+    <Filter Include="Game\2d %28DebugTxt  Sprite Texture%29\sprite">
+      <UniqueIdentifier>{c35e7984-0336-4ead-98e9-4c5d055a7d42}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\base %28Dxcmn  Winapp  Input%29\audio">
+    <Filter Include="Game\2d %28DebugTxt  Sprite Texture%29\texture">
+      <UniqueIdentifier>{3e806fd0-a6b2-4fe8-bf08-baafb4aac7a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\2d %28DebugTxt  Sprite Texture%29\posteffect">
+      <UniqueIdentifier>{3aec48ac-9748-421e-b3b2-330ac8332409}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\3d %28Model  Obj  Fbx%29">
+      <UniqueIdentifier>{c85e5191-d41d-42d7-965e-2909d1472162}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\3d %28Model  Obj  Fbx%29\fbx">
+      <UniqueIdentifier>{ba43dd49-6aa5-4fff-8b68-8672c915be4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\3d %28Model  Obj  Fbx%29\obj">
+      <UniqueIdentifier>{7f66ef81-f622-425c-85f0-bc4fc79503dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\base %28Dxcmn  Winapp  Input%29">
+      <UniqueIdentifier>{d329b92f-f1df-4fd0-8987-7702493d45c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\base %28Dxcmn  Winapp  Input%29\audio">
       <UniqueIdentifier>{3a331b0b-7e8a-4e0c-b7a3-7b527867ea08}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\gameobject\camera">
+    <Filter Include="Game\collision">
+      <UniqueIdentifier>{a5d15daa-90ff-4b7f-a438-af2ba141053a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scene">
+      <UniqueIdentifier>{71571380-9e3e-4eae-8be2-8821f123a3af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scene\title,play">
+      <UniqueIdentifier>{1c29f6ca-2414-4584-bc7f-019dad1dc8ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scene\basescene">
+      <UniqueIdentifier>{ba3e160d-6499-4593-ad7e-388c395ab9f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scene\SceneManager">
+      <UniqueIdentifier>{56fcbf9e-9fe0-4faa-aa45-1615c0d8fd02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scene\framework">
+      <UniqueIdentifier>{a1bad7c0-fa12-4aaf-8391-fafcad7f2b9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject">
+      <UniqueIdentifier>{21df807f-5c3c-43d9-9a7d-fa929d490fa6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\Effect">
+      <UniqueIdentifier>{cde7b5c8-229f-4dbe-af23-76f702f8ffbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\Player">
+      <UniqueIdentifier>{82a94310-85ef-4641-b334-083a5d0e8f8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\Enemy">
+      <UniqueIdentifier>{44632ff4-800b-42a1-b3ca-1a2202c89452}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\Enemy\派生クラス">
+      <UniqueIdentifier>{fea36ed0-c819-4898-a60b-a019703658a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\Enemy\派生クラス\alpha">
+      <UniqueIdentifier>{f0dec463-be94-4bfc-b8b2-176a68a0c9a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\Enemy\派生クラス\beta">
+      <UniqueIdentifier>{c0e73475-3619-4d59-a88e-9f7e90387ec6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\Enemy\派生クラス\cammma">
+      <UniqueIdentifier>{203e1d72-7537-4c8e-b44e-70a33f8619b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\Enemy\敵の行動遷移">
+      <UniqueIdentifier>{0bf36934-c558-4f7c-b477-238364207591}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\Enemy\Behavior">
+      <UniqueIdentifier>{ccede856-fc9f-467c-ac4e-4119ac75945e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\Enemy\Behavior\NewFilter1">
+      <UniqueIdentifier>{f68aec14-0133-485a-8493-f739f8943ce1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\Enemy\基底クラス">
+      <UniqueIdentifier>{ffb227aa-a1e9-49e1-a3c2-fa58367f9f19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\Field">
+      <UniqueIdentifier>{73610235-772e-4e34-a679-8aa9b69c88a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\Wood">
+      <UniqueIdentifier>{1e53207f-98d4-4911-ac85-c4378f04ff61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\Fence">
+      <UniqueIdentifier>{a110c02c-7630-436b-bbe5-6062e42a135e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\Control">
+      <UniqueIdentifier>{5c24b4a8-8a3e-455d-8388-92ad21b1dd11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\meffekseer">
+      <UniqueIdentifier>{c78c38e5-dd88-4b91-9520-79476c552f16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\light">
+      <UniqueIdentifier>{183d173f-2d44-495f-b8c2-3ba74039a818}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\camera">
       <UniqueIdentifier>{133564d7-a6f9-464b-959e-0a1b2ee172da}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\UI">
+    <Filter Include="Game\UI">
       <UniqueIdentifier>{dd958707-cbce-4c7f-9484-fc9b5fe5c097}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\UI\HUD">
+    <Filter Include="Game\UI\HUD">
       <UniqueIdentifier>{bd73972b-f908-4972-97d0-c9526e6c2f1b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\UI\Config">
+    <Filter Include="Game\UI\Config">
       <UniqueIdentifier>{077ed855-3902-457a-805f-209d6816ad7a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -190,175 +190,175 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="Sprite.cpp">
-      <Filter>ソース ファイル\2d %28DebugTxt  Sprite Texture%29\sprite</Filter>
+      <Filter>Game\2d %28DebugTxt  Sprite Texture%29\sprite</Filter>
     </ClCompile>
     <ClCompile Include="DebugTxt.cpp">
-      <Filter>ソース ファイル\2d %28DebugTxt  Sprite Texture%29\sprite</Filter>
+      <Filter>Game\2d %28DebugTxt  Sprite Texture%29\sprite</Filter>
     </ClCompile>
     <ClCompile Include="PostEffect.cpp">
-      <Filter>ソース ファイル\2d %28DebugTxt  Sprite Texture%29\posteffect</Filter>
+      <Filter>Game\2d %28DebugTxt  Sprite Texture%29\posteffect</Filter>
     </ClCompile>
     <ClCompile Include="Texture.cpp">
-      <Filter>ソース ファイル\2d %28DebugTxt  Sprite Texture%29\texture</Filter>
+      <Filter>Game\2d %28DebugTxt  Sprite Texture%29\texture</Filter>
     </ClCompile>
     <ClCompile Include="f_Model.cpp">
-      <Filter>ソース ファイル\3d %28Model  Obj  Fbx%29\fbx</Filter>
+      <Filter>Game\3d %28Model  Obj  Fbx%29\fbx</Filter>
     </ClCompile>
     <ClCompile Include="f_Object3d.cpp">
-      <Filter>ソース ファイル\3d %28Model  Obj  Fbx%29\fbx</Filter>
+      <Filter>Game\3d %28Model  Obj  Fbx%29\fbx</Filter>
     </ClCompile>
     <ClCompile Include="FbxLoader.cpp">
-      <Filter>ソース ファイル\3d %28Model  Obj  Fbx%29\fbx</Filter>
+      <Filter>Game\3d %28Model  Obj  Fbx%29\fbx</Filter>
     </ClCompile>
     <ClCompile Include="Material.cpp">
-      <Filter>ソース ファイル\3d %28Model  Obj  Fbx%29\obj</Filter>
+      <Filter>Game\3d %28Model  Obj  Fbx%29\obj</Filter>
     </ClCompile>
     <ClCompile Include="Mesh.cpp">
-      <Filter>ソース ファイル\3d %28Model  Obj  Fbx%29\obj</Filter>
+      <Filter>Game\3d %28Model  Obj  Fbx%29\obj</Filter>
     </ClCompile>
     <ClCompile Include="Model.cpp">
-      <Filter>ソース ファイル\3d %28Model  Obj  Fbx%29\obj</Filter>
+      <Filter>Game\3d %28Model  Obj  Fbx%29\obj</Filter>
     </ClCompile>
     <ClCompile Include="Object3d.cpp">
-      <Filter>ソース ファイル\3d %28Model  Obj  Fbx%29\obj</Filter>
+      <Filter>Game\3d %28Model  Obj  Fbx%29\obj</Filter>
     </ClCompile>
     <ClCompile Include="Audio.cpp">
-      <Filter>ソース ファイル\base %28Dxcmn  Winapp  Input%29\audio</Filter>
+      <Filter>Game\base %28Dxcmn  Winapp  Input%29\audio</Filter>
     </ClCompile>
     <ClCompile Include="DirectXCommon.cpp">
-      <Filter>ソース ファイル\base %28Dxcmn  Winapp  Input%29</Filter>
+      <Filter>Game\base %28Dxcmn  Winapp  Input%29</Filter>
     </ClCompile>
     <ClCompile Include="Input.cpp">
-      <Filter>ソース ファイル\base %28Dxcmn  Winapp  Input%29</Filter>
+      <Filter>Game\base %28Dxcmn  Winapp  Input%29</Filter>
     </ClCompile>
     <ClCompile Include="WinApp.cpp">
-      <Filter>ソース ファイル\base %28Dxcmn  Winapp  Input%29</Filter>
+      <Filter>Game\base %28Dxcmn  Winapp  Input%29</Filter>
     </ClCompile>
     <ClCompile Include="DebugCamera.cpp">
-      <Filter>ソース ファイル\gameobject\camera</Filter>
+      <Filter>Game\gameobject\camera</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
-      <Filter>ソース ファイル\gameobject\camera</Filter>
+      <Filter>Game\gameobject\camera</Filter>
     </ClCompile>
     <ClCompile Include="BaseCollider.cpp">
-      <Filter>ソース ファイル\collision</Filter>
+      <Filter>Game\collision</Filter>
     </ClCompile>
     <ClCompile Include="Collision.cpp">
-      <Filter>ソース ファイル\collision</Filter>
+      <Filter>Game\collision</Filter>
     </ClCompile>
     <ClCompile Include="SphereCollider.cpp">
-      <Filter>ソース ファイル\collision</Filter>
+      <Filter>Game\collision</Filter>
     </ClCompile>
     <ClCompile Include="CollisionPrimitive.cpp">
-      <Filter>ソース ファイル\collision</Filter>
+      <Filter>Game\collision</Filter>
     </ClCompile>
     <ClCompile Include="Framework.cpp">
-      <Filter>ソース ファイル\Scene\framework</Filter>
+      <Filter>Game\Scene\framework</Filter>
     </ClCompile>
     <ClCompile Include="SceneManager.cpp">
-      <Filter>ソース ファイル\Scene\SceneManager</Filter>
+      <Filter>Game\Scene\SceneManager</Filter>
     </ClCompile>
     <ClCompile Include="MyGame.cpp">
-      <Filter>ソース ファイル\Scene\basescene</Filter>
+      <Filter>Game\Scene\basescene</Filter>
     </ClCompile>
     <ClCompile Include="PlayScene.cpp">
-      <Filter>ソース ファイル\Scene\title,play</Filter>
+      <Filter>Game\Scene\title,play</Filter>
     </ClCompile>
     <ClCompile Include="TitleScene.cpp">
-      <Filter>ソース ファイル\Scene\title,play</Filter>
+      <Filter>Game\Scene\title,play</Filter>
     </ClCompile>
     <ClCompile Include="BaseScene.cpp">
-      <Filter>ソース ファイル\Scene\basescene</Filter>
+      <Filter>Game\Scene\basescene</Filter>
     </ClCompile>
     <ClCompile Include="LightGroup.cpp">
-      <Filter>ソース ファイル\gameobject\light</Filter>
+      <Filter>Game\gameobject\light</Filter>
     </ClCompile>
     <ClCompile Include="Effects.cpp">
-      <Filter>ソース ファイル\gameobject\Effect</Filter>
+      <Filter>Game\gameobject\Effect</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>ソース ファイル\gameobject\Player</Filter>
+      <Filter>Game\gameobject\Player</Filter>
     </ClCompile>
     <ClCompile Include="BossEnemy.cpp">
-      <Filter>ソース ファイル\gameobject\Enemy\派生クラス</Filter>
+      <Filter>Game\gameobject\Enemy\派生クラス</Filter>
     </ClCompile>
     <ClCompile Include="Enemy.cpp">
-      <Filter>ソース ファイル\gameobject\Enemy\基底クラス</Filter>
+      <Filter>Game\gameobject\Enemy\基底クラス</Filter>
     </ClCompile>
     <ClCompile Include="MobEnemy.cpp">
-      <Filter>ソース ファイル\gameobject\Enemy\派生クラス</Filter>
+      <Filter>Game\gameobject\Enemy\派生クラス</Filter>
     </ClCompile>
     <ClCompile Include="mEffekseer.cpp">
-      <Filter>ソース ファイル\gameobject\meffekseer</Filter>
+      <Filter>Game\gameobject\meffekseer</Filter>
     </ClCompile>
     <ClCompile Include="GameUI.cpp">
-      <Filter>ソース ファイル\UI</Filter>
+      <Filter>Game\UI</Filter>
     </ClCompile>
     <ClCompile Include="CollisionManager.cpp">
-      <Filter>ソース ファイル\collision</Filter>
+      <Filter>Game\collision</Filter>
     </ClCompile>
     <ClCompile Include="MeshCollider.cpp">
-      <Filter>ソース ファイル\collision</Filter>
+      <Filter>Game\collision</Filter>
     </ClCompile>
     <ClCompile Include="TouchableObject.cpp">
-      <Filter>ソース ファイル\collision</Filter>
+      <Filter>Game\collision</Filter>
     </ClCompile>
     <ClCompile Include="TargetMarker.cpp">
-      <Filter>ソース ファイル\UI</Filter>
+      <Filter>Game\UI</Filter>
     </ClCompile>
     <ClCompile Include="Character.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="LoadScene.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="EnemyAttackState.cpp">
-      <Filter>ソース ファイル\gameobject\Enemy\敵の行動遷移</Filter>
+      <Filter>Game\gameobject\Enemy\敵の行動遷移</Filter>
     </ClCompile>
     <ClCompile Include="EnemyStayState.cpp">
-      <Filter>ソース ファイル\gameobject\Enemy\敵の行動遷移</Filter>
+      <Filter>Game\gameobject\Enemy\敵の行動遷移</Filter>
     </ClCompile>
     <ClCompile Include="EnemyState.cpp">
-      <Filter>ソース ファイル\gameobject\Enemy\敵の行動遷移</Filter>
+      <Filter>Game\gameobject\Enemy\敵の行動遷移</Filter>
     </ClCompile>
     <ClCompile Include="EnemyWalkState.cpp">
-      <Filter>ソース ファイル\gameobject\Enemy\敵の行動遷移</Filter>
+      <Filter>Game\gameobject\Enemy\敵の行動遷移</Filter>
     </ClCompile>
     <ClCompile Include="EnemyFollowState.cpp">
-      <Filter>ソース ファイル\gameobject\Enemy\敵の行動遷移</Filter>
+      <Filter>Game\gameobject\Enemy\敵の行動遷移</Filter>
     </ClCompile>
     <ClCompile Include="RenderTarget.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="mHelper.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="EnemyAlpha.cpp">
-      <Filter>ソース ファイル\gameobject\Enemy\派生クラス\alpha</Filter>
+      <Filter>Game\gameobject\Enemy\派生クラス\alpha</Filter>
     </ClCompile>
     <ClCompile Include="EnemyBeta.cpp">
-      <Filter>ソース ファイル\gameobject\Enemy\派生クラス\beta</Filter>
+      <Filter>Game\gameobject\Enemy\派生クラス\beta</Filter>
     </ClCompile>
     <ClCompile Include="EnemyCamma.cpp">
-      <Filter>ソース ファイル\gameobject\Enemy\派生クラス\cammma</Filter>
+      <Filter>Game\gameobject\Enemy\派生クラス\cammma</Filter>
     </ClCompile>
     <ClCompile Include="ModelManager.cpp">
-      <Filter>ソース ファイル\3d %28Model  Obj  Fbx%29</Filter>
+      <Filter>Game\3d %28Model  Obj  Fbx%29</Filter>
     </ClCompile>
     <ClCompile Include="TextureManager.cpp">
-      <Filter>ソース ファイル\2d %28DebugTxt  Sprite Texture%29</Filter>
+      <Filter>Game\2d %28DebugTxt  Sprite Texture%29</Filter>
     </ClCompile>
     <ClCompile Include="QueryCallback.cpp">
-      <Filter>ソース ファイル\collision</Filter>
+      <Filter>Game\collision</Filter>
     </ClCompile>
     <ClCompile Include="HUD.cpp">
-      <Filter>ソース ファイル\UI\HUD</Filter>
+      <Filter>Game\UI\HUD</Filter>
     </ClCompile>
     <ClCompile Include="HUDLayOut.cpp">
-      <Filter>ソース ファイル\UI\HUD</Filter>
+      <Filter>Game\UI\HUD</Filter>
     </ClCompile>
     <ClCompile Include="MapCreate.cpp">
       <Filter>Editor</Filter>
@@ -367,79 +367,79 @@
       <Filter>Editor</Filter>
     </ClCompile>
     <ClCompile Include="Field.cpp">
-      <Filter>ソース ファイル\gameobject\Field</Filter>
+      <Filter>Game\gameobject\Field</Filter>
     </ClCompile>
     <ClCompile Include="BehaviorTree.cpp">
-      <Filter>ソース ファイル\gameobject\Enemy\Behavior</Filter>
+      <Filter>Game\gameobject\Enemy\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="EnemyActionBase.cpp">
-      <Filter>ソース ファイル\gameobject\Enemy\Behavior</Filter>
+      <Filter>Game\gameobject\Enemy\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="PhysicsAction.cpp">
-      <Filter>ソース ファイル\gameobject\Enemy\Behavior</Filter>
+      <Filter>Game\gameobject\Enemy\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="NodeBase.cpp">
-      <Filter>ソース ファイル\gameobject\Enemy\Behavior</Filter>
+      <Filter>Game\gameobject\Enemy\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="WalkJudgement.cpp">
-      <Filter>ソース ファイル\gameobject\Enemy\Behavior</Filter>
+      <Filter>Game\gameobject\Enemy\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="WalkAction.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="StayJudgment.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="StayAction.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="FollowAction.cpp">
-      <Filter>ソース ファイル\gameobject\Enemy\Behavior</Filter>
+      <Filter>Game\gameobject\Enemy\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="FollowJudgement.cpp">
-      <Filter>ソース ファイル\gameobject\Enemy\Behavior</Filter>
+      <Filter>Game\gameobject\Enemy\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="IHUD.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="EnemyAttackAction.cpp">
-      <Filter>ソース ファイル\gameobject\Enemy\Behavior</Filter>
+      <Filter>Game\gameobject\Enemy\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="EnemyAttackJudgement.cpp">
-      <Filter>ソース ファイル\gameobject\Enemy\Behavior</Filter>
+      <Filter>Game\gameobject\Enemy\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="ConfigSprite.cpp">
-      <Filter>ソース ファイル\UI\Config</Filter>
+      <Filter>Game\UI\Config</Filter>
     </ClCompile>
     <ClCompile Include="SistemConfig.cpp">
-      <Filter>ソース ファイル\UI\Config</Filter>
+      <Filter>Game\UI\Config</Filter>
     </ClCompile>
     <ClCompile Include="BehaviorDatas.cpp">
-      <Filter>ソース ファイル\gameobject\Enemy\Behavior</Filter>
+      <Filter>Game\gameobject\Enemy\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="PlayerHUD.cpp">
-      <Filter>ソース ファイル\UI\HUD</Filter>
+      <Filter>Game\UI\HUD</Filter>
     </ClCompile>
     <ClCompile Include="PlayerAttackState.cpp">
-      <Filter>ソース ファイル\gameobject\Player</Filter>
+      <Filter>Game\gameobject\Player</Filter>
     </ClCompile>
     <ClCompile Include="OBBCollision.cpp">
-      <Filter>ソース ファイル\collision</Filter>
+      <Filter>Game\collision</Filter>
     </ClCompile>
     <ClCompile Include="EnemyHUD.cpp">
-      <Filter>ソース ファイル\UI\HUD</Filter>
+      <Filter>Game\UI\HUD</Filter>
     </ClCompile>
     <ClCompile Include="FieldCollision.cpp">
-      <Filter>ソース ファイル\collision</Filter>
+      <Filter>Game\collision</Filter>
     </ClCompile>
     <ClCompile Include="CustomButton.cpp">
-      <Filter>ソース ファイル\UI\HUD</Filter>
+      <Filter>Game\UI\HUD</Filter>
     </ClCompile>
     <ClCompile Include="Wood.cpp">
-      <Filter>ソース ファイル\gameobject\Wood</Filter>
+      <Filter>Game\gameobject\Wood</Filter>
     </ClCompile>
     <ClCompile Include="AreaFence.cpp">
-      <Filter>ソース ファイル\gameobject\Fence</Filter>
+      <Filter>Game\gameobject\Fence</Filter>
     </ClCompile>
     <ClCompile Include="CreateObjManager.cpp">
       <Filter>Editor\配置管理\配置管理%28基底%29</Filter>
@@ -454,25 +454,28 @@
       <Filter>Editor\配置管理\敵</Filter>
     </ClCompile>
     <ClCompile Include="ControlBase.cpp">
-      <Filter>ソース ファイル\gameobject\Control</Filter>
+      <Filter>Game\gameobject\Control</Filter>
     </ClCompile>
     <ClCompile Include="EnemyControl.cpp">
-      <Filter>ソース ファイル\gameobject\Control</Filter>
+      <Filter>Game\gameobject\Control</Filter>
     </ClCompile>
     <ClCompile Include="FenceControl.cpp">
-      <Filter>ソース ファイル\gameobject\Control</Filter>
+      <Filter>Game\gameobject\Control</Filter>
     </ClCompile>
     <ClCompile Include="WoodControl.cpp">
-      <Filter>ソース ファイル\gameobject\Control</Filter>
+      <Filter>Game\gameobject\Control</Filter>
     </ClCompile>
     <ClCompile Include="WoodManager.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="UI.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="CameraControl.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectManager.cpp">
+      <Filter>Game\gameobject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -498,139 +501,139 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sprite.h">
-      <Filter>ソース ファイル\2d %28DebugTxt  Sprite Texture%29\sprite</Filter>
+      <Filter>Game\2d %28DebugTxt  Sprite Texture%29\sprite</Filter>
     </ClInclude>
     <ClInclude Include="DebugTxt.h">
-      <Filter>ソース ファイル\2d %28DebugTxt  Sprite Texture%29\sprite</Filter>
+      <Filter>Game\2d %28DebugTxt  Sprite Texture%29\sprite</Filter>
     </ClInclude>
     <ClInclude Include="PostEffect.h">
-      <Filter>ソース ファイル\2d %28DebugTxt  Sprite Texture%29\posteffect</Filter>
+      <Filter>Game\2d %28DebugTxt  Sprite Texture%29\posteffect</Filter>
     </ClInclude>
     <ClInclude Include="Texture.h">
-      <Filter>ソース ファイル\2d %28DebugTxt  Sprite Texture%29\texture</Filter>
+      <Filter>Game\2d %28DebugTxt  Sprite Texture%29\texture</Filter>
     </ClInclude>
     <ClInclude Include="f_Model.h">
-      <Filter>ソース ファイル\3d %28Model  Obj  Fbx%29\fbx</Filter>
+      <Filter>Game\3d %28Model  Obj  Fbx%29\fbx</Filter>
     </ClInclude>
     <ClInclude Include="f_Object3d.h">
-      <Filter>ソース ファイル\3d %28Model  Obj  Fbx%29\fbx</Filter>
+      <Filter>Game\3d %28Model  Obj  Fbx%29\fbx</Filter>
     </ClInclude>
     <ClInclude Include="FbxLoader.h">
-      <Filter>ソース ファイル\3d %28Model  Obj  Fbx%29\fbx</Filter>
+      <Filter>Game\3d %28Model  Obj  Fbx%29\fbx</Filter>
     </ClInclude>
     <ClInclude Include="Material.h">
-      <Filter>ソース ファイル\3d %28Model  Obj  Fbx%29\obj</Filter>
+      <Filter>Game\3d %28Model  Obj  Fbx%29\obj</Filter>
     </ClInclude>
     <ClInclude Include="Mesh.h">
-      <Filter>ソース ファイル\3d %28Model  Obj  Fbx%29\obj</Filter>
+      <Filter>Game\3d %28Model  Obj  Fbx%29\obj</Filter>
     </ClInclude>
     <ClInclude Include="Model.h">
-      <Filter>ソース ファイル\3d %28Model  Obj  Fbx%29\obj</Filter>
+      <Filter>Game\3d %28Model  Obj  Fbx%29\obj</Filter>
     </ClInclude>
     <ClInclude Include="Object3d.h">
-      <Filter>ソース ファイル\3d %28Model  Obj  Fbx%29\obj</Filter>
+      <Filter>Game\3d %28Model  Obj  Fbx%29\obj</Filter>
     </ClInclude>
     <ClInclude Include="Audio.h">
-      <Filter>ソース ファイル\base %28Dxcmn  Winapp  Input%29\audio</Filter>
+      <Filter>Game\base %28Dxcmn  Winapp  Input%29\audio</Filter>
     </ClInclude>
     <ClInclude Include="DirectXCommon.h">
-      <Filter>ソース ファイル\base %28Dxcmn  Winapp  Input%29</Filter>
+      <Filter>Game\base %28Dxcmn  Winapp  Input%29</Filter>
     </ClInclude>
     <ClInclude Include="Input.h">
-      <Filter>ソース ファイル\base %28Dxcmn  Winapp  Input%29</Filter>
+      <Filter>Game\base %28Dxcmn  Winapp  Input%29</Filter>
     </ClInclude>
     <ClInclude Include="WinApp.h">
-      <Filter>ソース ファイル\base %28Dxcmn  Winapp  Input%29</Filter>
+      <Filter>Game\base %28Dxcmn  Winapp  Input%29</Filter>
     </ClInclude>
     <ClInclude Include="DebugCamera.h">
-      <Filter>ソース ファイル\gameobject\camera</Filter>
+      <Filter>Game\gameobject\camera</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
-      <Filter>ソース ファイル\gameobject\camera</Filter>
+      <Filter>Game\gameobject\camera</Filter>
     </ClInclude>
     <ClInclude Include="CollisionTypes.h">
-      <Filter>ソース ファイル\collision</Filter>
+      <Filter>Game\collision</Filter>
     </ClInclude>
     <ClInclude Include="CollisionInfo.h">
-      <Filter>ソース ファイル\collision</Filter>
+      <Filter>Game\collision</Filter>
     </ClInclude>
     <ClInclude Include="CollisionPrimitive.h">
-      <Filter>ソース ファイル\collision</Filter>
+      <Filter>Game\collision</Filter>
     </ClInclude>
     <ClInclude Include="BaseCollider.h">
-      <Filter>ソース ファイル\collision</Filter>
+      <Filter>Game\collision</Filter>
     </ClInclude>
     <ClInclude Include="Collision.h">
-      <Filter>ソース ファイル\collision</Filter>
+      <Filter>Game\collision</Filter>
     </ClInclude>
     <ClInclude Include="SphereCollider.h">
-      <Filter>ソース ファイル\collision</Filter>
+      <Filter>Game\collision</Filter>
     </ClInclude>
     <ClInclude Include="Framework.h">
-      <Filter>ソース ファイル\Scene\framework</Filter>
+      <Filter>Game\Scene\framework</Filter>
     </ClInclude>
     <ClInclude Include="SceneManager.h">
-      <Filter>ソース ファイル\Scene\SceneManager</Filter>
+      <Filter>Game\Scene\SceneManager</Filter>
     </ClInclude>
     <ClInclude Include="MyGame.h">
-      <Filter>ソース ファイル\Scene\basescene</Filter>
+      <Filter>Game\Scene\basescene</Filter>
     </ClInclude>
     <ClInclude Include="TitleScene.h">
-      <Filter>ソース ファイル\Scene\title,play</Filter>
+      <Filter>Game\Scene\title,play</Filter>
     </ClInclude>
     <ClInclude Include="PlayScene.h">
-      <Filter>ソース ファイル\Scene\title,play</Filter>
+      <Filter>Game\Scene\title,play</Filter>
     </ClInclude>
     <ClInclude Include="BaseScene.h">
-      <Filter>ソース ファイル\Scene\basescene</Filter>
+      <Filter>Game\Scene\basescene</Filter>
     </ClInclude>
     <ClInclude Include="DirectionalLight.h">
-      <Filter>ソース ファイル\gameobject\light</Filter>
+      <Filter>Game\gameobject\light</Filter>
     </ClInclude>
     <ClInclude Include="PointLight.h">
-      <Filter>ソース ファイル\gameobject\light</Filter>
+      <Filter>Game\gameobject\light</Filter>
     </ClInclude>
     <ClInclude Include="SpotLight.h">
-      <Filter>ソース ファイル\gameobject\light</Filter>
+      <Filter>Game\gameobject\light</Filter>
     </ClInclude>
     <ClInclude Include="LightGroup.h">
-      <Filter>ソース ファイル\gameobject\light</Filter>
+      <Filter>Game\gameobject\light</Filter>
     </ClInclude>
     <ClInclude Include="Effects.h">
-      <Filter>ソース ファイル\gameobject\Effect</Filter>
+      <Filter>Game\gameobject\Effect</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>ソース ファイル\gameobject\Player</Filter>
+      <Filter>Game\gameobject\Player</Filter>
     </ClInclude>
     <ClInclude Include="BossEnemy.h">
-      <Filter>ソース ファイル\gameobject\Enemy\派生クラス</Filter>
+      <Filter>Game\gameobject\Enemy\派生クラス</Filter>
     </ClInclude>
     <ClInclude Include="Enemy.h">
-      <Filter>ソース ファイル\gameobject\Enemy\基底クラス</Filter>
+      <Filter>Game\gameobject\Enemy\基底クラス</Filter>
     </ClInclude>
     <ClInclude Include="MobEnemy.h">
-      <Filter>ソース ファイル\gameobject\Enemy\派生クラス</Filter>
+      <Filter>Game\gameobject\Enemy\派生クラス</Filter>
     </ClInclude>
     <ClInclude Include="mEffekseer.h">
-      <Filter>ソース ファイル\gameobject\meffekseer</Filter>
+      <Filter>Game\gameobject\meffekseer</Filter>
     </ClInclude>
     <ClInclude Include="GameUI.h">
-      <Filter>ソース ファイル\UI</Filter>
+      <Filter>Game\UI</Filter>
     </ClInclude>
     <ClInclude Include="MeshCollider.h">
-      <Filter>ソース ファイル\collision</Filter>
+      <Filter>Game\collision</Filter>
     </ClInclude>
     <ClInclude Include="CollisionManager.h">
-      <Filter>ソース ファイル\collision</Filter>
+      <Filter>Game\collision</Filter>
     </ClInclude>
     <ClInclude Include="RaycastHit.h">
-      <Filter>ソース ファイル\collision</Filter>
+      <Filter>Game\collision</Filter>
     </ClInclude>
     <ClInclude Include="TouchableObject.h">
-      <Filter>ソース ファイル\collision</Filter>
+      <Filter>Game\collision</Filter>
     </ClInclude>
     <ClInclude Include="TargetMarker.h">
-      <Filter>ソース ファイル\UI</Filter>
+      <Filter>Game\UI</Filter>
     </ClInclude>
     <ClInclude Include="OBBCollision.h">
       <Filter>ヘッダー ファイル</Filter>
@@ -645,22 +648,22 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="EnemyAttackState.h">
-      <Filter>ソース ファイル\gameobject\Enemy\敵の行動遷移</Filter>
+      <Filter>Game\gameobject\Enemy\敵の行動遷移</Filter>
     </ClInclude>
     <ClInclude Include="EnemyStayState.h">
-      <Filter>ソース ファイル\gameobject\Enemy\敵の行動遷移</Filter>
+      <Filter>Game\gameobject\Enemy\敵の行動遷移</Filter>
     </ClInclude>
     <ClInclude Include="EnemyWalkState.h">
-      <Filter>ソース ファイル\gameobject\Enemy\敵の行動遷移</Filter>
+      <Filter>Game\gameobject\Enemy\敵の行動遷移</Filter>
     </ClInclude>
     <ClInclude Include="EnemyState.h">
-      <Filter>ソース ファイル\gameobject\Enemy\敵の行動遷移</Filter>
+      <Filter>Game\gameobject\Enemy\敵の行動遷移</Filter>
     </ClInclude>
     <ClInclude Include="EnemyFollowState.h">
-      <Filter>ソース ファイル\gameobject\Enemy\敵の行動遷移</Filter>
+      <Filter>Game\gameobject\Enemy\敵の行動遷移</Filter>
     </ClInclude>
     <ClInclude Include="CollisionAttribute.h">
-      <Filter>ソース ファイル\collision</Filter>
+      <Filter>Game\collision</Filter>
     </ClInclude>
     <ClInclude Include="FieldCollision.h">
       <Filter>ヘッダー ファイル</Filter>
@@ -672,28 +675,28 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="EnemyAlpha.h">
-      <Filter>ソース ファイル\gameobject\Enemy\派生クラス\alpha</Filter>
+      <Filter>Game\gameobject\Enemy\派生クラス\alpha</Filter>
     </ClInclude>
     <ClInclude Include="EnemyBeta.h">
-      <Filter>ソース ファイル\gameobject\Enemy\派生クラス\beta</Filter>
+      <Filter>Game\gameobject\Enemy\派生クラス\beta</Filter>
     </ClInclude>
     <ClInclude Include="EnemyCamma.h">
-      <Filter>ソース ファイル\gameobject\Enemy\派生クラス\cammma</Filter>
+      <Filter>Game\gameobject\Enemy\派生クラス\cammma</Filter>
     </ClInclude>
     <ClInclude Include="ModelManager.h">
-      <Filter>ソース ファイル\3d %28Model  Obj  Fbx%29</Filter>
+      <Filter>Game\3d %28Model  Obj  Fbx%29</Filter>
     </ClInclude>
     <ClInclude Include="TextureManager.h">
-      <Filter>ソース ファイル\2d %28DebugTxt  Sprite Texture%29</Filter>
+      <Filter>Game\2d %28DebugTxt  Sprite Texture%29</Filter>
     </ClInclude>
     <ClInclude Include="QueryCallback.h">
-      <Filter>ソース ファイル\collision</Filter>
+      <Filter>Game\collision</Filter>
     </ClInclude>
     <ClInclude Include="HUDLayOut.h">
-      <Filter>ソース ファイル\UI\HUD</Filter>
+      <Filter>Game\UI\HUD</Filter>
     </ClInclude>
     <ClInclude Include="HUD.h">
-      <Filter>ソース ファイル\UI\HUD</Filter>
+      <Filter>Game\UI\HUD</Filter>
     </ClInclude>
     <ClInclude Include="MapCreateScene.h">
       <Filter>Editor</Filter>
@@ -702,28 +705,28 @@
       <Filter>Editor</Filter>
     </ClInclude>
     <ClInclude Include="Field.h">
-      <Filter>ソース ファイル\gameobject\Field</Filter>
+      <Filter>Game\gameobject\Field</Filter>
     </ClInclude>
     <ClInclude Include="CustomButton.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="BehaviorTree.h">
-      <Filter>ソース ファイル\gameobject\Enemy\Behavior</Filter>
+      <Filter>Game\gameobject\Enemy\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="EnemyActionBase.h">
-      <Filter>ソース ファイル\gameobject\Enemy\Behavior</Filter>
+      <Filter>Game\gameobject\Enemy\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="PhysicsAction.h">
-      <Filter>ソース ファイル\gameobject\Enemy\Behavior</Filter>
+      <Filter>Game\gameobject\Enemy\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="NodeBase.h">
-      <Filter>ソース ファイル\gameobject\Enemy\Behavior</Filter>
+      <Filter>Game\gameobject\Enemy\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="ExecJudgmentBase.h">
-      <Filter>ソース ファイル\gameobject\Enemy\Behavior</Filter>
+      <Filter>Game\gameobject\Enemy\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="WalkJudgement.h">
-      <Filter>ソース ファイル\gameobject\Enemy\Behavior</Filter>
+      <Filter>Game\gameobject\Enemy\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="WalkAction.h">
       <Filter>ヘッダー ファイル</Filter>
@@ -735,13 +738,13 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="FollowAction.h">
-      <Filter>ソース ファイル\gameobject\Enemy\Behavior</Filter>
+      <Filter>Game\gameobject\Enemy\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="FollowJudgement.h">
-      <Filter>ソース ファイル\gameobject\Enemy\Behavior</Filter>
+      <Filter>Game\gameobject\Enemy\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="Destroy.h">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="PlayerHUD.h">
       <Filter>ヘッダー ファイル</Filter>
@@ -750,37 +753,37 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="EnemyAttackAction.h">
-      <Filter>ソース ファイル\gameobject\Enemy\Behavior</Filter>
+      <Filter>Game\gameobject\Enemy\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="EnemyAttackJudgement.h">
-      <Filter>ソース ファイル\gameobject\Enemy\Behavior</Filter>
+      <Filter>Game\gameobject\Enemy\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="WoodManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="ConfigSprite.h">
-      <Filter>ソース ファイル\UI\Config</Filter>
+      <Filter>Game\UI\Config</Filter>
     </ClInclude>
     <ClInclude Include="SistemConfig.h">
-      <Filter>ソース ファイル\UI\Config</Filter>
+      <Filter>Game\UI\Config</Filter>
     </ClInclude>
     <ClInclude Include="PlayerAttackState.h">
-      <Filter>ソース ファイル\gameobject\Player</Filter>
+      <Filter>Game\gameobject\Player</Filter>
     </ClInclude>
     <ClInclude Include="OBB.h">
-      <Filter>ソース ファイル\collision</Filter>
+      <Filter>Game\collision</Filter>
     </ClInclude>
     <ClInclude Include="EnemyHUD.h">
-      <Filter>ソース ファイル\UI\HUD</Filter>
+      <Filter>Game\UI\HUD</Filter>
     </ClInclude>
     <ClInclude Include="BehaviorDatas.h">
-      <Filter>ソース ファイル\gameobject\Enemy\Behavior</Filter>
+      <Filter>Game\gameobject\Enemy\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="Wood.h">
-      <Filter>ソース ファイル\gameobject\Wood</Filter>
+      <Filter>Game\gameobject\Wood</Filter>
     </ClInclude>
     <ClInclude Include="AreaFence.h">
-      <Filter>ソース ファイル\gameobject\Fence</Filter>
+      <Filter>Game\gameobject\Fence</Filter>
     </ClInclude>
     <ClInclude Include="CreateObjManager.h">
       <Filter>Editor\配置管理\配置管理%28基底%29</Filter>
@@ -795,22 +798,25 @@
       <Filter>Editor\配置管理\敵</Filter>
     </ClInclude>
     <ClInclude Include="EnemyControl.h">
-      <Filter>ソース ファイル\gameobject\Control</Filter>
+      <Filter>Game\gameobject\Control</Filter>
     </ClInclude>
     <ClInclude Include="FenceControl.h">
-      <Filter>ソース ファイル\gameobject\Control</Filter>
+      <Filter>Game\gameobject\Control</Filter>
     </ClInclude>
     <ClInclude Include="ControlBase.h">
-      <Filter>ソース ファイル\gameobject\Control</Filter>
+      <Filter>Game\gameobject\Control</Filter>
     </ClInclude>
     <ClInclude Include="WoodControl.h">
-      <Filter>ソース ファイル\gameobject\Control</Filter>
+      <Filter>Game\gameobject\Control</Filter>
     </ClInclude>
     <ClInclude Include="UI.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="CameraControl.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectManager.h">
+      <Filter>Game\gameobject</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

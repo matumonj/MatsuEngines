@@ -5,8 +5,7 @@
 #include"Player.h"
 #include"Texture.h"
 #include"Sprite.h"
-#include"f_Object3d.h"
-#include"f_Model.h"
+
 class MobEnemy :
     public Enemy
 {
@@ -27,24 +26,23 @@ private:
     Enemy* mob;
     //オブジェクトのインスタンス
     //Object3d* MobObject = nullptr;
-    f_Object3d* MobObject = nullptr;
-    //モデルのインスタンス
-    //Model* MobModel = nullptr;
-    f_Model* MobModel = nullptr;
+   
     //
     //
     Texture* SearchPlayerTexture = nullptr;
 public:
+
+    Object3d* colBox;
   //  void Action(Player* player);
     /// <summary>
     /// 初期化
     /// </summary>
-    bool Initialize( DebugCamera* camera)override;
+    void Initialize( DebugCamera* camera)override;
 
     /// <summary>
     /// 更新処理
     /// </summary>
-    void Update(XMFLOAT4 color, DebugCamera* camera)override;
+    void Update(DebugCamera* camera)override;
 
     /// <summary>
     /// 描画処理

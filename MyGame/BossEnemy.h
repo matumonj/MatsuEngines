@@ -33,12 +33,12 @@ public:
       /// <summary>
       /// ‰Šú‰»
       /// </summary>
-    bool Initialize(DebugCamera* camera)override;
+    void Initialize(DebugCamera* camera)override;
 
     /// <summary>
     /// XVˆ—
     /// </summary>
-    void Update(XMFLOAT4 color, DebugCamera* camera)override;
+    void Update(DebugCamera* camera)override;
 
     /// <summary>
     /// •`‰æˆ—

@@ -34,10 +34,8 @@ public:
 	virtual void Draw()=0;
 
 	virtual bool ErrorJudg()=0;
-	//bool GetErrorJudg() { return ErrorJudg; }
+	
 protected:
-	bool ErrorJudgm;
-
 	std::vector<int>Number;
 	std::ifstream file;
 	std::stringstream popcom;

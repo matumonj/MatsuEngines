@@ -90,7 +90,7 @@ void EnemyControl::Load(DebugCamera*camera)
 		}
 
 		enemys[i]->Initialize(camera);
-		enemys[i]->SetEnemyPosition(pos[i]);
+		enemys[i]->SetPosition(pos[i]);
 		enemys[i]->SearchInit();
 	}
 }
@@ -108,7 +108,7 @@ void EnemyControl::Update(DebugCamera* camera)
 	for (int i = 0; i < Quantity; i++) {
 		if (enemys[i] != nullptr) {
 			enemys[i]->SetMoveFlag(true);
-			enemys[i]->Update({ 1,1,1,1 }, camera);
+			enemys[i]->Update( camera);
 			enemys[i]->SearchAction(camera);
 		}
 	}

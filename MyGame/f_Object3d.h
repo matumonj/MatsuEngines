@@ -9,6 +9,7 @@
 #include <d3dx12.h>
 #include <DirectXMath.h>
 #include <string>
+class BaseCollider;
 
 class f_Object3d
 {
@@ -53,6 +54,7 @@ public:	//サブクラス
 	};
 
 public:	//メンバ関数
+	void SetCollider(BaseCollider* collider);
 
 	/// <summary>
 	/// 初期化

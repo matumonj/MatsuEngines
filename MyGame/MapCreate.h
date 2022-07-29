@@ -25,7 +25,7 @@ public:
 
 	static void LoadEnemyParam();
 private:
-	//設置オブジェクトの数[木・柵・敵]
+	//設置オブジェクト[木・柵・敵]
 	enum {
 		WOOD=0,
 		FENCE=1,
@@ -45,14 +45,10 @@ public:
 	void ObjectUpdate(DebugCamera* camera);
 	//描画
 	void ObjectDraw();
-
+	//警告表示
 	bool Error();
 private:
 	bool savef;
-	enum SaveJudg{
-		SAVE_OK,
-		SAVE_NG,
-	};
-	SaveJudg saveJudg;
+	
 };
 

@@ -17,12 +17,13 @@
 #include"Destroy.h"
 class BehaviorTree;
 #include"BehaviorDatas.h"
+#include"ObjectManager.h"
 class NodeBase;
 /// <summary>
 /// 敵キャラの基底クラス
 /// </summary>
 /// 
-class Enemy :public Object3d
+class Enemy :public ObjectManager
 {
 public:
 	/// <summary>
@@ -38,23 +39,11 @@ public:
 
 	static Enemy* Create(Model* model, DebugCamera* camera);
 
-protected:
-	//Microosoft::WRL::を省略
-	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
-	//DirectX::を省略
-	using XMFLOAT2 = DirectX::XMFLOAT2;
-	using XMFLOAT3 = DirectX::XMFLOAT3;
-	using XMFLOAT4 = DirectX::XMFLOAT4;
-	using XMMATRIX = DirectX::XMMATRIX;
-	using XMVECTOR = DirectX::XMVECTOR;
 private:
 	EnemyState* _state;
 protected:
 	Texture* SearchTex;
 	float EnemyHP;
-	XMFLOAT3 Position;
-	XMFLOAT3 Rotation;
-	XMFLOAT3 Scale;
 	float rotx;
 	float rotz;
 	XMVECTOR positionA;
@@ -68,10 +57,7 @@ protected:
 	int Number;
 	bool animeflag;
 private:
-	//接地フラグ
-	bool onGround = true;
-	//落下ベクトル
-	XMVECTOR fallV;
+	
 	int stime = 0;
 	bool searchFlag;
 	bool SearchNowFlag;
@@ -110,18 +96,18 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	virtual bool Initialize( DebugCamera* camera)override;
+	virtual void Initialize( DebugCamera* camera)override;
 
 	/// <summary>
 	/// 更新処理
 	/// </summary>
-	virtual void Update(XMFLOAT4 color,DebugCamera* camera)override;
+	virtual void Update(DebugCamera* camera)override;
 
 	
 	/// <summary>
 	/// 描画処理
 	/// </summary>
-	virtual void Draw();
+	virtual void Draw()override;
 	virtual void InitAction();
 	virtual void Action();
 	void SetMovement(int movement) { this->movement = movement; }
@@ -140,26 +126,16 @@ public:
 
 	virtual float Distance(Player* player);
 
-	void SetEnemyPosition(XMFLOAT3 position) { this->position = position; }
-	XMFLOAT3 GetEnemyPosition() { return position; }
 	void Getposition(float* x, float* y, float* z) {
 		*x = this->Position.x;
 		*y = this->Position.y;
 		*z = this->Position.z;
 	};
 
-	
-	void SetPosition(XMFLOAT3 position) { Position = position; }
-
-	XMFLOAT3 GetRotation() { return Rotation; }
-
-	void SetRotation(XMFLOAT3 rotation) { Rotation = rotation; }
-
 	XMFLOAT3 GetScale() { return Scale; }
 
 	void SetScale(XMFLOAT3 scale) { Scale = scale; }
 
-	virtual void CollisionField(DebugCamera* camera);
 	virtual void ChangeState(EnemyState* newState);
 
 	int GetTime() { return time; }

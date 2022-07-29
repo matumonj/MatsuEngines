@@ -27,7 +27,6 @@ void PlaceFence::FileWriting()
 			<< "," << fences[i]->GetRotation().z << std::endl;
 
 	}
-	Position.resize(fences.size());
 }
 
 bool PlaceFence::ErrorJudg()

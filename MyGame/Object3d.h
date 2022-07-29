@@ -241,6 +241,7 @@ public:
 	virtual void OnCollision(const CollisionInfo& info) {}
 protected:
 	const char* name = nullptr;
+	public:
 
 	BaseCollider* collider = nullptr;
 	private:
