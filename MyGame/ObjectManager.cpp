@@ -110,3 +110,37 @@ void ObjectManager::CollisionField(DebugCamera* camera)
 	m_Object->Update({ 1,1,1,1 }, camera);
 
 }
+
+void ObjectManager::ParameterSet_Obj(DebugCamera* camera)
+{
+	m_Object->SetPosition({ Position.x,Position.y-3,Position.z });
+	m_Object->SetRotation(Rotation);
+	m_Object->SetScale(Scale);
+
+	m_Object->Update({1,1,1,1},camera);
+}
+
+
+void ObjectManager::ParameterSet_Fbx(DebugCamera* camera)
+{
+	m_fbxObject->SetPosition({ Position.x,Position.y ,Position.z });
+
+	m_fbxObject->SetRotation(Rotation);
+	m_fbxObject->SetScale(Scale);
+
+	m_Object->SetPosition(Position);
+	m_fbxObject->Updata(true);
+	
+}
+
+void ObjectManager::Draw_Obj()
+{
+	m_Object->PreDraw();
+	m_Object->Draw();
+	m_Object->PostDraw();
+}
+
+void ObjectManager::Draw_Fbx()
+{
+	m_fbxObject->Draw();
+}

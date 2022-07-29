@@ -20,10 +20,15 @@ public:
 
 	virtual void Initialize(DebugCamera*camera) = 0;
 
+	virtual void ParameterSet_Obj(DebugCamera* camera);
+	virtual void ParameterSet_Fbx(DebugCamera* camera);
+
 	virtual void Update(DebugCamera*camera)=0;
 
-	virtual void Draw()=0;
+	virtual void Draw_Obj();
+	virtual void Draw_Fbx();
 
+	virtual void Draw() = 0;
 	virtual void CollisionField(DebugCamera* camera);
 
 protected:

@@ -15,9 +15,9 @@
 /// </summary>
 using namespace DirectX;
 MobEnemy::MobEnemy(BehaviorTree* ai_tree, float max_hp, float max_mp, float attack, float deffence) :
-Enemy(ai_tree,  max_hp, max_mp, attack, deffence)
+	Enemy(ai_tree, max_hp, max_mp, attack, deffence)
 {
-	
+
 }
 /// <summary>
 /// デストラクタ
@@ -33,25 +33,25 @@ void MobEnemy::Initialize(DebugCamera* camera)
 	m_Object = std::make_unique<Object3d>();
 	m_Object->Initialize(camera);
 	m_fbxModel = FbxLoader::GetInstance()->LoadModelFromFile("monster");
-	
-	RandMove = rand() % 90+20;
+
+	RandMove = rand() % 90 + 20;
 	RandMovement = rand() % 100 + 80;
-		
+
 	InitAction();
 	EnemyHP = 150.0f;
 	//モデルの読込
 	//MobModel = Model::CreateFromOBJ("subenemy");
 	//モデル割り当てcamera
-	
+
 	Texture::LoadTexture(11, L"Resources/Sertch.png");
 	SearchPlayerTexture = Texture::Create(11, { 0,-50,50 }, { 1,1,1 }, { 1,1,1,1 });
 	SearchPlayerTexture->CreateTexture();
 	//パラメータのセット
 	//Scale = { 2,2,2 };
-	Rotation = { 0,180,0 };
+	Rotation = { -70,180,0 };
 	//Position = { -12,-5,-2 };
 
-	
+
 	m_fbxObject = std::make_unique<f_Object3d>();
 	m_fbxObject->Initialize();
 	m_fbxObject->SetModel(m_fbxModel);
@@ -65,41 +65,33 @@ void MobEnemy::Update(DebugCamera* camera)
 {
 	if (FollowFlag) {
 		m_fbxObject->SetColor({ 1,0,0,1 });
-	}
-	else {
+	} else {
 		m_fbxObject->SetColor({ 1,1,1,1 });
 	}
-	Scale={ 0.02f, 0.02f, 0.02f
-		};
+	Scale = { 0.02f, 0.02f, 0.02f
+	};
 	//Position = { 0,0,0 };
-		Action();
+	Action();
 
-		EnemyPop(150);
-		
-			m_fbxObject->SeteCurrent(animeflag);
-			m_fbxObject->SetScale(Scale);
-			m_fbxObject->SetPosition({ Position.x,Position.y-3,Position.z });
-		m_fbxObject->SetRotation({ Rotation.x-70, Rotation.y, Rotation.z });
-		m_fbxObject->Updata(true);
-		m_Object->SetPosition(Position);
+	EnemyPop(150);
 
-		CollisionField(camera);
+	m_fbxObject->SeteCurrent(animeflag);
+	ParameterSet_Fbx(camera);
+	//m_Object->SetPosition(Position);
+
+	CollisionField(camera);
 }
 
 //描画処理
 void MobEnemy::Draw()
 {
-	//if (Alive) {
-		/*Object3d::PreDraw();
-		Object3d::Draw();
-		Object3d::PostDraw();*/
-	m_fbxObject->Draw();
-		Texture::PreDraw();
-		//if (distance <= 30) {
-			SearchPlayerTexture->Draw();
-	//	}
-		Texture::PostDraw();
-	//}
+
+	Draw_Fbx();
+	Texture::PreDraw();
+	SearchPlayerTexture->Draw();
+
+	Texture::PostDraw();
+
 }
 //解放処理
 void MobEnemy::Finalize()

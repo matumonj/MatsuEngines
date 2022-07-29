@@ -11,6 +11,9 @@ void AreaFence::Initialize(DebugCamera* camera)
 	m_Object->Initialize(camera);
 	m_Object->SetModel(m_Model);
 	ps0 = new OBBCollision();
+
+	Scale = { 10,10,10 };
+
 }
 
 void AreaFence::Update(DebugCamera* camera)
@@ -18,17 +21,12 @@ void AreaFence::Update(DebugCamera* camera)
 	m_Object->setSetf(true);
 	CollideAreaFence();
 	//フィールド
-	m_Object->SetRotation(Rotation);
-	m_Object->SetScale({ 10,10,10 });
-	m_Object->SetPosition(Position);
-	m_Object->Update({ 0.5,0.5,1,1 }, camera);
+	ParameterSet_Obj(camera);
 }
 
 void AreaFence::Draw()
 {
-	m_Object->PreDraw();
-	m_Object->Draw();
-	m_Object->PostDraw();
+	Draw_Obj();
 }
 
 bool AreaFence::CollideAreaFence()

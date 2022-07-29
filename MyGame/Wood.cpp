@@ -14,7 +14,7 @@ void Wood::Initialize(DebugCamera* camera)
 	m_Object->Initialize(camera);
 	m_Object->SetModel(m_Model);
 	ps0 = new OBBCollision();
-
+	Scale = { 2,3,2 };
 	radius_adjustment = -14;
 	SetCollider();
 }
@@ -22,21 +22,16 @@ void Wood::Initialize(DebugCamera* camera)
 void Wood::Update(DebugCamera* camera)
 {
 	m_Object->setSetf(true);
+	ParameterSet_Obj(camera);
 	//フィールド
 	CollideWood();
-	m_Object->SetRotation({ 0,0,0 });
-	m_Object->SetScale({2,3,2});
-	m_Object->SetPosition(Position);
-	m_Object->Update({ 1,1,1,1 }, camera);
+	
 }
 
 void Wood::Draw()
 {
-	m_Object->PreDraw();
-	m_Object->Draw();
-	m_Object->PostDraw();
+	Draw_Obj();
 }
-
 bool Wood::CollideWood()
 {
 	playerOBB.m_NormaDirect[0] = { Player::GetInstance()->GetMatrot().r[0].m128_f32[0],Player::GetInstance()->GetMatrot().r[0].m128_f32[1],Player::GetInstance()->GetMatrot().r[0].m128_f32[2] };
