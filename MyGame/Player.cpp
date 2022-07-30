@@ -349,7 +349,7 @@ void Player::ImguiDraw()
 		ImGui::TreePop();
 	}
 	ImGui::SliderInt("HP", &HP,1,MaxHP);
-	ImGui::SliderFloat("MoveSpeed", &movespeed, 1, 5);
+	ImGui::SliderFloat("MoveSpeed", &movespeed, 1, 15);
 	//もし落下したとき地面に戻ってくる 1秒前の接地位置に戻ってくる
 	PosSavetime++;
 	if (PosSavetime > 60) {

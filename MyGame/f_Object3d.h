@@ -34,8 +34,8 @@ public:	//静的メンバ関数
 
 private:	//静的メンバ変数
 	//デバイス
-	static ID3D12Device* device;
-	static ID3D12GraphicsCommandList* cmdList;
+	static ComPtr<ID3D12Device> device;
+	static ComPtr<ID3D12GraphicsCommandList> cmdList;
 	//カメラ
 	static Camera* camera;
 	//ルートシグネチャ
@@ -110,6 +110,12 @@ protected:	//メンバ変数
 	bool isPlay = false;
 	XMMATRIX matScale, matRot, matTrans;
 	XMFLOAT4 color;
+	float f_time;
+	float start_time;
+	float end_time;
+
+	bool AttackFlag;
+	float AttackTime;
 public:	//定数
 	void SetColor(XMFLOAT4 color) { this->color = color; }
 	void SetPosition(XMFLOAT3 pos) { position = pos; }
@@ -138,4 +144,9 @@ public:	//定数
 	XMMATRIX GetmatRot(){return hRot;}
 	XMMATRIX GetHandBone() { return handa; }
 	FbxTime SetCurrent() { return currentTime = startTime; }
+	private:
+		bool nowAttack;
+	public:
+		void SetAttackFlag(bool flag) { AttackFlag = flag; }
+	void SetAttackTime(int time) { AttackTime = time; }
 };

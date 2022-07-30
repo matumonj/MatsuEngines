@@ -24,8 +24,8 @@ private:
     //ルートシグネチャ
     ComPtr<ID3D12RootSignature>rootSignature;
     //デバイス
-    static ID3D12Device* device;
-    static ID3D12GraphicsCommandList* cmdList;
+    static ComPtr<ID3D12Device> device;
+    static ComPtr<ID3D12GraphicsCommandList> cmdList;
 private:
     //画面クリアカラー
     static const float clearColor[4];

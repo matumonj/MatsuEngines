@@ -25,6 +25,9 @@ void PlaceFence::FileWriting()
 		ofs << "ROTATION" << "," << fences[i]->GetRotation().x
 			<< "," << fences[i]->GetRotation().y
 			<< "," << fences[i]->GetRotation().z << std::endl;
+		ofs << "SCALE" << "," << fences[i]->GetScale().x
+			<< "," << fences[i]->GetScale().y
+			<< "," << fences[i]->GetScale().z << std::endl;
 
 	}
 }
@@ -44,6 +47,7 @@ void PlaceFence::ArgMent(DebugCamera* camera)
 		newFence->Initialize(camera);
 		newFence->SetPosition(pos);
 		newFence->SetRotation(rot);
+		newFence->SetScale(scl);
 		fences.push_back(std::move(newFence));
 		ArgmentFlag = false;
 	}
@@ -61,7 +65,7 @@ void PlaceFence::Update(DebugCamera* camera)
 {
 	Obj->SetPosition(pos);
 	Obj->SetRotation(rot);
-	Obj->SetScale({10,10,10 });
+	Obj->SetScale(scl);
 	Obj->Update({ 1,0,0,0.5 }, camera);
 }
 
@@ -101,6 +105,11 @@ void PlaceFence::ImGui_Draw()
 		ImGui::SliderFloat("rotY", &rot.y, 0, 360);
 		ImGui::SliderFloat("rotZ", &rot.z, 0, 360);
 
+	}
+	{
+		ImGui::SliderFloat("sclX", &scl.x, 0, 30);
+		ImGui::SliderFloat("sclY", &scl.y, 0, 10);
+		ImGui::SliderFloat("sclZ", &scl.z, 0, 10);
 	}
 	ImGui::End();
 }

@@ -1,24 +1,19 @@
-#include "WoodControl.h"
-WoodControl* WoodControl::GetInstance()
-{
-	static WoodControl instance;
+#include "ChestControl.h"
 
-	return &instance;
+ChestControl* ChestControl::GetInstance()
+{
+	static ChestControl instance;
+
+	return& instance;
 }
-
-WoodControl::~WoodControl()
+void ChestControl::Load(DebugCamera* camera)
 {
-	
-}
-
-void WoodControl::Load(DebugCamera* camera)
-{
-	file.open("EnemyParam_CSV/wood.csv");
+	file.open("EnemyParam_CSV/Chest.csv");
 
 	popcom << file.rdbuf();
 
 	file.close();
-	
+
 	while (std::getline(popcom, line)) {
 		std::istringstream line_stream(line);
 		std::string word;
@@ -27,7 +22,7 @@ void WoodControl::Load(DebugCamera* camera)
 		if (word.find("//") == 0) {
 			continue;
 		}
-		if (word.find("Wood_Quantity") == 0) {
+		if (word.find("Chest_Quantity") == 0) {
 			std::getline(line_stream, word, ',');
 			int quantity = (int)std::atof(word.c_str());
 			Quantity = quantity;
@@ -60,56 +55,50 @@ void WoodControl::Load(DebugCamera* camera)
 			}
 		}
 	}
-	woods.resize(Quantity);
+	chests.resize(Quantity);
 
-	Load_WoodPosition.resize(Quantity);
+	Load_ChestPosition.resize(Quantity);
 
 	for (int i = 0; i < Quantity; i++) {
 
-		woods[i] = std::make_unique<Wood>();
+		chests[i] = std::make_unique<Chest>();
 
-		woods[i]->Initialize(camera);
-		woods[i]->SetPosition(pos[i]);
+		chests[i]->Initialize(camera);
+		chests[i]->SetPosition(pos[i]);
 	}
 	UpdateRange = 200;
 }
 
-void WoodControl::Initialize(DebugCamera* camera)
+void ChestControl::Initialize(DebugCamera* camera)
 {
 
 }
 
-void WoodControl::Update(DebugCamera* camera)
+void ChestControl::Update(DebugCamera* camera)
 {
-	Player_OldPos= Player::GetInstance()->GetPosition();
 	for (int i = 0; i < Quantity; i++) {
-		if (woods[i] != nullptr) {
-			if (Collision::GetLength(Player::GetInstance()->GetPosition(),woods[i]->GetPosition()) <UpdateRange) {
-				woods[i]->Update(camera);
+		if (chests[i] != nullptr) {
+			if (Collision::GetLength(Player::GetInstance()->GetPosition(), chests[i]->GetPosition()) < UpdateRange) {
+				chests[i]->Update(camera);
 			}
 		}
 	}
 	for (int i = 0; i < Quantity; i++) {
-		if (woods[i]->CollideWood() == true) {
-			Player::GetInstance()->SetPosition(Player_OldPos);
-			Player::GetInstance()->SetGround(true);
+		if (chests[i]->CollideChest() == true) {
+			//Player::GetInstance()->SetPosition(Player_OldPos);
+			//Player::GetInstance()->SetGround(true);
 			break;
 		}
 	}
 }
 
-void WoodControl::Draw()
+void ChestControl::Draw()
 {
 	for (int i = 0; i < Quantity; i++) {
-		if (woods[i] != nullptr) {
-			if (Collision::GetLength(Player::GetInstance()->GetPosition(), woods[i]->GetPosition()) <UpdateRange) {
-				woods[i]->Draw();
+		if (chests[i] != nullptr) {
+			if (Collision::GetLength(Player::GetInstance()->GetPosition(), chests[i]->GetPosition()) < UpdateRange) {
+				chests[i]->Draw();
 			}
 		}
 	}
-}
-
-void WoodControl::ImGuiDraw()
-{
-
 }

@@ -3,6 +3,7 @@
 #include"BaseScene.h"
 #include"PlayScene.h"
 #include"MapCreateScene.h"
+#include<dxgidebug.h>
 DirectXCommon* DirectXCommon::GetInstance()
 {
 	static DirectXCommon instance;
@@ -10,11 +11,17 @@ DirectXCommon* DirectXCommon::GetInstance()
 	return &instance;
 }
 
+DirectXCommon::~DirectXCommon()
+{
+	//pddebug->ReportLiveDeviceObjects(D3D12_RLDO_DETAIL);
+}
 void DirectXCommon::Initialize(WinApp* winapp)
 {
 
 	//でバッグレイヤーのやつ
 #ifdef _DEBUG
+		//ComPtr<ID3D12DebugDevice> pddebug;
+
 	ID3D12Debug* debugController;
 	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController)))) {
 		debugController->EnableDebugLayer();
@@ -39,6 +46,7 @@ void DirectXCommon::Initialize(WinApp* winapp)
 	InitializeFence();
 
 	wx = WinApp::window_width / 2; wy = WinApp::window_height / 2;
+	
 }
 #pragma region デバイスの生成
 void DirectXCommon::InitializeDevice() {
@@ -85,6 +93,7 @@ void DirectXCommon::InitializeDevice() {
 			break;
 		}
 	}
+	result=dev->QueryInterface(pddebug.GetAddressOf());
 
 }
 #pragma endregion

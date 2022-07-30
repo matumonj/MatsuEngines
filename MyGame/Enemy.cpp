@@ -88,10 +88,7 @@ void Enemy::SearchDraw()
 	}
 	Texture::PostDraw();
 }
-void Enemy::InitAction()
-{
-	//_state = new EnemyWalkState();
-}
+
 void Enemy::Action()
 {
 	if (m_ActiveNode == NULL)
@@ -109,7 +106,7 @@ void Enemy::Action()
 			tempx = Position.x;
 			tempz = Position.z;
 		}
-		if (wf && MoveFlag) {
+		if (FollowFlag||(wf && MoveFlag)) {
 			Position = {
 				Position.x + move.m128_f32[0],
 				Position.y,
@@ -133,6 +130,7 @@ void Enemy::Action()
 
 	move = XMVector3TransformNormal(move, matRot);
 
+	AttackCoolTime();
 }
 void Enemy::RecvDamage(int Damage) 
 {
@@ -166,26 +164,6 @@ void Enemy::Draw()
 //解放処理
 void Enemy::Finalize()
 {
-}
-
-float Enemy::Distance(Player* player)
-{
-
-		distance = sqrtf(((player->GetPosition().x - Position.x) * (player->GetPosition().x - Position.x))
-			+ ((player->GetPosition().y - Position.y) * (player->GetPosition().y - Position.y))
-			+ ((player->GetPosition().z - Position.z) * (player->GetPosition().z - Position.z)));
-		return distance;
-	
-}
-void Enemy::EnemySearchPlayer(Player* player)
-{
-
-}
-
-void Enemy::ChangeState(EnemyState* newState)
-{
-	delete _state;
-	_state = newState;
 }
 
 
@@ -242,9 +220,8 @@ void Enemy::Stop()
 	}
 }
 
-void Enemy::Follow()
+void Enemy::Turn_toPlayer()
 {
-	animeflag = false;
 	float angleX, angleZ, dis;
 	//追跡スピード
 	float centerSpeed = 0.2f;
@@ -256,7 +233,6 @@ void Enemy::Follow()
 	dis = sqrtf((Position.x - Player::GetInstance()->GetPosition().x) * (Position.x - Player::GetInstance()->GetPosition().x)
 		+ (Position.z - Player::GetInstance()->GetPosition().z) * (Position.z - Player::GetInstance()->GetPosition().z));
 
-
 	//敵がプエレイヤーの方向く処理
 	XMVECTOR positionA = { Player::GetInstance()->GetPosition().x,Player::GetInstance()->GetPosition().y, Player::GetInstance()->GetPosition().z };
 	XMVECTOR positionB = { Position.x,Position.y,Position.z };
@@ -266,11 +242,14 @@ void Enemy::Follow()
 	//角度の取得 プレイヤーが敵の索敵位置に入ったら向きをプレイヤーの方に
 	RotY = atan2f(SubVector.m128_f32[0], SubVector.m128_f32[2]);
 
-	Rotation={0,RotY * 60 + 180,0 };
-	//座標のセット
-	if (Collision::GetLength(Player::GetInstance()->GetPosition(), Position) > 10) {
-		Position = { Position.x + (angleX / dis) * centerSpeed,Position.y,Position.z + (angleZ / dis) * centerSpeed };
-	}
+	Rotation.y = RotY * 60 + 180;
+}
+void Enemy::Follow()
+{
+	animeflag = false;
+	
+	Turn_toPlayer();
+	
 	if (time> 210) {
 		wf = true;
 		endsearch = true;
@@ -288,27 +267,27 @@ void Enemy::Follow()
 
 void Enemy::Attack()
 {
-	
+	Turn_toPlayer();
+	wf = false;
 	AttackFlag = true;
 	Player::GetInstance()->RecvDamage(10);
+	m_fbxObject->SetAttackFlag(true);
 	if (AttackFlag) {
 		AttackFlag=false;
 		AfterAttack = true;
 	}
 }
-int Enemy::AttackCoolTime()
+void Enemy::AttackCoolTime()
 {
 	if (AfterAttack) {
 		cooltime++;
-		if (cooltime > 180) {
-			AfterAttack = false;
+		if (cooltime > 300) {
 			cooltime = 0;
+			AfterAttack = false;
+			
 	}
 	}
-	return cooltime;
+	//return cooltime;
 }
-bool Enemy::GetSearchPlayer_Distance() {
-	if (Collision::GetLength(Player::GetInstance()->GetPosition(), Position) < 10) { return true; }
-	else { return false; }
-}
+
 

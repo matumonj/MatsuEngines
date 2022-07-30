@@ -5,7 +5,7 @@ class AreaFence:public ObjectManager
 {
 public:
 	AreaFence() {};
-	~AreaFence() {};
+	~AreaFence();
 
 private:
 	OBB playerOBB;

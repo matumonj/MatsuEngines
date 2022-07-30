@@ -18,9 +18,9 @@ ComPtr<ID3D12PipelineState> f_Object3d::pipelinestate;
 /// <summary>
 /// 静的メンバ変数の実体
 /// </summary>
-ID3D12Device* f_Object3d::device = nullptr;
+ComPtr<ID3D12Device> f_Object3d::device = nullptr;
 Camera* f_Object3d::camera = nullptr;
-ID3D12GraphicsCommandList* f_Object3d::cmdList = nullptr;
+ComPtr<ID3D12GraphicsCommandList> f_Object3d::cmdList = nullptr;
 
 void f_Object3d::CreateGraphicsPipeline()
 {
@@ -258,25 +258,36 @@ void f_Object3d::Updata(bool animeloop)
 	//ボーン配列
 	std::vector<f_Model::Bone>& bones = model->GetBones();
 
+	start_time = startTime.GetSecondDouble();
+	end_time = endTime.GetSecondDouble();
 	//アニメーション
 	if (!stopFlag) {
 		if (isPlay) {
 			//1フレーム進める
-			currentTime += frameTime;
+			f_time += 0.02;
 			//最後まで再生したら先頭に戻す
-			if (currentTime > endTime) {
-				if (animeloop == TRUE) {
-					currentTime = startTime;
-				} else {
-					currentTime = endTime;
+			
+			if(AttackFlag){
+				f_time = AttackTime;
+				AttackFlag = false;
+				nowAttack = true;
+			}
+			else {
+				if (!nowAttack&&f_time >= AttackTime) {
+					f_time = 0;
 				}
 			}
 		}
 	}
 	else if (stopFlag) {
-		currentTime = startTime;
+		f_time = 0;
 	}
 
+
+	if (f_time > end_time) {
+		nowAttack = false;
+	}
+	currentTime.SetSecondDouble(f_time);
 	//定数バッファへデータ転送
 	ConstBufferDataSkin* constMapSkin = nullptr;
 	result = constBuffSkin->Map(0, nullptr, (void**)&constMapSkin);

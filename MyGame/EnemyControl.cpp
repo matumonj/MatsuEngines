@@ -98,9 +98,11 @@ void EnemyControl::Load(DebugCamera*camera)
 void EnemyControl::Initialize(DebugCamera* camera)
 {
 	behavior.AddNode("", "Root", 0, BehaviorTree::SELECT_RULE::PRIORITY, NULL, NULL);
-	behavior.AddNode("Root", "Attack", 1, BehaviorTree::SELECT_RULE::NON, EnemyAttackJudgement::GetInstance(), EnemyAttackAction::GetInstance());
-	behavior.AddNode("Root", "Walk", 2, BehaviorTree::SELECT_RULE::NON, WalkJudgment::GetInstance(), WalkAction::GetInstance());
-	behavior.AddNode("Root", "Follow", 3, BehaviorTree::SELECT_RULE::NON, FollowJudgement::GetInstance(), FollowAction::GetInstance());
+	behavior.AddNode("Root", "Walk", 1, BehaviorTree::SELECT_RULE::NON, WalkJudgment::GetInstance(), WalkAction::GetInstance());
+//	
+	behavior.AddNode("Root", "Attack", 2, BehaviorTree::SELECT_RULE::NON, EnemyAttackJudgement::GetInstance(), EnemyAttackAction::GetInstance());
+
+//	behavior.AddNode("Root", "Follow", 3, BehaviorTree::SELECT_RULE::NON, FollowJudgement::GetInstance(), FollowAction::GetInstance());
 }
 
 void EnemyControl::Update(DebugCamera* camera)
@@ -117,7 +119,7 @@ void EnemyControl::Update(DebugCamera* camera)
 void EnemyControl::Draw()
 {
 	for (int i = 0; i < Quantity; i++) {
-		if (enemys[i] != nullptr && enemys[i]->State_Dead() == false) {
+		if (enemys[i] != nullptr) {
 				enemys[i]->Draw();
 				enemys[i]->SearchDraw();
 		}

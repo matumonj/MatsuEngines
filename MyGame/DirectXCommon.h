@@ -15,12 +15,16 @@
 #pragma comment(lib,"d3d12.lib")
 
 #pragma comment(lib,"dxgi.lib")
+
 using namespace Microsoft::WRL;
 
 class DirectXCommon
 {
+public:
+	~DirectXCommon();
 private:
 	WinApp* winapp = nullptr;
+	ComPtr<ID3D12DebugDevice> pddebug;
 	ComPtr<IDXGIFactory6>dxgiFactory;
 	ComPtr<ID3D12Device> dev;
 	ComPtr<IDXGISwapChain4> swapchain;

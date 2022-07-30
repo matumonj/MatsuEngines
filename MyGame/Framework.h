@@ -23,7 +23,7 @@ protected:
 	bool winRequest = false;
 	WinApp* winapp = nullptr;
 	Input* input = nullptr;
-	DirectXCommon* dxcomn = nullptr;
+	//DirectXCommon* dxcomn = nullptr;
 	Audio* audio = nullptr;
 	SceneManager* sceneManger = nullptr;
 	//Sprite* sprite = nullptr;

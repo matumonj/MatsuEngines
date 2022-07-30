@@ -29,7 +29,8 @@ private:
 	enum {
 		WOOD=0,
 		FENCE=1,
-		ENEMY=2
+		ENEMY=2,
+		CHEST=3
 	};
 	//設置オブジェクト
 	std::vector<CreateObjManager*> placeobj;

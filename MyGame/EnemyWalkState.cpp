@@ -39,7 +39,7 @@ void EnemyWalkState::Update(Enemy* enemy)
 		}
 	
 		if (movement > enemy->GetRandMoveMent()) {
-			enemy->ChangeState(new EnemyStayState());
+			//enemy->ChangeState(new EnemyStayState());
 			movement = 0;
 		}
 	}
@@ -60,6 +60,6 @@ void EnemyWalkState::Update(Enemy* enemy)
 	if (SearchPlayer) {
 		//’ÇÕ
 		
-			enemy->ChangeState(new EnemyFollowState());
+			//enemy->ChangeState(new EnemyFollowState());
 	}
 }

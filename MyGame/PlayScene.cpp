@@ -11,6 +11,7 @@
 #include"EnemyControl.h"
 #include"WoodControl.h"
 #include"FenceControl.h"
+#include"ChestControl.h"
 #include"UI.h"
 #include"Effects.h"
 //シーンのコンストラクタ
@@ -52,6 +53,7 @@ void PlayScene::Initialize()
 		AllObjectControl.push_back(WoodControl::GetInstance());
 		AllObjectControl.push_back(FenceControl::GetInstance());
 		AllObjectControl.push_back(EnemyControl::GetInstance());
+		AllObjectControl.push_back(ChestControl::GetInstance());
 	}
 	TargetMarker::GetInstance()->Initialize();
 
@@ -279,10 +281,10 @@ void PlayScene::LoadParam(DebugCamera*camera)
 
 void PlayScene::Finalize()
 {
-	SistemConfig::GetInstance()->~SistemConfig();
+	//SistemConfig::GetInstance()->~SistemConfig();
 	delete camera;
 	delete postEffect, lightGroup;
 	for (int i = 0; i < AllObjectControl.size(); i++) {
-		delete AllObjectControl[i];
+		//delete AllObjectControl[i];
 	} 
 }

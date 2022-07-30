@@ -6,9 +6,9 @@ using namespace DirectX;
 /// <summary>
 /// Ã“Iƒƒ“ƒo•Ï”‚ÌÀ‘Ì
 /// </summary>
-ID3D12Device* LightGroup::device = nullptr;
+ComPtr<ID3D12Device> LightGroup::device = nullptr;
 
-ID3D12GraphicsCommandList*LightGroup::cmdList=nullptr;
+ComPtr<ID3D12GraphicsCommandList>LightGroup::cmdList=nullptr;
 
 void LightGroup::StaticInitialize()
 {

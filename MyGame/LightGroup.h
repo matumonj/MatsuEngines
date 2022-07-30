@@ -72,8 +72,8 @@ public: // 静的メンバ関数
 
 private: // 静的メンバ変数
 	// デバイス
-	static ID3D12Device* device;
-	static ID3D12GraphicsCommandList* cmdList;
+	static ComPtr<ID3D12Device> device;
+	static ComPtr<ID3D12GraphicsCommandList> cmdList;
 public: // メンバ関数
 	/// <summary>
 	/// 初期化

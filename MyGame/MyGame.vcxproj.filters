@@ -145,6 +145,12 @@
     <Filter Include="Game\gameobject\オブジェクト種類\Player">
       <UniqueIdentifier>{82a94310-85ef-4641-b334-083a5d0e8f8f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Editor\配置管理\宝箱">
+      <UniqueIdentifier>{17271910-45a5-4d0e-a613-26f072c2e53a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\オブジェクト種類\Chest">
+      <UniqueIdentifier>{2a2771c9-a0a5-4fed-b1a5-862349bd87ad}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="BlurPS.hlsl">
@@ -479,6 +485,15 @@
     </ClCompile>
     <ClCompile Include="ObjectManager.cpp">
       <Filter>Game\gameobject</Filter>
+    </ClCompile>
+    <ClCompile Include="Chest.cpp">
+      <Filter>Game\gameobject\オブジェクト種類\Chest</Filter>
+    </ClCompile>
+    <ClCompile Include="ChestControl.cpp">
+      <Filter>Game\gameobject\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="PlaceChest.cpp">
+      <Filter>Editor\配置管理\宝箱</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -820,6 +835,15 @@
     </ClInclude>
     <ClInclude Include="ObjectManager.h">
       <Filter>Game\gameobject</Filter>
+    </ClInclude>
+    <ClInclude Include="Chest.h">
+      <Filter>Game\gameobject\オブジェクト種類\Chest</Filter>
+    </ClInclude>
+    <ClInclude Include="ChestControl.h">
+      <Filter>Game\gameobject\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="PlaceChest.h">
+      <Filter>Editor\配置管理\宝箱</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

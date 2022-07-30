@@ -5,6 +5,9 @@ using namespace DirectX;
 class Collision
 {
 public:
+
+	static bool Collision::CheckSphere2Box(const Sphere& sphere, const Box& box);
+
 	static float GetLength(XMFLOAT3 position, XMFLOAT3 position2);
 	struct BoxVertex
 	{

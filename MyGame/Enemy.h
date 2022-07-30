@@ -91,8 +91,8 @@ public:
 	//void SetRandMove(int randMove, int movement) { RandMove = randMove; Movement = movement; }
 	int GetRandMove() { return RandMove; }
 	int GetRandMoveMent() { return RandMovement; }
-	virtual void EnemySearchPlayer(Player* player);
 
+	void Turn_toPlayer();
 	/// <summary>
 	/// ‰Šú‰»
 	/// </summary>
@@ -108,7 +108,7 @@ public:
 	/// •`‰æˆ—
 	/// </summary>
 	virtual void Draw()override;
-	virtual void InitAction();
+
 	virtual void Action();
 	void SetMovement(int movement) { this->movement = movement; }
 	int GetMovement() { return movement; }
@@ -124,8 +124,6 @@ public:
 
 	float GetDistance() { return distance; }
 
-	virtual float Distance(Player* player);
-
 	void Getposition(float* x, float* y, float* z) {
 		*x = this->Position.x;
 		*y = this->Position.y;
@@ -136,8 +134,6 @@ public:
 
 	void SetScale(XMFLOAT3 scale) { Scale = scale; }
 
-	virtual void ChangeState(EnemyState* newState);
-
 	int GetTime() { return time; }
 	void Walk();
 	void Stop();
@@ -145,16 +141,12 @@ public:
 	bool GetSearchFlag() { return searchFlag; }
 	bool endsearch;
 	bool getendsearch() { return endsearch; }
-	bool State_Dead() {
-		if (state == DEAD) { return true; }
-		return false;
-	}
 	bool GetEndSearch() { return endsearch; }
-	bool GetSearchPlayer_Distance();
 	void Attack();
-	int AttackCoolTime();
+	void AttackCoolTime();
+	int GetAttackCoolTime() { return cooltime; }
 private:
-	
+	bool followFlag;
 	int cooltime=0;
 	bool AttackFlag;
 	bool AfterAttack;

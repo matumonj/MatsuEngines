@@ -62,10 +62,7 @@ private:
 	float charaAngle = 0;
 	XMFLOAT3 CameraPosition;
 
-	DirectXCommon* dxcomn;
-	Sprite* background = nullptr;
-	DebugTxt* debugText;
-
+	
 	PostEffect* postEffect = nullptr;
 	DebugCamera* camera;
 

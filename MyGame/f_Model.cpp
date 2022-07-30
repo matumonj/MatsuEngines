@@ -1,8 +1,8 @@
 #include "f_Model.h"
 #include"DirectXCommon.h"
 //デバイス
-ID3D12Device* f_Model::device=nullptr;
-ID3D12GraphicsCommandList*f_Model::cmdList=nullptr;
+ComPtr<ID3D12Device> f_Model::device=nullptr;
+ComPtr<ID3D12GraphicsCommandList>f_Model::cmdList=nullptr;
 f_Model::~f_Model()
 {
 	//FBXシーンの解放

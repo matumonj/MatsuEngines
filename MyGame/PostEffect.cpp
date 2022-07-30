@@ -7,8 +7,8 @@
 #pragma comment(lib,"d3dcompiler.lib")
 using namespace DirectX;
 //デバイス
-ID3D12Device* PostEffect::device = nullptr;
-ID3D12GraphicsCommandList* PostEffect::cmdList = nullptr;
+ComPtr<ID3D12Device> PostEffect::device = nullptr;
+ComPtr<ID3D12GraphicsCommandList> PostEffect::cmdList = nullptr;
 const float PostEffect::clearColor[4] = { 0.3f,0.3f,0.3f,0.0f };
 
 PostEffect::PostEffect()

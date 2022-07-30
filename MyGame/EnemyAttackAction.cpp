@@ -10,6 +10,7 @@ EnemyActionBase::STATE EnemyAttackAction::Run(Enemy* enemy)
 	const float DetectionRange = 5.0f;
 	bool SearchPlayer = Collision::GetLength(enemy->GetPosition(), Player::GetInstance()->GetPosition()) < DetectionRange;
 	enemy->Attack();
+	
 	//if (SearchPlayer) {
 	return EnemyActionBase::STATE::COMPLETE;
 	//}

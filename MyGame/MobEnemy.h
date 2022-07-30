@@ -23,7 +23,6 @@ public:
 private:
     BehaviorTree behavior;
 
-    Enemy* mob;
     //オブジェクトのインスタンス
     //Object3d* MobObject = nullptr;
    
@@ -53,15 +52,7 @@ public:
     /// 解放処理
     /// </summary>
     void Finalize()override;
-    /// <summary>
-    /// 
-    /// </summary>
-    /// 
-    void EnemySearchPlayer(Player* player)override;
-
-
-    float Distance(Player* player)override;
-
+  
 private:
     
     bool SearchPlayerFlag = false;

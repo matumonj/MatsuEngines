@@ -61,9 +61,9 @@ void Framework::Draw()
 void Framework::Finalize()
 {
 	FbxLoader::GetInstance()->Finalize();
-	delete sceneManger;
+	//delete sceneManger;
 	delete audio;
-	delete dxcomn;
+	//delete dxcomn;
 	delete input;
 	delete winapp;
 }

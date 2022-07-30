@@ -4,7 +4,7 @@
 #include"PlaceFence.h"
 #include"PlaceWood.h"
 #include"PlaceEnemy.h"
-
+#include"PlaceChest.h"
 MapCreate::MapCreate()
 {
 
@@ -24,6 +24,7 @@ void MapCreate::ObjectInitialize(DebugCamera* camera)
 		placeobj.push_back(new PlaceFence());//柵
 		placeobj.push_back(new PlaceWood());//木
 		placeobj.push_back(new PlaceEnemy());//敵
+		placeobj.push_back(new PlaceChest());
 	}
 	for (int i = 0; i < placeobj.size(); i++) {
 		placeobj[i]->Initialize(camera);//モデル用意、初期化
@@ -79,7 +80,7 @@ bool MapCreate::Error()
 		WinApp::CreateErrorWindow(placeobj[ENEMY]->ErrorJudg(), TEXT("敵を1体以上配置してください"));
 		WinApp::CreateErrorWindow(placeobj[FENCE]->ErrorJudg(), TEXT("柵を1個以上配置してください"));
 		WinApp::CreateErrorWindow(placeobj[WOOD]->ErrorJudg(), TEXT("木を1本以上配置してください"));
-
+		WinApp::CreateErrorWindow(placeobj[CHEST]->ErrorJudg(), TEXT("宝箱は必ず5つ配置してください"));
 		return true;
 	}
 	return false;

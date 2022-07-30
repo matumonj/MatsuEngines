@@ -161,6 +161,8 @@
     <ClCompile Include="BehaviorDatas.cpp" />
     <ClCompile Include="BehaviorTree.cpp" />
     <ClCompile Include="CameraControl.cpp" />
+    <ClCompile Include="Chest.cpp" />
+    <ClCompile Include="ChestControl.cpp" />
     <ClCompile Include="ConfigSprite.cpp" />
     <ClCompile Include="ControlBase.cpp" />
     <ClCompile Include="CreateObjManager.cpp" />
@@ -225,6 +227,7 @@
     <ClCompile Include="Object3d.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="PhysicsAction.cpp" />
+    <ClCompile Include="PlaceChest.cpp" />
     <ClCompile Include="PlaceEnemy.cpp" />
     <ClCompile Include="PlaceFence.cpp" />
     <ClCompile Include="PlaceWood.cpp" />
@@ -401,6 +404,8 @@
     <ClInclude Include="BehaviorDatas.h" />
     <ClInclude Include="BehaviorTree.h" />
     <ClInclude Include="CameraControl.h" />
+    <ClInclude Include="Chest.h" />
+    <ClInclude Include="ChestControl.h" />
     <ClInclude Include="ConfigSprite.h" />
     <ClInclude Include="ControlBase.h" />
     <ClInclude Include="CreateObjManager.h" />
@@ -471,6 +476,7 @@
     <ClInclude Include="Object3d.h" />
     <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="PhysicsAction.h" />
+    <ClInclude Include="PlaceChest.h" />
     <ClInclude Include="PlaceEnemy.h" />
     <ClInclude Include="PlaceFence.h" />
     <ClInclude Include="PlaceWood.h" />

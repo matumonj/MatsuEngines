@@ -7,6 +7,8 @@
 #include <d3dx12.h>
 #include <string>
 
+#include <wrl.h>
+using namespace Microsoft::WRL;
 class FbxLoader
 {
 private:	//エイリアス
@@ -85,7 +87,7 @@ private:
 	void operator=(const FbxLoader& obj) = delete;
 
 	//D3D12デバイス
-	ID3D12Device* device = nullptr;
+	ComPtr<ID3D12Device> device = nullptr;
 	//FBXマネージャ
 	FbxManager* fbxManager = nullptr;
 	//FBXインポータ

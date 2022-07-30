@@ -25,7 +25,7 @@ void EnemyStayState::Update(Enemy* enemy)
 			enemy->GetRotation().z
 			});
 		if (RotTime>0.6) {
-			enemy->ChangeState(new EnemyWalkState());
+			//enemy->ChangeState(new EnemyWalkState());
 		}
 	}
 }

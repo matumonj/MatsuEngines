@@ -31,6 +31,8 @@ void FenceControl::Load(DebugCamera* camera)
 	}
 	Num.resize(Quantity);
 	pos.resize(Quantity);
+	rot.resize(Quantity);
+	scl.resize(Quantity);
 	for (int i = 0; i < Quantity; i++) {
 		while (std::getline(popcom, line)) {
 			std::istringstream line_stream(line);
@@ -51,6 +53,32 @@ void FenceControl::Load(DebugCamera* camera)
 				float z = (float)std::atof(word.c_str());
 
 				pos[i] = { x,y,z };
+				//break;
+			}
+			if (word.find("ROTATION") == 0) {
+				std::getline(line_stream, word, ',');
+				float x = (float)std::atof(word.c_str());
+
+				std::getline(line_stream, word, ',');
+				float y = (float)std::atof(word.c_str());
+
+				std::getline(line_stream, word, ',');
+				float z = (float)std::atof(word.c_str());
+
+				rot[i] = { x,y,z };
+				//break;
+			}
+			if (word.find("SCALE") == 0) {
+				std::getline(line_stream, word, ',');
+				float x = (float)std::atof(word.c_str());
+
+				std::getline(line_stream, word, ',');
+				float y = (float)std::atof(word.c_str());
+
+				std::getline(line_stream, word, ',');
+				float z = (float)std::atof(word.c_str());
+
+				scl[i] = { x,y,z };
 				break;
 			}
 		}
@@ -63,6 +91,8 @@ void FenceControl::Load(DebugCamera* camera)
 		fences[i] = std::make_unique<AreaFence>();
 		fences[i]->Initialize(camera);
 		fences[i]->SetPosition(pos[i]);
+		fences[i]->SetRotation(rot[i]);
+		fences[i]->SetScale(scl[i]);
 	}
 }
 

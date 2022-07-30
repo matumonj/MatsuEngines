@@ -35,6 +35,9 @@ Camera* Object3d::camera = nullptr;
 
 Object3d::~Object3d()
 {
+	//delete model;
+	//delete camera;
+	delete parent;
 	if (collider) {
 		//“–‚½‚è”»’èƒ}ƒl[ƒWƒƒ‚Ì“o˜^‰ðœ
 		CollisionManager::GetInstance()->RemoveCollider(collider);

@@ -49,14 +49,7 @@ public:
     /// ‰ğ•úˆ—
     /// </summary>
     void Finalize()override;
-    /// <summary>
-    /// 
-    /// </summary>
-    /// 
-    void EnemySearchPlayer(Player* player)override;
-
-    float Distance(Player* player)override;
-
+ 
 private:
 
     bool SearchPlayerFlag = false;

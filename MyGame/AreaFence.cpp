@@ -1,6 +1,11 @@
 #pragma once
 #include "AreaFence.h"
 #include"Player.h"
+
+AreaFence::~AreaFence()
+{
+	delete ps0;
+}
 void AreaFence::Initialize(DebugCamera* camera)
 {
 	m_Object = std::make_unique<Object3d>();

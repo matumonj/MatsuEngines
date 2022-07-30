@@ -52,9 +52,9 @@ protected:
 public:
 	XMFLOAT3 GetPosition() { return Position;}
 	XMFLOAT3 GetRotation() { return Rotation; }
-
+	XMFLOAT3 GetScale() { return Scale; }
 	void SetPosition(XMFLOAT3 position) { Position = position; }
 	void SetRotation(XMFLOAT3 rotation) { Rotation = rotation; }
-
+	void SetScale(XMFLOAT3 scale) { Scale = scale; }
 };
 

@@ -45,8 +45,8 @@ private:	//エイリアス
 	using string = std::string;
 	template <class T> using vector = std::vector<T>;
 	//デバイス
-	static ID3D12Device* device;
-	static ID3D12GraphicsCommandList* cmdList;
+	static ComPtr<ID3D12Device> device;
+	static ComPtr<ID3D12GraphicsCommandList> cmdList;
 	//頂点バッファ
 	ComPtr<ID3D12Resource> vertBuff;
 	//インッデクスバッファ

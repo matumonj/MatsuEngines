@@ -50,9 +50,11 @@ protected:
 	//
 	std::vector<XMFLOAT3>Position;
 	std::vector<XMFLOAT3>Rotation;
+	std::vector<XMFLOAT3>Scale;
 	//
 	XMFLOAT3 pos;
 	XMFLOAT3 rot;
+	XMFLOAT3 scl;
 
 };
 
