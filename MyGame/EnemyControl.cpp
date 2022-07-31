@@ -116,8 +116,7 @@ void EnemyControl::Update(DebugCamera* camera)
 			enemys[i]->SearchAction(camera);
 		
 			if (enemys[i]->GetState() == enemys[i]->DEAD) {
-				enemys[i].reset();
-				enemys[i] = nullptr;
+				
 		}
 		}
 	
