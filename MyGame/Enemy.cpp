@@ -290,4 +290,3 @@ void Enemy::AttackCoolTime()
 	//return cooltime;
 }
 
-

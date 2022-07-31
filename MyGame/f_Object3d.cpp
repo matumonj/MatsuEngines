@@ -273,7 +273,19 @@ void f_Object3d::Updata(bool animeloop)
 				nowAttack = true;
 			}
 			else {
-				if (!nowAttack&&f_time >= AttackTime) {
+				if (nowDeath==false) {
+					if (!nowAttack && f_time >= AttackTime) {
+						f_time = 0;
+					}
+				}
+			}
+
+			if (DeathFlag) {
+				f_time = DeathTime;
+				DeathFlag = false;
+				nowDeath = true;
+			} else {
+				if (!AttackFlag&&!nowDeath && f_time >= end_time) {
 					f_time = 0;
 				}
 			}
@@ -284,9 +296,14 @@ void f_Object3d::Updata(bool animeloop)
 	}
 
 
-	if (f_time > end_time) {
+	if (f_time >DeathTime) {
 		nowAttack = false;
 	}
+	if (f_time > end_time) {
+		isendtime=true;
+		//nowDeath = false;
+	}
+
 	currentTime.SetSecondDouble(f_time);
 	//定数バッファへデータ転送
 	ConstBufferDataSkin* constMapSkin = nullptr;

@@ -495,6 +495,12 @@
     <ClCompile Include="PlaceChest.cpp">
       <Filter>Editor\配置管理\宝箱</Filter>
     </ClCompile>
+    <ClCompile Include="DeathJudgment.cpp">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="DeathAction.cpp">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\Behavior</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Blur.hlsli">
@@ -844,6 +850,12 @@
     </ClInclude>
     <ClInclude Include="PlaceChest.h">
       <Filter>Editor\配置管理\宝箱</Filter>
+    </ClInclude>
+    <ClInclude Include="DeathAction.h">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="DeathJudgment.h">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\Behavior</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -116,6 +116,8 @@ protected:	//ƒƒ“ƒo•Ï”
 
 	bool AttackFlag;
 	float AttackTime;
+	bool DeathFlag;
+	float DeathTime;
 public:	//’è”
 	void SetColor(XMFLOAT4 color) { this->color = color; }
 	void SetPosition(XMFLOAT3 pos) { position = pos; }
@@ -146,7 +148,12 @@ public:	//’è”
 	FbxTime SetCurrent() { return currentTime = startTime; }
 	private:
 		bool nowAttack;
+		bool nowDeath;
 	public:
+		bool isendtime;
+		bool GetIsEnd() { if (f_time >= end_time) { return true; }return false; }
 		void SetAttackFlag(bool flag) { AttackFlag = flag; }
 	void SetAttackTime(int time) { AttackTime = time; }
+	void SetDeathFlag(bool flag) { DeathFlag = flag; }
+	void SetDeathTime(float time) { DeathTime = time; }
 };

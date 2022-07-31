@@ -44,3 +44,7 @@ void BossEnemy::Finalize()
 
 }
 
+void BossEnemy::Death()
+{
+
+}

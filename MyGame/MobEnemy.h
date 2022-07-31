@@ -53,8 +53,9 @@ public:
     /// </summary>
     void Finalize()override;
   
+    void Death()override;
 private:
-    
+    bool deadtrigger;
     bool SearchPlayerFlag = false;
     float GetDistance() { return distance; }
     //Ú’nƒtƒ‰ƒO

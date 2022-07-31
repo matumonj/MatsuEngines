@@ -1,7 +1,6 @@
 #pragma once
 #include "EnemyActionBase.h"
 
-// –‚–@s“®
 class EnemyAttackAction :public EnemyActionBase
 {
 

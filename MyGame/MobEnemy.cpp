@@ -34,7 +34,7 @@ void MobEnemy::Initialize(DebugCamera* camera)
 {
 	m_Object = std::make_unique<Object3d>();
 	m_Object->Initialize(camera);
-	m_fbxModel = FbxLoader::GetInstance()->LoadModelFromFile("monster_golem");
+	m_fbxModel = FbxLoader::GetInstance()->LoadModelFromFile("monster_golem_demo");
 
 	RandMove = rand() % 90 + 20;
 	RandMovement = rand() % 100 + 80;
@@ -54,10 +54,11 @@ void MobEnemy::Initialize(DebugCamera* camera)
 	m_fbxObject->SetModel(m_fbxModel);
 	m_fbxObject->PlayAnimation();
 	radius_adjustment = 0;
-	Scale = { 0.02f, 0.02f, 0.02f
+	Scale = { 0.04f, 0.04f, 0.04f
 	};
 	SetCollider();
 	m_fbxObject->SetAttackTime(1.5f);
+	m_fbxObject->SetDeathTime(4.9f);
 }
 
 //XVˆ—
@@ -76,8 +77,10 @@ void MobEnemy::Update(DebugCamera* camera)
 	//m_fbxObject->SeteCurrent(animeflag);
 
 	ParameterSet_Fbx(camera);
-	
 	CollisionField(camera);
+	if (m_fbxObject->GetIsEnd()) {
+		state = DEAD;
+	}
 }
 
 //•`‰æˆ—
@@ -96,4 +99,10 @@ void MobEnemy::Finalize()
 }
 
 
-
+void MobEnemy::Death()
+{
+	DeathFlag = true;
+	m_fbxObject->SetDeathFlag(true);
+	
+	//}
+}

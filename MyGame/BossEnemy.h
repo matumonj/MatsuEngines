@@ -50,6 +50,7 @@ public:
     /// </summary>
     void Finalize()override;
  
+    void Death()override;
 private:
 
     bool SearchPlayerFlag = false;

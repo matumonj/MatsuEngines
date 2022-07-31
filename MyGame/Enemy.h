@@ -103,7 +103,7 @@ public:
 	/// </summary>
 	virtual void Update(DebugCamera* camera)override;
 
-	
+	virtual void Death()=0;
 	/// <summary>
 	/// 描画処理
 	/// </summary>
@@ -134,6 +134,7 @@ public:
 
 	void SetScale(XMFLOAT3 scale) { Scale = scale; }
 
+	bool GetDeath() { return DeathFlag; }
 	int GetTime() { return time; }
 	void Walk();
 	void Stop();
@@ -160,13 +161,9 @@ private:
 	float tempx, tempz;
 	int movement;
 protected:
-	enum EnemyStates {
-		ALIVE,
-		DEAD
-	};
+	
 	XMFLOAT3 StartPosition;
 	int PopCount;
-	EnemyStates state;
 	private:
 
 	bool wf = true;
@@ -177,10 +174,23 @@ protected:
 	float AfterRot;
 	float RotTime = 0;
 	int StayCount = 0;
+
+	protected:
+
+	bool DeathFlag;
 protected:
 	BehaviorTree* m_AiTree;			// ビヘイビアツリー
 	BehaviorDatas* m_BehaviorData;	// ビヘイビアデータ
 	NodeBase* m_ActiveNode;			// 実行中ノード
+
+	public:
+		enum EnemyStates {
+			ALIVE,
+			DEAD
+		};
+		EnemyStates GetState() { return state; }
+	protected:
+		EnemyStates state;
 };
 
 

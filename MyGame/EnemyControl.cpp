@@ -5,8 +5,9 @@
 #include"WalkAction.h"
 #include "FollowJudgement.h"
 #include"FollowAction.h"
-#include"StayJudgment.h"
-#include"StayAction.h"
+
+#include"DeathJudgment.h"
+#include"DeathAction.h"
 #include"EnemyAttackAction.h"
 #include"SistemConfig.h"
 #include"EnemyAttackJudgement.h"
@@ -101,6 +102,7 @@ void EnemyControl::Initialize(DebugCamera* camera)
 	behavior.AddNode("Root", "Walk", 1, BehaviorTree::SELECT_RULE::NON, WalkJudgment::GetInstance(), WalkAction::GetInstance());
 //	
 	behavior.AddNode("Root", "Attack", 2, BehaviorTree::SELECT_RULE::NON, EnemyAttackJudgement::GetInstance(), EnemyAttackAction::GetInstance());
+	behavior.AddNode("Root", "Death", 3, BehaviorTree::SELECT_RULE::NON, DeathJudgment::GetInstance(), DeathAction::GetInstance());
 
 //	behavior.AddNode("Root", "Follow", 3, BehaviorTree::SELECT_RULE::NON, FollowJudgement::GetInstance(), FollowAction::GetInstance());
 }
@@ -112,8 +114,15 @@ void EnemyControl::Update(DebugCamera* camera)
 			enemys[i]->SetMoveFlag(true);
 			enemys[i]->Update( camera);
 			enemys[i]->SearchAction(camera);
+		
+			if (enemys[i]->GetState() == enemys[i]->DEAD) {
+				enemys[i].reset();
+				enemys[i] = nullptr;
 		}
+		}
+	
 	}
+
 }
 
 void EnemyControl::Draw()
