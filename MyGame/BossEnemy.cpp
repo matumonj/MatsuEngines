@@ -48,3 +48,34 @@ void BossEnemy::Death()
 {
 
 }
+
+void BossEnemy::Walk()
+{
+
+}
+
+void BossEnemy::Stop()
+{
+
+}
+
+
+void BossEnemy::Follow()
+{
+	animeflag = false;
+
+	Turn_toPlayer();
+
+	if (time > 210) {
+		wf = true;
+		endsearch = true;
+		RecvDamageJudg = false;
+		FollowFlag = false;
+		time = 0;
+	} else {
+		time++;
+		FollowFlag = true;
+		wf = false;
+		sf = false;
+	}
+}

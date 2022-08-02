@@ -131,6 +131,10 @@ void Enemy::Action()
 	move = XMVector3TransformNormal(move, matRot);
 
 	AttackCoolTime();
+
+	
+		//m_fbxObject->SeteCurrent(animeflag);
+		
 }
 void Enemy::RecvDamage(int Damage) 
 {
@@ -139,7 +143,7 @@ void Enemy::RecvDamage(int Damage)
 }
 void Enemy::EnemyPop(int HP)
 {
-	if (state == DEAD) {
+	if (EnemyHP<=0) {
 		PopCount++;
 		if (PopCount >600) {
 			Position = StartPosition;
@@ -168,58 +172,6 @@ void Enemy::Finalize()
 
 
 
-void Enemy::Walk()
-{
-	onGroundTime++;
-	if (wf) {
-	if (movement > RandMovement) {
-			wf = false;
-			movement = 0;
-			sf = true;
-		}
-	}
-	animeflag = false;
-}
-
-void Enemy::Stop()
-{
-	if (StayCount == 0) {
-		endsearch = false;
-		//ƒC[ƒWƒ“ƒOŠ|‚¯‚é‘O‚Ì“G‚ÌŒü‚«
-		BeforeRot = Rotation.y;
-		//Š|‚¯‚½Œã‚Ì“G‚ÌŒü‚«
-		AfterRot = Rotation.y + RandMove;
-	}
-
-	if (sf) {
-		StayCount++;
-
-		if (StayCount > 190) {//’âŽ~ŽžŠÔ
-			RotTime += 0.01f;
-			Rotation = {
-				Rotation.x,
-				//enemy->GetRotation().y+80,
-				Easing::EaseOut(RotTime,BeforeRot, AfterRot),
-				Rotation.z
-			};
-		}
-
-		if (Rotation.y >= AfterRot) {
-			RotTime = 0;
-			StayCount = 0;
-			sf = false;
-			wf = true;
-		}
-	}
-	if (sf) {
-		animeflag = true;
-	
-	}
-	if (wf) {
-		animeflag = false;
-	}
-}
-
 void Enemy::Turn_toPlayer()
 {
 	float angleX, angleZ, dis;
@@ -244,49 +196,33 @@ void Enemy::Turn_toPlayer()
 
 	Rotation.y = RotY * 60 + 180;
 }
-void Enemy::Follow()
-{
-	animeflag = false;
-	
-	Turn_toPlayer();
-	
-	if (time> 210) {
-		wf = true;
-		endsearch = true;
-		RecvDamageJudg = false;
-		FollowFlag = false;
-		time = 0;
-	}
-	else {
-		time++;
-		FollowFlag = true;
-		wf = false;
-		sf = false;
-	}
-}
 
 void Enemy::Attack()
 {
-	Turn_toPlayer();
-	wf = false;
-	AttackFlag = true;
-	Player::GetInstance()->RecvDamage(10);
-	m_fbxObject->SetAttackFlag(true);
-	if (AttackFlag) {
-		AttackFlag=false;
+		if (state != NOW_ATTACK) {
+			Turn_toPlayer();
+			wf = false;
+			Player::GetInstance()->RecvDamage(10);
+			m_fbxObject->SetAttackFlag(true);
+
+			state = NOW_ATTACK;
+		}
+	if (m_fbxObject->GetIsEnd()==true) {
+		state = None;
 		AfterAttack = true;
 	}
+	
 }
 void Enemy::AttackCoolTime()
 {
 	if (AfterAttack) {
 		cooltime++;
 		if (cooltime > 300) {
+			wf = true;
 			cooltime = 0;
 			AfterAttack = false;
 			
 	}
 	}
-	//return cooltime;
 }
 

@@ -64,11 +64,12 @@ private:
 	bool searchMarkDrawFlag;
 	bool RecvDamagef;
 	float OldHP;
+	XMFLOAT3 OldPos;
 protected:
 	bool FollowFlag;
 	bool RecvDamageJudg;
 public:
-
+	bool AttackEnd() { return AfterAttack; }
 	bool GetRecvDamageJudg() { return RecvDamageJudg; }
 	bool GetRecvDamage() { return RecvDamagef; }
 	void SetRecvDamage(bool f) { RecvDamagef = f; }
@@ -136,9 +137,9 @@ public:
 
 	bool GetDeath() { return DeathFlag; }
 	int GetTime() { return time; }
-	void Walk();
-	void Stop();
-	void Follow();
+	virtual void Walk()=0;
+	virtual void Stop()=0;
+	virtual void Follow()=0;
 	bool GetSearchFlag() { return searchFlag; }
 	bool endsearch;
 	bool getendsearch() { return endsearch; }
@@ -147,6 +148,7 @@ public:
 	void AttackCoolTime();
 	int GetAttackCoolTime() { return cooltime; }
 private:
+	protected:
 	bool followFlag;
 	int cooltime=0;
 	bool AttackFlag;
@@ -164,7 +166,6 @@ protected:
 	
 	XMFLOAT3 StartPosition;
 	int PopCount;
-	private:
 
 	bool wf = true;
 	bool sf = false;
@@ -186,11 +187,13 @@ protected:
 	public:
 		enum EnemyStates {
 			ALIVE,
-			DEAD
+			None,
+			DEAD,
+			NOW_ATTACK
 		};
 		EnemyStates GetState() { return state; }
 	protected:
-		EnemyStates state;
+		EnemyStates state=None;
 };
 
 

@@ -7,11 +7,9 @@ using namespace DirectX;
 
 EnemyActionBase::STATE EnemyAttackAction::Run(Enemy* enemy)
 {
-	const float DetectionRange = 5.0f;
-	bool SearchPlayer = Collision::GetLength(enemy->GetPosition(), Player::GetInstance()->GetPosition()) < DetectionRange;
 	enemy->Attack();
 	
-	//if (SearchPlayer) {
+	//if(enemy->AttackEnd()) {
 	return EnemyActionBase::STATE::COMPLETE;
 	//}
 }

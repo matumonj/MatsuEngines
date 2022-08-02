@@ -285,7 +285,7 @@ void f_Object3d::Updata(bool animeloop)
 				DeathFlag = false;
 				nowDeath = true;
 			} else {
-				if (!AttackFlag&&!nowDeath && f_time >= end_time) {
+				if (!AttackFlag&&!nowDeath && f_time > end_time) {
 					f_time = 0;
 				}
 			}
@@ -299,7 +299,7 @@ void f_Object3d::Updata(bool animeloop)
 	if (f_time >DeathTime) {
 		nowAttack = false;
 	}
-	if (f_time > end_time) {
+	if (f_time >= end_time) {
 		isendtime=true;
 		//nowDeath = false;
 	}
@@ -372,3 +372,10 @@ void f_Object3d::PlayAnimation()
 	isPlay = true;
 }
 
+bool f_Object3d::GetIsEnd() 
+{
+	if (f_time > DeathTime) { return true; }
+	else {
+		return false;
+	}
+}

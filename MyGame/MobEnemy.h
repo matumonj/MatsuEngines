@@ -53,6 +53,11 @@ public:
     /// </summary>
     void Finalize()override;
   
+    void Walk()override;
+
+    void Stop()override;
+
+    void Follow()override;
     void Death()override;
 private:
     bool deadtrigger;

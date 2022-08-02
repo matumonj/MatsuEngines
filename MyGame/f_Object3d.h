@@ -151,7 +151,7 @@ public:	//’è”
 		bool nowDeath;
 	public:
 		bool isendtime;
-		bool GetIsEnd() { if (f_time >= end_time) { return true; }return false; }
+		bool GetIsEnd();
 		void SetAttackFlag(bool flag) { AttackFlag = flag; }
 	void SetAttackTime(int time) { AttackTime = time; }
 	void SetDeathFlag(bool flag) { DeathFlag = flag; }

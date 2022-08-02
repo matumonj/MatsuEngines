@@ -9,7 +9,7 @@
 #include"WalkAction.h"
 #include"StayJudgment.h"
 #include"StayAction.h"
-
+#include"mHelper.h"
 /// <summary>
 /// コンストラクタ
 /// </summary>
@@ -105,4 +105,78 @@ void MobEnemy::Death()
 	m_fbxObject->SetDeathFlag(true);
 	
 	//}
+}
+
+
+void MobEnemy::Walk()
+{
+	onGroundTime++;
+	if (wf) {
+		if (movement > RandMovement) {
+			wf = false;
+			movement = 0;
+			sf = true;
+		}
+	}
+	animeflag = false;
+}
+
+void MobEnemy::Stop()
+{
+	if (StayCount == 0) {
+		endsearch = false;
+		//イージング掛ける前の敵の向き
+		BeforeRot = Rotation.y;
+		//掛けた後の敵の向き
+		AfterRot = Rotation.y + RandMove;
+	}
+
+	if (sf) {
+		StayCount++;
+
+		if (StayCount > 190) {//停止時間
+			RotTime += 0.01f;
+			Rotation = {
+				Rotation.x,
+				//enemy->GetRotation().y+80,
+				Easing::EaseOut(RotTime,BeforeRot, AfterRot),
+				Rotation.z
+			};
+		}
+
+		if (Rotation.y >= AfterRot) {
+			RotTime = 0;
+			StayCount = 0;
+			sf = false;
+			wf = true;
+		}
+	}
+	if (sf) {
+		animeflag = true;
+
+	}
+	if (wf) {
+		animeflag = false;
+	}
+}
+
+
+void MobEnemy::Follow()
+{
+	animeflag = false;
+
+	Turn_toPlayer();
+
+	if (time > 210) {
+		wf = true;
+		endsearch = true;
+		RecvDamageJudg = false;
+		FollowFlag = false;
+		time = 0;
+	} else {
+		time++;
+		FollowFlag = true;
+		wf = false;
+		sf = false;
+	}
 }
