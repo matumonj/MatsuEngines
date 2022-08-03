@@ -261,48 +261,7 @@ void f_Object3d::Updata(bool animeloop)
 	start_time = startTime.GetSecondDouble();
 	end_time = endTime.GetSecondDouble();
 	//アニメーション
-	if (!stopFlag) {
-		if (isPlay) {
-			//1フレーム進める
-			f_time += 0.02;
-			//最後まで再生したら先頭に戻す
-			
-			if(AttackFlag){
-				f_time = AttackTime;
-				AttackFlag = false;
-				nowAttack = true;
-			}
-			else {
-				if (nowDeath==false) {
-					if (!nowAttack && f_time >= AttackTime) {
-						f_time = 0;
-					}
-				}
-			}
-
-			if (DeathFlag) {
-				f_time = DeathTime;
-				DeathFlag = false;
-				nowDeath = true;
-			} else {
-				if (!AttackFlag&&!nowDeath && f_time > end_time) {
-					f_time = 0;
-				}
-			}
-		}
-	}
-	else if (stopFlag) {
-		f_time = 0;
-	}
-
-
-	if (f_time >DeathTime) {
-		nowAttack = false;
-	}
-	if (f_time >= end_time) {
-		isendtime=true;
-		//nowDeath = false;
-	}
+	
 
 	currentTime.SetSecondDouble(f_time);
 	//定数バッファへデータ転送
@@ -370,12 +329,4 @@ void f_Object3d::PlayAnimation()
 	currentTime = startTime;
 	//再生中状態にする
 	isPlay = true;
-}
-
-bool f_Object3d::GetIsEnd() 
-{
-	if (f_time > DeathTime) { return true; }
-	else {
-		return false;
-	}
 }

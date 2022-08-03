@@ -10,6 +10,7 @@
 #include"StayJudgment.h"
 #include"StayAction.h"
 #include"mHelper.h"
+#include"imgui.h"
 /// <summary>
 /// コンストラクタ
 /// </summary>
@@ -57,8 +58,9 @@ void MobEnemy::Initialize(DebugCamera* camera)
 	Scale = { 0.04f, 0.04f, 0.04f
 	};
 	SetCollider();
-	m_fbxObject->SetAttackTime(1.5f);
-	m_fbxObject->SetDeathTime(4.9f);
+	AttackTime = 1.5f;
+	DeathTime = 4.9f;
+
 }
 
 //更新処理
@@ -69,18 +71,17 @@ void MobEnemy::Update(DebugCamera* camera)
 	} else {
 		m_fbxObject->SetColor({ 1,1,1,1 });
 	}
-	
+
 	Action();
 
+	FbxAnimationControl();
 	EnemyPop(150);
 
 	//m_fbxObject->SeteCurrent(animeflag);
 
 	ParameterSet_Fbx(camera);
 	CollisionField(camera);
-	if (m_fbxObject->GetIsEnd()) {
-		state = DEAD;
-	}
+	
 }
 
 //描画処理
@@ -103,7 +104,7 @@ void MobEnemy::Death()
 {
 	DeathFlag = true;
 	m_fbxObject->SetDeathFlag(true);
-	
+	DeathFlag = true;
 	//}
 }
 
@@ -180,3 +181,64 @@ void MobEnemy::Follow()
 		sf = false;
 	}
 }
+
+void MobEnemy::FbxAnimationControl()
+{
+	//アニメーション
+		//1フレーム進める
+			f_time += 0.02;
+			//最後まで再生したら先頭に戻す
+
+			if (f_AttackFlag) {
+				f_time = AttackTime;
+				f_AttackFlag = false;
+				nowAttack = true;
+			} else {
+				if (nowDeath == false) {
+					if (!nowAttack && f_time >= AttackTime) {
+						f_time = 0;
+					}
+				}
+			}
+
+
+	if (f_time > DeathTime) {
+		nowAttack = false;
+	}
+	
+	m_fbxObject->SetFbxTime(f_time);
+}
+
+
+
+void MobEnemy::Attack()
+{
+	if (state != NOW_ATTACK) {
+		Turn_toPlayer();
+		wf = false;
+		Player::GetInstance()->RecvDamage(10);
+		//m_fbxObject->SetAttackFlag(true);
+		f_AttackFlag = true;
+		state = NOW_ATTACK;
+	}
+
+	if (f_time > AttackTime) {
+		AfterAttack = true;
+		state = None;
+		
+	}
+
+}
+void MobEnemy::AttackCoolTime()
+{
+	if (AfterAttack) {
+		cooltime++;
+		if (cooltime > 300) {
+			wf = true;
+			cooltime = 0;
+			AfterAttack = false;
+
+		}
+	}
+}
+

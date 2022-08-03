@@ -79,3 +79,17 @@ void BossEnemy::Follow()
 		sf = false;
 	}
 }
+
+void BossEnemy::FbxAnimationControl()
+{
+
+}
+void BossEnemy::Attack()
+{
+
+}
+
+void BossEnemy::AttackCoolTime()
+{
+
+}

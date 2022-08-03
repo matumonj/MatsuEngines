@@ -54,7 +54,10 @@ public:
     void Stop()override;
 
     void Follow()override;
-
+    void AttackCoolTime()override;
+    void Attack()override;
+    void FbxAnimationControl()override;
+    
     void Death()override;
 private:
 

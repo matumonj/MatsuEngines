@@ -59,6 +59,9 @@ public:
 
     void Follow()override;
     void Death()override;
+    void Attack()override;
+    void AttackCoolTime()override;
+    void FbxAnimationControl()override;
 private:
     bool deadtrigger;
     bool SearchPlayerFlag = false;
@@ -68,6 +71,16 @@ private:
     //—Ž‰ºƒxƒNƒgƒ‹
     XMVECTOR fallV;
     
+private:
+   
+    bool AttackFlag;
+    float AttackTime;
+    bool DeathFlag;
+  //  float DeathTime;
+private:
+    bool nowAttack;
+    bool nowDeath;
 public:
+    bool isendtime;
 };
 

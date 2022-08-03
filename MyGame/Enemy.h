@@ -105,6 +105,8 @@ public:
 	virtual void Update(DebugCamera* camera)override;
 
 	virtual void Death()=0;
+
+	virtual void FbxAnimationControl() = 0;
 	/// <summary>
 	/// ï`âÊèàóù
 	/// </summary>
@@ -144,13 +146,15 @@ public:
 	bool endsearch;
 	bool getendsearch() { return endsearch; }
 	bool GetEndSearch() { return endsearch; }
-	void Attack();
-	void AttackCoolTime();
+	virtual void Attack()=0;
+	virtual void AttackCoolTime()=0;
 	int GetAttackCoolTime() { return cooltime; }
-private:
-	protected:
+	bool f_AttackFlag;
+
+protected:
 	bool followFlag;
 	int cooltime=0;
+	
 	bool AttackFlag;
 	bool AfterAttack;
 	XMVECTOR move;
@@ -163,7 +167,10 @@ private:
 	float tempx, tempz;
 	int movement;
 protected:
-	
+	float f_time;
+	float start_time;
+	float end_time;
+	float DeathTime;
 	XMFLOAT3 StartPosition;
 	int PopCount;
 

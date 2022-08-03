@@ -10,6 +10,7 @@
 #include"SphereCollider.h"
 #include"CollisionManager.h"
 #include"CollisionAttribute.h"
+#include"imgui.h"
 using namespace DirectX;
 Enemy::Enemy(BehaviorTree* ai_tree, float max_hp, float max_mp, float attack, float deffence) :
 	m_AiTree(ai_tree),
@@ -196,33 +197,3 @@ void Enemy::Turn_toPlayer()
 
 	Rotation.y = RotY * 60 + 180;
 }
-
-void Enemy::Attack()
-{
-		if (state != NOW_ATTACK) {
-			Turn_toPlayer();
-			wf = false;
-			Player::GetInstance()->RecvDamage(10);
-			m_fbxObject->SetAttackFlag(true);
-
-			state = NOW_ATTACK;
-		}
-	if (m_fbxObject->GetIsEnd()==true) {
-		state = None;
-		AfterAttack = true;
-	}
-	
-}
-void Enemy::AttackCoolTime()
-{
-	if (AfterAttack) {
-		cooltime++;
-		if (cooltime > 300) {
-			wf = true;
-			cooltime = 0;
-			AfterAttack = false;
-			
-	}
-	}
-}
-
