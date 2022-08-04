@@ -242,15 +242,16 @@ void f_Object3d::Updata(bool animeloop)
 	//カメラ座標
 	const XMFLOAT3& cameraPos = camera->GetEye();
 
-	handa = modelTransform * matWorld;
+//	handa = modelTransform * matWorld;
 	HRESULT result;
 	//定数バッファへのデータ転送
 	ConstBufferDataTransform* constMap = nullptr;
 	result = constBuffTransform->Map(0, nullptr, (void**)&constMap);
+	matWorld=modelTransform* matWorld;
 	if (SUCCEEDED(result)) {
 		constMap->color = color;
 		constMap->viewproj = matViewProjection;
-		constMap->world = modelTransform * matWorld;
+		constMap->world = matWorld;
 		constMap->cameraPos = cameraPos;
 		constBuffTransform->Unmap(0, nullptr);
 	}
@@ -284,9 +285,9 @@ void f_Object3d::Updata(bool animeloop)
 
 	//handa *= modelTransform;
 	//handa=handa;
-
+	handa = bones[hb].invInitialPose*hand;
 	//XMFLOAT3 rots = { handa.r->m128_f32[0]};
-	hRot = handa *matRot;
+	hRot =(handa*matScale *matRot*matTrans);
 	constBuffSkin->Unmap(0, nullptr);
 }
 

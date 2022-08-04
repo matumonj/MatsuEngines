@@ -162,6 +162,7 @@ private:// 静的メンバ関数
 	/// </summary>
 	static void UpdateViewMatrix();
 
+	static void UpdateViewMatrix(XMMATRIX mat);
 
 public: // メンバ関数
 	Object3d() = default;
@@ -174,6 +175,8 @@ public: // メンバ関数
 	/// 毎フレーム処理
 	/// </summary>
 	virtual void Update(XMFLOAT4 color, DebugCamera* camera);
+
+	virtual void Update(XMMATRIX matWorld, XMFLOAT4 color, DebugCamera* camera);
 
 	/// <summary>
 	/// 描画
@@ -237,8 +240,10 @@ public:
 	void SetMatTrans(XMMATRIX rot) { rt = rot; }
 	void SetMatScale(XMMATRIX rot) { rs = rot; }
 	void UpdateWorldMatrix();
+	void UpdateWorldMatrix(XMMATRIX mat);
 	void SetCollider(BaseCollider* collider);
 	virtual void OnCollision(const CollisionInfo& info) {}
+	void SetParent(Object3d* parent) { this->parent = parent; }
 protected:
 	const char* name = nullptr;
 	public:

@@ -24,7 +24,7 @@ private:
 	//“G‚Ì‘Ì—Í•\Ž¦
 	Sprite*EnemyHPSelectSprite;
 	
-	XMFLOAT2 SpritePosition[MaxSprite] = { {100,300},{100,500} };
+	XMFLOAT2 SpritePosition[MaxSprite] = { {300,300},{300,500} };
 public:
 	static ConfigSprite* GetInstance();
 

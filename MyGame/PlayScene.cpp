@@ -14,6 +14,7 @@
 #include"ChestControl.h"
 #include"UI.h"
 #include"Effects.h"
+#include"CustomButton.h"
 //シーンのコンストラクタ
 PlayScene::PlayScene(SceneManager* sceneManager)
 	:BaseScene(sceneManager)
@@ -39,7 +40,8 @@ void PlayScene::objUpdate(DebugCamera* camera)
 	}
 	//TargetMarker::GetInstance()->Update(enemys, camera, Player::GetInstance());
 	Field::GetInstance()->Update(camera);
-
+	CustomButton::GetInstance()->Update();
+	CustomButton::GetInstance()->Custom_JumpButton();
 }
 
 #pragma endregion
@@ -83,6 +85,7 @@ void PlayScene::Initialize()
 	Player::GetInstance()->Initialize(camera);
 	UI::GetInstance()->Initialize();
 	SistemConfig::GetInstance()->Initialize();
+	CustomButton::GetInstance()->Initialize();
 	Field::GetInstance()->Initialize(camera);
 
 	postEffect = new PostEffect();
@@ -172,6 +175,7 @@ void PlayScene::Draw()
 			UI::GetInstance()->HUDDraw();
 		}
 		SistemConfig::GetInstance()->Draw();
+		CustomButton::GetInstance()->Draw();
 		if (DirectXCommon::GetInstance()->GetFullScreen() == false) {
 			ImGuiDraw();
 		}
@@ -187,6 +191,7 @@ void PlayScene::Draw()
 		MyGameDraw();
 		UI::GetInstance()->HUDDraw();
 		SistemConfig::GetInstance()->Draw();
+		CustomButton::GetInstance()->Draw();
 		if (DirectXCommon::GetInstance()->GetFullScreen() == false) {
 			ImGuiDraw();
 		}

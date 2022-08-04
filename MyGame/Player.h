@@ -115,8 +115,10 @@ public:
 	void ImguiDraw();
 	void RecvDamage(int Damage) { HP = HP - Damage; }
 	int GetHP() { return HP; }
+	void FbxAnimationControl();
 
 private:
+	float f_time;
 	XMFLOAT3 oldpos;
 	//imgui•\Ž¦—p
 	//Œã‚Åconst‚È‚Ç‚É’u‚«Š·‚¦
@@ -125,5 +127,10 @@ private:
 	XMFLOAT3 OldPos_Onground;
 	bool ReturnGround = false;
 	int PosSavetime = 0;
+	private:
+		Object3d* sObj;
+		Model* sModel;
+		Object3d* SwordObj;
+		Model* SwordModel;
 };
 

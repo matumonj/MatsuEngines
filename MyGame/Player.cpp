@@ -11,6 +11,7 @@
 #include"imgui.h"
 #include"WoodControl.h"
 #include"FenceControl.h"
+#include"CustomButton.h"
 #define PI 3.145265
 using namespace DirectX;
 XMFLOAT3 Player::Effect_Pos = { -50,-10,-100 };
@@ -69,10 +70,28 @@ bool Player::Initialize( DebugCamera* camera)
 	object1->SetModel(fbxmodel);
 	object1->PlayAnimation();
 	
+	SwordModel=Model::CreateFromOBJ("sword");
+	SwordObj = Object3d::Create(camera);
+	SwordObj->SetModel(SwordModel);
+
+	sModel = Model::CreateFromOBJ("sword");
+	sObj = Object3d::Create(camera);
+	sObj->SetModel(sModel);
+
+	SwordObj->SetRotation({ 0,0,-90 });
+
+
+	
 	return true;
 }
 void Player::Update(XMFLOAT4 color, DebugCamera* camera)
 {
+	//SwordObj->SetPosition(position);
+	SwordObj->SetScale({ 5,5,5 });
+
+	sObj->SetRotation(rotation);
+	sObj->SetPosition({ position.x-10,position.y,position.z });
+	sObj->SetScale({ 5,5,5 });
 	oldpos = position;
 	//エフェクトのパラメータセット
 	RotationStatus();
@@ -104,8 +123,13 @@ void Player::Update(XMFLOAT4 color, DebugCamera* camera)
 	object1->Updata( TRUE);
 	//sw->SetMatrot(object1->GetmatRot());
 
-	object1->SeteCurrent(stopf);
+	FbxAnimationControl();
+
 	CollisionField(camera);
+
+sObj->Update( { 0,1,0,1 }, camera);
+SwordObj->SetParent(sObj);
+SwordObj->Update({ 1,1,1,1 }, camera);
 
 	//行列の更新とか
 	//Object3d::Update({ 1,1,1,1 }, camera);
@@ -226,10 +250,11 @@ void Player::CollisionField(DebugCamera* camera)
 
 	}
 	// ジャンプ操作
-	else if (Input::GetInstance()->TriggerButton(Input::GetInstance()->Button_A)) {
+	else if (CustomButton::GetInstance()->GetJumpAction()==true) {
 		onGround = false;
 		const float jumpVYFist = 0.2f;
 		fallV = { 0, jumpVYFist, 0, 0 };
+		
 	}
 	
 
@@ -323,7 +348,12 @@ void Player::CollisionField(DebugCamera* camera)
 void Player::Draw()
 {
 	object1->Draw();
-	
+	SwordObj->PreDraw();
+	SwordObj->Draw();
+	SwordObj->PostDraw();
+	sObj->PreDraw();
+	sObj->Draw();
+	sObj->PostDraw();
 }
 
 void Player::ImguiDraw()
@@ -335,7 +365,7 @@ void Player::ImguiDraw()
 		ImGui::Text(" PositionY   [%5f]", position.y);
 		ImGui::Text(" PositionZ   [%5f]", position.z);
 
-		XMFLOAT3 swp = { 1,1,1 };
+		XMFLOAT3 swp = SwordObj->GetPosition();
 		ImGui::Text(" bPositionX   [%5f]",swp.x);
 		ImGui::Text(" bPositionY   [%5f]", swp.y);
 		ImGui::Text(" bPositionZ   [%5f]", swp.z);
@@ -361,4 +391,18 @@ void Player::ImguiDraw()
 	}
 
 	ImGui::End();
+}
+
+void Player::FbxAnimationControl()
+{
+	if (!stopf) {
+		f_time += 0.02f;
+		if (f_time > object1->GetEndTime()) {
+			f_time = 0;
+		}
+	}
+	else {
+		f_time = 0;
+	}
+	object1->SetFbxTime(f_time);
 }

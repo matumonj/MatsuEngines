@@ -1,6 +1,7 @@
 #include "SistemConfig.h"
 #include"ConfigSprite.h"
 #include"HUDLayOut.h"
+#include"CustomButton.h"
 SistemConfig* SistemConfig::GetInstance()
 {
 	static SistemConfig instance;
@@ -17,10 +18,13 @@ void SistemConfig::Initialize()
 	input = Input::GetInstance();
 	configSprite = ConfigSprite::GetInstance();
 
+	Sprite::LoadTexture(124, L"Resources/selectcolor.png");
+
 	configSprite->Initialize();
 	//SelectSprite = std::make_unique<Sprite>();
-	SelectSprite=Sprite::Create(123, configSprite->GetSpritePosition(m_number));
-	SelectSprite->SetSize({ 120,120 });
+	SelectSprite=Sprite::Create(124, configSprite->GetSpritePosition(m_number));
+	SelectSprite->SetAnchorPoint({ 0.5f,0.5f });
+	SelectSprite->SetSize({ 600,600 });
 }
 
 void SistemConfig::Update()
@@ -42,20 +46,28 @@ void SistemConfig::Update()
 		}
 		SelectSprite->SetPosition(configSprite->GetSpritePosition(m_number));
 
+
+
+		if (NowSelectButton() == HUDRAYOUT) {
+			if (input->TriggerButton(input->Button_A)) {
+				HUDLayOut::GetInstance()->SetLayOutMode(true);
+			}
+		}
+		if (NowSelectButton() == CUSTOMBUTTON) {
+			if (input->TriggerButton(input->Button_A)) {
+				CustomButton::GetInstance()->SetCustomButtonJudg(true);
+			}
+		}
+
 		if (count>5&&input->TriggerButton(input->Start)) {
 			count = 0;
-			m_ConfigFlag = false;
 			HUDLayOut::GetInstance()->SetLayOutMode(false);
-			
+			CustomButton::GetInstance()->SetCustomButtonJudg(false);
+			m_ConfigFlag = false;
 		}
 	}
 
 
-	if (NowSelectButton() == HUDRAYOUT) {
-		if (input->TriggerButton(input->Button_A)) {
-			HUDLayOut::GetInstance()->SetLayOutMode(true);
-		}
-	}
 	
 	configSprite->Update();
 }
@@ -68,7 +80,7 @@ SistemConfig::Config SistemConfig::NowSelectButton()
 		config = HUDRAYOUT;
 		break;
 	case 1:
-		config = ENEMYHP;
+		config = CUSTOMBUTTON;
 		break;
 	default:
 		break;
@@ -79,7 +91,7 @@ SistemConfig::Config SistemConfig::NowSelectButton()
 void SistemConfig::Draw()
 {
 	Sprite::PreDraw();
-	if (m_ConfigFlag&&HUDLayOut::GetInstance()->GetLayOutMode()==false) {
+	if (m_ConfigFlag&&HUDLayOut::GetInstance()->GetLayOutMode()==false&&CustomButton::GetInstance()->GetCustomButtonJudg()==false) {
 		configSprite->Draw();
 		SelectSprite->Draw();
 	}

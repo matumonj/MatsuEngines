@@ -38,8 +38,8 @@ public:
 	enum Config
 	{
 		HUDRAYOUT,
+		CUSTOMBUTTON,
 		ENEMYHP,
-
 	};
 	Config config;
 

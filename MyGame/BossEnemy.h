@@ -69,5 +69,14 @@ private:
     XMVECTOR fallV;
 public:
     void FieldCollision(DebugCamera* camera);
+
+    bool AttackFlag;
+    float AttackTime;
+    bool DeathFlag;
+    //  float DeathTime;
+private:
+    bool nowAttack;
+    bool nowDeath;
+    float defaulttime = 1.8;
 };
 

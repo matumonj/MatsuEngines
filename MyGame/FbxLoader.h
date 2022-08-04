@@ -77,6 +77,7 @@ public:
 	std::string ExtractFileName(const std::string& path);
 
 private:
+	XMMATRIX nodes;
 	// privateなコンストラクタ（シングルトンパターン）
 	FbxLoader() = default;
 	// privateなデストラクタ（シングルトンパターン）
@@ -99,6 +100,7 @@ private:
 
 public:	//定数
 	XMFLOAT3 Getahand();
+	XMMATRIX GetNode() { return nodes; }
 	//モデル格納ルートパス
 	static const string baseDirectory;
 	//テクスチャがない場合の標準テクスチャファイル名

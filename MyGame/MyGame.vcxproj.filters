@@ -97,9 +97,6 @@
     <Filter Include="Game\UI">
       <UniqueIdentifier>{dd958707-cbce-4c7f-9484-fc9b5fe5c097}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\UI\HUD">
-      <UniqueIdentifier>{bd73972b-f908-4972-97d0-c9526e6c2f1b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\UI\Config">
       <UniqueIdentifier>{077ed855-3902-457a-805f-209d6816ad7a}</UniqueIdentifier>
     </Filter>
@@ -150,6 +147,9 @@
     </Filter>
     <Filter Include="Game\gameobject\オブジェクト種類\Chest">
       <UniqueIdentifier>{2a2771c9-a0a5-4fed-b1a5-862349bd87ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\UI\HUD">
+      <UniqueIdentifier>{bd73972b-f908-4972-97d0-c9526e6c2f1b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -731,9 +731,6 @@
     <ClInclude Include="Field.h">
       <Filter>Game\gameobject\オブジェクト種類\Field</Filter>
     </ClInclude>
-    <ClInclude Include="CustomButton.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="BehaviorTree.h">
       <Filter>Game\gameobject\オブジェクト種類\Enemy\Behavior</Filter>
     </ClInclude>
@@ -856,6 +853,9 @@
     </ClInclude>
     <ClInclude Include="DeathJudgment.h">
       <Filter>Game\gameobject\オブジェクト種類\Enemy\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomButton.h">
+      <Filter>Game\UI\HUD</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

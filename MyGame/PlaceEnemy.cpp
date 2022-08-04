@@ -104,10 +104,11 @@ void PlaceEnemy::ImGui_Draw()
 	ImGui::Begin("SelectEnemy");
 	if (ImGui::Button("AlphaEnemy", ImVec2(90, 50))) {
 		ArgmentFlag = true;
+		Number.push_back(1);
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("BetaEnemy", ImVec2(90, 50))) {
-		ArgmentFlag = true;
+		BossArgmentFlag = true;
 		Number.push_back(2);
 	}
 	ImGui::SameLine();

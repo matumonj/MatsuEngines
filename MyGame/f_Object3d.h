@@ -145,7 +145,7 @@ public:	//íËêî
 	XMMATRIX hRot;
 	XMMATRIX GetMatrot() { return matRot; }
 	XMMATRIX GetmatRot(){return hRot;}
-	XMMATRIX GetHandBone() { return handa; }
+	XMMATRIX GetHandBone() { return hand; }
 	FbxTime SetCurrent() { return currentTime = startTime; }
 	private:
 		bool nowAttack;
@@ -159,4 +159,5 @@ public:	//íËêî
 	void SetDeathFlag(bool flag) { DeathFlag = flag; }
 	void SetDeathTime(float time) { DeathTime = time; }
 	float GetEndTime() { return end_time; }
+	XMMATRIX GetWorld() { return matWorld; }
 };
