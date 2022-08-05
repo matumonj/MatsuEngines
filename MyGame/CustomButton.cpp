@@ -9,7 +9,7 @@ CustomButton* CustomButton::GetInstance()
 void CustomButton::Initialize()
 {
 	input = Input::GetInstance();
-	Sprite::LoadTexture(125, L"Resources/images (1).png");//コントローラー画像
+	Sprite::LoadTexture(125, L"Resources/con.png");//コントローラー画像
 	Sprite::LoadTexture(126, L"Resources/xbutton.png");//Xボタン画像
 	Sprite::LoadTexture(127, L"Resources/ybutton.png");//Yボタン画像
 	Sprite::LoadTexture(128, L"Resources/abutton.png");//Aボタン画像
@@ -25,15 +25,13 @@ void CustomButton::Initialize()
 	//セレクトスプライト
 	SelectSprite = Sprite::Create(140, { 0.0f,-200.0f });
 	SelectSprite->SetPosition(SelectSpritePosition[SelectNum]);
-	SelectSprite->SetSize({ 100,100 });
-	//各ボタンのスプライト
-	ButtonSprite[BUTTON_X]= Sprite::Create(126, { 0.0f,-200.0f });
-	ButtonSprite[BUTTON_Y]= Sprite::Create(127, { 0.0f,-200.0f });
-	ButtonSprite[BUTTON_A]= Sprite::Create(128, { 0.0f,-200.0f });
-	ButtonSprite[BUTTON_B]= Sprite::Create(129, { 0.0f,-200.0f });
-	for (int i = 0; i < 4; i++) {
-		ButtonSprite[i]->SetPosition({ 0,0 });
-		ButtonSprite[i]->SetSize({ 100,100 });
+	SelectSprite->SetSize({ 200,200 });
+	//コントローラーボタンのスプライト(各アクションごとに用意)
+	for (int i = 0; i < menuNum; i++) {//i={JUMP,ATTACK,}
+		ButtonSprite[i][BUTTON_X] = Sprite::Create(126, { 0.0f,-200.0f });
+		ButtonSprite[i][BUTTON_Y] = Sprite::Create(127, { 0.0f,-200.0f });
+		ButtonSprite[i][BUTTON_A] = Sprite::Create(128, { 0.0f,-200.0f });
+		ButtonSprite[i][BUTTON_B] = Sprite::Create(129, { 0.0f,-200.0f });
 	}
 	//各ボタンを対応させるアクション項目スプライト
 	/*JUMP*/
@@ -44,96 +42,118 @@ void CustomButton::Initialize()
 	MenuSprite[ATTACK] = Sprite::Create(131, { 0.0f,-200.0f });
 	MenuSprite[ATTACK]->SetSize(MenuSpriteSize);
 	MenuSprite[ATTACK]->SetPosition(AttackSpritePosition);
+	
+	//ボタン囲う枠画像、コントローラーボタン画像
+	//ほんとは[i],[j]とかより[JUMP][Button_A]とか明示的に書いてあげたほうがわかりやすけど,,,行数削減のため
+	for (int j = 0; j < menuNum; j++) {
+		ButtonFrame[j] = Sprite::Create(130, { 0.0f,-200.0f });
+		ButtonFrame[j]->SetPosition({ MenuSprite[j]->GetPosition().x + 100,MenuSprite[j]->GetPosition().y });
+		ButtonFrame[j]->SetSize({ 400,300 });
+		
+		for (int i = 0; i < ActionMax; i++) {
+			ButtonSprite[j][i]->SetPosition(ButtonFrame[j]->GetPosition());
+			ButtonSprite[j][i]->SetSize({ 400,400 });
+		}
+	}
+	//初期各アクション対応ボタン
+	actionButton[JUMP].selectButton = SBUTTON_A;
+	actionButton[ATTACK].selectButton = SBUTTON_B;
 }
 
 void CustomButton::Update()
 {
 	if (CustomButtonJudg) {
-
-		if (input->TriggerCrossKey(input->Cross_Down)) {
-			SelectNum++;
-		} else if (input->TriggerCrossKey(input->Cross_Up)) {
-			SelectNum--;
-		}
-
-		if (SelectNum == JUMP) {
-			if (input->TriggerButton(input->Button_B)) {
-				JumpCustomFlag = true;//ジャンプの設定処理へ
+		/*設定画面入った瞬間は番号割当なし(設定画面はいるのにAボタン押すけどジャンプボタンも瞬間的にAボタンに
+		切り替わるのを防ぐため)*/
+		if (SelectNum == NONE) {
+			if (input->TriggerCrossKey(input->Cross_Down) || input->TriggerCrossKey(input->Cross_Up)) {
+				SelectNum = JUMP;
 			}
 		}
-		SelectSprite->SetPosition(SelectSpritePosition[SelectNum]);
+		else {
+			if (input->TriggerCrossKey(input->Cross_Down)) {
+				SelectNum++;
+			} else if (input->TriggerCrossKey(input->Cross_Up)) {
+				SelectNum--;
+			}
+			SelectSprite->SetPosition(SelectSpritePosition[SelectNum]);
+		}
+
+		//ここはリファクタリング
+		if (SelectNum == JUMP) {
+			JumpCustomFlag = true;//ジャンプの設定処理へ
+		}
+		else {
+			JumpCustomFlag = false;
+		}
+		if (SelectNum == ATTACK) {
+			AttackCustomFlag = true;//ジャンプの設定処理へ
+		} else {
+			AttackCustomFlag = false;
+		}
 	}
-	else {
+	else {//設定閉じたら、各設定フラグ切る、セレクト番号の割当もなくす
 		JumpCustomFlag = false;
-		SelectNum = JUMP;
+		AttackCustomFlag = false;
+		SelectNum =NONE;
 	}
+
+	Custom_Button(JumpCustomFlag, JUMP);
+	Custom_Button(AttackCustomFlag, ATTACK);
 }
 
-void CustomButton::Draw()
+//(各アクションボタン設定フラグ,対応アクション番号)flagとbuttonは同じアクションに
+void CustomButton::Custom_Button(bool customflag, int index)
 {
-	if (CustomButtonJudg) {
-
-		Sprite::PreDraw();
-		SelectSprite->Draw();
-		MenuSprite[JUMP]->Draw();
-		MenuSprite[ATTACK]->Draw();
-		Controller->Draw();
-		Custom_Draw();
-		Sprite::PostDraw();
-	}
-}
-
-void CustomButton::Custom_JumpButton()
-{
-	if(JumpCustomFlag){
+	if(customflag){
 	//設定部分
 	if (input->TriggerButton(input->Button_A)) {
-		actionButton[JUMP].selectButton = SBUTTON_A;
+		actionButton[index].selectButton = SBUTTON_A;
 	}
 	if (input->TriggerButton(input->Button_B)) {
-		actionButton[JUMP].selectButton = SBUTTON_B;
+		actionButton[index].selectButton = SBUTTON_B;
 	}
 	if (input->TriggerButton(input->Button_X)) {
-		actionButton[JUMP].selectButton = SBUTTON_X;
+		actionButton[index].selectButton = SBUTTON_X;
 	}
 	if (input->TriggerButton(input->Button_Y)) {
-		actionButton[JUMP].selectButton = SBUTTON_Y;
+		actionButton[index].selectButton = SBUTTON_Y;
 	}
 }
 
-	//反映部分 少しややこしくなってしまった,,,
-	switch (actionButton[JUMP].selectButton)
+	//反映部分 少しややこしくなってしまった,,,言うならジャンプトリガーみたいな
+	switch (actionButton[index].selectButton)
 	{
 	case SBUTTON_A:
 		if (input->TriggerButton(input->Button_A)) {
-			actionButton[JUMP].judg = true;
+			actionButton[index].judg = true;
 		}
 		else {
-			actionButton[JUMP].judg = false;
+			actionButton[index].judg = false;
 		}
 		break;
 	case SBUTTON_B:
 		if (input->TriggerButton(input->Button_B)) {
-			actionButton[JUMP].judg = true;
+			actionButton[index].judg = true;
 		}
 		else {
-			actionButton[JUMP].judg = false;
+			actionButton[index].judg = false;
 		}
 		break;
 	case SBUTTON_X:
 		if (input->TriggerButton(input->Button_X)) {
-			actionButton[JUMP].judg = true;
+			actionButton[index].judg = true;
 		}
 		else {
-			actionButton[JUMP].judg =false;
+			actionButton[index].judg =false;
 		}
 		break;
 	case SBUTTON_Y:
 		if (input->TriggerButton(input->Button_Y)) {
-			actionButton[JUMP].judg = true;
+			actionButton[index].judg = true;
 		}
 		else {
-			actionButton[JUMP].judg = false;
+			actionButton[index].judg = false;
 		}
 		break;
 	default:
@@ -142,25 +162,38 @@ void CustomButton::Custom_JumpButton()
 	
 }
 
-void CustomButton::Custom_AttackButton()
-{
-
-}
-
 void CustomButton::Custom_Draw()
 {
-	if (JumpCustomFlag) {
-		if (actionButton[JUMP].selectButton == SBUTTON_X) {
-			ButtonSprite[BUTTON_X]->Draw();
+		for (int i = 0; i < menuNum; i++) {
+			if (actionButton[i].selectButton == SBUTTON_X) {
+				ButtonSprite[i][BUTTON_X]->Draw();
+			}
+			if (actionButton[i].selectButton == SBUTTON_Y) {
+				ButtonSprite[i][BUTTON_Y]->Draw();
+			}
+			if (actionButton[i].selectButton == SBUTTON_A) {
+				ButtonSprite[i][BUTTON_A]->Draw();
+			}
+			if (actionButton[i].selectButton == SBUTTON_B) {
+				ButtonSprite[i][BUTTON_B]->Draw();
+			}
 		}
-		if (actionButton[JUMP].selectButton == SBUTTON_Y) {
-			ButtonSprite[BUTTON_Y]->Draw();
+}
+
+void CustomButton::Draw()
+{
+	if (CustomButtonJudg) {
+
+		Sprite::PreDraw();
+		Controller->Draw();
+		if (SelectNum != NONE) {
+			SelectSprite->Draw();
 		}
-		if (actionButton[JUMP].selectButton == SBUTTON_A) {
-			ButtonSprite[BUTTON_A]->Draw();
+		for (int i = 0; i < menuNum; i++) {
+			MenuSprite[i]->Draw();
+			ButtonFrame[i]->Draw();
 		}
-		if (actionButton[JUMP].selectButton == SBUTTON_B) {
-			ButtonSprite[BUTTON_B]->Draw();
-		}
+		Custom_Draw();
+		Sprite::PostDraw();
 	}
 }

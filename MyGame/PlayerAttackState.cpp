@@ -3,6 +3,7 @@
 #include"Input.h"
 #include"EnemyControl.h"
 #include"Collision.h"
+#include"CustomButton.h"
 PlayerAttackState* PlayerAttackState::GetInstance()
 {
 	static PlayerAttackState instance;
@@ -38,7 +39,7 @@ void PlayerAttackState::Update()
 	index =  TargetMarker::GetInstance()->GetNearIndex();
 
 //	if (AttackJudgeMent) {
-		if (Input::GetInstance()->PushButton(Input::GetInstance()->Button_B) && CoolDownTime == 0) {
+		if (CustomButton::GetInstance()->GetAttackAction()==true && CoolDownTime == 0) {
 			Skill = First;
 		} /*else if (Input::GetInstance()->PushButton(Input::GetInstance()->Button_A) && CoolDownTime == 0) {
 			Skill = Second;

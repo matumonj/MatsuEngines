@@ -41,7 +41,6 @@ void PlayScene::objUpdate(DebugCamera* camera)
 	//TargetMarker::GetInstance()->Update(enemys, camera, Player::GetInstance());
 	Field::GetInstance()->Update(camera);
 	CustomButton::GetInstance()->Update();
-	CustomButton::GetInstance()->Custom_JumpButton();
 }
 
 #pragma endregion
