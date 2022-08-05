@@ -19,23 +19,27 @@ private:
 	bool CustomButtonJudg;
 	Sprite* Controller;
 	//コントローラーボタン画像[アクション数=2][ボタン数=4]
-	Sprite* ButtonSprite[2][4];
+	Sprite* ButtonSprite[4][4];
 	Sprite* SelectSprite;
-	
-	static const int menuNum = 2;
+	Sprite* ErrorSprite;
+	static const int menuNum = 4;
 	Sprite* MenuSprite[menuNum];
 	Sprite* ButtonFrame[menuNum];
 	XMFLOAT2 MenuSpriteSize = { 400,300 };
 	XMFLOAT2 JumpSpritePosition = { 300,200 };
 	XMFLOAT2 AttackSpritePosition = { 300,400 };
-
+	XMFLOAT2 SAttackSpritePosition = { 300,600 };
+	XMFLOAT2 TAttackSpritePosition = { 300,800 };
 	XMFLOAT2 SelectSpritePosition[menuNum] = {
 		{JumpSpritePosition.x - 100,JumpSpritePosition.y},
-		{AttackSpritePosition.x - 100, AttackSpritePosition.y}
+		{AttackSpritePosition.x - 100, AttackSpritePosition.y},
+		{SAttackSpritePosition.x - 100, SAttackSpritePosition.y},
+		{TAttackSpritePosition.x - 100, TAttackSpritePosition.y}
 	};
 private:
 	XMFLOAT3 ButtonPosition[4] = {};
 	int SelectNum = JUMP;
+	int i = 0;
 public:
 	//初期化
 	void Initialize();
@@ -47,8 +51,13 @@ public:
 	void Fainalize();
 	//ボタン設定
 	void Custom_Button(bool customflag,int index);
+	void ConsiderationButton(int index);
 	//コントローラーボタン描画
 	void Custom_Draw();
+
+	void ErrorJudg();
+	//ボタン重複チェック用
+	bool Check();
 public:
 	//Getter
 	bool GetCustomButtonJudg() { return CustomButtonJudg; }
@@ -69,6 +78,8 @@ public:
 	enum {//各アクション番号
 		JUMP=0,
 		ATTACK=1,
+		SATTACK=2,
+		TATTACK=3,
 		NONE,
 	};
 private:
@@ -77,7 +88,10 @@ private:
 	//ジャンプボタン設定フラグ
 	bool JumpCustomFlag;
 	bool AttackCustomFlag;
-
+	bool SAttackCustomFlag;
+	bool TAttackCustomFlag;
+	bool ErrorFlag;
+	
 	enum SelectButton {//どのアクションにどのボタン割り当てられたか保存するやつ
 		SBUTTON_Y,
 		SBUTTON_X,
@@ -87,7 +101,9 @@ private:
 	//各アクションの構造体(対応ボタンと、発動フラグ)
 	struct ActionButton
 	{
-		SelectButton selectButton=SBUTTON_A;
+		//今選択されているボタン
+		SelectButton selectButton_Before;
+		SelectButton OldselectButton;
 		bool judg = false;
 	};
 	ActionButton actionButton[ActionMax];
