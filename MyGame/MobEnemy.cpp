@@ -35,7 +35,7 @@ void MobEnemy::Initialize(DebugCamera* camera)
 {
 	m_Object = std::make_unique<Object3d>();
 	m_Object->Initialize(camera);
-	m_fbxModel = FbxLoader::GetInstance()->LoadModelFromFile("eagle");
+	m_fbxModel = FbxLoader::GetInstance()->LoadModelFromFile("monster_golem_demo");
 
 	RandMove = rand() % 90 + 20;
 	RandMovement = rand() % 100 + 80;

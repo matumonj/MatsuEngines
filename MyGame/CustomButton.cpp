@@ -18,7 +18,7 @@ void CustomButton::Initialize()
 	Sprite::LoadTexture(131, L"Resources/jump.png");//
 	Sprite::LoadTexture(132, L"Resources/jump.png");//
 	Sprite::LoadTexture(140, L"Resources/selectsprite.png");//
-	Sprite::LoadTexture(141, L"Resources/selectsprite.png");//
+	Sprite::LoadTexture(141, L"Resources/error.png");//
 	//コントローラー画像
 	Controller = Sprite::Create(125, { 0.0f,-200.0f });
 	Controller->SetPosition({ 900,300 });
@@ -64,9 +64,9 @@ void CustomButton::Initialize()
 			ButtonSprite[j][i]->SetSize({ 400,400 });
 		}
 	}
-	ErrorSprite = Sprite::Create(130, { 0.0f,-200.0f });
-	ErrorSprite->SetPosition({ 100,100 });
-	ErrorSprite->SetSize({ 200,200 });
+	ErrorSprite = Sprite::Create(141, { 0.0f,-200.0f });
+	ErrorSprite->SetPosition({ 900,300 });
+	ErrorSprite->SetSize({ 700,700 });
 	//初期各アクション対応ボタン
 	actionButton[JUMP].selectButton_Before = SBUTTON_A;
 	actionButton[ATTACK].selectButton_Before = SBUTTON_B;
@@ -104,6 +104,12 @@ void CustomButton::Update()
 		Custom_Button(AttackCustomFlag, ATTACK);
 		Custom_Button(SAttackCustomFlag, SATTACK);
 		Custom_Button(TAttackCustomFlag, TATTACK);
+		if (Check() == false) {
+			ErrorFlag = true;
+		}
+		else {
+			ErrorFlag = false;
+		}
 	} else {//設定閉じたら、各設定フラグ切る、セレクト番号の割当もなくす
 			ErrorJudg();/*memo:ずっとcheckの関数回すの多分いくないので実行したら何かしらのトリガーで一瞬で切る*/
 		
@@ -120,6 +126,16 @@ void CustomButton::Update()
 	ConsiderationButton(SATTACK);
 
 	ConsiderationButton(TATTACK);
+
+	if (ErrorFlag) {
+		ErrorSpriteAlpha += 0.04f;
+	}
+	else {
+		ErrorSpriteAlpha -= 0.04f;
+	}
+	ErrorSprite->setcolor({ 1,1,1,ErrorSpriteAlpha });
+	ErrorSpriteAlpha = min(ErrorSpriteAlpha, 1);
+	ErrorSpriteAlpha = max(ErrorSpriteAlpha, 0);
 }
 
 //(各アクションボタン設定フラグ,対応アクション番号)flagとbuttonは同じアクションに
@@ -211,9 +227,8 @@ void CustomButton::Draw()
 			ButtonFrame[i]->Draw();
 		}
 		Custom_Draw();
-		if (ErrorFlag) {
-			ErrorSprite->Draw();
-		}
+		ErrorSprite->Draw();
+		
 		Sprite::PostDraw();
 	}
 }
@@ -224,7 +239,6 @@ void CustomButton::ErrorJudg()
 		if (Check() == true) {//被りなければ現状のボタン配置を保存
 			actionButton[i].OldselectButton = actionButton[i].selectButton_Before;
 		} else {//被りがあった場合以前保存された被りがないボタン配置を適用（要は変更内容を破棄）
-			ErrorFlag = true;
 			actionButton[i].selectButton_Before = actionButton[i].OldselectButton;
 			actionButton[i].OldselectButton = actionButton[i].selectButton_Before;
 		}

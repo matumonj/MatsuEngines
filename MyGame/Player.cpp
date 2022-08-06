@@ -58,7 +58,7 @@ bool Player::Initialize( DebugCamera* camera)
 
 	position = {125,-25,-760 };
 
-	fbxmodel = FbxLoader::GetInstance()->LoadModelFromFile("Knight");
+	fbxmodel = FbxLoader::GetInstance()->LoadModelFromFile("chara");
 
 	float radius = 5.0f;
 	SetCollider(new SphereCollider(XMVECTOR({ 0,radius,0,0 }), radius));
@@ -280,7 +280,7 @@ void Player::CollisionField(DebugCamera* camera)
 			float cos = XMVector3Dot(rejectDir, up).m128_f32[0];
 
 			// 地面判定しきい値
-			const float threshold = cosf(XMConvertToRadians(30.0f));
+			const float threshold = cosf(XMConvertToRadians(45.0f));
 
 			if (-threshold < cos && cos < threshold) {
 				sphere->center += info.reject;
@@ -320,7 +320,7 @@ void Player::CollisionField(DebugCamera* camera)
 			OldPos_Onground = position;
 		}
 		// スムーズに坂を下る為の吸着距離
-		const float adsDistance = 5.0f;
+		const float adsDistance = 1.0f;
 		// 接地を維持
 		if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit, sphereCollider->GetRadius() * 2.0f + adsDistance)) {
 			onGround = true;

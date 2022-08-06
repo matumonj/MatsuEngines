@@ -51,6 +51,7 @@ public:
 	void Fainalize();
 	//ボタン設定
 	void Custom_Button(bool customflag,int index);
+	//設定反映部分
 	void ConsiderationButton(int index);
 	//コントローラーボタン描画
 	void Custom_Draw();
@@ -91,7 +92,8 @@ private:
 	bool SAttackCustomFlag;
 	bool TAttackCustomFlag;
 	bool ErrorFlag;
-	
+	//エラースプライトのアルファ値
+	float ErrorSpriteAlpha=0;
 	enum SelectButton {//どのアクションにどのボタン割り当てられたか保存するやつ
 		SBUTTON_Y,
 		SBUTTON_X,
