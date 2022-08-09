@@ -248,8 +248,9 @@ void f_Object3d::Updata(bool animeloop)
 	ConstBufferDataTransform* constMap = nullptr;
 	result = constBuffTransform->Map(0, nullptr, (void**)&constMap);
 	matWorld=modelTransform* matWorld;
+	color = { 1,1,1,1 };
 	if (SUCCEEDED(result)) {
-		constMap->color = color;
+		//constMap->color = color;
 		constMap->viewproj = matViewProjection;
 		constMap->world = matWorld;
 		constMap->cameraPos = cameraPos;
@@ -279,15 +280,11 @@ void f_Object3d::Updata(bool animeloop)
 		constMapSkin->bones[i] = bones[i].invInitialPose * matCurrentPose;
 		//hand = bones[0].fbxCluster->GetTransformLinkMatrix();
 	}
-	int hb = 8;
-	FbxLoader::ConvertMatrixFromFbx(&hand, bones[hb].fbxCluster->GetLink()->EvaluateGlobalTransform(currentTime));
 	//FbxLoader::ConvertMatrixFromFbx(&hRot, bones[hb].fbxCluster->GetLink().rotati);
 
 	//handa *= modelTransform;
 	//handa=handa;
-	handa = bones[hb].invInitialPose*hand;
-	//XMFLOAT3 rots = { handa.r->m128_f32[0]};
-	hRot =(handa*matScale *matRot*matTrans);
+	
 	constBuffSkin->Unmap(0, nullptr);
 }
 

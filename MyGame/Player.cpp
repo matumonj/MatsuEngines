@@ -96,10 +96,10 @@ void Player::Update(XMFLOAT4 color, DebugCamera* camera)
 	//エフェクトのパラメータセット
 	RotationStatus();
 	//position.y = -2;
-	object1->SetScale({0.01f, 0.01f, 0.01f
+	object1->SetScale({1,1,1
 });
 
-	scale = { 0.01f,0.01f,0.01f };
+	scale = { 0.005f,0.005f,0.01f };
 	//移動ベクトルをy軸周りの角度で回転
 	XMVECTOR move = { 0.0f,0.0f,0.1f,0.0f };
 	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(rotation.y));
@@ -119,7 +119,7 @@ void Player::Update(XMFLOAT4 color, DebugCamera* camera)
 			
 }
 	object1->SetPosition(position);
-	object1->SetRotation({ rotation.x, rotation.y+180, rotation.z });
+	object1->SetRotation({ rotation.x, rotation.y, rotation.z });
 	object1->Updata( TRUE);
 	//sw->SetMatrot(object1->GetmatRot());
 

@@ -47,7 +47,7 @@ public:	//サブクラス
 	//定数バッファ用データ構造体（座標変換行列）
 	struct ConstBufferDataTransform
 	{
-		XMFLOAT4 color;
+		//XMFLOAT4 color;
 		XMMATRIX viewproj;	//ビュープロジェクション行列
 		XMMATRIX world;		//ワールド行列
 		XMFLOAT3 cameraPos;	//カメラ行列（ワールド座標）
@@ -131,7 +131,7 @@ public:	//定数
 
 	XMMATRIX GetMatScale () { return matScale; }
 		//ボーンの最大数
-	static const int MAX_BONES = 180;
+	static const int MAX_BONES = 360;
 	XMFLOAT3 GetPosition() { return position; }
 	//定数バッファ用データ構造体（スキニング）
 	struct ConstBufferDataSkin

@@ -127,6 +127,7 @@ void CustomButton::Update()
 
 	ConsiderationButton(TATTACK);
 
+	//ボタン重複時警告のフェード
 	if (ErrorFlag) {
 		ErrorSpriteAlpha += 0.04f;
 	}

@@ -21,10 +21,10 @@ PSInPut inp;
     float4 shadecolor = float4(brightness, brightness, brightness, 1.0f);
     //陰影とテクスチャの色を合成
     //変更後
-    output.target0= texcolor*color;
+    output.target0 = texcolor;
 
         //shadecolor * texcolor;
-    output.target1 =texcolor*color;
+    output.target1 = texcolor;
 
    // output.depth= input.depth;
     

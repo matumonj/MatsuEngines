@@ -1,6 +1,5 @@
 cbuffer cbuff0 : register(b0)
 {
-    float4 color;
     matrix viewproj; //ビュープロジェクション行列
     matrix world; //ワールド行列
     float3 cameraPos; //カメラ座標（ワールド座標）
@@ -26,7 +25,7 @@ struct VSOutput
 };
 
 //ボーンの最大数
-static const int MAX_BONES = 32;
+static const int MAX_BONES = 360;
 
 cbuffer skinning : register(b3) //ボーンのスキニング行列が入る
 {

@@ -240,7 +240,7 @@ void PlayScene::ImGuiDraw()
 	Player::GetInstance()->ImguiDraw();
 	{//ÉJÉÅÉâ
 		ImGui::Begin("Camera");
-		ImGui::SliderFloat("positionXZ", &CameraDis, 0, 100);
+		ImGui::SliderFloat("positionXZ", &CameraDis, 0, 500);
 		ImGui::SliderFloat("positionY", &CameraHeight, 0, 30);
 		bool defaultPos;
 		if (ImGui::RadioButton("DefaultPosition", &defaultPos)) {
