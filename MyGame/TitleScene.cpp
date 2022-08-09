@@ -54,7 +54,9 @@ void TitleScene::Draw()
 	ImGui::Begin("Scene");
 
 	if (ImGui::RadioButton("Scene_Play", t)) {
+
 		BaseScene* scene = new PlayScene(sceneManager_);//次のシーンのインスタンス生成
+		SceneManager::GetInstance()->SetScene(SceneManager::TUTORIAL);
 		sceneManager_->SetnextScene(scene);//シーンのセット
 	}
 	if (ImGui::RadioButton("Scene_MapCreate", y)) {

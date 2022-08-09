@@ -171,7 +171,7 @@ void BossEnemy::FbxAnimationControl()
 {
 	//アニメーション
 		//1フレーム進める
-	f_time += 0.02;
+	f_time += 0.006;
 	//最後まで再生したら先頭に戻す
 
 

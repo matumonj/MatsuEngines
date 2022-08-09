@@ -251,6 +251,7 @@
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="TouchableObject.cpp" />
+    <ClCompile Include="Tutorial.cpp" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="WalkAction.cpp" />
     <ClCompile Include="WalkJudgement.cpp" />
@@ -493,6 +494,7 @@
     <ClInclude Include="QueryCallback.h" />
     <ClInclude Include="RaycastHit.h" />
     <ClInclude Include="RenderTarget.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SistemConfig.h" />
     <ClInclude Include="SphereCollider.h" />
@@ -505,6 +507,7 @@
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="TouchableObject.h" />
+    <ClInclude Include="Tutorial.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="WalkAction.h" />
     <ClInclude Include="WalkJudgement.h" />
@@ -521,6 +524,9 @@
     <ProjectReference Include="..\imgui\imgui.vcxproj">
       <Project>{7f7f5254-367f-4143-a9f6-13bb0ead93aa}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="MyGame.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

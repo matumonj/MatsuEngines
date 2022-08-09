@@ -46,9 +46,9 @@ bool AreaFence::CollideAreaFence()
 	AreaFenceOBB.m_NormaDirect[0] = { m_Object->GetMatrot().r[0].m128_f32[0],m_Object->GetMatrot().r[0].m128_f32[1],m_Object->GetMatrot().r[0].m128_f32[2] };
 	AreaFenceOBB.m_NormaDirect[1] = { m_Object->GetMatrot().r[1].m128_f32[0], m_Object->GetMatrot().r[1].m128_f32[1], m_Object->GetMatrot().r[1].m128_f32[2] };
 	AreaFenceOBB.m_NormaDirect[2] = { m_Object->GetMatrot().r[2].m128_f32[0], m_Object->GetMatrot().r[2].m128_f32[1], m_Object->GetMatrot().r[2].m128_f32[2] };
-	AreaFenceOBB.m_fLength[0] = 10;//x•ûŒü‚Ì’·‚³
-	AreaFenceOBB.m_fLength[1] = 20;//y•ûŒü‚Ì’·‚³
-	AreaFenceOBB.m_fLength[2] = 10;//z•ûŒü‚Ì’·‚³
+	AreaFenceOBB.m_fLength[0] = m_Object->GetMatScl().r[0].m128_f32[0];
+	AreaFenceOBB.m_fLength[1] = m_Object->GetMatScl().r[1].m128_f32[1];//y•ûŒü‚Ì’·‚³
+	AreaFenceOBB.m_fLength[2] = m_Object->GetMatScl().r[2].m128_f32[2]-2;//z•ûŒü‚Ì’·‚³
 	//OBB‚ÌÝ’èˆÊ’u
 	playerOBB.m_Pos = { Player::GetInstance()->GetPosition().x,Player::GetInstance()->GetPosition().y,Player::GetInstance()->GetPosition().z };
 	AreaFenceOBB.m_Pos = { m_Object->GetPosition().x,  m_Object->GetPosition().y, m_Object->GetPosition().z };

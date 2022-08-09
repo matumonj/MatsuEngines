@@ -78,28 +78,6 @@ int TargetMarker::NearEnemySearch(std::vector<std::unique_ptr<Enemy>>& enemy, Pl
 }
 void TargetMarker::Update(DebugCamera* camera, Player* player)
 {
-	int tindex;
-	float ex, ey, ez;
-	tindex = NearEnemySearch(EnemyControl::GetInstance()->GetEnemyindex(1), player);
-	if (tindex != -1) {
-		GetEnemyPosition(EnemyControl::GetInstance()->GetEnemyindex(1), tindex, &ex, &ey, &ez);//{ enemy[0]->GetPosition().x ,0, enemy[0]->GetPosition().z };
-	}
-	//マーカー位置をnowTargetに合わせる
-	MarkerPosition = { ex,ey+10,ez };
-	nowTarget = MarkerPosition;
-
-	if (Input::GetInstance()->Pushkey(DIK_L)) {
-		MarkerPosition.y += 0.2f;
-	}
-	if (Input::GetInstance()->Pushkey(DIK_K)) {
-		MarkerPosition.y -= 0.2f;
-	}
-
-	TargetMakerTexture->Update(camera);
-	TargetMakerTexture->SetRotation({180, 0,0
-});
-	TargetMakerTexture->SetScale({3,3,3});
-	TargetMakerTexture->SetPosition(MarkerPosition);
 	
 }
 

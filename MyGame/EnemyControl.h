@@ -16,7 +16,10 @@ private:
 	//std::unique_ptr<Player>player;
 	std::vector<std::unique_ptr<Enemy>>enemys;
 	std::vector <XMFLOAT3>Load_EnemyPosition;
-
+	//チュートリアル用
+	std::unique_ptr<Enemy> tutorial_enemy;
+	XMFLOAT3 tutorial_pos;
+	//行動パターン
 	BehaviorTree behavior;
 private:
 	enum {

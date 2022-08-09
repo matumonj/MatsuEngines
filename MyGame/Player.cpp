@@ -96,7 +96,7 @@ void Player::Update(XMFLOAT4 color, DebugCamera* camera)
 	//エフェクトのパラメータセット
 	RotationStatus();
 	//position.y = -2;
-	object1->SetScale({1,1,1
+	object1->SetScale({0.05f, 0.05f, 0.05f
 });
 
 	scale = { 0.005f,0.005f,0.01f };

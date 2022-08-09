@@ -235,6 +235,7 @@ public:
 	void setSetf(bool f) { setef = f; }
 	void setr(bool f) { rf = f; }
 	XMMATRIX GetMatrot() {return matRot; }
+	XMMATRIX GetMatScl() { return matScale; }
 	void SetMatrot(XMMATRIX rot) { rm = rot; }
 	void SetMatRot(XMMATRIX rot) { rt = rot; }
 	void SetMatTrans(XMMATRIX rot) { rt = rot; }

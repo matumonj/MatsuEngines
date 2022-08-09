@@ -5,7 +5,7 @@
 class SceneManager
 {
 public:
-
+	static SceneManager* GetInstance();
 	//XV
 	void Update();
 	//•`‰æ
@@ -14,7 +14,17 @@ public:
 	void SetnextScene(BaseScene* nextScene_) { nextScene = nextScene_; }
 
 	void Finalize();
+	
+	enum NowScene{
+		TITLE,
+		TUTORIAL,
+		PLAY
+	};
+	NowScene GetScene() { return scene; }
+	void SetScene(NowScene scene) { this->scene=scene; }
 private:
+	
+	NowScene scene = TITLE;
 	std::thread t;
 	BaseScene* Scene;
 	BaseScene* nextScene = nullptr;

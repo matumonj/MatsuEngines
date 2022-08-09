@@ -11,6 +11,7 @@ void MyGame::Initialize()
 	//Scene = new TitleScene();
 	//‰ŠúƒV[ƒ“
 	BaseScene* scene_ = new TitleScene(sceneManger);
+	//SceneManager::GetInstance()->SetScene(SceneManager::TITLE);
 	sceneManger->SetnextScene(scene_);
 
 	//Scene->Initialize();

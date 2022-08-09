@@ -61,15 +61,15 @@ void PlayerAttackState::Update()
 	case PlayerAttackState::None:
 		break;
 	case PlayerAttackState::First:
-		FirstAttack(EnemyControl::GetInstance()->GetEnemyindex(1));
+		//FirstAttack(EnemyControl::GetInstance()->GetEnemyindex(1));
 		break;
 	case PlayerAttackState::Second:
-		SecondAttack(EnemyControl::GetInstance()->GetEnemyindex(1)
-		);
+		//SecondAttack(EnemyControl::GetInstance()->GetEnemyindex(1)
+		//);
 		break;
 	case PlayerAttackState::Third:
-		ThirdAttack(EnemyControl::GetInstance()->GetEnemyindex(1)
-		);
+		//ThirdAttack(EnemyControl::GetInstance()->GetEnemyindex(1)
+		//);
 		break;
 	}
 	//スキルクールダウン処理

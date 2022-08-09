@@ -28,7 +28,7 @@ void PlayScene::objUpdate(DebugCamera* camera)
 
 	Player::GetInstance()->Update({ 1,1,1,p_alpha }, camera);
 	
-	if (EnemyControl::GetInstance()->GetQuentity() > 1) {
+	//if (EnemyControl::GetInstance()->GetQuentity() > 0) {
 		for (int i = 0; i < AllObjectControl.size(); i++) {
 			AllObjectControl[i]->Update(camera);
 		}
@@ -37,7 +37,7 @@ void PlayScene::objUpdate(DebugCamera* camera)
 		UI::GetInstance()->HUDUpdate(hudload, camera);
 		//Effects::GetInstance()->Update(camera);
 
-	}
+	//}
 	//TargetMarker::GetInstance()->Update(enemys, camera, Player::GetInstance());
 	Field::GetInstance()->Update(camera);
 	CustomButton::GetInstance()->Update();
