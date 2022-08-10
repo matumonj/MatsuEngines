@@ -17,7 +17,7 @@ private:
 	std::vector<std::unique_ptr<Enemy>>enemys;
 	std::vector <XMFLOAT3>Load_EnemyPosition;
 	//チュートリアル用
-	std::unique_ptr<Enemy> tutorial_enemy;
+	std::vector <std::unique_ptr<Enemy>> tutorial_enemy;
 	XMFLOAT3 tutorial_pos;
 	//行動パターン
 	BehaviorTree behavior;
@@ -40,7 +40,7 @@ public:
 	void ImGuiDraw();
 
 	std::vector<std::unique_ptr<Enemy>> &GetEnemyindex(int index);// { return enemys[index].get(); }
-
+	std::vector <std::unique_ptr<Enemy>> &GetTutorialEnemyindex();
 private:
 	//::vector<Enemy*>
 };

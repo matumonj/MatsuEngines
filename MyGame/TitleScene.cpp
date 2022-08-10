@@ -3,6 +3,7 @@
 #include"PlayScene.h"
 #include"MapCreateScene.h"
 #include"SceneManager.h"
+#include"Tutorial.h"
 TitleScene::TitleScene(SceneManager* sceneManager)
 	:BaseScene(sceneManager)
 {
@@ -55,7 +56,7 @@ void TitleScene::Draw()
 
 	if (ImGui::RadioButton("Scene_Play", t)) {
 
-		BaseScene* scene = new PlayScene(sceneManager_);//次のシーンのインスタンス生成
+		BaseScene* scene = new Tutorial(sceneManager_);//次のシーンのインスタンス生成
 		SceneManager::GetInstance()->SetScene(SceneManager::TUTORIAL);
 		sceneManager_->SetnextScene(scene);//シーンのセット
 	}

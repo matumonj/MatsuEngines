@@ -98,11 +98,13 @@ void EnemyControl::Load(DebugCamera*camera)
 		}
 	}
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
-		tutorial_enemy = std::make_unique<MobEnemy>(&behavior, 100.0f, 100.0f, 30.0f, 10.0f);
-		tutorial_enemy->Initialize(camera);
+		tutorial_enemy.resize(1);
+		Quantity = 1;
+		tutorial_enemy[0] = std::make_unique<MobEnemy>(&behavior, 100.0f, 100.0f, 30.0f, 10.0f);
+		tutorial_enemy[0]->Initialize(camera);
 		tutorial_pos = { 89.137,-27.5045,-707.987 };
-		tutorial_enemy->SetPosition(tutorial_pos);
-		tutorial_enemy->SearchInit();
+		tutorial_enemy[0]->SetPosition(tutorial_pos);
+		tutorial_enemy[0]->SearchInit();
 	}
 }
 
@@ -129,10 +131,10 @@ void EnemyControl::Update(DebugCamera* camera)
 		}
 	}
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
-		if (tutorial_enemy != nullptr) {
-			tutorial_enemy->SetMoveFlag(true);
-			tutorial_enemy->Update(camera);
-			tutorial_enemy->SearchAction(camera);
+		if (tutorial_enemy[0] != nullptr) {
+			tutorial_enemy[0]->SetMoveFlag(true);
+			tutorial_enemy[0]->Update(camera);
+			tutorial_enemy[0]->SearchAction(camera);
 		}
 	}
 }
@@ -148,8 +150,8 @@ void EnemyControl::Draw()
 		}
 	}
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
-		if (tutorial_enemy != nullptr) {
-			tutorial_enemy->Draw();
+		if (tutorial_enemy[0] != nullptr) {
+			tutorial_enemy[0]->Draw();
 		}
 	}
 }
@@ -159,7 +161,11 @@ void EnemyControl::ImGuiDraw()
 
 }
 
-std::vector<std::unique_ptr<Enemy>> &EnemyControl::GetEnemyindex(int index)
+std::vector<std::unique_ptr<Enemy>>& EnemyControl::GetEnemyindex(int index)
 {
-	return enemys;
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
+		return enemys;
+	} else if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
+		return tutorial_enemy;
+	}
 }
