@@ -18,13 +18,13 @@ void SistemConfig::Initialize()
 	input = Input::GetInstance();
 	configSprite = ConfigSprite::GetInstance();
 
-	Sprite::LoadTexture(124, L"Resources/selectcolor.png");
+	Sprite::LoadTexture(124, L"Resources/04 ‘I‘ðŽˆ/button_select2_3.png");
 
 	configSprite->Initialize();
 	//SelectSprite = std::make_unique<Sprite>();
 	SelectSprite=Sprite::Create(124, configSprite->GetSpritePosition(m_number));
-	SelectSprite->SetAnchorPoint({ 0.5f,0.5f });
-	SelectSprite->SetSize({ 600,600 });
+	SelectSprite->SetAnchorPoint({ 1.0f,1.0f });
+	SelectSprite->SetSize({ 600,100 });
 }
 
 void SistemConfig::Update()
@@ -39,9 +39,11 @@ void SistemConfig::Update()
 	if (m_ConfigFlag) {
 		count++;
 		if (input->TriggerCrossKey(input->Cross_Down)) {
+			sAlpha = 0;
 			m_number++;
 		}
 		else if (input->TriggerCrossKey(input->Cross_Up)) {
+			sAlpha = 0;
 			m_number--;
 		}
 		SelectSprite->SetPosition(configSprite->GetSpritePosition(m_number));
@@ -67,8 +69,10 @@ void SistemConfig::Update()
 		}
 	}
 
-
-	
+	sAlpha += 0.05;
+	sAlpha = min(sAlpha, 1);
+	sAlpha = max(sAlpha, 0);
+	SelectSprite->setcolor({ 1,1,1,sAlpha });
 	configSprite->Update();
 }
 

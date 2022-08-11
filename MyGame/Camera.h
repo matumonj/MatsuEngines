@@ -138,6 +138,8 @@ public: // メンバ関数
 	void MoveVector(const XMFLOAT3& move);
 	void MoveVector(const XMVECTOR& move);
 
+	public:
+		XMFLOAT3 Splinepos();
 protected: // メンバ変数
 	// ビュー行列
 	XMMATRIX matView = DirectX::XMMatrixIdentity();

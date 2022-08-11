@@ -230,7 +230,7 @@ void HUD::Update()
 void HUD::Draw()
 {
 	Sprite::PreDraw();
-	PlayerHP->Draw();
+	//PlayerHP->Draw();
 	
 	EnemyHPGaugeDraw();
 	Sprite::PostDraw();

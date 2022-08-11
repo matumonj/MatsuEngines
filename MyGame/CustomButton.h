@@ -25,11 +25,12 @@ private:
 	static const int menuNum = 4;
 	Sprite* MenuSprite[menuNum];
 	Sprite* ButtonFrame[menuNum];
+	Sprite* Custommenu;
 	XMFLOAT2 MenuSpriteSize = { 400,300 };
-	XMFLOAT2 JumpSpritePosition = { 300,200 };
-	XMFLOAT2 AttackSpritePosition = { 300,400 };
-	XMFLOAT2 SAttackSpritePosition = { 300,600 };
-	XMFLOAT2 TAttackSpritePosition = { 300,800 };
+	XMFLOAT2 JumpSpritePosition = { 100,100 };
+	XMFLOAT2 AttackSpritePosition = { 100,300 };
+	XMFLOAT2 SAttackSpritePosition = { 100,500 };
+	XMFLOAT2 TAttackSpritePosition = { 100,700 };
 	XMFLOAT2 SelectSpritePosition[menuNum] = {
 		{JumpSpritePosition.x - 100,JumpSpritePosition.y},
 		{AttackSpritePosition.x - 100, AttackSpritePosition.y},

@@ -13,6 +13,7 @@
 #include"WoodControl.h"
 #include"FenceControl.h"
 #include"ChestControl.h"
+#include"CameraControl.h"
 #include"UI.h"
 #include"Effects.h"
 #include"PlayScene.h"
@@ -55,6 +56,7 @@ void Tutorial::Initialize()
 	if (AllObjectControl.size() == 0) {
 		AllObjectControl.push_back(EnemyControl::GetInstance());
 		AllObjectControl.push_back(ChestControl::GetInstance());
+		AllObjectControl.push_back(CameraControl::GetInstance());
 	}
 	TargetMarker::GetInstance()->Initialize();
 
@@ -118,7 +120,7 @@ void Tutorial::Update()
 
 	//ƒJƒƒ‰ŠÖŒW‚Ìˆ—
 	camera->SetDistance(distance);//
-	camera->SetEye(CameraPosition);
+	//camera->SetEye(CameraPosition);
 	camera->SetTarget({ Player::GetInstance()->GetPosition() });
 	camera->Update();
 
@@ -239,8 +241,9 @@ void Tutorial::ImGuiDraw()
 	Player::GetInstance()->ImguiDraw();
 	{//ƒJƒƒ‰
 		ImGui::Begin("Camera");
-		ImGui::SliderFloat("positionXZ", &CameraDis, 0, 500);
-		ImGui::SliderFloat("positionY", &CameraHeight, 0, 30);
+		XMFLOAT3 cp = camera->GetEye();
+		ImGui::SliderFloat("positionXZ", &cp.x, 0, 500);
+		ImGui::SliderFloat("positionY", &cp.z, 0, 30);
 		bool defaultPos;
 		if (ImGui::RadioButton("DefaultPosition", &defaultPos)) {
 			CameraDis = 25;

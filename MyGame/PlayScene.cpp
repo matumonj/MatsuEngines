@@ -12,6 +12,7 @@
 #include"WoodControl.h"
 #include"FenceControl.h"
 #include"ChestControl.h"
+#include"CameraControl.h"
 #include"UI.h"
 #include"Effects.h"
 #include"CustomButton.h"
@@ -55,6 +56,7 @@ void PlayScene::Initialize()
 		AllObjectControl.push_back(FenceControl::GetInstance());
 		AllObjectControl.push_back(EnemyControl::GetInstance());
 		AllObjectControl.push_back(ChestControl::GetInstance());
+		AllObjectControl.push_back(CameraControl::GetInstance());
 	}
 	TargetMarker::GetInstance()->Initialize();
 
@@ -91,6 +93,9 @@ void PlayScene::Initialize()
 	postEffect->Initialize();
 
 	//Effects::GetInstance()->Initialize(camera);
+	CameraPosition.x = Player::GetInstance()->GetPosition().x + cosf((float)(cameraAngle) * 3.14f / 180.0f) * CameraDis;
+	CameraPosition.z = Player::GetInstance()->GetPosition().z + sinf((float)(cameraAngle) * 3.14f / 180.0f) * CameraDis;
+	CameraPosition.y = Player::GetInstance()->GetPosition().y + CameraHeight;
 
 }
 #pragma endregion
@@ -114,10 +119,7 @@ void PlayScene::Update()
 	if (cameraAngle >= 360 + 90 || cameraAngle <= -360) {
 		cameraAngle = 0;
 	}
-	CameraPosition.x = Player::GetInstance()->GetPosition().x + cosf((float)(cameraAngle) * 3.14f / 180.0f) * CameraDis;
-	CameraPosition.z = Player::GetInstance()->GetPosition().z + sinf((float)(cameraAngle) * 3.14f / 180.0f) * CameraDis;
-	CameraPosition.y = Player::GetInstance()->GetPosition().y + CameraHeight;
-
+	
 	//ƒJƒƒ‰ŠÖŒW‚Ìˆ—
 	camera->SetDistance(distance);//
 	camera->SetEye(CameraPosition);

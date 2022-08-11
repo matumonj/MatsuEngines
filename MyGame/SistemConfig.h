@@ -42,7 +42,7 @@ public:
 		ENEMYHP,
 	};
 	Config config;
-
+	float sAlpha = 0;
 	//‰Šú‰»
 	void Initialize();
 	//XVˆ—

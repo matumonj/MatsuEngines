@@ -151,6 +151,9 @@
     <Filter Include="Game\UI\HUD">
       <UniqueIdentifier>{bd73972b-f908-4972-97d0-c9526e6c2f1b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Editor\配置管理\カメラ移動">
+      <UniqueIdentifier>{3be856d7-aceb-469d-9dca-fa4539cd7150}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="BlurPS.hlsl">
@@ -480,9 +483,6 @@
     <ClCompile Include="UI.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="CameraControl.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
     <ClCompile Include="ObjectManager.cpp">
       <Filter>Game\gameobject</Filter>
     </ClCompile>
@@ -503,6 +503,15 @@
     </ClCompile>
     <ClCompile Include="Tutorial.cpp">
       <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="TutorialSprite.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraControl.cpp">
+      <Filter>Game\gameobject\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="PlaceCameraPoints.cpp">
+      <Filter>Editor\配置管理\カメラ移動</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -836,9 +845,6 @@
     <ClInclude Include="UI.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="CameraControl.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="ObjectManager.h">
       <Filter>Game\gameobject</Filter>
     </ClInclude>
@@ -865,6 +871,15 @@
     </ClInclude>
     <ClInclude Include="Tutorial.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="TutorialSprite.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraControl.h">
+      <Filter>Game\gameobject\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="PlaceCameraPoints.h">
+      <Filter>Editor\配置管理\カメラ移動</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

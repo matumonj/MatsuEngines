@@ -14,19 +14,25 @@ void CustomButton::Initialize()
 	Sprite::LoadTexture(127, L"Resources/ybutton.png");//Yボタン画像
 	Sprite::LoadTexture(128, L"Resources/abutton.png");//Aボタン画像
 	Sprite::LoadTexture(129, L"Resources/bbutton.png");//Bボタン画像
-	Sprite::LoadTexture(130, L"Resources/block.png");//枠画像
+	Sprite::LoadTexture(130, L"Resources/05 ボタン/button.png");//枠画像
 	Sprite::LoadTexture(131, L"Resources/jump.png");//
 	Sprite::LoadTexture(132, L"Resources/jump.png");//
 	Sprite::LoadTexture(140, L"Resources/selectsprite.png");//
 	Sprite::LoadTexture(141, L"Resources/error.png");//
+	Sprite::LoadTexture(142, L"Resources/custommenu.png");//
 	//コントローラー画像
 	Controller = Sprite::Create(125, { 0.0f,-200.0f });
-	Controller->SetPosition({ 900,300 });
+	Controller->SetPosition({ 900,600 });
 	Controller->SetSize({ 500,500 });
 	//セレクトスプライト
 	SelectSprite = Sprite::Create(140, { 0.0f,-200.0f });
 	SelectSprite->SetPosition(SelectSpritePosition[SelectNum]);
 	SelectSprite->SetSize({ 200,200 });
+
+	Custommenu = Sprite::Create(142, { 0.0f,-200.0f });
+	Custommenu->SetPosition({500,-750});
+	Custommenu->SetSize({ 1000,1500 });
+
 	//コントローラーボタンのスプライト(各アクションごとに用意)
 	for (int i = 0; i < menuNum; i++) {//i={JUMP,ATTACK,}
 		ButtonSprite[i][BUTTON_X] = Sprite::Create(126, { 0.0f,-200.0f });
@@ -56,16 +62,17 @@ void CustomButton::Initialize()
 	//ほんとは[i],[j]とかより[JUMP][Button_A]とか明示的に書いてあげたほうがわかりやすけど,,,行数削減のため
 	for (int j = 0; j < menuNum; j++) {
 		ButtonFrame[j] = Sprite::Create(130, { 0.0f,-200.0f });
-		ButtonFrame[j]->SetPosition({ MenuSprite[j]->GetPosition().x + 100,MenuSprite[j]->GetPosition().y });
-		ButtonFrame[j]->SetSize({ 400,300 });
+		ButtonFrame[j]->SetPosition({ MenuSprite[j]->GetPosition().x + 400,MenuSprite[j]->GetPosition().y+80 });
+		ButtonFrame[j]->SetSize({ 400,150 });
 
 		for (int i = 0; i < ActionMax; i++) {
-			ButtonSprite[j][i]->SetPosition(ButtonFrame[j]->GetPosition());
-			ButtonSprite[j][i]->SetSize({ 400,400 });
+			ButtonSprite[j][i]->SetPosition({ ButtonFrame[j]->GetPosition().x+100,ButtonFrame[j]->GetPosition().y-50 });
+			ButtonSprite[j][i]->SetSize({ 300,300 });
+			ButtonSprite[j][i]->SetAnchorPoint({ 0,0});
 		}
 	}
 	ErrorSprite = Sprite::Create(141, { 0.0f,-200.0f });
-	ErrorSprite->SetPosition({ 900,300 });
+	ErrorSprite->SetPosition({ 900,100 });
 	ErrorSprite->SetSize({ 700,700 });
 	//初期各アクション対応ボタン
 	actionButton[JUMP].selectButton_Before = SBUTTON_A;
@@ -228,6 +235,7 @@ void CustomButton::Draw()
 			ButtonFrame[i]->Draw();
 		}
 		Custom_Draw();
+		Custommenu->Draw();
 		ErrorSprite->Draw();
 		
 		Sprite::PostDraw();

@@ -58,7 +58,7 @@ bool Player::Initialize( DebugCamera* camera)
 
 	position = {125,-25,-760 };
 
-	fbxmodel = FbxLoader::GetInstance()->LoadModelFromFile("chara");
+	fbxmodel = FbxLoader::GetInstance()->LoadModelFromFile("Knight");
 
 	float radius = 5.0f;
 	SetCollider(new SphereCollider(XMVECTOR({ 0,radius,0,0 }), radius));

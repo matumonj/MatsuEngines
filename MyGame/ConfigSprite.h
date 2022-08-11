@@ -23,8 +23,8 @@ private:
 	Sprite*RayOutSprite;
 	//“G‚Ì‘Ì—Í•\Ž¦
 	Sprite*EnemyHPSelectSprite;
-	
-	XMFLOAT2 SpritePosition[MaxSprite] = { {300,300},{300,500} };
+	Sprite* MenuSprite;
+	XMFLOAT2 SpritePosition[MaxSprite] = { {300,200},{300,350} };
 public:
 	static ConfigSprite* GetInstance();
 
