@@ -25,6 +25,7 @@ float dist = length(float3(125,-25,-680) - input.worldpos);
 	
 	//	float4 coltex0= tex.Sample(smp, input.uv);
 	if (flag) {
+
 		output.target0 = float4(texcolor.rgb * fc, texcolor.a) + addcol;
 		output.target1 = float4(0, 0, 0, 0);
 	}

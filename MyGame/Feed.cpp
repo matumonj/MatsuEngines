@@ -16,10 +16,10 @@ void Feed::initialize()
 void Feed::Update_White(feedtype type)
 {
 	if (type == FEEDIN) {
-		feedalpha += 0.05f;
+		feedalpha += 0.01f;
 	}
 	else {
-		feedalpha -= 0.05f;
+		feedalpha -= 0.01f;
 	}
 	rgbcolor = { 1,1,1 };
 	feedalpha = max(feedalpha, 0);

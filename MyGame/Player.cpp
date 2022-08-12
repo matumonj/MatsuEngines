@@ -349,12 +349,12 @@ void Player::CollisionField(DebugCamera* camera)
 
 void Player::Draw()
 {
-	object1->Draw();
+	//object1->Draw();
 	SwordObj->PreDraw();
-	SwordObj->Draw();
+	//SwordObj->Draw();
 	SwordObj->PostDraw();
 	sObj->PreDraw();
-	sObj->Draw();
+	//sObj->Draw();
 	sObj->PostDraw();
 }
 
