@@ -19,7 +19,7 @@ void UI::HUDUpdate(bool&hudload, DebugCamera* camera)
 	//HUD::GetInstance()->EnemyHPGauge_MultiUpdate(hudload, camera, EnemyControl::GetInstance()->GetEnemyindex(0));
 	HUD::GetInstance()->SkillBottonUpdate();
 	HUD::GetInstance()->Update();
-
+	HUD::GetInstance()->TaskUpdate(camera);
 }
 
 void UI::HUDDraw()

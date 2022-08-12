@@ -5,6 +5,7 @@
 #include"PlayerAttackState.h"
 #include"Collision.h"
 #include"Player.h"
+#include"CameraControl.h"
 HUD::~HUD()
 {
 	delete PlayerHP, EnemyHP_Border, EnemyHP_Inner;
@@ -20,8 +21,12 @@ HUD* HUD::GetInstance()
 }
 void HUD::Initialize()
 {
+	Sprite::LoadTexture(160, L"Resources/quest.png");
 	Sprite::LoadTexture(120, L"Resources/bosshp.png");
-	PlayerHP = Sprite::Create(120, { 0.0f,-200.0f });
+	TaskSprite= Sprite::Create(160, { 0.0f,-200.0f });
+	TaskSprite->SetPosition({ WinApp::window_width/2,WinApp::window_height/2 });
+	TaskSprite->SetAnchorPoint({ 0.5,0.5 });
+		PlayerHP = Sprite::Create(120, { 0.0f,-200.0f });
 	PlayerHP->SetPosition({ 100,100 });
 	PlayerHP->SetSize({ 200,200 });
 	
@@ -130,6 +135,31 @@ void HUD::SkillBottonUpdate()
 		SecondAttackSprite->setcolor({ 1,1,1,1 });
 		ThirdAttackSprite->setcolor({ 1,1,1,1 });
 	}
+
+}
+
+void HUD::TaskUpdate(DebugCamera* camera)
+{
+	XMFLOAT3 cPos = camera->GetEye();
+	if (Collision::GetLength(cPos,CameraControl::GetInstance()->CameraPosIndex(2))<10) {
+		taskfeed = true;
+	}
+	if (taskfeed) {
+		if (taskSpriteSize.x < 800) {
+			taskSpriteSize.x += 20;
+		}
+		taskAlpha += 0.02f;
+		if (taskAlpha >= 2.0f) {
+			taskfeed = false;
+	}
+	}
+	else {
+		taskAlpha -= 0.02f;
+	}
+	TaskSprite->SetSize({taskSpriteSize.x,1000});
+	TaskSprite->setcolor({ 1,1,1,taskAlpha });
+	taskAlpha = min(taskAlpha, 2);
+	taskAlpha = max(taskAlpha, 0);
 }
 void HUD::EnemyHPGaugeDraw()
 {
@@ -231,7 +261,7 @@ void HUD::Draw()
 {
 	Sprite::PreDraw();
 	//PlayerHP->Draw();
-	
+	TaskSprite->Draw();
 	EnemyHPGaugeDraw();
 	Sprite::PostDraw();
 }

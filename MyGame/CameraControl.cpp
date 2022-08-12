@@ -36,7 +36,7 @@ void CameraControl::Load(DebugCamera* camera)
 	}
 	Num.resize(Quantity);
 	pos.resize(Quantity);
-	for (int i = 0; i < Quantity; i++) {
+	for (int i = 0; i < Quantity; ++i) {
 		while (std::getline(popcom, line)) {
 			std::istringstream line_stream(line);
 			std::string word;

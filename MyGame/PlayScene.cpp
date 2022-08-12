@@ -40,6 +40,7 @@ void PlayScene::objUpdate(DebugCamera* camera)
 		//Effects::GetInstance()->Update(camera);
 
 	}
+	//HUD::GetInstance()->TaskUpdate(camera);
 	//TargetMarker::GetInstance()->Update(enemys, camera, Player::GetInstance());
 	Field::GetInstance()->Update(camera);
 	CustomButton::GetInstance()->Update();
@@ -217,10 +218,12 @@ void PlayScene::Draw()
 
 		DirectXCommon::GetInstance()->BeginDraw();
 		MyGameDraw();
-		UI::GetInstance()->HUDDraw();
 		SistemConfig::GetInstance()->Draw();
 		CustomButton::GetInstance()->Draw();
+	
 		Feed::GetInstance()->Draw();
+		UI::GetInstance()->HUDDraw();
+
 		if (DirectXCommon::GetInstance()->GetFullScreen() == false) {
 			ImGuiDraw();
 		}

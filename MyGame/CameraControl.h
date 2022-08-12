@@ -34,7 +34,7 @@ private:
     long long elapsedCount = 0;
     //XMFLOAT3 start(-100, 0, 0);
     //XMFLOAT3 end(100, 0, 0);
-    float maxtime = 5;
+    float maxtime = 6;
     float timerate;
 
     long long time = 0.00000f;
@@ -49,4 +49,5 @@ private:
 public: 
     void move(XMFLOAT3& pos);
     void SetColor(XMFLOAT4 color)override;
+    XMFLOAT3 CameraPosIndex(int index) { return points[index]; }
 };

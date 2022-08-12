@@ -38,7 +38,10 @@ public://“G‘Ì—Í‚ÌHUD
 	void EnemyHPGaugeInitialize();
 	void EnemyHPGaugeUpdate(std::vector<std::unique_ptr<Enemy>>& enemy);
 	void EnemyHPGaugeDraw();
-
+	Sprite* TaskSprite;
+	float taskAlpha = 0;
+	XMFLOAT2 taskSpriteSize;
+	bool taskfeed;
 	std::vector<Texture*> EnemyHP_Border_Multi;
 	std::vector<Texture*>EnemyHP_Inner_Multi;
 	void EnemyHPGauge_MultiInitialize();
@@ -58,6 +61,7 @@ public:
 	XMFLOAT2 CooltimeSize;
 	void SkillButtonInitialize();
 	void SkillBottonUpdate();
+	void TaskUpdate(DebugCamera* camera);
 	void SkillBottonDraw();
 	void ChangePosition(XMFLOAT2 MousePosition, XMFLOAT2& c);
 	bool f;

@@ -248,7 +248,7 @@ void f_Object3d::Updata(bool animeloop)
 	ConstBufferDataTransform* constMap = nullptr;
 	result = constBuffTransform->Map(0, nullptr, (void**)&constMap);
 	matWorld=modelTransform* matWorld;
-//	color = { 1,1,1,1 };
+	color = { 1,1,1,1 };
 	if (SUCCEEDED(result)) {
 		constMap->color = this->color;
 		constMap->viewproj = matViewProjection;
