@@ -48,4 +48,5 @@ private:
     XMFLOAT3 SplinePosition(const std::vector<XMFLOAT3>& points, size_t startindex, float t);
 public: 
     void move(XMFLOAT3& pos);
+    void SetColor(XMFLOAT4 color)override;
 };

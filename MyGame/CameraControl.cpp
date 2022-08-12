@@ -70,6 +70,7 @@ void CameraControl::Load(DebugCamera* camera)
 	points.push_back(pos[quantity_end]);
 
 	//Load_ChestPosition.resize(Quantity);
+	camera->SetEye(pos[0]);
 	UpdateRange = 200;
 }
 
@@ -143,6 +144,11 @@ XMFLOAT3 CameraControl::SplinePosition(const std::vector<XMFLOAT3>& points, size
 }
 
 void CameraControl::Draw()
+{
+
+}
+
+void CameraControl::SetColor(XMFLOAT4 color)
 {
 
 }

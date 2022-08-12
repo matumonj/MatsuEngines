@@ -4,6 +4,7 @@
 #include"MapCreateScene.h"
 #include"SceneManager.h"
 #include"Tutorial.h"
+#include"Feed.h"
 TitleScene::TitleScene(SceneManager* sceneManager)
 	:BaseScene(sceneManager)
 {
@@ -16,7 +17,7 @@ void TitleScene::Initialize()
 {
 	Sprite::LoadTexture(3, L"Resources/background.png");
 	titlesprite = Sprite::Create(3, { 0.0f,0.0f });
-
+	Feed::GetInstance()->initialize();
 }
 
 /// <summary>
@@ -27,6 +28,7 @@ void TitleScene::Update()
 	//ENTERで次のシーンへ
 	if (Input::GetInstance()->TriggerKey(DIK_RETURN)) {//押されたら
 		BaseScene* scene = new PlayScene(sceneManager_);//次のシーンのインスタンス生成
+		SceneManager::GetInstance()->SetScene(SceneManager::PLAY);
 		sceneManager_->SetnextScene(scene);//シーンのセット
 	}
 	titlesprite->SetSize({ WinApp::window_width,WinApp::window_height });

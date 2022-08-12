@@ -38,6 +38,7 @@ public:
 
 	void Draw();
 
+	void SetColors(XMFLOAT4 color);
 	static Player* GetInstance();
 	void SetGround(bool f) { onGround = f; }
 

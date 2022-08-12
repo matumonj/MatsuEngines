@@ -102,3 +102,13 @@ void ChestControl::Draw()
 		}
 	}
 }
+
+
+void ChestControl::SetColor(XMFLOAT4 color)
+{
+	for (int i = 0; i < Quantity; i++) {
+		if (chests[i] != nullptr) {
+			chests[i]->SetColor(color);
+		}
+	}
+}

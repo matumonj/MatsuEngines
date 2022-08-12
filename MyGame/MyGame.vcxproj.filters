@@ -513,6 +513,9 @@
     <ClCompile Include="PlaceCameraPoints.cpp">
       <Filter>Editor\配置管理\カメラ移動</Filter>
     </ClCompile>
+    <ClCompile Include="Feed.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Blur.hlsli">
@@ -880,6 +883,9 @@
     </ClInclude>
     <ClInclude Include="PlaceCameraPoints.h">
       <Filter>Editor\配置管理\カメラ移動</Filter>
+    </ClInclude>
+    <ClInclude Include="Feed.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

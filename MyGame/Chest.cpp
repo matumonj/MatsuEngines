@@ -24,7 +24,6 @@ void Chest::Initialize(DebugCamera* camera)
 
 void Chest::Update(DebugCamera* camera)
 {
-	m_Object->setSetf(true);
 	ParameterSet_Obj(camera);
 	//フィールド
 	//CollideWood();

@@ -62,7 +62,9 @@ private:
 	float charaAngle = 0;
 	XMFLOAT3 CameraPosition;
 
-
+	bool scenechange;
+	bool feedflag;
+	XMFLOAT4 feedcolor = { 0,0,0,1 };
 	PostEffect* postEffect = nullptr;
 	DebugCamera* camera;
 

@@ -413,9 +413,8 @@ void Object3d::Update(XMFLOAT4 color, DebugCamera* camera)
 	result = constBuffB0->Map(0, nullptr, (void**)&constMap);
 	constMap->viewproj = camera->GetViewProjectionMatrix();
 	constMap->world = matWorld;
-	constMap->color = color;
+	constMap->color = this->color;
 	constMap->dj = 0;
-	constMap->time = time;
 	constMap->f = setef;
 	// 定数バッファへデータ転送
 	//ConstBufferDataB0* constMap = nullptr;
@@ -425,7 +424,8 @@ void Object3d::Update(XMFLOAT4 color, DebugCamera* camera)
 	//result = constBuffB0->Map(0, nullptr, (void**)&constMap);
 	//constMap->viewproj =,matview * matprojection;
 	//constMap->world = matWorld ;
-	constMap->cameraPos = { 0,0,0 };
+	constMap->cameraPos = camera->GetEye();
+
 	constBuffB0->Unmap(0, nullptr);
 
 	if (collider) {
@@ -459,7 +459,6 @@ void Object3d::Update(XMMATRIX matworld, XMFLOAT4 color, DebugCamera* camera)
 	constMap->world = matWorld*matworld;
 	constMap->color = color;
 	constMap->dj = 0;
-	constMap->time = time;
 	constMap->f = setef;
 	// 定数バッファへデータ転送
 	//ConstBufferDataB0* constMap = nullptr;
@@ -469,7 +468,7 @@ void Object3d::Update(XMMATRIX matworld, XMFLOAT4 color, DebugCamera* camera)
 	//result = constBuffB0->Map(0, nullptr, (void**)&constMap);
 	//constMap->viewproj =,matview * matprojection;
 	//constMap->world = matWorld ;
-	constMap->cameraPos = { 0,0,0 };
+	constMap->cameraPos = camera->GetEye();
 	constBuffB0->Unmap(0, nullptr);
 
 	if (collider) {

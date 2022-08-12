@@ -169,3 +169,12 @@ std::vector<std::unique_ptr<Enemy>>& EnemyControl::GetEnemyindex(int index)
 		return tutorial_enemy;
 	}
 }
+
+void EnemyControl::SetColor(XMFLOAT4 color)
+{
+	for (int i = 0; i < Quantity; i++) {
+		if (enemys[i] != nullptr) {
+			enemys[i]->SetColor(color);
+		}
+	}
+}

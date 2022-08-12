@@ -23,7 +23,6 @@ void AreaFence::Initialize(DebugCamera* camera)
 
 void AreaFence::Update(DebugCamera* camera)
 {
-	m_Object->setSetf(true);
 	CollideAreaFence();
 	//フィールド
 	ParameterSet_Obj(camera);

@@ -25,7 +25,6 @@ void Wood::Initialize(DebugCamera* camera)
 
 void Wood::Update(DebugCamera* camera)
 {
-	m_Object->setSetf(true);
 	ParameterSet_Obj(camera);
 	//フィールド
 	CollideWood();

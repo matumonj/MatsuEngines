@@ -1,6 +1,7 @@
 #include "Field.h"
 #include"TouchableObject.h"
 #include"CollisionManager.h"
+#include"SceneManager.h"
 Field::~Field()
 {
 	delete CelestialSphereModel, CelestialSphereObject;
@@ -34,7 +35,15 @@ void Field::Update(DebugCamera* camera)
 	FieldObject->SetScale(1.0f);
 	FieldObject->SetPosition({ 0,-20,0 });
 
-
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
+		FieldObject->setFog(TRUE);
+		CelestialSphereObject->setFog(TRUE);
+	}
+	else if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
+		FieldObject->setFog(FALSE);
+		CelestialSphereObject->setFog(FALSE);
+	}
+	FieldObject->SetColor({ 0.6,0.6,0.6,1 });
 	FieldObject->Update({ 0.6,0.6,0.6,1 }, camera);
 	CelestialSphereObject->Update({ 1,1,1,1 }, camera);
 }

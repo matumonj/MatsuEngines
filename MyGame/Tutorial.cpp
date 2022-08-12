@@ -18,6 +18,7 @@
 #include"Effects.h"
 #include"PlayScene.h"
 #include"CustomButton.h"
+#include"Feed.h"
 //シーンのコンストラクタ
 Tutorial::Tutorial(SceneManager* sceneManager)
 	:BaseScene(sceneManager)
@@ -91,7 +92,7 @@ void Tutorial::Initialize()
 
 	postEffect = new PostEffect();
 	postEffect->Initialize();
-
+	Feed::GetInstance()->initialize();
 }
 #pragma endregion
 
@@ -120,7 +121,8 @@ void Tutorial::Update()
 
 	//カメラ関係の処理
 	camera->SetDistance(distance);//
-	//camera->SetEye(CameraPosition);
+	//
+	camera->SetEye(CameraPosition);
 	camera->SetTarget({ Player::GetInstance()->GetPosition() });
 	camera->Update();
 
@@ -130,13 +132,20 @@ void Tutorial::Update()
 
 	objUpdate(camera);//オブジェクトの更新処理
 
+	if (Player::GetInstance()->GetPosition().z > -470) {
+		scenechange = true;
+	}
+	if (scenechange) {
+		Feed::GetInstance()->Update_White(Feed::FEEDIN);
+	}
 	if (SistemConfig::GetInstance()->GetConfigJudgMent()) {
 		c_postEffect = Blur;
 	} else {
 		c_postEffect = Default;
 	}
-	if (input->TriggerKey(DIK_R)) {//押されたら
-		BaseScene* scene = new MapCreateScene(sceneManager_);//次のシーンのインスタンス生成
+	if (Feed::GetInstance()->GetAlpha()>=1.0f) {//押されたら
+		BaseScene* scene = new PlayScene(sceneManager_);//次のシーンのインスタンス生成
+		SceneManager::GetInstance()->SetScene(SceneManager::PLAY);
 		sceneManager_->SetnextScene(scene);//シーンのセット
 	}
 
@@ -157,6 +166,7 @@ void Tutorial::MyGameDraw()
 	Texture::PreDraw();
 	TargetMarker::GetInstance()->Draw();
 	Texture::PostDraw();
+	
 }
 
 void Tutorial::Draw()
@@ -192,6 +202,7 @@ void Tutorial::Draw()
 		UI::GetInstance()->HUDDraw();
 		SistemConfig::GetInstance()->Draw();
 		CustomButton::GetInstance()->Draw();
+		Feed::GetInstance()->Draw();
 		if (DirectXCommon::GetInstance()->GetFullScreen() == false) {
 			ImGuiDraw();
 		}

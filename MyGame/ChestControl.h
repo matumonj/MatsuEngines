@@ -14,6 +14,7 @@ public:
 
 	void Draw()override;
 
+	void SetColor(XMFLOAT4 color)override;
 private:
 	std::vector<std::unique_ptr<Chest>>chests;
 	std::vector <XMFLOAT3>Load_ChestPosition;

@@ -43,7 +43,7 @@ protected:
 	XMFLOAT3 Position;
 	XMFLOAT3 Rotation;
 	XMFLOAT3 Scale;
-
+	XMFLOAT4 Color;
 	//接地フラグ
 	bool onGround = true;
 	//落下ベクトル
@@ -56,5 +56,6 @@ public:
 	void SetPosition(XMFLOAT3 position) { Position = position; }
 	void SetRotation(XMFLOAT3 rotation) { Rotation = rotation; }
 	void SetScale(XMFLOAT3 scale) { Scale = scale; }
+	void SetColor(XMFLOAT4 color) { Color = color; }
 };
 

@@ -122,7 +122,7 @@ void ObjectManager::ParameterSet_Obj(DebugCamera* camera)
 	m_Object->SetPosition({ Position.x,Position.y-3,Position.z });
 	m_Object->SetRotation(Rotation);
 	m_Object->SetScale(Scale);
-
+	m_Object->SetColor(Color);
 	m_Object->Update({1,1,1,1},camera);
 }
 
@@ -135,6 +135,7 @@ void ObjectManager::ParameterSet_Fbx(DebugCamera* camera)
 	m_fbxObject->SetScale(Scale);
 
 	m_Object->SetPosition(Position);
+	m_fbxObject->SetColor(Color);
 	m_fbxObject->Updata(true);
 	
 }

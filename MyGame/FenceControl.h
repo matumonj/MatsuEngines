@@ -39,6 +39,7 @@ public:
 
 	void Draw()override;
 
+	void SetColor(XMFLOAT4 color)override;
 	void ImGuiDraw();
 };
 

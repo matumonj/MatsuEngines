@@ -61,11 +61,12 @@ private:
 	float cameraAngle = -90;
 	float charaAngle = 0;
 	XMFLOAT3 CameraPosition;
-
-	
+	bool cameraMove;
+	XMFLOAT3 cameraTargetPoint;
+	bool playFeed;
+	bool feedout;
 	PostEffect* postEffect = nullptr;
 	DebugCamera* camera;
-
 private:
 	float u;
 	XMFLOAT3 Player_Pos;// = player->GetPosition();

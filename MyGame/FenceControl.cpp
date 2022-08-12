@@ -134,3 +134,12 @@ void FenceControl::ImGuiDraw()
 {
 
 }
+
+void FenceControl::SetColor(XMFLOAT4 color)
+{
+	for (int i = 0; i < Quantity; i++) {
+		if (fences[i] != nullptr) {
+			fences[i]->SetColor(color);
+		}
+	}
+}

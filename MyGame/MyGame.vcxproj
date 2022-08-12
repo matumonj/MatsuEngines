@@ -197,6 +197,7 @@
     <ClCompile Include="EnemyWalkState.cpp" />
     <ClCompile Include="EnemyControl.cpp" />
     <ClCompile Include="FbxLoader.cpp" />
+    <ClCompile Include="Feed.cpp" />
     <ClCompile Include="FenceControl.cpp" />
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="FieldCollision.cpp" />
@@ -450,6 +451,7 @@
     <ClInclude Include="EnemyWalkState.h" />
     <ClInclude Include="EnemyControl.h" />
     <ClInclude Include="FbxLoader.h" />
+    <ClInclude Include="Feed.h" />
     <ClInclude Include="FenceControl.h" />
     <ClInclude Include="Field.h" />
     <ClInclude Include="FieldCollision.h" />

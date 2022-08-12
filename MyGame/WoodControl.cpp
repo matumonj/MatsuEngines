@@ -113,3 +113,13 @@ void WoodControl::ImGuiDraw()
 {
 
 }
+
+
+void WoodControl::SetColor(XMFLOAT4 color)
+{
+	for (int i = 0; i < Quantity; i++) {
+		if (woods[i] != nullptr) {
+			woods[i]->SetColor(color);
+		}
+	}
+}

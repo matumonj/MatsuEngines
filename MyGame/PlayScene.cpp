@@ -16,6 +16,7 @@
 #include"UI.h"
 #include"Effects.h"
 #include"CustomButton.h"
+#include"Feed.h"
 //シーンのコンストラクタ
 PlayScene::PlayScene(SceneManager* sceneManager)
 	:BaseScene(sceneManager)
@@ -29,7 +30,7 @@ void PlayScene::objUpdate(DebugCamera* camera)
 
 	Player::GetInstance()->Update({ 1,1,1,p_alpha }, camera);
 	
-	//if (EnemyControl::GetInstance()->GetQuentity() > 0) {
+	if (EnemyControl::GetInstance()->GetQuentity() > 0) {
 		for (int i = 0; i < AllObjectControl.size(); i++) {
 			AllObjectControl[i]->Update(camera);
 		}
@@ -38,7 +39,7 @@ void PlayScene::objUpdate(DebugCamera* camera)
 		UI::GetInstance()->HUDUpdate(hudload, camera);
 		//Effects::GetInstance()->Update(camera);
 
-	//}
+	}
 	//TargetMarker::GetInstance()->Update(enemys, camera, Player::GetInstance());
 	Field::GetInstance()->Update(camera);
 	CustomButton::GetInstance()->Update();
@@ -93,17 +94,20 @@ void PlayScene::Initialize()
 	postEffect->Initialize();
 
 	//Effects::GetInstance()->Initialize(camera);
-	CameraPosition.x = Player::GetInstance()->GetPosition().x + cosf((float)(cameraAngle) * 3.14f / 180.0f) * CameraDis;
-	CameraPosition.z = Player::GetInstance()->GetPosition().z + sinf((float)(cameraAngle) * 3.14f / 180.0f) * CameraDis;
-	CameraPosition.y = Player::GetInstance()->GetPosition().y + CameraHeight;
-
+	
+	Player::GetInstance()->SetPosition({ 110,-15,-379 });
 }
 #pragma endregion
 
 #pragma region 更新処理
 void PlayScene::Update()
 {
-	
+	if (!cameraMove) {
+		Feed::GetInstance()->Update_White(Feed::FEEDOUT);
+	}
+	if (Feed::GetInstance()->GetAlpha() <= 0.0f) {
+		cameraMove = true;
+	}
 	lightGroup->SpotLightUpdate();
 	
 	SistemConfig::GetInstance()->Update();
@@ -120,9 +124,32 @@ void PlayScene::Update()
 		cameraAngle = 0;
 	}
 	
+	
+	if (playFeed) {
+		Feed::GetInstance()->Update_Black(Feed::FEEDIN);
+		if (Feed::GetInstance()->GetAlpha() >= 1.0f) {
+			feedout = true;
+			playFeed = false;
+		}
+	}
+	if(feedout) {
+		Feed::GetInstance()->Update_Black(Feed::FEEDOUT);
+		if (Feed::GetInstance()->GetAlpha() <= 0.0f) {
+			camera->SetEye(CameraPosition);
+		}
+	}
+	else {
+		if (Collision::GetLength(camera->GetEye(), Player::GetInstance()->GetPosition()) < 50) {
+			playFeed = true;
+		}
+	}
+	CameraPosition.x = Player::GetInstance()->GetPosition().x + cosf((float)(cameraAngle) * 3.14f / 180.0f) * CameraDis;
+	CameraPosition.z = Player::GetInstance()->GetPosition().z + sinf((float)(cameraAngle) * 3.14f / 180.0f) * CameraDis;
+	CameraPosition.y = Player::GetInstance()->GetPosition().y + CameraHeight;
+
 	//カメラ関係の処理
 	camera->SetDistance(distance);//
-	camera->SetEye(CameraPosition);
+	//camera->SetEye(CameraPosition);
 	camera->SetTarget({ Player::GetInstance()->GetPosition() });
 	camera->Update();
 
@@ -193,6 +220,7 @@ void PlayScene::Draw()
 		UI::GetInstance()->HUDDraw();
 		SistemConfig::GetInstance()->Draw();
 		CustomButton::GetInstance()->Draw();
+		Feed::GetInstance()->Draw();
 		if (DirectXCommon::GetInstance()->GetFullScreen() == false) {
 			ImGuiDraw();
 		}
@@ -242,7 +270,8 @@ void PlayScene::ImGuiDraw()
 	Player::GetInstance()->ImguiDraw();
 	{//カメラ
 		ImGui::Begin("Camera");
-		ImGui::SliderFloat("positionXZ", &CameraDis, 0, 500);
+		float cz = camera->GetEye().z;
+		ImGui::SliderFloat("positionXZ", &cz, 0, 500);
 		ImGui::SliderFloat("positionY", &CameraHeight, 0, 30);
 		bool defaultPos;
 		if (ImGui::RadioButton("DefaultPosition", &defaultPos)) {

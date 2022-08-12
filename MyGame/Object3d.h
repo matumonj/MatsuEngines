@@ -35,7 +35,6 @@ public: // サブクラス
 		XMMATRIX world; // ワールド行列
 		XMFLOAT3 cameraPos; // カメラ座標（ワールド座標）
 		float dj;
-		XMFLOAT2 time;
 		bool f;
 	};
 
@@ -216,7 +215,7 @@ protected: // メンバ変数
 	ComPtr<ID3D12Resource> constBuffB0; // 定数バッファ
 
 	// 色
-	//XMFLOAT4 color = { 1,1,1,1 };
+	XMFLOAT4 color = { 1,1,1,1 };
 	// ローカルスケール
 	XMFLOAT3 scale = { 1,1,1 };
 	// X,Y,Z軸回りのローカル回転角
@@ -232,7 +231,7 @@ protected: // メンバ変数
 	XMMATRIX rm,rt,rr,rs;
 	bool setef=false;
 public:
-	void setSetf(bool f) { setef = f; }
+	void setFog(bool f) { setef = f; }
 	void setr(bool f) { rf = f; }
 	XMMATRIX GetMatrot() {return matRot; }
 	XMMATRIX GetMatScl() { return matScale; }
@@ -245,6 +244,7 @@ public:
 	void SetCollider(BaseCollider* collider);
 	virtual void OnCollision(const CollisionInfo& info) {}
 	void SetParent(Object3d* parent) { this->parent = parent; }
+	void SetColor(XMFLOAT4 color) { this->color = color; }
 protected:
 	const char* name = nullptr;
 	public:

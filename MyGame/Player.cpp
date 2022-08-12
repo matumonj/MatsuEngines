@@ -120,7 +120,9 @@ void Player::Update(XMFLOAT4 color, DebugCamera* camera)
 }
 	object1->SetPosition(position);
 	object1->SetRotation({ rotation.x, rotation.y, rotation.z });
+	
 	object1->Updata( TRUE);
+	
 	//sw->SetMatrot(object1->GetmatRot());
 
 	FbxAnimationControl();
@@ -405,4 +407,9 @@ void Player::FbxAnimationControl()
 		f_time = 0;
 	}
 	object1->SetFbxTime(f_time);
+}
+
+void Player::SetColors(XMFLOAT4 color)
+{
+	object1->SetColor(color);
 }
