@@ -131,7 +131,7 @@ public:	//定数
 
 	XMMATRIX GetMatScale () { return matScale; }
 		//ボーンの最大数
-	static const int MAX_BONES = 360;
+	static const int MAX_BONES = 88;
 	XMFLOAT3 GetPosition() { return position; }
 	//定数バッファ用データ構造体（スキニング）
 	struct ConstBufferDataSkin

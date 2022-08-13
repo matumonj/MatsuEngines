@@ -58,7 +58,7 @@ bool Player::Initialize( DebugCamera* camera)
 
 	position = {125,-25,-760 };
 
-	fbxmodel = FbxLoader::GetInstance()->LoadModelFromFile("Knight");
+	fbxmodel = FbxLoader::GetInstance()->LoadModelFromFile("unti");
 
 	float radius = 5.0f;
 	SetCollider(new SphereCollider(XMVECTOR({ 0,radius,0,0 }), radius));
@@ -349,7 +349,7 @@ void Player::CollisionField(DebugCamera* camera)
 
 void Player::Draw()
 {
-	//object1->Draw();
+	object1->Draw();
 	SwordObj->PreDraw();
 	//SwordObj->Draw();
 	SwordObj->PostDraw();

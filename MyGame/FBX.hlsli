@@ -26,7 +26,7 @@ struct VSOutput
 };
 
 //ボーンの最大数
-static const int MAX_BONES = 360;
+static const int MAX_BONES = 88;
 
 cbuffer skinning : register(b3) //ボーンのスキニング行列が入る
 {

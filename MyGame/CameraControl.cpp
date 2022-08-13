@@ -8,7 +8,7 @@ CameraControl* CameraControl::GetInstance()
 }
 void CameraControl::Initialize(DebugCamera* camera)
 {
-	startCount =GetTickCount();
+	
 }
 
 void CameraControl::Load(DebugCamera* camera)
@@ -72,6 +72,7 @@ void CameraControl::Load(DebugCamera* camera)
 	//Load_ChestPosition.resize(Quantity);
 	camera->SetEye(pos[0]);
 	UpdateRange = 200;
+	startCount = GetTickCount();
 }
 
 void CameraControl::Update(DebugCamera* camera)
