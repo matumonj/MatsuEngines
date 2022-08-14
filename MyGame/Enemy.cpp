@@ -107,26 +107,27 @@ void Enemy::Action()
 			tempx = Position.x;
 			tempz = Position.z;
 		}
-		if (FollowFlag||(wf && MoveFlag)) {
+		if (FollowFlag == true||wf) {
 			Position = {
 				Position.x + move.m128_f32[0],
 				Position.y,
 				Position.z + move.m128_f32[2] }
 			;
+		}
+		
 			movement++;
 			//enemy->SetMovement(enemy->GetMovement() + 1);
-		}
+		
 
 	} else if (onGround == false) {
 		if (MoveFlag != false) {
 			Position = { tempx,Position.y,tempz };
 		}
 	}
-	if (EnemyHP <= 0) {
-		state = DEAD;
-	}
-	move = { 0,0,0.1f,0 };
 
+	
+		move = { 0,0,0.1f,0 };
+	
 	matRot = XMMatrixRotationY(XMConvertToRadians(Rotation.y));
 
 	move = XMVector3TransformNormal(move, matRot);
@@ -144,21 +145,7 @@ void Enemy::RecvDamage(int Damage)
 }
 void Enemy::EnemyPop(int HP)
 {
-	if (EnemyHP<=0) {
-		PopCount++;
-		if (PopCount >600) {
-			Position = StartPosition;
-			EnemyHP = HP;
-			wf = true;
-			state = ALIVE; 
-			
-			
-		}
-	}
-	else {
-		PopCount = 0;
-		
-	}
+	
 
 }
 //ï`âÊèàóù

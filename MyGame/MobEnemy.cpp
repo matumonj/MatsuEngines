@@ -73,12 +73,13 @@ void MobEnemy::Update(DebugCamera* camera)
 	}
 
 	Action();
+	
 
 	FbxAnimationControl();
 	EnemyPop(150);
 
 	//m_fbxObject->SeteCurrent(animeflag);
-
+	AttackCoolTime();
 	ParameterSet_Fbx(camera);
 	CollisionField(camera);
 	
@@ -114,9 +115,8 @@ void MobEnemy::Walk()
 	onGroundTime++;
 	if (wf) {
 		if (movement > RandMovement) {
-			wf = false;
-			movement = 0;
 			sf = true;
+			wf = false;
 		}
 	}
 	animeflag = false;
@@ -133,6 +133,7 @@ void MobEnemy::Stop()
 	}
 
 	if (sf) {
+		movement = 0;
 		StayCount++;
 
 		if (StayCount > 190) {//’âŽ~ŽžŠÔ
@@ -148,35 +149,27 @@ void MobEnemy::Stop()
 		if (Rotation.y >= AfterRot) {
 			RotTime = 0;
 			StayCount = 0;
-			sf = false;
 			wf = true;
+			sf = false;
 		}
-	}
-	if (sf) {
-		animeflag = true;
-
-	}
-	if (wf) {
-		animeflag = false;
 	}
 }
 
 
 void MobEnemy::Follow()
 {
-	animeflag = false;
-
+	
 	Turn_toPlayer();
-
-	if (time > 210) {
+	Player::GetInstance()->RecvDamage(1);
+	if (time > 3000) {
+		FollowFlag = false;
 		wf = true;
 		endsearch = true;
 		RecvDamageJudg = false;
-		FollowFlag = false;
 		time = 0;
 	} else {
-		time++;
 		FollowFlag = true;
+		time++;
 		wf = false;
 		sf = false;
 	}
@@ -233,7 +226,7 @@ void MobEnemy::AttackCoolTime()
 {
 	if (AfterAttack) {
 		cooltime++;
-		if (cooltime > 300) {
+		if (cooltime > 480) {
 			wf = true;
 			cooltime = 0;
 			AfterAttack = false;

@@ -57,7 +57,6 @@ protected:
 	int Number;
 	bool animeflag;
 private:
-	
 	int stime = 0;
 	bool searchFlag;
 	bool SearchNowFlag;
@@ -65,6 +64,7 @@ private:
 	bool RecvDamagef;
 	float OldHP;
 	XMFLOAT3 OldPos;
+
 protected:
 	bool FollowFlag;
 	bool RecvDamageJudg;
@@ -127,6 +127,8 @@ public:
 
 	float GetDistance() { return distance; }
 
+	bool GetFollow() {
+		return FollowFlag;}
 	void Getposition(float* x, float* y, float* z) {
 		*x = this->Position.x;
 		*y = this->Position.y;
