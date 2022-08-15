@@ -74,10 +74,13 @@ void MobEnemy::Update(DebugCamera* camera)
 
 	Action();
 	
+	if (Input::GetInstance()->TriggerButton(Input::GetInstance()->Button_B)) {
+		m_fbxObject->SetDeathFlag(true);
 
+	}
 	FbxAnimationControl();
 	EnemyPop(150);
-
+	EnemyHP--;
 	//m_fbxObject->SeteCurrent(animeflag);
 	AttackCoolTime();
 	ParameterSet_Fbx(camera);
@@ -103,9 +106,11 @@ void MobEnemy::Finalize()
 
 void MobEnemy::Death()
 {
+	Player::GetInstance()->RecvDamage(10);
 	DeathFlag = true;
-	m_fbxObject->SetDeathFlag(true);
-	DeathFlag = true;
+	//m_fbxObject->SetDeathFlag(true);
+	
+	//..DeathFlag = true;
 	//}
 }
 
@@ -158,9 +163,8 @@ void MobEnemy::Stop()
 
 void MobEnemy::Follow()
 {
-	
+	//Player::GetInstance()->RecvDamage(10);
 	Turn_toPlayer();
-	Player::GetInstance()->RecvDamage(1);
 	if (time > 3000) {
 		FollowFlag = false;
 		wf = true;
@@ -168,6 +172,7 @@ void MobEnemy::Follow()
 		RecvDamageJudg = false;
 		time = 0;
 	} else {
+		endsearch = false;
 		FollowFlag = true;
 		time++;
 		wf = false;
@@ -194,7 +199,16 @@ void MobEnemy::FbxAnimationControl()
 				}
 			}
 
-
+			if (DeathFlag) {
+				f_time = DeathTime;
+				nowDeath = true;
+				DeathFlag = false;
+				
+			} else {
+				if (!AttackFlag && !nowDeath && f_time >= end_time) {
+					//f_time = 0;
+				}
+			}
 	if (f_time > DeathTime) {
 		nowAttack = false;
 	}
@@ -209,13 +223,13 @@ void MobEnemy::Attack()
 	if (state != NOW_ATTACK) {
 		Turn_toPlayer();
 		wf = false;
-		Player::GetInstance()->RecvDamage(10);
+		//Player::GetInstance()->RecvDamage(10);
 		//m_fbxObject->SetAttackFlag(true);
 		f_AttackFlag = true;
 		state = NOW_ATTACK;
 	}
 
-	if (f_time > AttackTime) {
+	if (f_time >= AttackTime) {
 		AfterAttack = true;
 		state = None;
 		
@@ -228,10 +242,12 @@ void MobEnemy::AttackCoolTime()
 		cooltime++;
 		if (cooltime > 480) {
 			wf = true;
-			cooltime = 0;
 			AfterAttack = false;
-
 		}
 	}
+	else {
+		cooltime = 0;
+	}
+	
 }
 

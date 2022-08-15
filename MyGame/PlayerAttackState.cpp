@@ -61,7 +61,7 @@ void PlayerAttackState::Update()
 	case PlayerAttackState::None:
 		break;
 	case PlayerAttackState::First:
-		//FirstAttack(EnemyControl::GetInstance()->GetEnemyindex(1));
+		FirstAttack(EnemyControl::GetInstance()->GetTutorialEnemyindex());
 		break;
 	case PlayerAttackState::Second:
 		//SecondAttack(EnemyControl::GetInstance()->GetEnemyindex(1)
@@ -144,7 +144,7 @@ void PlayerAttackState::SkillCoolDown(int &cooltime)
 
 void PlayerAttackState::DetailAttack(std::vector<std::unique_ptr<Enemy>>& enemy,int cooltime)
 {
-	if (enemy[index] == nullptr)return;
+	if (enemy[0] == nullptr)return;
 	//クールタイムを設定
 	CoolDownTime = cooltime;
 	//バフがかかっていた場合
@@ -152,8 +152,8 @@ void PlayerAttackState::DetailAttack(std::vector<std::unique_ptr<Enemy>>& enemy,
 		BuffAction();
 	}
 	//1番近くの敵に対して攻撃
-	if (Collision::GetLength(Player::GetInstance()->GetPosition(), enemy[index]->GetPosition()) < 30) {
-		enemy[index]->RecvDamage(Damage);
+	if (Collision::GetLength(Player::GetInstance()->GetPosition(), enemy[0]->GetPosition()) < 30) {
+		enemy[0]->RecvDamage(Damage);
 	}
 	//if (/*fbxのモーション終わったら*/) {
 	Skill = None;

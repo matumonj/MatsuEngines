@@ -154,6 +154,7 @@ public:
 	bool f_AttackFlag;
 
 protected:
+	bool nowDeath;
 	bool followFlag;
 	int cooltime=0;
 	
@@ -201,8 +202,10 @@ protected:
 			NOW_ATTACK
 		};
 		EnemyStates GetState() { return state; }
-	protected:
+		bool GetNowDeath() { return nowDeath; }
+protected:
 		EnemyStates state=None;
+	
 };
 
 

@@ -37,6 +37,11 @@ public:
 
 	void Draw()override;
 
+	void TutorialLoad(DebugCamera* camera);
+	void TutorialUpdate(DebugCamera* camera);
+
+	void TuatorialDraw();
+
 	void ImGuiDraw();
 
 	void SetColor(XMFLOAT4 color)override;

@@ -108,7 +108,7 @@ public:
 	void Initialize()override;
 	void Update()override;
 	void Draw()override;
-	void LoadParam(DebugCamera* camera);
+	bool LoadParam(DebugCamera* camera);
 	void SpriteDraw();
 	void ImGuiDraw();
 	void Finalize()override;

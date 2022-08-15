@@ -30,13 +30,13 @@ void PlayScene::objUpdate(DebugCamera* camera)
 
 	Player::GetInstance()->Update({ 1,1,1,p_alpha }, camera);
 	
-	if (EnemyControl::GetInstance()->GetQuentity() > 0) {
+	if (EnemyControl::GetInstance()->GetQuentity() > 1) {
 		for (int i = 0; i < AllObjectControl.size(); i++) {
 			AllObjectControl[i]->Update(camera);
 		}
-		TargetMarker::GetInstance()->Update(camera, Player::GetInstance());
+		//TargetMarker::GetInstance()->Update(camera, Player::GetInstance());
 		PlayerAttackState::GetInstance()->Update();
-		UI::GetInstance()->HUDUpdate(hudload, camera);
+		//UI::GetInstance()->HUDUpdate(hudload, camera);
 		//Effects::GetInstance()->Update(camera);
 
 	}
@@ -58,9 +58,9 @@ void PlayScene::Initialize()
 		AllObjectControl.push_back(FenceControl::GetInstance());
 		AllObjectControl.push_back(EnemyControl::GetInstance());
 		AllObjectControl.push_back(ChestControl::GetInstance());
-		AllObjectControl.push_back(CameraControl::GetInstance());
+		//AllObjectControl.push_back(CameraControl::GetInstance());
 	}
-	TargetMarker::GetInstance()->Initialize();
+	//TargetMarker::GetInstance()->Initialize();
 
 	// ƒJƒƒ‰¶¬
 	camera = new DebugCamera(WinApp::window_width, WinApp::window_height/*input*/);
@@ -86,7 +86,7 @@ void PlayScene::Initialize()
 		AllObjectControl[i]->Initialize(camera);
 	}
 	Player::GetInstance()->Initialize(camera);
-	UI::GetInstance()->Initialize();
+	//UI::GetInstance()->Initialize();
 	SistemConfig::GetInstance()->Initialize();
 	CustomButton::GetInstance()->Initialize();
 	Field::GetInstance()->Initialize(camera);
@@ -178,13 +178,14 @@ void PlayScene::MyGameDraw()
 	Field::GetInstance()->Draw();
 	
 	Player::GetInstance()->Draw();
-	
-	for (int i = 0; i < AllObjectControl.size(); i++) {
+	if (EnemyControl::GetInstance()->GetQuentity() > 1) {
+		for (int i = 0; i < AllObjectControl.size(); i++) {
 		AllObjectControl[i]->Draw();
+		}
 	}
 	//Effects::GetInstance()->Draw();
 	Texture::PreDraw();
-	TargetMarker::GetInstance()->Draw();
+	//TargetMarker::GetInstance()->Draw();
 	Texture::PostDraw();
 }
 
@@ -201,7 +202,7 @@ void PlayScene::Draw()
 		DirectXCommon::GetInstance()->BeginDraw();
 		postEffect->Draw();
 		if (HUD::GetInstance()->GetLayOutMode()) {
-			UI::GetInstance()->HUDDraw();
+			//UI::GetInstance()->HUDDraw();
 		}
 		SistemConfig::GetInstance()->Draw();
 		CustomButton::GetInstance()->Draw();
@@ -222,7 +223,7 @@ void PlayScene::Draw()
 		CustomButton::GetInstance()->Draw();
 	
 		Feed::GetInstance()->Draw();
-		UI::GetInstance()->HUDDraw();
+		//UI::GetInstance()->HUDDraw();
 
 		if (DirectXCommon::GetInstance()->GetFullScreen() == false) {
 			ImGuiDraw();

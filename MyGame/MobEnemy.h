@@ -79,7 +79,7 @@ private:
   //  float DeathTime;
 private:
     bool nowAttack;
-    bool nowDeath;
+ 
 public:
     bool isendtime;
 };

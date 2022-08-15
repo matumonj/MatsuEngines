@@ -99,23 +99,44 @@ void EnemyControl::Load(DebugCamera*camera)
 	}
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
 		tutorial_enemy.resize(1);
-		Quantity = 1;
 		tutorial_enemy[0] = std::make_unique<MobEnemy>(&behavior, 100.0f, 100.0f, 30.0f, 10.0f);
 		tutorial_enemy[0]->Initialize(camera);
 		tutorial_pos = { 89.137,-27.5045,-707.987 };
 		tutorial_enemy[0]->SetPosition(tutorial_pos);
 		tutorial_enemy[0]->SearchInit();
+
 	}
 }
 
+void EnemyControl::TutorialLoad(DebugCamera* camera)
+{
+
+}
+void EnemyControl::TutorialUpdate(DebugCamera* camera)
+{
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
+		if (tutorial_enemy[0] != nullptr) {
+			tutorial_enemy[0]->SetMoveFlag(true);
+			tutorial_enemy[0]->Update(camera);
+			tutorial_enemy[0]->SearchAction(camera);
+		}
+	}
+}
+
+void EnemyControl::TuatorialDraw()
+{
+	
+}
 void EnemyControl::Initialize(DebugCamera* camera)
 {
 	behavior.AddNode("", "Root", 0, BehaviorTree::SELECT_RULE::PRIORITY, NULL, NULL);
 	behavior.AddNode("Root", "Walk", 1, BehaviorTree::SELECT_RULE::NON, WalkJudgment::GetInstance(), WalkAction::GetInstance());
 //
-	behavior.AddNode("Root", "Follow", 2, BehaviorTree::SELECT_RULE::NON, FollowJudgement::GetInstance(), FollowAction::GetInstance());
 
 	behavior.AddNode("Root", "Attack", 3, BehaviorTree::SELECT_RULE::NON, EnemyAttackJudgement::GetInstance(), EnemyAttackAction::GetInstance());
+
+	behavior.AddNode("Root", "Follow", 2, BehaviorTree::SELECT_RULE::NON, FollowJudgement::GetInstance(), FollowAction::GetInstance());
+	behavior.AddNode("Root", "Death", 4, BehaviorTree::SELECT_RULE::NON, DeathJudgment::GetInstance(), DeathAction::GetInstance());
 
 }
 
@@ -165,9 +186,11 @@ std::vector<std::unique_ptr<Enemy>>& EnemyControl::GetEnemyindex(int index)
 {
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
 		return enemys;
-	} else if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
-		return tutorial_enemy;
 	}
+}
+std::vector<std::unique_ptr<Enemy>>& EnemyControl::GetTutorialEnemyindex()
+{
+	return tutorial_enemy;
 }
 
 void EnemyControl::SetColor(XMFLOAT4 color)

@@ -81,12 +81,18 @@ void TargetMarker::Update(DebugCamera* camera, Player* player)
 {
 	int tindex;
 	float ex, ey, ez;
-//	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
 		tindex = NearEnemySearch(EnemyControl::GetInstance()->GetEnemyindex(1), player);
 		if (tindex != -1) {
 			GetEnemyPosition(EnemyControl::GetInstance()->GetEnemyindex(1), tindex, &ex, &ey, &ez);//{ enemy[0]->GetPosition().x ,0, enemy[0]->GetPosition().z };
 		}
-	//}
+	}	
+	else if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
+		tindex = NearEnemySearch(EnemyControl::GetInstance()->GetTutorialEnemyindex(), player);
+		if (tindex != -1) {
+			GetEnemyPosition(EnemyControl::GetInstance()->GetTutorialEnemyindex(), tindex, &ex, &ey, &ez);//{ enemy[0]->GetPosition().x ,0, enemy[0]->GetPosition().z };
+		}
+	}
 	//マーカー位置をnowTargetに合わせる
 	MarkerPosition = { ex,ey+10,ez };
 	nowTarget = MarkerPosition;
