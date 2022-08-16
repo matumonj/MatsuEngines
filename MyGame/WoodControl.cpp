@@ -84,9 +84,10 @@ void WoodControl::Update(DebugCamera* camera)
 	Player_OldPos= Player::GetInstance()->GetPosition();
 	for (int i = 0; i < Quantity; i++) {
 		if (woods[i] != nullptr) {
-			if (Collision::GetLength(Player::GetInstance()->GetPosition(),woods[i]->GetPosition()) <UpdateRange) {
+			woods[i]->SetColor({ 0,1,0,1 });
+			//if (Collision::GetLength(Player::GetInstance()->GetPosition(),woods[i]->GetPosition()) <UpdateRange) {
 				woods[i]->Update(camera);
-			}
+			//}
 		}
 	}
 	for (int i = 0; i < Quantity; i++) {
@@ -102,9 +103,9 @@ void WoodControl::Draw()
 {
 	for (int i = 0; i < Quantity; i++) {
 		if (woods[i] != nullptr) {
-			if (Collision::GetLength(Player::GetInstance()->GetPosition(), woods[i]->GetPosition()) <UpdateRange) {
+			//if (Collision::GetLength(Player::GetInstance()->GetPosition(), woods[i]->GetPosition()) <UpdateRange) {
 				woods[i]->Draw();
-			}
+			//}
 		}
 	}
 }
@@ -117,9 +118,5 @@ void WoodControl::ImGuiDraw()
 
 void WoodControl::SetColor(XMFLOAT4 color)
 {
-	for (int i = 0; i < Quantity; i++) {
-		if (woods[i] != nullptr) {
-			woods[i]->SetColor(color);
-		}
-	}
+	
 }

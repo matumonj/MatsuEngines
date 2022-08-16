@@ -42,6 +42,7 @@ private:
 	int SelectNum = JUMP;
 	int i = 0;
 public:
+
 	//初期化
 	void Initialize();
 	//更新
@@ -60,6 +61,7 @@ public:
 	void ErrorJudg();
 	//ボタン重複チェック用
 	bool Check();
+
 public:
 	//Getter
 	bool GetCustomButtonJudg() { return CustomButtonJudg; }
@@ -112,6 +114,18 @@ private:
 	ActionButton actionButton[ActionMax];
 
 public:
+	SelectButton GetActionButton_JUMP() {
+		return actionButton[JUMP].selectButton_Before;
+	}
+	SelectButton GetActionButton_ATTACK() {
+		return actionButton[ATTACK].selectButton_Before;
+	}
+	SelectButton GetActionButton_ATTACK2() {
+		return actionButton[SATTACK].selectButton_Before;
+	}
+	SelectButton GetActionButton_ATTACK3() {
+		return actionButton[TATTACK].selectButton_Before;
+	}
 	bool GetJumpAction() { return actionButton[JUMP].judg; }
 	bool GetAttackAction() { return actionButton[ATTACK].judg; }
 	void SetJumpAction(bool flag) { actionButton[JUMP].judg = flag; }

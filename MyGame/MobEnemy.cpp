@@ -73,14 +73,16 @@ void MobEnemy::Update(DebugCamera* camera)
 	}
 
 	Action();
-	
+	if (Input::GetInstance()->TriggerButton(Input::Button_B)) {
+		EnemyHP = 0;
+	}
 	if (Input::GetInstance()->TriggerButton(Input::GetInstance()->Button_B)) {
 		m_fbxObject->SetDeathFlag(true);
 
 	}
 	FbxAnimationControl();
 	EnemyPop(150);
-	EnemyHP--;
+	
 	//m_fbxObject->SeteCurrent(animeflag);
 	AttackCoolTime();
 	ParameterSet_Fbx(camera);

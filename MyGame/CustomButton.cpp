@@ -1,5 +1,5 @@
 #include "CustomButton.h"
-
+#include"HUDLayOut.h"
 CustomButton* CustomButton::GetInstance()
 {
 	static CustomButton instance;
@@ -15,8 +15,8 @@ void CustomButton::Initialize()
 	Sprite::LoadTexture(128, L"Resources/abutton.png");//Aボタン画像
 	Sprite::LoadTexture(129, L"Resources/bbutton.png");//Bボタン画像
 	Sprite::LoadTexture(130, L"Resources/05 ボタン/button.png");//枠画像
-	Sprite::LoadTexture(131, L"Resources/jump.png");//
-	Sprite::LoadTexture(132, L"Resources/jump.png");//
+	Sprite::LoadTexture(131, L"Resources/jumpaction.png");//
+	Sprite::LoadTexture(132, L"Resources/attackaction.png");//
 	Sprite::LoadTexture(140, L"Resources/selectsprite.png");//
 	Sprite::LoadTexture(141, L"Resources/error.png");//
 	Sprite::LoadTexture(142, L"Resources/custommenu.png");//
@@ -30,7 +30,7 @@ void CustomButton::Initialize()
 	SelectSprite->SetSize({ 200,200 });
 
 	Custommenu = Sprite::Create(142, { 0.0f,-200.0f });
-	Custommenu->SetPosition({500,-750});
+	Custommenu->SetPosition({500,-650});
 	Custommenu->SetSize({ 1000,1500 });
 
 	//コントローラーボタンのスプライト(各アクションごとに用意)
@@ -46,7 +46,7 @@ void CustomButton::Initialize()
 	MenuSprite[JUMP]->SetSize(MenuSpriteSize);
 	MenuSprite[JUMP]->SetPosition(JumpSpritePosition);
 	/*ATTACK*/
-	MenuSprite[ATTACK] = Sprite::Create(131, { 0.0f,-200.0f });
+	MenuSprite[ATTACK] = Sprite::Create(132, { 0.0f,-200.0f });
 	MenuSprite[ATTACK]->SetSize(MenuSpriteSize);
 	MenuSprite[ATTACK]->SetPosition(AttackSpritePosition);
 
@@ -83,6 +83,7 @@ void CustomButton::Initialize()
 
 void CustomButton::Update()
 {
+	HUDLayOut::GetInstance()->SetLayOutMode(false);
 	if (CustomButtonJudg) {
 		/*設定画面入った瞬間は番号割当なし(設定画面はいるのにAボタン押すけどジャンプボタンも瞬間的にAボタンに
 		切り替わるのを防ぐため)*/

@@ -56,6 +56,7 @@ void SistemConfig::Update()
 			}
 		}
 		if (NowSelectButton() == CUSTOMBUTTON) {
+			HUDLayOut::GetInstance()->SetLayOutMode(false);
 			if (input->TriggerButton(input->Button_A)) {
 				CustomButton::GetInstance()->SetCustomButtonJudg(true);
 			}

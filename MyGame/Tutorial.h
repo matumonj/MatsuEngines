@@ -121,6 +121,7 @@ private:
 		Blur,
 		Default,
 	};
+	bool Play;
 	POINT p;
 	CollisionManager* collisionManager = nullptr;
 	bool hudload;

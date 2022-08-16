@@ -6,6 +6,7 @@
 #include"Collision.h"
 #include"Player.h"
 #include"CameraControl.h"
+#include"CustomButton.h"
 HUD::~HUD()
 {
 	delete PlayerHP, EnemyHP_Border, EnemyHP_Inner;
@@ -31,16 +32,19 @@ void HUD::Initialize()
 	PlayerHP->SetSize({ 200,200 });
 	
 	Sprite::LoadTexture(121, L"Resources/bosshp.png");
-
+	Sprite::LoadTexture(20, L"Resources/jump.png");
+	Sprite::LoadTexture(21, L"Resources/attack.png");
+	Sprite::LoadTexture(22, L"Resources/attack2.png");
+	Sprite::LoadTexture(23, L"Resources/barrir.png");
 }
 
 void HUD::EnemyHPGaugeInitialize()
 {
-	Sprite::LoadTexture(122, L"Resources/bosshp.png");
-	EnemyHP_Inner = Sprite::Create(122, { 0.0f,-200.0f });
+	Sprite::LoadTexture(12, L"Resources/bosshp.png");
+	EnemyHP_Inner = Sprite::Create(12, { 0.0f,-200.0f });
 	
-	Sprite::LoadTexture(123, L"Resources/lifegauge.png");
-	EnemyHP_Border = Sprite::Create(123, { 0.0f,-200.0f });
+	Sprite::LoadTexture(13, L"Resources/bosshp.png");
+	EnemyHP_Border = Sprite::Create(13, { 0.0f,-200.0f });
 	EnemyHP_Border->SetPosition( {  80,860  });
 	
 }
@@ -86,12 +90,13 @@ void HUD::EnemyHPGaugeUpdate(std::vector<std::unique_ptr<Enemy>>& enemy)
 			EnemyHP_Inner->SetSize({ enemy[index]->GetHP() * 10,20 });
 		}
 	}
-	if (Collision::GetLength(Player::GetInstance()->GetPosition(), enemy[index]->GetPosition()) < 30) {
+	//EnemyHP_Inner->SetSize({400,400});
+	//if (Collision::GetLength(Player::GetInstance()->GetPosition(), enemy[index]->GetPosition()) < 30) {
 		EnemyHPDrawFlag = true;
-	}
-	else {
-		EnemyHPDrawFlag = false;
-	}
+	//}
+	//else {
+	//	EnemyHPDrawFlag = false;
+	//}
 	TargetMarker::GetInstance()->SetTargetMarkerDraw(EnemyHPDrawFlag);
 	EnemyHP_Border->SetSize({ 1700,40 });
 	EnemyHP_Inner->SetPosition({ EnemyHP_Border->GetPosition().x + 20,  EnemyHP_Border->GetPosition().y+10});
@@ -107,9 +112,29 @@ void HUD::SkillBottonUpdate()
 	ThirdAttackSprite->SetSize({ 120,120 });
 	BuffSprite->SetSize({ 120,120 });
 	CenterPosition.x++;
-	FirstAttackSprite->SetPosition({ CenterPosition.x + 100,CenterPosition.y });
+	if (CustomButton::GetInstance()->GetActionButton_JUMP() == CustomButton::BUTTON_B) {
+		FirstAttackSprite->SetPosition({ CenterPosition.x + 100,CenterPosition.y });
+	}
+	else if (CustomButton::GetInstance()->GetActionButton_JUMP() == CustomButton::BUTTON_A) {
+		FirstAttackSprite->SetPosition({ CenterPosition.x,CenterPosition.y + 100 });
+	}
+	else if (CustomButton::GetInstance()->GetActionButton_JUMP() == CustomButton::BUTTON_X) {
+		FirstAttackSprite->SetPosition({ CenterPosition.x - 100,CenterPosition.y });
+	}
+	else if (CustomButton::GetInstance()->GetActionButton_JUMP() == CustomButton::BUTTON_Y) {
+		FirstAttackSprite->SetPosition({ CenterPosition.x,CenterPosition.y - 100 });
+	}
 
-	SecondAttackSprite->SetPosition({ CenterPosition.x,CenterPosition.y + 100 });
+	if (CustomButton::GetInstance()->GetActionButton_ATTACK() == CustomButton::BUTTON_B) {
+		SecondAttackSprite->SetPosition({ CenterPosition.x + 100,CenterPosition.y });
+	} else if (CustomButton::GetInstance()->GetActionButton_ATTACK() == CustomButton::BUTTON_A) {
+		SecondAttackSprite->SetPosition({ CenterPosition.x,CenterPosition.y + 100 });
+	} else if (CustomButton::GetInstance()->GetActionButton_ATTACK() == CustomButton::BUTTON_X) {
+		SecondAttackSprite->SetPosition({ CenterPosition.x - 100,CenterPosition.y });
+	} else if (CustomButton::GetInstance()->GetActionButton_ATTACK() == CustomButton::BUTTON_Y) {
+		SecondAttackSprite->SetPosition({ CenterPosition.x,CenterPosition.y - 100 });
+	}
+	//SecondAttackSprite->SetPosition({ CenterPosition.x,CenterPosition.y + 100 });
 
 	ThirdAttackSprite->SetPosition({ CenterPosition.x - 100,CenterPosition.y });
 
@@ -163,10 +188,10 @@ void HUD::TaskUpdate(DebugCamera* camera)
 }
 void HUD::EnemyHPGaugeDraw()
 {
-	if (EnemyHPDrawFlag) {
+	//if (EnemyHPDrawFlag) {
 		EnemyHP_Border->Draw();
 		EnemyHP_Inner->Draw();
-	}
+	//}
 }
 
 
@@ -262,7 +287,7 @@ void HUD::Draw()
 	Sprite::PreDraw();
 	//PlayerHP->Draw();
 	TaskSprite->Draw();
-	EnemyHPGaugeDraw();
+	//EnemyHPGaugeDraw();
 	Sprite::PostDraw();
 }
 

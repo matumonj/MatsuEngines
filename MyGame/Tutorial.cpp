@@ -32,7 +32,7 @@ void Tutorial::objUpdate(DebugCamera* camera)
 
 	Player::GetInstance()->Update({ 1,1,1,p_alpha }, camera);
 
-	if (hudload) {
+	if (Play) {
 	for (int i = 0; i < AllObjectControl.size(); i++) {
 		AllObjectControl[i]->Update(camera);
 	}
@@ -56,6 +56,8 @@ void Tutorial::Initialize()
 
 	if (AllObjectControl.size() == 0) {
 		AllObjectControl.push_back(EnemyControl::GetInstance());
+
+		AllObjectControl.push_back(FenceControl::GetInstance());
 		AllObjectControl.push_back(ChestControl::GetInstance());
 		AllObjectControl.push_back(CameraControl::GetInstance());
 	}
@@ -157,7 +159,7 @@ void Tutorial::MyGameDraw()
 	Field::GetInstance()->Draw();
 
 	Player::GetInstance()->Draw();
-	if (hudload) {
+	if (Play) {
 		for (int i = 0; i < AllObjectControl.size(); i++) {
 			AllObjectControl[i]->Draw();
 		}
@@ -293,8 +295,8 @@ bool Tutorial::LoadParam(DebugCamera* camera)
 			AllObjectControl[i]->Load(camera);
 		}
 		hudload = true;
+		Play = true;
 		LoadEnemy = false;
-
 	}
 	return true;
 }

@@ -25,6 +25,7 @@ void Wood::Initialize(DebugCamera* camera)
 
 void Wood::Update(DebugCamera* camera)
 {
+	m_Object->SetColor({ 0,1,0,1 });
 	ParameterSet_Obj(camera);
 	//フィールド
 	CollideWood();
