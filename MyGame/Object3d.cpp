@@ -450,7 +450,7 @@ void Object3d::Update(XMMATRIX matworld, XMFLOAT4 color, DebugCamera* camera)
 
 	const XMMATRIX& matViewProjection = camera->GetViewProjectionMatrix();
 	const XMFLOAT3& cameraPos = camera->GetEye();
-	UpdateWorldMatrix(matworld);
+	UpdateWorldMatrix();
 
 	// 定数バッファへデータ転送
 	ConstBufferDataB0* constMap = nullptr;

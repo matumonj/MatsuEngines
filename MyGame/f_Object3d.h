@@ -21,7 +21,7 @@ protected:	//エイリアス
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
-
+	using XMVECTOR = DirectX::XMVECTOR;
 public:	//静的メンバ関数
 	//setter
 	static void SetDevice(ID3D12Device* device) { f_Object3d::device = device; }
@@ -141,8 +141,13 @@ public:	//定数
 	bool stopFlag;
 	void SeteCurrent(bool f) { stopFlag = f; }
 	XMMATRIX hand;
+	//FbxMatrix& world;
 	XMMATRIX handa;
 	XMMATRIX hRot;
+	XMMATRIX pos;
+	XMMATRIX GetPos() { return pos; }
+	XMMATRIX rot;
+	XMMATRIX GetRot() { return rot; }
 	XMMATRIX GetMatrot() { return matRot; }
 	XMMATRIX GetmatRot(){return hRot;}
 	XMMATRIX GetHandBone() { return hand; }

@@ -99,6 +99,10 @@ private:
 	FbxDouble3 htranslation;// = fbxNode->LclTranslation.Get();
 
 public:	//定数
+	XMMATRIX Hand;
+	XMMATRIX GetHand() {
+		return Hand;
+	}
 	XMFLOAT3 Getahand();
 	XMMATRIX GetNode() { return nodes; }
 	//モデル格納ルートパス

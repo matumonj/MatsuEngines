@@ -104,11 +104,16 @@ void PlayScene::Initialize()
 void PlayScene::Update()
 {
 	if (!cameraMove) {
+		if (Feed::GetInstance()->GetAlpha() == 1.0f) {
+			LoadEnemy = true;
+		}
 		Feed::GetInstance()->Update_White(Feed::FEEDOUT);
 	}
+
 	if (Feed::GetInstance()->GetAlpha() <= 0.0f) {
 		cameraMove = true;
 	}
+	
 	lightGroup->SpotLightUpdate();
 	
 	SistemConfig::GetInstance()->Update();
@@ -223,7 +228,11 @@ void PlayScene::Draw()
 		CustomButton::GetInstance()->Draw();
 	
 		Feed::GetInstance()->Draw();
-		UI::GetInstance()->HUDDraw();
+		if (feedout) {
+			if (Feed::GetInstance()->GetAlpha() <= 0.0f) {
+				UI::GetInstance()->HUDDraw();
+			}
+		}
 
 		if (DirectXCommon::GetInstance()->GetFullScreen() == false) {
 			ImGuiDraw();

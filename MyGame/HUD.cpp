@@ -7,6 +7,7 @@
 #include"Player.h"
 #include"CameraControl.h"
 #include"CustomButton.h"
+#include"SceneManager.h"
 HUD::~HUD()
 {
 	delete PlayerHP, EnemyHP_Border, EnemyHP_Inner;
@@ -166,8 +167,10 @@ void HUD::SkillBottonUpdate()
 void HUD::TaskUpdate(DebugCamera* camera)
 {
 	XMFLOAT3 cPos = camera->GetEye();
-	if (Collision::GetLength(cPos,CameraControl::GetInstance()->CameraPosIndex(2))<10) {
-		taskfeed = true;
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
+		if (Collision::GetLength(cPos, CameraControl::GetInstance()->CameraPosIndex(2)) < 10) {
+			taskfeed = true;
+		}
 	}
 	if (taskfeed) {
 		if (taskSpriteSize.x < 800) {

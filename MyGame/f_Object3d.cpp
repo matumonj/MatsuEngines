@@ -264,7 +264,6 @@ void f_Object3d::Updata(bool animeloop)
 	end_time = endTime.GetSecondDouble();
 	//アニメーション
 	
-
 	currentTime.SetSecondDouble(f_time);
 	//定数バッファへデータ転送
 	ConstBufferDataSkin* constMapSkin = nullptr;
@@ -278,13 +277,21 @@ void f_Object3d::Updata(bool animeloop)
 		FbxLoader::ConvertMatrixFromFbx(&matCurrentPose, fbxCurrentPose);
 		//合成してスキニング行列に
 		constMapSkin->bones[i] = bones[i].invInitialPose * matCurrentPose;
-		//hand = bones[0].fbxCluster->GetTransformLinkMatrix();
+		//hand = bones[0].invInitialPose * matCurrentPose;
+		
+		
+	//	hand = bones[0].fbxCluster->GetTransformLinkMatrix();
 	}
-	//FbxLoader::ConvertMatrixFromFbx(&hRot, bones[hb].fbxCluster->GetLink().rotati);
-
-	//handa *= modelTransform;
-	//handa=handa;
+	//15.16
+	int num = 13;
+	FbxLoader::ConvertMatrixFromFbx(&hRot, bones[num].fbxCluster->GetLink()->EvaluateGlobalTransform(currentTime));
+	hRot= XMMatrixIdentity();
+	//matWorld = XMMatrixIdentity();
+	hand = modelTransform * matRot*hRot;
+	//bones[1].fbxCluster->GetLink()->EvaluateLocalTransform()
+	pos =  modelTransform* hRot*matTrans;
 	
+	rot = model->GetBones()[21].invInitialPose *matRot;
 	constBuffSkin->Unmap(0, nullptr);
 }
 

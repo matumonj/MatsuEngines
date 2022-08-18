@@ -58,7 +58,7 @@ bool Player::Initialize( DebugCamera* camera)
 
 	position = {125,-25,-760 };
 
-	fbxmodel = FbxLoader::GetInstance()->LoadModelFromFile("unti");
+	fbxmodel = FbxLoader::GetInstance()->LoadModelFromFile("monster_golem_demo");
 
 	float radius = 5.0f;
 	SetCollider(new SphereCollider(XMVECTOR({ 0,radius,0,0 }), radius));
@@ -78,16 +78,15 @@ bool Player::Initialize( DebugCamera* camera)
 	sObj = Object3d::Create(camera);
 	sObj->SetModel(sModel);
 
-	SwordObj->SetRotation({ 0,0,-90 });
-
-
+	
+	SwordObj->SetPosition(position);
+	SwordObj->SetScale({ 50,50,50 });
+	//SwordObj->SetPosition({ position});
 	
 	return true;
 }
 void Player::Update(XMFLOAT4 color, DebugCamera* camera)
 {
-	//SwordObj->SetPosition(position);
-	SwordObj->SetScale({ 5,5,5 });
 
 	sObj->SetRotation(rotation);
 	sObj->SetPosition({ position.x-10,position.y,position.z });
@@ -119,19 +118,20 @@ void Player::Update(XMFLOAT4 color, DebugCamera* camera)
 			
 }
 	object1->SetPosition(position);
-	object1->SetRotation({ rotation.x, rotation.y, rotation.z });
+	object1->SetRotation({ -90,0,0 });
 	
 	object1->Updata( TRUE);
 	
 	//sw->SetMatrot(object1->GetmatRot());
-
+	//SwordObj->SetPosition({ position});
+	SwordObj->SetPosition({ object1->GetPos().r[0].m128_f32[0],object1->GetPos().r[1].m128_f32[1],object1->GetPos().r[2].m128_f32[2] });
+	SwordObj->SetRotation({ object1->GetHandBone().r->m128_f32[0]-90,object1->GetHandBone().r->m128_f32[1],object1->GetHandBone().r->m128_f32[2] });
 	FbxAnimationControl();
 
 	CollisionField(camera);
 
 sObj->Update( { 0,1,0,1 }, camera);
-SwordObj->SetParent(sObj);
-SwordObj->Update({ 1,1,1,1 }, camera);
+SwordObj->Update( { 1,1,1,1 }, camera);
 
 	//s—ñ‚ÌXV‚Æ‚©
 	//Object3d::Update({ 1,1,1,1 }, camera);
@@ -351,7 +351,7 @@ void Player::Draw()
 {
 	object1->Draw();
 	SwordObj->PreDraw();
-	//SwordObj->Draw();
+	SwordObj->Draw();
 	SwordObj->PostDraw();
 	sObj->PreDraw();
 	//sObj->Draw();

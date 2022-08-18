@@ -118,6 +118,7 @@ void FbxLoader::ParseNodeRecursive(f_Model* f_Model, FbxNode* fbxNode, Node* par
         //親の変形を乗算
         node.globalTransform *= parent->globalTransform;
     }
+//    Hand= f_Model[0].GetModelTransform();
     //FBXノードのメッシュ情報を解析（Todo）
     FbxNodeAttribute* fbxNodeAttribute = fbxNode->GetNodeAttribute();
 

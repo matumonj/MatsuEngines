@@ -56,10 +56,8 @@ void Tutorial::Initialize()
 
 	if (AllObjectControl.size() == 0) {
 		AllObjectControl.push_back(EnemyControl::GetInstance());
-
 		AllObjectControl.push_back(FenceControl::GetInstance());
 		AllObjectControl.push_back(ChestControl::GetInstance());
-		AllObjectControl.push_back(CameraControl::GetInstance());
 	}
 	TargetMarker::GetInstance()->Initialize();
 
