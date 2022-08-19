@@ -58,7 +58,7 @@ private:
 		COMBOBONUS = 10,
 	};
 	bool AttackJudgeMent = false;
-	int FirstAttackDamage=1000;
+	int FirstAttackDamage=10;
 	int SecondAttackDamage=15;
 	int ThirdAttackDamage=20;
 	int ComboBonus = 10;

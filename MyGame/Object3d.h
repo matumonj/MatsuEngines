@@ -235,6 +235,7 @@ public:
 	void setr(bool f) { rf = f; }
 	XMMATRIX GetMatrot() {return matRot; }
 	XMMATRIX GetMatScl() { return matScale; }
+	XMFLOAT3 GetMatTrans() { return { matWorld.r[2].m128_f32[0], matWorld.r[2].m128_f32[1], matWorld.r[2].m128_f32[2] }; }
 	void SetMatrot(XMMATRIX rot) { rm = rot; }
 	void SetMatRot(XMMATRIX rot) { rt = rot; }
 	void SetMatTrans(XMMATRIX rot) { rt = rot; }

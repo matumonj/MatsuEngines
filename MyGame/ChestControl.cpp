@@ -4,10 +4,11 @@ ChestControl* ChestControl::GetInstance()
 {
 	static ChestControl instance;
 
-	return& instance;
+	return&instance;
 }
 void ChestControl::Load(DebugCamera* camera)
 {
+	//ChestMaxも追加
 	file.open("EnemyParam_CSV/Chest.csv");
 
 	popcom << file.rdbuf();
@@ -84,7 +85,10 @@ void ChestControl::Update(DebugCamera* camera)
 		}
 	}
 	for (int i = 0; i < Quantity; i++) {
-		if (chests[i]->CollideChest() == true) {
+		if (chests[i] == nullptr)return;
+		if (Collision::GetLength(Player::GetInstance()->GetPosition(), chests[i]->GetPosition()) < 10) {
+			GetChestAction(i);
+
 			//Player::GetInstance()->SetPosition(Player_OldPos);
 			//Player::GetInstance()->SetGround(true);
 			break;
@@ -111,4 +115,20 @@ void ChestControl::SetColor(XMFLOAT4 color)
 			chests[i]->SetColor(color);
 		}
 	}
+}
+
+void ChestControl::GetChestAction(int index)
+{
+	bool GetMaxChests = GetChestCount == ChestMax;
+	GetChestCount++;
+	ChestDestroy(index);
+
+	if (GetMaxChests) {
+		//BOSS登場シーンへに切り替え
+	}
+}
+
+void ChestControl::ChestDestroy(int index)
+{
+	//破棄処理　終わったらnullptr
 }

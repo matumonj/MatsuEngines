@@ -118,7 +118,11 @@ public:
 	int GetHP() { return HP; }
 	void FbxAnimationControl();
 
+	XMFLOAT3 SwordOBB_Pos() { return SwordPos; }
+	XMFLOAT3 SwordOBB_Rot() { return SwordRot; }
 private:
+	XMFLOAT3 SwordPos;
+	XMFLOAT3 SwordRot;
 	float f_time;
 	XMFLOAT3 oldpos;
 	//imgui•\Ž¦—p
@@ -133,5 +137,9 @@ private:
 		Model* sModel;
 		Object3d* SwordObj;
 		Model* SwordModel;
+		float AttackTime = 1.5f;
+		float DeathTime = 4.9f;
+		bool AttackFlag;
+		bool nowattack;
 };
 

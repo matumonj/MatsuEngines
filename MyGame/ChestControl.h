@@ -15,10 +15,16 @@ public:
 	void Draw()override;
 
 	void SetColor(XMFLOAT4 color)override;
+
+	void GetChestAction(int index);
+
+	void ChestDestroy(int index);
 private:
 	std::vector<std::unique_ptr<Chest>>chests;
 	std::vector <XMFLOAT3>Load_ChestPosition;
 
+	int GetChestCount = 0;
 
+	int ChestMax;
 };
 

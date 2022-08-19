@@ -80,10 +80,11 @@ bool Player::Initialize( DebugCamera* camera)
 
 	
 	//SwordObj->SetPosition(position);
-	SwordObj->SetScale({ 5,5,5});
+	SwordObj->SetScale({ 1,1,1});
 	//SwordObj->SetPosition({ position});
-	SwordObj->SetPosition({ object1->GetPos().r->m128_f32[0],object1->GetPos().r->m128_f32[1],object1->GetPos().r->m128_f32[2] });
-	SwordObj->SetRotation({ object1->GetHandBone().r->m128_f32[0],object1->GetHandBone().r->m128_f32[1],object1->GetHandBone().r->m128_f32[2]+90 });
+	//SwordObj->SetPosition({ position });
+	SwordObj->SetRotation({ 0,0+30,0+100});
+	object1->SetRotation({ -90,0,0 });
 
 	return true;
 }
@@ -97,7 +98,7 @@ void Player::Update(XMFLOAT4 color, DebugCamera* camera)
 	//エフェクトのパラメータセット
 	RotationStatus();
 	//position.y = -2;
-	object1->SetScale({0.05, 0.05f, 0.05f
+	object1->SetScale({0.02, 0.02f, 0.02f
 });
 
 	scale = { 1.0f,1.0f,1.0f };
@@ -120,8 +121,8 @@ void Player::Update(XMFLOAT4 color, DebugCamera* camera)
 			
 }
 	object1->SetPosition(position);
-	object1->SetRotation({ -90,0,0 });
-	
+	object1->SetRotation({ rotation.x-90,rotation.y,rotation.z});
+
 	object1->Updata( TRUE);
 	
 	//sw->SetMatrot(object1->GetmatRot());
@@ -131,7 +132,10 @@ void Player::Update(XMFLOAT4 color, DebugCamera* camera)
 	CollisionField(camera);
 
 sObj->Update( { 0,1,0,1 }, camera);
+
+//SwordPos = { object1->GetPos().r->m128_f32[0],object1->GetPos().r->m128_f32[1],object1->GetPos().r->m128_f32[2] };
 SwordObj->Update( object1->GetRot(),{ 1,1,1,1 }, camera);
+SwordRot = { object1->GetHandBone().r->m128_f32[0],object1->GetHandBone().r->m128_f32[1],object1->GetHandBone().r->m128_f32[2] };
 
 	//行列の更新とか
 	//Object3d::Update({ 1,1,1,1 }, camera);
@@ -375,9 +379,10 @@ void Player::ImguiDraw()
 	}
 	//Rotation
 	if (ImGui::TreeNode("Rotation")) {
-		ImGui::Text(" RotationX   [%5f]", rotation.x);
-		ImGui::Text(" RotationY   [%5f]", rotation.y);
-		ImGui::Text(" RotationZ   [%5f]", rotation.z);
+		XMFLOAT3 rots = {object1->GetPos()};
+		ImGui::Text(" RotationX   [%5f]", rots.x);
+		ImGui::Text(" RotationY   [%5f]", rots.y);
+		ImGui::Text(" RotationZ   [%5f]", rots.z);
 		ImGui::TreePop();
 	}
 	ImGui::SliderInt("HP", &HP,1,MaxHP);
@@ -398,9 +403,27 @@ void Player::ImguiDraw()
 void Player::FbxAnimationControl()
 {
 	if (!stopf) {
+		if (input->TriggerButton(input->Button_B)) {
+			AttackFlag = true;
+		}
+		if (AttackFlag) {
+			f_time = AttackTime;
+			AttackFlag = false;
+			nowattack = true;
+		}
+
+
 		f_time += 0.02f;
-		if (f_time > object1->GetEndTime()) {
+		if (nowattack) {
+			if ( f_time >= DeathTime) {
+				f_time = 0;
+				nowattack = false;
+			}
+		}
+		else {
+			if(f_time > AttackTime) {
 			f_time = 0;
+		}
 		}
 	}
 	else {

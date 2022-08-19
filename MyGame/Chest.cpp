@@ -4,6 +4,7 @@
 #include"TouchableObject.h"
 #include"CollisionManager.h"
 #include"Collision.h"
+#include"Player.h"
 Chest::~Chest()
 {
 	//delete ps0;

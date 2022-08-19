@@ -144,8 +144,10 @@ public:	//íËêî
 	//FbxMatrix& world;
 	XMMATRIX handa;
 	XMMATRIX hRot;
-	XMMATRIX pos;
-	XMMATRIX GetPos() { return pos; }
+	FbxDouble3 PosNode;
+	XMMATRIX Posmat;
+	XMFLOAT3 pos;
+	XMFLOAT3 GetPos() { return pos; }
 	XMMATRIX rot;
 	XMMATRIX GetRot() { return rot; }
 	XMMATRIX GetMatrot() { return matRot; }

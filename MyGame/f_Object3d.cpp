@@ -287,10 +287,12 @@ void f_Object3d::Updata(bool animeloop)
 	FbxLoader::ConvertMatrixFromFbx(&hRot, bones[num].fbxCluster->GetLink()->EvaluateGlobalTransform(currentTime));
 //rot= XMMatrixIdentity();
 	//matWorld = XMMatrixIdentity();
-	//hand = modelTransform * matRot*hRot;
+	hand = modelTransform *hRot * matRot;
 	//bones[1].fbxCluster->GetLink()->EvaluateLocalTransform()
-	pos = modelTransform * matTrans * hRot;
-	
+	//pos = {position.x+};posnode
+	PosNode= model->GetBones()[num].fbxCluster->GetLink()->LclTranslation.Get();
+	Posmat = XMMatrixTranslationFromVector({ (float)PosNode[0], (float)PosNode[1], (float)PosNode[2], 1.0f }); //model->GetBones()[num].fbxCluster->GetLink()->LclTranslation.Get();
+	pos = { Posmat.r[0].m128_f32[0] + position.x,Posmat.r[0].m128_f32[1] +position.y, Posmat.r[0].m128_f32[2] + position.z };
 	rot =  hRot* matWorld;
 	constBuffSkin->Unmap(0, nullptr);
 }
