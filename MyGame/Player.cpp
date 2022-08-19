@@ -79,10 +79,12 @@ bool Player::Initialize( DebugCamera* camera)
 	sObj->SetModel(sModel);
 
 	
-	SwordObj->SetPosition(position);
-	SwordObj->SetScale({ 50,50,50 });
+	//SwordObj->SetPosition(position);
+	SwordObj->SetScale({ 5,5,5});
 	//SwordObj->SetPosition({ position});
-	
+	SwordObj->SetPosition({ object1->GetPos().r->m128_f32[0],object1->GetPos().r->m128_f32[1],object1->GetPos().r->m128_f32[2] });
+	SwordObj->SetRotation({ object1->GetHandBone().r->m128_f32[0],object1->GetHandBone().r->m128_f32[1],object1->GetHandBone().r->m128_f32[2]+90 });
+
 	return true;
 }
 void Player::Update(XMFLOAT4 color, DebugCamera* camera)
@@ -95,10 +97,10 @@ void Player::Update(XMFLOAT4 color, DebugCamera* camera)
 	//エフェクトのパラメータセット
 	RotationStatus();
 	//position.y = -2;
-	object1->SetScale({0.05f, 0.05f, 0.05f
+	object1->SetScale({0.05, 0.05f, 0.05f
 });
 
-	scale = { 0.005f,0.005f,0.01f };
+	scale = { 1.0f,1.0f,1.0f };
 	//移動ベクトルをy軸周りの角度で回転
 	XMVECTOR move = { 0.0f,0.0f,0.1f,0.0f };
 	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(rotation.y));
@@ -124,14 +126,12 @@ void Player::Update(XMFLOAT4 color, DebugCamera* camera)
 	
 	//sw->SetMatrot(object1->GetmatRot());
 	//SwordObj->SetPosition({ position});
-	SwordObj->SetPosition({ object1->GetPos().r[0].m128_f32[0],object1->GetPos().r[1].m128_f32[1],object1->GetPos().r[2].m128_f32[2] });
-	SwordObj->SetRotation({ object1->GetHandBone().r->m128_f32[0]-90,object1->GetHandBone().r->m128_f32[1],object1->GetHandBone().r->m128_f32[2] });
-	FbxAnimationControl();
+		FbxAnimationControl();
 
 	CollisionField(camera);
 
 sObj->Update( { 0,1,0,1 }, camera);
-SwordObj->Update( { 1,1,1,1 }, camera);
+SwordObj->Update( object1->GetRot(),{ 1,1,1,1 }, camera);
 
 	//行列の更新とか
 	//Object3d::Update({ 1,1,1,1 }, camera);

@@ -285,13 +285,13 @@ void f_Object3d::Updata(bool animeloop)
 	//15.16
 	int num = 13;
 	FbxLoader::ConvertMatrixFromFbx(&hRot, bones[num].fbxCluster->GetLink()->EvaluateGlobalTransform(currentTime));
-	hRot= XMMatrixIdentity();
+//rot= XMMatrixIdentity();
 	//matWorld = XMMatrixIdentity();
-	hand = modelTransform * matRot*hRot;
+	//hand = modelTransform * matRot*hRot;
 	//bones[1].fbxCluster->GetLink()->EvaluateLocalTransform()
-	pos =  modelTransform* hRot*matTrans;
+	pos = modelTransform * matTrans * hRot;
 	
-	rot = model->GetBones()[21].invInitialPose *matRot;
+	rot =  hRot* matWorld;
 	constBuffSkin->Unmap(0, nullptr);
 }
 
