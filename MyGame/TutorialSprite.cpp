@@ -3,6 +3,8 @@
 #include"SistemConfig.h"
 #include"EnemyControl.h"
 #include"FenceControl.h"
+#include"ChestControl.h"
+#include"mHelper.h"
 TutorialSprite* TutorialSprite::GetInstance()
 {
 	static TutorialSprite instance;
@@ -11,8 +13,25 @@ TutorialSprite* TutorialSprite::GetInstance()
 void TutorialSprite::Initialize()
 {
 	input = Input::GetInstance();
+	Sprite::LoadTexture(171, L"Resources/tutorial1.png");
+	Sprite::LoadTexture(172, L"Resources/tutorial2.png");
+	Sprite::LoadTexture(173, L"Resources/tutorial3.png");
+	Sprite::LoadTexture(174, L"Resources/tutorial4.png");
+	Sprite::LoadTexture(175, L"Resources/tutorial5.png");
+	Sprite::LoadTexture(176, L"Resources/tutorial6.png");
 	Sprite::LoadTexture(170, L"Resources/Tuto");
-	Task[0]=Sprite::Create(170, { 10,10 });
+	Task[HELLO] = Sprite::Create(171, { 10,10 });
+	Task[WALK] = Sprite::Create(172, { 10,10 });
+	Task[SETTING] = Sprite::Create(173, { 10,10 });
+	Task[ATTAK] = Sprite::Create(174, { 10,10 });
+	Task[GETKEY] = Sprite::Create(175, { 10,10 });
+	Task[CLEAR] = Sprite::Create(176, { 10,10 });
+	for (int i = 0; i < TaskNum; i++) {
+		Task[i]->SetAnchorPoint({ 0,0 });
+		SpriteSizeX[i] = 0;
+	}
+
+	task = THELLO;
 }
 
 void TutorialSprite::Update()
@@ -26,18 +45,99 @@ void TutorialSprite::Update()
 	}
 
 	//歩きとジャンプ
-	ClearWalk = Movement > 100&&Jump==true;
+	ClearWalk = Movement > 100 && Jump == true;
 	//セッティング
 	ClearSetting = SistemConfig::GetInstance()->GetConfigJudgMent() == false;
 	//攻撃
 	ClearAttack = EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetHP() <= 0;
 	//オールコンプリート
 	AllTaskClear = ClearWalk && ClearAttack && ClearSetting;
+	//チュートリアルの宝箱
+	GetChest = ChestControl::GetInstance()->GetTutorialChest() == true;
 
 	FenceControl::GetInstance()->SetTutorialFenceOpen(AllTaskClear);
+
+	switch (task)
+	{
+	case TutorialSprite::THELLO:
+		if (MassageCheck[HELLO]) {
+			//次のタスクへの条件(３引数)
+			NextTask(t[HELLO], TMOVE, true);
+		}
+		//説明スプライトの拡縮
+		Ease_SpriteSize_Up(SpriteSizeX[HELLO], t[HELLO], HELLO);
+		break;
+
+	case TutorialSprite::TMOVE:
+		if (MassageCheck[WALK]) {
+			NextTask(t[WALK], TSETTING, ClearWalk);
+		}
+
+		Ease_SpriteSize_Up(SpriteSizeX[WALK], t[WALK], WALK);
+		break;
+
+	case TutorialSprite::TSETTING:
+		if (input->TriggerButton(input->Button_A)) {
+			if (ClearSetting) {
+				task = TATTACK;
+			}
+		}
+		break;
+	case TutorialSprite::TATTACK:
+		if (input->TriggerButton(input->Button_A)) {
+			if (ClearAttack) {
+				task = TGETKEY;
+			}
+		}
+		break;
+	case TutorialSprite::TGETKEY:
+
+		break;
+	case TutorialSprite::TEND:
+
+		break;
+	default:
+		break;
+	}
+	for (int i = 0; i < TaskNum; i++) {
+		Task[i]->SetSize({ SpriteSizeX[i],1600 });
+	}
 }
 
 void TutorialSprite::Draw()
 {
+	Sprite::PreDraw();
+	for (int i = 0; i < TaskNum; i++) {
+		Task[0]->Draw();
+		Task[1]->Draw();
+	}
+	Sprite::PostDraw();
+}
 
+void TutorialSprite::Ease_SpriteSize_Up(float& x, float& t, int index)
+{
+
+	if (input->TriggerButton(input->Button_A)) {
+		MassageCheck[index] = true;
+	}
+	if (MassageCheck[index]) {
+		x = Easing::EaseOut(t, 0, 1800);
+		if (t >= 0.0f) {
+			t -= 0.01f;
+		}
+	} else {
+		x = Easing::EaseOut(t, 0, 1800);
+		if (t <= 1.0f) {
+			t += 0.01f;
+		}
+	}
+}
+
+void TutorialSprite::NextTask(float t, TaskMenu nexttask, bool nextjudg)
+{
+	if (t <= 0.0f) {
+		if (nextjudg) {
+			task = nexttask;
+		}
+	}
 }

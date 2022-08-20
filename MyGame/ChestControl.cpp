@@ -104,7 +104,7 @@ void ChestControl::Update(DebugCamera* camera)
 			Tutorial_chest[0]->Update(camera);
 			//}
 			if (Collision::GetLength(Player::GetInstance()->GetPosition(), Tutorial_chest[0]->GetPosition()) < 10) {
-				GetTutorialKey(true);//チュートリアル用
+				GetTutorialChestJudg = true;;//チュートリアル用
 				GetChestAction();
 				Destroy_unique(Tutorial_chest[0]);
 				
@@ -148,9 +148,4 @@ void ChestControl::GetChestAction()
 void ChestControl::ChestDestroy()
 {
 	//破棄処理　終わったらnullptr
-}
-
-bool ChestControl::GetTutorialKey(bool judg)
-{
-	return judg;
 }

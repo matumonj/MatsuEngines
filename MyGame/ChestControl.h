@@ -20,13 +20,13 @@ public:
 
 	void ChestDestroy();
 
-	bool GetTutorialKey(bool judg);
+	bool GetTutorialChest() { return GetTutorialChestJudg; }
 private:
 	std::vector<std::unique_ptr<Chest>>chests;
 	std::vector <XMFLOAT3>Load_ChestPosition;
 	std::vector<std::unique_ptr<Chest>>Tutorial_chest;
 	int GetChestCount = 0;
-
+	bool GetTutorialChestJudg;
 	int ChestMax;
 };
 

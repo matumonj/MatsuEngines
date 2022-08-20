@@ -211,6 +211,7 @@ void Tutorial::Draw()
 		SistemConfig::GetInstance()->Draw();
 		CustomButton::GetInstance()->Draw();
 		Feed::GetInstance()->Draw();
+		TutorialSprite::GetInstance()->Draw();
 		Sprite::PreDraw();
 		txt->DrawAll();
 		Sprite::PostDraw();

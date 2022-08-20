@@ -6,9 +6,17 @@ class TutorialSprite
 public:
 	static TutorialSprite* GetInstance();
 private:
-	static const int TaskNum = 5;
+	static const int TaskNum = 6;
 	Sprite* Task[TaskNum];
-	enum Tasks{
+	enum TaskMenu {//‰º‚Ì”z—ñ—p—ñ‹“Œ^‚Æ‚©‚Ô‚ç‚È‚¢‚æ‚¤‚É
+		THELLO,
+		TMOVE,
+		TSETTING,
+		TATTACK,
+		TGETKEY,
+		TEND
+	};
+	enum {
 		HELLO,
 		WALK,
 		ATTAK,
@@ -16,14 +24,19 @@ private:
 		GETKEY,
 		CLEAR,
 	};
+	float SpriteSizeX[TaskNum] = { 0 };
 	float SpriteAlpha[TaskNum];
-	Tasks task = HELLO;
+	float t[TaskNum];
+	TaskMenu task = THELLO;
 	float Movement = 0;
 	bool Jump;
 	bool ClearWalk;
 	bool ClearAttack;
 	bool ClearSetting;
+	bool GetChest;
 	bool AllTaskClear;
+
+	bool MassageCheck[TaskNum];
 	Input* input;
 public:
 	void Initialize();
@@ -31,5 +44,8 @@ public:
 	void Update();
 
 	void Draw();
+
+	void Ease_SpriteSize_Up(float& x,float& t,int index);
+	void NextTask(float t,TaskMenu nexttask,bool nextjudg);
 };
 
