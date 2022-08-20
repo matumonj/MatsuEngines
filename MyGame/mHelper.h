@@ -14,7 +14,7 @@
 	}
 	namespace Percent {
 		inline float GetParcent(float amount,float num) {
-			return num / amount * 100.000f;
+			return num / amount * 100.00f;
 		}
 	}
 

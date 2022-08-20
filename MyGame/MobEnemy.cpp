@@ -41,8 +41,8 @@ void MobEnemy::Initialize(DebugCamera* camera)
 	RandMove = rand() % 90 + 20;
 	RandMovement = rand() % 100 + 80;
 
-	EnemyHP = 150.0f;
-	
+	EnemyHP = 150.00f;
+	MaxHP = 150.00f;
 	Texture::LoadTexture(11, L"Resources/Sertch.png");
 	SearchPlayerTexture = Texture::Create(11, { 0,-50,50 }, { 1,1,1 }, { 1,1,1,1 });
 	SearchPlayerTexture->CreateTexture();

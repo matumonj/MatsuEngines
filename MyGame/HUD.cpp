@@ -8,6 +8,7 @@
 #include"CameraControl.h"
 #include"CustomButton.h"
 #include"SceneManager.h"
+#include"Input.h"
 HUD::~HUD()
 {
 	delete PlayerHP, EnemyHP_Border, EnemyHP_Inner;
@@ -41,6 +42,8 @@ void HUD::Initialize()
 
 void HUD::EnemyHPGaugeInitialize()
 {
+	Texture::LoadTexture(122, L"Resources/bosshp.png");
+	Texture::LoadTexture(123, L"Resources/bosshp.png");
 	Sprite::LoadTexture(12, L"Resources/bosshp.png");
 	EnemyHP_Inner = Sprite::Create(12, { 0.0f,-200.0f });
 	
@@ -80,7 +83,7 @@ void HUD::EnemyHPGaugeUpdate(std::vector<std::unique_ptr<Enemy>>& enemy)
 			nowhp = enemy[index]->GetHP() * 10;
 			Hpt += 0.01f;
 			sizel = { Easing::EaseOut(Hpt,oldhp,nowhp),20 };
-			EnemyHP_Inner->SetSize(sizel);
+			EnemyHP_Inner->SetSize({ Percent::GetParcent(enemy[index]->GetMaxHP(),enemy[index]->GetHP()),20 });
 			if (sizel.x - nowhp<10) {
 				enemy[index]->SetRecvDamage(false);
 			}
@@ -88,7 +91,8 @@ void HUD::EnemyHPGaugeUpdate(std::vector<std::unique_ptr<Enemy>>& enemy)
 		else {
 			oldhp = enemy[index]->GetHP() * 10;
 			Hpt = 0;
-			EnemyHP_Inner->SetSize({ enemy[index]->GetHP() * 10,20 });
+			EnemyHP_Inner->SetSize({ Percent::GetParcent(enemy[index]->GetMaxHP(),enemy[index]->GetHP()),20 });
+
 		}
 	}
 	//EnemyHP_Inner->SetSize({400,400});
@@ -205,6 +209,11 @@ void HUD::EnemyHPGauge_MultiInitialize()
 
 void HUD::EnemyHPGauge_MultiUpdate(bool &loadf,DebugCamera* camera, std::vector<std::unique_ptr<Enemy>>& enemy)
 {
+	if (Input::GetInstance()->TriggerKey(DIK_SPACE)) {
+		enemy[0]->RecvDamage(15.00f);
+	}
+	
+
 	if (loadf) {
 		for (int i = 0; i < enemy.size(); i++) {
 			EnemyHP_Border_Multi.resize(enemy.size());
@@ -214,9 +223,6 @@ void HUD::EnemyHPGauge_MultiUpdate(bool &loadf,DebugCamera* camera, std::vector<
 			multi_Hpt.resize(enemy.size());
 			multi_sizel.resize(enemy.size());
 			
-			Texture::LoadTexture(122, L"Resources/bosshp.png");
-			Texture::LoadTexture(123, L"Resources/lifegauge.png");
-
 			EnemyHP_Inner_Multi[i] = Texture::Create(122, { 0.0f,-200.0f,1 }, { 1,1,1 } ,{1,1,1,1});
 			EnemyHP_Border_Multi[i] = Texture::Create(123, { 0.0f,-200.0f,1 }, { 1,1,1 } ,{ 1,1,1,1 });
 			//EnemyHP_Border_Multi[i]->SetPosition({ 80,860,1 });
@@ -228,21 +234,23 @@ void HUD::EnemyHPGauge_MultiUpdate(bool &loadf,DebugCamera* camera, std::vector<
 			}
 		loadf = false;
 	}
+
 	for (int i = 0; i < enemy.size(); i++) {
+		
 		//ƒpƒ‰ƒ[ƒ^‚ÌÝ’è
-		if (enemy[i] != nullptr && EnemyHP_Border_Multi.size() > 1) {
+		if (enemy[i] != nullptr && EnemyHP_Border_Multi.size() > 0) {
 			if (enemy[i]->GetRecvDamage() == true) {
-				multi_NowHP[i] = enemy[i]->GetHP() / 70;
+				multi_NowHP[i] = Percent::GetParcent(enemy[i]->GetMaxHP(), enemy[i]->GetHP())/10.00f ;
 				multi_Hpt[i] += 0.01f;
 				multi_sizel[i] = { Easing::EaseOut(multi_Hpt[i] ,multi_OldHP[i] ,multi_NowHP[i]),1.5,1 };
 				EnemyHP_Inner_Multi[i]->SetScale(multi_sizel[i]);
-				if (multi_sizel[i].x - multi_NowHP[i] < 1) {
+				if (multi_Hpt[i]>=1.0f) {
 					enemy[i]->SetRecvDamage(false);
 				}
 			} else {
-				multi_OldHP[i] = enemy[i]->GetHP() / 70;
+				multi_OldHP[i] =  Percent::GetParcent(enemy[i]->GetMaxHP(),enemy[i]->GetHP()) / 10.00f;
 				multi_Hpt[i] = 0;
-				EnemyHP_Inner_Multi[i]->SetScale({ enemy[i]->GetHP() / 70,0.8,1 });
+				EnemyHP_Inner_Multi[i]->SetScale({ Percent::GetParcent(enemy[i]->GetMaxHP(),enemy[i]->GetHP()) / 10.00f,1.5,1 });
 			}
 			
 			
@@ -261,7 +269,7 @@ void HUD::EnemyHPGauge_MultiDraw()
 {
 	Texture::PreDraw();
 	for (int i = 0; i < EnemyHP_Border_Multi.size(); i++) {
-		EnemyHP_Border_Multi[i]->Draw();
+	//	EnemyHP_Border_Multi[i]->Draw();
 		EnemyHP_Inner_Multi[i]->Draw();
 	}
 	Texture::PostDraw();
@@ -290,7 +298,7 @@ void HUD::Draw()
 	Sprite::PreDraw();
 	//PlayerHP->Draw();
 	TaskSprite->Draw();
-	//EnemyHPGaugeDraw();
+	EnemyHPGaugeDraw();
 	Sprite::PostDraw();
 }
 

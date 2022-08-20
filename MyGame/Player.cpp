@@ -160,7 +160,7 @@ void Player::normalAttack(TargetMarker*target, std::vector<std::unique_ptr<Enemy
 			+ ((enemy[target->GetNearIndex()]->GetPosition().z - position.z) * (enemy[target->GetNearIndex()]->GetPosition().z - position.z)));
 
 		if (distance <= 10) {
-			enemy[target->GetNearIndex()]->SetHP(enemy[target->GetNearIndex()]->GetHP() - 1);
+			//enemy[target->GetNearIndex()]->SetHP(enemy[target->GetNearIndex()]->GetHP() - 1);
 		}
 		attackflag = false;
 	}

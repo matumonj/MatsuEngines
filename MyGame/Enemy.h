@@ -44,6 +44,7 @@ private:
 protected:
 	Texture* SearchTex;
 	float EnemyHP;
+	float MaxHP;
 	float rotx;
 	float rotz;
 	XMVECTOR positionA;
@@ -87,6 +88,7 @@ public:
 	bool GetonFlag() { return onGround; }
 	bool GetAlive() { return Alive; };
 	float GetHP() { return EnemyHP; };
+	float GetMaxHP() { return MaxHP; }
 	void SetHP(float hp) { EnemyHP = hp; }
 	float getrotc() { return rotx; }
 	//void SetRandMove(int randMove, int movement) { RandMove = randMove; Movement = movement; }
