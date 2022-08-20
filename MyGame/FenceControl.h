@@ -41,5 +41,7 @@ public:
 
 	void SetColor(XMFLOAT4 color)override;
 	void ImGuiDraw();
+
+	void SetTutorialFenceOpen(bool judg) { TutorialFenceOpen = judg; }
 };
 

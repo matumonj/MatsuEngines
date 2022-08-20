@@ -7,6 +7,7 @@
 #include"MapCreateScene.h"
 #include"Field.h"
 #include"HUD.h"
+#include"DebugTxt.h"
 #include"PlayerAttackState.h"
 #include"SistemConfig.h"
 #include"EnemyControl.h"
@@ -19,6 +20,7 @@
 #include"PlayScene.h"
 #include"CustomButton.h"
 #include"Feed.h"
+#include"TutorialSprite.h"
 //シーンのコンストラクタ
 Tutorial::Tutorial(SceneManager* sceneManager)
 	:BaseScene(sceneManager)
@@ -39,6 +41,7 @@ void Tutorial::objUpdate(DebugCamera* camera)
 	TargetMarker::GetInstance()->Update(camera, Player::GetInstance());
 	PlayerAttackState::GetInstance()->Update();
 	UI::GetInstance()->HUDUpdate(hudload, camera);
+	TutorialSprite::GetInstance()->Update();
 	//Effects::GetInstance()->Update(camera);
 
 }
@@ -53,7 +56,10 @@ void Tutorial::objUpdate(DebugCamera* camera)
 void Tutorial::Initialize()
 {
 	input = Input::GetInstance();
-
+	txt = new DebugTxt();
+	Texture::LoadTexture(200, L"Resources/debugfont2.png");
+	txt->Initialize(200);
+	
 	if (AllObjectControl.size() == 0) {
 		AllObjectControl.push_back(EnemyControl::GetInstance());
 		AllObjectControl.push_back(FenceControl::GetInstance());
@@ -89,7 +95,7 @@ void Tutorial::Initialize()
 	SistemConfig::GetInstance()->Initialize();
 	CustomButton::GetInstance()->Initialize();
 	Field::GetInstance()->Initialize(camera);
-
+	TutorialSprite::GetInstance()->Initialize();
 	postEffect = new PostEffect();
 	postEffect->Initialize();
 	Feed::GetInstance()->initialize();
@@ -132,6 +138,7 @@ void Tutorial::Update()
 
 	objUpdate(camera);//オブジェクトの更新処理
 
+	txt->Print("100", 0,0, 200);
 	if (Player::GetInstance()->GetPosition().z > -470) {
 		scenechange = true;
 	}
@@ -165,6 +172,7 @@ void Tutorial::MyGameDraw()
 	//Effects::GetInstance()->Draw();
 	Texture::PreDraw();
 	TargetMarker::GetInstance()->Draw();
+
 	Texture::PostDraw();
 	
 }
@@ -203,6 +211,9 @@ void Tutorial::Draw()
 		SistemConfig::GetInstance()->Draw();
 		CustomButton::GetInstance()->Draw();
 		Feed::GetInstance()->Draw();
+		Sprite::PreDraw();
+		txt->DrawAll();
+		Sprite::PostDraw();
 		if (DirectXCommon::GetInstance()->GetFullScreen() == false) {
 			ImGuiDraw();
 		}

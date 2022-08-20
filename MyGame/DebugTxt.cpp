@@ -13,16 +13,20 @@ DebugTxt::~DebugTxt()
 
 void DebugTxt::Initialize(UINT texnumber)
 {
+	Sprite::LoadTexture(60, L"Resources/target.png");
+
 	// 全てのスプライトデータについて
 	for (int i = 0; i < _countof(spriteDatas); i++)
 	{
 		// スプライトを生成する
-		spriteDatas[i] = Sprite::Create(texnumber, { 0,0 });
+		spriteDatas[i] = Sprite::Create(texnumber, { 0,0});
+		//spriteDatas[i]->CreateTexture();
+		//spriteDatas[i]->SetScale({ 1000,1000,1 });
 	}
 }
 
 // 1文字列追加
-void DebugTxt::Print(const std::string& text, float x, float y, float scale = 1.0f)
+void DebugTxt::Print(const std::string& text, float x, float y, float scale = 2000.0f)
 {
 	// 全ての文字について
 	for (int i = 0; i < text.size(); i++)
@@ -44,10 +48,10 @@ void DebugTxt::Print(const std::string& text, float x, float y, float scale = 1.
 		int fontIndexX = fontIndex % fontLineCount;
 
 		// 座標計算
-		spriteDatas[spriteIndex]->SetPosition({ x + fontWidth * scale * i, y });
+		spriteDatas[spriteIndex]->SetPosition({ x + fontWidth * scale * i, y});
 		spriteDatas[spriteIndex]->SetTextureRect({ (float)fontIndexX * fontWidth, (float)fontIndexY * fontHeight }, { (float)fontWidth, (float)fontHeight });
 		spriteDatas[spriteIndex]->SetSize({ fontWidth * scale, fontHeight * scale });
-
+		spriteDatas[spriteIndex]->setcolor({ 1,1,1,1 });
 		// 文字を１つ進める
 		spriteIndex++;
 	}

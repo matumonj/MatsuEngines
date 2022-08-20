@@ -336,6 +336,15 @@ bool Texture::LoadTexture(UINT texnumber, const wchar_t* filename)
 	return true;
 }
 
+void Texture::SetTextureRect(XMFLOAT2 texBase, XMFLOAT2 texSize)
+{
+	this->texBase = texBase;
+	this->texSize = texSize;
+
+	// 頂点バッファへのデータ転送
+	TransferVertices();
+}
+
 void Texture::CreateTexture()
 {
 	HRESULT result = S_FALSE;

@@ -199,12 +199,18 @@ protected:
 			ALIVE,
 			None,
 			DEAD,
+			AFTER_ATTACK,
 			NOW_ATTACK
 		};
 		EnemyStates GetState() { return state; }
 		bool GetNowDeath() { return nowDeath; }
 protected:
 		EnemyStates state=None;
+	
+			bool folatc;
+		
+public:
+	bool GetFolatc() { return folatc; }
 	
 };
 

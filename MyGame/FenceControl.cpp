@@ -1,6 +1,7 @@
 #include "FenceControl.h"
 #include "EnemyControl.h"
 #include"SceneManager.h"
+#include"TutorialSprite.h"
 FenceControl* FenceControl::GetInstance()
 {
 	static FenceControl instance;
@@ -123,7 +124,6 @@ void FenceControl::Update(DebugCamera* camera)
 		}
 	}
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
-		TutorialFenceOpen = EnemyControl::GetInstance()->GetTutorialEnemyindex()[TYUTORIAL]->GetHP() <= 0;
 		if (Tutorialfence[0] != nullptr) {
 			Tutorialfence[0]->Update(camera);
 			Tutorialfence[0]->SetColor({ 1,0,0,1 });

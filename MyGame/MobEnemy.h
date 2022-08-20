@@ -78,9 +78,11 @@ private:
     bool DeathFlag;
   //  float DeathTime;
 private:
+    //bool folatc;
     bool nowAttack;
  
 public:
+   // bool GetFolatc() { return folatc; }
     bool isendtime;
 };
 

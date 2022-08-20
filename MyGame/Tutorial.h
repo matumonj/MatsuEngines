@@ -67,7 +67,7 @@ private:
 	XMFLOAT4 feedcolor = { 0,0,0,1 };
 	PostEffect* postEffect = nullptr;
 	DebugCamera* camera;
-
+	DebugTxt* txt;
 private:
 	float u;
 	XMFLOAT3 Player_Pos;// = player->GetPosition();

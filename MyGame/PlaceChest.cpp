@@ -45,6 +45,7 @@ void PlaceChest::ArgMent(DebugCamera* camera)
 	}
 	for (std::unique_ptr<Chest>& chest : chests) {
 		if (chest != nullptr) {
+			chest->SetColor({ 1,1,1,1 });
 			chest->Update(camera);
 			chest->CollisionField(camera);
 		}

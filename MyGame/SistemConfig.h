@@ -40,7 +40,9 @@ public:
 		HUDRAYOUT,
 		CUSTOMBUTTON,
 		ENEMYHP,
+		END
 	};
+	Config GetNowSelect() { return config; }
 	Config config;
 	float sAlpha = 0;
 	//èâä˙âª

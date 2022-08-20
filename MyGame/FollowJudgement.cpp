@@ -4,8 +4,9 @@
 #include"Collision.h"
 bool FollowJudgement::Judgment(Enemy* enemy)
 {
-
-	if (enemy->GetHP() > 100&&((enemy->GetSearchFlag()==true)||enemy->GetRecvDamageJudg())||(Collision::GetLength(enemy->GetPosition(), Player::GetInstance()->GetPosition()) < 20&&enemy->GetState()!=enemy->NOW_ATTACK))//追跡を開始するフラグ
+	bool GetLen = Collision::GetLength(enemy->GetPosition(), Player::GetInstance()->GetPosition()) < 20&&
+		Collision::GetLength(enemy->GetPosition(), Player::GetInstance()->GetPosition()) > 10;
+	if ( enemy->GetHP() > 100 && (GetLen&&!enemy->GetFolatc()&& enemy->GetState() == enemy->None))//追跡を開始するフラグ
 	{
 		//追跡をしているフラグ
 		return true;

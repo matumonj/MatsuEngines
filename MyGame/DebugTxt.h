@@ -3,7 +3,7 @@
 #include "Sprite.h"
 #include <Windows.h>
 #include <string>
-
+#include"Texture.h"
 class DebugTxt
 {
 

@@ -63,9 +63,10 @@ void SistemConfig::Update()
 		}
 
 		if (count>5&&input->TriggerButton(input->Start)) {
-			count = 0;
+			
 			HUDLayOut::GetInstance()->SetLayOutMode(false);
 			CustomButton::GetInstance()->SetCustomButtonJudg(false);
+			count = 0;
 			m_ConfigFlag = false;
 		}
 	}

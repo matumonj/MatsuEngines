@@ -1,5 +1,6 @@
 #include "ChestControl.h"
-
+#include"SceneManager.h"
+#include"Destroy.h"
 ChestControl* ChestControl::GetInstance()
 {
 	static ChestControl instance;
@@ -8,6 +9,7 @@ ChestControl* ChestControl::GetInstance()
 }
 void ChestControl::Load(DebugCamera* camera)
 {
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
 	//ChestMaxも追加
 	file.open("EnemyParam_CSV/Chest.csv");
 
@@ -67,6 +69,15 @@ void ChestControl::Load(DebugCamera* camera)
 		chests[i]->Initialize(camera);
 		chests[i]->SetPosition(pos[i]);
 	}
+}
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
+			Tutorial_chest.resize(1);
+		Tutorial_chest[0] = std::make_unique<Chest>();
+		Tutorial_chest[0]->Initialize(camera);
+		Tutorial_chest[0]->SetPosition({ 115,-24,-576 });
+		Tutorial_chest[0]->SetRotation({ 0,90,0 });
+		//Tutorial_chest[0]->SetScale({ 8.39,10,4 });
+	}
 	UpdateRange = 200;
 }
 
@@ -77,58 +88,69 @@ void ChestControl::Initialize(DebugCamera* camera)
 
 void ChestControl::Update(DebugCamera* camera)
 {
-	for (int i = 0; i < Quantity; i++) {
-		if (chests[i] != nullptr) {
-			if (Collision::GetLength(Player::GetInstance()->GetPosition(), chests[i]->GetPosition()) < UpdateRange) {
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
+		for (int i = 0; i < Quantity; i++) {
+			if (chests[i] != nullptr) {
+				chests[i]->SetColor({ 1,1,1,1 });
+				//if (Collision::GetLength(Player::GetInstance()->GetPosition(), chests[i]->GetPosition()) < UpdateRange) {
 				chests[i]->Update(camera);
+				//}
 			}
 		}
 	}
-	for (int i = 0; i < Quantity; i++) {
-		if (chests[i] == nullptr)return;
-		if (Collision::GetLength(Player::GetInstance()->GetPosition(), chests[i]->GetPosition()) < 10) {
-			GetChestAction(i);
-
-			//Player::GetInstance()->SetPosition(Player_OldPos);
-			//Player::GetInstance()->SetGround(true);
-			break;
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
+		if (Tutorial_chest[0] != nullptr) {
+			Tutorial_chest[0]->SetColor({ 1,1,1,1 });
+			Tutorial_chest[0]->Update(camera);
+			//}
+			if (Collision::GetLength(Player::GetInstance()->GetPosition(), Tutorial_chest[0]->GetPosition()) < 10) {
+				GetTutorialKey(true);//チュートリアル用
+				GetChestAction();
+				Destroy_unique(Tutorial_chest[0]);
+				
+			}
+			
 		}
 	}
+	
 }
 
 void ChestControl::Draw()
 {
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
 	for (int i = 0; i < Quantity; i++) {
 		if (chests[i] != nullptr) {
-			if (Collision::GetLength(Player::GetInstance()->GetPosition(), chests[i]->GetPosition()) < UpdateRange) {
+		//	if (Collision::GetLength(Player::GetInstance()->GetPosition(), chests[i]->GetPosition()) < UpdateRange) {
 				chests[i]->Draw();
 			}
 		}
 	}
-}
-
-
-void ChestControl::SetColor(XMFLOAT4 color)
-{
-	for (int i = 0; i < Quantity; i++) {
-		if (chests[i] != nullptr) {
-			chests[i]->SetColor(color);
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
+		if (Tutorial_chest[0] != nullptr) {
+			Tutorial_chest[0] ->Draw();
 		}
 	}
 }
 
-void ChestControl::GetChestAction(int index)
-{
-	bool GetMaxChests = GetChestCount == ChestMax;
-	GetChestCount++;
-	ChestDestroy(index);
 
+void ChestControl::GetChestAction()
+{
+	bool GetMaxChests = GetChestCount == Quantity+1;
+	GetChestCount++;
+	ChestDestroy();
+
+	
 	if (GetMaxChests) {
 		//BOSS登場シーンへに切り替え
 	}
 }
 
-void ChestControl::ChestDestroy(int index)
+void ChestControl::ChestDestroy()
 {
 	//破棄処理　終わったらnullptr
+}
+
+bool ChestControl::GetTutorialKey(bool judg)
+{
+	return judg;
 }

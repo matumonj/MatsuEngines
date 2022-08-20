@@ -11,6 +11,7 @@
 #include"StayAction.h"
 #include"mHelper.h"
 #include"imgui.h"
+#include"Collision.h"
 /// <summary>
 /// コンストラクタ
 /// </summary>
@@ -179,6 +180,13 @@ void MobEnemy::Follow()
 		time++;
 		wf = false;
 		sf = false;
+		if (Collision::GetLength(Position, Player::GetInstance()->GetPosition()) < 10)
+		{
+			folatc = true;
+		}
+		else {
+			folatc = false;
+		}
 	}
 }
 
@@ -222,7 +230,9 @@ void MobEnemy::FbxAnimationControl()
 
 void MobEnemy::Attack()
 {
+	endsearch = true;
 	if (state != NOW_ATTACK) {
+		
 		Turn_toPlayer();
 		wf = false;
 		//Player::GetInstance()->RecvDamage(10);
@@ -231,19 +241,23 @@ void MobEnemy::Attack()
 		state = NOW_ATTACK;
 	}
 
-	if (f_time >= AttackTime) {
-		AfterAttack = true;
-		state = None;
-		
-	}
 
 }
 void MobEnemy::AttackCoolTime()
 {
+	if(state == NOW_ATTACK){
+
+		if (f_time >= DeathTime-1) {
+			AfterAttack = true;
+			state =AFTER_ATTACK;
+		}
+	}
 	if (AfterAttack) {
+		
 		cooltime++;
 		if (cooltime > 480) {
 			wf = true;
+			state = None;
 			AfterAttack = false;
 		}
 	}
