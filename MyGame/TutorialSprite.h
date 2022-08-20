@@ -19,11 +19,12 @@ private:
 	enum {
 		HELLO,
 		WALK,
-		ATTAK,
+		ATTACK,
 		SETTING,
 		GETKEY,
 		CLEAR,
 	};
+	
 	float SpriteSizeX[TaskNum] = { 0 };
 	float SpriteAlpha[TaskNum];
 	float t[TaskNum];
@@ -44,6 +45,8 @@ public:
 	void Update();
 
 	void Draw();
+
+	void Finalize();
 
 	void Ease_SpriteSize_Up(float& x,float& t,int index);
 	void NextTask(float t,TaskMenu nexttask,bool nextjudg);

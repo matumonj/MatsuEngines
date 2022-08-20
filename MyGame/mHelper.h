@@ -12,5 +12,10 @@
 		inline float EaseInOut(int& t);
 		inline float EaseOutIn(int& t);
 	}
+	namespace Percent {
+		inline float GetParcent(float amount,float num) {
+			return num / amount * 100.000f;
+		}
+	}
 
 

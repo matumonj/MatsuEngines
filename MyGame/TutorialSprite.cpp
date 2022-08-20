@@ -23,7 +23,7 @@ void TutorialSprite::Initialize()
 	Task[HELLO] = Sprite::Create(171, { 10,10 });
 	Task[WALK] = Sprite::Create(172, { 10,10 });
 	Task[SETTING] = Sprite::Create(173, { 10,10 });
-	Task[ATTAK] = Sprite::Create(174, { 10,10 });
+	Task[ATTACK] = Sprite::Create(174, { 10,10 });
 	Task[GETKEY] = Sprite::Create(175, { 10,10 });
 	Task[CLEAR] = Sprite::Create(176, { 10,10 });
 	for (int i = 0; i < TaskNum; i++) {
@@ -77,18 +77,18 @@ void TutorialSprite::Update()
 		break;
 
 	case TutorialSprite::TSETTING:
-		if (input->TriggerButton(input->Button_A)) {
-			if (ClearSetting) {
-				task = TATTACK;
-			}
+		if (MassageCheck[SETTING]) {
+			NextTask(t[SETTING], TATTACK, ClearSetting);
 		}
+
+		Ease_SpriteSize_Up(SpriteSizeX[SETTING], t[SETTING], SETTING);
 		break;
 	case TutorialSprite::TATTACK:
-		if (input->TriggerButton(input->Button_A)) {
-			if (ClearAttack) {
-				task = TGETKEY;
-			}
+		if (MassageCheck[ATTACK]) {
+			NextTask(t[ATTACK], TGETKEY, ClearAttack);
 		}
+
+		Ease_SpriteSize_Up(SpriteSizeX[ATTACK], t[ATTACK], ATTACK);
 		break;
 	case TutorialSprite::TGETKEY:
 
@@ -108,8 +108,7 @@ void TutorialSprite::Draw()
 {
 	Sprite::PreDraw();
 	for (int i = 0; i < TaskNum; i++) {
-		Task[0]->Draw();
-		Task[1]->Draw();
+		Task[i]->Draw();
 	}
 	Sprite::PostDraw();
 }
@@ -123,12 +122,12 @@ void TutorialSprite::Ease_SpriteSize_Up(float& x, float& t, int index)
 	if (MassageCheck[index]) {
 		x = Easing::EaseOut(t, 0, 1800);
 		if (t >= 0.0f) {
-			t -= 0.01f;
+			t -= 0.05f;
 		}
 	} else {
 		x = Easing::EaseOut(t, 0, 1800);
 		if (t <= 1.0f) {
-			t += 0.01f;
+			t += 0.05f;
 		}
 	}
 }
@@ -139,5 +138,12 @@ void TutorialSprite::NextTask(float t, TaskMenu nexttask, bool nextjudg)
 		if (nextjudg) {
 			task = nexttask;
 		}
+	}
+}
+
+void TutorialSprite::Finalize()
+{
+	for (int i = 0; i < TaskNum; i++) {
+		delete Task[i];
 	}
 }
