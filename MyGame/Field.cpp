@@ -37,6 +37,7 @@ void Field::Update(DebugCamera* camera)
 
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
 		FieldObject->setFog(TRUE);
+	//	FieldObject->Setf(TRUE);
 		CelestialSphereObject->setFog(TRUE);
 	}
 	else if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {

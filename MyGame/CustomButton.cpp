@@ -83,7 +83,7 @@ void CustomButton::Initialize()
 
 void CustomButton::Update()
 {
-	HUDLayOut::GetInstance()->SetLayOutMode(false);
+	//HUDLayOut::GetInstance()->SetLayOutMode(false);
 	if (CustomButtonJudg) {
 		/*設定画面入った瞬間は番号割当なし(設定画面はいるのにAボタン押すけどジャンプボタンも瞬間的にAボタンに
 		切り替わるのを防ぐため)*/

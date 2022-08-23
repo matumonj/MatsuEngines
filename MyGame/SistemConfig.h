@@ -54,7 +54,9 @@ public:
 
 private:
 	Config NowSelectButton();
+	bool EndConfigJudg;
 public:
+	bool GetEndConfig() { return EndConfigJudg; }
 	bool GetConfigJudgMent() { return m_ConfigFlag; }
 };
 

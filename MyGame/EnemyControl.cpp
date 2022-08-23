@@ -5,7 +5,7 @@
 #include"WalkAction.h"
 #include "FollowJudgement.h"
 #include"FollowAction.h"
-
+#include"TutorialSprite.h"
 #include"DeathJudgment.h"
 #include"DeathAction.h"
 #include"EnemyAttackAction.h"
@@ -116,8 +116,11 @@ void EnemyControl::TutorialUpdate(DebugCamera* camera)
 {
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
 		if (tutorial_enemy[0] != nullptr) {
-			tutorial_enemy[0]->SetMoveFlag(true);
-			tutorial_enemy[0]->Update(camera);
+			if (TutorialSprite::GetInstance()->GetClearSetting()) {
+				tutorial_enemy[0]->SetMoveFlag(true);
+				tutorial_enemy[0]->Update(camera);
+			}
+			
 			tutorial_enemy[0]->SearchAction(camera);
 		}
 	}
@@ -145,8 +148,10 @@ void EnemyControl::Update(DebugCamera* camera)
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
 		for (int i = 0; i < Quantity; i++) {
 			if (enemys[i] != nullptr) {
-				enemys[i]->SetMoveFlag(true);
-				enemys[i]->Update(camera);
+				if (TutorialSprite::GetInstance()->GetClearSetting()) {
+					enemys[i]->SetMoveFlag(true);
+					enemys[i]->Update(camera);
+				}
 				enemys[i]->SearchAction(camera);
 			}
 		}
@@ -154,8 +159,8 @@ void EnemyControl::Update(DebugCamera* camera)
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
 		if (tutorial_enemy[0] != nullptr) {
 			tutorial_enemy[0]->SetMoveFlag(true);
-			tutorial_enemy[0]->Update(camera);
-			tutorial_enemy[0]->SearchAction(camera);
+				tutorial_enemy[0]->Update(camera);
+				tutorial_enemy[0]->SearchAction(camera);
 		}
 	}
 }
@@ -165,6 +170,7 @@ void EnemyControl::Draw()
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
 		for (int i = 0; i < Quantity; i++) {
 			if (enemys[i] != nullptr) {
+
 				enemys[i]->Draw();
 			//	enemys[i]->SearchDraw();
 			}
@@ -172,7 +178,9 @@ void EnemyControl::Draw()
 	}
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
 		if (tutorial_enemy[0] != nullptr) {
-			tutorial_enemy[0]->Draw();
+			if (TutorialSprite::GetInstance()->GetClearSetting()) {
+				tutorial_enemy[0]->Draw();
+			}
 		}
 	}
 }

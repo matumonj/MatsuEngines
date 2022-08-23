@@ -25,24 +25,21 @@ PlayScene::PlayScene(SceneManager* sceneManager)
 }
 
 #pragma region オブジェクト+ライトの更新処理
-void PlayScene::objUpdate(DebugCamera* camera)
+void PlayScene::objUpdate(DebugCamera*camera)
 {
 
-	Player::GetInstance()->Update({ 1,1,1,p_alpha }, camera);
-	
 	if (EnemyControl::GetInstance()->GetQuentity() > 1) {
 		for (int i = 0; i < AllObjectControl.size(); i++) {
-			AllObjectControl[i]->Update(camera);
+			AllObjectControl[i]->Update((CameraControl::GetInstance()->GetCamera()));
 		}
-		TargetMarker::GetInstance()->Update(camera, Player::GetInstance());
+		TargetMarker::GetInstance()->Update((CameraControl::GetInstance()->GetCamera()), Player::GetInstance());
 		PlayerAttackState::GetInstance()->Update();
-		UI::GetInstance()->HUDUpdate(hudload, camera);
-		//Effects::GetInstance()->Update(camera);
-
+		UI::GetInstance()->HUDUpdate(hudload, (CameraControl::GetInstance()->GetCamera()));
+		//Effects::GetInstance()->Update((CameraControl::GetInstance()->GetCamera()));
 	}
-	//HUD::GetInstance()->TaskUpdate(camera);
-	//TargetMarker::GetInstance()->Update(enemys, camera, Player::GetInstance());
-	Field::GetInstance()->Update(camera);
+
+	Player::GetInstance()->Update({ 1,1,1,p_alpha }, (CameraControl::GetInstance()->GetCamera()));
+	Field::GetInstance()->Update((CameraControl::GetInstance()->GetCamera()));
 	CustomButton::GetInstance()->Update();
 }
 
@@ -54,47 +51,35 @@ void PlayScene::Initialize()
 	input = Input::GetInstance();
 
 	if (AllObjectControl.size() == 0) {
+		//カメラ一番上に　他のControlがカメラを引数にしてるから
+		AllObjectControl.push_back(CameraControl::GetInstance());
 		AllObjectControl.push_back(WoodControl::GetInstance());
 		AllObjectControl.push_back(FenceControl::GetInstance());
 		AllObjectControl.push_back(EnemyControl::GetInstance());
 		AllObjectControl.push_back(ChestControl::GetInstance());
-		AllObjectControl.push_back(CameraControl::GetInstance());
-	}
-	//TargetMarker::GetInstance()->Initialize();
-
-	// カメラ生成
-	camera = new DebugCamera(WinApp::window_width, WinApp::window_height/*input*/);
-	// 3Dオブジェクトにカメラをセット
-	Object3d::SetCamera(camera);
-	// ライト生成
-	lightGroup = LightGroup::Create();
-	// 3Dオブエクトにライトをセット
-	Object3d::SetLightGroup(lightGroup);
-	//パラメータの設定
-	lightGroup->LightSetting();
-
-	lightGroup->SetSpotLightPos(SpotLightPos);
 	
-	lightGroup->SetSpotLightColor(SpotLightColor);
-
+	}
+	
+	for (int i = 0; i < AllObjectControl.size(); i++) {
+		AllObjectControl[i]->Initialize((CameraControl::GetInstance()->GetCamera()));
+	}
+	Object3d::SetCamera((CameraControl::GetInstance()->GetCamera()));
+	
 	//カメラをセット
-	f_Object3d::SetCamera(camera);
+	f_Object3d::SetCamera((CameraControl::GetInstance()->GetCamera()));
 	//グラフィックパイプライン生成
 	f_Object3d::CreateGraphicsPipeline();
 
-	for (int i = 0; i < AllObjectControl.size(); i++) {
-		AllObjectControl[i]->Initialize(camera);
-	}
-	Player::GetInstance()->Initialize(camera);
+	Player::GetInstance()->Initialize((CameraControl::GetInstance()->GetCamera()));
 	UI::GetInstance()->Initialize();
 	SistemConfig::GetInstance()->Initialize();
 	CustomButton::GetInstance()->Initialize();
-	Field::GetInstance()->Initialize(camera);
+	Field::GetInstance()->Initialize((CameraControl::GetInstance()->GetCamera()));
 	TargetMarker::GetInstance()->Initialize();
 	postEffect = new PostEffect();
 	postEffect->Initialize();
 
-	//Effects::GetInstance()->Initialize(camera);
+	//Effects::GetInstance()->Initialize((CameraControl::GetInstance()->GetCamera()));
 	
 	Player::GetInstance()->SetPosition({ 110,-15,-379 });
 }
@@ -103,6 +88,12 @@ void PlayScene::Initialize()
 #pragma region 更新処理
 void PlayScene::Update()
 {
+
+
+	objUpdate((CameraControl::GetInstance()->GetCamera()));//オブジェクトの更新処理
+
+	LoadParam((CameraControl::GetInstance()->GetCamera()));
+
 	if (!cameraMove) {
 		if (Feed::GetInstance()->GetAlpha() == 1.0f) {
 			LoadEnemy = true;
@@ -114,22 +105,7 @@ void PlayScene::Update()
 		cameraMove = true;
 	}
 	
-	lightGroup->SpotLightUpdate();
-	
 	SistemConfig::GetInstance()->Update();
-	if (input->Pushkey(DIK_RIGHT)) {
-		charaAngle += 0.5f;
-		cameraAngle -= 0.5f;
-		Player::GetInstance()->SetCharaRotation(charaAngle);
-	} else if (input->Pushkey(DIK_LEFT) || input->RightTiltStick(input->Left)) {
-		cameraAngle += 0.5f;
-		charaAngle -= 0.5f;
-		Player::GetInstance()->SetCharaRotation(charaAngle);
-	}
-	if (cameraAngle >= 360 + 90 || cameraAngle <= -360) {
-		cameraAngle = 0;
-	}
-	
 	
 	if (playFeed) {
 		Feed::GetInstance()->Update_Black(Feed::FEEDIN);
@@ -141,29 +117,17 @@ void PlayScene::Update()
 	if(feedout) {
 		Feed::GetInstance()->Update_Black(Feed::FEEDOUT);
 		if (Feed::GetInstance()->GetAlpha() <= 0.0f) {
-			camera->SetEye(CameraPosition);
+			CameraControl::GetInstance()->SetCameraState(CameraControl::PLAYER);
 		}
 	}
 	else {
-		if (Collision::GetLength(camera->GetEye(), Player::GetInstance()->GetPosition()) < 50) {
+		if (Collision::GetLength(CameraControl::GetInstance()->GetCamera()->GetEye(), Player::GetInstance()->GetPosition()) < 50) {
 			playFeed = true;
 		}
+		else {
+			CameraControl::GetInstance()->SetCameraState(CameraControl::SPLINE);
+		}
 	}
-	CameraPosition.x = Player::GetInstance()->GetPosition().x + cosf((float)(cameraAngle) * 3.14f / 180.0f) * CameraDis;
-	CameraPosition.z = Player::GetInstance()->GetPosition().z + sinf((float)(cameraAngle) * 3.14f / 180.0f) * CameraDis;
-	CameraPosition.y = Player::GetInstance()->GetPosition().y + CameraHeight;
-
-	//カメラ関係の処理
-	camera->SetDistance(distance);//
-	//camera->SetEye(CameraPosition);
-	camera->SetTarget({ Player::GetInstance()->GetPosition() });
-	camera->Update();
-
-	LoadParam(camera);
-	
-	
-	
-	objUpdate(camera);//オブジェクトの更新処理
 	
 	if (SistemConfig::GetInstance()->GetConfigJudgMent()) {
 		c_postEffect = Blur;
@@ -233,6 +197,7 @@ void PlayScene::Draw()
 				UI::GetInstance()->HUDDraw();
 			}
 		}
+		UI::GetInstance()->AreaNameDraw();
 
 		if (DirectXCommon::GetInstance()->GetFullScreen() == false) {
 			ImGuiDraw();
@@ -249,22 +214,7 @@ void PlayScene::ImGuiDraw()
 		ImGui::Begin("Obj1");
 		ImGui::SetWindowPos(ImVec2(0, 500));
 		ImGui::SetWindowSize(ImVec2(500, 300));
-		if (ImGui::TreeNode("light_position")) {
-			ImGui::SliderFloat("positionX", &SpotLightPos[0], -100, 100);
-			ImGui::SliderFloat("positionY", &SpotLightPos[1], -100, 100);
-			ImGui::SliderFloat("positionZ", &SpotLightPos[2], -100, 100);
-
-			lightGroup->SetSpotLightPos(SpotLightPos);
-			if (ImGui::Button("spotlight ON")) {
-				lightGroup->SetSpotLightActive(0, true);
-			}
-			if (ImGui::Button("spotlight OFF")) {
-				lightGroup->SetSpotLightActive(0, false);
-			}
-			ImGui::ColorPicker3("light_color", SpotLightColor);
-			lightGroup->SetSpotLightColor(SpotLightColor);
-			ImGui::TreePop();
-		}
+		
 		if (ImGui::TreeNode("Damage")) {
 			int d = PlayerAttackState::GetInstance()->GetDamage();
 			ImGui::SliderInt("positionX", &d, -100, 100);
@@ -283,7 +233,7 @@ void PlayScene::ImGuiDraw()
 	Player::GetInstance()->ImguiDraw();
 	{//カメラ
 		ImGui::Begin("Camera");
-		float cz = camera->GetEye().z;
+		float cz = (CameraControl::GetInstance()->GetCamera())->GetEye().z;
 		ImGui::SliderFloat("positionXZ", &cz, 0, 500);
 		ImGui::SliderFloat("positionY", &CameraHeight, 0, 30);
 		bool defaultPos;
@@ -320,7 +270,7 @@ void PlayScene::LoadParam(DebugCamera*camera)
 {
 	if(LoadEnemy){
 		for (int i = 0; i < AllObjectControl.size();i++) {
-			AllObjectControl[i]->Load(camera);
+			AllObjectControl[i]->Load((CameraControl::GetInstance()->GetCamera()));
 		}
 		hudload = true;
 		LoadEnemy = false;
@@ -330,8 +280,8 @@ void PlayScene::LoadParam(DebugCamera*camera)
 void PlayScene::Finalize()
 {
 	//SistemConfig::GetInstance()->~SistemConfig();
-	delete camera;
-	delete postEffect, lightGroup;
+	delete (CameraControl::GetInstance()->GetCamera());
+	//delete postEffect, lightGroup;
 	for (int i = 0; i < AllObjectControl.size(); i++) {
 		//delete AllObjectControl[i];
 	} 

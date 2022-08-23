@@ -1,6 +1,8 @@
 
 #include "CameraControl.h"
 #include<windows.h>
+#include"Feed.h"
+#include"SceneManager.h"
 CameraControl* CameraControl::GetInstance()
 {
 	static CameraControl instance;
@@ -8,7 +10,8 @@ CameraControl* CameraControl::GetInstance()
 }
 void CameraControl::Initialize(DebugCamera* camera)
 {
-	
+	this->camera =std::make_unique<DebugCamera>(WinApp::window_width, WinApp::window_height/*input*/);
+	input = Input::GetInstance();
 }
 
 void CameraControl::Load(DebugCamera* camera)
@@ -70,7 +73,7 @@ void CameraControl::Load(DebugCamera* camera)
 	points.push_back(pos[quantity_end]);
 
 	//Load_ChestPosition.resize(Quantity);
-	camera->SetEye(pos[0]);
+	this->camera->SetEye(pos[0]);
 	UpdateRange = 200;
 	startCount = GetTickCount();
 }
@@ -94,10 +97,36 @@ void CameraControl::Update(DebugCamera* camera)
 		{
 			timerate = 1;
 		}
-	
 	}
 
-	camera->SetEye(SplinePosition(points, startindex, timerate));
+	if (input->Pushkey(DIK_RIGHT)) {
+		charaAngle += 0.5f;
+		cameraAngle -= 0.5f;
+		Player::GetInstance()->SetCharaRotation(charaAngle);
+	} else if (input->Pushkey(DIK_LEFT) || input->RightTiltStick(input->Left)) {
+		cameraAngle += 0.5f;
+		charaAngle -= 0.5f;
+		Player::GetInstance()->SetCharaRotation(charaAngle);
+	}
+	if (cameraAngle >= 360 + 90 || cameraAngle <= -360) {
+		cameraAngle = 0;
+	}
+
+	
+	CameraPosition.x = Player::GetInstance()->GetPosition().x + cosf((float)(cameraAngle) * 3.14f / 180.0f) * 25;
+	CameraPosition.z = Player::GetInstance()->GetPosition().z + sinf((float)(cameraAngle) * 3.14f / 180.0f) * 25;;
+	CameraPosition.y = Player::GetInstance()->GetPosition().y + CameraHeight;
+
+		//this->camera->SetEye(CameraPosition);
+	this->camera->SetTarget({ Player::GetInstance()->GetPosition() });
+	this->camera->Update();
+
+	if(Tstate==SPLINE){
+		this->camera->SetEye(SplinePosition(points, startindex, timerate));
+	}
+	else if (Tstate == PLAYER) {
+		this->camera->SetEye(CameraPosition);
+	}
 }
 
 XMFLOAT3 CameraControl::SplinePosition(const std::vector<XMFLOAT3>& points, size_t startindex, float t)

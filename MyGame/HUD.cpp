@@ -24,9 +24,9 @@ HUD* HUD::GetInstance()
 }
 void HUD::Initialize()
 {
-	Sprite::LoadTexture(160, L"Resources/quest.png");
+	Sprite::LoadTexture(143, L"Resources/quest.png");
 	Sprite::LoadTexture(120, L"Resources/bosshp.png");
-	TaskSprite= Sprite::Create(160, { 0.0f,-200.0f });
+	TaskSprite= Sprite::Create(143, { 0.0f,-200.0f });
 	TaskSprite->SetPosition({ WinApp::window_width/2,WinApp::window_height/2 });
 	TaskSprite->SetAnchorPoint({ 0.5,0.5 });
 		PlayerHP = Sprite::Create(120, { 0.0f,-200.0f });
@@ -43,7 +43,7 @@ void HUD::Initialize()
 void HUD::EnemyHPGaugeInitialize()
 {
 	Texture::LoadTexture(122, L"Resources/bosshp.png");
-	Texture::LoadTexture(123, L"Resources/bosshp.png");
+	Texture::LoadTexture(123, L"Resources/backright.png");
 	Sprite::LoadTexture(12, L"Resources/bosshp.png");
 	EnemyHP_Inner = Sprite::Create(12, { 0.0f,-200.0f });
 	
@@ -139,11 +139,27 @@ void HUD::SkillBottonUpdate()
 	} else if (CustomButton::GetInstance()->GetActionButton_ATTACK() == CustomButton::BUTTON_Y) {
 		SecondAttackSprite->SetPosition({ CenterPosition.x,CenterPosition.y - 100 });
 	}
+
+	if (CustomButton::GetInstance()->GetActionButton_ATTACK2() == CustomButton::BUTTON_B) {
+		ThirdAttackSprite->SetPosition({ CenterPosition.x + 100,CenterPosition.y });
+	} else if (CustomButton::GetInstance()->GetActionButton_ATTACK2() == CustomButton::BUTTON_A) {
+		ThirdAttackSprite->SetPosition({ CenterPosition.x,CenterPosition.y + 100 });
+	} else if (CustomButton::GetInstance()->GetActionButton_ATTACK2() == CustomButton::BUTTON_X) {
+		ThirdAttackSprite->SetPosition({ CenterPosition.x - 100,CenterPosition.y });
+	} else if (CustomButton::GetInstance()->GetActionButton_ATTACK2() == CustomButton::BUTTON_Y) {
+		ThirdAttackSprite->SetPosition({ CenterPosition.x,CenterPosition.y - 100 });
+	}
+
+	if (CustomButton::GetInstance()->GetActionButton_ATTACK3() == CustomButton::BUTTON_B) {
+		BuffSprite->SetPosition({ CenterPosition.x + 100,CenterPosition.y });
+	} else if (CustomButton::GetInstance()->GetActionButton_ATTACK3() == CustomButton::BUTTON_A) {
+		BuffSprite->SetPosition({ CenterPosition.x,CenterPosition.y + 100 });
+	} else if (CustomButton::GetInstance()->GetActionButton_ATTACK3() == CustomButton::BUTTON_X) {
+		BuffSprite->SetPosition({ CenterPosition.x - 100,CenterPosition.y });
+	} else if (CustomButton::GetInstance()->GetActionButton_ATTACK3() == CustomButton::BUTTON_Y) {
+		BuffSprite->SetPosition({ CenterPosition.x,CenterPosition.y - 100 });
+	}
 	//SecondAttackSprite->SetPosition({ CenterPosition.x,CenterPosition.y + 100 });
-
-	ThirdAttackSprite->SetPosition({ CenterPosition.x - 100,CenterPosition.y });
-
-	BuffSprite->SetPosition({ CenterPosition.x,CenterPosition.y - 100 });
 
 	coolDownSprite[0]->SetPosition({ CenterPosition.x + 100 + 120,CenterPosition.y + 120 });
 	coolDownSprite[1]->SetPosition({ CenterPosition.x + 120,CenterPosition.y + 100 + 120 });
@@ -209,9 +225,6 @@ void HUD::EnemyHPGauge_MultiInitialize()
 
 void HUD::EnemyHPGauge_MultiUpdate(bool &loadf,DebugCamera* camera, std::vector<std::unique_ptr<Enemy>>& enemy)
 {
-	if (Input::GetInstance()->TriggerKey(DIK_SPACE)) {
-		enemy[0]->RecvDamage(15.00f);
-	}
 	
 
 	if (loadf) {
@@ -240,24 +253,24 @@ void HUD::EnemyHPGauge_MultiUpdate(bool &loadf,DebugCamera* camera, std::vector<
 		//ƒpƒ‰ƒ[ƒ^‚ÌÝ’è
 		if (enemy[i] != nullptr && EnemyHP_Border_Multi.size() > 0) {
 			if (enemy[i]->GetRecvDamage() == true) {
-				multi_NowHP[i] = Percent::GetParcent(enemy[i]->GetMaxHP(), enemy[i]->GetHP())/10.00f ;
-				multi_Hpt[i] += 0.01f;
+				multi_NowHP[i] = Percent::GetParcent(enemy[i]->GetMaxHP(), enemy[i]->GetHP())/20.00f ;
+				multi_Hpt[i] += 0.001f;
 				multi_sizel[i] = { Easing::EaseOut(multi_Hpt[i] ,multi_OldHP[i] ,multi_NowHP[i]),1.5,1 };
 				EnemyHP_Inner_Multi[i]->SetScale(multi_sizel[i]);
 				if (multi_Hpt[i]>=1.0f) {
 					enemy[i]->SetRecvDamage(false);
 				}
 			} else {
-				multi_OldHP[i] =  Percent::GetParcent(enemy[i]->GetMaxHP(),enemy[i]->GetHP()) / 10.00f;
+				multi_OldHP[i] =  Percent::GetParcent(enemy[i]->GetMaxHP(),enemy[i]->GetHP()) / 20.00f;
 				multi_Hpt[i] = 0;
-				EnemyHP_Inner_Multi[i]->SetScale({ Percent::GetParcent(enemy[i]->GetMaxHP(),enemy[i]->GetHP()) / 10.00f,1.5,1 });
+				EnemyHP_Inner_Multi[i]->SetScale({ Percent::GetParcent(enemy[i]->GetMaxHP(),enemy[i]->GetHP()) / 20.00f,1.5,1 });
 			}
 			
 			
 			EnemyHP_Inner_Multi[i]->Update(camera);
 			EnemyHP_Border_Multi[i]->Update(camera);
 			EnemyHP_Border_Multi[i]->SetScale({2.5,1,1});
-			EnemyHP_Border_Multi[i]->SetPosition({ enemy[i]->GetPosition().x, enemy[i]->GetPosition().y + 10.0f, enemy[i]->GetPosition().z });
+			EnemyHP_Border_Multi[i]->SetPosition({ enemy[i]->GetPosition().x-10, enemy[i]->GetPosition().y + 20.0f, enemy[i]->GetPosition().z });
 
 			EnemyHP_Inner_Multi[i]->SetPosition({ EnemyHP_Border_Multi[i]->GetPosition().x,EnemyHP_Border_Multi[i]->GetPosition().y, EnemyHP_Border_Multi[i]->GetPosition().z });
 		
@@ -269,7 +282,7 @@ void HUD::EnemyHPGauge_MultiDraw()
 {
 	Texture::PreDraw();
 	for (int i = 0; i < EnemyHP_Border_Multi.size(); i++) {
-	//	EnemyHP_Border_Multi[i]->Draw();
+		EnemyHP_Border_Multi[i]->Draw();
 		EnemyHP_Inner_Multi[i]->Draw();
 	}
 	Texture::PostDraw();
@@ -297,7 +310,7 @@ void HUD::Draw()
 {
 	Sprite::PreDraw();
 	//PlayerHP->Draw();
-	TaskSprite->Draw();
+	
 	EnemyHPGaugeDraw();
 	Sprite::PostDraw();
 }
@@ -323,4 +336,11 @@ void HUD::ChangePosition(XMFLOAT2 MousePosition, XMFLOAT2& c)
 			f = false;
 		}
 	}
+}
+
+void HUD::AreaName()
+{
+	Sprite::PreDraw();
+	TaskSprite->Draw();
+	Sprite::PostDraw();
 }

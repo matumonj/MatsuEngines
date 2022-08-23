@@ -34,7 +34,9 @@ public: // サブクラス
 		XMMATRIX viewproj;    // ビュープロジェクション行列
 		XMMATRIX world; // ワールド行列
 		XMFLOAT3 cameraPos; // カメラ座標（ワールド座標）
-		float dj;
+		float ks;
+		bool gsflag;
+		XMFLOAT3 ks2;
 		bool f;
 	};
 
@@ -228,6 +230,7 @@ protected: // メンバ変数
 	// 親オブジェクト
 	Object3d* parent = nullptr;
 	bool rf;
+	bool gsf;
 	XMMATRIX rm,rt,rr,rs;
 	bool setef=false;
 public:
@@ -235,7 +238,9 @@ public:
 	void setr(bool f) { rf = f; }
 	XMMATRIX GetMatrot() {return matRot; }
 	XMMATRIX GetMatScl() { return matScale; }
-	XMFLOAT3 GetMatTrans() { return { matWorld.r[2].m128_f32[0], matWorld.r[2].m128_f32[1], matWorld.r[2].m128_f32[2] }; }
+	void SetRotS(XMMATRIX matrot) { matRot *= matrot; }
+	void Setf(bool flag);
+	XMMATRIX GetMatTrans() { return matTrans; }
 	void SetMatrot(XMMATRIX rot) { rm = rot; }
 	void SetMatRot(XMMATRIX rot) { rt = rot; }
 	void SetMatTrans(XMMATRIX rot) { rt = rot; }

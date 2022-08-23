@@ -1,6 +1,7 @@
 #include"DebugCamera.h"
 #include<windows.h>
 #include "ControlBase.h"
+#include"Input.h"
 class CameraControl :
     public ControlBase
 {
@@ -13,7 +14,16 @@ public:
 	void Update(DebugCamera* camera)override;
 
 	void Draw()override;
+
+    DebugCamera* GetCamera() { return camera.get(); }
+    enum TargetState {
+        PLAYER,
+        TUTORIAL,
+        SPLINE
+    };
 private:
+    Input* input;
+    std::unique_ptr<DebugCamera>camera;
     int pointsindex = 6;
     std::vector<XMFLOAT3>p;
     XMFLOAT3 p0 = { -100, 0, 0 };
@@ -46,8 +56,18 @@ private:
     std::vector <XMFLOAT3>Load_CameraPoints;
 
     XMFLOAT3 SplinePosition(const std::vector<XMFLOAT3>& points, size_t startindex, float t);
+
+    TargetState Tstate;
+    XMFLOAT3 CameraPosition;
+    float cameraAngle=-90;
+    float charaAngle;
+    float CameraDis = 25;
+    float CameraHeight=9;
 public: 
+
+    XMFLOAT3 CameraPosIndex(int index) { return points[index]; }
+    void SetCameraState(TargetState state) { Tstate = state; }
     void move(XMFLOAT3& pos);
     void SetColor(XMFLOAT4 color)override;
-    XMFLOAT3 CameraPosIndex(int index) { return points[index]; }
+   
 };

@@ -9,7 +9,7 @@ FenceControl* FenceControl::GetInstance()
 }
 void FenceControl::Load(DebugCamera* camera)
 {
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
 		file.open("EnemyParam_CSV/fence.csv");
 
 		popcom << file.rdbuf();

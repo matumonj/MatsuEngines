@@ -15,8 +15,8 @@ void main(
 {
 	float3 center = { (input[0].svpos.xyz + input[1].svpos.xyz + input[2].svpos.xyz) / 3 };
 	float3 posworld = mul(world, float3(center));
-	float3 dist = length(cameraPos - posworld);
-	float destruction = clamp(25 - dist, 0, 1);
+	float3 dist = length(float3(0,0,0) - posworld);
+	float destruction = clamp(50 - dist, 0, 1);
 	float4 offset = float4(0, 0, 0, 0);
 
 	float3 vec1 = input[1].svpos.xyz - input[0].svpos.xyz;
@@ -25,26 +25,26 @@ void main(
 	float random = rand(center.xy);
 	float randms = random.xxx;
 	[unroll]
-
-	GSOutput element;
 	for (uint i = 0; i < vnum; i++) {
 
+		GSOutput element;
 		element.worldpos = input[i].worldpos;
 		//float dist = length(cameraPos - input[i].worldpos);
 		//float destruction = clamp(dist, 0, 1);
 		element.svpos = input[i].svpos;
 
-		if (flag) {
-				element.svpos.xyz = center + (element.svpos.xyz - center) * (1 - destruction *0.9);//mul(viewproj, element.svpos);
-				//element.svpos.xyz += gnormal * (destruction) * 50;
-
+		if (gsflag) {
+			element.svpos.xyz = center + (element.svpos.xyz - center) * (1 - destruction * 0.9);//mul(viewproj, element.svpos);
+		//	element.svpos.xyz += gnormal * (destruction) * 50;
+			//element.svpos = input[0].svpos;
+			//element.svpos = mul(viewproj, element.svpos);
 		}
 		//element.color=input[i].color;
 		//element.svpos = input[i].svpos;
 
 		element.normal = input[i].normal;
 		element.uv = input[i].uv;
-		//element.color_Alpha = 1;
+
 		output.Append(element);
 	}
 	output.RestartStrip();

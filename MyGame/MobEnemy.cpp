@@ -67,26 +67,24 @@ void MobEnemy::Initialize(DebugCamera* camera)
 //XVˆ—
 void MobEnemy::Update(DebugCamera* camera)
 {
-	if (FollowFlag) {
-		m_fbxObject->SetColor({ 1,0,0,1 });
-	} else {
-		m_fbxObject->SetColor({ 1,1,1,1 });
-	}
+	
 
 	Action();
-	if (Input::GetInstance()->TriggerButton(Input::Button_B)) {
-		EnemyHP = 0;
+	if (EnemyHP <= 0) {
+		alpha -= 0.005f;
 	}
-	if (Input::GetInstance()->TriggerButton(Input::GetInstance()->Button_B)) {
-		m_fbxObject->SetDeathFlag(true);
 
-	}
 	FbxAnimationControl();
 	EnemyPop(150);
 	
 	//m_fbxObject->SeteCurrent(animeflag);
 	AttackCoolTime();
 	ParameterSet_Fbx(camera);
+	if (FollowFlag) {
+		m_fbxObject->SetColor({ 1,0,0,alpha});
+	} else {
+		m_fbxObject->SetColor({ 0,1,1,alpha });
+	}
 	CollisionField(camera);
 	
 }
@@ -109,9 +107,8 @@ void MobEnemy::Finalize()
 
 void MobEnemy::Death()
 {
-	Player::GetInstance()->RecvDamage(10);
 	DeathFlag = true;
-	//m_fbxObject->SetDeathFlag(true);
+	m_fbxObject->SetDeathFlag(true);
 	
 	//..DeathFlag = true;
 	//}

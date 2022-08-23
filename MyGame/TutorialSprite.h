@@ -9,6 +9,7 @@ private:
 	static const int TaskNum = 6;
 	Sprite* Task[TaskNum];
 	enum TaskMenu {//‰º‚Ì”z—ñ—p—ñ‹“Œ^‚Æ‚©‚Ô‚ç‚È‚¢‚æ‚¤‚É
+		TNONE,
 		THELLO,
 		TMOVE,
 		TSETTING,
@@ -50,5 +51,7 @@ public:
 
 	void Ease_SpriteSize_Up(float& x,float& t,int index);
 	void NextTask(float t,TaskMenu nexttask,bool nextjudg);
+
+	bool GetClearSetting() { return ClearSetting; }
 };
 

@@ -45,9 +45,11 @@ void TutorialSprite::Update()
 	}
 
 	//歩きとジャンプ
-	ClearWalk = Movement > 100 && Jump == true;
+	ClearWalk = Movement > 380 && Jump == true;
 	//セッティング
-	ClearSetting = SistemConfig::GetInstance()->GetConfigJudgMent() == false;
+	if (SistemConfig::GetInstance()->GetEndConfig()) {
+		ClearSetting =true ;
+	}
 	//攻撃
 	ClearAttack = EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetHP() <= 0;
 	//オールコンプリート
@@ -91,10 +93,18 @@ void TutorialSprite::Update()
 		Ease_SpriteSize_Up(SpriteSizeX[ATTACK], t[ATTACK], ATTACK);
 		break;
 	case TutorialSprite::TGETKEY:
+		if (MassageCheck[GETKEY]) {
+			NextTask(t[GETKEY], TEND, GetChest);
+		}
 
+		Ease_SpriteSize_Up(SpriteSizeX[GETKEY], t[GETKEY], GETKEY);
 		break;
 	case TutorialSprite::TEND:
+		if (MassageCheck[CLEAR]) {
+			NextTask(t[CLEAR],THELLO,false);
+		}
 
+		Ease_SpriteSize_Up(SpriteSizeX[CLEAR], t[CLEAR], CLEAR);
 		break;
 	default:
 		break;

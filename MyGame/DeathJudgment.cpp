@@ -3,7 +3,7 @@
 #include"Collision.h"
 bool DeathJudgment::Judgment(Enemy* enemy)
 {
-	if (enemy->GetHP() <= 100&&enemy->GetNowDeath()==false) {
+	if (enemy->GetHP() <= 0&&enemy->GetNowDeath()==false) {
 		return true;
 	}
 	return false;

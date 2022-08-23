@@ -411,10 +411,13 @@ void Object3d::Update(XMFLOAT4 color, DebugCamera* camera)
 	// 定数バッファへデータ転送
 	ConstBufferDataB0* constMap = nullptr;
 	result = constBuffB0->Map(0, nullptr, (void**)&constMap);
+	constMap->color = this->color;
 	constMap->viewproj = camera->GetViewProjectionMatrix();
 	constMap->world = matWorld;
-	constMap->color = this->color;
-	constMap->dj = 0;
+	constMap->cameraPos = camera->GetEye();
+	constMap->ks = 0;
+	constMap->gsflag= gsf;
+	constMap->ks2 = { 0,0,0 };
 	constMap->f = setef;
 	// 定数バッファへデータ転送
 	//ConstBufferDataB0* constMap = nullptr;
@@ -424,7 +427,7 @@ void Object3d::Update(XMFLOAT4 color, DebugCamera* camera)
 	//result = constBuffB0->Map(0, nullptr, (void**)&constMap);
 	//constMap->viewproj =,matview * matprojection;
 	//constMap->world = matWorld ;
-	constMap->cameraPos = camera->GetEye();
+	//constMap->cameraPos = camera->GetEye();
 
 	constBuffB0->Unmap(0, nullptr);
 
@@ -458,7 +461,9 @@ void Object3d::Update(XMMATRIX matworld, XMFLOAT4 color, DebugCamera* camera)
 	constMap->viewproj = camera->GetViewProjectionMatrix();
 	constMap->world = matWorld*matworld;
 	constMap->color = color;
-	constMap->dj = 0;
+	constMap->ks = 0;
+	constMap->gsflag = true;
+	constMap->ks2 = { 0,0,0 };
 	constMap->f = setef;
 	// 定数バッファへデータ転送
 	//ConstBufferDataB0* constMap = nullptr;
@@ -485,7 +490,7 @@ void Object3d::Draw()
 	if (model == nullptr)return;
 	cmdList->SetGraphicsRootConstantBufferView(0, constBuffB0->GetGPUVirtualAddress());
 	// ライトの描画
-	lightGroup->Draw( 3);
+	
 	model->Draw();
 
 }
@@ -564,4 +569,9 @@ if (parent != nullptr) {
 		matWorld *= parent->matWorld;
 	}
 	
+}
+
+void Object3d::Setf(bool flag)
+{
+	gsf = flag;
 }

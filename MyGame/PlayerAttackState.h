@@ -52,13 +52,13 @@ private:
 
 	enum DamageValue
 	{
-		FIRSTATTACKDAMAGE = 10,
+		FIRSTATTACKDAMAGE = 100,
 		SECONDATTACKDAMAGE = 15,
 		THIRDAttackDamage = 10,
 		COMBOBONUS = 10,
 	};
 	bool AttackJudgeMent = false;
-	int FirstAttackDamage=10;
+	int FirstAttackDamage=100;
 	int SecondAttackDamage=15;
 	int ThirdAttackDamage=20;
 	int ComboBonus = 10;

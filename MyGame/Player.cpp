@@ -372,14 +372,16 @@ void Player::ImguiDraw()
 		ImGui::Text(" PositionZ   [%5f]", position.z);
 
 		XMFLOAT3 swp = SwordObj->GetPosition();
-		ImGui::Text(" bPositionX   [%5f]",swp.x);
+		ImGui::Text(" bPositionX   [%5f]", swp.x);
 		ImGui::Text(" bPositionY   [%5f]", swp.y);
 		ImGui::Text(" bPositionZ   [%5f]", swp.z);
 		ImGui::TreePop();
 	}
 	//Rotation
 	if (ImGui::TreeNode("Rotation")) {
-		XMFLOAT3 rots = {object1->GetPos()};
+		XMMATRIX sub =object1->GetPos();
+	
+		XMFLOAT3 rots = {sub.r[3].m128_f32[0],sub.r[3].m128_f32[1], sub.r[3].m128_f32[2]};
 		ImGui::Text(" RotationX   [%5f]", rots.x);
 		ImGui::Text(" RotationY   [%5f]", rots.y);
 		ImGui::Text(" RotationZ   [%5f]", rots.z);
@@ -402,8 +404,8 @@ void Player::ImguiDraw()
 
 void Player::FbxAnimationControl()
 {
-	if (!stopf) {
-		if (input->TriggerButton(input->Button_B)) {
+	//if (!stopf) {
+		if (CustomButton::GetInstance()->GetAttackAction() == true) {
 			AttackFlag = true;
 		}
 		if (AttackFlag) {
@@ -425,10 +427,8 @@ void Player::FbxAnimationControl()
 			f_time = 0;
 		}
 		}
-	}
-	else {
-		f_time = 0;
-	}
+	
+	
 	object1->SetFbxTime(f_time);
 }
 

@@ -51,13 +51,13 @@ void SistemConfig::Update()
 
 
 		if (NowSelectButton() == HUDRAYOUT) {
-			if (input->TriggerButton(input->Button_A)) {
+			if (input->TriggerButton(input->Button_B)) {
 				HUDLayOut::GetInstance()->SetLayOutMode(true);
 			}
 		}
 		if (NowSelectButton() == CUSTOMBUTTON) {
-			HUDLayOut::GetInstance()->SetLayOutMode(false);
-			if (input->TriggerButton(input->Button_A)) {
+			//HUDLayOut::GetInstance()->SetLayOutMode(false);
+			if (input->TriggerButton(input->Button_B)) {
 				CustomButton::GetInstance()->SetCustomButtonJudg(true);
 			}
 		}
@@ -67,6 +67,7 @@ void SistemConfig::Update()
 			HUDLayOut::GetInstance()->SetLayOutMode(false);
 			CustomButton::GetInstance()->SetCustomButtonJudg(false);
 			count = 0;
+			EndConfigJudg = true;
 			m_ConfigFlag = false;
 		}
 	}

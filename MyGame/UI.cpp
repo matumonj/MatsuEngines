@@ -1,6 +1,7 @@
 #include "UI.h"
 #include"SceneManager.h"
 #include"EnemyControl.h"
+#include"TutorialSprite.h"
 UI* UI::GetInstance()
 {
 	static UI instance;
@@ -30,8 +31,16 @@ void UI::HUDUpdate(bool&hudload, DebugCamera* camera)
 
 void UI::HUDDraw()
 {
-	HUD::GetInstance()->EnemyHPGauge_MultiDraw();
+	if (TutorialSprite::GetInstance()->GetClearSetting()) {
+		HUD::GetInstance()->EnemyHPGauge_MultiDraw();
+	}
+	
 	HUD::GetInstance()->Draw();
 	HUD::GetInstance()->SkillBottonDraw();
 
+}
+
+void UI::AreaNameDraw()
+{
+	HUD::GetInstance()->AreaName();
 }

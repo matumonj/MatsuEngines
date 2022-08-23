@@ -145,9 +145,12 @@ public:	//íËêî
 	XMMATRIX handa;
 	XMMATRIX hRot;
 	FbxDouble3 PosNode;
+	FbxDouble3 PosNode2;
 	XMMATRIX Posmat;
 	XMFLOAT3 pos;
-	XMFLOAT3 GetPos() { return pos; }
+	XMMATRIX GetPos() { return Posmat; }
+	XMMATRIX GetRotmatrix() { return RotMat; }
+	XMMATRIX RotMat;
 	XMMATRIX rot;
 	XMMATRIX GetRot() { return rot; }
 	XMMATRIX GetMatrot() { return matRot; }

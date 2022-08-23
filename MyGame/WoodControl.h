@@ -15,6 +15,7 @@ private:
 	std::vector <XMFLOAT3>Load_WoodPosition;
 
 	XMFLOAT3 Player_OldPos;
+	std::vector<std::unique_ptr<Wood>>Tutorialwoods;
 
 public:
 	static WoodControl* GetInstance();

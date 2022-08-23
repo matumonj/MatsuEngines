@@ -78,26 +78,6 @@ private:
 	float dx;
 	float dz;
 
-private://“_ŒõŒ¹
-	LightGroup* lightGroup = nullptr;
-	float ambientColor0[3] = { 1,1,1 };
-
-	float lightDir0[3] = { 0,0,1 };
-	float lightColor0[3] = { 1,0,0 };
-
-	float lightDir1[3] = { 0,1,0 };
-	float lightColor1[3] = { 0,1,0 };
-
-	float lightDir2[3] = { 1,0,0 };
-	float lightColor2[3] = { 0,0,1 };
-
-	float pointLightPos[3] = { 0,0,-50 };
-	float pointLightColor[3] = { 1,1,1 };
-	float pointLightAtten[3] = { 0.05f,0.05f,0.05f };
-
-	float SpotLightPos[3] = {10,0,0};
-	float SpotLightColor[3] = {1,1,1};
-	
 public:
 void MyGameDraw();
 	void objUpdate( DebugCamera* camera);

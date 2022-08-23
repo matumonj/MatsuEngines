@@ -64,6 +64,7 @@ void Tutorial::Initialize()
 		AllObjectControl.push_back(EnemyControl::GetInstance());
 		AllObjectControl.push_back(FenceControl::GetInstance());
 		AllObjectControl.push_back(ChestControl::GetInstance());
+		AllObjectControl.push_back(WoodControl::GetInstance());
 	}
 	TargetMarker::GetInstance()->Initialize();
 
@@ -126,7 +127,7 @@ void Tutorial::Update()
 	CameraPosition.y = Player::GetInstance()->GetPosition().y + CameraHeight;
 
 	//ƒJƒƒ‰ŠÖŒW‚Ìˆ—
-	camera->SetDistance(distance);//
+	//camera->SetDistance(distance);//
 	//
 	camera->SetEye(CameraPosition);
 	camera->SetTarget({ Player::GetInstance()->GetPosition() });

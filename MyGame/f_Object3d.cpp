@@ -219,7 +219,7 @@ void f_Object3d::Initialize()
 
 void f_Object3d::Updata(bool animeloop)
 {
-	
+
 	//スケール、回転、平行移動行列の計算
 	matScale = XMMatrixScaling(scale.x, scale.y, scale.z);
 	matRot = XMMatrixIdentity();
@@ -227,7 +227,7 @@ void f_Object3d::Updata(bool animeloop)
 	matRot *= XMMatrixRotationX(XMConvertToRadians(rotation.x));
 	matRot *= XMMatrixRotationY(XMConvertToRadians(rotation.y));
 	matTrans = XMMatrixTranslation(position.x, position.y, position.z);
-	
+
 	//ワールド行列の合成
 	matWorld = XMMatrixIdentity();	//変形をリセット
 	matWorld *= matScale;			//ワールド行列にスケーリングを反映
@@ -242,13 +242,13 @@ void f_Object3d::Updata(bool animeloop)
 	//カメラ座標
 	const XMFLOAT3& cameraPos = camera->GetEye();
 
-//	handa = modelTransform * matWorld;
+	//	handa = modelTransform * matWorld;
 	HRESULT result;
 	//定数バッファへのデータ転送
 	ConstBufferDataTransform* constMap = nullptr;
 	result = constBuffTransform->Map(0, nullptr, (void**)&constMap);
-	matWorld=modelTransform* matWorld;
-	color = { 1,1,1,1 };
+	matWorld = modelTransform * matWorld;
+
 	if (SUCCEEDED(result)) {
 		constMap->color = this->color;
 		constMap->viewproj = matViewProjection;
@@ -263,7 +263,7 @@ void f_Object3d::Updata(bool animeloop)
 	start_time = startTime.GetSecondDouble();
 	end_time = endTime.GetSecondDouble();
 	//アニメーション
-	
+
 	currentTime.SetSecondDouble(f_time);
 	//定数バッファへデータ転送
 	ConstBufferDataSkin* constMapSkin = nullptr;
@@ -278,20 +278,28 @@ void f_Object3d::Updata(bool animeloop)
 		//合成してスキニング行列に
 		constMapSkin->bones[i] = bones[i].invInitialPose * matCurrentPose;
 		//hand = bones[0].invInitialPose * matCurrentPose;
-		
-		
+
+
 	//	hand = bones[0].fbxCluster->GetTransformLinkMatrix();
 	}
 	//15.16
 	int num = 13;
 	FbxLoader::ConvertMatrixFromFbx(&hRot, bones[num].fbxCluster->GetLink()->EvaluateGlobalTransform(currentTime));
-//rot= XMMatrixIdentity();
-	//matWorld = XMMatrixIdentity();
-	hand = modelTransform *hRot * matRot;
+	//rot= XMMatrixIdentity();
+		//matWorld = XMMatrixIdentity();
+	hand = modelTransform * hRot * matRot;
 	//bones[1].fbxCluster->GetLink()->EvaluateLocalTransform()
 	//pos = {position.x+};posnode
-	PosNode= model->GetBones()[num].fbxCluster->GetLink()->LclTranslation.Get();
-	Posmat = XMMatrixTranslationFromVector({ (float)PosNode[0], (float)PosNode[1], (float)PosNode[2], 1.0f }); //model->GetBones()[num].fbxCluster->GetLink()->LclTranslation.Get();
+	PosNode2 = bones[num].fbxCluster->GetLink()->LclRotation.Get();
+	PosNode = bones[num].fbxCluster->GetLink()->LclTranslation.Get();
+	Posmat = XMMatrixTranslationFromVector(
+		{ (float)PosNode[0], (float)PosNode[1], (float)PosNode[2]
+,1.0f })*matScale * matRot*matTrans;
+
+	//Posmat = XMMatrixTranslationFromVector({ (float)PosNode[0], (float)PosNode[1], (float)PosNode[2], 1.0f }); //model->GetBones()[num].fbxCluster->GetLink()->LclTranslation.Get();
+	RotMat = XMMatrixRotationZ(XMConvertToRadians((float)PosNode2[0]));
+	RotMat = XMMatrixRotationX(XMConvertToRadians((float)PosNode2[1]));
+	RotMat = XMMatrixRotationY(XMConvertToRadians((float)PosNode2[2]));
 	pos = { Posmat.r[0].m128_f32[0] + position.x,Posmat.r[0].m128_f32[1] +position.y, Posmat.r[0].m128_f32[2] + position.z };
 	rot =  hRot* matWorld;
 	constBuffSkin->Unmap(0, nullptr);

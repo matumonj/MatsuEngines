@@ -11,6 +11,7 @@
 #include"CollisionManager.h"
 #include"CollisionAttribute.h"
 #include"imgui.h"
+#include"SceneManager.h"
 using namespace DirectX;
 Enemy::Enemy(BehaviorTree* ai_tree, float max_hp, float max_mp, float attack, float deffence) :
 	m_AiTree(ai_tree),
@@ -101,29 +102,30 @@ void Enemy::Action()
 	{
 		m_ActiveNode = m_AiTree->Run(this, m_ActiveNode, m_BehaviorData);
 	}
-	if (onGround == true) {
+		if (onGround == true) {
 
-		if (onGroundTime % 30 == 0) {
-			tempx = Position.x;
-			tempz = Position.z;
-		}
-		if (FollowFlag == true||wf) {
-			Position = {
-				Position.x + move.m128_f32[0],
-				Position.y,
-				Position.z + move.m128_f32[2] }
-			;
-		}
-		
+			if (onGroundTime % 30 == 0) {
+				tempx = Position.x;
+				tempz = Position.z;
+			}
+			if (FollowFlag == true || wf) {
+				Position = {
+					Position.x + move.m128_f32[0],
+					Position.y,
+					Position.z + move.m128_f32[2] }
+				;
+			}
+
 			movement++;
 			//enemy->SetMovement(enemy->GetMovement() + 1);
-		
 
-	} else if (onGround == false) {
-		if (MoveFlag != false) {
-			Position = { tempx,Position.y,tempz };
+
+		} else if (onGround == false) {
+			if (MoveFlag != false) {
+				Position = { tempx,Position.y,tempz };
+			}
 		}
-	}
+	
 
 	
 		move = { 0,0,0.1f,0 };

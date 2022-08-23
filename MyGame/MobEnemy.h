@@ -80,7 +80,7 @@ private:
 private:
     //bool folatc;
     bool nowAttack;
- 
+    float alpha=1;
 public:
    // bool GetFolatc() { return folatc; }
     bool isendtime;

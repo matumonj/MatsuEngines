@@ -64,6 +64,7 @@ public:
 	void TaskUpdate(DebugCamera* camera);
 	void SkillBottonDraw();
 	void ChangePosition(XMFLOAT2 MousePosition, XMFLOAT2& c);
+	void AreaName();
 	bool f;
 	float nowhp;
 	XMFLOAT2 sizel;

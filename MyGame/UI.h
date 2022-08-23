@@ -17,5 +17,6 @@ public:
 
 	void HUDDraw();
 	void Draw();
+	void AreaNameDraw();
 };
 
