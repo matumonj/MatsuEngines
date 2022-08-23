@@ -1,7 +1,5 @@
 #include "Tutorial.h"
-#include "Tutorial.h"
 #include"Input.h"
-#include"DirectXCommon.h"
 #include"TitleScene.h"
 #include"SceneManager.h"
 #include"MapCreateScene.h"
@@ -29,24 +27,21 @@ Tutorial::Tutorial(SceneManager* sceneManager)
 }
 
 #pragma region オブジェクト+ライトの更新処理
-void Tutorial::objUpdate(DebugCamera* camera)
+void Tutorial::objUpdate(DebugCamera*camera)
 {
+	CameraControl::GetInstance()->SetCameraState(CameraControl::PLAYER);
 
-	Player::GetInstance()->Update({ 1,1,1,p_alpha }, camera);
+	Player::GetInstance()->Update({ 1,1,1,p_alpha }, CameraControl::GetInstance()->GetCamera());
 
 	if (Play) {
 	for (int i = 0; i < AllObjectControl.size(); i++) {
-		AllObjectControl[i]->Update(camera);
+		AllObjectControl[i]->Update(CameraControl::GetInstance()->GetCamera());
 	}
-	TargetMarker::GetInstance()->Update(camera, Player::GetInstance());
 	PlayerAttackState::GetInstance()->Update();
-	UI::GetInstance()->HUDUpdate(hudload, camera);
+	UI::GetInstance()->HUDUpdate(hudload, CameraControl::GetInstance()->GetCamera());
 	TutorialSprite::GetInstance()->Update();
-	//Effects::GetInstance()->Update(camera);
-
 }
-//TargetMarker::GetInstance()->Update(enemys, camera, Player::GetInstance());
-	Field::GetInstance()->Update(camera);
+	Field::GetInstance()->Update(CameraControl::GetInstance()->GetCamera());
 	CustomButton::GetInstance()->Update();
 }
 
@@ -56,46 +51,32 @@ void Tutorial::objUpdate(DebugCamera* camera)
 void Tutorial::Initialize()
 {
 	input = Input::GetInstance();
-	txt = new DebugTxt();
-	Texture::LoadTexture(200, L"Resources/debugfont2.png");
-	txt->Initialize(200);
-	
+	//CameraControl::GetInstance()->SetCameraState(CameraControl::PLAYER);
 	if (AllObjectControl.size() == 0) {
+		AllObjectControl.push_back(CameraControl::GetInstance());
 		AllObjectControl.push_back(EnemyControl::GetInstance());
 		AllObjectControl.push_back(FenceControl::GetInstance());
 		AllObjectControl.push_back(ChestControl::GetInstance());
 		AllObjectControl.push_back(WoodControl::GetInstance());
 	}
+	for (int i = 0; i < AllObjectControl.size(); i++) {
+		AllObjectControl[i]->Initialize(CameraControl::GetInstance()->GetCamera());
+	}
 	TargetMarker::GetInstance()->Initialize();
 
-	// カメラ生成
-	camera = new DebugCamera(WinApp::window_width, WinApp::window_height/*input*/);
 	// 3Dオブジェクトにカメラをセット
-	Object3d::SetCamera(camera);
-	// ライト生成
-	lightGroup = LightGroup::Create();
-	// 3Dオブエクトにライトをセット
-	Object3d::SetLightGroup(lightGroup);
-	//パラメータの設定
-	lightGroup->LightSetting();
-
-	lightGroup->SetSpotLightPos(SpotLightPos);
-
-	lightGroup->SetSpotLightColor(SpotLightColor);
+	Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
 
 	//カメラをセット
-	f_Object3d::SetCamera(camera);
+	f_Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
 	//グラフィックパイプライン生成
 	f_Object3d::CreateGraphicsPipeline();
 
-	for (int i = 0; i < AllObjectControl.size(); i++) {
-		AllObjectControl[i]->Initialize(camera);
-	}
-	Player::GetInstance()->Initialize(camera);
+	Player::GetInstance()->Initialize(CameraControl::GetInstance()->GetCamera());
 	UI::GetInstance()->Initialize();
 	SistemConfig::GetInstance()->Initialize();
 	CustomButton::GetInstance()->Initialize();
-	Field::GetInstance()->Initialize(camera);
+	Field::GetInstance()->Initialize(CameraControl::GetInstance()->GetCamera());
 	TutorialSprite::GetInstance()->Initialize();
 	postEffect = new PostEffect();
 	postEffect->Initialize();
@@ -106,40 +87,12 @@ void Tutorial::Initialize()
 #pragma region 更新処理
 void Tutorial::Update()
 {
-
-	lightGroup->SpotLightUpdate();
-
 	SistemConfig::GetInstance()->Update();
-	if (input->Pushkey(DIK_RIGHT)) {
-		charaAngle += 0.5f;
-		cameraAngle -= 0.5f;
-		Player::GetInstance()->SetCharaRotation(charaAngle);
-	} else if (input->Pushkey(DIK_LEFT) || input->RightTiltStick(input->Left)) {
-		cameraAngle += 0.5f;
-		charaAngle -= 0.5f;
-		Player::GetInstance()->SetCharaRotation(charaAngle);
-	}
-	if (cameraAngle >= 360 + 90 || cameraAngle <= -360) {
-		cameraAngle = 0;
-	}
-	CameraPosition.x = Player::GetInstance()->GetPosition().x + cosf((float)(cameraAngle) * 3.14f / 180.0f) * CameraDis;
-	CameraPosition.z = Player::GetInstance()->GetPosition().z + sinf((float)(cameraAngle) * 3.14f / 180.0f) * CameraDis;
-	CameraPosition.y = Player::GetInstance()->GetPosition().y + CameraHeight;
 
-	//カメラ関係の処理
-	//camera->SetDistance(distance);//
-	//
-	camera->SetEye(CameraPosition);
-	camera->SetTarget({ Player::GetInstance()->GetPosition() });
-	camera->Update();
+	objUpdate(CameraControl::GetInstance()->GetCamera());//オブジェクトの更新処理
 
-	LoadParam(camera);
-
-
-
-	objUpdate(camera);//オブジェクトの更新処理
-
-	txt->Print("100", 0,0, 200);
+	LoadParam(CameraControl::GetInstance()->GetCamera());
+	
 	if (Player::GetInstance()->GetPosition().z > -470) {
 		scenechange = true;
 	}
@@ -170,12 +123,6 @@ void Tutorial::MyGameDraw()
 			AllObjectControl[i]->Draw();
 		}
 	}
-	//Effects::GetInstance()->Draw();
-	Texture::PreDraw();
-	TargetMarker::GetInstance()->Draw();
-
-	Texture::PostDraw();
-	
 }
 
 void Tutorial::Draw()
@@ -213,9 +160,7 @@ void Tutorial::Draw()
 		CustomButton::GetInstance()->Draw();
 		Feed::GetInstance()->Draw();
 		TutorialSprite::GetInstance()->Draw();
-		Sprite::PreDraw();
-		txt->DrawAll();
-		Sprite::PostDraw();
+		
 		if (DirectXCommon::GetInstance()->GetFullScreen() == false) {
 			ImGuiDraw();
 		}
@@ -231,22 +176,7 @@ void Tutorial::ImGuiDraw()
 		ImGui::Begin("Obj1");
 		ImGui::SetWindowPos(ImVec2(0, 500));
 		ImGui::SetWindowSize(ImVec2(500, 300));
-		if (ImGui::TreeNode("light_position")) {
-			ImGui::SliderFloat("positionX", &SpotLightPos[0], -100, 100);
-			ImGui::SliderFloat("positionY", &SpotLightPos[1], -100, 100);
-			ImGui::SliderFloat("positionZ", &SpotLightPos[2], -100, 100);
-
-			lightGroup->SetSpotLightPos(SpotLightPos);
-			if (ImGui::Button("spotlight ON")) {
-				lightGroup->SetSpotLightActive(0, true);
-			}
-			if (ImGui::Button("spotlight OFF")) {
-				lightGroup->SetSpotLightActive(0, false);
-			}
-			ImGui::ColorPicker3("light_color", SpotLightColor);
-			lightGroup->SetSpotLightColor(SpotLightColor);
-			ImGui::TreePop();
-		}
+		
 		if (ImGui::TreeNode("Damage")) {
 			int d = PlayerAttackState::GetInstance()->GetDamage();
 			ImGui::SliderInt("positionX", &d, -100, 100);
@@ -264,10 +194,6 @@ void Tutorial::ImGuiDraw()
 	//
 	Player::GetInstance()->ImguiDraw();
 	{//カメラ
-		ImGui::Begin("Camera");
-		XMFLOAT3 cp = camera->GetEye();
-		ImGui::SliderFloat("positionXZ", &cp.x, 0, 500);
-		ImGui::SliderFloat("positionY", &cp.z, 0, 30);
 		bool defaultPos;
 		if (ImGui::RadioButton("DefaultPosition", &defaultPos)) {
 			CameraDis = 25;
@@ -303,7 +229,7 @@ bool Tutorial::LoadParam(DebugCamera* camera)
 {
 	if (LoadEnemy) {
 		for (int i = 0; i < AllObjectControl.size(); i++) {
-			AllObjectControl[i]->Load(camera);
+			AllObjectControl[i]->Load(CameraControl::GetInstance()->GetCamera());
 		}
 		hudload = true;
 		Play = true;
@@ -315,7 +241,7 @@ bool Tutorial::LoadParam(DebugCamera* camera)
 void Tutorial::Finalize()
 {
 	//SistemConfig::GetInstance()->~SistemConfig();
-	delete camera;
+	delete CameraControl::GetInstance()->GetCamera();
 	delete postEffect, lightGroup;
 	for (int i = 0; i < AllObjectControl.size(); i++) {
 		//delete AllObjectControl[i];
