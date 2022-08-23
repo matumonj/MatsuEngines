@@ -237,6 +237,7 @@
     <ClCompile Include="PlaceWood.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerAttackState.cpp" />
+    <ClCompile Include="PlayerControl.cpp" />
     <ClCompile Include="PlayerHUD.cpp" />
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="PostEffect.cpp" />
@@ -492,6 +493,7 @@
     <ClInclude Include="PlaceWood.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerAttackState.h" />
+    <ClInclude Include="PlayerControl.h" />
     <ClInclude Include="PlayerHUD.h" />
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="PointLight.h" />

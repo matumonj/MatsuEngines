@@ -516,6 +516,9 @@
     <ClCompile Include="Feed.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerControl.cpp">
+      <Filter>Game\gameobject\Control</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Blur.hlsli">
@@ -886,6 +889,9 @@
     </ClInclude>
     <ClInclude Include="Feed.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerControl.h">
+      <Filter>Game\gameobject\Control</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

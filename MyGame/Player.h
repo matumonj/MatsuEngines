@@ -9,41 +9,33 @@
 #include"DirectXCommon.h"
 #include"f_Model.h"
 #include"f_Object3d.h"
+#include"ObjectManager.h"
 #include"Input.h"
 class Enemy;
 class TargetMarker;
-class Player :public Object3d
+class Player :public ObjectManager
 {
 public:
 	~Player();
-private: // エイリアス
-// Microsoft::WRL::を省略
-	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
-	// DirectX::を省略
-	using XMFLOAT2 = DirectX::XMFLOAT2;
-	using XMFLOAT3 = DirectX::XMFLOAT3;
-	using XMFLOAT4 = DirectX::XMFLOAT4;
-	using XMMATRIX = DirectX::XMMATRIX;
-	using XMVECTOR = DirectX::XMVECTOR;
-public:
-	static Player* Create(Model* model,DebugCamera* camera);
-public:
-	bool Initialize(DebugCamera* camera)override;
 
-	void Update(XMFLOAT4 color, DebugCamera* camera)override;
-	
-	void OnCollision(const CollisionInfo& info)override;
-	
-	void Action( TargetMarker* target, DebugCamera* camera);
+public:
+	static Player* Create(Model* model, DebugCamera* camera);
+public:
+	void Initialize(DebugCamera* camera)override;
+	void Update(DebugCamera* camera)override;
+	//void Draw()override;
+
+	void Action(TargetMarker* target, DebugCamera* camera);
 
 	void Draw();
 
+	XMMATRIX GetMatrot();
 	void SetColors(XMFLOAT4 color);
 	static Player* GetInstance();
 	void SetGround(bool f) { onGround = f; }
 
 	void isOldPos() {
-		position.x = oldpos.x; position.z = oldpos.z;
+		Position.x = oldpos.x; Position.z = oldpos.z;
 	}
 	float tempx, tempz;
 	int onGroundTime = 0;
@@ -70,9 +62,9 @@ private:
 	XMFLOAT3 Effect_SCl;
 	static XMFLOAT3 Effect_Pos;
 	Input* input = Input::GetInstance();
-	
+
 private:
-	
+
 	XMVECTOR move = { 0,0,0.1f,0 };
 	//キャラが4方向のどこを向いているか
 	enum class RotationPrm {
@@ -102,15 +94,12 @@ protected:
 	//落下ベクトル
 	XMVECTOR fallV;
 public:
-	void CollisionField( DebugCamera* camera);
-
+	
 public:
-	XMFLOAT3 GetPosition() { return position;}
-	XMFLOAT3 GetRotation() { return rotation; }
 	void AttackCoolTime();
 	bool GetAttackFlag() { return attackflag; }
 	void RotationStatus();
-	void SetCharaRotation(float angle) { rotation.y = angle; rotate = RotationPrm::FRONT; }
+	void SetCharaRotation(float angle) { Rotation.y = angle; rotate = RotationPrm::FRONT; }
 	XMFLOAT3 Getpoi() { return Effect_Pos; }
 	void normalAttack(TargetMarker* target, std::vector<std::unique_ptr<Enemy>> enemy, DebugCamera* camera);
 	void ImguiDraw();
@@ -132,14 +121,14 @@ private:
 	XMFLOAT3 OldPos_Onground;
 	bool ReturnGround = false;
 	int PosSavetime = 0;
-	private:
-		Object3d* sObj;
-		Model* sModel;
-		Object3d* SwordObj;
-		Model* SwordModel;
-		float AttackTime = 1.5f;
-		float DeathTime = 4.9f;
-		bool AttackFlag;
-		bool nowattack;
+private:
+	Object3d* sObj;
+	Model* sModel;
+	Object3d* SwordObj;
+	Model* SwordModel;
+	float AttackTime = 1.5f;
+	float DeathTime = 4.9f;
+	bool AttackFlag;
+	bool nowattack;
 };
 

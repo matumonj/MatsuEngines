@@ -59,7 +59,7 @@ bool Wood::CollideWood()
 
 	if (Collision::GetLength(Player::GetInstance()->GetPosition(), Position) < 20) {
 		if (ps0->ColOBBs(playerOBB, woodOBB)) {
-			Player::GetInstance()->isOldPos();
+		Player::GetInstance()->isOldPos();
 			return true;
 		} else {
 				return false;

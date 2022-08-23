@@ -19,6 +19,7 @@
 #include"CustomButton.h"
 #include"Feed.h"
 #include"TutorialSprite.h"
+#include"PlayerControl.h"
 //シーンのコンストラクタ
 Tutorial::Tutorial(SceneManager* sceneManager)
 	:BaseScene(sceneManager)
@@ -31,13 +32,14 @@ void Tutorial::objUpdate(DebugCamera*camera)
 {
 	CameraControl::GetInstance()->SetCameraState(CameraControl::PLAYER);
 
-	Player::GetInstance()->Update({ 1,1,1,p_alpha }, CameraControl::GetInstance()->GetCamera());
-
+	
 	if (Play) {
-	for (int i = 0; i < AllObjectControl.size(); i++) {
+		AllObjectControl[1]->Update(CameraControl::GetInstance()->GetCamera());
+		AllObjectControl[0]->Update(CameraControl::GetInstance()->GetCamera());
+	for (int i = 2; i < AllObjectControl.size(); i++) {
 		AllObjectControl[i]->Update(CameraControl::GetInstance()->GetCamera());
 	}
-	PlayerAttackState::GetInstance()->Update();
+	//PlayerAttackState::GetInstance()->Update();
 	UI::GetInstance()->HUDUpdate(hudload, CameraControl::GetInstance()->GetCamera());
 	TutorialSprite::GetInstance()->Update();
 }
@@ -54,10 +56,13 @@ void Tutorial::Initialize()
 	//CameraControl::GetInstance()->SetCameraState(CameraControl::PLAYER);
 	if (AllObjectControl.size() == 0) {
 		AllObjectControl.push_back(CameraControl::GetInstance());
+		AllObjectControl.push_back(PlayerControl::GetInstance());
+
 		AllObjectControl.push_back(EnemyControl::GetInstance());
 		AllObjectControl.push_back(FenceControl::GetInstance());
 		AllObjectControl.push_back(ChestControl::GetInstance());
 		AllObjectControl.push_back(WoodControl::GetInstance());
+		
 	}
 	for (int i = 0; i < AllObjectControl.size(); i++) {
 		AllObjectControl[i]->Initialize(CameraControl::GetInstance()->GetCamera());
@@ -72,7 +77,7 @@ void Tutorial::Initialize()
 	//グラフィックパイプライン生成
 	f_Object3d::CreateGraphicsPipeline();
 
-	Player::GetInstance()->Initialize(CameraControl::GetInstance()->GetCamera());
+	//Player::GetInstance()->Initialize(CameraControl::GetInstance()->GetCamera());
 	UI::GetInstance()->Initialize();
 	SistemConfig::GetInstance()->Initialize();
 	CustomButton::GetInstance()->Initialize();
@@ -93,9 +98,9 @@ void Tutorial::Update()
 
 	LoadParam(CameraControl::GetInstance()->GetCamera());
 	
-	if (Player::GetInstance()->GetPosition().z > -470) {
-		scenechange = true;
-	}
+	//if (Player::GetInstance()->GetPosition().z > -470) {
+		//scenechange = true;
+	//}
 	if (scenechange) {
 		Feed::GetInstance()->Update_White(Feed::FEEDIN);
 	}
@@ -117,7 +122,7 @@ void Tutorial::MyGameDraw()
 {
 	Field::GetInstance()->Draw();
 
-	Player::GetInstance()->Draw();
+	//Player::GetInstance()->Draw();
 	if (Play) {
 		for (int i = 0; i < AllObjectControl.size(); i++) {
 			AllObjectControl[i]->Draw();
@@ -162,6 +167,7 @@ void Tutorial::Draw()
 		TutorialSprite::GetInstance()->Draw();
 		
 		if (DirectXCommon::GetInstance()->GetFullScreen() == false) {
+			Player::GetInstance()->ImguiDraw();
 			ImGuiDraw();
 		}
 		DirectXCommon::GetInstance()->EndDraw();
@@ -178,8 +184,8 @@ void Tutorial::ImGuiDraw()
 		ImGui::SetWindowSize(ImVec2(500, 300));
 		
 		if (ImGui::TreeNode("Damage")) {
-			int d = PlayerAttackState::GetInstance()->GetDamage();
-			ImGui::SliderInt("positionX", &d, -100, 100);
+			//int d = PlayerAttackState::GetInstance()->GetDamage();
+			//ImGui::SliderInt("positionX", &d, -100, 100);
 			ImGui::TreePop();
 		}
 		ImGui::End();
@@ -192,7 +198,7 @@ void Tutorial::ImGuiDraw()
 		ImGui::End();
 	}
 	//
-	Player::GetInstance()->ImguiDraw();
+	
 	{//カメラ
 		bool defaultPos;
 		if (ImGui::RadioButton("DefaultPosition", &defaultPos)) {

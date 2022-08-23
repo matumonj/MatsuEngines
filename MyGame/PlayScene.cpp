@@ -38,7 +38,7 @@ void PlayScene::objUpdate(DebugCamera*camera)
 		//Effects::GetInstance()->Update((CameraControl::GetInstance()->GetCamera()));
 	}
 
-	Player::GetInstance()->Update({ 1,1,1,p_alpha }, (CameraControl::GetInstance()->GetCamera()));
+	Player::GetInstance()->Update( (CameraControl::GetInstance()->GetCamera()));
 	Field::GetInstance()->Update((CameraControl::GetInstance()->GetCamera()));
 	CustomButton::GetInstance()->Update();
 }

@@ -19,7 +19,6 @@ XMFLOAT3 Player::Effect_Pos = { -50,-10,-100 };
 Player::~Player()
 {
 	delete fbxmodel;
-	delete object1;
 }
 Player* Player::GetInstance()
 {
@@ -30,148 +29,68 @@ Player* Player::GetInstance()
 
 Player* Player::Create(Model* model, DebugCamera* camera)
 {
-	//インスタンスを生成
-	Player* instance = new Player();
-	if (instance == nullptr) {
-		return nullptr;
-	}
 
-	//初期化
-	instance->Initialize( camera);//	delete instance;
-	//	assert(0);
-
-	if (model) {
-		instance->SetModel(model);
-	}
-	return instance;
 }
 
-bool Player::Initialize( DebugCamera* camera)
+void Player::Initialize(DebugCamera* camera)
 {
 	HP = MaxHP;
 	rotate = RotationPrm::FRONT;
-	
-	if (!Object3d::Initialize(camera))
-	{
-		return false;
-	}
 
-	position = {125,-25,-760 };
+	m_Object = std::make_unique<Object3d>();
+	m_Object->Initialize(camera);
+	m_fbxModel = FbxLoader::GetInstance()->LoadModelFromFile("monster_golem_demo");
 
-	fbxmodel = FbxLoader::GetInstance()->LoadModelFromFile("monster_golem_demo");
+	m_fbxObject = std::make_unique<f_Object3d>();
+	m_fbxObject->Initialize();
+	m_fbxObject->SetModel(m_fbxModel);
+	m_fbxObject->PlayAnimation();
 
-	float radius = 5.0f;
-	SetCollider(new SphereCollider(XMVECTOR({ 0,radius,0,0 }), radius));
-	collider->SetAttribute(COLLISION_ATTR_ALLIES);
+	SetCollider();
 
-	//FBXモデルの生成
-	object1 = new f_Object3d();
-	object1->Initialize();
-	object1->SetModel(fbxmodel);
-	object1->PlayAnimation();
-	
-	SwordModel=Model::CreateFromOBJ("sword");
+	SwordModel = Model::CreateFromOBJ("sword");
 	SwordObj = Object3d::Create(camera);
 	SwordObj->SetModel(SwordModel);
+	Rotation = { -90,0,0 };
+	Position = { 92,-27,-760 };
+	SwordObj->SetScale({ 1,1,1 });
+	SwordObj->SetRotation({ 0,0 + 30,0 + 100 });
 
-	sModel = Model::CreateFromOBJ("sword");
-	sObj = Object3d::Create(camera);
-	sObj->SetModel(sModel);
-
-	
-	//SwordObj->SetPosition(position);
-	SwordObj->SetScale({ 1,1,1});
-	//SwordObj->SetPosition({ position});
-	//SwordObj->SetPosition({ position });
-	SwordObj->SetRotation({ 0,0+30,0+100});
-	object1->SetRotation({ -90,0,0 });
-
-	return true;
 }
-void Player::Update(XMFLOAT4 color, DebugCamera* camera)
+void Player::Update(DebugCamera* camera)
 {
-
-	sObj->SetRotation(rotation);
-	sObj->SetPosition({ position.x-10,position.y,position.z });
-	sObj->SetScale({ 5,5,5 });
-	oldpos = position;
+	oldpos = Position;
 	//エフェクトのパラメータセット
 	RotationStatus();
-	//position.y = -2;
-	object1->SetScale({0.02, 0.02f, 0.02f
-});
-
-	scale = { 1.0f,1.0f,1.0f };
+	//Position.y = -2;
+	Scale={ 0.02, 0.02f, 0.02f
+		};
+	Position = { 92,-27,-760 };
 	//移動ベクトルをy軸周りの角度で回転
 	XMVECTOR move = { 0.0f,0.0f,0.1f,0.0f };
-	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(rotation.y));
+	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(Rotation.y));
 	move = XMVector3TransformNormal(move, matRot);
 
-		if (input->Pushkey(DIK_W) || input->Pushkey(DIK_A) || input->Pushkey(DIK_D) || input->Pushkey(DIK_S)
-			|| (input->LeftTiltStick(input->Left)|| input->LeftTiltStick(input->Right)|| input->LeftTiltStick(input->Up)|| input->LeftTiltStick(input->Down))){
-		position.x += move.m128_f32[0] * movespeed;
-		position.z += move.m128_f32[2] * movespeed;
+	if (input->Pushkey(DIK_W) || input->Pushkey(DIK_A) || input->Pushkey(DIK_D) || input->Pushkey(DIK_S)
+		|| (input->LeftTiltStick(input->Left) || input->LeftTiltStick(input->Right) || input->LeftTiltStick(input->Up) || input->LeftTiltStick(input->Down))) {
+		Position.x += move.m128_f32[0] * movespeed;
+		Position.z += move.m128_f32[2] * movespeed;
 		stopf = false;
+	} else {
+		stopf = true;
 	}
-		else {
-			stopf = true;
-		}
-		if (Collision::GetCollideOBB() == true) {
-			position = oldpos;
-			
-}
-	object1->SetPosition(position);
-	object1->SetRotation({ rotation.x-90,rotation.y,rotation.z});
-
-	object1->Updata( TRUE);
 	
-	//sw->SetMatrot(object1->GetmatRot());
-	//SwordObj->SetPosition({ position});
-		FbxAnimationControl();
+	FbxAnimationControl();
+	//フィールド
+	ParameterSet_Obj(camera);
+	//フィールド
+	ParameterSet_Fbx(camera);
 
 	CollisionField(camera);
 
-sObj->Update( { 0,1,0,1 }, camera);
-
-//SwordPos = { object1->GetPos().r->m128_f32[0],object1->GetPos().r->m128_f32[1],object1->GetPos().r->m128_f32[2] };
-SwordObj->Update( object1->GetRot(),{ 1,1,1,1 }, camera);
-SwordRot = { object1->GetHandBone().r->m128_f32[0],object1->GetHandBone().r->m128_f32[1],object1->GetHandBone().r->m128_f32[2] };
-
-	//行列の更新とか
-	//Object3d::Update({ 1,1,1,1 }, camera);
-}
-
-void Player::OnCollision(const CollisionInfo& info)
-{
-
-}
-void Player::normalAttack(TargetMarker*target, std::vector<std::unique_ptr<Enemy>>enemy, DebugCamera* camera)
-{
-	
-	if (input->TriggerKey(DIK_SPACE) && !coolflag) {
-		if (!attackflag) {
-			attackflag = true;
-		}
-	}
-	if (attackflag) {
-		coolflag = true;
-		float distance = sqrtf(((enemy[target->GetNearIndex()]->GetPosition().x - position.x) * (enemy[target->GetNearIndex()]->GetPosition().x - position.x))
-			+ ((enemy[target->GetNearIndex()]->GetPosition().y - position.y) * (enemy[target->GetNearIndex()]->GetPosition().y - position.y))
-			+ ((enemy[target->GetNearIndex()]->GetPosition().z - position.z) * (enemy[target->GetNearIndex()]->GetPosition().z - position.z)));
-
-		if (distance <= 10) {
-			//enemy[target->GetNearIndex()]->SetHP(enemy[target->GetNearIndex()]->GetHP() - 1);
-		}
-		attackflag = false;
-	}
-	if (coolflag) {
-		cooldowntime++;
-		if (cooldowntime > CoolTime) {
-			coolflag = false;
-			cooldowntime = 0;
-		}
-	}
-	
+	SwordObj->Update(m_fbxObject->GetRot(), { 1,1,1,1 }, camera);
+	SwordRot = { m_fbxObject->GetHandBone().r->m128_f32[0],m_fbxObject->GetHandBone().r->m128_f32[1],m_fbxObject->GetHandBone().r->m128_f32[2] };
+	//SetPosition({ 92,-27,-760 });
 }
 
 void Player::RotationStatus()
@@ -180,13 +99,11 @@ void Player::RotationStatus()
 	//左方向への移動
 	if (rotate != RotationPrm::LEFT && input->LeftTiltStick(input->Left)) {//今向いている方向が左じゃなくAキーが押され、
 		if (rotate == RotationPrm::FRONT) {//右以外を向いていたら
-			rotation.y = rotation.y - 90;
-		} 
-		else if(rotate == RotationPrm::BACK){//右を向いていたら
-			rotation.y = rotation.y +90;
-		}
-		else if (rotate == RotationPrm::RIGHT) {
-			rotation.y = rotation.y - 180;
+			Rotation.y = Rotation.y - 90;
+		} else if (rotate == RotationPrm::BACK) {//右を向いていたら
+			Rotation.y = Rotation.y + 90;
+		} else if (rotate == RotationPrm::RIGHT) {
+			Rotation.y = Rotation.y - 180;
 		}
 		//向きの情報を左に
 		rotate = RotationPrm::LEFT;
@@ -195,11 +112,11 @@ void Player::RotationStatus()
 	//右方向への移動
 	else if (rotate != RotationPrm::RIGHT && input->LeftTiltStick(input->Right)) {//今向いている方向が右じゃなくＤキーが押され、
 		if (rotate == RotationPrm::FRONT) {//右以外を向いていたら
-			rotation.y = rotation.y + 90;
+			Rotation.y = Rotation.y + 90;
 		} else if (rotate == RotationPrm::BACK) {//右を向いていたら
-			rotation.y = rotation.y - 90;
+			Rotation.y = Rotation.y - 90;
 		} else if (rotate == RotationPrm::LEFT) {
-			rotation.y = rotation.y + 180;
+			Rotation.y = Rotation.y + 180;
 		}
 		//向きの情報を右に
 		rotate = RotationPrm::RIGHT;
@@ -208,11 +125,11 @@ void Player::RotationStatus()
 	//前方向への移動
 	if (rotate != RotationPrm::FRONT && input->LeftTiltStick(input->Up)) {//今向いている方向が右じゃなくＤキーが押され、
 		if (rotate == RotationPrm::RIGHT) {//もし右を向いてたら
-			rotation.y = rotation.y - 90;
+			Rotation.y = Rotation.y - 90;
 		} else if (rotate == RotationPrm::LEFT) {//もし左を向いてたら
-			rotation.y = rotation.y + 90;
+			Rotation.y = Rotation.y + 90;
 		} else if (rotate == RotationPrm::BACK) {
-			rotation.y -= 180;
+			Rotation.y -= 180;
 		}
 		//向きの情報を前に
 		rotate = RotationPrm::FRONT;
@@ -221,11 +138,11 @@ void Player::RotationStatus()
 	//後ろ方向へ移動
 	if (rotate != RotationPrm::BACK && input->LeftTiltStick(input->Down)) {//今向いている方向が右じゃなくＤキーが押され、
 		if (rotate == RotationPrm::RIGHT) {//もし右を向いてたら
-			rotation.y = rotation.y + 90;
+			Rotation.y = Rotation.y + 90;
 		} else if (rotate == RotationPrm::LEFT) {//もし左を向いてたら
-			rotation.y = rotation.y - 90;
+			Rotation.y = Rotation.y - 90;
 		} else if (rotate == RotationPrm::FRONT) {
-			rotation.y += 180;
+			Rotation.y += 180;
 		}
 		//向きの情報を前に
 		rotate = RotationPrm::BACK;
@@ -234,160 +151,48 @@ void Player::RotationStatus()
 
 
 
-void Player::CollisionField(DebugCamera* camera)
-{
-
-	// ワールド行列更新
-	UpdateWorldMatrix();
-	float x, z;
-	x = position.x;
-	z = position.z;
-	// 落下処理
-	if (!onGround) {
-		// 下向き加速度
-		const float fallAcc = -0.01f;
-		const float fallVYMin = -0.5f;
-		// 加速
-		fallV.m128_f32[1] = max(fallV.m128_f32[1] + fallAcc, fallVYMin);
-		// 移動
-		//position.x += fallV.m128_f32[0];
-		position.y += fallV.m128_f32[1];
-		//position.z += fallV.m128_f32[2];
-
-	}
-	// ジャンプ操作
-	else if (CustomButton::GetInstance()->GetJumpAction()==true) {
+//void Player::CollisionField(DebugCamera* camera)
+//{
+	/*if (CustomButton::GetInstance()->GetJumpAction() == true) {
 		onGround = false;
 		const float jumpVYFist = 0.2f;
 		fallV = { 0, jumpVYFist, 0, 0 };
-		
-	}
-	
 
-	// ワールド行列更新
-	UpdateWorldMatrix();
-	collider->Update();
+	}*/
 
-	SphereCollider* sphereCollider = dynamic_cast<SphereCollider*>(collider);
-	assert(sphereCollider);
-
-	// クエリーコールバッククラス
-	class PlayerQueryCallback : public QueryCallback
-	{
-	public:
-		PlayerQueryCallback(Sphere* sphere) : sphere(sphere) {};
-
-		// 衝突時コールバック関数
-		bool OnQueryHit(const QueryHit& info) {
-
-			const XMVECTOR up = { 0,1,0,0 };
-
-			XMVECTOR rejectDir = XMVector3Normalize(info.reject);
-			float cos = XMVector3Dot(rejectDir, up).m128_f32[0];
-
-			// 地面判定しきい値
-			const float threshold = cosf(XMConvertToRadians(45.0f));
-
-			if (-threshold < cos && cos < threshold) {
-				sphere->center += info.reject;
-				move += info.reject;
-			}
-
-			return true;
-		}
-
-		Sphere* sphere = nullptr;
-		DirectX::XMVECTOR move = {};
-	};
-
-	PlayerQueryCallback callback(sphereCollider);
-
-	// 球と地形の交差を全検索
-	CollisionManager::GetInstance()->QuerySphere(*sphereCollider, &callback, COLLISION_ATTR_LANDSHAPE);
-	// 交差による排斥分動かす
-	position.x += callback.move.m128_f32[0];
-	position.y += callback.move.m128_f32[1];
-	position.z += callback.move.m128_f32[2];
-	// ワールド行列更新
-	UpdateWorldMatrix();
-	collider->Update();
-
-	// 球の上端から球の下端までのレイキャスト
-	Ray ray;
-	ray.start = sphereCollider->center;
-	ray.start.m128_f32[1] += sphereCollider->GetRadius();
-	ray.dir = { 0,-1,0,0 };
-	RaycastHit raycastHit;
-
-	// 接地状態
-	if (onGround) {
-		
-		if (PosSavetime % 60 == 0) {
-			OldPos_Onground = position;
-		}
-		// スムーズに坂を下る為の吸着距離
-		const float adsDistance = 1.0f;
-		// 接地を維持
-		if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit, sphereCollider->GetRadius() * 2.0f + adsDistance)) {
-			onGround = true;
-			position.y -= (raycastHit.distance - sphereCollider->GetRadius() * 2.0f);
-		}
-		// 地面がないので落下
-		else {
-			onGround = false;
-			fallV = {};
-		}
-	}
-	// 落下状態
-	else if (fallV.m128_f32[1] <= 0.0f) {
-		if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit, sphereCollider->GetRadius() * 2.0f)) {
-			// 着地
-			onGround = true;
-			position.y -= (raycastHit.distance - sphereCollider->GetRadius() * 2.0f);
-		}
-	}
-	// 行列の更新など
-	Object3d::Update({ 1,1,1,1 }, camera);
-
-}
+//}
 
 void Player::Draw()
 {
-	object1->Draw();
+	Draw_Fbx();
 	SwordObj->PreDraw();
 	SwordObj->Draw();
 	SwordObj->PostDraw();
-	sObj->PreDraw();
-	//sObj->Draw();
-	sObj->PostDraw();
 }
 
 void Player::ImguiDraw()
 {
 	ImGui::Begin("Player_State");
 	//Position
-	if (ImGui::TreeNode("Position")) {
-		ImGui::Text(" PositionX   [%5f]", position.x);
-		ImGui::Text(" PositionY   [%5f]", position.y);
-		ImGui::Text(" PositionZ   [%5f]", position.z);
+	//if (ImGui::TreeNode("Position")) {
 
-		XMFLOAT3 swp = SwordObj->GetPosition();
-		ImGui::Text(" bPositionX   [%5f]", swp.x);
-		ImGui::Text(" bPositionY   [%5f]", swp.y);
-		ImGui::Text(" bPositionZ   [%5f]", swp.z);
-		ImGui::TreePop();
-	}
+		Position = { 92,-27,-760 };
+		ImGui::Text(" PositionX   [%5f]", Position.x);
+		ImGui::Text(" PositionY   [%5f]", Position.y);
+		ImGui::Text(" PositionZ   [%5f]", Position.z);
+
+	//}
 	//Rotation
 	if (ImGui::TreeNode("Rotation")) {
-		XMMATRIX sub =object1->GetPos();
-	
-		XMFLOAT3 rots = {sub.r[3].m128_f32[0],sub.r[3].m128_f32[1], sub.r[3].m128_f32[2]};
+		XMMATRIX sub = m_fbxObject->GetPos();
+
+		XMFLOAT3 rots = { sub.r[3].m128_f32[0],sub.r[3].m128_f32[1], sub.r[3].m128_f32[2] };
 		ImGui::Text(" RotationX   [%5f]", rots.x);
 		ImGui::Text(" RotationY   [%5f]", rots.y);
 		ImGui::Text(" RotationZ   [%5f]", rots.z);
 		ImGui::TreePop();
 	}
-	ImGui::SliderInt("HP", &HP,1,MaxHP);
+	ImGui::SliderInt("HP", &HP, 1, MaxHP);
 	ImGui::SliderFloat("MoveSpeed", &movespeed, 1, 15);
 	//もし落下したとき地面に戻ってくる 1秒前の接地位置に戻ってくる
 	PosSavetime++;
@@ -395,7 +200,7 @@ void Player::ImguiDraw()
 		PosSavetime = 0;
 	}
 	if (ImGui::RadioButton("ReturnGround", &ReturnGround)) {
-		position = OldPos_Onground;
+		Position = OldPos_Onground;
 		ReturnGround = false;
 	}
 
@@ -405,34 +210,40 @@ void Player::ImguiDraw()
 void Player::FbxAnimationControl()
 {
 	//if (!stopf) {
-		if (CustomButton::GetInstance()->GetAttackAction() == true) {
-			AttackFlag = true;
-		}
-		if (AttackFlag) {
-			f_time = AttackTime;
-			AttackFlag = false;
-			nowattack = true;
-		}
+	if (CustomButton::GetInstance()->GetAttackAction() == true) {
+		AttackFlag = true;
+	}
+	if (AttackFlag) {
+		f_time = AttackTime;
+		AttackFlag = false;
+		nowattack = true;
+	}
 
 
-		f_time += 0.02f;
-		if (nowattack) {
-			if ( f_time >= DeathTime) {
-				f_time = 0;
-				nowattack = false;
-			}
+	f_time += 0.02f;
+	if (nowattack) {
+		if (f_time >= DeathTime) {
+			f_time = 0;
+			nowattack = false;
 		}
-		else {
-			if(f_time > AttackTime) {
+	} else {
+		if (f_time > AttackTime) {
 			f_time = 0;
 		}
-		}
-	
-	
-	object1->SetFbxTime(f_time);
+	}
+
+
+	m_fbxObject->SetFbxTime(f_time);
 }
 
 void Player::SetColors(XMFLOAT4 color)
 {
-	object1->SetColor(color);
+	m_fbxObject->SetColor(color);
+}
+
+XMMATRIX Player::GetMatrot()
+{
+	if (m_fbxObject != nullptr) {
+		return m_fbxObject->GetMatrot();
+	}
 }
