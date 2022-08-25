@@ -2,6 +2,7 @@
 #include "EnemyControl.h"
 #include"SceneManager.h"
 #include"TutorialSprite.h"
+#include"PlayerControl.h"
 FenceControl* FenceControl::GetInstance()
 {
 	static FenceControl instance;
@@ -116,7 +117,7 @@ void FenceControl::Update(DebugCamera* camera)
 {
 	//if (fences[0].get() == nullptr)return;
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
-		Player_OldPos = Player::GetInstance()->GetPosition();
+		Player_OldPos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 		for (int i = 0; i < Quantity; i++) {
 			if (fences[i] != nullptr) {
 				fences[i]->Update(camera);

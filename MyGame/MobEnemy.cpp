@@ -163,7 +163,7 @@ void MobEnemy::Stop()
 
 void MobEnemy::Follow()
 {
-	//Player::GetInstance()->RecvDamage(10);
+	//PlayerControl::GetInstance()->GetPlayer()->RecvDamage(10);
 	Turn_toPlayer();
 	if (time > 3000) {
 		FollowFlag = false;
@@ -177,7 +177,7 @@ void MobEnemy::Follow()
 		time++;
 		wf = false;
 		sf = false;
-		if (Collision::GetLength(Position, Player::GetInstance()->GetPosition()) < 10)
+		if (Collision::GetLength(Position, PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 10)
 		{
 			folatc = true;
 		}
@@ -232,7 +232,7 @@ void MobEnemy::Attack()
 		
 		Turn_toPlayer();
 		wf = false;
-		//Player::GetInstance()->RecvDamage(10);
+		//PlayerControl::GetInstance()->GetPlayer()->RecvDamage(10);
 		//m_fbxObject->SetAttackFlag(true);
 		f_AttackFlag = true;
 		state = NOW_ATTACK;

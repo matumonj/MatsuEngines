@@ -1,6 +1,6 @@
 #pragma once
 class Enemy;
-
+#include"PlayerControl.h"
 // é¿çsîªíË
 class ExecJudgmentBase
 {

@@ -5,6 +5,7 @@
 #include"TouchableObject.h"
 #include"CollisionManager.h"
 #include"Collision.h"
+#include"PlayerControl.h"
 Wood::~Wood()
 {
 	delete ps0;
@@ -40,9 +41,9 @@ void Wood::Draw()
 }
 bool Wood::CollideWood()
 {
-	playerOBB.m_NormaDirect[0] = { Player::GetInstance()->GetMatrot().r[0].m128_f32[0],Player::GetInstance()->GetMatrot().r[0].m128_f32[1],Player::GetInstance()->GetMatrot().r[0].m128_f32[2] };
-	playerOBB.m_NormaDirect[1] = { Player::GetInstance()->GetMatrot().r[1].m128_f32[0],Player::GetInstance()->GetMatrot().r[1].m128_f32[1],Player::GetInstance()->GetMatrot().r[1].m128_f32[2] };
-	playerOBB.m_NormaDirect[2] = { Player::GetInstance()->GetMatrot().r[2].m128_f32[0],Player::GetInstance()->GetMatrot().r[2].m128_f32[1],Player::GetInstance()->GetMatrot().r[2].m128_f32[2] };
+	playerOBB.m_NormaDirect[0] = { PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[0].m128_f32[0],PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[0].m128_f32[1],PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[0].m128_f32[2] };
+	playerOBB.m_NormaDirect[1] = { PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[1].m128_f32[0],PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[1].m128_f32[1],PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[1].m128_f32[2] };
+	playerOBB.m_NormaDirect[2] = { PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[2].m128_f32[0],PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[2].m128_f32[1],PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[2].m128_f32[2] };
 	playerOBB.m_fLength[0] = 1;//x•ûŒü‚Ì’·‚³
 	playerOBB.m_fLength[1] = 1;//y•ûŒü‚Ì’·‚³
 	playerOBB.m_fLength[2] = 1;//z•ûŒü‚Ì’·‚³
@@ -54,12 +55,12 @@ bool Wood::CollideWood()
 	woodOBB.m_fLength[1] = 20;//y•ûŒü‚Ì’·‚³
 	woodOBB.m_fLength[2] =1;//z•ûŒü‚Ì’·‚³
 	//OBB‚ÌÝ’èˆÊ’u
-	playerOBB.m_Pos = { Player::GetInstance()->GetPosition().x,Player::GetInstance()->GetPosition().y,Player::GetInstance()->GetPosition().z };
+	playerOBB.m_Pos = { PlayerControl::GetInstance()->GetPlayer()->GetPosition().x,PlayerControl::GetInstance()->GetPlayer()->GetPosition().y,PlayerControl::GetInstance()->GetPlayer()->GetPosition().z };
 	woodOBB.m_Pos = { m_Object->GetPosition().x,  m_Object->GetPosition().y, m_Object->GetPosition().z };
 
-	if (Collision::GetLength(Player::GetInstance()->GetPosition(), Position) < 20) {
+	if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), Position) < 20) {
 		if (ps0->ColOBBs(playerOBB, woodOBB)) {
-		Player::GetInstance()->isOldPos();
+		//PlayerControl::GetInstance()->GetPlayer()->isOldPos();
 			return true;
 		} else {
 				return false;

@@ -96,7 +96,7 @@ void HUD::EnemyHPGaugeUpdate(std::vector<std::unique_ptr<Enemy>>& enemy)
 		}
 	}
 	//EnemyHP_Inner->SetSize({400,400});
-	//if (Collision::GetLength(Player::GetInstance()->GetPosition(), enemy[index]->GetPosition()) < 30) {
+	//if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), enemy[index]->GetPosition()) < 30) {
 		EnemyHPDrawFlag = true;
 	//}
 	//else {

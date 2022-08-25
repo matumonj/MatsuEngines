@@ -3,6 +3,7 @@
 #include<windows.h>
 #include"Feed.h"
 #include"SceneManager.h"
+#include"PlayerControl.h"
 CameraControl* CameraControl::GetInstance()
 {
 	static CameraControl instance;
@@ -102,23 +103,23 @@ void CameraControl::Update(DebugCamera* camera)
 	if (input->Pushkey(DIK_RIGHT)) {
 		charaAngle += 0.5f;
 		cameraAngle -= 0.5f;
-		Player::GetInstance()->SetCharaRotation(charaAngle);
+		PlayerControl::GetInstance()->GetPlayer()->SetCharaRotation(charaAngle);
 	} else if (input->Pushkey(DIK_LEFT) || input->RightTiltStick(input->Left)) {
 		cameraAngle += 0.5f;
 		charaAngle -= 0.5f;
-		Player::GetInstance()->SetCharaRotation(charaAngle);
+		PlayerControl::GetInstance()->GetPlayer()->SetCharaRotation(charaAngle);
 	}
 	if (cameraAngle >= 360 + 90 || cameraAngle <= -360) {
 		cameraAngle = 0;
 	}
 
 	
-	CameraPosition.x = Player::GetInstance()->GetPosition().x + cosf((float)(cameraAngle) * 3.14f / 180.0f) * 25;
-	CameraPosition.z = Player::GetInstance()->GetPosition().z + sinf((float)(cameraAngle) * 3.14f / 180.0f) * 25;;
-	CameraPosition.y = Player::GetInstance()->GetPosition().y + CameraHeight;
+	CameraPosition.x = PlayerControl::GetInstance()->GetPlayer()->GetPosition().x + cosf((float)(cameraAngle) * 3.14f / 180.0f) * 25;
+	CameraPosition.z = PlayerControl::GetInstance()->GetPlayer()->GetPosition().z + sinf((float)(cameraAngle) * 3.14f / 180.0f) * 25;;
+	CameraPosition.y = PlayerControl::GetInstance()->GetPlayer()->GetPosition().y + CameraHeight;
 
 		//this->camera->SetEye(CameraPosition);
-	this->camera->SetTarget({ Player::GetInstance()->GetPosition() });
+	this->camera->SetTarget({ PlayerControl::GetInstance()->GetPlayer()->GetPosition() });
 	this->camera->Update();
 
 	if(Tstate==SPLINE){

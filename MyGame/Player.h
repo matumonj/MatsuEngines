@@ -35,7 +35,7 @@ public:
 	void SetGround(bool f) { onGround = f; }
 
 	void isOldPos() {
-		Position.x = oldpos.x; Position.z = oldpos.z;
+		//Position.x = oldpos.x; Position.z = oldpos.z;
 	}
 	float tempx, tempz;
 	int onGroundTime = 0;

@@ -1,6 +1,7 @@
 #include "ChestControl.h"
 #include"SceneManager.h"
 #include"Destroy.h"
+#include"PlayerControl.h"
 ChestControl* ChestControl::GetInstance()
 {
 	static ChestControl instance;
@@ -92,7 +93,7 @@ void ChestControl::Update(DebugCamera* camera)
 		for (int i = 0; i < Quantity; i++) {
 			if (chests[i] != nullptr) {
 				chests[i]->SetColor({ 1,1,1,1 });
-				//if (Collision::GetLength(Player::GetInstance()->GetPosition(), chests[i]->GetPosition()) < UpdateRange) {
+				//if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), chests[i]->GetPosition()) < UpdateRange) {
 				chests[i]->Update(camera);
 				//}
 			}
@@ -103,7 +104,7 @@ void ChestControl::Update(DebugCamera* camera)
 			Tutorial_chest[0]->SetColor({ 1,1,1,1 });
 			Tutorial_chest[0]->Update(camera);
 			//}
-			if (Collision::GetLength(Player::GetInstance()->GetPosition(), Tutorial_chest[0]->GetPosition()) < 10) {
+			if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), Tutorial_chest[0]->GetPosition()) < 10) {
 				GetTutorialChestJudg = true;;//チュートリアル用
 				GetChestAction();
 				Destroy_unique(Tutorial_chest[0]);
@@ -120,7 +121,7 @@ void ChestControl::Draw()
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
 	for (int i = 0; i < Quantity; i++) {
 		if (chests[i] != nullptr) {
-		//	if (Collision::GetLength(Player::GetInstance()->GetPosition(), chests[i]->GetPosition()) < UpdateRange) {
+		//	if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), chests[i]->GetPosition()) < UpdateRange) {
 				chests[i]->Draw();
 			}
 		}

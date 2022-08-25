@@ -17,6 +17,7 @@
 #include"Effects.h"
 #include"CustomButton.h"
 #include"Feed.h"
+#include"PlayerControl.h"
 //シーンのコンストラクタ
 PlayScene::PlayScene(SceneManager* sceneManager)
 	:BaseScene(sceneManager)
@@ -32,13 +33,13 @@ void PlayScene::objUpdate(DebugCamera*camera)
 		for (int i = 0; i < AllObjectControl.size(); i++) {
 			AllObjectControl[i]->Update((CameraControl::GetInstance()->GetCamera()));
 		}
-		TargetMarker::GetInstance()->Update((CameraControl::GetInstance()->GetCamera()), Player::GetInstance());
+		TargetMarker::GetInstance()->Update((CameraControl::GetInstance()->GetCamera()), PlayerControl::GetInstance()->GetPlayer());
 		PlayerAttackState::GetInstance()->Update();
 		UI::GetInstance()->HUDUpdate(hudload, (CameraControl::GetInstance()->GetCamera()));
 		//Effects::GetInstance()->Update((CameraControl::GetInstance()->GetCamera()));
 	}
 
-	Player::GetInstance()->Update( (CameraControl::GetInstance()->GetCamera()));
+	PlayerControl::GetInstance()->GetPlayer()->Update( (CameraControl::GetInstance()->GetCamera()));
 	Field::GetInstance()->Update((CameraControl::GetInstance()->GetCamera()));
 	CustomButton::GetInstance()->Update();
 }
@@ -70,7 +71,7 @@ void PlayScene::Initialize()
 	//グラフィックパイプライン生成
 	f_Object3d::CreateGraphicsPipeline();
 
-	Player::GetInstance()->Initialize((CameraControl::GetInstance()->GetCamera()));
+	PlayerControl::GetInstance()->GetPlayer()->Initialize((CameraControl::GetInstance()->GetCamera()));
 	UI::GetInstance()->Initialize();
 	SistemConfig::GetInstance()->Initialize();
 	CustomButton::GetInstance()->Initialize();
@@ -81,7 +82,7 @@ void PlayScene::Initialize()
 
 	//Effects::GetInstance()->Initialize((CameraControl::GetInstance()->GetCamera()));
 	
-	Player::GetInstance()->SetPosition({ 110,-15,-379 });
+	PlayerControl::GetInstance()->GetPlayer()->SetPosition({ 110,-15,-379 });
 }
 #pragma endregion
 
@@ -121,7 +122,7 @@ void PlayScene::Update()
 		}
 	}
 	else {
-		if (Collision::GetLength(CameraControl::GetInstance()->GetCamera()->GetEye(), Player::GetInstance()->GetPosition()) < 50) {
+		if (Collision::GetLength(CameraControl::GetInstance()->GetCamera()->GetEye(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 50) {
 			playFeed = true;
 		}
 		else {
@@ -146,7 +147,7 @@ void PlayScene::MyGameDraw()
 {
 	Field::GetInstance()->Draw();
 	
-	Player::GetInstance()->Draw();
+	PlayerControl::GetInstance()->GetPlayer()->Draw();
 	if (EnemyControl::GetInstance()->GetQuentity() > 1) {
 		for (int i = 0; i < AllObjectControl.size(); i++) {
 		AllObjectControl[i]->Draw();
@@ -230,7 +231,7 @@ void PlayScene::ImGuiDraw()
 		ImGui::End();
 	}
 	//
-	Player::GetInstance()->ImguiDraw();
+	PlayerControl::GetInstance()->GetPlayer()->ImguiDraw();
 	{//カメラ
 		ImGui::Begin("Camera");
 		float cz = (CameraControl::GetInstance()->GetCamera())->GetEye().z;

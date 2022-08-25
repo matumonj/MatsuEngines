@@ -36,7 +36,7 @@ void Tutorial::objUpdate(DebugCamera*camera)
 	if (Play) {
 		AllObjectControl[1]->Update(CameraControl::GetInstance()->GetCamera());
 		AllObjectControl[0]->Update(CameraControl::GetInstance()->GetCamera());
-	for (int i = 2; i < AllObjectControl.size(); i++) {
+		for (int i = 2; i < AllObjectControl.size(); i++) {
 		AllObjectControl[i]->Update(CameraControl::GetInstance()->GetCamera());
 	}
 	//PlayerAttackState::GetInstance()->Update();
@@ -77,7 +77,7 @@ void Tutorial::Initialize()
 	//グラフィックパイプライン生成
 	f_Object3d::CreateGraphicsPipeline();
 
-	//Player::GetInstance()->Initialize(CameraControl::GetInstance()->GetCamera());
+	//PlayerControl::GetInstance()->GetPlayer()->Initialize(CameraControl::GetInstance()->GetCamera());
 	UI::GetInstance()->Initialize();
 	SistemConfig::GetInstance()->Initialize();
 	CustomButton::GetInstance()->Initialize();
@@ -98,7 +98,7 @@ void Tutorial::Update()
 
 	LoadParam(CameraControl::GetInstance()->GetCamera());
 	
-	//if (Player::GetInstance()->GetPosition().z > -470) {
+	//if (PlayerControl::GetInstance()->GetPlayer()->GetPosition().z > -470) {
 		//scenechange = true;
 	//}
 	if (scenechange) {
@@ -122,7 +122,7 @@ void Tutorial::MyGameDraw()
 {
 	Field::GetInstance()->Draw();
 
-	//Player::GetInstance()->Draw();
+	//PlayerControl::GetInstance()->GetPlayer()->Draw();
 	if (Play) {
 		for (int i = 0; i < AllObjectControl.size(); i++) {
 			AllObjectControl[i]->Draw();
@@ -167,7 +167,7 @@ void Tutorial::Draw()
 		TutorialSprite::GetInstance()->Draw();
 		
 		if (DirectXCommon::GetInstance()->GetFullScreen() == false) {
-			Player::GetInstance()->ImguiDraw();
+			//PlayerControl::GetInstance()->GetPlayer()->ImguiDraw();
 			ImGuiDraw();
 		}
 		DirectXCommon::GetInstance()->EndDraw();

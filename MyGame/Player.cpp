@@ -65,7 +65,9 @@ void Player::Update(DebugCamera* camera)
 	//Position.y = -2;
 	Scale={ 0.02, 0.02f, 0.02f
 		};
-	Position = { 92,-27,-760 };
+	//
+	// 
+	//Position = { 92,-27,-760 };
 	//ˆÚ“®ƒxƒNƒgƒ‹‚ðyŽ²Žü‚è‚ÌŠp“x‚Å‰ñ“]
 	XMVECTOR move = { 0.0f,0.0f,0.1f,0.0f };
 	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(Rotation.y));
@@ -174,14 +176,14 @@ void Player::ImguiDraw()
 {
 	ImGui::Begin("Player_State");
 	//Position
-	//if (ImGui::TreeNode("Position")) {
+	if (ImGui::TreeNode("Position")) {
 
 		Position = { 92,-27,-760 };
 		ImGui::Text(" PositionX   [%5f]", Position.x);
 		ImGui::Text(" PositionY   [%5f]", Position.y);
 		ImGui::Text(" PositionZ   [%5f]", Position.z);
 
-	//}
+	}
 	//Rotation
 	if (ImGui::TreeNode("Rotation")) {
 		XMMATRIX sub = m_fbxObject->GetPos();

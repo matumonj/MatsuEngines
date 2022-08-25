@@ -31,5 +31,8 @@ public:
 	void SetColor(XMFLOAT4 color)override;
 	void ImGuiDraw();
 
+
+	Player* GetPlayer() { return player.get(); }
+
 };
 
