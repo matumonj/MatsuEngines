@@ -1,5 +1,4 @@
 #pragma once
-#include "Character.h"
 #include"Object3d.h"
 #include"Model.h"
 #include"SphereCollider.h"
@@ -32,6 +31,6 @@ protected:
 	//—Ž‰ºƒxƒNƒgƒ‹
 	XMVECTOR fallV;
 public:
-	void CollisionField(DirectXCommon* dxcomn, DebugCamera* camera);
+	
 };
 

@@ -321,9 +321,6 @@
     <ClCompile Include="TargetMarker.cpp">
       <Filter>Game\UI</Filter>
     </ClCompile>
-    <ClCompile Include="Character.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
     <ClCompile Include="LoadScene.cpp">
       <Filter>Game</Filter>
     </ClCompile>
@@ -343,9 +340,6 @@
       <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移</Filter>
     </ClCompile>
     <ClCompile Include="RenderTarget.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="mHelper.cpp">
       <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="EnemyAlpha.cpp">
@@ -476,9 +470,6 @@
     </ClCompile>
     <ClCompile Include="WoodControl.cpp">
       <Filter>Game\gameobject\Control</Filter>
-    </ClCompile>
-    <ClCompile Include="WoodManager.cpp">
-      <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="UI.cpp">
       <Filter>Game</Filter>
@@ -680,9 +671,6 @@
     <ClInclude Include="OBBCollision.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Character.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="HintBoard.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -796,9 +784,6 @@
     </ClInclude>
     <ClInclude Include="EnemyAttackJudgement.h">
       <Filter>Game\gameobject\オブジェクト種類\Enemy\Behavior</Filter>
-    </ClInclude>
-    <ClInclude Include="WoodManager.h">
-      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="ConfigSprite.h">
       <Filter>Game\UI\Config</Filter>

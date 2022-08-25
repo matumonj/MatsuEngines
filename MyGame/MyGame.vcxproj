@@ -174,7 +174,6 @@
     <ClCompile Include="BaseScene.cpp" />
     <ClCompile Include="BossEnemy.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Character.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="CollisionPrimitive.cpp" />
@@ -220,7 +219,6 @@
     <ClCompile Include="mEffekseer.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshCollider.cpp" />
-    <ClCompile Include="mHelper.cpp" />
     <ClCompile Include="MobEnemy.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="ModelManager.cpp" />
@@ -262,7 +260,6 @@
     <ClCompile Include="WinApp.cpp" />
     <ClCompile Include="Wood.cpp" />
     <ClCompile Include="WoodControl.cpp" />
-    <ClCompile Include="WoodManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="BasicGS.hlsl">
@@ -425,7 +422,6 @@
     <ClInclude Include="BaseScene.h" />
     <ClInclude Include="BossEnemy.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="Character.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="CollisionAttribute.h" />
     <ClInclude Include="CollisionInfo.h" />
@@ -523,7 +519,6 @@
     <ClInclude Include="ExecJudgmentBase.h" />
     <ClInclude Include="Wood.h" />
     <ClInclude Include="WoodControl.h" />
-    <ClInclude Include="WoodManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DirectXTex\DirectXTex_Desktop_2019_Win10.vcxproj">
