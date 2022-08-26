@@ -4,7 +4,7 @@ void BigSword::Initialize(DebugCamera* camera)
 {
 	m_Object = std::make_unique<Object3d>();
 
-	m_Model = Model::CreateFromOBJ("Sword");
+	m_Model = Model::CreateFromOBJ("SmallSword");
 
 	//フィールドにモデル割り当て
 	m_Object->Initialize(camera);
