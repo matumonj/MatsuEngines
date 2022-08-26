@@ -25,6 +25,9 @@ void SistemConfig::Initialize()
 	SelectSprite=Sprite::Create(124, configSprite->GetSpritePosition(m_number));
 	SelectSprite->SetAnchorPoint({ 1.0f,1.0f });
 	SelectSprite->SetSize({ 600,100 });
+
+	CustomButton::GetInstance()->Initialize();
+
 }
 
 void SistemConfig::Update()
@@ -72,6 +75,8 @@ void SistemConfig::Update()
 		}
 	}
 
+	CustomButton::GetInstance()->Update();
+
 	sAlpha += 0.05;
 	sAlpha = min(sAlpha, 1);
 	sAlpha = max(sAlpha, 0);
@@ -103,4 +108,5 @@ void SistemConfig::Draw()
 		SelectSprite->Draw();
 	}
 	Sprite::PostDraw();
+	CustomButton::GetInstance()->Draw();
 }

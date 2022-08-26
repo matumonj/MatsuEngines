@@ -16,9 +16,7 @@
 #include"UI.h"
 #include"Effects.h"
 #include"PlayScene.h"
-#include"CustomButton.h"
 #include"Feed.h"
-#include"TutorialSprite.h"
 #include"PlayerControl.h"
 //シーンのコンストラクタ
 Tutorial::Tutorial(SceneManager* sceneManager)
@@ -41,12 +39,10 @@ void Tutorial::objUpdate(DebugCamera* camera)
 			AllObjectControl[i]->Update(CameraControl::GetInstance()->GetCamera());
 		}
 		UI::GetInstance()->HUDUpdate(hudload, CameraControl::GetInstance()->GetCamera());
-		TutorialSprite::GetInstance()->Update();
 		acol->Update();
 	}
 
 	Field::GetInstance()->Update(CameraControl::GetInstance()->GetCamera());
-	CustomButton::GetInstance()->Update();
 }
 
 #pragma endregion
@@ -80,9 +76,7 @@ void Tutorial::Initialize()
 
 	UI::GetInstance()->Initialize();
 	SistemConfig::GetInstance()->Initialize();
-	CustomButton::GetInstance()->Initialize();
 	Field::GetInstance()->Initialize(CameraControl::GetInstance()->GetCamera());
-	TutorialSprite::GetInstance()->Initialize();
 	postEffect = new PostEffect();
 	postEffect->Initialize();
 	Feed::GetInstance()->initialize();
@@ -144,7 +138,6 @@ void Tutorial::Draw()
 			UI::GetInstance()->HUDDraw();
 		}
 		SistemConfig::GetInstance()->Draw();
-		CustomButton::GetInstance()->Draw();
 		if (DirectXCommon::GetInstance()->GetFullScreen() == false) {
 			ImGuiDraw();
 		}
@@ -160,10 +153,8 @@ void Tutorial::Draw()
 		MyGameDraw();
 		UI::GetInstance()->HUDDraw();
 		SistemConfig::GetInstance()->Draw();
-		CustomButton::GetInstance()->Draw();
 		Feed::GetInstance()->Draw();
-		TutorialSprite::GetInstance()->Draw();
-
+		
 		if (DirectXCommon::GetInstance()->GetFullScreen() == false) {
 			PlayerControl::GetInstance()->GetPlayer()->ImguiDraw();
 			ImGuiDraw();

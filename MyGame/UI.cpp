@@ -12,6 +12,10 @@ void UI::Initialize()
 	HUD::GetInstance()->Initialize();
 	HUD::GetInstance()->EnemyHPGaugeInitialize();
 	HUD::GetInstance()->SkillButtonInitialize();
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
+		TutorialSprite::GetInstance()->Initialize();
+	}
+
 }
 
 void UI::HUDUpdate(bool&hudload, DebugCamera* camera)
@@ -23,6 +27,8 @@ void UI::HUDUpdate(bool&hudload, DebugCamera* camera)
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
 		HUD::GetInstance()->EnemyHPGaugeUpdate(EnemyControl::GetInstance()->GetTutorialEnemyindex());
 		HUD::GetInstance()->EnemyHPGauge_MultiUpdate(hudload, camera, EnemyControl::GetInstance()->GetTutorialEnemyindex());
+		TutorialSprite::GetInstance()->Update();
+
 	}
 	HUD::GetInstance()->SkillBottonUpdate();
 	HUD::GetInstance()->Update();
@@ -34,7 +40,10 @@ void UI::HUDDraw()
 	if (TutorialSprite::GetInstance()->GetClearSetting()) {
 		HUD::GetInstance()->EnemyHPGauge_MultiDraw();
 	}
-	
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
+		TutorialSprite::GetInstance()->Draw();
+	}
+
 	HUD::GetInstance()->Draw();
 	HUD::GetInstance()->SkillBottonDraw();
 
