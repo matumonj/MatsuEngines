@@ -2,6 +2,7 @@
 #include"Object3d.h"
 #include"Model.h"
 #include"Input.h"
+#include"CollisionPrimitive.h"
 class AttackCollision
 {
 private:
@@ -13,6 +14,8 @@ private:
 	using XMMATRIX = DirectX::XMMATRIX;
 	using XMVECTOR = DirectX::XMVECTOR;
 private:
+	Box AttackArea;
+	Box EnemyArea;
 	Input* input;
 	Object3d* cObj;
 	Model* cModel;

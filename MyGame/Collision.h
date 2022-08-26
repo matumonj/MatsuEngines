@@ -40,7 +40,7 @@ public:
 	static bool CheckSphere2Sphere(const Sphere& sphereA, const Sphere& sphereB, DirectX::XMVECTOR* inter = nullptr, DirectX::XMVECTOR* reject = nullptr);
 
 	//static bool ChenkSphere2Sphere(XMFLOAT3 object1, XMFLOAT3& object2, float r);
-	static bool CheckBox2Box(XMFLOAT3 object1, XMFLOAT3& object2, XMFLOAT3 r, XMFLOAT3 r2);
+	static bool CheckBox2Box(const Box& box1, const Box& box2);
 	
 	static bool CheckPoint2Rect(const Point&point,const Box&rect);
 	/// <summary>

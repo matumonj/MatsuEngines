@@ -94,6 +94,7 @@ public:
 	//void SetRandMove(int randMove, int movement) { RandMove = randMove; Movement = movement; }
 	int GetRandMove() { return RandMove; }
 	int GetRandMoveMent() { return RandMovement; }
+	void Setcol(XMFLOAT4 c) { m_fbxObject->SetColor(c); }
 
 	void Turn_toPlayer();
 	/// <summary>

@@ -61,7 +61,7 @@ void MobEnemy::Initialize(DebugCamera* camera)
 	SetCollider();
 	AttackTime = 1.5f;
 	DeathTime = 4.9f;
-
+	m_fbxObject->SetColor({ 1,0,0,alpha });
 }
 
 //XVˆ—
@@ -81,9 +81,9 @@ void MobEnemy::Update(DebugCamera* camera)
 	AttackCoolTime();
 	ParameterSet_Fbx(camera);
 	if (FollowFlag) {
-		m_fbxObject->SetColor({ 1,0,0,alpha});
+		
 	} else {
-		m_fbxObject->SetColor({ 0,1,1,alpha });
+		//m_fbxObject->SetColor({ 0,1,1,alpha });
 	}
 	CollisionField(camera);
 	

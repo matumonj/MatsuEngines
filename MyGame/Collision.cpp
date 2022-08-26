@@ -149,31 +149,37 @@ bool Collision::CheckSphere2Triangle(const Sphere& sphere, const Triangle& trian
 	return true;
 }
 
-bool Collision::CheckBox2Box(XMFLOAT3 object1, XMFLOAT3& object2, XMFLOAT3 r, XMFLOAT3 r2)
+bool Collision::CheckBox2Box(const Box& box1, const Box& box2)
 {
 	BoxVertex Object1;
 	BoxVertex Object2;
 
 	//object1‚Ì‰E’¸“_
-	Object1.Right = object1.x + r.x * 2;
+	
+	Object1.Right = box1.position.x + box1.scale.x / 2;
 	//object1‚Ì¶’¸“_
-	Object1.Left = object1.x;
+	Object1.Left = box1.position.x - box1.scale.x / 2;
 	//object1‚Ìã’¸“_
-	Object1.Up = object1.y + r.y;
+	Object1.Up = box1.position.y + box1.scale.y / 2 ;
 	//object1‚Ì‰º’¸“_
-	Object1.Down = object1.y - r.y;
+	Object1.Down = box1.position.y -box1.scale.y / 2;
 
 	//object1‚Ì‰E’¸“_
-	Object2.Right = object2.x + r.x * 2;
+	Object2.Right = box2.position.x + box2.scale.x / 2;
 	//object1‚Ì¶’¸“_
-	Object2.Left = Object2.Right;
+	Object2.Left = box2.position.x - box2.scale.x / 2;
 	//object1‚Ì‰º’¸“_
-	Object2.Down = object2.y - r2.y;
+	Object2.Down = box2.position.y - box2.scale.y / 2;
 	//object1‚Ìã’¸“_
-	Object2.Up = object2.y + r2.y;
+	Object2.Up = box2.position.y + box2.scale.y / 2;
 
 	//¨‚P‚Æ¶‚Q@¨‚Q‚Æ¶‚P@ã‚P‚Æ‰º‚Q@ã‚Q‚Æ‰º‚P
-	return Object1.Right >= Object2.Left && Object2.Right >= Object1.Left && Object1.Up >= Object2.Down && Object2.Up >= Object1.Down;
+	if (Object1.Right >= Object2.Left && Object2.Right >= Object1.Left && Object1.Up >= Object2.Down && Object2.Up >= Object1.Down) {
+		return true;
+	}
+	else {
+		return false;
+	}
 
 }
 bool Collision::CheckRay2Plane(const Ray& lay, const Plane& plane, float* distance, DirectX::XMVECTOR* inter)
