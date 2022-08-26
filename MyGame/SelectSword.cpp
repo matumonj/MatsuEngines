@@ -19,6 +19,7 @@ void SelectSword::SetSmallSword(SwordScale nowsword)
 	default:
 		break;
 	}
+	//
 	//Sword = std::make_unique<SmallSword>();
 	Sword->Initialize(CameraControl::GetInstance()->GetCamera());
 
