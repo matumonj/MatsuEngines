@@ -58,7 +58,6 @@ void Tutorial::Initialize()
 		AllObjectControl.push_back(FenceControl::GetInstance());
 		AllObjectControl.push_back(ChestControl::GetInstance());
 		AllObjectControl.push_back(WoodControl::GetInstance());
-
 	}
 	for (int i = 0; i < AllObjectControl.size(); i++) {//èâä˙âª
 		AllObjectControl[i]->Initialize(CameraControl::GetInstance()->GetCamera());
@@ -186,8 +185,6 @@ void Tutorial::ImGuiDraw()
 		}
 		ImGui::End();
 	}
-	//
-
 	{//ÉJÉÅÉâ
 		bool defaultPos;
 		if (ImGui::RadioButton("DefaultPosition", &defaultPos)) {

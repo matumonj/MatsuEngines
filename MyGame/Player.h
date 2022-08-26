@@ -11,6 +11,7 @@
 #include"f_Object3d.h"
 #include"ObjectManager.h"
 #include"Input.h"
+#include"SwordBase.h"
 class Enemy;
 class TargetMarker;
 class Player :public ObjectManager
@@ -34,13 +35,15 @@ public:
 	static Player* GetInstance();
 	void SetGround(bool f) { onGround = f; }
 
+	XMMATRIX GetHanMat() { return HandMat; };
 	void isOldPos() {
 		//Position.x = oldpos.x; Position.z = oldpos.z;
 	}
 	float tempx, tempz;
 	int onGroundTime = 0;
 private:
-
+	SwordBase* sword;
+	XMMATRIX HandMat;
 	enum class Attack {
 		NormalAttack,//í èÌçUåÇ
 		MagicAttack,//ñÇñ@çUåÇ

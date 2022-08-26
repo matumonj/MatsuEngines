@@ -575,3 +575,4 @@ void Object3d::Setf(bool flag)
 {
 	gsf = flag;
 }
+

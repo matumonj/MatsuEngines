@@ -12,6 +12,7 @@
 #include"WoodControl.h"
 #include"FenceControl.h"
 #include"CustomButton.h"
+#include"BigSword.h"
 #define PI 3.145265
 using namespace DirectX;
 XMFLOAT3 Player::Effect_Pos = { -50,-10,-100 };
@@ -55,7 +56,8 @@ void Player::Initialize(DebugCamera* camera)
 	Position = { 92,-27,-760 };
 	SwordObj->SetScale({ 1,1,1 });
 	SwordObj->SetRotation({ 0,0 + 30,0 + 100 });
-
+	sword = new BigSword();
+	sword->Initialize(camera);
 }
 void Player::Update(DebugCamera* camera)
 {
@@ -92,9 +94,11 @@ void Player::Update(DebugCamera* camera)
 
 	CollisionField(camera);
 
+	HandMat = m_fbxObject->GetRot();
 	SwordObj->Update(m_fbxObject->GetRot(), { 1,1,1,1 }, camera);
 	SwordRot = { m_fbxObject->GetHandBone().r->m128_f32[0],m_fbxObject->GetHandBone().r->m128_f32[1],m_fbxObject->GetHandBone().r->m128_f32[2] };
 	//SetPosition({ 92,-27,-760 });
+	sword->Update(camera);
 }
 
 void Player::RotationStatus()
@@ -170,8 +174,9 @@ void Player::Draw()
 {
 	Draw_Fbx();
 	SwordObj->PreDraw();
-	SwordObj->Draw();
+	//SwordObj->Draw();
 	SwordObj->PostDraw();
+	sword->Draw();
 }
 
 void Player::ImguiDraw()

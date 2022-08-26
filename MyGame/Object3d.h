@@ -249,7 +249,7 @@ public:
 	void UpdateWorldMatrix(XMMATRIX mat);
 	void SetCollider(BaseCollider* collider);
 	virtual void OnCollision(const CollisionInfo& info) {}
-	void SetParent(Object3d* parent) { this->parent = parent; }
+	void SetParent(XMMATRIX matworld) { this->matWorld *= matworld; }
 	void SetColor(XMFLOAT4 color) { this->color = color; }
 protected:
 	const char* name = nullptr;

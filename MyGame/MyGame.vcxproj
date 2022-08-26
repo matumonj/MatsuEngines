@@ -161,6 +161,7 @@
     <ClCompile Include="AttackCollision.cpp" />
     <ClCompile Include="BehaviorDatas.cpp" />
     <ClCompile Include="BehaviorTree.cpp" />
+    <ClCompile Include="BigSword.cpp" />
     <ClCompile Include="CameraControl.cpp" />
     <ClCompile Include="Chest.cpp" />
     <ClCompile Include="ChestControl.cpp" />
@@ -243,11 +244,14 @@
     <ClCompile Include="QueryCallback.cpp" />
     <ClCompile Include="RenderTarget.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="SelectSword.cpp" />
     <ClCompile Include="SistemConfig.cpp" />
+    <ClCompile Include="SmallSword.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="StayAction.cpp" />
     <ClCompile Include="StayJudgment.cpp" />
+    <ClCompile Include="SwordBase.cpp" />
     <ClCompile Include="TargetMarker.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TextureManager.cpp" />
@@ -409,6 +413,7 @@
     <ClInclude Include="AttackCollision.h" />
     <ClInclude Include="BehaviorDatas.h" />
     <ClInclude Include="BehaviorTree.h" />
+    <ClInclude Include="BigSword.h" />
     <ClInclude Include="CameraControl.h" />
     <ClInclude Include="Chest.h" />
     <ClInclude Include="ChestControl.h" />
@@ -501,12 +506,15 @@
     <ClInclude Include="RenderTarget.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="SelectSword.h" />
     <ClInclude Include="SistemConfig.h" />
+    <ClInclude Include="SmallSword.h" />
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="SpotLight.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="StayAction.h" />
     <ClInclude Include="StayJudgment.h" />
+    <ClInclude Include="SwordBase.h" />
     <ClInclude Include="TargetMarker.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureManager.h" />
