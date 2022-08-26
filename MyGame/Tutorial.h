@@ -19,6 +19,7 @@
 #include"PostEffect.h"
 #include"Enemy.h"
 #include"Effects.h"
+#include"AttackCollision.h"
 #include"TargetMarker.h"
 #include"GameUI.h"
 #include"ControlBase.h"
@@ -42,6 +43,7 @@ private: // エイリアス
 	using XMVECTOR = DirectX::XMVECTOR;
 
 private:
+	AttackCollision* acol;
 	const float window_width = 1900;
 	const float window_height = 1020;
 	static const int debugTextTexNumber = 0;

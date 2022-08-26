@@ -510,6 +510,9 @@
     <ClCompile Include="PlayerControl.cpp">
       <Filter>Game\gameobject\Control</Filter>
     </ClCompile>
+    <ClCompile Include="AttackCollision.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Blur.hlsli">
@@ -877,6 +880,9 @@
     </ClInclude>
     <ClInclude Include="PlayerControl.h">
       <Filter>Game\gameobject\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="AttackCollision.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

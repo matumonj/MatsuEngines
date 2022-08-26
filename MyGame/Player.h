@@ -65,7 +65,7 @@ private:
 
 private:
 
-	XMVECTOR move = { 0,0,0.1f,0 };
+	XMVECTOR Gmove = { 0,0,0.1f,0 };
 	//キャラが4方向のどこを向いているか
 	enum class RotationPrm {
 		RIGHT,//右
@@ -94,7 +94,7 @@ protected:
 	//落下ベクトル
 	XMVECTOR fallV;
 public:
-	
+	XMVECTOR GetMove() { return Gmove; }
 public:
 	void AttackCoolTime();
 	bool GetAttackFlag() { return attackflag; }

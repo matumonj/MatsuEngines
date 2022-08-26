@@ -77,11 +77,13 @@ void Player::Update(DebugCamera* camera)
 		|| (input->LeftTiltStick(input->Left) || input->LeftTiltStick(input->Right) || input->LeftTiltStick(input->Up) || input->LeftTiltStick(input->Down))) {
 		Position.x += move.m128_f32[0] * movespeed;
 		Position.z += move.m128_f32[2] * movespeed;
+		
 		stopf = false;
 	} else {
 		stopf = true;
+		
 	}
-	
+	Gmove = move;
 	FbxAnimationControl();
 	//フィールド
 	ParameterSet_Obj(camera);

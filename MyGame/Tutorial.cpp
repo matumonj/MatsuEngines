@@ -42,7 +42,9 @@ void Tutorial::objUpdate(DebugCamera* camera)
 		}
 		UI::GetInstance()->HUDUpdate(hudload, CameraControl::GetInstance()->GetCamera());
 		TutorialSprite::GetInstance()->Update();
+		acol->Update();
 	}
+
 	Field::GetInstance()->Update(CameraControl::GetInstance()->GetCamera());
 	CustomButton::GetInstance()->Update();
 }
@@ -66,7 +68,8 @@ void Tutorial::Initialize()
 		AllObjectControl[i]->Initialize(CameraControl::GetInstance()->GetCamera());
 	}
 	TargetMarker::GetInstance()->Initialize();
-
+	acol = new AttackCollision();
+	acol->Init();
 	// 3Dオブジェクトにカメラをセット
 	Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
 
@@ -121,6 +124,7 @@ void Tutorial::MyGameDraw()
 		for (int i = 0; i < AllObjectControl.size(); i++) {
 			AllObjectControl[i]->Draw();
 		}
+		acol->Draw();
 	}
 }
 

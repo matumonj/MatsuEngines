@@ -158,6 +158,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AreaFence.cpp" />
+    <ClCompile Include="AttackCollision.cpp" />
     <ClCompile Include="BehaviorDatas.cpp" />
     <ClCompile Include="BehaviorTree.cpp" />
     <ClCompile Include="CameraControl.cpp" />
@@ -405,6 +406,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AreaFence.h" />
+    <ClInclude Include="AttackCollision.h" />
     <ClInclude Include="BehaviorDatas.h" />
     <ClInclude Include="BehaviorTree.h" />
     <ClInclude Include="CameraControl.h" />
