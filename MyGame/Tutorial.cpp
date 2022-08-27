@@ -18,6 +18,7 @@
 #include"PlayScene.h"
 #include"Feed.h"
 #include"PlayerControl.h"
+
 #include"SelectSword.h"
 //シーンのコンストラクタ
 Tutorial::Tutorial(SceneManager* sceneManager)
@@ -174,8 +175,8 @@ void Tutorial::ImGuiDraw()
 		ImGui::SetWindowSize(ImVec2(500, 300));
 
 		if (ImGui::TreeNode("Damage")) {
-			//int d = PlayerAttackState::GetInstance()->GetDamage();
-			//ImGui::SliderInt("positionX", &d, -100, 100);
+			int d = PlayerAttackState::GetInstance()->GetDamage();
+			ImGui::SliderInt("damage", &d, -100, 100);
 			ImGui::TreePop();
 		}
 		ImGui::End();

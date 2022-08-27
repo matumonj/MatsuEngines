@@ -45,5 +45,7 @@ public:
 
 	void SetSelectJudg(bool f) { SelectJudg = f; }
 	bool GetSelectJudg() { return SelectJudg; }
+
+	SwordBase* GetSword() { return Sword.get(); }
 };
 

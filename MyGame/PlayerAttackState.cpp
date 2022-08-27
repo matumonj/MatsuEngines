@@ -5,6 +5,7 @@
 #include"Collision.h"
 #include"CustomButton.h"
 #include"PlayerControl.h"
+#include"SelectSword.h"
 PlayerAttackState* PlayerAttackState::GetInstance()
 {
 	static PlayerAttackState instance;
@@ -85,7 +86,7 @@ void PlayerAttackState::FirstAttack(std::vector<std::unique_ptr<Enemy>>& enemy)
 	//
 	OldSkill = First;
 	
-	Damage = FIRSTATTACKDAMAGE;
+	Damage = SelectSword::GetInstance()->GetSword()->GetDamage()+FIRSTATTACKDAMAGE;
 	
 	DetailAttack(enemy,120);
 }
@@ -95,9 +96,9 @@ void PlayerAttackState::SecondAttack(std::vector<std::unique_ptr<Enemy>>& enemy)
 	OldSkill = Second;
 	
 	if (ComboFirst) {//コンボ時のダメージ
-		Damage = SECONDATTACKDAMAGE+COMBOBONUS;
+		Damage = SelectSword::GetInstance()->GetSword()->GetDamage() + SECONDATTACKDAMAGE+COMBOBONUS;
 	}else {//通常ダメージ
-		Damage = SECONDATTACKDAMAGE ;
+		Damage = SelectSword::GetInstance()->GetSword()->GetDamage() + SECONDATTACKDAMAGE ;
 	}
 
 	DetailAttack(enemy,120);
@@ -112,9 +113,9 @@ void PlayerAttackState::ThirdAttack(std::vector<std::unique_ptr<Enemy>>& enemy)
 	ComboFirst = false;
 
 	if (ComboLast) {//コンボ時のダメージ
-		Damage = ThirdAttackDamage+ComboBonus;
+		Damage = SelectSword::GetInstance()->GetSword()->GetDamage() + ThirdAttackDamage+ComboBonus;
 	} else {//通常のダメージ
-		Damage = ThirdAttackDamage;
+		Damage = SelectSword::GetInstance()->GetSword()->GetDamage() + ThirdAttackDamage;
 	}
 	DetailAttack(enemy,120);
 //}
