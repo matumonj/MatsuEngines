@@ -534,6 +534,9 @@
     <ClCompile Include="SelectSword.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="NormalSword.cpp">
+      <Filter>Game\gameobject\オブジェクト種類\Sword\派生</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Blur.hlsli">
@@ -916,6 +919,9 @@
     </ClInclude>
     <ClInclude Include="SelectSword.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="NormalSword.h">
+      <Filter>Game\gameobject\オブジェクト種類\Sword\派生</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -18,6 +18,7 @@
 #include"PlayScene.h"
 #include"Feed.h"
 #include"PlayerControl.h"
+#include"SelectSword.h"
 //シーンのコンストラクタ
 Tutorial::Tutorial(SceneManager* sceneManager)
 	:BaseScene(sceneManager)
@@ -136,6 +137,7 @@ void Tutorial::Draw()
 		if (HUD::GetInstance()->GetLayOutMode()) {
 			UI::GetInstance()->HUDDraw();
 		}
+		SelectSword::GetInstance()->Draw();
 		SistemConfig::GetInstance()->Draw();
 		if (DirectXCommon::GetInstance()->GetFullScreen() == false) {
 			ImGuiDraw();

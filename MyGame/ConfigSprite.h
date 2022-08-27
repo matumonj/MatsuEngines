@@ -16,15 +16,17 @@ private:
 
 private:
 	//コンフィグ内に用意するスプライトの枚数
-	static const int MaxSprite = 2;
+	static const int MaxSprite = 3;
 	//各スプライト間の間隔
 	const float Space = 200.0f;
 	//HUDレイアウト
 	Sprite*RayOutSprite;
 	//敵の体力表示
 	Sprite*EnemyHPSelectSprite;
+	//剣
+	Sprite* SwordSelectSprite;
 	Sprite* MenuSprite;
-	XMFLOAT2 SpritePosition[MaxSprite] = { {300,200},{300,350} };
+	XMFLOAT2 SpritePosition[MaxSprite] = { {300,200},{300,350},{300,500} };
 public:
 	static ConfigSprite* GetInstance();
 

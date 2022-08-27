@@ -40,6 +40,7 @@ public:
 		HUDRAYOUT,
 		CUSTOMBUTTON,
 		ENEMYHP,
+		SWORDSELECT,
 		END
 	};
 	Config GetNowSelect() { return config; }
