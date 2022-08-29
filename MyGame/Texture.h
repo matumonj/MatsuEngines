@@ -35,6 +35,7 @@ public: // サブクラス
 	// 頂点数
 	static const int vertNum = 4;
 	float uvtime;
+	bool BillBordflag = true;
 	// テクスチャ始点
 	XMFLOAT2 texBase = { 0, 0 };
 	// テクスチャ幅、高さ
@@ -186,6 +187,7 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
+	void SetBillboard(bool f) { BillBordflag = f; }
 	void SetUVMove(bool f) { uvf = f; }
 	/// <summary>
 	/// 座標の取得

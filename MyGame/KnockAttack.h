@@ -11,6 +11,13 @@ private:
 	using XMVECTOR = DirectX::XMVECTOR;
 private:
 	Texture* KnockTex;
+	bool fase1;
+	int AttackCount;
+	bool Judg;
+	float TexAlpha = 1.0f;
+	float AfterPositionZ;
+	float BeforePositionZ;
+	float KnockTime = 0.0f;
 public:
 	static KnockAttack* GetInstance();
 	void Initialize();
