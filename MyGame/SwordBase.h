@@ -1,4 +1,5 @@
 #pragma once
+#include"CollisionPrimitive.h"
 #include "ObjectManager.h"
 class SwordBase :
     public ObjectManager
@@ -13,9 +14,11 @@ public:
 protected:
     float Damage;
     float CoolTime;
-
+    Box DamageArea;
+    XMFLOAT2 Radius;
 public:
     float GetDamage() { return Damage; }
     float GetCoolTime() { return CoolTime; }
+    Box SwordDamageArea() { return DamageArea; }
 };
 

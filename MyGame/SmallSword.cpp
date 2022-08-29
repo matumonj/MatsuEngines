@@ -18,6 +18,7 @@ void SmallSword::Initialize(DebugCamera* camera)
 
 	Rotation = { 0,0 + 30,0 + 100 };
 
+	DamageArea.scale = Radius;
 }
 
 void SmallSword::Update(DebugCamera* camera)
@@ -27,6 +28,7 @@ void SmallSword::Update(DebugCamera* camera)
 
 	Damage = Damage_Value;
 	CoolTime = CoolTime_Value;
+
 	m_Object->SetRotation(Rotation);
 	m_Object->Update(PlayerControl::GetInstance()->GetPlayer()->GetHanMat(), { 1,1,1,1 }, camera);
 
