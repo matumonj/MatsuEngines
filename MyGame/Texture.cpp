@@ -479,6 +479,8 @@ void Texture::Update(DebugCamera* camera)
 	constMap->color = color;
 	constMap->matbillbord = camera->GetBillboardMatrix();
 	constMap->mat = matWorld * camera->GetViewMatrix() * camera->GetProjectionMatrix();	// 行列の合成
+	constMap->uvmove = uvf;
+	constMap->time = uvtime;
 	constBuff->Unmap(0, nullptr);
 	//TransferVertices();
 }
@@ -504,6 +506,12 @@ void Texture::SetAnchorPoint(XMFLOAT2 anchorpoint)
 }
 void Texture::Draw()
 {
+	uvtime += 0.001f;
+	if (uvtime > 1.0f) {
+		uvtime = 0.0f;
+	}
+
+	// ワー
 	// nullptrチェック
 	assert(device);
 	assert(Texture::cmdList);

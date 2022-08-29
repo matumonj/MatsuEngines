@@ -20,6 +20,7 @@
 #include"PlayerControl.h"
 
 #include"SelectSword.h"
+#include"KnockAttack.h"
 //シーンのコンストラクタ
 Tutorial::Tutorial(SceneManager* sceneManager)
 	:BaseScene(sceneManager)
@@ -41,8 +42,8 @@ void Tutorial::objUpdate(DebugCamera* camera)
 			AllObjectControl[i]->Update(CameraControl::GetInstance()->GetCamera());
 		}
 		acol->Update();
+		KnockAttack::GetInstance()->ActionJudg();
 		UI::GetInstance()->HUDUpdate(hudload, CameraControl::GetInstance()->GetCamera());
-
 		//TargetMarker::GetInstance()->Update(CameraControl::GetInstance()->GetCamera(), PlayerControl::GetInstance()->GetPlayer());
 	}
 
@@ -68,6 +69,7 @@ void Tutorial::Initialize()
 		AllObjectControl[i]->Initialize(CameraControl::GetInstance()->GetCamera());
 	}
 	TargetMarker::GetInstance()->Initialize();
+	KnockAttack::GetInstance()->Initialize();
 	acol = new AttackCollision();
 	acol->Init();
 	// 3Dオブジェクトにカメラをセット
@@ -156,7 +158,8 @@ void Tutorial::Draw()
 
 		DirectXCommon::GetInstance()->BeginDraw();
 		MyGameDraw();
-			UI::GetInstance()->HUDDraw();
+		KnockAttack::GetInstance()->Draw();
+		UI::GetInstance()->HUDDraw();
 		
 		SistemConfig::GetInstance()->Draw();
 		Feed::GetInstance()->Draw();

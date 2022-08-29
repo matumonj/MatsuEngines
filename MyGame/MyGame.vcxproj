@@ -210,6 +210,7 @@
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="HUDLayOut.cpp" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="KnockAttack.cpp" />
     <ClCompile Include="LightGroup.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MapCreate.cpp" />
@@ -463,6 +464,7 @@
     <ClInclude Include="HUD.h" />
     <ClInclude Include="HUDLayOut.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="KnockAttack.h" />
     <ClInclude Include="LightGroup.h" />
     <ClInclude Include="MapCreate.h" />
     <ClInclude Include="MapCreateScene.h" />

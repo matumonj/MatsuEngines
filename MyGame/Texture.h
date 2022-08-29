@@ -34,6 +34,7 @@ public: // サブクラス
 	XMFLOAT2 size = { 100.0f, 100.0f };
 	// 頂点数
 	static const int vertNum = 4;
+	float uvtime;
 	// テクスチャ始点
 	XMFLOAT2 texBase = { 0, 0 };
 	// テクスチャ幅、高さ
@@ -44,9 +45,13 @@ public: // サブクラス
 		XMFLOAT4 color;	// 色 (RGBA)
 		XMMATRIX mat;	// ３Ｄ変換行列
 		XMMATRIX matbillbord;	// ３Ｄ変換行列
+		bool uvmove;
+		XMFLOAT3 sub = { 0,0,0 };
+		float time;
 	};
 
 private: // 定数
+	bool uvf;
 	static const int division = 50;					// 分割数
 	static const float radius;				// 底面の半径
 	static const float prizmHeight;			// 柱の高さ
@@ -181,6 +186,7 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
+	void SetUVMove(bool f) { uvf = f; }
 	/// <summary>
 	/// 座標の取得
 	/// </summary>

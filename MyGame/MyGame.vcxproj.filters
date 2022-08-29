@@ -154,14 +154,14 @@
     <Filter Include="Game\gameobject\オブジェクト種類\Sword">
       <UniqueIdentifier>{0835cc53-4e6f-4e7c-8ec4-9895dc30e6fb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\gameobject\オブジェクト種類\Field">
-      <UniqueIdentifier>{73610235-772e-4e34-a679-8aa9b69c88a4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\gameobject\オブジェクト種類\Sword\基底">
       <UniqueIdentifier>{89b31857-5c5a-49a3-a7b9-37fb96f070a6}</UniqueIdentifier>
     </Filter>
     <Filter Include="Game\gameobject\オブジェクト種類\Sword\派生">
       <UniqueIdentifier>{09b745ac-ba22-43d3-95e6-c3d443927c55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\オブジェクト種類\Field">
+      <UniqueIdentifier>{73610235-772e-4e34-a679-8aa9b69c88a4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -518,6 +518,9 @@
     </ClCompile>
     <ClCompile Include="NormalSword.cpp">
       <Filter>Game\gameobject\オブジェクト種類\Sword\派生</Filter>
+    </ClCompile>
+    <ClCompile Include="KnockAttack.cpp">
+      <Filter>Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -883,6 +886,9 @@
     </ClInclude>
     <ClInclude Include="NormalSword.h">
       <Filter>Game\gameobject\オブジェクト種類\Sword\派生</Filter>
+    </ClInclude>
+    <ClInclude Include="KnockAttack.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
