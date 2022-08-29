@@ -7,8 +7,6 @@
 #include "PhysicsAction.h"
 #include "WalkJudgement.h"
 #include"WalkAction.h"
-#include"StayJudgment.h"
-#include"StayAction.h"
 #include"mHelper.h"
 #include"imgui.h"
 #include"Collision.h"

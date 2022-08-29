@@ -192,7 +192,6 @@
     <ClCompile Include="EnemyBeta.cpp" />
     <ClCompile Include="EnemyCamma.cpp" />
     <ClCompile Include="EnemyFollowState.cpp" />
-    <ClCompile Include="EnemyHUD.cpp" />
     <ClCompile Include="EnemyState.cpp" />
     <ClCompile Include="EnemyStayState.cpp" />
     <ClCompile Include="EnemyWalkState.cpp" />
@@ -210,10 +209,8 @@
     <ClCompile Include="GameUI.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="HUDLayOut.cpp" />
-    <ClCompile Include="IHUD.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="LightGroup.cpp" />
-    <ClCompile Include="LoadScene.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MapCreate.cpp" />
     <ClCompile Include="MapCreateScene.cpp" />
@@ -239,7 +236,6 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerAttackState.cpp" />
     <ClCompile Include="PlayerControl.cpp" />
-    <ClCompile Include="PlayerHUD.cpp" />
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="PostEffect.cpp" />
     <ClCompile Include="QueryCallback.cpp" />
@@ -250,8 +246,6 @@
     <ClCompile Include="SmallSword.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="Sprite.cpp" />
-    <ClCompile Include="StayAction.cpp" />
-    <ClCompile Include="StayJudgment.cpp" />
     <ClCompile Include="SwordBase.cpp" />
     <ClCompile Include="TargetMarker.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -451,7 +445,6 @@
     <ClInclude Include="EnemyBeta.h" />
     <ClInclude Include="EnemyCamma.h" />
     <ClInclude Include="EnemyFollowState.h" />
-    <ClInclude Include="EnemyHUD.h" />
     <ClInclude Include="EnemyState.h" />
     <ClInclude Include="EnemyStayState.h" />
     <ClInclude Include="EnemyWalkState.h" />
@@ -467,13 +460,10 @@
     <ClInclude Include="f_Model.h" />
     <ClInclude Include="f_Object3d.h" />
     <ClInclude Include="GameUI.h" />
-    <ClInclude Include="HintBoard.h" />
     <ClInclude Include="HUD.h" />
     <ClInclude Include="HUDLayOut.h" />
-    <ClInclude Include="IHUD.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="LightGroup.h" />
-    <ClInclude Include="LoadScene.h" />
     <ClInclude Include="MapCreate.h" />
     <ClInclude Include="MapCreateScene.h" />
     <ClInclude Include="Material.h" />
@@ -500,7 +490,6 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerAttackState.h" />
     <ClInclude Include="PlayerControl.h" />
-    <ClInclude Include="PlayerHUD.h" />
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="PostEffect.h" />
@@ -515,8 +504,6 @@
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="SpotLight.h" />
     <ClInclude Include="Sprite.h" />
-    <ClInclude Include="StayAction.h" />
-    <ClInclude Include="StayJudgment.h" />
     <ClInclude Include="SwordBase.h" />
     <ClInclude Include="TargetMarker.h" />
     <ClInclude Include="Texture.h" />

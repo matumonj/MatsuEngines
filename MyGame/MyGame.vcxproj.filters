@@ -330,9 +330,6 @@
     <ClCompile Include="TargetMarker.cpp">
       <Filter>Game\UI</Filter>
     </ClCompile>
-    <ClCompile Include="LoadScene.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyAttackState.cpp">
       <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移</Filter>
     </ClCompile>
@@ -402,20 +399,11 @@
     <ClCompile Include="WalkAction.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="StayJudgment.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="StayAction.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
     <ClCompile Include="FollowAction.cpp">
       <Filter>Game\gameobject\オブジェクト種類\Enemy\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="FollowJudgement.cpp">
       <Filter>Game\gameobject\オブジェクト種類\Enemy\Behavior</Filter>
-    </ClCompile>
-    <ClCompile Include="IHUD.cpp">
-      <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="EnemyAttackAction.cpp">
       <Filter>Game\gameobject\オブジェクト種類\Enemy\Behavior</Filter>
@@ -432,17 +420,11 @@
     <ClCompile Include="BehaviorDatas.cpp">
       <Filter>Game\gameobject\オブジェクト種類\Enemy\Behavior</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerHUD.cpp">
-      <Filter>Game\UI\HUD</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerAttackState.cpp">
       <Filter>Game\gameobject\オブジェクト種類\Player</Filter>
     </ClCompile>
     <ClCompile Include="OBBCollision.cpp">
       <Filter>Game\collision</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyHUD.cpp">
-      <Filter>Game\UI\HUD</Filter>
     </ClCompile>
     <ClCompile Include="FieldCollision.cpp">
       <Filter>Game\collision</Filter>
@@ -698,12 +680,6 @@
     <ClInclude Include="OBBCollision.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="HintBoard.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="LoadScene.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyAttackState.h">
       <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移</Filter>
     </ClInclude>
@@ -785,12 +761,6 @@
     <ClInclude Include="WalkAction.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="StayJudgment.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="StayAction.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="FollowAction.h">
       <Filter>Game\gameobject\オブジェクト種類\Enemy\Behavior</Filter>
     </ClInclude>
@@ -799,12 +769,6 @@
     </ClInclude>
     <ClInclude Include="Destroy.h">
       <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerHUD.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="IHUD.h">
-      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="EnemyAttackAction.h">
       <Filter>Game\gameobject\オブジェクト種類\Enemy\Behavior</Filter>
@@ -823,9 +787,6 @@
     </ClInclude>
     <ClInclude Include="OBB.h">
       <Filter>Game\collision</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyHUD.h">
-      <Filter>Game\UI\HUD</Filter>
     </ClInclude>
     <ClInclude Include="BehaviorDatas.h">
       <Filter>Game\gameobject\オブジェクト種類\Enemy\Behavior</Filter>
