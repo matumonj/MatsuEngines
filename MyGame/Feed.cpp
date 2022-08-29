@@ -5,6 +5,10 @@ Feed* Feed::GetInstance()
 	static Feed instance;
 	return &instance;
 }
+Feed::~Feed()
+{
+	delete FeedSprite;
+}
 void Feed::initialize()
 {
 	Sprite::LoadTexture(150, L"Resources/white1x1.png");

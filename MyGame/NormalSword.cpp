@@ -1,5 +1,9 @@
 #include "NormalSword.h"
 #include"PlayerControl.h"
+NormalSword::~NormalSword()
+{
+	//delete  m_Model;
+}
 void NormalSword::Initialize(DebugCamera* camera)
 {
 	m_Object = std::make_unique<Object3d>();

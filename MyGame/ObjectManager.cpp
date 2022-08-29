@@ -6,8 +6,6 @@
 #include"Collision.h"
 ObjectManager::~ObjectManager()
 {
-	m_Object.reset();
-	m_fbxObject.reset();
 	delete m_Model;
 	delete m_fbxModel;
 }

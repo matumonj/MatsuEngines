@@ -5,10 +5,7 @@
 #include"CollisionManager.h"
 #include"Collision.h"
 #include"Player.h"
-Chest::~Chest()
-{
-	//delete ps0;
-}
+
 void Chest::Initialize(DebugCamera* camera)
 {
 	m_Object = std::make_unique<Object3d>();

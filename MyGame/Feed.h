@@ -12,7 +12,7 @@ private:
 	using XMVECTOR = DirectX::XMVECTOR;
 public:
 	static Feed* GetInstance();
-
+	~Feed();
 public:
 
 	enum feedtype {

@@ -4,6 +4,10 @@
 #include"NormalSword.h"
 #include"CameraControl.h"
 #include"mHelper.h"
+SelectSword::~SelectSword()
+{
+	delete SwordSample[0], SwordSample[1], SwordSample[2], Frame;
+}
 SelectSword* SelectSword::GetInstance()
 {
 	static SelectSword instance;

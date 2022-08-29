@@ -24,6 +24,7 @@ private:
 	WinApp* winapp = nullptr;
 public:
 	static Input* GetInstance();
+	~Input();
 	//namespaceÈ—ª
 	template<class T>using ComPtr = Microsoft::WRL::ComPtr<T>;
 public:

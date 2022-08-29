@@ -234,7 +234,7 @@ bool Sprite::LoadTexture(UINT texnumber, const wchar_t* filename)
 		filename, WIC_FLAGS_NONE,
 		&metadata, scratchImg);
 	if (FAILED(result)) {
-		assert(0);
+		//assert(0);
 		return false;
 	}
 

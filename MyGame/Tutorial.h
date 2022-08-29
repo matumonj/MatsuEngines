@@ -32,6 +32,7 @@ class Tutorial :public BaseScene
 public:
 	//シーンのコンストラクタ
 	Tutorial(SceneManager* sceneManager);
+	//~Tutorial();
 private: // エイリアス
 // Microsoft::WRL::を省略
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
@@ -47,19 +48,14 @@ private:
 	const float window_width = 1900;
 	const float window_height = 1020;
 	static const int debugTextTexNumber = 0;
-	// デバイス
-	static ID3D12Device* device;
-
-	// コマンドリスト
-	static ID3D12GraphicsCommandList* cmdList;
+	
 private:
 	Input* input;
 	int obbf = 0;
 	unsigned long prev_time = timeGetTime();
 	int count_frame = 0;
 	TargetMarker* targetm = nullptr;
-	GameUI* gameui = nullptr;
-	float ty;
+float ty;
 	float cameraAngle = -90;
 	float charaAngle = 0;
 	XMFLOAT3 CameraPosition;
@@ -68,8 +64,6 @@ private:
 	bool feedflag;
 	XMFLOAT4 feedcolor = { 0,0,0,1 };
 	PostEffect* postEffect = nullptr;
-	DebugCamera* camera;
-	DebugTxt* txt;
 private:
 	float u;
 	XMFLOAT3 Player_Pos;// = player->GetPosition();
@@ -82,25 +76,7 @@ private:
 	float dz;
 
 private://点光源
-	LightGroup* lightGroup = nullptr;
-	float ambientColor0[3] = { 1,1,1 };
-
-	float lightDir0[3] = { 0,0,1 };
-	float lightColor0[3] = { 1,0,0 };
-
-	float lightDir1[3] = { 0,1,0 };
-	float lightColor1[3] = { 0,1,0 };
-
-	float lightDir2[3] = { 1,0,0 };
-	float lightColor2[3] = { 0,0,1 };
-
-	float pointLightPos[3] = { 0,0,-50 };
-	float pointLightColor[3] = { 1,1,1 };
-	float pointLightAtten[3] = { 0.05f,0.05f,0.05f };
-
-	float SpotLightPos[3] = { 10,0,0 };
-	float SpotLightColor[3] = { 1,1,1 };
-
+	
 public:
 	void MyGameDraw();
 	void objUpdate(DebugCamera* camera);

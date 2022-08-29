@@ -4,6 +4,7 @@
 class TutorialSprite
 {
 public:
+	~TutorialSprite();
 	static TutorialSprite* GetInstance();
 private:
 	static const int TaskNum = 6;

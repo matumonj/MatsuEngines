@@ -14,7 +14,9 @@ HUD::~HUD()
 	delete PlayerHP, EnemyHP_Border, EnemyHP_Inner;
 	delete FirstAttackSprite, SecondAttackSprite, ThirdAttackSprite;
 	delete coolDownSprite[0], coolDownSprite[1], coolDownSprite[2], coolDownSprite[3], BuffSprite;
-
+	for (int i = 0; i < EnemyHP_Border_Multi.size(); i++) {
+		delete EnemyHP_Border_Multi[i], EnemyHP_Inner_Multi[i];
+	}
 
 }
 HUD* HUD::GetInstance()
@@ -45,11 +47,7 @@ void HUD::EnemyHPGaugeInitialize()
 	Texture::LoadTexture(122, L"Resources/bosshp.png");
 	Texture::LoadTexture(123, L"Resources/backright.png");
 	Sprite::LoadTexture(12, L"Resources/bosshp.png");
-	EnemyHP_Inner = Sprite::Create(12, { 0.0f,-200.0f });
-	
 	Sprite::LoadTexture(13, L"Resources/bosshp.png");
-	EnemyHP_Border = Sprite::Create(13, { 0.0f,-200.0f });
-	EnemyHP_Border->SetPosition( {  80,860  });
 	
 }
 void HUD::SkillButtonInitialize()
@@ -75,39 +73,6 @@ void HUD::SkillButtonInitialize()
 void HUD::EnemyHPGaugeUpdate(std::vector<std::unique_ptr<Enemy>>& enemy)
 {
 
-	int index = TargetMarker::GetInstance()->GetNearIndex();
-
-	//ƒpƒ‰ƒ[ƒ^‚ÌÝ’è
-	if (enemy[index] != nullptr && index!= -1) {
-		if (enemy[index]->GetRecvDamage() == true) {
-			nowhp = enemy[index]->GetHP() * 10;
-			Hpt += 0.01f;
-			sizel = { Easing::EaseOut(Hpt,oldhp,nowhp),20 };
-			EnemyHP_Inner->SetSize({ Percent::GetParcent(enemy[index]->GetMaxHP(),enemy[index]->GetHP()),20 });
-			if (sizel.x - nowhp<10) {
-				enemy[index]->SetRecvDamage(false);
-			}
-		}
-		else {
-			oldhp = enemy[index]->GetHP() * 10;
-			Hpt = 0;
-			EnemyHP_Inner->SetSize({ Percent::GetParcent(enemy[index]->GetMaxHP(),enemy[index]->GetHP()),20 });
-
-		}
-	}
-	//EnemyHP_Inner->SetSize({400,400});
-	//if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), enemy[index]->GetPosition()) < 30) {
-		EnemyHPDrawFlag = true;
-	//}
-	//else {
-	//	EnemyHPDrawFlag = false;
-	//}
-	TargetMarker::GetInstance()->SetTargetMarkerDraw(EnemyHPDrawFlag);
-	EnemyHP_Border->SetSize({ 1700,40 });
-	EnemyHP_Inner->SetPosition({ EnemyHP_Border->GetPosition().x + 20,  EnemyHP_Border->GetPosition().y+10});
-
-	EnemyHP_Inner->setcolor({ 1,1,1,1 });
-	EnemyHP_Border->setcolor({ 1,1,1,1 });
 }
 
 void HUD::SkillBottonUpdate()
@@ -211,10 +176,6 @@ void HUD::TaskUpdate(DebugCamera* camera)
 }
 void HUD::EnemyHPGaugeDraw()
 {
-	//if (EnemyHPDrawFlag) {
-		EnemyHP_Border->Draw();
-		EnemyHP_Inner->Draw();
-	//}
 }
 
 

@@ -1,6 +1,7 @@
 #include "WoodControl.h"
 #include"SceneManager.h"
 #include"PlayerControl.h"
+#include"mHelper.h"
 WoodControl* WoodControl::GetInstance()
 {
 	static WoodControl instance;
@@ -10,7 +11,6 @@ WoodControl* WoodControl::GetInstance()
 
 WoodControl::~WoodControl()
 {
-	
 }
 
 void WoodControl::Load(DebugCamera* camera)

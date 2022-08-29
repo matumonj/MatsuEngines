@@ -15,7 +15,7 @@ public:
 
 	void Draw()override;
 
-    DebugCamera* GetCamera() { return camera.get(); }
+    DebugCamera* GetCamera() { return camera; }
     enum TargetState {
         PLAYER,
         TUTORIAL,
@@ -23,7 +23,7 @@ public:
     };
 private:
     Input* input;
-    std::unique_ptr<DebugCamera>camera;
+    DebugCamera*camera;
     int pointsindex = 6;
     std::vector<XMFLOAT3>p;
     XMFLOAT3 p0 = { -100, 0, 0 };

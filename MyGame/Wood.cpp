@@ -9,6 +9,7 @@
 Wood::~Wood()
 {
 	delete ps0;
+	//delete  m_Model;
 }
 void Wood::Initialize(DebugCamera* camera)
 {

@@ -148,7 +148,7 @@ void PlayerAttackState::DetailAttack(std::vector<std::unique_ptr<Enemy>>& enemy,
 {
 	if (enemy[0] == nullptr)return;
 	//クールタイムを設定
-	CoolDownTime = cooltime;
+	CoolDownTime = SelectSword::GetInstance()->GetSword()->GetCoolTime();
 	//バフがかかっていた場合
 	if (BuffFlag) {
 		BuffAction();

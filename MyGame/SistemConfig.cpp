@@ -13,6 +13,7 @@ SistemConfig* SistemConfig::GetInstance()
 SistemConfig::~SistemConfig()
 {
 	delete SelectSprite;
+	//delete configSprite;
 }
 void SistemConfig::Initialize()
 {

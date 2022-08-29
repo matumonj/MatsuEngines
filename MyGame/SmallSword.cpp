@@ -1,5 +1,9 @@
 #include "SmallSword.h"
 #include"PlayerControl.h"
+SmallSword::~SmallSword()
+{
+	//delete  m_Model;
+}
 void SmallSword::Initialize(DebugCamera* camera)
 {
 	m_Object = std::make_unique<Object3d>();

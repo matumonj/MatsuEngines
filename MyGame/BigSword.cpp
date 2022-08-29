@@ -1,5 +1,9 @@
 #include "BigSword.h"
 #include"PlayerControl.h"
+BigSword::~BigSword()
+{
+	//delete  m_Model;
+}
 void BigSword::Initialize(DebugCamera* camera)
 {
 	m_Object = std::make_unique<Object3d>();

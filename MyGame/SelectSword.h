@@ -5,6 +5,8 @@
 #include"Input.h"
 class SelectSword
 {
+public:
+	~SelectSword();
 private:
 	// DirectX::‚ğÈ—ª
 	using XMFLOAT2 = DirectX::XMFLOAT2;

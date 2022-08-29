@@ -21,6 +21,7 @@ XMFLOAT3 Player::Effect_Pos = { -50,-10,-100 };
 Player::~Player()
 {
 	delete fbxmodel;
+	delete  m_Model;
 }
 Player* Player::GetInstance()
 {
@@ -31,7 +32,7 @@ Player* Player::GetInstance()
 
 Player* Player::Create(Model* model, DebugCamera* camera)
 {
-
+	return Player::GetInstance();
 }
 
 void Player::Initialize(DebugCamera* camera)
@@ -50,13 +51,8 @@ void Player::Initialize(DebugCamera* camera)
 
 	SetCollider();
 
-	SwordModel = Model::CreateFromOBJ("sword");
-	SwordObj = Object3d::Create(camera);
-	SwordObj->SetModel(SwordModel);
 	Rotation = { -90,0,0 };
 	Position = { 92,-27,-760 };
-	SwordObj->SetScale({ 1,1,1 });
-	SwordObj->SetRotation({ 0,0 + 30,0 + 100 });
 	SelectSword::GetInstance()->Initialize();
 }
 void Player::Update(DebugCamera* camera)
@@ -95,8 +91,6 @@ void Player::Update(DebugCamera* camera)
 	CollisionField(camera);
 
 	HandMat = m_fbxObject->GetRot();
-	SwordObj->Update(m_fbxObject->GetRot(), { 1,1,1,1 }, camera);
-	SwordRot = { m_fbxObject->GetHandBone().r->m128_f32[0],m_fbxObject->GetHandBone().r->m128_f32[1],m_fbxObject->GetHandBone().r->m128_f32[2] };
 	//SetPosition({ 92,-27,-760 });
 	SelectSword::GetInstance()->Update();
 	//sword->Update(camera);
@@ -174,9 +168,6 @@ void Player::RotationStatus()
 void Player::Draw()
 {
 	Draw_Fbx();
-	SwordObj->PreDraw();
-	//SwordObj->Draw();
-	SwordObj->PostDraw();
 	SelectSword::GetInstance()->SwordDraw();
 //	sword->Draw();
 }
@@ -187,7 +178,7 @@ void Player::ImguiDraw()
 	//Position
 	if (ImGui::TreeNode("Position")) {
 
-		Position = { 92,-27,-760 };
+		//Position = { 92,-27,-760 };
 		ImGui::Text(" PositionX   [%5f]", Position.x);
 		ImGui::Text(" PositionY   [%5f]", Position.y);
 		ImGui::Text(" PositionZ   [%5f]", Position.z);

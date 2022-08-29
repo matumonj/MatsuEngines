@@ -4,6 +4,7 @@
 
 AreaFence::~AreaFence()
 {
+	//delete  m_Model;
 	delete ps0;
 }
 void AreaFence::Initialize(DebugCamera* camera)

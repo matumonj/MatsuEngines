@@ -19,6 +19,7 @@ BossEnemy::BossEnemy(BehaviorTree* ai_tree, float max_hp, float max_mp, float at
 /// </summary>
 BossEnemy::~BossEnemy()
 {
+//	delete  m_Model;
 	delete mob, MobModel;
 }
 

@@ -5,7 +5,7 @@ class Chest :
 {
 public:
     Chest() {};
-    ~Chest();
+  //  ~Chest();
 
 public:
     void Initialize(DebugCamera* camera)override;

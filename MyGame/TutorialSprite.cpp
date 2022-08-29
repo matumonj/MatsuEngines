@@ -151,9 +151,10 @@ void TutorialSprite::NextTask(float t, TaskMenu nexttask, bool nextjudg)
 	}
 }
 
-void TutorialSprite::Finalize()
+TutorialSprite::~TutorialSprite()
 {
 	for (int i = 0; i < TaskNum; i++) {
 		delete Task[i];
 	}
+	
 }

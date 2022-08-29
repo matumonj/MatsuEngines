@@ -40,9 +40,10 @@ void Tutorial::objUpdate(DebugCamera* camera)
 		for (int i = 2; i < AllObjectControl.size(); i++) {
 			AllObjectControl[i]->Update(CameraControl::GetInstance()->GetCamera());
 		}
-		UI::GetInstance()->HUDUpdate(hudload, CameraControl::GetInstance()->GetCamera());
 		acol->Update();
+		//TargetMarker::GetInstance()->Update(CameraControl::GetInstance()->GetCamera(), PlayerControl::GetInstance()->GetPlayer());
 	}
+	UI::GetInstance()->HUDUpdate(hudload, CameraControl::GetInstance()->GetCamera());
 
 	Field::GetInstance()->Update(CameraControl::GetInstance()->GetCamera());
 }
@@ -153,7 +154,8 @@ void Tutorial::Draw()
 
 		DirectXCommon::GetInstance()->BeginDraw();
 		MyGameDraw();
-		UI::GetInstance()->HUDDraw();
+			UI::GetInstance()->HUDDraw();
+		
 		SistemConfig::GetInstance()->Draw();
 		Feed::GetInstance()->Draw();
 		
@@ -205,7 +207,7 @@ void Tutorial::ImGuiDraw()
 		sceneManager_->SetnextScene(scene);//シーンのセット
 	}
 	if (ImGui::RadioButton("Scene_Tittle", y)) {
-		BaseScene* scene = new PlayScene(sceneManager_);//次のシーンのインスタンス生成
+		BaseScene* scene = new TitleScene(sceneManager_);//次のシーンのインスタンス生成
 		SceneManager::GetInstance()->SetScene(SceneManager::PLAY);
 		sceneManager_->SetnextScene(scene);//シーンのセット
 	}
@@ -237,8 +239,9 @@ void Tutorial::Finalize()
 {
 	//SistemConfig::GetInstance()->~SistemConfig();
 	delete CameraControl::GetInstance()->GetCamera();
-	delete postEffect, lightGroup;
+	//delete postEffect, lightGroup;
 	for (int i = 0; i < AllObjectControl.size(); i++) {
 		//delete AllObjectControl[i];
 	}
+	delete acol;
 }

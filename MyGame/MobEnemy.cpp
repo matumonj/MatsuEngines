@@ -26,6 +26,7 @@ MobEnemy::MobEnemy(BehaviorTree* ai_tree, float max_hp, float max_mp, float atta
 /// </summary>
 MobEnemy::~MobEnemy()
 {
+	//delete m_Model;
 	delete SearchPlayerTexture;
 	//m_Object.reset();
 	//delete mob, MobModel;

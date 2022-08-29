@@ -13,6 +13,7 @@ private:
 	using XMVECTOR = DirectX::XMVECTOR;
 
 public:
+	~CustomButton();
 	static CustomButton* GetInstance();
 private:
 	Input* input;

@@ -7,6 +7,10 @@ Input* Input::GetInstance()
 
 	return &instance;
 }
+Input::~Input()
+{
+	//delete 	Input::GetInstance();
+}
 void Input::Initialize(WinApp* winapp)
 {
 	HRESULT result;

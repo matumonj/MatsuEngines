@@ -11,7 +11,7 @@ CameraControl* CameraControl::GetInstance()
 }
 void CameraControl::Initialize(DebugCamera* camera)
 {
-	this->camera =std::make_unique<DebugCamera>(WinApp::window_width, WinApp::window_height/*input*/);
+	this->camera = new DebugCamera(WinApp::window_width, WinApp::window_height);//(/*input*/);
 	input = Input::GetInstance();
 }
 

@@ -125,10 +125,7 @@ private:
 	bool ReturnGround = false;
 	int PosSavetime = 0;
 private:
-	Object3d* sObj;
-	Model* sModel;
-	Object3d* SwordObj;
-	Model* SwordModel;
+	
 	float AttackTime = 1.5f;
 	float DeathTime = 4.9f;
 	bool AttackFlag;
