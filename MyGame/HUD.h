@@ -19,7 +19,8 @@ private:
 	using XMVECTOR = DirectX::XMVECTOR;
 
 	Sprite* PlayerHP;
-	
+	float CoolTime_Time = 0;
+	float TimeSpeed;
 public:
 	bool GetLayOutMode();
 	void SetPosition_PlayerHP(XMFLOAT2 position);

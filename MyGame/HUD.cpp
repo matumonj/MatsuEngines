@@ -9,6 +9,8 @@
 #include"CustomButton.h"
 #include"SceneManager.h"
 #include"Input.h"
+#include"CustomButton.h"
+#include"SelectSword.h"
 HUD::~HUD()
 {
 	delete PlayerHP, EnemyHP_Border, EnemyHP_Inner;
@@ -131,9 +133,18 @@ void HUD::SkillBottonUpdate()
 	coolDownSprite[2]->SetPosition({ CenterPosition.x - 100 + 120,CenterPosition.y + 120 });
 	coolDownSprite[3]->SetPosition({ CenterPosition.x + 120,CenterPosition.y - 100 + 120 });
 
+	TimeSpeed = 1.0f/SelectSword::GetInstance()->GetSword()->GetCoolTime();
+	if (CoolTime_Time >= 1.0f) {
+		if (Input::GetInstance()->TriggerButton(Input::GetInstance()->Button_B)) {
+			CoolTime_Time = 0.0f;
+		}
+	}
+	else {
+		CoolTime_Time += TimeSpeed;
+	}
 	for (int i = 0; i < 4; i++) {
-		CooltimeSize = { 120, (float)PlayerAttackState::GetInstance()->GetCoolTime() };
-		coolDownSprite[i]->SetSize(CooltimeSize);
+		CooltimeSize = { 120, 120 };
+		coolDownSprite[i]->SetSize({ CooltimeSize.x,Easing::EaseOut(CoolTime_Time,120,0)});
 		coolDownSprite[i]->SetAnchorPoint({ 1,1 });
 	}
 	if (PlayerAttackState::GetInstance()->GetSkill() != PlayerAttackState::GetInstance()->CoolDown) {

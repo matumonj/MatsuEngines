@@ -47,19 +47,19 @@ void HUDLayOut::Update()
 
 void HUDLayOut::NowOperation()
 {
-	//HUD同士が重なるのを防ぐ　かなり汚い方法なのでできたら直したい、、
-	if (HUD::GetInstance()->GetPlayerHP()->GetHUDLayOutFlag() == true) {
-		operation = PLAYERHP;
-	}
-	if (HUD::GetInstance()->GetEnemyHP()->GetHUDLayOutFlag() == true) {
-		operation = ENEMYHP;
-	}
-	if (HUD::GetInstance()->GetSkillButton()->GetHUDLayOutFlag() == true) {
-		operation = Skill;
-	}
-	if (HUD::GetInstance()->GetPlayerHP()->GetHUDLayOutFlag() == false &&
-		HUD::GetInstance()->GetEnemyHP()->GetHUDLayOutFlag() == false&&
-		HUD::GetInstance()->GetSkillButton()->GetHUDLayOutFlag() == false) {
-		operation = None;
-	}
+	////HUD同士が重なるのを防ぐ　かなり汚い方法なのでできたら直したい、、
+	//if (HUD::GetInstance()->GetPlayerHP()->GetHUDLayOutFlag() == true) {
+	//	operation = PLAYERHP;
+	//}
+	//if (HUD::GetInstance()->GetEnemyHP()->GetHUDLayOutFlag() == true) {
+	//	operation = ENEMYHP;
+	//}
+	//if (HUD::GetInstance()->GetSkillButton()->GetHUDLayOutFlag() == true) {
+	//	operation = Skill;
+	//}
+	//if (HUD::GetInstance()->GetPlayerHP()->GetHUDLayOutFlag() == false &&
+	//	HUD::GetInstance()->GetEnemyHP()->GetHUDLayOutFlag() == false&&
+	//	HUD::GetInstance()->GetSkillButton()->GetHUDLayOutFlag() == false) {
+	//	operation = None;
+	//}
 }

@@ -11,7 +11,7 @@ void UI::Initialize()
 {
 	HUD::GetInstance()->Initialize();
 	HUD::GetInstance()->EnemyHPGaugeInitialize();
-	//HUD::GetInstance()->SkillButtonInitialize();
+	HUD::GetInstance()->SkillButtonInitialize();
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
 		TutorialSprite::GetInstance()->Initialize();
 	}
@@ -24,16 +24,16 @@ void UI::HUDUpdate(bool&hudload, DebugCamera* camera)
 	//	HUD::GetInstance()->EnemyHPGaugeUpdate(EnemyControl::GetInstance()->GetEnemyindex(0));
 	//	HUD::GetInstance()->EnemyHPGauge_MultiUpdate(hudload, camera, EnemyControl::GetInstance()->GetEnemyindex(0));
 	//}
-	//if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
 	//	
-	//	//HUD::GetInstance()->EnemyHPGaugeUpdate(EnemyControl::GetInstance()->GetTutorialEnemyindex());
-	//	HUD::GetInstance()->EnemyHPGauge_MultiUpdate(hudload, camera, EnemyControl::GetInstance()->GetTutorialEnemyindex());
-	//	//TutorialSprite::GetInstance()->Update();
+	//	HUD::GetInstance()->EnemyHPGaugeUpdate(EnemyControl::GetInstance()->GetTutorialEnemyindex());
+		HUD::GetInstance()->EnemyHPGauge_MultiUpdate(hudload, camera, EnemyControl::GetInstance()->GetTutorialEnemyindex());
+	TutorialSprite::GetInstance()->Update();
 	//
-	//}
-	////HUD::GetInstance()->SkillBottonUpdate();
-	//HUD::GetInstance()->Update();
-	//HUD::GetInstance()->TaskUpdate(camera);
+	}
+	HUD::GetInstance()->SkillBottonUpdate();
+	HUD::GetInstance()->Update();
+	HUD::GetInstance()->TaskUpdate(camera);
 }
 
 void UI::HUDDraw()
@@ -46,7 +46,7 @@ void UI::HUDDraw()
 	}
 
 	HUD::GetInstance()->Draw();
-	//HUD::GetInstance()->SkillBottonDraw();
+	HUD::GetInstance()->SkillBottonDraw();
 
 }
 

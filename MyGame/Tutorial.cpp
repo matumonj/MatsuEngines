@@ -41,10 +41,12 @@ void Tutorial::objUpdate(DebugCamera* camera)
 			AllObjectControl[i]->Update(CameraControl::GetInstance()->GetCamera());
 		}
 		acol->Update();
+		UI::GetInstance()->HUDUpdate(hudload, CameraControl::GetInstance()->GetCamera());
+
 		//TargetMarker::GetInstance()->Update(CameraControl::GetInstance()->GetCamera(), PlayerControl::GetInstance()->GetPlayer());
 	}
-	UI::GetInstance()->HUDUpdate(hudload, CameraControl::GetInstance()->GetCamera());
 
+	
 	Field::GetInstance()->Update(CameraControl::GetInstance()->GetCamera());
 }
 

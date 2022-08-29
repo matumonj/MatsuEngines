@@ -51,7 +51,9 @@ void TutorialSprite::Update()
 		ClearSetting =true ;
 	}
 	//攻撃
-	ClearAttack = EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetHP() <= 0;
+	if (EnemyControl::GetInstance()->GetTutorialEnemyindex()[0] != nullptr) {
+		ClearAttack = EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetHP() <= 0;
+	}
 	//オールコンプリート
 	AllTaskClear = ClearWalk && ClearAttack && ClearSetting;
 	//チュートリアルの宝箱
