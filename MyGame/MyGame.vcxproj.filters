@@ -163,6 +163,9 @@
     <Filter Include="Game\gameobject\オブジェクト種類\Field">
       <UniqueIdentifier>{73610235-772e-4e34-a679-8aa9b69c88a4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\gameobject\オブジェクト種類\Fence\ボス攻撃パターン">
+      <UniqueIdentifier>{c83847d2-65dc-444a-ac0b-10be1dc5ee3c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="BlurPS.hlsl">
@@ -520,7 +523,13 @@
       <Filter>Game\gameobject\オブジェクト種類\Sword\派生</Filter>
     </ClCompile>
     <ClCompile Include="KnockAttack.cpp">
-      <Filter>Game</Filter>
+      <Filter>Game\gameobject\オブジェクト種類\Fence\ボス攻撃パターン</Filter>
+    </ClCompile>
+    <ClCompile Include="CircleAttack.cpp">
+      <Filter>Game\gameobject\オブジェクト種類\Fence\ボス攻撃パターン</Filter>
+    </ClCompile>
+    <ClCompile Include="HalfAttack.cpp">
+      <Filter>Game\gameobject\オブジェクト種類\Fence\ボス攻撃パターン</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -887,8 +896,14 @@
     <ClInclude Include="NormalSword.h">
       <Filter>Game\gameobject\オブジェクト種類\Sword\派生</Filter>
     </ClInclude>
+    <ClInclude Include="HalfAttack.h">
+      <Filter>Game\gameobject\オブジェクト種類\Fence\ボス攻撃パターン</Filter>
+    </ClInclude>
+    <ClInclude Include="CircleAttack.h">
+      <Filter>Game\gameobject\オブジェクト種類\Fence\ボス攻撃パターン</Filter>
+    </ClInclude>
     <ClInclude Include="KnockAttack.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Game\gameobject\オブジェクト種類\Fence\ボス攻撃パターン</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

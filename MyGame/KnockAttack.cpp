@@ -14,7 +14,7 @@ void KnockAttack::Initialize()
 
 	KnockTex = Texture::Create(20, {0,0,0}, { 100,100,1 }, { 1,1,1,1 });
 	KnockTex->CreateTexture();
-	KnockTex->SetAnchorPoint({ 0.5,0.5 });
+	KnockTex->SetAnchorPoint({0.5,0.5 });
 
 }
 
@@ -24,31 +24,29 @@ void KnockAttack::ActionJudg()
 		fase1 = true;
 	}
 	if (fase1) {
-		AttackCount++;
-		if (AttackCount >= 120) {
-			Judg = true;//攻撃
-			TexAlpha -= 0.05f;
-			fase1 = false;
+		AttackCount++;//攻撃待機カウンタ
+		if (AttackCount >= 120) {//2秒立ったら
+			fase2 = true;//攻撃フェーズsrart
+			fase1 = false;//待機フェーズend
 		}
 		//吹き飛ばし直前に吹き飛ばし後のプレイヤーz座標を設定
 		AfterPositionZ = PlayerControl::GetInstance()->GetPlayer()->GetPosition().z - 50;
 		BeforePositionZ = PlayerControl::GetInstance()->GetPlayer()->GetPosition().z;
 
-		KnockTime = 0;
+		KnockTime = 0;//イージング用カウンタリセット
 	}
 	
-	if (Judg) {
+	if (fase2) {
 		if (KnockTime >= 1.0f) {
-			Judg = false;
+			fase2 = false;
 		}
-		KnockTime += 0.01f;
-
+		KnockTime += 0.04f;//イージング用カウンタ
+		AttackCount = 0;//攻撃待機時間リセット
 		PlayerControl::GetInstance()->GetPlayer()->SetPosition({
 				PlayerControl::GetInstance()->GetPlayer()->GetPosition().x ,
 				PlayerControl::GetInstance()->GetPlayer()->GetPosition().y,
 					Easing::EaseOut(KnockTime, BeforePositionZ, AfterPositionZ)
 			});
-		AttackCount = 0;
 	}
 	if (CameraControl::GetInstance()->GetCamera() != nullptr) {
 		KnockTex->SetUVMove(true);

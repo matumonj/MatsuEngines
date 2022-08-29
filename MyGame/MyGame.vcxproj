@@ -165,6 +165,7 @@
     <ClCompile Include="CameraControl.cpp" />
     <ClCompile Include="Chest.cpp" />
     <ClCompile Include="ChestControl.cpp" />
+    <ClCompile Include="CircleAttack.cpp" />
     <ClCompile Include="ConfigSprite.cpp" />
     <ClCompile Include="ControlBase.cpp" />
     <ClCompile Include="CreateObjManager.cpp" />
@@ -207,6 +208,7 @@
     <ClCompile Include="f_Model.cpp" />
     <ClCompile Include="f_Object3d.cpp" />
     <ClCompile Include="GameUI.cpp" />
+    <ClCompile Include="HalfAttack.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="HUDLayOut.cpp" />
     <ClCompile Include="Input.cpp" />
@@ -414,6 +416,7 @@
     <ClInclude Include="CameraControl.h" />
     <ClInclude Include="Chest.h" />
     <ClInclude Include="ChestControl.h" />
+    <ClInclude Include="CircleAttack.h" />
     <ClInclude Include="ConfigSprite.h" />
     <ClInclude Include="ControlBase.h" />
     <ClInclude Include="CreateObjManager.h" />
@@ -461,6 +464,7 @@
     <ClInclude Include="f_Model.h" />
     <ClInclude Include="f_Object3d.h" />
     <ClInclude Include="GameUI.h" />
+    <ClInclude Include="HalfAttack.h" />
     <ClInclude Include="HUD.h" />
     <ClInclude Include="HUDLayOut.h" />
     <ClInclude Include="Input.h" />
