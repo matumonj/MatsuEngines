@@ -18,7 +18,11 @@ private:
 	std::vector <XMFLOAT3>Load_EnemyPosition;
 	//チュートリアル用
 	std::vector <std::unique_ptr<Enemy>> tutorial_enemy;
+	//ボス用
+	std::vector <std::unique_ptr<Enemy>> boss_enemy;
+
 	XMFLOAT3 tutorial_pos;
+	XMFLOAT3 boss_pos;
 	//行動パターン
 	BehaviorTree behavior;
 private:
@@ -47,6 +51,7 @@ public:
 	void SetColor(XMFLOAT4 color)override;
 	std::vector<std::unique_ptr<Enemy>> &GetEnemyindex(int index);// { return enemys[index].get(); }
 	std::vector <std::unique_ptr<Enemy>> &GetTutorialEnemyindex();
+	std::vector <std::unique_ptr<Enemy>>& GetBossEnemyindex();
 private:
 	//::vector<Enemy*>
 };

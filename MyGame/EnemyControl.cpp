@@ -104,7 +104,14 @@ void EnemyControl::Load(DebugCamera*camera)
 		tutorial_pos = { 89.137,-27.5045,-707.987 };
 		tutorial_enemy[0]->SetPosition(tutorial_pos);
 		tutorial_enemy[0]->SearchInit();
-
+	}
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
+		boss_enemy.resize(1);
+		boss_enemy[0] = std::make_unique<BossEnemy>(&behavior, 100.0f, 100.0f, 30.0f, 10.0f);
+		boss_enemy[0]->Initialize(camera);
+		boss_pos = { 0,-27.5045,20.987 };
+		boss_enemy[0]->SetPosition(tutorial_pos);
+		boss_enemy[0]->SearchInit();
 	}
 }
 
@@ -120,7 +127,6 @@ void EnemyControl::TutorialUpdate(DebugCamera* camera)
 				tutorial_enemy[0]->SetMoveFlag(true);
 				tutorial_enemy[0]->Update(camera);
 			}
-			
 			tutorial_enemy[0]->SearchAction(camera);
 		}
 	}
@@ -163,6 +169,13 @@ void EnemyControl::Update(DebugCamera* camera)
 				tutorial_enemy[0]->SearchAction(camera);
 		}
 	}
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
+		if (boss_enemy[0] != nullptr) {
+			boss_enemy[0]->SetMoveFlag(true);
+			boss_enemy[0]->Update(camera);
+			boss_enemy[0]->SearchAction(camera);
+		}
+	}
 }
 
 void EnemyControl::Draw()
@@ -183,6 +196,11 @@ void EnemyControl::Draw()
 			}
 		}
 	}
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
+		if (boss_enemy[0] != nullptr) {
+			boss_enemy[0]->Draw();
+		}
+	}
 }
 
 void EnemyControl::ImGuiDraw()
@@ -192,15 +210,16 @@ void EnemyControl::ImGuiDraw()
 
 std::vector<std::unique_ptr<Enemy>>& EnemyControl::GetEnemyindex(int index)
 {
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
 		return enemys;
-	}
 }
 std::vector<std::unique_ptr<Enemy>>& EnemyControl::GetTutorialEnemyindex()
 {
 	return tutorial_enemy;
 }
-
+std::vector<std::unique_ptr<Enemy>>& EnemyControl::GetBossEnemyindex()
+{
+	return boss_enemy;
+}
 void EnemyControl::SetColor(XMFLOAT4 color)
 {
 	for (int i = 0; i < Quantity; i++) {

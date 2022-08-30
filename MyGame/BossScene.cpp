@@ -42,7 +42,7 @@ void BossScene::Initialize()
 		AllObjectControl[i]->Initialize(CameraControl::GetInstance()->GetCamera());
 	}
 	TargetMarker::GetInstance()->Initialize();
-//	KnockAttack::GetInstance()->Initialize();
+	KnockAttack::GetInstance()->Initialize();
 	
 	// 3Dオブジェクトにカメラをセット
 	Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
@@ -74,7 +74,7 @@ void BossScene::Update()
 			AllObjectControl[i]->Update(CameraControl::GetInstance()->GetCamera());
 		}
 		//acol->Update();
-		//KnockAttack::GetInstance()->ActionJudg();
+		KnockAttack::GetInstance()->ActionJudg();
 		UI::GetInstance()->HUDUpdate(hudload, CameraControl::GetInstance()->GetCamera());
 		//TargetMarker::GetInstance()->Update(CameraControl::GetInstance()->GetCamera(), PlayerControl::GetInstance()->GetPlayer());
 	}
@@ -144,7 +144,7 @@ void BossScene::Draw()
 
 		DirectXCommon::GetInstance()->BeginDraw();
 		MyGameDraw();
-		//KnockAttack::GetInstance()->Draw();
+		KnockAttack::GetInstance()->Draw();
 		UI::GetInstance()->HUDDraw();
 
 		SistemConfig::GetInstance()->Draw();

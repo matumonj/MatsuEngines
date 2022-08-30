@@ -508,7 +508,7 @@ void Texture::SetAnchorPoint(XMFLOAT2 anchorpoint)
 }
 void Texture::Draw()
 {
-	uvtime += 0.001f;
+	uvtime += 0.01f;
 	if (uvtime > 1.0f) {
 		uvtime = 0.0f;
 	}

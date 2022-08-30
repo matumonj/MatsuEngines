@@ -54,14 +54,10 @@ void KnockAttack::ActionJudg()
 
 		KnockTex->Update(CameraControl::GetInstance()->GetCamera());
 	}
-	if (EnemyControl::GetInstance()->GetTutorialEnemyindex()[0] != nullptr) {
-		KnockTex->SetPosition({ EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetPosition().x
-			,EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetPosition().y+5,
-			EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetPosition().z});
+		KnockTex->SetPosition({ 0,-18,0});
 
 		KnockTex->SetRotation({ 90, 0,0 });
-		KnockTex->SetScale({ 5,5,3 });
-	}
+		KnockTex->SetScale({ 10,10,3 });
 	AttackCount = min(AttackCount, 180);
 	AttackCount = max(AttackCount, 0);
 
