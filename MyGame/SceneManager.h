@@ -18,7 +18,8 @@ public:
 	enum NowScene{
 		TITLE,
 		TUTORIAL,
-		PLAY
+		PLAY,
+		BOSS
 	};
 	NowScene GetScene() { return scene; }
 	void SetScene(NowScene scene) { this->scene=scene; }

@@ -16,6 +16,9 @@ void PlayerControl::Load(DebugCamera* camera)
 	} else if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
 		player->SetPosition({ 92,-27,-760 });
 	}
+	else if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
+		player->SetPosition({ 0,-27,0 });
+	}
 }
 
 void PlayerControl::Initialize(DebugCamera* camera)

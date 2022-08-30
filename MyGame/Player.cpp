@@ -14,6 +14,7 @@
 #include"CustomButton.h"
 #include"BigSword.h"
 #include"SelectSword.h"
+#include"SceneManager.h"
 #define PI 3.145265
 using namespace DirectX;
 XMFLOAT3 Player::Effect_Pos = { -50,-10,-100 };
@@ -52,7 +53,7 @@ void Player::Initialize(DebugCamera* camera)
 	SetCollider();
 
 	Rotation = { -90,0,0 };
-	Position = { 92,-27,-760 };
+	Position = { 0,-30,0 };
 	SelectSword::GetInstance()->Initialize();
 }
 void Player::Update(DebugCamera* camera)

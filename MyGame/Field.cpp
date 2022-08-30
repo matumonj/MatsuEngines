@@ -16,7 +16,12 @@ bool Field::Initialize(DebugCamera* camera)
 {
 	CelestialSphereObject = std::make_unique<Object3d>();
 	CelestialSphereModel = Model::CreateFromOBJ("skydome");
-	FieldModel= Model::CreateFromOBJ("LowPoly_Landscape");
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
+		FieldModel = Model::CreateFromOBJ("BossField");
+	}
+	else {
+		FieldModel = Model::CreateFromOBJ("LowPoly_Landscape");
+	}
 
 	//フィールドにモデル割り当て
 	FieldObject = TouchableObject::Create(FieldModel,camera);
@@ -41,6 +46,10 @@ void Field::Update(DebugCamera* camera)
 		CelestialSphereObject->setFog(TRUE);
 	}
 	else if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
+		FieldObject->setFog(FALSE);
+		CelestialSphereObject->setFog(FALSE);
+	}
+	else if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
 		FieldObject->setFog(FALSE);
 		CelestialSphereObject->setFog(FALSE);
 	}

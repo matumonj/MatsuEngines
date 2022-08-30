@@ -5,6 +5,7 @@
 #include"SceneManager.h"
 #include"Tutorial.h"
 #include"Feed.h"
+#include"BossScene.h"
 TitleScene::TitleScene(SceneManager* sceneManager)
 	:BaseScene(sceneManager)
 {
@@ -58,8 +59,8 @@ void TitleScene::Draw()
 
 	if (ImGui::RadioButton("Scene_Play", t)) {
 
-		BaseScene* scene = new Tutorial(sceneManager_);//次のシーンのインスタンス生成
-		SceneManager::GetInstance()->SetScene(SceneManager::TUTORIAL);
+		BaseScene* scene = new BossScene(sceneManager_);//次のシーンのインスタンス生成
+		SceneManager::GetInstance()->SetScene(SceneManager::BOSS);
 		sceneManager_->SetnextScene(scene);//シーンのセット
 	}
 	if (ImGui::RadioButton("Scene_MapCreate", y)) {

@@ -486,9 +486,6 @@
     <ClCompile Include="DeathAction.cpp">
       <Filter>Game\gameobject\オブジェクト種類\Enemy\Behavior</Filter>
     </ClCompile>
-    <ClCompile Include="Tutorial.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
     <ClCompile Include="TutorialSprite.cpp">
       <Filter>Game</Filter>
     </ClCompile>
@@ -530,6 +527,12 @@
     </ClCompile>
     <ClCompile Include="HalfAttack.cpp">
       <Filter>Game\gameobject\オブジェクト種類\Fence\ボス攻撃パターン</Filter>
+    </ClCompile>
+    <ClCompile Include="BossScene.cpp">
+      <Filter>Game\Scene\title,play</Filter>
+    </ClCompile>
+    <ClCompile Include="Tutorial.cpp">
+      <Filter>Game\Scene\title,play</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -860,9 +863,6 @@
     <ClInclude Include="resource.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Tutorial.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="TutorialSprite.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -904,6 +904,12 @@
     </ClInclude>
     <ClInclude Include="KnockAttack.h">
       <Filter>Game\gameobject\オブジェクト種類\Fence\ボス攻撃パターン</Filter>
+    </ClInclude>
+    <ClInclude Include="BossScene.h">
+      <Filter>Game\Scene\title,play</Filter>
+    </ClInclude>
+    <ClInclude Include="Tutorial.h">
+      <Filter>Game\Scene\title,play</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
