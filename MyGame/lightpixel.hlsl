@@ -17,15 +17,16 @@ PSOutPut main(GSOutput input) : SV_TARGET
 	//float4 texcolor = float4(tex.Sample(smp, input.uv));
 	//ïœçXå„
 	//return tex.Sample(smp, input.uv) * color;
-	float4 nc = { 0.0,0.0,0.0,1 };
+	float4 nc = { 0.1,0.1,0.1,1 };
 float4 c = { 0.4,0.4,0.4,1 };
-float dist = length(float3(125,-25,-680) - input.worldpos);
+//float dist = length(float3(125,-25,-680) - input.worldpos);
+float dist = length(float3(0, -20, 0) - input.worldpos);
 	float4 addcol = float4(lerp(nc.rgb, c.rgb, dist/100),0.0);
 	float3 fc = { 0.1,0.1,0.1 };
 	
 	//	float4 coltex0= tex.Sample(smp, input.uv);
 	if (flag) {
-		output.target0 = float4(texcolor.rgb * fc, texcolor.a) + addcol;
+		output.target0 = float4(texcolor.rgb, texcolor.a) + addcol;
 		output.target1 = float4(0, 0, 0, 1);
 	}
 	else {

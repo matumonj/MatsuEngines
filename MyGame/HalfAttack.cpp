@@ -2,17 +2,36 @@
 #include"EnemyControl.h"
 #include"PlayerControl.h"
 #include"Collision.h"
+#include"CameraControl.h"
+HalfAttack::HalfAttack()
+{
+
+}
+HalfAttack* HalfAttack::GetInstance()
+{
+	static HalfAttack instance;	
+	return&instance;
+}
 void HalfAttack::Initialize()
 {
+	
+	Texture::LoadTexture(21, L"Resources/damage.png");
+
+	HalfAreaTex = Texture::Create(21, { 0,0,0 }, { 100,100,1 }, { 1,1,1,1 });
+	HalfAreaTex->CreateTexture();
+	HalfAreaTex->SetAnchorPoint({ 0.5,0.5 });
 
 }
 
 void HalfAttack::ActionJudg()
 {
+	if (Input::GetInstance()->TriggerButton(Input::GetInstance()->Button_A)) {
+		fase1 = true;
+	}
 //fase1　カウントダウンと中央に戻る処理
 	PlayerPos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
-	BossEnemyPos = EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetPosition();
-
+	BossEnemyPos = EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetPosition();
+	CenterPos = { 0,-18,0 };
 	if (fase1) {
 		TurnCenter();
 		if (Collision::GetLength(BossEnemyPos, CenterPos) < 10) {
@@ -37,15 +56,23 @@ void HalfAttack::ActionJudg()
 	if (fase3) {
 		AttackCount = 0;
 	}
+	HalfAreaTex->SetUVMove(true);
+	HalfAreaTex->SetBillboard(false);
 
-	
+	HalfAreaTex->Update(CameraControl::GetInstance()->GetCamera());
+
+	HalfAreaTex->SetPosition({ 0,-18,0 });
+	HalfAreaTex->SetRotation({ 90,0,0 });
 	switch (Area)
 	{
 	case HalfAttack::LEFT:
-		HalfAreaTex->SetAnchorPoint({ 0,0.5 });
+
+		HalfAreaTex->SetPosition({ 30,-18,0 });
+		HalfAreaTex->SetScale({ 9,11.5,3 });
 		break;
 	case HalfAttack::RIGHT:
-		HalfAreaTex->SetAnchorPoint({ 0,0.5 });
+		HalfAreaTex->SetPosition({ -30,-18,0 });
+		HalfAreaTex->SetScale({ 9,11.5,3 });
 		break;
 	default:
 		break;
@@ -54,7 +81,11 @@ void HalfAttack::ActionJudg()
 
 void HalfAttack::Draw()
 {
-
+	Texture::PreDraw();
+	if (fase2) {
+		HalfAreaTex->Draw();
+	}
+	Texture::PostDraw();
 }
 
 
@@ -80,8 +111,8 @@ void HalfAttack::TurnCenter()
 		//角度の取得 プレイヤーが敵の索敵位置に入ったら向きをプレイヤーの方に
 		RotY = atan2f(SubVector.m128_f32[0], SubVector.m128_f32[2]);
 
-		EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->SetRotation({
-			EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetRotation().x,
+		EnemyControl::GetInstance()->GetBossEnemyindex()[0]->SetRotation({
+			EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetRotation().x,
 			RotY * 60 + 180,
-			EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetRotation().z });
+			EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetRotation().z });
 }

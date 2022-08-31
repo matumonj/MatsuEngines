@@ -35,7 +35,7 @@ bool Field::Initialize(DebugCamera* camera)
 void Field::Update(DebugCamera* camera)
 {
 	CelestialSphereObject->SetPosition({ 0,30,0 });
-	CelestialSphereObject->SetScale({ 30,30,30 });
+	CelestialSphereObject->SetScale({ 40,40,40 });
 
 	FieldObject->SetScale(1.0f);
 	FieldObject->SetPosition({ 0,-20,0 });
@@ -50,8 +50,9 @@ void Field::Update(DebugCamera* camera)
 		CelestialSphereObject->setFog(FALSE);
 	}
 	else if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
-		FieldObject->setFog(FALSE);
-		CelestialSphereObject->setFog(FALSE);
+		FieldObject->setFog(TRUE);
+		//	FieldObject->Setf(TRUE);
+		CelestialSphereObject->setFog(TRUE);
 	}
 	FieldObject->SetColor({ 0.6,0.6,0.6,1 });
 	FieldObject->Update({ 0.6,0.6,0.6,1 }, camera);

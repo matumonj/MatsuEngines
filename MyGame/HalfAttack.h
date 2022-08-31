@@ -3,6 +3,8 @@
 #include"Input.h"
 class HalfAttack
 {
+public:
+	HalfAttack();
 private:
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
@@ -25,7 +27,7 @@ private:
 	float BeforePositionZ;
 	float KnockTime = 0.0f;
 
-	const XMFLOAT3 CenterPos;
+	 XMFLOAT3 CenterPos;
 	//fase1　カウントダウンと中央に戻る処理
 	XMFLOAT3 PlayerPos;
 	XMFLOAT3 BossEnemyPos;
