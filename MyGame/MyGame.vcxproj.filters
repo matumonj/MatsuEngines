@@ -534,6 +534,9 @@
     <ClCompile Include="Tutorial.cpp">
       <Filter>Game\Scene\title,play</Filter>
     </ClCompile>
+    <ClCompile Include="Nail.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Blur.hlsli">
@@ -910,6 +913,9 @@
     </ClInclude>
     <ClInclude Include="Tutorial.h">
       <Filter>Game\Scene\title,play</Filter>
+    </ClInclude>
+    <ClInclude Include="Nail.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

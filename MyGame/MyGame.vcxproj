@@ -226,6 +226,7 @@
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="ModelManager.cpp" />
     <ClCompile Include="MyGame.cpp" />
+    <ClCompile Include="Nail.cpp" />
     <ClCompile Include="NodeBase.cpp" />
     <ClCompile Include="NormalSword.cpp" />
     <ClCompile Include="OBBCollision.cpp" />
@@ -483,6 +484,7 @@
     <ClInclude Include="Model.h" />
     <ClInclude Include="ModelManager.h" />
     <ClInclude Include="MyGame.h" />
+    <ClInclude Include="Nail.h" />
     <ClInclude Include="NodeBase.h" />
     <ClInclude Include="NormalSword.h" />
     <ClInclude Include="OBB.h" />

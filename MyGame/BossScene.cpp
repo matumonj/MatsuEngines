@@ -30,6 +30,7 @@ BossScene::BossScene(SceneManager* sceneManager)
 
 void BossScene::Initialize()
 {
+	nails = new Nail();
 	input = Input::GetInstance();
 	if (AllObjectControl.size() == 0) {//各オブジェクトインスタンスぶちこむ
 		AllObjectControl.push_back(CameraControl::GetInstance());
@@ -43,7 +44,7 @@ void BossScene::Initialize()
 		AllObjectControl[i]->Initialize(CameraControl::GetInstance()->GetCamera());
 	}
 	TargetMarker::GetInstance()->Initialize();
-	//KnockAttack::GetInstance()->Initialize();
+	KnockAttack::GetInstance()->Initialize();
 	CircleAttack::GetInstance()->Initialize();
 	// 3Dオブジェクトにカメラをセット
 	Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
@@ -58,6 +59,8 @@ void BossScene::Initialize()
 	Field::GetInstance()->Initialize(CameraControl::GetInstance()->GetCamera());
 	postEffect = new PostEffect();
 	postEffect->Initialize();
+
+	nails->ModelSet();
 	//Feed::GetInstance()->initialize();
 }
 
@@ -75,8 +78,9 @@ void BossScene::Update()
 			AllObjectControl[i]->Update(CameraControl::GetInstance()->GetCamera());
 		}
 		//acol->Update();
-		//KnockAttack::GetInstance()->ActionJudg();
+		KnockAttack::GetInstance()->ActionJudg();
 		CircleAttack::GetInstance()->ActionJudg();
+		nails->Update();
 		UI::GetInstance()->HUDUpdate(hudload, CameraControl::GetInstance()->GetCamera());
 		//TargetMarker::GetInstance()->Update(CameraControl::GetInstance()->GetCamera(), PlayerControl::GetInstance()->GetPlayer());
 	}
@@ -147,6 +151,7 @@ void BossScene::Draw()
 		DirectXCommon::GetInstance()->BeginDraw();
 		MyGameDraw();
 		CircleAttack::GetInstance()->Draw();
+		nails->Draw();
 		//KnockAttack::GetInstance()->Draw();
 		UI::GetInstance()->HUDDraw();
 

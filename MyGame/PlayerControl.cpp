@@ -37,7 +37,7 @@ void PlayerControl::Update(DebugCamera* camera)
 {
 	//player->SetPosition({ 92,-27,-760 });
 	//player->SetPosition({ 92,-27,-760 });
-	PlayerAttackState::GetInstance()->Update();
+	//PlayerAttackState::GetInstance()->Update();
 	//PlayerControl::GetInstance()->GetPlayer()->Update(camera);
 	//if (player != nullptr) {
 		player->Update(camera);

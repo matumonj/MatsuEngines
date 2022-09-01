@@ -23,7 +23,7 @@
 #include"TargetMarker.h"
 #include"GameUI.h"
 #include"ControlBase.h"
-
+#include"Nail.h"
 #pragma comment(lib,"winmm.lib")
 class CollisionManager;
 class Player;
@@ -56,6 +56,7 @@ public:
 	bool scenechange;
 	bool feedflag;
 	XMFLOAT4 feedcolor = { 0,0,0,1 };
+	Nail* nails;
 public:
 	XMFLOAT3 efkposition = { -50,-10,90 };
 	//エフェクト用(ただプログラムでつくれるものはプログラムで作る方がいい　多用はいくない)

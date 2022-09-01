@@ -155,7 +155,7 @@ void PlayerAttackState::DetailAttack(std::vector<std::unique_ptr<Enemy>>& enemy,
 	}
 	//1”Ô‹ß‚­‚Ì“G‚É‘Î‚µ‚ÄUŒ‚
 	if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), enemy[0]->GetPosition()) < 30) {
-		enemy[0]->RecvDamage(Damage);
+		//enemy[0]->RecvDamage(Damage);
 	}
 	//if (/*fbx‚Ìƒ‚[ƒVƒ‡ƒ“I‚í‚Á‚½‚ç*/) {
 	Skill = None;

@@ -41,14 +41,25 @@ void CircleAttack::ActionJudg()
 		CircleAreaTime += 0.01f;
 		CircleSize.x = Easing::EaseOut(CircleAreaTime, 0, 8);
 		CircleSize.y = Easing::EaseOut(CircleAreaTime, 0, 8);
+		AttackCount = 0;
 		if (CircleAreaTime >= 1.0f) {
+			fase4 = true;
 			fase3 = false;
+		}
+	}
+
+	if (fase4) {
+		AttackCount++;
+		if (AttackCount >= 120) {
+			//
+			TexAlpha -= 0.1f;
 		}
 	}
 	for (int i = 0; i < 2; i++) {
 		ImpactAreaTex[i]->Update(CameraControl::GetInstance()->GetCamera());
 		ImpactAreaTex[i]->SetScale({ CircleSize.x,CircleSize.y,3 });
 		ImpactAreaTex[i]->SetRotation({ 90,0,0 });
+		ImpactAreaTex[i]->SetColor({ 1,1,1,0.7 });
 	}
 	ImpactAttack(WEST, EAST);
 	for (int i = 0; i < NailObj.size(); i++) {
@@ -82,10 +93,10 @@ void CircleAttack::ImpactAttack(int area1, int area2)
 			//フィールドにモデル割り当て
 			NailObj[i]->Initialize(CameraControl::GetInstance()->GetCamera());
 			NailObj[i]->SetModel(NailModel);
+			
 			//ps0 = new OBBCollision();
 		}
-		NailObj[0]->SetPosition(Direction[area1]);
-		NailObj[1]->SetPosition(Direction[area2]);
+	
 		ImpactAreaTex[0]->SetBillboard(false);
 		ImpactAreaTex[1]->SetBillboard(false);
 		
@@ -93,12 +104,14 @@ void CircleAttack::ImpactAttack(int area1, int area2)
 		fase1 = false;
 	}
 	if (fase2) {
-		Direction[area1].y--;
-		Direction[area2].y--;
-
+		if (Direction[area1].y > -17) {
+			Direction[area1].y--;
+			Direction[area2].y--;
+		}
+		NailObj[0]->SetPosition(Direction[area1]);
+		NailObj[1]->SetPosition(Direction[area2]);
 	}
-	Direction[area1].y = min(Direction[area1].y, -17);
-	Direction[area2].y = min(Direction[area1].y, -17);
 	ImpactAreaTex[0]->SetPosition({ Direction[area1].x ,-18,Direction[area1].z });
 	ImpactAreaTex[1]->SetPosition({ Direction[area2].x ,-18,Direction[area2].z });
+
 }
