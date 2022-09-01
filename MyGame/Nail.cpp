@@ -25,8 +25,7 @@ void Nail::HalfAttack(HalfAttackArea area)
 
 			if (area == RIGHT) {
 				HAttack.XN[i] = rand() % 40;
-			}
-			else if (area == LEFT) {
+			} else if (area == LEFT) {
 				HAttack.XN[i] = rand() % 40 - 40;
 			}
 			Nails[i]->SetScale({ 1,3,1 });
@@ -63,56 +62,60 @@ void Nail::HalfAttack(HalfAttackArea area)
 	default:
 		break;
 	}
-	
+
 
 }
 void Nail::CircleAttack(int area1, int area2)
 {
-	XMFLOAT3 DirectionPos[4] = {{ 0,-18,30 }, { 0,-18,-30 }, { 30,-18,0 }, { -30,-18,0 }};//3
-	if (CAttack.fase ==NON&&!CAttack.EndAction) {
-			CAttack.fase = FASE_ONE;
-		}
-	
+	//東西南北のAOE中心場所　参照するなりした方がいい
+	XMFLOAT3 DirectionPos[4] = { { 0,-18,30 }, { 0,-18,-30 }, { 30,-18,0 }, { -30,-18,0 } };//3
+	if (CAttack.fase == NON && !CAttack.EndAction) {
+		CAttack.fase = FASE_ONE;
+	}
+
 	switch (CAttack.fase)
 	{
 	case FASE_ONE:
-		SetF = true;
-
+		//ここで出す釘の数設定
 		NailAmountSet(30);
+		//座標ずらしの要素数を釘の配列サイズ分
 		CAttack.ZN.resize(Nails.size());
 		CAttack.XN.resize(Nails.size());
-
-		for (int i = 0; i < Nails.size()/2; i++) {
+		//1つめのAOE範囲分
+		for (int i = 0; i < Nails.size() / 2; i++) {
 			CAttack.ZN[i] = rand() % (20 + 1 + 25) - 25;
 			CAttack.XN[i] = rand() % (20 + 1 + 25) - 25;
-			Nails[i]->SetPosition({ DirectionPos[area1].x+(float)CAttack.XN[i] ,MinY,DirectionPos[area1].z + (float)CAttack.ZN[i] });
+			Nails[i]->SetPosition({ DirectionPos[area1].x + (float)CAttack.XN[i] ,MinY,DirectionPos[area1].z + (float)CAttack.ZN[i] });
 		}
+		//２つめのAOE範囲分
 		for (int i = Nails.size() / 2; i < Nails.size(); i++) {
 			CAttack.ZN[i] = rand() % (20 + 1 + 25) - 25;
 			CAttack.XN[i] = rand() % (20 + 1 + 25) - 25;
 			Nails[i]->SetPosition({ DirectionPos[area2].x + (float)CAttack.XN[i] ,MinY,DirectionPos[area2].z + (float)CAttack.ZN[i] });
 		}
+		//次のフェーズへ
 		CAttack.fase = FASE_TWO;
 		break;
 	case FASE_TWO:
 		if (MinY <= -10) {
-			MinY += 1;
+			MinY += 1;//釘出るよ
 		} else {
-			CAttack.fase = FASE_THREE;
+			CAttack.fase = FASE_THREE;//出終わったら次のフェーズへ
 		}
+
 		for (int i = 0; i < Nails.size(); i++) {
 			Nails[i]->SetPosition({ Nails[i]->GetPosition().x ,MinY,Nails[i]->GetPosition().z });
 			Nails[i]->SetScale({ 1.5,3,1.5 });
 		}
 		break;
 	case FASE_THREE:
-		CAttack.WaitCount++;
+		CAttack.WaitCount++;//釘出現してから一定時間立ったら引っ込める
 		if (CAttack.WaitCount >= 60) {
 			MinY -= 1;
 		}
 		if (MinY <= -30) {
 			CAttack.fase = NON;
-			CAttack.EndAction = true;
+			CAttack.EndAction = true;//１連の挙動終了
 		}
 		for (int i = 0; i < Nails.size(); i++) {
 			Nails[i]->SetPosition({ Nails[i]->GetPosition().x ,MinY,Nails[i]->GetPosition().z });
@@ -132,22 +135,19 @@ void Nail::CircleAttack(int area1, int area2)
 }
 void Nail::NailAmountSet(int amount)
 {
-	if (SetF) {
-		Nails.resize(amount);
-		for (int i = 0; i < Nails.size(); i++) {
-			Nails[i] = std::make_unique<Object3d>();
-			//フィールドにモデル割り当て
-			Nails[i]->Initialize(CameraControl::GetInstance()->GetCamera());
-			Nails[i]->SetModel(Nailmodel);
-
-			//ps0 = new OBBCollision();
-		}
-		SetF = false;
+	//釘の量分作る
+	Nails.resize(amount);
+	for (int i = 0; i < Nails.size(); i++) {
+		Nails[i] = std::make_unique<Object3d>();
+		//モデル割り当て
+		Nails[i]->Initialize(CameraControl::GetInstance()->GetCamera());
+		Nails[i]->SetModel(Nailmodel);
 	}
 }
 void Nail::ModelSet()
 {
-	Nailmodel= Model::CreateFromOBJ("Nail");
+	Nailmodel = Model::CreateFromOBJ("Nail");
+	//攻撃フェーズは初期値NON固定
 	HAttack.fase = NON;
 	CAttack.fase = NON;
 }
@@ -155,7 +155,7 @@ void Nail::Update()
 {
 	//HalfAttack(RIGHT);
 	//CircleAttack(CircleAttack::GetInstance()->GetDamageArea1(), CircleAttack::GetInstance()->GetDamageArea2());
-	
+
 }
 void Nail::Draw()
 {
