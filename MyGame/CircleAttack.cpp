@@ -1,6 +1,7 @@
 #include "CircleAttack.h"
 #include"CameraControl.h"
 #include"mHelper.h"
+#include"Nail.h"
 CircleAttack*CircleAttack::GetInstance()
 {
 	static CircleAttack instance;
@@ -28,8 +29,11 @@ void CircleAttack::ActionJudg()
 {
 	if (Input::GetInstance()->TriggerButton(Input::GetInstance()->Button_X)) {
 		fase1 = true;
+
+		NailAttackFlag = true;
 	}
 	if (fase2) {
+		NailAttackFlag = false;
 		AttackCount++;
 		if (AttackCount >= 180) {
 			fase3 = true;
@@ -52,9 +56,11 @@ void CircleAttack::ActionJudg()
 		AttackCount++;
 		if (AttackCount >= 120) {
 			//
+			Nail::GetInstance()->CircleAttack(Area1, Area2);
 			TexAlpha -= 0.1f;
 		}
 	}
+
 	for (int i = 0; i < 2; i++) {
 		ImpactAreaTex[i]->Update(CameraControl::GetInstance()->GetCamera());
 		ImpactAreaTex[i]->SetScale({ CircleSize.x,CircleSize.y,3 });
@@ -86,6 +92,7 @@ void CircleAttack::Draw()
 
 void CircleAttack::ImpactAttack(int area1, int area2)
 {
+	SetDamageArea(area1, area2);
 	if (fase1) {
 		NailObj.resize(2);
 		for (int i = 0; i < NailObj.size(); i++) {

@@ -60,7 +60,7 @@ void BossScene::Initialize()
 	postEffect = new PostEffect();
 	postEffect->Initialize();
 
-	nails->ModelSet();
+	Nail::GetInstance()->ModelSet();
 	//Feed::GetInstance()->initialize();
 }
 
@@ -80,7 +80,7 @@ void BossScene::Update()
 		//acol->Update();
 		KnockAttack::GetInstance()->ActionJudg();
 		CircleAttack::GetInstance()->ActionJudg();
-		nails->Update();
+		Nail::GetInstance()->Update();
 		UI::GetInstance()->HUDUpdate(hudload, CameraControl::GetInstance()->GetCamera());
 		//TargetMarker::GetInstance()->Update(CameraControl::GetInstance()->GetCamera(), PlayerControl::GetInstance()->GetPlayer());
 	}
@@ -151,7 +151,7 @@ void BossScene::Draw()
 		DirectXCommon::GetInstance()->BeginDraw();
 		MyGameDraw();
 		CircleAttack::GetInstance()->Draw();
-		nails->Draw();
+		Nail::GetInstance()->Draw();
 		//KnockAttack::GetInstance()->Draw();
 		UI::GetInstance()->HUDDraw();
 

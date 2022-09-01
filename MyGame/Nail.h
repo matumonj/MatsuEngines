@@ -4,6 +4,8 @@
 #include<memory>
 class Nail
 {
+public:
+	static Nail* GetInstance();
 private:
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
@@ -30,10 +32,11 @@ private:
 		std::vector<int>ZN;
 		std::vector<int>XN;
 		int WaitCount;
-		bool SetF;
+		bool EndAction;
 		Fase fase;
 	};
 	NailParam HAttack;
+	NailParam CAttack;
 public:
 	void HalfAttack(HalfAttackArea area);
 
@@ -43,5 +46,9 @@ public:
 	void ModelSet();
 	void Update();
 	void Draw();
+
+	void SetAttack_Half();
+	void SetAttack_Circle(bool f) {}
+	bool GetEndAction() { return CAttack.EndAction; }
 };
 

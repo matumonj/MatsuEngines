@@ -535,7 +535,7 @@
       <Filter>Game\Scene\title,play</Filter>
     </ClCompile>
     <ClCompile Include="Nail.cpp">
-      <Filter>Game</Filter>
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\ボス攻撃パターン</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -915,7 +915,7 @@
       <Filter>Game\Scene\title,play</Filter>
     </ClInclude>
     <ClInclude Include="Nail.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\ボス攻撃パターン</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
