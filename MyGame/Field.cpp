@@ -16,6 +16,8 @@ bool Field::Initialize(DebugCamera* camera)
 {
 	CelestialSphereObject = std::make_unique<Object3d>();
 	CelestialSphereModel = Model::CreateFromOBJ("skydome");
+	BackObject= std::make_unique<Object3d>();
+	BackM = Model::CreateFromOBJ("BackGround");
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
 		FieldModel = Model::CreateFromOBJ("BossField");
 	}
@@ -29,6 +31,9 @@ bool Field::Initialize(DebugCamera* camera)
 	CelestialSphereObject->Initialize(camera);
 	CelestialSphereObject->SetModel(CelestialSphereModel);
 
+	BackObject->Initialize(camera);
+	BackObject->SetModel(BackM);
+
 	return true;
 }
 
@@ -36,6 +41,9 @@ void Field::Update(DebugCamera* camera)
 {
 	CelestialSphereObject->SetPosition({ 0,30,0 });
 	CelestialSphereObject->SetScale({ 40,40,40 });
+
+	BackObject->SetPosition({ 0,30,0 });
+	BackObject->SetScale({ 4,4,4 });
 
 	FieldObject->SetScale(1.0f);
 	FieldObject->SetPosition({ 0,-20,0 });
@@ -53,10 +61,12 @@ void Field::Update(DebugCamera* camera)
 		FieldObject->setFog(TRUE);
 		//	FieldObject->Setf(TRUE);
 		CelestialSphereObject->setFog(TRUE);
+		BackObject->setFog(TRUE);
 	}
 	FieldObject->SetColor({ 0.6,0.6,0.6,1 });
 	FieldObject->Update({ 0.6,0.6,0.6,1 }, camera);
 	CelestialSphereObject->Update({ 1,1,1,1 }, camera);
+	BackObject->Update({ 1,1,1,1 }, camera);
 }
 
 void Field::Draw()
@@ -68,4 +78,9 @@ void Field::Draw()
 	FieldObject->PreDraw();
 	FieldObject->Draw();
 	FieldObject->PostDraw();
+
+	BackObject->PreDraw();
+	BackObject->Draw();
+	BackObject->PostDraw();
+
 }

@@ -17,9 +17,11 @@ private:
 
 	std::unique_ptr <Object3d> CelestialSphereObject;
 
+	std::unique_ptr <Object3d> BackObject;
+
 	Model* FieldModel;
 	Model* CelestialSphereModel;
-
+	Model* BackM;
 public:
 	bool Initialize(DebugCamera*camera);
 	void Update(DebugCamera* camera);
