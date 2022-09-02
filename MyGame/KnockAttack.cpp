@@ -22,7 +22,7 @@ void KnockAttack::Initialize()
 void KnockAttack::ActionJudg()
 {
 	if (Input::GetInstance()->TriggerButton(Input::GetInstance()->Button_B)) {
-		fase1 = true;
+		//fase1 = true;
 	}
 	if (fase1) {
 		BossSpell::GetInstance()->SetStartSpell_KA(true);

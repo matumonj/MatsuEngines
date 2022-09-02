@@ -60,6 +60,7 @@ void CircleAttack::ActionJudg()
 	
 		NailObj[0]->SetPosition(Direction[Area1]);
 		NailObj[1]->SetPosition(Direction[Area2]);
+		TexAlpha -= 0.01f;
 	}
 
 
@@ -67,14 +68,15 @@ void CircleAttack::ActionJudg()
 		ImpactAreaTex[i]->Update(CameraControl::GetInstance()->GetCamera());
 		ImpactAreaTex[i]->SetScale({ CircleSize.x,CircleSize.y,3 });
 		ImpactAreaTex[i]->SetRotation({ 90,0,0 });
-		ImpactAreaTex[i]->SetColor({ 1,1,1,0.7 });
+		ImpactAreaTex[i]->SetColor({ 1,1,1,TexAlpha});
 	}
 	ImpactAttack(WEST, EAST);
 	for (int i = 0; i < NailObj.size(); i++) {
 		NailObj[i]->SetScale({ 3,3,3 });
 		NailObj[i]->Update({ 1,1,1,1 }, CameraControl::GetInstance()->GetCamera());
 	}
-	
+	TexAlpha = min(TexAlpha, 1.0f);
+	TexAlpha = max(TexAlpha, 0.0f);
 }
 
 void CircleAttack::Draw()

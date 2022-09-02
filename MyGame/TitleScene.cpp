@@ -27,9 +27,9 @@ void TitleScene::Initialize()
 void TitleScene::Update()
 {
 	//ENTERで次のシーンへ
-	if (Input::GetInstance()->TriggerKey(DIK_RETURN)) {//押されたら
-		BaseScene* scene = new PlayScene(sceneManager_);//次のシーンのインスタンス生成
-		SceneManager::GetInstance()->SetScene(SceneManager::PLAY);
+	if (Input::GetInstance()->TriggerButton(Input::Button_B)) {//押されたら
+		BaseScene* scene = new BossScene(sceneManager_);//次のシーンのインスタンス生成
+		SceneManager::GetInstance()->SetScene(SceneManager::BOSS);
 		sceneManager_->SetnextScene(scene);//シーンのセット
 	}
 	titlesprite->SetSize({ WinApp::window_width,WinApp::window_height });

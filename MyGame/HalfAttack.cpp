@@ -66,13 +66,14 @@ void HalfAttack::ActionJudg()
 		else if (Area == RIGHT) {
 			Nail::GetInstance()->HalfAttack(Nail::LEFT);
 		}
+		TexAlpha -= 0.02f;
 		AttackCount = 0;
 	}
 	HalfAreaTex->SetUVMove(true);
 	HalfAreaTex->SetBillboard(false);
+	HalfAreaTex->SetColor({ 1,1,1,TexAlpha });
 
 	HalfAreaTex->Update(CameraControl::GetInstance()->GetCamera());
-
 	HalfAreaTex->SetPosition({ 0,-18,0 });
 	HalfAreaTex->SetRotation({ 90,0,0 });
 	switch (Area)
@@ -89,14 +90,15 @@ void HalfAttack::ActionJudg()
 	default:
 		break;
 	}
+	TexAlpha = min(TexAlpha, 1.0f);
+	TexAlpha = max(TexAlpha, 0.0f);
 }
 
 void HalfAttack::Draw()
 {
 	Texture::PreDraw();
-	if (fase2) {
-		HalfAreaTex->Draw();
-	}
+	HalfAreaTex->Draw();
+	
 	Texture::PostDraw();
 }
 
