@@ -2,6 +2,7 @@
 #include"CameraControl.h"
 #include"mHelper.h"
 #include"Nail.h"
+#include"BossSpell.h"
 CircleAttack*CircleAttack::GetInstance()
 {
 	static CircleAttack instance;
@@ -9,10 +10,10 @@ CircleAttack*CircleAttack::GetInstance()
 }
 void CircleAttack::Initialize()
 {
-	Texture::LoadTexture(21, L"Resources/AOE.png");
+	Texture::LoadTexture(23, L"Resources/AOE.png");
 
 	for (int i = 0; i < 2; i++) {
-		ImpactAreaTex[i] = Texture::Create(21, { 0,0,0 }, { 100,100,1 }, { 1,1,1,1 });
+		ImpactAreaTex[i] = Texture::Create(23, { 0,0,0 }, { 100,100,1 }, { 1,1,1,1 });
 		ImpactAreaTex[i]->CreateTexture();
 		ImpactAreaTex[i]->SetAnchorPoint({ 0.5,0.5 });
 	}
@@ -34,8 +35,8 @@ void CircleAttack::ActionJudg()
 	}
 	if (fase2) {
 		NailAttackFlag = false;
-		AttackCount++;
-		if (AttackCount >= 180) {
+		BossSpell::GetInstance()->SetStartSpell_CA(true);
+		if (BossSpell::GetInstance()->GetEndSpell_CA()) {
 			fase3 = true;
 			fase2 = false;
 		}
@@ -53,11 +54,11 @@ void CircleAttack::ActionJudg()
 	}
 
 	if (fase4) {
+		Nail::GetInstance()->CircleAttack(Area1, Area2);
 		AttackCount++;
 		if (AttackCount >= 120) {
 			//
-			Nail::GetInstance()->CircleAttack(Area1, Area2);
-			TexAlpha -= 0.1f;
+				TexAlpha -= 0.1f;
 		}
 	}
 

@@ -2,6 +2,7 @@
 #include"SceneManager.h"
 #include"EnemyControl.h"
 #include"TutorialSprite.h"
+#include"BossSpell.h"
 UI* UI::GetInstance()
 {
 	static UI instance;
@@ -9,6 +10,7 @@ UI* UI::GetInstance()
 }
 void UI::Initialize()
 {
+	BossSpell::GetInstance()->Initialize();
 	HUD::GetInstance()->Initialize();
 	HUD::GetInstance()->EnemyHPGaugeInitialize();
 	HUD::GetInstance()->SkillButtonInitialize();
@@ -31,6 +33,7 @@ void UI::HUDUpdate(bool&hudload, DebugCamera* camera)
 	TutorialSprite::GetInstance()->Update();
 	//
 	}
+	BossSpell::GetInstance()->Update();
 	HUD::GetInstance()->SkillBottonUpdate();
 	HUD::GetInstance()->Update();
 	HUD::GetInstance()->TaskUpdate(camera);
@@ -47,7 +50,7 @@ void UI::HUDDraw()
 
 	HUD::GetInstance()->Draw();
 	HUD::GetInstance()->SkillBottonDraw();
-
+	BossSpell::GetInstance()->Draw();
 }
 
 void UI::AreaNameDraw()

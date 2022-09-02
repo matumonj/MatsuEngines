@@ -8,14 +8,13 @@ Nail* Nail::GetInstance()
 }
 void Nail::HalfAttack(HalfAttackArea area)
 {
-	if (Input::GetInstance()->TriggerButton(Input::GetInstance()->Button_A)) {
+	if (HAttack.fase == NON && !HAttack.EndAction) {
 		HAttack.fase = FASE_ONE;
 	}
 	switch (HAttack.fase)
 	{
 	case FASE_ONE:
-		SetF = true;
-
+		
 		NailAmountSet(20);
 		for (int i = 0; i < Nails.size(); i++) {
 			HAttack.ZN.resize(Nails.size());
@@ -49,6 +48,7 @@ void Nail::HalfAttack(HalfAttackArea area)
 			MinY -= 1;
 		}
 		if (MinY <= -30) {
+			HAttack.EndAction = true;
 			HAttack.fase = NON;
 		}
 		for (int i = 0; i < Nails.size(); i++) {
@@ -62,7 +62,10 @@ void Nail::HalfAttack(HalfAttackArea area)
 	default:
 		break;
 	}
-
+	for (int i = 0; i < Nails.size(); i++) {
+		Nails[i]->SetRotation({ 180,0,0 });
+		Nails[i]->Update({ 1,1,1,1 }, CameraControl::GetInstance()->GetCamera());
+	}
 
 }
 void Nail::CircleAttack(int area1, int area2)

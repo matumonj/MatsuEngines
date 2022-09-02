@@ -15,7 +15,6 @@ private:
 private:
 	std::vector<std::unique_ptr<Object3d>>Nails;
 	Model* Nailmodel;
-	bool SetF;
 	float MinY= -30 ;
 	enum Fase {
 		FASE_ONE,
@@ -23,10 +22,7 @@ private:
 		FASE_THREE,
 		NON
 	};
-	enum HalfAttackArea {
-		RIGHT,
-		LEFT
-	};
+
 	struct NailParam {
 		XMFLOAT3 NailPosition;
 		std::vector<int>ZN;
@@ -38,6 +34,10 @@ private:
 	NailParam HAttack;
 	NailParam CAttack;
 public:
+	enum HalfAttackArea {
+		RIGHT,
+		LEFT
+	};
 	void HalfAttack(HalfAttackArea area);
 
 	void CircleAttack(int area1,int area2);
@@ -47,8 +47,6 @@ public:
 	void Update();
 	void Draw();
 
-	void SetAttack_Half();
-	void SetAttack_Circle(bool f) {}
 	bool GetEndAction() { return CAttack.EndAction; }
 };
 

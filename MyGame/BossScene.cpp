@@ -22,6 +22,7 @@
 #include"SelectSword.h"
 #include"KnockAttack.h"
 #include"CircleAttack.h"
+#include"HalfAttack.h"
 BossScene::BossScene(SceneManager* sceneManager)
 	:BaseScene(sceneManager)
 {
@@ -46,6 +47,7 @@ void BossScene::Initialize()
 	TargetMarker::GetInstance()->Initialize();
 	KnockAttack::GetInstance()->Initialize();
 	CircleAttack::GetInstance()->Initialize();
+	HalfAttack::GetInstance()->Initialize();
 	// 3Dオブジェクトにカメラをセット
 	Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
 
@@ -78,6 +80,7 @@ void BossScene::Update()
 			AllObjectControl[i]->Update(CameraControl::GetInstance()->GetCamera());
 		}
 		//acol->Update();
+		HalfAttack::GetInstance()->ActionJudg();
 		KnockAttack::GetInstance()->ActionJudg();
 		CircleAttack::GetInstance()->ActionJudg();
 		Nail::GetInstance()->Update();
@@ -151,6 +154,7 @@ void BossScene::Draw()
 		DirectXCommon::GetInstance()->BeginDraw();
 		MyGameDraw();
 		CircleAttack::GetInstance()->Draw();
+		HalfAttack::GetInstance()->Draw();
 		Nail::GetInstance()->Draw();
 		//KnockAttack::GetInstance()->Draw();
 		UI::GetInstance()->HUDDraw();

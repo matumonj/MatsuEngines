@@ -3,6 +3,8 @@
 #include"PlayerControl.h"
 #include"Collision.h"
 #include"CameraControl.h"
+#include"Nail.h"
+#include"BossSpell.h"
 HalfAttack::HalfAttack()
 {
 
@@ -35,9 +37,9 @@ void HalfAttack::ActionJudg()
 	if (fase1) {
 		TurnCenter();
 		if (Collision::GetLength(BossEnemyPos, CenterPos) < 10) {
-			if (CenterPos.x >= BossEnemyPos.x) {
+			if (PlayerPos.x>0) {
 				Area = LEFT;
-			} else {
+			} else if(PlayerPos.x <=0) {
 				Area = RIGHT;
 			}
 			fase2 = true;
@@ -46,14 +48,24 @@ void HalfAttack::ActionJudg()
 	}
 
 	if (fase2) {
-		AttackCount++;
-		if (AttackCount >= 120) {
+		if (Area == LEFT) {
+			BossSpell::GetInstance()->SetStartSpell_HR(true);
+		} else if (Area == RIGHT) {
+			BossSpell::GetInstance()->SetStartSpell_HL(true);
+		}
+		if (BossSpell::GetInstance()->GetEndSpell_HL()) {
 			fase3 = true;
 			fase2 = false;
 		}
 	}
 
 	if (fase3) {
+		if ( Area == LEFT) {
+			Nail::GetInstance()->HalfAttack(Nail::RIGHT);
+		}
+		else if (Area == RIGHT) {
+			Nail::GetInstance()->HalfAttack(Nail::LEFT);
+		}
 		AttackCount = 0;
 	}
 	HalfAreaTex->SetUVMove(true);
@@ -68,11 +80,11 @@ void HalfAttack::ActionJudg()
 	case HalfAttack::LEFT:
 
 		HalfAreaTex->SetPosition({ 30,-18,0 });
-		HalfAreaTex->SetScale({ 9,11.5,3 });
+		HalfAreaTex->SetScale({ 8,11.5,3 });
 		break;
 	case HalfAttack::RIGHT:
 		HalfAreaTex->SetPosition({ -30,-18,0 });
-		HalfAreaTex->SetScale({ 9,11.5,3 });
+		HalfAreaTex->SetScale({ 8,11.5,3 });
 		break;
 	default:
 		break;
