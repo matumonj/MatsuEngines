@@ -23,7 +23,7 @@ private:
 	Spells CircleAttack;
 
 private:
-	void SpellsInit(Spells& spell, int TexNum);
+	void SpellsInit(Spells& spell, int TexNum_G, int TexNum_F);
 	void SpellAction(Spells& spell,float spellCount);
 	void SpellsDraw(Spells spells);
 
