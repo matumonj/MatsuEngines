@@ -3,6 +3,7 @@
 #include"CameraControl.h"
 #include"PlayerControl.h"
 #include"mHelper.h"
+#include"BossSpell.h"
 KnockAttack* KnockAttack::GetInstance()
 {
 	static KnockAttack instance;
@@ -24,8 +25,8 @@ void KnockAttack::ActionJudg()
 		fase1 = true;
 	}
 	if (fase1) {
-		AttackCount++;//攻撃待機カウンタ
-		if (AttackCount >= 120) {//2秒立ったら
+		BossSpell::GetInstance()->SetStartSpell_KA(true);
+		if (BossSpell::GetInstance()->GetEndSpell_KA()) {//2秒立ったら
 			fase2 = true;//攻撃フェーズsrart
 			fase1 = false;//待機フェーズend
 		}
@@ -67,6 +68,8 @@ void KnockAttack::ActionJudg()
 void KnockAttack::Draw()
 {
 	Texture::PreDraw();
-	KnockTex->Draw();
+	if (fase1) {
+		KnockTex->Draw();
+	}
 	Texture::PostDraw();
 }

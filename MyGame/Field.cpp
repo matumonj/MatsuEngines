@@ -43,7 +43,7 @@ void Field::Update(DebugCamera* camera)
 	CelestialSphereObject->SetScale({ 40,40,40 });
 
 	BackObject->SetPosition({ 0,30,0 });
-	BackObject->SetScale({ 4,4,4 });
+	BackObject->SetScale({ 0.5,0.5,0.5 });
 
 	FieldObject->SetScale(1.0f);
 	FieldObject->SetPosition({ 0,-20,0 });
@@ -66,7 +66,7 @@ void Field::Update(DebugCamera* camera)
 	FieldObject->SetColor({ 0.6,0.6,0.6,1 });
 	FieldObject->Update({ 0.6,0.6,0.6,1 }, camera);
 	CelestialSphereObject->Update({ 1,1,1,1 }, camera);
-	BackObject->Update({ 1,1,1,1 }, camera);
+	BackObject->Update({ 0.6,0.6,0.6,1 }, camera);
 }
 
 void Field::Draw()

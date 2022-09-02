@@ -21,6 +21,7 @@ void BossSpell::Initialize()
 	SpellsInit(HalfAttack_Left, 50, 51);
 	SpellsInit(HalfAttack_Right, 50, 51);
 	SpellsInit(CircleAttack, 50, 51);
+	SpellsInit(KnockAttack, 50, 51);
 	}
 
 void BossSpell::Update()
@@ -29,6 +30,7 @@ void BossSpell::Update()
 	SpellAction(HalfAttack_Left, 120.0f);
 	SpellAction(HalfAttack_Right, 120.0f);
 	SpellAction(CircleAttack, 180.0f);
+	SpellAction(KnockAttack, 240.0f);
 }
 void BossSpell::Draw()
 {
@@ -36,6 +38,7 @@ void BossSpell::Draw()
 	SpellsDraw(HalfAttack_Left);
 	SpellsDraw(HalfAttack_Right);
 	SpellsDraw(CircleAttack);
+	SpellsDraw(KnockAttack);
 	Sprite::PostDraw();
 }
 
@@ -47,7 +50,7 @@ void BossSpell::SpellsInit(Spells& spells, int TexNum_G,int TexNum_F)
 	spells.SpellGauge = Sprite::Create(TexNum_G, { 30,210 });
 	spells.SpellFrame->SetAnchorPoint({ 0,0 });
 	spells.SpellGauge->SetAnchorPoint({ 0,0.5 });
-	spells.SpellFrame->SetSize({ 150,150 });
+	spells.SpellFrame->SetSize({ 300,300 });
 	spells.SpellGauge->SetSize({ 0,0 });
 }
 
@@ -58,7 +61,7 @@ void BossSpell::SpellAction(Spells& spell, float spellCount)
 		spell.SpellFrame->setcolor({ 1,1,1,1 });
 		spell.SpellGauge->setcolor({ 1,1,1,1 });
 		spell.Time += 1.0f / spellCount;
-		spell.SpellGauge->SetSize({ Easing::EaseOut(spell.Time,0,143),130 });
+		spell.SpellGauge->SetSize({ Easing::EaseOut(spell.Time,0,286),260 });
 		if (spell.Time >= 1.0f) {
 			spell.EndJudg = true;
 			spell.StartJudg = false;

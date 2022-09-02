@@ -53,7 +53,7 @@ void HalfAttack::ActionJudg()
 		} else if (Area == RIGHT) {
 			BossSpell::GetInstance()->SetStartSpell_HL(true);
 		}
-		if (BossSpell::GetInstance()->GetEndSpell_HL()) {
+		if (BossSpell::GetInstance()->GetEndSpell_HL()|| BossSpell::GetInstance()->GetEndSpell_HR()) {
 			fase3 = true;
 			fase2 = false;
 		}

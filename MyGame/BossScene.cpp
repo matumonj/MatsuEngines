@@ -156,7 +156,7 @@ void BossScene::Draw()
 		CircleAttack::GetInstance()->Draw();
 		HalfAttack::GetInstance()->Draw();
 		Nail::GetInstance()->Draw();
-		//KnockAttack::GetInstance()->Draw();
+		KnockAttack::GetInstance()->Draw();
 		UI::GetInstance()->HUDDraw();
 
 		SistemConfig::GetInstance()->Draw();

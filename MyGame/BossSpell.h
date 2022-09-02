@@ -21,7 +21,7 @@ private:
 	Spells HalfAttack_Left;
 	Spells HalfAttack_Right;
 	Spells CircleAttack;
-
+	Spells KnockAttack;
 private:
 	void SpellsInit(Spells& spell, int TexNum_G, int TexNum_F);
 	void SpellAction(Spells& spell,float spellCount);
@@ -31,10 +31,12 @@ public:
 	void SetStartSpell_HL(bool f) { HalfAttack_Left.StartJudg = f; }
 	void SetStartSpell_HR(bool f) { HalfAttack_Right.StartJudg = f; }
 	void SetStartSpell_CA(bool f) { CircleAttack.StartJudg = f; }
+	void SetStartSpell_KA(bool f) { KnockAttack.StartJudg = f; }
 
 	bool GetEndSpell_HL() { return HalfAttack_Left.EndJudg; }
 	bool GetEndSpell_HR() { return HalfAttack_Right.EndJudg; }
 	bool GetEndSpell_CA() { return CircleAttack.EndJudg; }
+	bool GetEndSpell_KA() { return KnockAttack.EndJudg; }
 
 };
 

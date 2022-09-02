@@ -55,12 +55,13 @@ void CircleAttack::ActionJudg()
 
 	if (fase4) {
 		Nail::GetInstance()->CircleAttack(Area1, Area2);
-		AttackCount++;
-		if (AttackCount >= 120) {
-			//
-				TexAlpha -= 0.1f;
-		}
+		Direction[Area1].y++;
+		Direction[Area2].y++;
+	
+		NailObj[0]->SetPosition(Direction[Area1]);
+		NailObj[1]->SetPosition(Direction[Area2]);
 	}
+
 
 	for (int i = 0; i < 2; i++) {
 		ImpactAreaTex[i]->Update(CameraControl::GetInstance()->GetCamera());
@@ -79,9 +80,11 @@ void CircleAttack::ActionJudg()
 void CircleAttack::Draw()
 {
 	Texture::PreDraw();
-	for (int i = 0; i < 2; i++) {
-		ImpactAreaTex[i]->Draw();
-		ImpactAreaTex[i]->Draw();
+	if (Nail::GetInstance()->GetEndAction() == false) {
+		for (int i = 0; i < 2; i++) {
+			ImpactAreaTex[i]->Draw();
+			ImpactAreaTex[i]->Draw();
+		}
 	}
 	Texture::PostDraw();
 	for (int i = 0; i < NailObj.size(); i++) {
