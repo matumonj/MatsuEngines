@@ -86,32 +86,29 @@ void EnemyControl::Load(DebugCamera*camera)
 
 			//èâä˙âªèàóù
 			if (Num[i] == ALPHAENEMY) {
-				enemys[i] = std::make_unique<MobEnemy>(&behavior, 100.0f, 100.0f, 30.0f, 10.0f);
+				enemys[i] = std::make_unique<MobEnemy>();
 			}
 			if (Num[i] == BETAENEMY) {
-				enemys[i] = std::make_unique<BossEnemy>(&behavior, 100.0f, 100.0f, 30.0f, 10.0f);
+				enemys[i] = std::make_unique<BossEnemy>();
 			}
 
 			enemys[i]->Initialize(camera);
 			enemys[i]->SetPosition(pos[i]);
-			enemys[i]->SearchInit();
 		}
 	}
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
 		tutorial_enemy.resize(1);
-		tutorial_enemy[0] = std::make_unique<MobEnemy>(&behavior, 100.0f, 100.0f, 30.0f, 10.0f);
+		tutorial_enemy[0] = std::make_unique<MobEnemy>();
 		tutorial_enemy[0]->Initialize(camera);
 		tutorial_pos = { 89.137,-27.5045,-707.987 };
 		tutorial_enemy[0]->SetPosition(tutorial_pos);
-		tutorial_enemy[0]->SearchInit();
 	}
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
 		boss_enemy.resize(1);
-		boss_enemy[0] = std::make_unique<BossEnemy>(&behavior, 100.0f, 100.0f, 30.0f, 10.0f);
+		boss_enemy[0] = std::make_unique<BossEnemy>();
 		boss_enemy[0]->Initialize(camera);
 		boss_pos = { 0,-27.5045,20.987 };
 		boss_enemy[0]->SetPosition(tutorial_pos);
-		boss_enemy[0]->SearchInit();
 	}
 }
 
@@ -127,7 +124,6 @@ void EnemyControl::TutorialUpdate(DebugCamera* camera)
 				tutorial_enemy[0]->SetMoveFlag(true);
 				tutorial_enemy[0]->Update(camera);
 			}
-			tutorial_enemy[0]->SearchAction(camera);
 		}
 	}
 }
@@ -158,7 +154,6 @@ void EnemyControl::Update(DebugCamera* camera)
 					enemys[i]->SetMoveFlag(true);
 					enemys[i]->Update(camera);
 				}
-				enemys[i]->SearchAction(camera);
 			}
 		}
 	}
@@ -166,14 +161,12 @@ void EnemyControl::Update(DebugCamera* camera)
 		if (tutorial_enemy[0] != nullptr) {
 			tutorial_enemy[0]->SetMoveFlag(true);
 				tutorial_enemy[0]->Update(camera);
-				tutorial_enemy[0]->SearchAction(camera);
 		}
 	}
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
 		if (boss_enemy[0] != nullptr) {
 			boss_enemy[0]->SetMoveFlag(true);
 			boss_enemy[0]->Update(camera);
-			boss_enemy[0]->SearchAction(camera);
 		}
 	}
 }

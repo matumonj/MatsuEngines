@@ -4,10 +4,6 @@
 #include"Collision.h"
 bool WalkJudgment::Judgment(Enemy* enemy)
 {
-	if(enemy->GetHP() > 100&&enemy->GetState()!=enemy->NOW_ATTACK&& enemy->GetHP()>100&& Collision::GetLength(Player::GetInstance()->GetPosition(),enemy->GetPosition())>0||enemy->getendsearch()||enemy->GetTime()==0)
-	{
-		return true;
-	}
 
 	return false;
 }

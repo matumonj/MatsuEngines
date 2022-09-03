@@ -14,20 +14,14 @@
 #include"SceneManager.h"
 #include"EnemyFollowState.h"
 using namespace DirectX;
-Enemy::Enemy(BehaviorTree* ai_tree, float max_hp, float max_mp, float attack, float deffence) :
-	m_AiTree(ai_tree),
-	m_BehaviorData(NULL),
-	m_ActiveNode(NULL)
+Enemy::Enemy()
 {
 	state_mob = new EnemyWalkState();
-	m_BehaviorData = new BehaviorDatas();
 }
 
 Enemy::~Enemy()
 {
-	delete m_BehaviorData;
 	delete _state, state_mob;
-	delete SearchTex;
 }
 
 
@@ -42,55 +36,6 @@ void Enemy::Update(DebugCamera* camera)
 {
 }
 
-void Enemy::SearchInit()
-{
-	//普通のテクスチャ(スプライトじゃないよ)
-	Texture::LoadTexture(64, L"Resources/Sertch.png");
-	SearchTex = Texture::Create(64, { 0,0,0 }, { 1,1,1 }, { 1,1,1,1 });
-	SearchTex->CreateTexture();
-}
-void Enemy::SearchAction(DebugCamera* camera)
-{
-	//追跡中でないときに追跡開始フラグ立てる(ビックリマーク)
-	if (!SearchNowFlag) {
-		searchFlag = false;
-		searchTexSet = true;
-	}
-	else {
-		searchTexSet = false;
-	}
-	//stime->びっくりアイコン出してる時間
-	if (stime == 0 && searchTexSet) {
-		if (Collision::GetLength(Player::GetInstance()->GetPosition(),Position) <10) {
-			searchFlag = true;
-		}
-	}
-
-	if (searchFlag) {
-		stime++;
-		searchMarkDrawFlag = true;
-		if(stime >20){
-			searchMarkDrawFlag = false;
-			searchFlag = false;
-		}
-	}
-	else {
-		stime = 0;
-	}
-	SearchTex->SetAnchorPoint({ 0.0,0 });
-	SearchTex->SetRotation({ 180,0,0 });
-	SearchTex->SetScale({ 1,1,1 });
-	SearchTex->SetPosition({ Position.x,Position.y+10,Position.z });
-	SearchTex->Update(camera);
-}
-void Enemy::SearchDraw()
-{
-	Texture::PreDraw();
-	if (searchFlag &&searchMarkDrawFlag) {
-		SearchTex->Draw();
-	}
-	Texture::PostDraw();
-}
 
 void Enemy::Action()
 {

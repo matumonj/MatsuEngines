@@ -10,9 +10,12 @@ void EnemyWalkState::Initialize(Enemy* enmey)
 }
 void EnemyWalkState::Update(Enemy* enemy)
 {
-	
+
+	float RandMove = rand() % 90 + 20;
+	float RandMovement = rand() % 100 + 80;
+
 	//õ“G”ÍˆÍ
-	const float DetectionRange = 10.0f;
+	const float DetectionRange = 30.0f;
 	//ƒvƒŒƒCƒ„[‚ªõ“G”ÍˆÍ“ü‚Á‚½‚ç
 	bool SearchPlayer = Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < DetectionRange;
 	
@@ -37,8 +40,8 @@ void EnemyWalkState::Update(Enemy* enemy)
 			movement++;
 		}
 	
-		if (movement > enemy->GetRandMoveMent()) {
-			//enemy->ChangeState(new EnemyStayState());
+		if (movement > RandMovement) {
+			enemy->ChangeState_Mob(new EnemyStayState());
 			movement = 0;
 		}
 	}

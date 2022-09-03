@@ -7,9 +7,5 @@ using namespace DirectX;
 
 EnemyActionBase::STATE EnemyAttackAction::Run(Enemy* enemy)
 {
-	enemy->Attack();
 	
-	//if(enemy->AttackEnd()) {
-	return EnemyActionBase::STATE::COMPLETE;
-	//}
 }

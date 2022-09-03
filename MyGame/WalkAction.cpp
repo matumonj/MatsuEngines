@@ -6,13 +6,9 @@ using namespace DirectX;
 
 EnemyActionBase::STATE WalkAction::Run(Enemy* enemy)
 {
-	const float DetectionRange = 10.0f;
-	bool SearchPlayer = Collision::GetLength(enemy->GetPosition(), Player::GetInstance()->GetPosition()) < DetectionRange;
-	enemy->Walk();
-	enemy->Stop();
-	if (enemy->GetSearchFlag()) {
+	
 	return EnemyActionBase::STATE::COMPLETE;
-	}
+	
 }
 //
 //void WalkAction::Walk(Enemy* enemy)

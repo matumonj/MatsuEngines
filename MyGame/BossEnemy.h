@@ -12,7 +12,7 @@ public:
     /// <summary>
     /// コンストラクタ
     /// </summary>
-    BossEnemy(BehaviorTree* ai_tree, float max_hp, float max_mp, float attack, float deffence);
+    BossEnemy();
    // BossEnemy();
     /// <summary>
     /// デストラクタ
@@ -49,19 +49,12 @@ public:
     /// 解放処理
     /// </summary>
     void Finalize()override;
-    void Walk()override;
-
-    void Stop()override;
-
-    void Follow()override;
+   
     void AttackCoolTime()override;
-    void Attack()override;
     void FbxAnimationControl()override;
     
     void Death()override;
 private:
-
-    bool SearchPlayerFlag = false;
     float GetDistance() { return distance; }
     //接地フラグ
     bool onGround = true;
@@ -70,10 +63,8 @@ private:
 public:
     void FieldCollision(DebugCamera* camera);
 
-    bool AttackFlag;
     float AttackTime;
     bool DeathFlag;
-    //  float DeathTime;
 private:
     bool nowAttack;
     bool nowDeath;

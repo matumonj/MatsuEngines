@@ -1,5 +1,6 @@
 #include "EnemyFollowState.h"
 #include"PlayerControl.h"
+#include"EnemyAttackState.h"
 void EnemyFollowState::Initialize(Enemy* enmey)
 {
 
@@ -7,6 +8,11 @@ void EnemyFollowState::Initialize(Enemy* enmey)
 
 void EnemyFollowState::Update(Enemy* enemy)
 {
+	//索敵範囲
+	const float DetectionRange = 10.0f;
+	//プレイヤーが索敵範囲入ったら
+	bool SearchPlayer = Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < DetectionRange;
+
 	float angleX, angleZ,dis;
 	//追跡スピード
 	float centerSpeed = 0.01f;
@@ -43,4 +49,8 @@ void EnemyFollowState::Update(Enemy* enemy)
 				enemy->GetPosition().z + move.m128_f32[2] }
 	);
 	//movement++;
+	if (SearchPlayer) {
+		//追跡
+		enemy->ChangeState_Mob(new EnemyAttackState());
+	}
 }

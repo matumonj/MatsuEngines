@@ -29,9 +29,7 @@ public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	Enemy(BehaviorTree* ai_tree, float max_hp, float max_mp, float attack, float deffence);
-
-	void init(BehaviorTree* ai_tree, float max_hp, float max_mp, float attack, float deffence);
+	Enemy();
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
@@ -42,7 +40,6 @@ public:
 private:
 	EnemyState* _state;
 protected:
-	Texture* SearchTex;
 	float EnemyHP;
 	float MaxHP;
 	float rotx;
@@ -51,23 +48,16 @@ protected:
 	XMVECTOR positionB;
 	XMVECTOR SubVector;
 	bool Alive = true;
-	int RandMove;
-	int RandMovement;
 protected:
 	bool MoveFlag;
 	int Number;
 	bool animeflag;
 private:
-	int stime = 0;
-	bool searchFlag;
-	bool SearchNowFlag;
-	bool searchMarkDrawFlag;
 	bool RecvDamagef;
 	float OldHP;
 	XMFLOAT3 OldPos;
 
 protected:
-	bool FollowFlag;
 	bool RecvDamageJudg;
 public:
 
@@ -75,13 +65,6 @@ public:
 	bool GetRecvDamageJudg() { return RecvDamageJudg; }
 	bool GetRecvDamage() { return RecvDamagef; }
 	void SetRecvDamage(bool f) { RecvDamagef = f; }
-	void SetSearchNow(bool f) { SearchNowFlag = f; }
-	void SearchInit();
-	void SearchAction(DebugCamera*camera);
-	void SearchDraw();
-	void SetRotTime(float t) { RotTime = t; }
-
-	float GetRotTime() { return RotTime; }
 	void SetMoveFlag(bool f) { MoveFlag = f; }
 	bool GetMoveFlag() { return MoveFlag; }
 	virtual bool GetDead() { if (EnemyHP <= 0) { return true; } }
@@ -91,10 +74,6 @@ public:
 	float GetHP() { return EnemyHP; };
 	float GetMaxHP() { return MaxHP; }
 	void SetHP(float hp) { EnemyHP = hp; }
-	float getrotc() { return rotx; }
-	//void SetRandMove(int randMove, int movement) { RandMove = randMove; Movement = movement; }
-	int GetRandMove() { return RandMove; }
-	int GetRandMoveMent() { return RandMovement; }
 	void Setcol(XMFLOAT4 c) { m_fbxObject->SetColor(c); }
 
 	void Turn_toPlayer();
@@ -131,8 +110,6 @@ public:
 
 	float GetDistance() { return distance; }
 
-	bool GetFollow() {
-		return FollowFlag;}
 	void Getposition(float* x, float* y, float* z) {
 		*x = this->Position.x;
 		*y = this->Position.y;
@@ -145,24 +122,16 @@ public:
 
 	bool GetDeath() { return DeathFlag; }
 	int GetTime() { return time; }
-	virtual void Walk()=0;
-	virtual void Stop()=0;
-	virtual void Follow()=0;
-	bool GetSearchFlag() { return searchFlag; }
-	bool endsearch;
-	bool getendsearch() { return endsearch; }
-	bool GetEndSearch() { return endsearch; }
-	virtual void Attack()=0;
+
 	virtual void AttackCoolTime()=0;
 	int GetAttackCoolTime() { return cooltime; }
 	bool f_AttackFlag;
-
+	void SetAttackTime(bool f) { f_AttackFlag = f; }
+	bool GetAttackTime() { return f_AttackFlag; }
 protected:
 	bool nowDeath;
-	bool followFlag;
 	int cooltime=0;
 	
-	bool AttackFlag;
 	bool AfterAttack;
 	XMVECTOR move;
 
@@ -181,23 +150,10 @@ protected:
 	XMFLOAT3 StartPosition;
 	int PopCount;
 
-	bool wf = true;
-	bool sf = false;
-	float BeforeRot;
-	float rot;
-
-	float AfterRot;
-	float RotTime = 0;
-	int StayCount = 0;
-
 	protected:
 
 	bool DeathFlag;
 protected:
-	BehaviorTree* m_AiTree;			// ビヘイビアツリー
-	BehaviorDatas* m_BehaviorData;	// ビヘイビアデータ
-	NodeBase* m_ActiveNode;			// 実行中ノード
-
 	public:
 		enum EnemyStates {
 			ALIVE,
@@ -210,11 +166,6 @@ protected:
 		bool GetNowDeath() { return nowDeath; }
 protected:
 		EnemyStates state=None;
-	
-			bool folatc;
-		
-public:
-	bool GetFolatc() { return folatc; }
 	
 	public:
 		void ChangeState_Mob(EnemyState* state);

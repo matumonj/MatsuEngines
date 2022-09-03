@@ -13,7 +13,7 @@ public:
     /// <summary>
     /// コンストラクタ
     /// </summary>
-    MobEnemy(BehaviorTree* ai_tree, float max_hp, float max_mp, float attack, float deffence);
+    MobEnemy();
  //   MobEnemy();
     /// <summary>
     /// デストラクタ
@@ -21,14 +21,11 @@ public:
     ~MobEnemy();
 
 private:
-    BehaviorTree behavior;
 
     //オブジェクトのインスタンス
     //Object3d* MobObject = nullptr;
    
     //
-    //
-    Texture* SearchPlayerTexture = nullptr;
 public:
 
     Object3d* colBox;
@@ -53,13 +50,7 @@ public:
     /// </summary>
     void Finalize()override;
   
-    void Walk()override;
-
-    void Stop()override;
-
-    void Follow()override;
     void Death()override;
-    void Attack()override;
     void AttackCoolTime()override;
     void FbxAnimationControl()override;
 private:
@@ -76,9 +67,7 @@ private:
     bool AttackFlag;
     float AttackTime;
     bool DeathFlag;
-  //  float DeathTime;
 private:
-    //bool folatc;
     bool nowAttack;
     float alpha=1;
 public:

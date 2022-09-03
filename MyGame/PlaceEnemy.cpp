@@ -10,8 +10,6 @@
 #include"FollowAction.h"
 void PlaceEnemy::Initialize(DebugCamera* camera)
 {
-	behavior.AddNode("", "Root", 0, BehaviorTree::SELECT_RULE::PRIORITY, NULL, NULL);
-	
 	Model = Model::CreateFromOBJ("box");
 	Obj = Object3d::Create(camera);
 	Obj->SetModel(Model);
@@ -55,10 +53,10 @@ void PlaceEnemy::ArgMent(DebugCamera* camera)
 
 		std::unique_ptr<Enemy>newEnemy;
 		if (ArgmentFlag) {
-			newEnemy = std::make_unique<MobEnemy>(&behavior, 100.0f, 100.0f, 30.0f, 10.0f);
+			newEnemy = std::make_unique<MobEnemy>();
 		}
 		if (BossArgmentFlag) {
-			newEnemy = std::make_unique<BossEnemy>(&behavior, 100.0f, 100.0f, 30.0f, 10.0f);
+			newEnemy = std::make_unique<BossEnemy>();
 		}
 		newEnemy->Initialize(camera);
 		newEnemy->SetPosition(pos);
