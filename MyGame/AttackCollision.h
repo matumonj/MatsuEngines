@@ -5,6 +5,8 @@
 #include"CollisionPrimitive.h"
 class AttackCollision
 {
+public:
+	static AttackCollision* GetInstance();
 private:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 	// DirectX::Çè»ó™
@@ -15,7 +17,7 @@ private:
 	using XMVECTOR = DirectX::XMVECTOR;
 private:
 	Box AttackArea;
-	Box EnemyArea;
+	std::vector<Box> EnemyArea;
 	Input* input;
 	Object3d* cObj;
 	Model* cModel;
@@ -25,6 +27,7 @@ public:
 
 	void Update();
 
+	void GetCol(int damage);
 	void Draw();
 };
 

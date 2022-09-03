@@ -6,6 +6,7 @@
 #include"CustomButton.h"
 #include"PlayerControl.h"
 #include"SelectSword.h"
+#include"AttackCollision.h"
 PlayerAttackState* PlayerAttackState::GetInstance()
 {
 	static PlayerAttackState instance;
@@ -154,9 +155,7 @@ void PlayerAttackState::DetailAttack(std::vector<std::unique_ptr<Enemy>>& enemy,
 		BuffAction();
 	}
 	//1”Ô‹ß‚­‚Ì“G‚É‘Î‚µ‚ÄUŒ‚
-	if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), enemy[0]->GetPosition()) < 30) {
-		//enemy[0]->RecvDamage(Damage);
-	}
+	AttackCollision::GetInstance()->GetCol(Damage);
 	//if (/*fbx‚Ìƒ‚[ƒVƒ‡ƒ“I‚í‚Á‚½‚ç*/) {
 	Skill = None;
 }

@@ -41,7 +41,8 @@ void Tutorial::objUpdate(DebugCamera* camera)
 		for (int i = 2; i < AllObjectControl.size(); i++) {
 			AllObjectControl[i]->Update(CameraControl::GetInstance()->GetCamera());
 		}
-		acol->Update();
+		AttackCollision::GetInstance()->Update();
+		PlayerAttackState::GetInstance()->Update();
 		KnockAttack::GetInstance()->ActionJudg();
 		UI::GetInstance()->HUDUpdate(hudload, CameraControl::GetInstance()->GetCamera());
 		//TargetMarker::GetInstance()->Update(CameraControl::GetInstance()->GetCamera(), PlayerControl::GetInstance()->GetPlayer());
@@ -70,8 +71,7 @@ void Tutorial::Initialize()
 	}
 	TargetMarker::GetInstance()->Initialize();
 	KnockAttack::GetInstance()->Initialize();
-	acol = new AttackCollision();
-	acol->Init();
+	AttackCollision::GetInstance()->Init();
 	// 3Dオブジェクトにカメラをセット
 	Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
 
@@ -124,7 +124,7 @@ void Tutorial::MyGameDraw()
 		for (int i = 0; i < AllObjectControl.size(); i++) {
 			AllObjectControl[i]->Draw();
 		}
-		acol->Draw();
+		//acol->Draw();
 	}
 }
 
