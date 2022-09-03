@@ -4,6 +4,10 @@
 #include"PlayerControl.h"
 #include"mHelper.h"
 #include"BossSpell.h"
+KnockAttack::~KnockAttack()
+{
+	delete KnockTex;
+}
 KnockAttack* KnockAttack::GetInstance()
 {
 	static KnockAttack instance;

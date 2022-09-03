@@ -164,6 +164,7 @@
     <ClCompile Include="BigSword.cpp" />
     <ClCompile Include="BossScene.cpp" />
     <ClCompile Include="BossSpell.cpp" />
+    <ClCompile Include="BossState.cpp" />
     <ClCompile Include="CameraControl.cpp" />
     <ClCompile Include="Chest.cpp" />
     <ClCompile Include="ChestControl.cpp" />
@@ -418,6 +419,7 @@
     <ClInclude Include="BigSword.h" />
     <ClInclude Include="BossScene.h" />
     <ClInclude Include="BossSpell.h" />
+    <ClInclude Include="BossState.h" />
     <ClInclude Include="CameraControl.h" />
     <ClInclude Include="Chest.h" />
     <ClInclude Include="ChestControl.h" />

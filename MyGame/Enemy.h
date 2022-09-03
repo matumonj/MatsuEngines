@@ -70,6 +70,7 @@ protected:
 	bool FollowFlag;
 	bool RecvDamageJudg;
 public:
+
 	bool AttackEnd() { return AfterAttack; }
 	bool GetRecvDamageJudg() { return RecvDamageJudg; }
 	bool GetRecvDamage() { return RecvDamagef; }
@@ -215,6 +216,10 @@ protected:
 public:
 	bool GetFolatc() { return folatc; }
 	
+	public:
+		void ChangeState_Mob(EnemyState* state);
+protected:
+	EnemyState* state_mob;
 };
 
 

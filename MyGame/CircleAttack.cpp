@@ -3,6 +3,10 @@
 #include"mHelper.h"
 #include"Nail.h"
 #include"BossSpell.h"
+CircleAttack::~CircleAttack()
+{
+	delete ImpactAreaTex;
+}
 CircleAttack*CircleAttack::GetInstance()
 {
 	static CircleAttack instance;

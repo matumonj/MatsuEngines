@@ -4,9 +4,9 @@
 class EnemyWalkState :public EnemyState 
 {
 public:
-	void Initialize(Enemy*enemy);
+	void Initialize(Enemy*enemy)override;
 
-	void Update(Enemy*enemy);
+	void Update(Enemy*enemy)override;
 private:
 	float tempx, tempz;
 	int movement;

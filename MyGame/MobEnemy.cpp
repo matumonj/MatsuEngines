@@ -61,6 +61,7 @@ void MobEnemy::Initialize(DebugCamera* camera)
 	AttackTime = 1.5f;
 	DeathTime = 4.9f;
 	m_fbxObject->SetColor({ 1,0,0,alpha });
+	state_mob->Initialize(this);
 }
 
 //XVˆ—
@@ -69,6 +70,8 @@ void MobEnemy::Update(DebugCamera* camera)
 	
 
 	Action();
+	
+	state_mob->Update(this);
 	if (EnemyHP <= 0) {
 		alpha -= 0.005f;
 	}

@@ -5,6 +5,7 @@
 class Nail
 {
 public:
+	~Nail();
 	static Nail* GetInstance();
 private:
 	using XMFLOAT2 = DirectX::XMFLOAT2;

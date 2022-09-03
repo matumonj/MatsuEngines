@@ -5,9 +5,9 @@
 #include"CameraControl.h"
 #include"Nail.h"
 #include"BossSpell.h"
-HalfAttack::HalfAttack()
+HalfAttack::~HalfAttack()
 {
-
+	delete HalfAreaTex;
 }
 HalfAttack* HalfAttack::GetInstance()
 {

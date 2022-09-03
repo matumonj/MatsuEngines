@@ -6,6 +6,7 @@ Field::~Field()
 {
 	delete CelestialSphereModel, CelestialSphereObject;
 	delete FieldObject, FieldModel;
+	delete BackM, BackObject;
 }
 Field* Field::GetInstance()
 {

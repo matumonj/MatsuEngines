@@ -12,20 +12,21 @@
 #include"CollisionAttribute.h"
 #include"imgui.h"
 #include"SceneManager.h"
+#include"EnemyFollowState.h"
 using namespace DirectX;
 Enemy::Enemy(BehaviorTree* ai_tree, float max_hp, float max_mp, float attack, float deffence) :
 	m_AiTree(ai_tree),
 	m_BehaviorData(NULL),
 	m_ActiveNode(NULL)
 {
-	
+	state_mob = new EnemyWalkState();
 	m_BehaviorData = new BehaviorDatas();
 }
 
 Enemy::~Enemy()
 {
 	delete m_BehaviorData;
-	delete _state;
+	delete _state, state_mob;
 	delete SearchTex;
 }
 
@@ -93,52 +94,7 @@ void Enemy::SearchDraw()
 
 void Enemy::Action()
 {
-	if (m_ActiveNode == NULL)
-	{
-		m_ActiveNode = m_AiTree->Inference(this, m_BehaviorData);
-	}
-
-	if (m_ActiveNode != NULL)
-	{
-		m_ActiveNode = m_AiTree->Run(this, m_ActiveNode, m_BehaviorData);
-	}
-		if (onGround == true) {
-
-			if (onGroundTime % 30 == 0) {
-				tempx = Position.x;
-				tempz = Position.z;
-			}
-			if (FollowFlag == true || wf) {
-				Position = {
-					Position.x + move.m128_f32[0],
-					Position.y,
-					Position.z + move.m128_f32[2] }
-				;
-			}
-
-			movement++;
-			//enemy->SetMovement(enemy->GetMovement() + 1);
-
-
-		} else if (onGround == false) {
-			if (MoveFlag != false) {
-				Position = { tempx,Position.y,tempz };
-			}
-		}
-	
-
-	
-		move = { 0,0,0.1f,0 };
-	
-	matRot = XMMatrixRotationY(XMConvertToRadians(Rotation.y));
-
-	move = XMVector3TransformNormal(move, matRot);
-
 	AttackCoolTime();
-
-	
-		//m_fbxObject->SeteCurrent(animeflag);
-		
 }
 void Enemy::RecvDamage(int Damage) 
 {
@@ -185,4 +141,10 @@ void Enemy::Turn_toPlayer()
 	RotY = atan2f(SubVector.m128_f32[0], SubVector.m128_f32[2]);
 
 	Rotation.y = RotY * 60 + 180;
+}
+
+void Enemy::ChangeState_Mob(EnemyState* state)
+{
+	delete state_mob;
+	state_mob = state;
 }

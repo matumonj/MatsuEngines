@@ -540,6 +540,9 @@
     <ClCompile Include="BossSpell.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="BossState.cpp">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\ボス攻撃パターン</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Blur.hlsli">
@@ -922,6 +925,9 @@
     </ClInclude>
     <ClInclude Include="BossSpell.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="BossState.h">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\ボス攻撃パターン</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

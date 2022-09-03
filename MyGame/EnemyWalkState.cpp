@@ -3,6 +3,7 @@
 #include"EnemyStayState.h"
 #include"EnemyFollowState.h"
 #include"Collision.h"
+#include"PlayerControl.h"
 void EnemyWalkState::Initialize(Enemy* enmey)
 {
 
@@ -13,10 +14,8 @@ void EnemyWalkState::Update(Enemy* enemy)
 	//õ“G”ÍˆÍ
 	const float DetectionRange = 10.0f;
 	//ƒvƒŒƒCƒ„[‚ªõ“G”ÍˆÍ“ü‚Á‚½‚ç
-	bool SearchPlayer = Collision::GetLength(enemy->GetPosition(), Player::GetInstance()->GetPosition()) < DetectionRange;
-	if (Player::GetInstance() != nullptr) {
-		SearchPlayer = false;
-	}
+	bool SearchPlayer = Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < DetectionRange;
+	
 	//ˆÚ“®ƒxƒNƒgƒ‹‚ðyŽ²Žü‚è‚ÌŠp“x‚Å‰ñ“]
 	XMVECTOR move = { 0,0,0.1f,0 };
 	
@@ -59,7 +58,6 @@ void EnemyWalkState::Update(Enemy* enemy)
 	//UŒ‚
 	if (SearchPlayer) {
 		//’ÇÕ
-		
-			//enemy->ChangeState(new EnemyFollowState());
-	}
+		enemy->ChangeState_Mob(new EnemyFollowState());
+}
 }

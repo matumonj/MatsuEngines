@@ -4,7 +4,7 @@
 class HalfAttack
 {
 public:
-	HalfAttack();
+	~HalfAttack();
 private:
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;

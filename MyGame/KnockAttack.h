@@ -3,6 +3,8 @@
 #include"Input.h"
 class KnockAttack
 {
+public:
+	~KnockAttack();
 private:
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;

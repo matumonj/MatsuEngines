@@ -32,6 +32,11 @@ void TitleScene::Update()
 		SceneManager::GetInstance()->SetScene(SceneManager::BOSS);
 		sceneManager_->SetnextScene(scene);//シーンのセット
 	}
+	if (Input::GetInstance()->TriggerButton(Input::Button_A)) {//押されたら
+		BaseScene* scene = new Tutorial(sceneManager_);//次のシーンのインスタンス生成
+		SceneManager::GetInstance()->SetScene(SceneManager::TUTORIAL);
+		sceneManager_->SetnextScene(scene);//シーンのセット
+	}
 	titlesprite->SetSize({ WinApp::window_width,WinApp::window_height });
 }
 

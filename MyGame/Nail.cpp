@@ -1,6 +1,10 @@
 #include "Nail.h"
 #include"CameraControl.h"
 #include"Input.h"
+Nail::~Nail()
+{
+	delete Nailmodel;
+}
 Nail* Nail::GetInstance()
 {
 	static Nail instance;

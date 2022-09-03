@@ -138,7 +138,7 @@ void EnemyControl::TuatorialDraw()
 }
 void EnemyControl::Initialize(DebugCamera* camera)
 {
-	behavior.AddNode("", "Root", 0, BehaviorTree::SELECT_RULE::PRIORITY, NULL, NULL);
+	//behavior.AddNode("", "Root", 0, BehaviorTree::SELECT_RULE::PRIORITY, NULL, NULL);
 	//behavior.AddNode("Root", "Walk", 1, BehaviorTree::SELECT_RULE::NON, WalkJudgment::GetInstance(), WalkAction::GetInstance());
 //
 
