@@ -47,7 +47,9 @@ public:
 	void ModelSet();
 	void Update();
 	void Draw();
-
-	bool GetEndAction() { return CAttack.EndAction; }
+	bool GetEndAction_Half() { return HAttack.EndAction; }
+	void SetEndAction_Half(bool f) { HAttack.EndAction = f; }
+	bool GetEndAction_HalfFase() { if (HAttack.fase == NON) { return true; } else { return false; } }
+	bool GetEndAction_Circle() { return CAttack.EndAction; }
 };
 

@@ -5,7 +5,6 @@
 #include"MapCreateScene.h"
 #include"Field.h"
 #include"HUD.h"
-#include"DebugTxt.h"
 #include"PlayerAttackState.h"
 #include"SistemConfig.h"
 #include"EnemyControl.h"
@@ -14,11 +13,10 @@
 #include"ChestControl.h"
 #include"CameraControl.h"
 #include"UI.h"
-#include"Effects.h"
 #include"PlayScene.h"
 #include"Feed.h"
 #include"PlayerControl.h"
-
+#include"AttackCollision.h"
 #include"SelectSword.h"
 #include"KnockAttack.h"
 #include"CircleAttack.h"
@@ -44,6 +42,7 @@ void BossScene::Initialize()
 	for (int i = 0; i < AllObjectControl.size(); i++) {//初期化
 		AllObjectControl[i]->Initialize(CameraControl::GetInstance()->GetCamera());
 	}
+	AttackCollision::GetInstance()->Init();
 	TargetMarker::GetInstance()->Initialize();
 	KnockAttack::GetInstance()->Initialize();
 	CircleAttack::GetInstance()->Initialize();
@@ -79,14 +78,14 @@ void BossScene::Update()
 		for (int i = 2; i < AllObjectControl.size(); i++) {
 			AllObjectControl[i]->Update(CameraControl::GetInstance()->GetCamera());
 		}
-		//acol->Update();
-		HalfAttack::GetInstance()->ActionJudg();
+		AttackCollision::GetInstance()->Update();
+		PlayerAttackState::GetInstance()->Update();
+		//HalfAttack::GetInstance()->ActionJudg();
 		KnockAttack::GetInstance()->ActionJudg();
 		CircleAttack::GetInstance()->ActionJudg();
 		Nail::GetInstance()->Update();
 		UI::GetInstance()->HUDUpdate(hudload, CameraControl::GetInstance()->GetCamera());
-		//TargetMarker::GetInstance()->Update(CameraControl::GetInstance()->GetCamera(), PlayerControl::GetInstance()->GetPlayer());
-	}
+		}
 
 
 	Field::GetInstance()->Update(CameraControl::GetInstance()->GetCamera());
@@ -95,9 +94,6 @@ void BossScene::Update()
 	//csv読み込み部分(Cameraの更新後にするのでobjUpdate()挟んでから)
 	LoadParam(CameraControl::GetInstance()->GetCamera());
 
-	if (PlayerControl::GetInstance()->GetPlayer()->GetPosition().z > -470) {
-		//scenechange = true;
-	}
 	if (scenechange) {
 		Feed::GetInstance()->Update_White(Feed::FEEDIN);//白くなります
 	}
@@ -107,7 +103,7 @@ void BossScene::Update()
 		c_postEffect = Default;
 	}
 	//if (Feed::GetInstance()->GetAlpha() >= 1.0f) {//画面真っ白なったら
-		BaseScene* scene = new PlayScene(sceneManager_);//次のシーンのインスタンス生成
+		//BaseScene* scene = new PlayScene(sceneManager_);//次のシーンのインスタンス生成
 		//SceneManager::GetInstance()->SetScene(SceneManager::PLAY);
 		//sceneManager_->SetnextScene(scene);//シーンのセット
 	//}
@@ -120,7 +116,6 @@ void BossScene::MyGameDraw()
 		for (int i = 0; i < AllObjectControl.size(); i++) {
 			AllObjectControl[i]->Draw();
 		}
-		//acol->Draw();
 	}
 }
 void BossScene::Draw()
@@ -160,7 +155,6 @@ void BossScene::Draw()
 		UI::GetInstance()->HUDDraw();
 
 		SistemConfig::GetInstance()->Draw();
-	//	Feed::GetInstance()->Draw();
 
 		if (DirectXCommon::GetInstance()->GetFullScreen() == false) {
 			PlayerControl::GetInstance()->GetPlayer()->ImguiDraw();

@@ -64,11 +64,12 @@ void BossSpell::SpellAction(Spells& spell, float spellCount)
 		spell.SpellGauge->SetSize({ Easing::EaseOut(spell.Time,0,286),260 });
 		if (spell.Time >= 1.0f) {
 			spell.EndJudg = true;
-			spell.StartJudg = false;
 		}
 	}
 	if (spell.EndJudg) {
 		spell.Time = 0.0f;
+		spell.SpellGauge->SetSize({ 0,0 });
+		spell.StartJudg = false;
 	}
 }
 void BossSpell::SpellsDraw(Spells spells)

@@ -90,7 +90,25 @@ void AttackCollision::GetCol(int damage)
 		break;
 
 	case SceneManager::BOSS:
-
+		EnemyArea.resize(1);
+		EnemyArea[0].position = { EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetPosition().x,
+		EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetPosition().z };
+		EnemyArea[0].scale = { 10,10 };
+		for (int i = 0; i < EnemyArea.size(); i++) {
+			if (EnemyControl::GetInstance()->GetBossEnemyindex()[0] != nullptr) {
+				if (Collision::CheckBox2Box(AttackArea, EnemyArea[i]) == true) {
+					if (CustomButton::GetInstance()->GetAttackAction()) {
+						EnemyControl::GetInstance()->GetBossEnemyindex()[i]->Setcol({ 0,1,0,1 });
+						EnemyControl::GetInstance()->GetBossEnemyindex()[i]->RecvDamage(damage);
+						//break;
+					} else {
+						EnemyControl::GetInstance()->GetBossEnemyindex()[i]->Setcol({ 1,1,1,1 });
+					}
+				} else if (Collision::CheckBox2Box(AttackArea, EnemyArea[i]) == false) {
+					EnemyControl::GetInstance()->GetBossEnemyindex()[0]->Setcol({ 1,1,1,1 });
+				}
+			}
+		}
 		break;
 	default:
 		break;

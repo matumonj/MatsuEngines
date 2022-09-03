@@ -13,10 +13,9 @@
 #include"Input.h"
 #include"Player.h"
 #include"EnemyState.h"
+#include"BossEnemyState.h"
 #include"Texture.h"
 #include"Destroy.h"
-class BehaviorTree;
-#include"BehaviorDatas.h"
 #include"ObjectManager.h"
 class NodeBase;
 /// <summary>
@@ -42,11 +41,7 @@ private:
 protected:
 	float EnemyHP;
 	float MaxHP;
-	float rotx;
-	float rotz;
-	XMVECTOR positionA;
-	XMVECTOR positionB;
-	XMVECTOR SubVector;
+	
 	bool Alive = true;
 protected:
 	bool MoveFlag;
@@ -61,7 +56,6 @@ protected:
 	bool RecvDamageJudg;
 public:
 
-	bool AttackEnd() { return AfterAttack; }
 	bool GetRecvDamageJudg() { return RecvDamageJudg; }
 	bool GetRecvDamage() { return RecvDamagef; }
 	void SetRecvDamage(bool f) { RecvDamagef = f; }
@@ -96,8 +90,6 @@ public:
 	virtual void Draw()override;
 
 	virtual void Action();
-	void SetMovement(int movement) { this->movement = movement; }
-	int GetMovement() { return movement; }
 	void EnemyPop(int HP);
 	void SetStartPosition(XMFLOAT3 position) {
 		StartPosition = { 0,0,0}; }
@@ -107,7 +99,7 @@ public:
 	virtual void Finalize();
 
 	float distance;
-
+	bool AfterAttack;
 	float GetDistance() { return distance; }
 
 	void Getposition(float* x, float* y, float* z) {
@@ -132,16 +124,8 @@ protected:
 	bool nowDeath;
 	int cooltime=0;
 	
-	bool AfterAttack;
-	XMVECTOR move;
-
-	XMMATRIX matRot;
-	bool searchTexSet;
 	int onGroundTime = 0;
 	int time=0;
-	float RotY;
-	float tempx, tempz;
-	int movement;
 protected:
 	float f_time;
 	float start_time;
@@ -162,6 +146,25 @@ protected:
 			AFTER_ATTACK,
 			NOW_ATTACK
 		};
+		struct Attack_SE {
+			bool start;
+			bool end;
+		};
+		Attack_SE Attack_Circle;
+		Attack_SE Attack_Knock;
+		Attack_SE Attack_Half;
+		Attack_SE Attack_Half2;
+
+		bool GetAttack_Half_Start() { return Attack_Half.start; }
+		bool GetAttack_Half2_Start() { return Attack_Half2.start; }
+		bool GetAttack_Half_End() { return Attack_Half.end; }
+		bool GetAttack_Half2_End() { return Attack_Half2.end; }
+
+		void SetAttack_Half_Start(bool f) {Attack_Half.start=f; }
+		void SetAttack_Half2_Start(bool f) {  Attack_Half2.start = f; }
+		void SetAttack_Half_End(bool f) {  Attack_Half.end = f; }
+		void SetAttack_Half2_End(bool f) { Attack_Half2.end = f; }
+
 		EnemyStates GetState() { return state; }
 		bool GetNowDeath() { return nowDeath; }
 protected:
@@ -169,8 +172,10 @@ protected:
 	
 	public:
 		void ChangeState_Mob(EnemyState* state);
+		void ChangeState_Boss(BossEnemyState* state);
 protected:
 	EnemyState* state_mob;
+	BossEnemyState* state_boss;
 };
 
 

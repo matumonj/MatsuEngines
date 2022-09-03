@@ -5,7 +5,7 @@
 #include"BossSpell.h"
 CircleAttack::~CircleAttack()
 {
-	delete ImpactAreaTex;
+	//delete ImpactAreaTex;
 }
 CircleAttack*CircleAttack::GetInstance()
 {
@@ -86,7 +86,7 @@ void CircleAttack::ActionJudg()
 void CircleAttack::Draw()
 {
 	Texture::PreDraw();
-	if (Nail::GetInstance()->GetEndAction() == false) {
+	if (Nail::GetInstance()->GetEndAction_Circle() == false) {
 		for (int i = 0; i < 2; i++) {
 			ImpactAreaTex[i]->Draw();
 			ImpactAreaTex[i]->Draw();

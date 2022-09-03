@@ -52,7 +52,7 @@ private:
 
 	enum DamageValue
 	{
-		FIRSTATTACKDAMAGE = 100,
+		FIRSTATTACKDAMAGE = 50,
 		SECONDATTACKDAMAGE = 105,
 		THIRDAttackDamage = 100,
 		COMBOBONUS = 10,

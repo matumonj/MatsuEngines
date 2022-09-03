@@ -59,7 +59,7 @@ void Field::Update(DebugCamera* camera)
 		CelestialSphereObject->setFog(FALSE);
 	}
 	else if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
-		FieldObject->setFog(TRUE);
+		//FieldObject->setFog(TRUE);
 		//	FieldObject->Setf(TRUE);
 		CelestialSphereObject->setFog(TRUE);
 		BackObject->setFog(TRUE);

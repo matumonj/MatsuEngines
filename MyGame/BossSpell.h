@@ -34,7 +34,9 @@ public:
 	void SetStartSpell_KA(bool f) { KnockAttack.StartJudg = f; }
 
 	bool GetEndSpell_HL() { return HalfAttack_Left.EndJudg; }
+	void SetEndSpell_HL(bool f) { HalfAttack_Left.EndJudg=f; }
 	bool GetEndSpell_HR() { return HalfAttack_Right.EndJudg; }
+	void SetEndSpell_HR(bool f) { HalfAttack_Right.EndJudg = f; }
 	bool GetEndSpell_CA() { return CircleAttack.EndJudg; }
 	bool GetEndSpell_KA() { return KnockAttack.EndJudg; }
 

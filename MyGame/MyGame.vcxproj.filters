@@ -166,6 +166,12 @@
     <Filter Include="Game\gameobject\オブジェクト種類\Enemy\ボス攻撃パターン">
       <UniqueIdentifier>{c83847d2-65dc-444a-ac0b-10be1dc5ee3c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\雑魚">
+      <UniqueIdentifier>{506af174-ebed-4cae-93f8-e0534a0ee714}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス">
+      <UniqueIdentifier>{03ed31c6-4630-4966-9fda-66b80c317f82}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="BlurPS.hlsl">
@@ -332,21 +338,6 @@
     </ClCompile>
     <ClCompile Include="TargetMarker.cpp">
       <Filter>Game\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyAttackState.cpp">
-      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyStayState.cpp">
-      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyState.cpp">
-      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyWalkState.cpp">
-      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyFollowState.cpp">
-      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移</Filter>
     </ClCompile>
     <ClCompile Include="RenderTarget.cpp">
       <Filter>Game</Filter>
@@ -543,6 +534,39 @@
     <ClCompile Include="AttackCollision.cpp">
       <Filter>Game\gameobject\オブジェクト種類\Player</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyAttackState.cpp">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\雑魚</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyFollowState.cpp">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\雑魚</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyState.cpp">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\雑魚</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyStayState.cpp">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\雑魚</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyWalkState.cpp">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\雑魚</Filter>
+    </ClCompile>
+    <ClCompile Include="BossEnemyAttack.cpp">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス</Filter>
+    </ClCompile>
+    <ClCompile Include="BossEnemyFollow.cpp">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス</Filter>
+    </ClCompile>
+    <ClCompile Include="BossEnemyState.cpp">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス</Filter>
+    </ClCompile>
+    <ClCompile Include="BossEnemyAttackCircle.cpp">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス</Filter>
+    </ClCompile>
+    <ClCompile Include="BossEnemyAttackHalf.cpp">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス</Filter>
+    </ClCompile>
+    <ClCompile Include="BossEnemyAttackKnock.cpp">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Blur.hlsli">
@@ -703,21 +727,6 @@
     </ClInclude>
     <ClInclude Include="OBBCollision.h">
       <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyAttackState.h">
-      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyStayState.h">
-      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyWalkState.h">
-      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyState.h">
-      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyFollowState.h">
-      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移</Filter>
     </ClInclude>
     <ClInclude Include="CollisionAttribute.h">
       <Filter>Game\collision</Filter>
@@ -928,6 +937,39 @@
     </ClInclude>
     <ClInclude Include="AttackCollision.h">
       <Filter>Game\gameobject\オブジェクト種類\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyAttackState.h">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\雑魚</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyFollowState.h">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\雑魚</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyState.h">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\雑魚</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyStayState.h">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\雑魚</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyWalkState.h">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\雑魚</Filter>
+    </ClInclude>
+    <ClInclude Include="BossEnemyAttack.h">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス</Filter>
+    </ClInclude>
+    <ClInclude Include="BossEnemyFollow.h">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス</Filter>
+    </ClInclude>
+    <ClInclude Include="BossEnemyState.h">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス</Filter>
+    </ClInclude>
+    <ClInclude Include="BossEnemyAttackCircle.h">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス</Filter>
+    </ClInclude>
+    <ClInclude Include="BossEnemyAttackHalf.h">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス</Filter>
+    </ClInclude>
+    <ClInclude Include="BossEnemyAttackKnock.h">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

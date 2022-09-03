@@ -165,7 +165,7 @@ void EnemyControl::Update(DebugCamera* camera)
 	}
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
 		if (boss_enemy[0] != nullptr) {
-			boss_enemy[0]->SetMoveFlag(true);
+			//boss_enemy[0]->SetMoveFlag(true);
 			boss_enemy[0]->Update(camera);
 		}
 	}

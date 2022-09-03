@@ -29,7 +29,7 @@ void BossEnemy::Initialize(DebugCamera* camera)
 	m_Object->Initialize(camera);
 	m_fbxModel = FbxLoader::GetInstance()->LoadModelFromFile("monster_golem_demo");
 
-	EnemyHP = 250.0f;
+	EnemyHP = 300.0f;
 
 	Texture::LoadTexture(11, L"Resources/Sertch.png");
 	SearchPlayerTexture = Texture::Create(11, { 0,-50,50 }, { 1,1,1 }, { 1,1,1,1 });
@@ -38,7 +38,7 @@ void BossEnemy::Initialize(DebugCamera* camera)
 
 	Rotation = { -70,180,0 };
 
-
+	MaxHP = 300.0f;
 	m_fbxObject = std::make_unique<f_Object3d>();
 	m_fbxObject->Initialize();
 	m_fbxObject->SetModel(m_fbxModel);
@@ -50,6 +50,7 @@ void BossEnemy::Initialize(DebugCamera* camera)
 	AttackTime = 1.5f;
 	DeathTime = 4.9f;
 	f_time = 200 / 60;
+	state_boss->Initialize(this);
 }
 
 //XVˆ—
@@ -63,6 +64,7 @@ void BossEnemy::Update( DebugCamera* camera)
 
 	Action();
 
+
 	FbxAnimationControl();
 	EnemyPop(150);
 
@@ -71,6 +73,7 @@ void BossEnemy::Update( DebugCamera* camera)
 	ParameterSet_Fbx(camera);
 	CollisionField(camera);
 
+	state_boss->Update(this);
 }
 
 //•`‰æˆ—
@@ -86,9 +89,6 @@ void BossEnemy::Finalize()
 
 void BossEnemy::Death()
 {
-	DeathFlag = true;
-	m_fbxObject->SetDeathFlag(true);
-	DeathFlag = true;
 }
 
 

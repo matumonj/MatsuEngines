@@ -92,9 +92,7 @@ void Player::Update(DebugCamera* camera)
 	CollisionField(camera);
 
 	HandMat = m_fbxObject->GetRot();
-	//SetPosition({ 92,-27,-760 });
 	SelectSword::GetInstance()->Update();
-	//sword->Update(camera);
 }
 
 void Player::RotationStatus()
@@ -154,32 +152,17 @@ void Player::RotationStatus()
 }
 
 
-
-//void Player::CollisionField(DebugCamera* camera)
-//{
-	/*if (CustomButton::GetInstance()->GetJumpAction() == true) {
-		onGround = false;
-		const float jumpVYFist = 0.2f;
-		fallV = { 0, jumpVYFist, 0, 0 };
-
-	}*/
-
-//}
-
 void Player::Draw()
 {
 	Draw_Fbx();
 	SelectSword::GetInstance()->SwordDraw();
-//	sword->Draw();
 }
 
 void Player::ImguiDraw()
 {
 	ImGui::Begin("Player_State");
-	//Position
 	if (ImGui::TreeNode("Position")) {
 
-		//Position = { 92,-27,-760 };
 		ImGui::Text(" PositionX   [%5f]", Position.x);
 		ImGui::Text(" PositionY   [%5f]", Position.y);
 		ImGui::Text(" PositionZ   [%5f]", Position.z);

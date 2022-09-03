@@ -3,7 +3,7 @@
 #include"Input.h"
 Nail::~Nail()
 {
-	delete Nailmodel;
+	//delete Nailmodel;
 }
 Nail* Nail::GetInstance()
 {
@@ -62,6 +62,7 @@ void Nail::HalfAttack(HalfAttackArea area)
 
 	case NON:
 		HAttack.WaitCount = 0;
+		//HAttack.EndAction = false;
 		break;
 	default:
 		break;

@@ -6,7 +6,7 @@
 #include"BossSpell.h"
 KnockAttack::~KnockAttack()
 {
-	delete KnockTex;
+	//delete KnockTex;
 }
 KnockAttack* KnockAttack::GetInstance()
 {

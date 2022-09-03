@@ -7,7 +7,7 @@
 #include"BossSpell.h"
 HalfAttack::~HalfAttack()
 {
-	delete HalfAreaTex;
+	//delete HalfAreaTex;
 }
 HalfAttack* HalfAttack::GetInstance()
 {
@@ -27,14 +27,16 @@ void HalfAttack::Initialize()
 
 void HalfAttack::ActionJudg()
 {
-	if (Input::GetInstance()->TriggerButton(Input::GetInstance()->Button_A)) {
-		fase1 = true;
-	}
+	
 //fase1　カウントダウンと中央に戻る処理
 	PlayerPos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 	BossEnemyPos = EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetPosition();
 	CenterPos = { 0,-18,0 };
-	if (fase1) {
+	if (fase==FASEONE) {
+		BossSpell::GetInstance()->SetEndSpell_HR(false);
+		BossSpell::GetInstance()->SetEndSpell_HL(false);
+
+		TexAlpha += 0.02f;
 		TurnCenter();
 		if (Collision::GetLength(BossEnemyPos, CenterPos) < 10) {
 			if (PlayerPos.x>0) {
@@ -42,24 +44,25 @@ void HalfAttack::ActionJudg()
 			} else if(PlayerPos.x <=0) {
 				Area = RIGHT;
 			}
-			fase2 = true;
-			fase1 = false;
+			fase = FASETWO;	
 		}
 	}
 
-	if (fase2) {
+	if (fase==FASETWO) {
 		if (Area == LEFT) {
 			BossSpell::GetInstance()->SetStartSpell_HR(true);
 		} else if (Area == RIGHT) {
 			BossSpell::GetInstance()->SetStartSpell_HL(true);
 		}
 		if (BossSpell::GetInstance()->GetEndSpell_HL()|| BossSpell::GetInstance()->GetEndSpell_HR()) {
-			fase3 = true;
-			fase2 = false;
+			fase = FASETHREE;
 		}
 	}
 
-	if (fase3) {
+	if (fase==FASETHREE) {
+		if (Nail::GetInstance()->GetEndAction_Half()) {
+			Nail::GetInstance()->SetEndAction_Half(false);
+		}
 		if ( Area == LEFT) {
 			Nail::GetInstance()->HalfAttack(Nail::RIGHT);
 		}
@@ -68,6 +71,12 @@ void HalfAttack::ActionJudg()
 		}
 		TexAlpha -= 0.02f;
 		AttackCount = 0;
+		if (Nail::GetInstance()->GetEndAction_Half()) {
+			fase = FASEFOUR;
+		}
+	}
+	if (fase==FASEFOUR) {
+
 	}
 	HalfAreaTex->SetUVMove(true);
 	HalfAreaTex->SetBillboard(false);
@@ -129,4 +138,16 @@ void HalfAttack::TurnCenter()
 			EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetRotation().x,
 			RotY * 60 + 180,
 			EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetRotation().z });
+		//移動ベクトルをy軸周りの角度で回転
+		XMVECTOR move = { 0,0,0.1f,0 };
+
+		XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetRotation().y));
+
+		move = XMVector3TransformNormal(move, matRot);
+
+		EnemyControl::GetInstance()->GetBossEnemyindex()[0]->SetPosition({
+					EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetPosition().x + move.m128_f32[0],
+					EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetPosition().y,
+					EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetPosition().z + move.m128_f32[2] }
+		);
 }

@@ -162,6 +162,12 @@
     <ClCompile Include="BehaviorDatas.cpp" />
     <ClCompile Include="BehaviorTree.cpp" />
     <ClCompile Include="BigSword.cpp" />
+    <ClCompile Include="BossEnemyAttack.cpp" />
+    <ClCompile Include="BossEnemyAttackCircle.cpp" />
+    <ClCompile Include="BossEnemyAttackHalf.cpp" />
+    <ClCompile Include="BossEnemyAttackKnock.cpp" />
+    <ClCompile Include="BossEnemyFollow.cpp" />
+    <ClCompile Include="BossEnemyState.cpp" />
     <ClCompile Include="BossScene.cpp" />
     <ClCompile Include="BossSpell.cpp" />
     <ClCompile Include="BossState.cpp" />
@@ -417,6 +423,12 @@
     <ClInclude Include="BehaviorDatas.h" />
     <ClInclude Include="BehaviorTree.h" />
     <ClInclude Include="BigSword.h" />
+    <ClInclude Include="BossEnemyAttack.h" />
+    <ClInclude Include="BossEnemyAttackCircle.h" />
+    <ClInclude Include="BossEnemyAttackHalf.h" />
+    <ClInclude Include="BossEnemyAttackKnock.h" />
+    <ClInclude Include="BossEnemyFollow.h" />
+    <ClInclude Include="BossEnemyState.h" />
     <ClInclude Include="BossScene.h" />
     <ClInclude Include="BossSpell.h" />
     <ClInclude Include="BossState.h" />

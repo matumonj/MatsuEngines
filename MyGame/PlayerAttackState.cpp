@@ -7,6 +7,7 @@
 #include"PlayerControl.h"
 #include"SelectSword.h"
 #include"AttackCollision.h"
+#include"SceneManager.h"
 PlayerAttackState* PlayerAttackState::GetInstance()
 {
 	static PlayerAttackState instance;
@@ -28,11 +29,8 @@ void PlayerAttackState::ComboAction()
 	}
 	
 }
-//std::vector<std::unique_ptr<Enemy>>
 void PlayerAttackState::Update()
 {
-	//enemys=std::move(enemy);
-	
 	if (Input::GetInstance()->PushButton(Input::GetInstance()->Button_RB)) {
 		AttackJudgeMent = true;
 	}
@@ -64,7 +62,15 @@ void PlayerAttackState::Update()
 	case PlayerAttackState::None:
 		break;
 	case PlayerAttackState::First:
-		FirstAttack(EnemyControl::GetInstance()->GetTutorialEnemyindex());
+		if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
+			FirstAttack(EnemyControl::GetInstance()->GetTutorialEnemyindex());
+		}
+		if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
+			FirstAttack(EnemyControl::GetInstance()->GetEnemyindex(0));
+		}
+		if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
+			FirstAttack(EnemyControl::GetInstance()->GetBossEnemyindex());
+		}
 		break;
 	case PlayerAttackState::Second:
 		//SecondAttack(EnemyControl::GetInstance()->GetEnemyindex(1)
@@ -154,7 +160,7 @@ void PlayerAttackState::DetailAttack(std::vector<std::unique_ptr<Enemy>>& enemy,
 	if (BuffFlag) {
 		BuffAction();
 	}
-	//1”Ô‹ß‚­‚Ì“G‚É‘Î‚µ‚ÄUŒ‚
+	//“G‚É‘Î‚µ‚ÄUŒ‚
 	AttackCollision::GetInstance()->GetCol(Damage);
 	//if (/*fbx‚Ìƒ‚[ƒVƒ‡ƒ“I‚í‚Á‚½‚ç*/) {
 	Skill = None;

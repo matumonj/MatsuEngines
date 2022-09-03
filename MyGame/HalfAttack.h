@@ -20,7 +20,7 @@ private:
 
 	Texture* HalfAreaTex;
 	float RotY;
-	bool fase1, fase2,fase3;
+	bool fase1, fase2,fase3,fase4;
 	int AttackCount;
 	float TexAlpha = 1.0f;
 	float AfterPositionZ;
@@ -32,6 +32,15 @@ private:
 	XMFLOAT3 PlayerPos;
 	XMFLOAT3 BossEnemyPos;
 
+public:enum Fase {
+	FASENON,
+	FASEONE,
+	FASETWO,
+	FASETHREE,
+	FASEFOUR
+};
+private:
+	  Fase fase;
 public:
 	static HalfAttack* GetInstance();
 	XMFLOAT3 MoveCenterPos();
@@ -39,5 +48,8 @@ public:
 	void Draw();
 	void ActionJudg();
 	void TurnCenter();
+
+	void SetAttackFase(bool f) { if (f && fase!=FASEONE) { fase = FASEONE; } }
+	Fase GetFaseEnd() { return fase; }
 };
 

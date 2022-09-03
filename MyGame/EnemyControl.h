@@ -23,8 +23,7 @@ private:
 
 	XMFLOAT3 tutorial_pos;
 	XMFLOAT3 boss_pos;
-	//行動パターン
-	BehaviorTree behavior;
+	
 private:
 	enum {
 		ALPHAENEMY=1,
