@@ -9,7 +9,7 @@ void BossEnemyAttackHalf::Initialize(Enemy* enmey)
 
 void BossEnemyAttackHalf::Update(Enemy* enemy)
 {
-	enemy->SetAttackTime(true);
+	//enemy->SetAttackTime(true);
 	HalfAttack::GetInstance()->ActionJudg();
 	if (Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) <= 80.0f) {
 		enemy->SetAttack_Half_End(true);

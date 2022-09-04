@@ -15,6 +15,7 @@
 #include"BigSword.h"
 #include"SelectSword.h"
 #include"SceneManager.h"
+#include"HUD.h"
 #define PI 3.145265
 using namespace DirectX;
 XMFLOAT3 Player::Effect_Pos = { -50,-10,-100 };
@@ -160,35 +161,35 @@ void Player::Draw()
 
 void Player::ImguiDraw()
 {
-	ImGui::Begin("Player_State");
-	if (ImGui::TreeNode("Position")) {
+	//ImGui::Begin("Player_State");
+	//if (ImGui::TreeNode("Position")) {
 
-		ImGui::Text(" PositionX   [%5f]", Position.x);
-		ImGui::Text(" PositionY   [%5f]", Position.y);
-		ImGui::Text(" PositionZ   [%5f]", Position.z);
+	//	ImGui::Text(" PositionX   [%5f]", Position.x);
+	//	ImGui::Text(" PositionY   [%5f]", Position.y);
+	//	ImGui::Text(" PositionZ   [%5f]", Position.z);
 
-	}
-	//Rotation
-	if (ImGui::TreeNode("Rotation")) {
-		XMMATRIX sub = m_fbxObject->GetPos();
+	//}
+	////Rotation
+	//if (ImGui::TreeNode("Rotation")) {
+	//	XMMATRIX sub = m_fbxObject->GetPos();
 
-		XMFLOAT3 rots = { sub.r[3].m128_f32[0],sub.r[3].m128_f32[1], sub.r[3].m128_f32[2] };
-		ImGui::Text(" RotationX   [%5f]", rots.x);
-		ImGui::Text(" RotationY   [%5f]", rots.y);
-		ImGui::Text(" RotationZ   [%5f]", rots.z);
-		ImGui::TreePop();
-	}
-	ImGui::SliderInt("HP", &HP, 1, MaxHP);
-	ImGui::SliderFloat("MoveSpeed", &movespeed, 1, 15);
-	//もし落下したとき地面に戻ってくる 1秒前の接地位置に戻ってくる
-	PosSavetime++;
-	if (PosSavetime > 60) {
-		PosSavetime = 0;
-	}
-	if (ImGui::RadioButton("ReturnGround", &ReturnGround)) {
-		Position = OldPos_Onground;
-		ReturnGround = false;
-	}
+	//	XMFLOAT3 rots = { sub.r[3].m128_f32[0],sub.r[3].m128_f32[1], sub.r[3].m128_f32[2] };
+	//	ImGui::Text(" RotationX   [%5f]", rots.x);
+	//	ImGui::Text(" RotationY   [%5f]", rots.y);
+	//	ImGui::Text(" RotationZ   [%5f]", rots.z);
+	//	ImGui::TreePop();
+	//}
+	//ImGui::SliderInt("HP", &HP, 1, MaxHP);
+	//ImGui::SliderFloat("MoveSpeed", &movespeed, 1, 15);
+	////もし落下したとき地面に戻ってくる 1秒前の接地位置に戻ってくる
+	//PosSavetime++;
+	//if (PosSavetime > 60) {
+	//	PosSavetime = 0;
+	//}
+	//if (ImGui::RadioButton("ReturnGround", &ReturnGround)) {
+	//	Position = OldPos_Onground;
+	//	ReturnGround = false;
+	//}
 
 	ImGui::End();
 }
@@ -196,9 +197,12 @@ void Player::ImguiDraw()
 void Player::FbxAnimationControl()
 {
 	//if (!stopf) {
+	if (HUD::GetInstance()->GetSpriteSize(0) <=10.0f) {//このやり方あとで消す
+
 	if (CustomButton::GetInstance()->GetAttackAction() == true) {
-		AttackFlag = true;
-	}
+			AttackFlag = true;
+		}
+		}
 	if (AttackFlag) {
 		f_time = AttackTime;
 		AttackFlag = false;

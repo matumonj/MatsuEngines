@@ -273,7 +273,6 @@ void HUD::SkillBottonDraw()
 }
 void HUD::Update()
 {
-
 	HUDLayOut::GetInstance()->Update();
 	PlayerHP->setcolor({ 1,1,1,1 });
 }
@@ -281,8 +280,6 @@ void HUD::Update()
 void HUD::Draw()
 {
 	Sprite::PreDraw();
-	//PlayerHP->Draw();
-	
 	EnemyHPGaugeDraw();
 	Sprite::PostDraw();
 }

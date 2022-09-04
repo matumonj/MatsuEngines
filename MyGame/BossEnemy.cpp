@@ -56,21 +56,13 @@ void BossEnemy::Initialize(DebugCamera* camera)
 //更新処理
 void BossEnemy::Update( DebugCamera* camera)
 {
-	//if (FollowFlag) {
-		//m_fbxObject->SetColor({ 1,0,0,1 });
-	//} else {
-		//m_fbxObject->SetColor({ 1,1,1,1 });
-	//}
-
 	Action();
-
 
 	FbxAnimationControl();
 	EnemyPop(150);
 
-	//m_fbxObject->SeteCurrent(animeflag);
-
 	ParameterSet_Fbx(camera);
+	AttackCoolTime();
 	CollisionField(camera);
 
 	state_boss->Update(this);
@@ -96,14 +88,50 @@ void BossEnemy::FbxAnimationControl()
 {
 	//アニメーション
 		//1フレーム進める
-	f_time += 0.006;
+	f_time += 0.02;
 	//最後まで再生したら先頭に戻す
 
+	if (f_AttackFlag) {
+		f_time = AttackTime;
+		f_AttackFlag = false;
+		nowAttack = true;
+	} else {
+		if (nowDeath == false) {
+			if (!nowAttack && f_time >= AttackTime) {
+				f_time = 0;
+			}
+		}
+	}
+
+	if (DeathFlag) {
+		f_time = DeathTime;
+		nowDeath = true;
+		DeathFlag = false;
+
+	}
+	if (f_time > DeathTime) {
+		nowAttack = false;
+	}
 
 	m_fbxObject->SetFbxTime(f_time);
 
 }
 void BossEnemy::AttackCoolTime()
 {
+	if (f_AttackFlag) {
 
+		if (f_time >= DeathTime - 1) {
+			AfterAttack = true;
+		}
+	}
+	if (AfterAttack) {
+
+		cooltime++;
+		if (cooltime > 480) {
+			state = None;
+			AfterAttack = false;
+		}
+	} else {
+		cooltime = 0;
+	}
 }

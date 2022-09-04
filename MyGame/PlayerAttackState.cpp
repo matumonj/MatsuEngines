@@ -8,6 +8,7 @@
 #include"SelectSword.h"
 #include"AttackCollision.h"
 #include"SceneManager.h"
+#include"HUD.h"
 PlayerAttackState* PlayerAttackState::GetInstance()
 {
 	static PlayerAttackState instance;
@@ -31,16 +32,11 @@ void PlayerAttackState::ComboAction()
 }
 void PlayerAttackState::Update()
 {
-	if (Input::GetInstance()->PushButton(Input::GetInstance()->Button_RB)) {
-		AttackJudgeMent = true;
-	}
-	else {
-		AttackJudgeMent = false;
-	}
+	
 	index =  TargetMarker::GetInstance()->GetNearIndex();
 
 //	if (AttackJudgeMent) {
-		if (CustomButton::GetInstance()->GetAttackAction()==true && CoolDownTime == 0) {
+		if (CustomButton::GetInstance()->GetAttackAction()==true &&HUD::GetInstance()->GetSpriteSize(0)==120.0f){ /*CoolDownTime == 0*/
 			Skill = First;
 		} /*else if (Input::GetInstance()->PushButton(Input::GetInstance()->Button_A) && CoolDownTime == 0) {
 			Skill = Second;

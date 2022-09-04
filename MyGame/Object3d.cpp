@@ -414,7 +414,7 @@ void Object3d::Update(XMFLOAT4 color, DebugCamera* camera)
 	constMap->color = this->color;
 	constMap->viewproj = camera->GetViewProjectionMatrix();
 	constMap->world = matWorld;
-	constMap->cameraPos = camera->GetEye();
+	constMap->cameraPos = FogCenter;
 	constMap->ks = 0;
 	constMap->gsflag= gsf;
 	constMap->ks2 = { 0,0,0 };
@@ -473,7 +473,7 @@ void Object3d::Update(XMMATRIX matworld, XMFLOAT4 color, DebugCamera* camera)
 	//result = constBuffB0->Map(0, nullptr, (void**)&constMap);
 	//constMap->viewproj =,matview * matprojection;
 	//constMap->world = matWorld ;
-	constMap->cameraPos = camera->GetEye();
+	constMap->cameraPos = FogCenter;
 	constBuffB0->Unmap(0, nullptr);
 
 	if (collider) {

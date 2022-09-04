@@ -34,6 +34,17 @@ private:
 	int Area1, Area2;
 	bool NailAttackFlag;
 public:
+
+public:enum Fase {
+	FASENON,
+	FASEONE,
+	FASETWO,
+	FASETHREE,
+	FASEFOUR
+};
+private:
+	Fase fase;
+public:
 	static CircleAttack* GetInstance();
 	void Initialize();
 	void ActionJudg();
@@ -44,5 +55,8 @@ public:
 	void SetDamageArea(int area1, int area2) { Area1 = area1; Area2 = area2; };
 
 	bool GetNailMove() { return NailAttackFlag; }
+
+	void SetAttackFase(bool f) { if (f && fase != FASEONE) { fase = FASEONE; } }
+	Fase GetFaseEnd() { return fase; }
 };
 

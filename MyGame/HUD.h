@@ -22,6 +22,7 @@ private:
 	float CoolTime_Time = 0;
 	float TimeSpeed;
 public:
+	float GetSpriteSize(int index) { return coolDownSprite[index]->GetSize().y; }
 	bool GetLayOutMode();
 	void SetPosition_PlayerHP(XMFLOAT2 position);
 	void SetAnchor_PlayerHP(XMFLOAT2 position);

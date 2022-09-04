@@ -33,7 +33,9 @@ void Tutorial::objUpdate(DebugCamera* camera)
 {
 	//カメラの注視点をプレイヤーにセット
 	CameraControl::GetInstance()->SetCameraState(CameraControl::PLAYER);
-
+	if (!LoadEnemy && !Play) {
+		LoadEnemy = true;
+	}
 	if (Play) {//csvからの読み込み終わってから更新処理
 		//1->Player  0->Camera カメラの注視点Playerに合わすのでPlayerが先
 		AllObjectControl[1]->Update(CameraControl::GetInstance()->GetCamera());
@@ -176,55 +178,55 @@ void Tutorial::Draw()
 
 void Tutorial::ImGuiDraw()
 {
-	{
-		ImGui::Begin("Obj1");
-		ImGui::SetWindowPos(ImVec2(0, 500));
-		ImGui::SetWindowSize(ImVec2(500, 300));
+	//{
+	//	ImGui::Begin("Obj1");
+	//	ImGui::SetWindowPos(ImVec2(0, 500));
+	//	ImGui::SetWindowSize(ImVec2(500, 300));
 
-		if (ImGui::TreeNode("Damage")) {
-			int d = PlayerAttackState::GetInstance()->GetDamage();
-			ImGui::SliderInt("damage", &d, -100, 100);
-			ImGui::TreePop();
-		}
-		ImGui::End();
-	}
-	{
-		ImGui::Begin("None");
-		if (ImGui::Button("Load", ImVec2(70, 50))) {
-			LoadEnemy = true;
-		}
-		ImGui::End();
-	}
-	{//カメラ
-		bool defaultPos;
-		if (ImGui::RadioButton("DefaultPosition", &defaultPos)) {
-			CameraDis = 25;
-			CameraHeight = 9;
-		}
-		ImGui::SliderFloat("rotationX", &cameraAngle, -360, 360);
+	//	if (ImGui::TreeNode("Damage")) {
+	//		int d = PlayerAttackState::GetInstance()->GetDamage();
+	//		ImGui::SliderInt("damage", &d, -100, 100);
+	//		ImGui::TreePop();
+	//	}
+	//	ImGui::End();
+	//}
+	//{
+	//	ImGui::Begin("None");
+	//	if (ImGui::Button("Load", ImVec2(70, 50))) {
+	//		LoadEnemy = true;
+	//	}
+	//	ImGui::End();
+	//}
+	//{//カメラ
+	//	bool defaultPos;
+	//	if (ImGui::RadioButton("DefaultPosition", &defaultPos)) {
+	//		CameraDis = 25;
+	//		CameraHeight = 9;
+	//	}
+	//	ImGui::SliderFloat("rotationX", &cameraAngle, -360, 360);
 
-		ImGui::End();
-	}
-	ImGui::Begin("Scene");
+	//	ImGui::End();
+	//}
+	//ImGui::Begin("Scene");
 
-	if (ImGui::RadioButton("Scene_Create", t)) {
-		BaseScene* scene = new MapCreateScene(sceneManager_);//次のシーンのインスタンス生成
-		sceneManager_->SetnextScene(scene);//シーンのセット
-	}
-	if (ImGui::RadioButton("Scene_Tittle", y)) {
-		BaseScene* scene = new TitleScene(sceneManager_);//次のシーンのインスタンス生成
-		SceneManager::GetInstance()->SetScene(SceneManager::PLAY);
-		sceneManager_->SetnextScene(scene);//シーンのセット
-	}
-	ImGui::End();
-	//
-	{
-		unsigned long current_time = timeGetTime();
-		float fps = float(count_frame) / (current_time - prev_time) * 1000;
-		ImGui::SliderFloat("FPS", &fps, -10, 50);
-		count_frame++;
-		ImGui::End();
-	}
+	//if (ImGui::RadioButton("Scene_Create", t)) {
+	//	BaseScene* scene = new MapCreateScene(sceneManager_);//次のシーンのインスタンス生成
+	//	sceneManager_->SetnextScene(scene);//シーンのセット
+	//}
+	//if (ImGui::RadioButton("Scene_Tittle", y)) {
+	//	BaseScene* scene = new TitleScene(sceneManager_);//次のシーンのインスタンス生成
+	//	SceneManager::GetInstance()->SetScene(SceneManager::PLAY);
+	//	sceneManager_->SetnextScene(scene);//シーンのセット
+	//}
+	//ImGui::End();
+	////
+	//{
+	//	unsigned long current_time = timeGetTime();
+	//	float fps = float(count_frame) / (current_time - prev_time) * 1000;
+	//	ImGui::SliderFloat("FPS", &fps, -10, 50);
+	//	count_frame++;
+	//	ImGui::End();
+	//}
 }
 
 bool Tutorial::LoadParam(DebugCamera* camera)

@@ -159,14 +159,19 @@ protected:
 		bool GetAttack_Half2_Start() { return Attack_Half2.start; }
 		bool GetAttack_Half_End() { return Attack_Half.end; }
 		bool GetAttack_Half2_End() { return Attack_Half2.end; }
+		bool GetAttack_Circle_Start() { return Attack_Circle.start; }
+		bool GetAttack_Circle_End() { return Attack_Circle.end; }
 
 		void SetAttack_Half_Start(bool f) {Attack_Half.start=f; }
 		void SetAttack_Half2_Start(bool f) {  Attack_Half2.start = f; }
+		void SetAttack_Circle_Start(bool f) { Attack_Circle.start = f; }
+		void SetAttack_Circle_End(bool f) { Attack_Circle.end = f; }
 		void SetAttack_Half_End(bool f) {  Attack_Half.end = f; }
 		void SetAttack_Half2_End(bool f) { Attack_Half2.end = f; }
 
 		EnemyStates GetState() { return state; }
 		bool GetNowDeath() { return nowDeath; }
+		int GetCoolTime() { return cooltime; }
 protected:
 		EnemyStates state=None;
 	

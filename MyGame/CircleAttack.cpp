@@ -32,32 +32,26 @@ void CircleAttack::Initialize()
 }
 void CircleAttack::ActionJudg()
 {
-	if (Input::GetInstance()->TriggerButton(Input::GetInstance()->Button_X)) {
-		fase1 = true;
-
-		NailAttackFlag = true;
-	}
-	if (fase2) {
+	
+	if (fase==FASEONE) {
 		NailAttackFlag = false;
 		BossSpell::GetInstance()->SetStartSpell_CA(true);
 		if (BossSpell::GetInstance()->GetEndSpell_CA()) {
-			fase3 = true;
-			fase2 = false;
+			fase = FASETWO;
 		}
 	}
 
-	if (fase3) {
+	if (fase == FASETWO) {
 		CircleAreaTime += 0.01f;
 		CircleSize.x = Easing::EaseOut(CircleAreaTime, 0, 8);
 		CircleSize.y = Easing::EaseOut(CircleAreaTime, 0, 8);
 		AttackCount = 0;
 		if (CircleAreaTime >= 1.0f) {
-			fase4 = true;
-			fase3 = false;
+			fase = FASETHREE;
 		}
 	}
 
-	if (fase4) {
+	if (fase == FASETHREE) {
 		Nail::GetInstance()->CircleAttack(Area1, Area2);
 		Direction[Area1].y++;
 		Direction[Area2].y++;
@@ -65,6 +59,9 @@ void CircleAttack::ActionJudg()
 		NailObj[0]->SetPosition(Direction[Area1]);
 		NailObj[1]->SetPosition(Direction[Area2]);
 		TexAlpha -= 0.01f;
+		if (TexAlpha <= 0.0f) {
+			fase = FASEFOUR;
+		}
 	}
 
 
@@ -103,7 +100,7 @@ void CircleAttack::Draw()
 void CircleAttack::ImpactAttack(int area1, int area2)
 {
 	SetDamageArea(area1, area2);
-	if (fase1) {
+	if (fase==FASEONE) {
 		NailObj.resize(2);
 		for (int i = 0; i < NailObj.size(); i++) {
 			NailObj[i] = std::make_unique<Object3d>();
@@ -117,10 +114,8 @@ void CircleAttack::ImpactAttack(int area1, int area2)
 		ImpactAreaTex[0]->SetBillboard(false);
 		ImpactAreaTex[1]->SetBillboard(false);
 		
-		fase2 = true;
-		fase1 = false;
 	}
-	if (fase2) {
+	if (fase == FASEONE) {
 		if (Direction[area1].y > -17) {
 			Direction[area1].y--;
 			Direction[area2].y--;

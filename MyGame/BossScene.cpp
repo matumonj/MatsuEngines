@@ -67,6 +67,9 @@ void BossScene::Initialize()
 
 void BossScene::Update()
 {
+	if (!LoadEnemy&&!Play) {
+		LoadEnemy = true;
+	}
 	SistemConfig::GetInstance()->Update();
 
 	CameraControl::GetInstance()->SetCameraState(CameraControl::PLAYER);
@@ -82,7 +85,7 @@ void BossScene::Update()
 		PlayerAttackState::GetInstance()->Update();
 		//HalfAttack::GetInstance()->ActionJudg();
 		KnockAttack::GetInstance()->ActionJudg();
-		CircleAttack::GetInstance()->ActionJudg();
+		//CircleAttack::GetInstance()->ActionJudg();
 		Nail::GetInstance()->Update();
 		UI::GetInstance()->HUDUpdate(hudload, CameraControl::GetInstance()->GetCamera());
 		}
@@ -180,31 +183,31 @@ bool BossScene::LoadParam(DebugCamera* camera)
 
 void BossScene::ImGuiDraw()
 {
-	{
-		ImGui::Begin("None");
-		if (ImGui::Button("Load", ImVec2(70, 50))) {
-			LoadEnemy = true;
-		}
-		ImGui::End();
-	}
-	{//ÉJÉÅÉâ
-		bool defaultPos;
-		if (ImGui::RadioButton("DefaultPosition", &defaultPos)) {
-			//CameraDis = 25;
-			//CameraHeight = 9;
-		}
-		ImGui::SliderFloat("rotationX", &cameraAngle, -360, 360);
+	//{
+	//	ImGui::Begin("None");
+	//	if (ImGui::Button("Load", ImVec2(70, 50))) {
+	//		LoadEnemy = true;
+	//	}
+	//	ImGui::End();
+	//}
+	//{//ÉJÉÅÉâ
+	//	bool defaultPos;
+	//	if (ImGui::RadioButton("DefaultPosition", &defaultPos)) {
+	//		//CameraDis = 25;
+	//		//CameraHeight = 9;
+	//	}
+	//	ImGui::SliderFloat("rotationX", &cameraAngle, -360, 360);
 
-		ImGui::End();
-	}
-	//
-	{
-		unsigned long current_time = timeGetTime();
-		float fps = float(count_frame) / (current_time - prev_time) * 1000;
-		ImGui::SliderFloat("FPS", &fps, -10, 50);
-		count_frame++;
-		ImGui::End();
-	}
+	//	ImGui::End();
+	//}
+	////
+	//{
+	//	unsigned long current_time = timeGetTime();
+	//	float fps = float(count_frame) / (current_time - prev_time) * 1000;
+	//	ImGui::SliderFloat("FPS", &fps, -10, 50);
+	//	count_frame++;
+	//	ImGui::End();
+	//}
 }
 
 void BossScene::Finalize()

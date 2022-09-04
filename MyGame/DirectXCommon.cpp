@@ -307,21 +307,21 @@ void DirectXCommon::ClearDepthBuffer(ID3D12GraphicsCommandList* cmdList)
 
 void DirectXCommon::ImguiDraw()
 {
-	
+	/*
 	ImGui::Begin("WindowSize");
 	ImGui::SliderFloat("window_width", &wx, 0, WinApp::window_width);
 	ImGui::SliderFloat("window_height", &wy, 0, WinApp::window_height);
 	if (ImGui::RadioButton("FullScreen", &FullScreenMode)) {
-		wx = WinApp::window_width;
+	*/	wx = WinApp::window_width;
 		wy = WinApp::window_height;
-		imgui_turnoff_draw = true;
-	}
-	if (ImGui::RadioButton("Off_FullScreen", &OffFullScreenMode)) {
-		wx = WinApp::window_width/2;
-		wy = WinApp::window_height/2;
-		FullScreenMode = false;
-		imgui_turnoff_draw = false;
-	}
+		//imgui_turnoff_draw = true;
+	//}
+	//if (ImGui::RadioButton("Off_FullScreen", &OffFullScreenMode)) {
+		//wx = WinApp::window_width/2;
+		//wy = WinApp::window_height/2;
+		//FullScreenMode = false;
+		//imgui_turnoff_draw = false;
+	//}
 		
 	ImGui::End();
 }

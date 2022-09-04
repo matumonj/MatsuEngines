@@ -41,7 +41,7 @@ public: // サブクラス
 	};
 
 private: // 定数
-
+	XMFLOAT3 FogCenter;
 	static const int division = 50;					// 分割数
 	static const float radius;				// 底面の半径
 	static const float prizmHeight;			// 柱の高さ
@@ -188,6 +188,7 @@ public: // メンバ関数
 	/// 座標の取得
 	/// </summary>
 	/// <returns>座標</returns>
+	void SetFogCenter(XMFLOAT3 pos) { FogCenter = pos; }
 	const XMFLOAT3& GetPosition() { return position; }
 	const XMFLOAT3& GetRotation() { return rotation; }
 	const XMFLOAT3& GetScale() { return scale; }

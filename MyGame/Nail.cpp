@@ -45,6 +45,8 @@ void Nail::HalfAttack(HalfAttackArea area)
 		for (int i = 0; i < Nails.size(); i++) {
 			Nails[i]->SetPosition({ Nails[i]->GetPosition().x ,MinY,Nails[i]->GetPosition().z });
 		}
+
+		HAttack.WaitCount = 0;
 		break;
 	case FASE_THREE:
 		HAttack.WaitCount++;

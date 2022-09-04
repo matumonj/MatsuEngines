@@ -8,6 +8,7 @@
 #include"mHelper.h"
 #include"Input.h"
 #include"HalfAttack.h"
+#include"CircleAttack.h"
 void BossEnemyFollow::Initialize(Enemy* enmey)
 {
 
@@ -55,10 +56,13 @@ void BossEnemyFollow::Update(Enemy* enemy)
 				enemy->GetPosition().y,
 				enemy->GetPosition().z + move.m128_f32[2] }
 	);
-	if (SearchPlayer) {
-		//’ÇÕ
-		//enemy->ChangeState_Boss(new BossEnemyAttack());
+	
+	if (Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 20) {
+		if (enemy->GetCoolTime() == 0) {
+			enemy->ChangeState_Boss(new BossEnemyAttack());
+		}
 	}
+
 
 		if (Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) <= 80.0f) {
 			HalfAttack::GetInstance()->SetAttackFase(true);
@@ -74,6 +78,19 @@ void BossEnemyFollow::Update(Enemy* enemy)
 				}
 			}
 }
+		if (Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) <= 60.0f) {
+			CircleAttack::GetInstance()->SetAttackFase(true);
+			if (enemy->GetAttack_Circle_End() == false) {
+				enemy->SetAttack_Circle_Start(true);
+			} else {
+				enemy->SetAttack_Circle_Start(false);
+			}
+			if (enemy->GetAttack_Circle_Start()) {
+				if (CircleAttack::GetInstance()->GetFaseEnd() != CircleAttack::FASEFOUR) {
+					enemy->ChangeState_Boss(new BossEnemyAttackCircle());
+				}
+			}
+		}
 		if (Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) <= 40.0f) {
 		HalfAttack::GetInstance()->SetAttackFase(true);
 		if (enemy->GetAttack_Half2_End() == false) {
