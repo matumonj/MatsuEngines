@@ -15,8 +15,8 @@ BossSpell* BossSpell::GetInstance()
 
 void BossSpell::Initialize()
 {
-	Sprite::LoadTexture(50, L"Resources/SpailFrame.png");
-	Sprite::LoadTexture(51, L"Resources/Spail.png");
+	Sprite::LoadTexture(50, L"Resources/Spail.png");
+	Sprite::LoadTexture(51, L"Resources/SpailFrame.png");
 	//¶UŒ‚
 	SpellsInit(HalfAttack_Left, 50, 51);
 	SpellsInit(HalfAttack_Right, 50, 51);
@@ -61,7 +61,7 @@ void BossSpell::SpellAction(Spells& spell, float spellCount)
 		spell.SpellFrame->setcolor({ 1,1,1,1 });
 		spell.SpellGauge->setcolor({ 1,1,1,1 });
 		spell.Time += 1.0f / spellCount;
-		spell.SpellGauge->SetSize({ Easing::EaseOut(spell.Time,0,286),260 });
+		spell.SpellGauge->SetSize({ Easing::EaseOut(spell.Time,0,286),250 });
 		if (spell.Time >= 1.0f) {
 			spell.EndJudg = true;
 		}

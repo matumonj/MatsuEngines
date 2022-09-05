@@ -17,7 +17,7 @@ float4 main(Output input) : SV_TARGET
 	float brightness = diffuse + 1.0f;
 	float4 texcolor = float4(tex.Sample(smp, input.uv));
 	//•ÏXŒã
-	return tex.Sample(smp, input.uv);
+	return tex.Sample(smp, input.uv)* color;
 	//return float4(input.normal,1);
 //return float4(tex.sample(smp,input.uv))*color;
 }

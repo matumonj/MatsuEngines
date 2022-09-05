@@ -36,7 +36,7 @@ void PlayerAttackState::Update()
 	index =  TargetMarker::GetInstance()->GetNearIndex();
 
 //	if (AttackJudgeMent) {
-		if (CustomButton::GetInstance()->GetAttackAction()==true &&HUD::GetInstance()->GetSpriteSize(0)==120.0f){ /*CoolDownTime == 0*/
+		if (CustomButton::GetInstance()->GetAttackAction()==true ){ /*CoolDownTime == 0*/
 			Skill = First;
 		} /*else if (Input::GetInstance()->PushButton(Input::GetInstance()->Button_A) && CoolDownTime == 0) {
 			Skill = Second;

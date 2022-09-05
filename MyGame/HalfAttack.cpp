@@ -105,10 +105,14 @@ void HalfAttack::ActionJudg()
 
 void HalfAttack::Draw()
 {
-	Texture::PreDraw();
-	HalfAreaTex->Draw();
-	
-	Texture::PostDraw();
+	if (fase == FASETWO) {
+		Texture::PreDraw();
+		HalfAreaTex->Draw();
+		Texture::PostDraw();
+	}
+	else if (fase == FASETHREE) {
+		Nail::GetInstance()->Draw();
+	}
 }
 
 

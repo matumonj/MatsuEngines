@@ -196,7 +196,6 @@ void Player::ImguiDraw()
 
 void Player::FbxAnimationControl()
 {
-	//if (!stopf) {
 	if (HUD::GetInstance()->GetSpriteSize(0) <=10.0f) {//‚±‚Ì‚â‚è•û‚ ‚Æ‚ÅÁ‚·
 
 	if (CustomButton::GetInstance()->GetAttackAction() == true) {

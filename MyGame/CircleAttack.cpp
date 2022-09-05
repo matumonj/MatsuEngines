@@ -91,9 +91,12 @@ void CircleAttack::Draw()
 	}
 	Texture::PostDraw();
 	for (int i = 0; i < NailObj.size(); i++) {
-		NailObj[i]->PreDraw();
-		NailObj[i]->Draw();
-		NailObj[i]->PostDraw();
+			NailObj[i]->PreDraw();
+			NailObj[i]->Draw();
+			NailObj[i]->PostDraw();
+		}
+	if (fase == FASETHREE) {
+	Nail::GetInstance()->Draw();
 	}
 }
 

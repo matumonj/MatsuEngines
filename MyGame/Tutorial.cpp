@@ -164,7 +164,6 @@ void Tutorial::Draw()
 		UI::GetInstance()->HUDDraw();
 		
 		SistemConfig::GetInstance()->Draw();
-		Feed::GetInstance()->Draw();
 		
 		if (DirectXCommon::GetInstance()->GetFullScreen() == false) {
 			PlayerControl::GetInstance()->GetPlayer()->ImguiDraw();

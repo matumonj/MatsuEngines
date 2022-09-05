@@ -112,7 +112,8 @@ public:
 
 	void SetScale(XMFLOAT3 scale) { Scale = scale; }
 
-	bool GetDeath() { return DeathFlag; }
+	bool GetDeathTime() { return DeathFlag; }
+	void SetDeathTime(bool f) { if (!DeathFlag) { DeathFlag = f; } }
 	int GetTime() { return time; }
 
 	virtual void AttackCoolTime()=0;

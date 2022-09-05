@@ -81,6 +81,11 @@ void BossEnemy::Finalize()
 
 void BossEnemy::Death()
 {
+	if (f_time < DeathTime) {
+		DeathFlag = true;
+	}
+	
+	
 }
 
 
@@ -104,13 +109,14 @@ void BossEnemy::FbxAnimationControl()
 	}
 
 	if (DeathFlag) {
-		f_time = DeathTime;
 		nowDeath = true;
+		f_time = DeathTime;
 		DeathFlag = false;
 
 	}
-	if (f_time > DeathTime) {
-		nowAttack = false;
+	if (f_time >20) {
+		//nowDeath = false;
+	//nowAttack = false;
 	}
 
 	m_fbxObject->SetFbxTime(f_time);
