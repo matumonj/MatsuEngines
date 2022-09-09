@@ -559,11 +559,6 @@ void Sprite::TransferVertices()
 }
 #pragma endregion
 
-void Sprite::setcolor(XMFLOAT4 color)
-{
-	this->color = color;
-	//constMap->color = color;
-}
 
 void Sprite::ChangePosition_PlayerHP(XMFLOAT2 MousePosition)
 {

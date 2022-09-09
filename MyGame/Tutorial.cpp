@@ -15,7 +15,7 @@
 #include"CameraControl.h"
 #include"UI.h"
 #include"Effects.h"
-#include"PlayScene.h"
+#include"BossScene.h"
 #include"Feed.h"
 #include"PlayerControl.h"
 
@@ -41,7 +41,9 @@ void Tutorial::objUpdate(DebugCamera* camera)
 		AllObjectControl[1]->Update(CameraControl::GetInstance()->GetCamera());
 		AllObjectControl[0]->Update(CameraControl::GetInstance()->GetCamera());
 		for (int i = 2; i < AllObjectControl.size(); i++) {
-			AllObjectControl[i]->Update(CameraControl::GetInstance()->GetCamera());
+			if (AllObjectControl[i] != nullptr) {
+				AllObjectControl[i]->Update(CameraControl::GetInstance()->GetCamera());
+			}
 		}
 		AttackCollision::GetInstance()->Update();
 		PlayerAttackState::GetInstance()->Update();
@@ -112,8 +114,9 @@ void Tutorial::Update()
 		c_postEffect = Default;
 	}
 	if (Feed::GetInstance()->GetAlpha() >= 1.0f) {//画面真っ白なったら
-		BaseScene* scene = new PlayScene(sceneManager_);//次のシーンのインスタンス生成
-		SceneManager::GetInstance()->SetScene(SceneManager::PLAY);
+		BaseScene* scene = new BossScene(sceneManager_);//次のシーンのインスタンス生成
+		Play = false;
+		SceneManager::GetInstance()->SetScene(SceneManager::BOSS);
 		sceneManager_->SetnextScene(scene);//シーンのセット
 	}
 }
@@ -124,7 +127,9 @@ void Tutorial::MyGameDraw()
 	Field::GetInstance()->Draw();
 	if (Play) {
 		for (int i = 0; i < AllObjectControl.size(); i++) {
-			AllObjectControl[i]->Draw();
+			if (AllObjectControl[i] != nullptr) {
+				AllObjectControl[i]->Draw();
+			}
 		}
 		//acol->Draw();
 	}
@@ -162,7 +167,7 @@ void Tutorial::Draw()
 		MyGameDraw();
 		KnockAttack::GetInstance()->Draw();
 		UI::GetInstance()->HUDDraw();
-		
+		Feed::GetInstance()->Draw();
 		SistemConfig::GetInstance()->Draw();
 		
 		if (DirectXCommon::GetInstance()->GetFullScreen() == false) {
@@ -244,7 +249,7 @@ bool Tutorial::LoadParam(DebugCamera* camera)
 void Tutorial::Finalize()
 {
 	//SistemConfig::GetInstance()->~SistemConfig();
-	delete CameraControl::GetInstance()->GetCamera();
+	//delete CameraControl::GetInstance()->GetCamera();
 	//delete postEffect, lightGroup;
 	for (int i = 0; i < AllObjectControl.size(); i++) {
 		//delete AllObjectControl[i];

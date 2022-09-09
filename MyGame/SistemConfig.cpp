@@ -20,11 +20,11 @@ void SistemConfig::Initialize()
 	input = Input::GetInstance();
 	configSprite = ConfigSprite::GetInstance();
 
-	Sprite::LoadTexture(124, L"Resources/04 ‘I‘ðŽˆ/button_select2_3.png");
+	Sprite::LoadTexture(24, L"Resources/04 ‘I‘ðŽˆ/button_select2_3.png");
 
 	configSprite->Initialize();
 	//SelectSprite = std::make_unique<Sprite>();
-	SelectSprite=Sprite::Create(124, configSprite->GetSpritePosition(m_number));
+	SelectSprite=Sprite::Create(24, configSprite->GetSpritePosition(m_number));
 	SelectSprite->SetAnchorPoint({ 1.0f,1.0f });
 	SelectSprite->SetSize({ 600,100 });
 
@@ -54,10 +54,11 @@ void SistemConfig::Update()
 		SelectSprite->SetPosition(configSprite->GetSpritePosition(m_number));
 
 
-
-		if (NowSelectButton() == HUDRAYOUT) {
-			if (input->TriggerButton(input->Button_B)) {
-				HUDLayOut::GetInstance()->SetLayOutMode(true);
+		if (CustomButton::GetInstance()->GetCustomButtonJudg() == false) {
+			if (NowSelectButton() == HUDRAYOUT) {
+				if (input->TriggerButton(input->Button_B)) {
+					HUDLayOut::GetInstance()->SetLayOutMode(true);
+				}
 			}
 		}
 		if (NowSelectButton() == CUSTOMBUTTON) {
@@ -66,10 +67,12 @@ void SistemConfig::Update()
 				CustomButton::GetInstance()->SetCustomButtonJudg(true);
 			}
 		}
-		if (NowSelectButton() ==SWORDSELECT) {
-			//HUDLayOut::GetInstance()->SetLayOutMode(false);
-			if (input->TriggerButton(input->Button_B)) {
-				SelectSword::GetInstance()->SetSelectJudg(true);
+		if (CustomButton::GetInstance()->GetCustomButtonJudg() == false) {
+			if (NowSelectButton() == SWORDSELECT) {
+				//HUDLayOut::GetInstance()->SetLayOutMode(false);
+				if (input->TriggerButton(input->Button_B)) {
+					SelectSword::GetInstance()->SetSelectJudg(true);
+				}
 			}
 		}
 
@@ -88,6 +91,8 @@ void SistemConfig::Update()
 	sAlpha += 0.05;
 	sAlpha = min(sAlpha, 1);
 	sAlpha = max(sAlpha, 0);
+	m_number = min(m_number, 2);
+	m_number = max(m_number, 0);
 	SelectSprite->setcolor({ 1,1,1,sAlpha });
 	configSprite->Update();
 }

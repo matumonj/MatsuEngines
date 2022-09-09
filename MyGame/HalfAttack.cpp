@@ -76,7 +76,7 @@ void HalfAttack::ActionJudg()
 		}
 	}
 	if (fase==FASEFOUR) {
-
+		TexAlpha = 1;
 	}
 	HalfAreaTex->SetUVMove(true);
 	HalfAreaTex->SetBillboard(false);
@@ -110,7 +110,7 @@ void HalfAttack::Draw()
 		HalfAreaTex->Draw();
 		Texture::PostDraw();
 	}
-	else if (fase == FASETHREE) {
+	 if (fase == FASETHREE) {
 		Nail::GetInstance()->Draw();
 	}
 }

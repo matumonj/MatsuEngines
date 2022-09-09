@@ -17,15 +17,15 @@ void SelectSword::Initialize()
 {
 	Sword = std::make_unique<NormalSword>();
 	Sword->Initialize(CameraControl::GetInstance()->GetCamera());
-	Sprite::LoadTexture(230, L"Resources/jump.png");
-	Sprite::LoadTexture(231, L"Resources/jump.png");
-	Sprite::LoadTexture(232, L"Resources/jump.png");
+	Sprite::LoadTexture(230, L"Resources/smallSwordtex.png");
+	Sprite::LoadTexture(231, L"Resources/normalSwordtex.png");
+	Sprite::LoadTexture(232, L"Resources/bigSwordtex.png");
 
 	Sprite::LoadTexture(233, L"Resources/jump.png");
 	SwordSample[0] = Sprite::Create(230, { 1,1 });
 	SwordSample[1] = Sprite::Create(231, { 1,1 });
 	SwordSample[2] = Sprite::Create(232, { 1,1 });
-	Frame = Sprite::Create(230, { 1,1 });
+	Frame = Sprite::Create(233, { 1,1 });
 	for (int i = 0; i < 3; i++) {
 		//フィールドにモデル割り当て
 		//SwordSample[i]->Initialize();

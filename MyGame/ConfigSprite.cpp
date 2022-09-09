@@ -16,7 +16,7 @@ void ConfigSprite::Initialize()
 	Sprite::LoadTexture(121, L"Resources/03 ŠJ•ÂŒ^ƒƒjƒ…[/bg_menu.png");
 	Sprite::LoadTexture(122, L"Resources/layout.png");
 	Sprite::LoadTexture(123, L"Resources/custom.png");
-	Sprite::LoadTexture(124, L"Resources/custom.png");
+	Sprite::LoadTexture(124, L"Resources/swordselect.png");
 
 	MenuSprite = Sprite::Create(121, { 1,1 });
 	RayOutSprite = Sprite::Create(122, { 1,1 });

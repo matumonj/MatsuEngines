@@ -17,8 +17,9 @@ void EnemyWalkState::Update(Enemy* enemy)
 	//õ“G”ÍˆÍ
 	const float DetectionRange = 30.0f;
 	//ƒvƒŒƒCƒ„[‚ªõ“G”ÍˆÍ“ü‚Á‚½‚ç
-	bool SearchPlayer = Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < DetectionRange;
-	
+	if (PlayerControl::GetInstance()->GetPlayer() != nullptr) {
+		SearchPlayer = Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < DetectionRange;
+	}
 	//ˆÚ“®ƒxƒNƒgƒ‹‚ðyŽ²Žü‚è‚ÌŠp“x‚Å‰ñ“]
 	XMVECTOR move = { 0,0,0.1f,0 };
 	

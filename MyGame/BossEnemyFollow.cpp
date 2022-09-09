@@ -52,16 +52,63 @@ void BossEnemyFollow::Update(Enemy* enemy)
 	enemy->SetRotation({ enemy->GetRotation().x,
 		 RotY * 60 + 180,
 		enemy->GetRotation().z });
-	enemy->SetPosition({
-				enemy->GetPosition().x + move.m128_f32[0],
-				enemy->GetPosition().y,
-				enemy->GetPosition().z + move.m128_f32[2] }
-	);
+	if (Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) > 10) {
+		enemy->SetPosition({
+					enemy->GetPosition().x + move.m128_f32[0],
+					enemy->GetPosition().y,
+					enemy->GetPosition().z + move.m128_f32[2] }
+		);
+	}
 	
+	if (Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 20) {
+		if (enemy->GetCoolTime() == 0) {
+			enemy->ChangeState_Boss(new BossEnemyAttack());
+		}
+	}
 
 
-
-		if (enemy->GetHP() <= 100 && enemy->GetNowDeath() == false) {
+		if (Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) <= 80.0f) {
+			HalfAttack::GetInstance()->SetAttackFase(true);
+			if (enemy->GetAttack_Half_End()==false) {
+				enemy->SetAttack_Half_Start(true);
+			}
+			else{ 
+				enemy->SetAttack_Half_Start(false);
+			}
+			if (enemy->GetAttack_Half_Start()) {
+				if (HalfAttack::GetInstance()->GetFaseEnd() != HalfAttack::FASEFOUR) {
+					enemy->ChangeState_Boss(new BossEnemyAttackHalf());
+				}
+			}
+}
+		if (Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) <= 60.0f) {
+			CircleAttack::GetInstance()->SetAttackFase(true);
+			if (enemy->GetAttack_Circle_End() == false) {
+				enemy->SetAttack_Circle_Start(true);
+			} else {
+				enemy->SetAttack_Circle_Start(false);
+			}
+			if (enemy->GetAttack_Circle_Start()) {
+				if (CircleAttack::GetInstance()->GetFaseEnd() != CircleAttack::FASEFOUR) {
+					enemy->ChangeState_Boss(new BossEnemyAttackCircle());
+				}
+			}
+		}
+		if (Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) <= 40.0f) {
+		HalfAttack::GetInstance()->SetAttackFase(true);
+		if (enemy->GetAttack_Half2_End() == false) {
+			enemy->SetAttack_Half2_Start(true);
+		}
+		else {
+			enemy->SetAttack_Half2_Start(false);
+		}
+		if (enemy->GetAttack_Half2_Start()) {
+			if (HalfAttack::GetInstance()->GetFaseEnd() != HalfAttack::FASEFOUR) {
+			enemy->ChangeState_Boss(new BossEnemyAttackHalf());
+		}
+	}
+}
+		if (enemy->GetHP() <= 0.0f) {
 			enemy->ChangeState_Boss(new BossEnemyDeath());
 		}
 }

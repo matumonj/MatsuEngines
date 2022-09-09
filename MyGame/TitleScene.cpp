@@ -16,8 +16,11 @@ TitleScene::TitleScene(SceneManager* sceneManager)
 /// </summary>
 void TitleScene::Initialize()
 {
-	Sprite::LoadTexture(3, L"Resources/background.png");
+	Sprite::LoadTexture(3, L"Resources/title.png");
 	titlesprite = Sprite::Create(3, { 0.0f,0.0f });
+
+	Sprite::LoadTexture(4, L"Resources/title2.png");
+	titlesprite2 = Sprite::Create(4, {  WinApp::window_width / 2,0.0f });
 	Feed::GetInstance()->initialize();
 }
 
@@ -27,17 +30,24 @@ void TitleScene::Initialize()
 void TitleScene::Update()
 {
 	//ENTERで次のシーンへ
-	if (Input::GetInstance()->TriggerButton(Input::Button_B)) {//押されたら
-		BaseScene* scene = new BossScene(sceneManager_);//次のシーンのインスタンス生成
-		SceneManager::GetInstance()->SetScene(SceneManager::BOSS);
+	//if (Input::GetInstance()->TriggerButton(Input::Button_B)) {//押されたら
+	//	BaseScene* scene = new BossScene(sceneManager_);//次のシーンのインスタンス生成
+	//	SceneManager::GetInstance()->SetScene(SceneManager::BOSS);
+	//	sceneManager_->SetnextScene(scene);//シーンのセット
+	//}
+	if (Input::GetInstance()->TriggerButton(Input::Button_A)) {//押されたら
+		BaseScene* scene = new MapCreateScene(sceneManager_);//次のシーンのインスタンス生成
+		//SceneManager::GetInstance()->SetScene(SceneManager::TUTORIAL);
 		sceneManager_->SetnextScene(scene);//シーンのセット
 	}
-	if (Input::GetInstance()->TriggerButton(Input::Button_X)) {//押されたら
+	if (Input::GetInstance()->TriggerButton(Input::Button_B)) {//押されたら
 		BaseScene* scene = new Tutorial(sceneManager_);//次のシーンのインスタンス生成
 		SceneManager::GetInstance()->SetScene(SceneManager::TUTORIAL);
 		sceneManager_->SetnextScene(scene);//シーンのセット
 	}
-	titlesprite->SetSize({ WinApp::window_width,WinApp::window_height });
+	//titlesprite2->SetRotation(180);
+	titlesprite->SetSize({ WinApp::window_width/2,WinApp::window_height });
+	titlesprite2->SetSize({ WinApp::window_width / 2,WinApp::window_height });
 }
 
 /// <summary>
@@ -47,6 +57,7 @@ void TitleScene::Update()
 void TitleScene::SpriteDraw()
 {
 	Sprite::PreDraw();
+	titlesprite2->Draw();
 	titlesprite->Draw();
 	Sprite::PostDraw();
 }
@@ -60,19 +71,7 @@ void TitleScene::Draw()
 	//ポストエフェクトの描画
 	DirectXCommon::GetInstance()->BeginDraw();//描画コマンドの上らへんに
 	SpriteDraw();
-	ImGui::Begin("Scene");
-
-	if (ImGui::RadioButton("Scene_Play", t)) {
-
-		BaseScene* scene = new BossScene(sceneManager_);//次のシーンのインスタンス生成
-		SceneManager::GetInstance()->SetScene(SceneManager::BOSS);
-		sceneManager_->SetnextScene(scene);//シーンのセット
-	}
-	if (ImGui::RadioButton("Scene_MapCreate", y)) {
-		BaseScene* scene = new MapCreateScene(sceneManager_);//次のシーンのインスタンス生成
-		sceneManager_->SetnextScene(scene);//シーンのセット
-	}
-	ImGui::End();
+	
 	DirectXCommon::GetInstance()->EndDraw();
 
 }

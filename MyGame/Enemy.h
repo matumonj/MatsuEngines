@@ -47,6 +47,8 @@ protected:
 	bool MoveFlag;
 	int Number;
 	bool animeflag;
+
+	float AttackTime;
 private:
 	bool RecvDamagef;
 	float OldHP;
@@ -119,7 +121,7 @@ public:
 	virtual void AttackCoolTime()=0;
 	int GetAttackCoolTime() { return cooltime; }
 	bool f_AttackFlag;
-	void SetAttackTime(bool f) { f_AttackFlag = f; }
+	void SetAttackTime(bool f) { if (f_time < AttackTime) { f_AttackFlag = f; } }
 	bool GetAttackTime() { return f_AttackFlag; }
 protected:
 	bool nowDeath;

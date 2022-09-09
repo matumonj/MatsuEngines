@@ -16,7 +16,7 @@ WoodControl::~WoodControl()
 void WoodControl::Load(DebugCamera* camera)
 {
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
-		file.open("EnemyParam_CSV/wood.csv");
+		file.open("Param_CSV/wood.csv");
 
 		popcom << file.rdbuf();
 

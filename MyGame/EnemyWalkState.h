@@ -10,6 +10,6 @@ public:
 private:
 	float tempx, tempz;
 	int movement;
-
+	bool SearchPlayer;
 };
 

@@ -3,6 +3,7 @@
 #include"SceneManager.h"
 #include"TutorialSprite.h"
 #include"PlayerControl.h"
+#include"Enemy.h"
 FenceControl* FenceControl::GetInstance()
 {
 	static FenceControl instance;
@@ -11,7 +12,7 @@ FenceControl* FenceControl::GetInstance()
 void FenceControl::Load(DebugCamera* camera)
 {
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
-		file.open("EnemyParam_CSV/fence.csv");
+		file.open("Param_CSV/fence.csv");
 
 		popcom << file.rdbuf();
 
@@ -115,7 +116,10 @@ void FenceControl::Initialize(DebugCamera* camera)
 
 void FenceControl::Update(DebugCamera* camera)
 {
-	//if (fences[0].get() == nullptr)return;
+	if (EnemyControl::GetInstance()->GetTutorialEnemyindex()[0] != nullptr) {
+		TutorialFenceOpen = EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetHP() < 0;
+		//if (fences[0].get() == nullptr)return;
+	}
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
 		Player_OldPos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 		for (int i = 0; i < Quantity; i++) {

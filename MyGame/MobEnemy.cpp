@@ -4,9 +4,6 @@
 #include"CollisionManager.h"
 #include"CollisionAttribute.h"
 #include"DebugCamera.h"
-#include "PhysicsAction.h"
-#include "WalkJudgement.h"
-#include"WalkAction.h"
 #include"mHelper.h"
 #include"imgui.h"
 #include"Collision.h"
@@ -33,8 +30,8 @@ void MobEnemy::Initialize(DebugCamera* camera)
 	m_Object->Initialize(camera);
 	m_fbxModel = FbxLoader::GetInstance()->LoadModelFromFile("monster_golem_demo");
 
-	EnemyHP = 150.00f;
-	MaxHP = 150.00f;
+	EnemyHP = 15.00f;
+	MaxHP = 15.00f;
 	Texture::LoadTexture(11, L"Resources/Sertch.png");
 	//パラメータのセット
 
@@ -96,11 +93,9 @@ void MobEnemy::Finalize()
 
 void MobEnemy::Death()
 {
-	DeathFlag = true;
-	m_fbxObject->SetDeathFlag(true);
-	
-	//..DeathFlag = true;
-	//}
+	if (f_time < DeathTime) {
+		DeathFlag = true;
+	}
 }
 
 

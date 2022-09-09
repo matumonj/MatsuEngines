@@ -158,6 +158,8 @@ void CustomButton::Update()
 	ErrorSprite->setcolor({ 1,1,1,ErrorSpriteAlpha });
 	ErrorSpriteAlpha = min(ErrorSpriteAlpha, 1);
 	ErrorSpriteAlpha = max(ErrorSpriteAlpha, 0);
+	SelectNum = min(SelectNum, 4);
+	SelectNum = max(SelectNum, 0);
 }
 
 //(各アクションボタン設定フラグ,対応アクション番号)flagとbuttonは同じアクションに
@@ -250,8 +252,9 @@ void CustomButton::Draw()
 		}
 		Custom_Draw();
 		Custommenu->Draw();
-		ErrorSprite->Draw();
-		
+		//if (ErrorFlag) {
+			ErrorSprite->Draw();
+		//}
 		Sprite::PostDraw();
 	}
 }

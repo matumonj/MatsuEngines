@@ -12,7 +12,6 @@
 #include"LightGroup.h"
 #include"DebugCamera.h"
 #include"DirectXCommon.h"
-#include"mEffekseer.h"
 #include "FbxLoader.h"
 #include "f_Object3d.h"
 #include"Texture.h"

@@ -45,7 +45,7 @@ void TutorialSprite::Update()
 	}
 
 	//歩きとジャンプ
-	ClearWalk = Movement > 30 && Jump == true;
+	ClearWalk = Movement > 300 && Jump == true;
 	//セッティング
 	if (SistemConfig::GetInstance()->GetEndConfig()) {
 		ClearSetting =true ;

@@ -3,11 +3,6 @@
 #include "PlaceEnemy.h"
 #include"MobEnemy.h"
 #include"BossEnemy.h"
-#include "PhysicsAction.h"
-#include "WalkJudgement.h"
-#include"WalkAction.h"
-#include"FollowJudgement.h"
-#include"FollowAction.h"
 void PlaceEnemy::Initialize(DebugCamera* camera)
 {
 	Model = Model::CreateFromOBJ("box");
@@ -28,13 +23,13 @@ bool PlaceEnemy::ErrorJudg()
 void PlaceEnemy::FileWriting()
 {
 	
-	file.open("open.csv");
+	file.open("enemy.csv");
 
 	popcom << file.rdbuf();
 
 	file.close();
-	std::ofstream pofs("EnemyParam_CSV/position.csv");
-	std::ofstream ofs("EnemyParam_CSV/open.csv");  // ファイルパスを指定する
+	std::ofstream pofs("Param_CSV/position.csv");
+	std::ofstream ofs("Param_CSV/enemy.csv");  // ファイルパスを指定する
 	ofs << "Enemy_Quantity" << "," << enemys.size() << std::endl;
 
 	for (int i = 0; i < enemys.size(); i++) {
@@ -82,6 +77,7 @@ void PlaceEnemy::Update(DebugCamera* camera)
 {
 	Obj->SetPosition(pos);
 	Obj->SetScale({ 2,3,2 });
+	Obj->SetColor({ 1,0,0,1 });
 	Obj->Update({ 1,0,0,0.5 }, camera);
 }
 

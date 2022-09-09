@@ -118,7 +118,7 @@ public:
 	void SetHUDLayOutFlag(bool flag) { f = flag; }
 	bool GetHUDLayOutFlag() { return f; }
 	void Setfeed(int set) { this->setf = set; }
-	void setcolor(XMFLOAT4 color);//5 { this->color = color; }
+	void setcolor(XMFLOAT4 color){ this->color = color; }
 
 	void TransferVertices();
 	XMFLOAT2 GetSize() { return size; }

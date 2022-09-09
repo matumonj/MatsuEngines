@@ -62,11 +62,11 @@ void HUD::SkillButtonInitialize()
 
 	BuffSprite = Sprite::Create(23, { CenterPosition.x,CenterPosition.y-100 });
 
-	Sprite::LoadTexture(24, L"Resources/cool.png");
-	coolDownSprite[0] = Sprite::Create(24, {CenterPosition.x+100+120,CenterPosition.y+ 120 }, { 1,1,1,1 }, { 0.0,1 });
-	coolDownSprite[1] = Sprite::Create(24, { CenterPosition.x + 120,CenterPosition.y + 100 + 120 }, { 0,0,0,1 }, { 0.0,1 });
-	coolDownSprite[2] = Sprite::Create(24, { CenterPosition.x -100+ 120,CenterPosition.y + 120 }, { 0,0,0,1 }, { 0.0,1 });
-	coolDownSprite[3] = Sprite::Create(24, { CenterPosition.x + 120,CenterPosition.y - 100 + 120 }, { 0,0,0,1 }, { 0.0,1 });
+	Sprite::LoadTexture(26, L"Resources/cool.png");
+	coolDownSprite[0] = Sprite::Create(26, {CenterPosition.x+100+120,CenterPosition.y+ 120 }, { 1,1,1,1 }, { 0.0,1 });
+	coolDownSprite[1] = Sprite::Create(26, { CenterPosition.x + 120,CenterPosition.y + 100 + 120 }, { 0,0,0,1 }, { 0.0,1 });
+	coolDownSprite[2] = Sprite::Create(26, { CenterPosition.x -100+ 120,CenterPosition.y + 120 }, { 0,0,0,1 }, { 0.0,1 });
+	coolDownSprite[3] = Sprite::Create(26, { CenterPosition.x + 120,CenterPosition.y - 100 + 120 }, { 0,0,0,1 }, { 0.0,1 });
 	for (int i = 0; i < 4; i++) {
 		coolDownSprite[i]->SetSize({ 100,0 });
 	}
@@ -83,7 +83,7 @@ void HUD::SkillBottonUpdate()
 	SecondAttackSprite->SetSize({ 120,120 });
 	ThirdAttackSprite->SetSize({ 120,120 });
 	BuffSprite->SetSize({ 120,120 });
-	CenterPosition.x++;
+	
 	if (CustomButton::GetInstance()->GetActionButton_JUMP() == CustomButton::BUTTON_B) {
 		FirstAttackSprite->SetPosition({ CenterPosition.x + 100,CenterPosition.y });
 	}
@@ -91,10 +91,10 @@ void HUD::SkillBottonUpdate()
 		FirstAttackSprite->SetPosition({ CenterPosition.x,CenterPosition.y + 100 });
 	}
 	else if (CustomButton::GetInstance()->GetActionButton_JUMP() == CustomButton::BUTTON_X) {
-		FirstAttackSprite->SetPosition({ CenterPosition.x - 100,CenterPosition.y });
+		FirstAttackSprite->SetPosition({ CenterPosition.x ,CenterPosition.y-100 });
 	}
 	else if (CustomButton::GetInstance()->GetActionButton_JUMP() == CustomButton::BUTTON_Y) {
-		FirstAttackSprite->SetPosition({ CenterPosition.x,CenterPosition.y - 100 });
+		FirstAttackSprite->SetPosition({ CenterPosition.x-100 ,CenterPosition.y  });
 	}
 
 	if (CustomButton::GetInstance()->GetActionButton_ATTACK() == CustomButton::BUTTON_B) {
@@ -102,9 +102,9 @@ void HUD::SkillBottonUpdate()
 	} else if (CustomButton::GetInstance()->GetActionButton_ATTACK() == CustomButton::BUTTON_A) {
 		SecondAttackSprite->SetPosition({ CenterPosition.x,CenterPosition.y + 100 });
 	} else if (CustomButton::GetInstance()->GetActionButton_ATTACK() == CustomButton::BUTTON_X) {
-		SecondAttackSprite->SetPosition({ CenterPosition.x - 100,CenterPosition.y });
+		SecondAttackSprite->SetPosition({ CenterPosition.x ,CenterPosition.y-100 });
 	} else if (CustomButton::GetInstance()->GetActionButton_ATTACK() == CustomButton::BUTTON_Y) {
-		SecondAttackSprite->SetPosition({ CenterPosition.x,CenterPosition.y - 100 });
+		SecondAttackSprite->SetPosition({ CenterPosition.x-100,CenterPosition.y  });
 	}
 
 	if (CustomButton::GetInstance()->GetActionButton_ATTACK2() == CustomButton::BUTTON_B) {
@@ -112,9 +112,9 @@ void HUD::SkillBottonUpdate()
 	} else if (CustomButton::GetInstance()->GetActionButton_ATTACK2() == CustomButton::BUTTON_A) {
 		ThirdAttackSprite->SetPosition({ CenterPosition.x,CenterPosition.y + 100 });
 	} else if (CustomButton::GetInstance()->GetActionButton_ATTACK2() == CustomButton::BUTTON_X) {
-		ThirdAttackSprite->SetPosition({ CenterPosition.x - 100,CenterPosition.y });
+		ThirdAttackSprite->SetPosition({ CenterPosition.x ,CenterPosition.y-100 });
 	} else if (CustomButton::GetInstance()->GetActionButton_ATTACK2() == CustomButton::BUTTON_Y) {
-		ThirdAttackSprite->SetPosition({ CenterPosition.x,CenterPosition.y - 100 });
+		ThirdAttackSprite->SetPosition({ CenterPosition.x-100,CenterPosition.y});
 	}
 
 	if (CustomButton::GetInstance()->GetActionButton_ATTACK3() == CustomButton::BUTTON_B) {
@@ -122,9 +122,9 @@ void HUD::SkillBottonUpdate()
 	} else if (CustomButton::GetInstance()->GetActionButton_ATTACK3() == CustomButton::BUTTON_A) {
 		BuffSprite->SetPosition({ CenterPosition.x,CenterPosition.y + 100 });
 	} else if (CustomButton::GetInstance()->GetActionButton_ATTACK3() == CustomButton::BUTTON_X) {
-		BuffSprite->SetPosition({ CenterPosition.x - 100,CenterPosition.y });
+		BuffSprite->SetPosition({ CenterPosition.x ,CenterPosition.y -100});
 	} else if (CustomButton::GetInstance()->GetActionButton_ATTACK3() == CustomButton::BUTTON_Y) {
-		BuffSprite->SetPosition({ CenterPosition.x,CenterPosition.y - 100 });
+		BuffSprite->SetPosition({ CenterPosition.x-100,CenterPosition.y  });
 	}
 	//SecondAttackSprite->SetPosition({ CenterPosition.x,CenterPosition.y + 100 });
 
@@ -135,7 +135,7 @@ void HUD::SkillBottonUpdate()
 
 	TimeSpeed = 1.0f/SelectSword::GetInstance()->GetSword()->GetCoolTime();
 	if (CoolTime_Time >= 1.0f) {
-		if (Input::GetInstance()->TriggerButton(Input::GetInstance()->Button_B)) {
+		if (CustomButton::GetInstance()->GetAttackAction()) {
 			CoolTime_Time = 0.0f;
 		}
 	}
@@ -263,9 +263,10 @@ void HUD::SkillBottonDraw()
 {
 	Sprite::PreDraw();
 	FirstAttackSprite->Draw();
-	SecondAttackSprite->Draw();
 	ThirdAttackSprite->Draw();
 	BuffSprite->Draw();
+	SecondAttackSprite->Draw();
+
 	for (int i = 0; i < 4; i++) {
 		coolDownSprite[i]->Draw();
 	}

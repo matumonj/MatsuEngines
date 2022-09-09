@@ -4,7 +4,6 @@
 #include"EnemyAttackState.h"
 #include"EnemyStayState.h"
 #include"EnemyFollowState.h"
-#include "NodeBase.h"
 #include"Collision.h"
 #include"mHelper.h"
 #include"SphereCollider.h"

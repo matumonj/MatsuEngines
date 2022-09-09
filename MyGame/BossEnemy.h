@@ -63,7 +63,6 @@ private:
 public:
     void FieldCollision(DebugCamera* camera);
 
-    float AttackTime;
     bool DeathFlag;
 private:
     bool nowAttack;

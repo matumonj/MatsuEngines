@@ -6,6 +6,7 @@
 #include"CollisionManager.h"
 #include"Collision.h"
 #include"PlayerControl.h"
+#include"SceneManager.h"
 Wood::~Wood()
 {
 	delete ps0;
@@ -32,6 +33,7 @@ void Wood::Update(DebugCamera* camera)
 	ParameterSet_Obj(camera);
 	m_Object->Setf(TRUE);
 	//フィールド
+
 	CollideWood();
 	
 }
@@ -42,6 +44,7 @@ void Wood::Draw()
 }
 bool Wood::CollideWood()
 {
+	if (PlayerControl::GetInstance()->GetPlayer() == nullptr)return false;
 	playerOBB.m_NormaDirect[0] = { PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[0].m128_f32[0],PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[0].m128_f32[1],PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[0].m128_f32[2] };
 	playerOBB.m_NormaDirect[1] = { PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[1].m128_f32[0],PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[1].m128_f32[1],PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[1].m128_f32[2] };
 	playerOBB.m_NormaDirect[2] = { PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[2].m128_f32[0],PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[2].m128_f32[1],PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[2].m128_f32[2] };
@@ -67,4 +70,5 @@ bool Wood::CollideWood()
 				return false;
 		}
 	}
+
 }

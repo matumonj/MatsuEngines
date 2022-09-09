@@ -65,8 +65,7 @@ private:
 private:
    
     bool AttackFlag;
-    float AttackTime;
-    bool DeathFlag;
+   bool DeathFlag;
 private:
     bool nowAttack;
     float alpha=1;

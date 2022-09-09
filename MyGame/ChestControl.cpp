@@ -12,7 +12,7 @@ void ChestControl::Load(DebugCamera* camera)
 {
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
 	//ChestMax‚à’Ç‰Á
-	file.open("EnemyParam_CSV/Chest.csv");
+	file.open("Param_CSV/Chest.csv");
 
 	popcom << file.rdbuf();
 

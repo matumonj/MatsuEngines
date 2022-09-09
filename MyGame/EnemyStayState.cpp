@@ -3,6 +3,7 @@
 #include"EnemyAttackState.h"
 #include"EnemyFollowState.h"
 #include"mHelper.h"
+#include"EnemyDeathState.h"
 void EnemyStayState::Initialize(Enemy* enemy)
 {
 
@@ -28,5 +29,9 @@ void EnemyStayState::Update(Enemy* enemy)
 		if (RotTime>0.6) {
 			enemy->ChangeState_Mob(new EnemyWalkState());
 		}
+	}
+
+	if (enemy->GetHP() <= 0.0f) {
+		enemy->ChangeState_Mob(new EnemyDeathState());
 	}
 }

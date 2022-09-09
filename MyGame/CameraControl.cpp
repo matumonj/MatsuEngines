@@ -17,7 +17,7 @@ void CameraControl::Initialize(DebugCamera* camera)
 
 void CameraControl::Load(DebugCamera* camera)
 {
-	file.open("EnemyParam_CSV/CameraPoints.csv");
+	file.open("Param_CSV/CameraPoints.csv");
 
 	popcom << file.rdbuf();
 

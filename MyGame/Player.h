@@ -1,7 +1,5 @@
 #pragma once
-
 #include"Object3d.h"
-#include"mEffekseer.h"
 #include <d3d12.h>
 #include <DirectXMath.h>
 #include <d3dx12.h>
@@ -37,7 +35,7 @@ public:
 
 	XMMATRIX GetHanMat() { return HandMat; };
 	void isOldPos() {
-		//Position.x = oldpos.x; Position.z = oldpos.z;
+		Position.x = oldpos.x; Position.z = oldpos.z;
 	}
 	float tempx, tempz;
 	int onGroundTime = 0;

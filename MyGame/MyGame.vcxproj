@@ -29,26 +29,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -159,8 +159,6 @@
   <ItemGroup>
     <ClCompile Include="AreaFence.cpp" />
     <ClCompile Include="AttackCollision.cpp" />
-    <ClCompile Include="BehaviorDatas.cpp" />
-    <ClCompile Include="BehaviorTree.cpp" />
     <ClCompile Include="BigSword.cpp" />
     <ClCompile Include="BossEnemyAttack.cpp" />
     <ClCompile Include="BossEnemyAttackCircle.cpp" />
@@ -179,9 +177,6 @@
     <ClCompile Include="ConfigSprite.cpp" />
     <ClCompile Include="ControlBase.cpp" />
     <ClCompile Include="CreateObjManager.cpp" />
-    <ClCompile Include="DeathAction.cpp" />
-    <ClCompile Include="DeathJudgment.cpp" />
-    <ClCompile Include="EnemyActionBase.cpp" />
     <ClCompile Include="Audio.cpp" />
     <ClCompile Include="BaseCollider.cpp" />
     <ClCompile Include="BaseScene.cpp" />
@@ -194,14 +189,12 @@
     <ClCompile Include="DebugCamera.cpp" />
     <ClCompile Include="DebugTxt.cpp" />
     <ClCompile Include="DirectXCommon.cpp" />
-    <ClCompile Include="Effects.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyAlpha.cpp" />
-    <ClCompile Include="EnemyAttackAction.cpp" />
-    <ClCompile Include="EnemyAttackJudgement.cpp" />
     <ClCompile Include="EnemyAttackState.cpp" />
     <ClCompile Include="EnemyBeta.cpp" />
     <ClCompile Include="EnemyCamma.cpp" />
+    <ClCompile Include="EnemyDeathState.cpp" />
     <ClCompile Include="EnemyFollowState.cpp" />
     <ClCompile Include="EnemyState.cpp" />
     <ClCompile Include="EnemyStayState.cpp" />
@@ -212,8 +205,6 @@
     <ClCompile Include="FenceControl.cpp" />
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="FieldCollision.cpp" />
-    <ClCompile Include="FollowAction.cpp" />
-    <ClCompile Include="FollowJudgement.cpp" />
     <ClCompile Include="Framework.cpp" />
     <ClCompile Include="f_Model.cpp" />
     <ClCompile Include="f_Object3d.cpp" />
@@ -228,7 +219,6 @@
     <ClCompile Include="MapCreate.cpp" />
     <ClCompile Include="MapCreateScene.cpp" />
     <ClCompile Include="Material.cpp" />
-    <ClCompile Include="mEffekseer.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshCollider.cpp" />
     <ClCompile Include="MobEnemy.cpp" />
@@ -236,12 +226,10 @@
     <ClCompile Include="ModelManager.cpp" />
     <ClCompile Include="MyGame.cpp" />
     <ClCompile Include="Nail.cpp" />
-    <ClCompile Include="NodeBase.cpp" />
     <ClCompile Include="NormalSword.cpp" />
     <ClCompile Include="OBBCollision.cpp" />
     <ClCompile Include="Object3d.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
-    <ClCompile Include="PhysicsAction.cpp" />
     <ClCompile Include="PlaceCameraPoints.cpp" />
     <ClCompile Include="PlaceChest.cpp" />
     <ClCompile Include="PlaceEnemy.cpp" />
@@ -253,7 +241,6 @@
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="PostEffect.cpp" />
     <ClCompile Include="QueryCallback.cpp" />
-    <ClCompile Include="RenderTarget.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SelectSword.cpp" />
     <ClCompile Include="SistemConfig.cpp" />
@@ -263,14 +250,11 @@
     <ClCompile Include="SwordBase.cpp" />
     <ClCompile Include="TargetMarker.cpp" />
     <ClCompile Include="Texture.cpp" />
-    <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="TouchableObject.cpp" />
     <ClCompile Include="Tutorial.cpp" />
     <ClCompile Include="TutorialSprite.cpp" />
     <ClCompile Include="UI.cpp" />
-    <ClCompile Include="WalkAction.cpp" />
-    <ClCompile Include="WalkJudgement.cpp" />
     <ClCompile Include="WinApp.cpp" />
     <ClCompile Include="Wood.cpp" />
     <ClCompile Include="WoodControl.cpp" />
@@ -278,8 +262,6 @@
   <ItemGroup>
     <ClInclude Include="AreaFence.h" />
     <ClInclude Include="AttackCollision.h" />
-    <ClInclude Include="BehaviorDatas.h" />
-    <ClInclude Include="BehaviorTree.h" />
     <ClInclude Include="BigSword.h" />
     <ClInclude Include="BossEnemyAttack.h" />
     <ClInclude Include="BossEnemyAttackCircle.h" />
@@ -298,10 +280,7 @@
     <ClInclude Include="ConfigSprite.h" />
     <ClInclude Include="ControlBase.h" />
     <ClInclude Include="CreateObjManager.h" />
-    <ClInclude Include="DeathAction.h" />
-    <ClInclude Include="DeathJudgment.h" />
     <ClInclude Include="Destroy.h" />
-    <ClInclude Include="EnemyActionBase.h" />
     <ClInclude Include="Audio.h" />
     <ClInclude Include="BaseCollider.h" />
     <ClInclude Include="BaseScene.h" />
@@ -318,14 +297,12 @@
     <ClInclude Include="DebugTxt.h" />
     <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="DirectXCommon.h" />
-    <ClInclude Include="Effects.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyAlpha.h" />
-    <ClInclude Include="EnemyAttackAction.h" />
-    <ClInclude Include="EnemyAttackJudgement.h" />
     <ClInclude Include="EnemyAttackState.h" />
     <ClInclude Include="EnemyBeta.h" />
     <ClInclude Include="EnemyCamma.h" />
+    <ClInclude Include="EnemyDeathState.h" />
     <ClInclude Include="EnemyFollowState.h" />
     <ClInclude Include="EnemyState.h" />
     <ClInclude Include="EnemyStayState.h" />
@@ -336,8 +313,6 @@
     <ClInclude Include="FenceControl.h" />
     <ClInclude Include="Field.h" />
     <ClInclude Include="FieldCollision.h" />
-    <ClInclude Include="FollowAction.h" />
-    <ClInclude Include="FollowJudgement.h" />
     <ClInclude Include="Framework.h" />
     <ClInclude Include="f_Model.h" />
     <ClInclude Include="f_Object3d.h" />
@@ -351,7 +326,6 @@
     <ClInclude Include="MapCreate.h" />
     <ClInclude Include="MapCreateScene.h" />
     <ClInclude Include="Material.h" />
-    <ClInclude Include="mEffekseer.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshCollider.h" />
     <ClInclude Include="mHelper.h" />
@@ -360,13 +334,11 @@
     <ClInclude Include="ModelManager.h" />
     <ClInclude Include="MyGame.h" />
     <ClInclude Include="Nail.h" />
-    <ClInclude Include="NodeBase.h" />
     <ClInclude Include="NormalSword.h" />
     <ClInclude Include="OBB.h" />
     <ClInclude Include="OBBCollision.h" />
     <ClInclude Include="Object3d.h" />
     <ClInclude Include="ObjectManager.h" />
-    <ClInclude Include="PhysicsAction.h" />
     <ClInclude Include="PlaceCameraPoints.h" />
     <ClInclude Include="PlaceChest.h" />
     <ClInclude Include="PlaceEnemy.h" />
@@ -380,8 +352,6 @@
     <ClInclude Include="PostEffect.h" />
     <ClInclude Include="QueryCallback.h" />
     <ClInclude Include="RaycastHit.h" />
-    <ClInclude Include="RenderTarget.h" />
-    <ClInclude Include="resource.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SelectSword.h" />
     <ClInclude Include="SistemConfig.h" />
@@ -392,16 +362,12 @@
     <ClInclude Include="SwordBase.h" />
     <ClInclude Include="TargetMarker.h" />
     <ClInclude Include="Texture.h" />
-    <ClInclude Include="TextureManager.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="TouchableObject.h" />
     <ClInclude Include="Tutorial.h" />
     <ClInclude Include="TutorialSprite.h" />
     <ClInclude Include="UI.h" />
-    <ClInclude Include="WalkAction.h" />
-    <ClInclude Include="WalkJudgement.h" />
     <ClInclude Include="WinApp.h" />
-    <ClInclude Include="ExecJudgmentBase.h" />
     <ClInclude Include="Wood.h" />
     <ClInclude Include="WoodControl.h" />
   </ItemGroup>

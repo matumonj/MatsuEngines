@@ -1,6 +1,7 @@
 #include "EnemyFollowState.h"
 #include"PlayerControl.h"
 #include"EnemyAttackState.h"
+#include"EnemyDeathState.h"
 void EnemyFollowState::Initialize(Enemy* enmey)
 {
 
@@ -52,5 +53,8 @@ void EnemyFollowState::Update(Enemy* enemy)
 	if (SearchPlayer) {
 		//’ÇÕ
 		enemy->ChangeState_Mob(new EnemyAttackState());
+	}
+	if (enemy->GetHP() <= 0.0f) {
+		enemy->ChangeState_Mob(new EnemyDeathState());
 	}
 }

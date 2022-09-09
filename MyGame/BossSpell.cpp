@@ -16,11 +16,12 @@ BossSpell* BossSpell::GetInstance()
 void BossSpell::Initialize()
 {
 	Sprite::LoadTexture(50, L"Resources/Spail.png");
-	Sprite::LoadTexture(51, L"Resources/SpailFrame.png");
+	Sprite::LoadTexture(51, L"Resources/halfAttackFrame.png");
+	Sprite::LoadTexture(52, L"Resources/CircleAttackFarame.png");
 	//¶UŒ‚
 	SpellsInit(HalfAttack_Left, 50, 51);
 	SpellsInit(HalfAttack_Right, 50, 51);
-	SpellsInit(CircleAttack, 50, 51);
+	SpellsInit(CircleAttack, 50, 52);
 	SpellsInit(KnockAttack, 50, 51);
 	}
 
@@ -47,7 +48,7 @@ void BossSpell::SpellsInit(Spells& spells, int TexNum_G,int TexNum_F)
 {
 	//¶UŒ‚
 	spells.SpellFrame = Sprite::Create(TexNum_F, { 30,200 });
-	spells.SpellGauge = Sprite::Create(TexNum_G, { 30,210 });
+	spells.SpellGauge = Sprite::Create(TexNum_G, { 40,248 });
 	spells.SpellFrame->SetAnchorPoint({ 0,0 });
 	spells.SpellGauge->SetAnchorPoint({ 0,0.5 });
 	spells.SpellFrame->SetSize({ 300,300 });
@@ -61,7 +62,7 @@ void BossSpell::SpellAction(Spells& spell, float spellCount)
 		spell.SpellFrame->setcolor({ 1,1,1,1 });
 		spell.SpellGauge->setcolor({ 1,1,1,1 });
 		spell.Time += 1.0f / spellCount;
-		spell.SpellGauge->SetSize({ Easing::EaseOut(spell.Time,0,286),250 });
+		spell.SpellGauge->SetSize({ Easing::EaseOut(spell.Time,0,286),200 });
 		if (spell.Time >= 1.0f) {
 			spell.EndJudg = true;
 		}

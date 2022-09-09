@@ -1,16 +1,9 @@
 #include"EnemyControl.h"
 #include"MobEnemy.h"
 #include"BossEnemy.h"
-#include "WalkJudgement.h"
-#include"WalkAction.h"
-#include "FollowJudgement.h"
-#include"FollowAction.h"
+
 #include"TutorialSprite.h"
-#include"DeathJudgment.h"
-#include"DeathAction.h"
-#include"EnemyAttackAction.h"
 #include"SistemConfig.h"
-#include"EnemyAttackJudgement.h"
 #include"SceneManager.h"
 EnemyControl* EnemyControl::GetInstance()
 {
@@ -22,7 +15,7 @@ void EnemyControl::Load(DebugCamera*camera)
 {
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
 
-		file.open("EnemyParam_CSV/open.csv");
+		file.open("Param_CSV/enemy.csv");
 
 		popcom << file.rdbuf();
 
@@ -108,7 +101,7 @@ void EnemyControl::Load(DebugCamera*camera)
 		boss_enemy[0] = std::make_unique<BossEnemy>();
 		boss_enemy[0]->Initialize(camera);
 		boss_pos = { 0,-27.5045,20.987 };
-		boss_enemy[0]->SetPosition(tutorial_pos);
+		boss_enemy[0]->SetPosition(boss_pos);
 	}
 }
 

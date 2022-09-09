@@ -32,7 +32,7 @@ void AttackCollision::Update()
 	}
 
 	AttackArea.position = { Position.x,Position.z };
-	AttackArea.scale = { 10,10 };
+	AttackArea.scale = { 30,30 };
 
 	//デバッグ用
 
@@ -51,7 +51,7 @@ void AttackCollision::GetCol(int damage)
 		EnemyArea.resize(1);
 		EnemyArea[0].position = { EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetPosition().x,
 		EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetPosition().z };
-		EnemyArea[0].scale = { 10,10 };
+		EnemyArea[0].scale = { 30,30 };
 		for (int i = 0; i < EnemyArea.size(); i++) {
 			if (Collision::CheckBox2Box(AttackArea, EnemyArea[i]) == true) {
 				if (CustomButton::GetInstance()->GetAttackAction()) {
