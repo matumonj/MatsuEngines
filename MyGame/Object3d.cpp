@@ -392,11 +392,11 @@ bool Object3d::Initialize(DebugCamera* camera)
 
 void Object3d::Update(XMFLOAT4 color, DebugCamera* camera)
 {
-	time.x+=0.1f;
-
-	time.y += 0.001f;
-	if (time.y > 1.0f) {
-		time.y = 0.0f;
+	if (uvf) {
+		uvtime += 0.01f;
+		if (uvtime > 1.0f) {
+			uvtime = 0.0f;
+		}
 	}
 	HRESULT result;
 
@@ -419,6 +419,8 @@ void Object3d::Update(XMFLOAT4 color, DebugCamera* camera)
 	constMap->gsflag= gsf;
 	constMap->ks2 = { 0,0,0 };
 	constMap->f = setef;
+	constMap->ks3 = { 0,0,0 };
+	constMap->time = uvtime;
 	// 定数バッファへデータ転送
 	//ConstBufferDataB0* constMap = nullptr;
 	//result = constBuffB0->Map(0, nullptr, (void**)&constMap);
@@ -439,7 +441,7 @@ void Object3d::Update(XMFLOAT4 color, DebugCamera* camera)
 
 void Object3d::Update(XMMATRIX matworld, XMFLOAT4 color, DebugCamera* camera)
 {
-	time.x += 0.1f;
+	time.x += 0.01f;
 
 	time.y += 0.001f;
 	if (time.y > 1.0f) {

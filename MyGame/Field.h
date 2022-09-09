@@ -19,6 +19,8 @@ private:
 
 	std::unique_ptr <Object3d> BackObject;
 
+	std::unique_ptr<Object3d>DamageAreaObj;
+	Model* DamageAreaModel;
 	Model* FieldModel;
 	Model* CelestialSphereModel;
 	Model* BackM;

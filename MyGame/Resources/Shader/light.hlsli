@@ -8,6 +8,8 @@ cbuffer cbuff0 : register(b0)
 	bool gsflag;
 	float3 ks2;
 	bool flag;
+	float3 ks3;
+	float time;
 };
 
 cbuffer cbuff1 : register(b1)

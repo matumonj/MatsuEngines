@@ -18,9 +18,18 @@ bool Field::Initialize(DebugCamera* camera)
 	CelestialSphereObject = std::make_unique<Object3d>();
 	CelestialSphereModel = Model::CreateFromOBJ("skydome");
 	BackObject= std::make_unique<Object3d>();
+	DamageAreaObj = std::make_unique<Object3d>();
 	BackM = Model::CreateFromOBJ("BackGround");
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
 		FieldModel = Model::CreateFromOBJ("BossField");
+		DamageAreaModel = Model::CreateFromOBJ("BossFieldDamageArea");
+
+		BackObject->Initialize(camera);
+		BackObject->SetModel(BackM);
+
+		DamageAreaObj->Initialize(camera);
+		DamageAreaObj->SetModel(DamageAreaModel);
+
 	}
 	else {
 		FieldModel = Model::CreateFromOBJ("LowPoly_Landscape");
@@ -32,8 +41,6 @@ bool Field::Initialize(DebugCamera* camera)
 	CelestialSphereObject->Initialize(camera);
 	CelestialSphereObject->SetModel(CelestialSphereModel);
 
-	BackObject->Initialize(camera);
-	BackObject->SetModel(BackM);
 
 	return true;
 }
@@ -53,7 +60,6 @@ void Field::Update(DebugCamera* camera)
 
 		FieldObject->SetFogCenter({ 125, -25, -680 });
 		FieldObject->setFog(TRUE);
-	//	FieldObject->Setf(TRUE);
 		CelestialSphereObject->setFog(TRUE);
 	}
 	else if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
@@ -63,11 +69,13 @@ void Field::Update(DebugCamera* camera)
 		CelestialSphereObject->setFog(FALSE);
 	}
 	else if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
-		//FieldObject->setFog(TRUE);
-		// FieldObject->SetFogCenter({ 0, -20, 0 });
-		//	FieldObject->Setf(TRUE);
+		FieldObject->SetFogCenter({ 0, -20, 0 });
 		CelestialSphereObject->setFog(TRUE);
 		BackObject->setFog(TRUE);
+		DamageAreaObj->setFog(FALSE);
+		DamageAreaObj->SetUVf(true);
+		DamageAreaObj->SetPosition({ 0,-19.2,0 });
+		DamageAreaObj->Update({ 0.6,0.6,0.6,1 }, camera);
 	}
 	FieldObject->SetColor({ 0.6,0.6,0.6,1 });
 	FieldObject->Update({ 0.6,0.6,0.6,1 }, camera);
@@ -90,6 +98,10 @@ void Field::Draw()
 		BackObject->PreDraw();
 		BackObject->Draw();
 		BackObject->PostDraw();
+
+		DamageAreaObj->PreDraw();
+		DamageAreaObj->Draw();
+		DamageAreaObj->PostDraw();
 	}
 
 }

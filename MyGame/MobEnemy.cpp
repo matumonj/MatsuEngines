@@ -32,7 +32,6 @@ void MobEnemy::Initialize(DebugCamera* camera)
 
 	EnemyHP = 15.00f;
 	MaxHP = 15.00f;
-	Texture::LoadTexture(11, L"Resources/Sertch.png");
 	//パラメータのセット
 
 	Rotation = { -70,180,0 };
@@ -80,7 +79,6 @@ void MobEnemy::Draw()
 {
 	Draw_Fbx();
 	Texture::PreDraw();
-	//SearchPlayerTexture->Draw();
 	Texture::PostDraw();
 }
 //解放処理

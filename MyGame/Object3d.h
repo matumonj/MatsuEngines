@@ -38,6 +38,8 @@ public: // サブクラス
 		bool gsflag;
 		XMFLOAT3 ks2;
 		bool f;
+		XMFLOAT3 ks3;
+		float time;
 	};
 
 private: // 定数
@@ -234,8 +236,11 @@ protected: // メンバ変数
 	bool gsf;
 	XMMATRIX rm,rt,rr,rs;
 	bool setef=false;
+	bool uvf=false;
+	float uvtime;
 public:
 	void setFog(bool f) { setef = f; }
+	void SetUVf(bool f) { uvf = f; }
 	void setr(bool f) { rf = f; }
 	XMMATRIX GetMatrot() {return matRot; }
 	XMMATRIX GetMatScl() { return matScale; }
