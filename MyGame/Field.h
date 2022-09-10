@@ -1,5 +1,6 @@
 #pragma once
 #include"Object3d.h"
+#include"Sprite.h"
 #include"Model.h"
 #include"DebugCamera.h"
 #include<memory>
@@ -20,6 +21,10 @@ private:
 	std::unique_ptr <Object3d> BackObject;
 
 	std::unique_ptr<Object3d>DamageAreaObj;
+
+	Sprite* Explanation;
+	float TexAlpha;
+	bool feed;
 	Model* DamageAreaModel;
 	Model* FieldModel;
 	Model* CelestialSphereModel;
@@ -28,6 +33,6 @@ public:
 	bool Initialize(DebugCamera*camera);
 	void Update(DebugCamera* camera);
 	void Draw();
-
+	void WarningDraw();
 };
 

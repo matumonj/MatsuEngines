@@ -11,6 +11,7 @@
 #include"Input.h"
 #include"CustomButton.h"
 #include"SelectSword.h"
+#include"PlayerControl.h"
 HUD::~HUD()
 {
 	delete PlayerHP, EnemyHP_Border, EnemyHP_Inner;
@@ -35,13 +36,12 @@ void HUD::Initialize()
 	TaskSprite->SetAnchorPoint({ 0.5,0.5 });
 		PlayerHP = Sprite::Create(120, { 0.0f,-200.0f });
 	PlayerHP->SetPosition({ 100,100 });
-	PlayerHP->SetSize({ 200,200 });
 	
 	Sprite::LoadTexture(121, L"Resources/bosshp.png");
 	Sprite::LoadTexture(20, L"Resources/jump.png");
 	Sprite::LoadTexture(21, L"Resources/attack.png");
 	Sprite::LoadTexture(22, L"Resources/attack2.png");
-	Sprite::LoadTexture(23, L"Resources/barrir.png");
+	Sprite::LoadTexture(23, L"Resources/attack3.png");
 }
 
 void HUD::EnemyHPGaugeInitialize()
@@ -70,6 +70,8 @@ void HUD::SkillButtonInitialize()
 	for (int i = 0; i < 4; i++) {
 		coolDownSprite[i]->SetSize({ 100,0 });
 	}
+
+
 }
 
 void HUD::EnemyHPGaugeUpdate(std::vector<std::unique_ptr<Enemy>>& enemy)
@@ -157,7 +159,20 @@ void HUD::SkillBottonUpdate()
 		SecondAttackSprite->setcolor({ 1,1,1,1 });
 		ThirdAttackSprite->setcolor({ 1,1,1,1 });
 	}
-
+	if (RecvDamageflag) {
+		easetime += 1.0f / 60.f;
+		if (easetime >= 1.0f) {
+			RecvDamageflag = false;
+		}
+		else {
+			PlayerHPSize = Easing::EaseOut(easetime, OldPlayerHPSize, PlayerControl::GetInstance()->GetPlayer()->GetHP()) * 7;
+		}
+	}
+	else {
+		easetime = 0.0f;
+		OldPlayerHPSize = PlayerControl::GetInstance()->GetPlayer()->GetHP();
+	}
+	PlayerHP->SetSize({ PlayerHPSize ,100 });
 }
 
 void HUD::TaskUpdate(DebugCamera* camera)
@@ -267,6 +282,7 @@ void HUD::SkillBottonDraw()
 	BuffSprite->Draw();
 	SecondAttackSprite->Draw();
 
+	PlayerHP->Draw();
 	for (int i = 0; i < 4; i++) {
 		coolDownSprite[i]->Draw();
 	}

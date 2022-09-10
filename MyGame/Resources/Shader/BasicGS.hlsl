@@ -29,19 +29,12 @@ void main(
 
 		GSOutput element;
 		element.worldpos = input[i].worldpos;
-		//float dist = length(cameraPos - input[i].worldpos);
-		//float destruction = clamp(dist, 0, 1);
 		element.svpos = input[i].svpos;
 
 		if (gsflag) {
 			element.svpos.xyz = center + (element.svpos.xyz - center) * (1 - destruction * 0.9);//mul(viewproj, element.svpos);
-		//	element.svpos.xyz += gnormal * (destruction) * 50;
-			//element.svpos = input[0].svpos;
-			//element.svpos = mul(viewproj, element.svpos);
 		}
-		//element.color=input[i].color;
-		//element.svpos = input[i].svpos;
-
+		
 		element.normal = input[i].normal;
 		element.uv = input[i].uv;
 

@@ -19,6 +19,10 @@ private:
 	using XMVECTOR = DirectX::XMVECTOR;
 
 	Sprite* PlayerHP;
+	float PlayerHPSize;
+	float OldPlayerHPSize;
+	bool RecvDamageflag;
+	float easetime;
 	float CoolTime_Time = 0;
 	float TimeSpeed;
 public:
@@ -67,6 +71,8 @@ public:
 	void SkillBottonDraw();
 	void ChangePosition(XMFLOAT2 MousePosition, XMFLOAT2& c);
 	void AreaName();
+	void SetRecvDamageFlag(bool f) { RecvDamageflag = f; }
+	bool GetRecvDamageFlag() { return RecvDamageflag; }
 	bool f;
 	float nowhp;
 	XMFLOAT2 sizel;

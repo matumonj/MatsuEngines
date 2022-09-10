@@ -54,8 +54,6 @@ void MobEnemy::Initialize(DebugCamera* camera)
 //XVˆ—
 void MobEnemy::Update(DebugCamera* camera)
 {
-	
-
 	Action();
 	
 	state_mob->Update(this);
@@ -136,13 +134,10 @@ void MobEnemy::FbxAnimationControl()
 
 void MobEnemy::AttackCoolTime()
 {
-	if(state == NOW_ATTACK){
-
 		if (f_time >= DeathTime-1) {
 			AfterAttack = true;
 			state =AFTER_ATTACK;
 		}
-	}
 	if (AfterAttack) {
 		
 		cooltime++;

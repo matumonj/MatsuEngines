@@ -46,14 +46,7 @@ void TutorialSprite::Update()
 
 	//歩きとジャンプ
 	ClearWalk = Movement > 300 && Jump == true;
-	//セッティング
-	if (SistemConfig::GetInstance()->GetEndConfig()) {
-		ClearSetting =true ;
-	}
-	//攻撃
-	if (EnemyControl::GetInstance()->GetTutorialEnemyindex()[0] != nullptr) {
-		ClearAttack = EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetHP() <= 0;
-	}
+	
 	//オールコンプリート
 	AllTaskClear = ClearWalk && ClearAttack && ClearSetting;
 	//チュートリアルの宝箱
@@ -81,6 +74,10 @@ void TutorialSprite::Update()
 		break;
 
 	case TutorialSprite::TSETTING:
+		//セッティング
+		if (SistemConfig::GetInstance()->GetEndConfig()) {
+			ClearSetting = true;
+		}
 		if (MassageCheck[SETTING]) {
 			NextTask(t[SETTING], TATTACK, ClearSetting);
 		}
@@ -88,6 +85,10 @@ void TutorialSprite::Update()
 		Ease_SpriteSize_Up(SpriteSizeX[SETTING], t[SETTING], SETTING);
 		break;
 	case TutorialSprite::TATTACK:
+		//攻撃
+		if (EnemyControl::GetInstance()->GetTutorialEnemyindex()[0] != nullptr) {
+			ClearAttack = EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetHP() <= 0;
+		}
 		if (MassageCheck[ATTACK]) {
 			NextTask(t[ATTACK], TGETKEY, ClearAttack);
 		}

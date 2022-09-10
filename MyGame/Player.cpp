@@ -18,7 +18,6 @@
 #include"HUD.h"
 #define PI 3.145265
 using namespace DirectX;
-XMFLOAT3 Player::Effect_Pos = { -50,-10,-100 };
 
 Player::~Player()
 {
@@ -60,14 +59,8 @@ void Player::Initialize(DebugCamera* camera)
 void Player::Update(DebugCamera* camera)
 {
 	oldpos = Position;
-	//エフェクトのパラメータセット
 	RotationStatus();
-	//Position.y = -2;
-	Scale={ 0.02, 0.02f, 0.02f
-		};
-	//
-	// 
-	//Position = { 92,-27,-760 };
+	Scale={ 0.02, 0.02f, 0.02f};
 	//移動ベクトルをy軸周りの角度で回転
 	XMVECTOR move = { 0.0f,0.0f,0.1f,0.0f };
 	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(Rotation.y));
@@ -235,4 +228,12 @@ XMMATRIX Player::GetMatrot()
 	if (m_fbxObject != nullptr) {
 		return m_fbxObject->GetMatrot();
 	}
+}
+
+void Player::RecvDamage(int Damage)
+{
+	if (!HUD::GetInstance()->GetRecvDamageFlag()) {
+		HUD::GetInstance()->SetRecvDamageFlag(true);
+}
+	HP = HP - Damage;
 }

@@ -22,8 +22,6 @@ public:
 public:
 	void Initialize(DebugCamera* camera)override;
 	void Update(DebugCamera* camera)override;
-	//void Draw()override;
-
 	void Action(TargetMarker* target, DebugCamera* camera);
 
 	void Draw();
@@ -54,14 +52,6 @@ private:
 	//プレイヤーの回転用
 	float angle;
 private:
-	//mEffekseer* effect = nullptr;
-	//エフェクト描画のフラグ
-	bool drawf = false;
-	//
-	int timer = 0;
-	XMFLOAT3 Effect_Rot;
-	XMFLOAT3 Effect_SCl;
-	static XMFLOAT3 Effect_Pos;
 	Input* input = Input::GetInstance();
 
 private:
@@ -79,7 +69,6 @@ private:
 	float movement = 2;
 	int time;
 	RotationPrm rotate;
-	XMFLOAT3 EffectRot;
 	//カメラに合わせたキャラクターの回転
 	float CharaRotation = 0;
 	float cooldowntime = 0;
@@ -101,10 +90,9 @@ public:
 	bool GetAttackFlag() { return attackflag; }
 	void RotationStatus();
 	void SetCharaRotation(float angle) { Rotation.y = angle; rotate = RotationPrm::FRONT; }
-	XMFLOAT3 Getpoi() { return Effect_Pos; }
 	void normalAttack(TargetMarker* target, std::vector<std::unique_ptr<Enemy>> enemy, DebugCamera* camera);
 	void ImguiDraw();
-	void RecvDamage(int Damage) { HP = HP - Damage; }
+	void RecvDamage(int Damage);
 	int GetHP() { return HP; }
 	void FbxAnimationControl();
 

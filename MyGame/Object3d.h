@@ -233,7 +233,7 @@ protected: // メンバ変数
 	// 親オブジェクト
 	Object3d* parent = nullptr;
 	bool rf;
-	bool gsf;
+	bool gsf = false;;
 	XMMATRIX rm,rt,rr,rs;
 	bool setef=false;
 	bool uvf=false;

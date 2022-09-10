@@ -156,6 +156,7 @@ void BossScene::Draw()
 		KnockAttack::GetInstance()->Draw();
 		UI::GetInstance()->HUDDraw();
 		Feed::GetInstance()->Draw();
+		Field::GetInstance()->WarningDraw();
 		SistemConfig::GetInstance()->Draw();
 
 		if (DirectXCommon::GetInstance()->GetFullScreen() == false) {

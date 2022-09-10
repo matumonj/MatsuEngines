@@ -50,7 +50,7 @@ void EnemyFollowState::Update(Enemy* enemy)
 				enemy->GetPosition().z + move.m128_f32[2] }
 	);
 	//movement++;
-	if (SearchPlayer) {
+	if (SearchPlayer&&enemy->GetCoolTime()==0) {
 		//’ÇÕ
 		enemy->ChangeState_Mob(new EnemyAttackState());
 	}

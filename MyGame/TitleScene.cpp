@@ -71,7 +71,6 @@ void TitleScene::Draw()
 	//ポストエフェクトの描画
 	DirectXCommon::GetInstance()->BeginDraw();//描画コマンドの上らへんに
 	SpriteDraw();
-	
 	DirectXCommon::GetInstance()->EndDraw();
 
 }
