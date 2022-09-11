@@ -1,6 +1,7 @@
 #include "BossEnemyFollow.h"
 #include "EnemyFollowState.h"
 #include"PlayerControl.h"
+#include"CameraControl.h"
 #include"BossEnemyAttack.h"
 #include"BossEnemyAttackCircle.h"
 #include"BossEnemyAttackknock.h"
@@ -54,13 +55,13 @@ void BossEnemyFollow::Update(Enemy* enemy)
 		enemy->GetRotation().z });
 	if (Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) > 10) {
 		enemy->SetPosition({
-					enemy->GetPosition().x + move.m128_f32[0],
+					enemy->GetPosition().x ,
 					enemy->GetPosition().y,
-					enemy->GetPosition().z + move.m128_f32[2] }
+					enemy->GetPosition().z }
 		);
 	}
 	
-	if (Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 20) {
+	if (CameraControl::GetInstance()->GetAttackSceneF()|| Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 20) {
 		if (enemy->GetCoolTime() == 0) {
 			enemy->ChangeState_Boss(new BossEnemyAttack());
 		}

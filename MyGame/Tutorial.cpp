@@ -131,7 +131,6 @@ void Tutorial::MyGameDraw()
 				AllObjectControl[i]->Draw();
 			}
 		}
-		//acol->Draw();
 	}
 }
 

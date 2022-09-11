@@ -103,9 +103,9 @@ void FenceControl::Load(DebugCamera* camera)
 		Tutorialfence.resize(1);
 		Tutorialfence[0]= std::make_unique<AreaFence>();
 		Tutorialfence[0]->Initialize(camera);
-		Tutorialfence[0]->SetPosition({110,-40,-596});
-		Tutorialfence[0]->SetRotation({0,0,0});
-		Tutorialfence[0]->SetScale({8.39,10,4});
+		Tutorialfence[0]->SetPosition({110.0f,-40.0f,-596.0f});
+		Tutorialfence[0]->SetRotation({0.0f,0.0f,0.0f});
+		Tutorialfence[0]->SetScale({8.39f,10.0f,4.0f});
 	}
 }
 
@@ -131,7 +131,7 @@ void FenceControl::Update(DebugCamera* camera)
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
 		if (Tutorialfence[0] != nullptr) {
 			Tutorialfence[0]->Update(camera);
-			Tutorialfence[0]->SetColor({ 1,0,0,1 });
+			Tutorialfence[0]->SetColor({ 1.0f,0.0f,0.0f,1.0f });
 		}
 		Tutorialfence[0]->FenceOpenCondition(TutorialFenceOpen);
 		

@@ -105,7 +105,7 @@ private:
 	XMFLOAT3 oldpos;
 	//imgui表示用
 	//後でconstなどに置き換え
-	float movespeed = 3.0f;
+	float movespeed = 8.0f;
 	//落ちたとき地面に足がついてた最終位置へ
 	XMFLOAT3 OldPos_Onground;
 	bool ReturnGround = false;

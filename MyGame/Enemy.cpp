@@ -4,13 +4,6 @@
 #include"EnemyAttackState.h"
 #include"EnemyStayState.h"
 #include"EnemyFollowState.h"
-#include"Collision.h"
-#include"mHelper.h"
-#include"SphereCollider.h"
-#include"CollisionManager.h"
-#include"CollisionAttribute.h"
-#include"imgui.h"
-#include"SceneManager.h"
 #include"EnemyFollowState.h"
 #include"BossEnemyFollow.h"
 using namespace DirectX;

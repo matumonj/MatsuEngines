@@ -14,6 +14,6 @@ public:
 
 private:
 	bool ActionCount = true, ActionCount2 = true;
-	float RotY;
+	float RotY=0;
 };
 

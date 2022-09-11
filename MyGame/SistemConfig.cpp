@@ -26,7 +26,7 @@ void SistemConfig::Initialize()
 	//SelectSprite = std::make_unique<Sprite>();
 	SelectSprite=Sprite::Create(24, configSprite->GetSpritePosition(m_number));
 	SelectSprite->SetAnchorPoint({ 1.0f,1.0f });
-	SelectSprite->SetSize({ 600,100 });
+	SelectSprite->SetSize({ 600.0f,100.0f });
 
 	CustomButton::GetInstance()->Initialize();
 
@@ -44,11 +44,11 @@ void SistemConfig::Update()
 	if (m_ConfigFlag) {
 		count++;
 		if (input->TriggerCrossKey(input->Cross_Down)) {
-			sAlpha = 0;
+			sAlpha = 0.0f;
 			m_number++;
 		}
 		else if (input->TriggerCrossKey(input->Cross_Up)) {
-			sAlpha = 0;
+			sAlpha = 0.0f;
 			m_number--;
 		}
 		SelectSprite->SetPosition(configSprite->GetSpritePosition(m_number));
@@ -88,12 +88,12 @@ void SistemConfig::Update()
 
 	CustomButton::GetInstance()->Update();
 
-	sAlpha += 0.05;
-	sAlpha = min(sAlpha, 1);
-	sAlpha = max(sAlpha, 0);
-	m_number = min(m_number, 2);
-	m_number = max(m_number, 0);
-	SelectSprite->setcolor({ 1,1,1,sAlpha });
+	sAlpha += 0.05f;
+	sAlpha = min(sAlpha, 1.0f);
+	sAlpha = max(sAlpha, 0.0f);
+	m_number = min(m_number, 2.0f);
+	m_number = max(m_number, 0.0f);
+	SelectSprite->setcolor({ 1.0f,1.0f,1.0f,sAlpha });
 	configSprite->Update();
 }
 

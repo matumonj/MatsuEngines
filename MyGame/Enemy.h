@@ -41,14 +41,9 @@ private:
 protected:
 	float EnemyHP;
 	float MaxHP;
-	
-	bool Alive = true;
 protected:
-	bool MoveFlag;
-	int Number;
-	bool animeflag;
-
-	float AttackTime;
+	bool MoveFlag=false;
+	float AttackTime=0;
 private:
 	bool RecvDamagef;
 	float OldHP;
@@ -63,10 +58,8 @@ public:
 	void SetRecvDamage(bool f) { RecvDamagef = f; }
 	void SetMoveFlag(bool f) { MoveFlag = f; }
 	bool GetMoveFlag() { return MoveFlag; }
-	virtual bool GetDead() { if (EnemyHP <= 0) { return true; } }
 	void RecvDamage(int Damage); 
 	bool GetonFlag() { return onGround; }
-	bool GetAlive() { return Alive; };
 	float GetHP() { return EnemyHP; };
 	float GetMaxHP() { return MaxHP; }
 	void SetHP(float hp) { EnemyHP = hp; }
@@ -123,6 +116,7 @@ public:
 	bool f_AttackFlag;
 	void SetAttackTime(bool f) { if (f_time < AttackTime) { f_AttackFlag = f; } }
 	bool GetAttackTime() { return f_AttackFlag; }
+	float GetFbxTime() { return f_time; }
 protected:
 	bool nowDeath;
 	int cooltime=0;
@@ -140,15 +134,7 @@ protected:
 	protected:
 
 	bool DeathFlag;
-protected:
 	public:
-		enum EnemyStates {
-			ALIVE,
-			None,
-			DEAD,
-			AFTER_ATTACK,
-			NOW_ATTACK
-		};
 		struct Attack_SE {
 			bool start;
 			bool end;
@@ -172,18 +158,15 @@ protected:
 		void SetAttack_Half_End(bool f) {  Attack_Half.end = f; }
 		void SetAttack_Half2_End(bool f) { Attack_Half2.end = f; }
 
-		EnemyStates GetState() { return state; }
 		bool GetNowDeath() { return nowDeath; }
 		int GetCoolTime() { return cooltime; }
-protected:
-		EnemyStates state=None;
-	
 	public:
 		void ChangeState_Mob(EnemyState* state);
 		void ChangeState_Boss(BossEnemyState* state);
 protected:
 	EnemyState* state_mob;
 	BossEnemyState* state_boss;
+
 };
 
 

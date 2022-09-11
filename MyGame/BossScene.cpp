@@ -61,6 +61,8 @@ void BossScene::Initialize()
 	postEffect = new PostEffect();
 	postEffect->Initialize();
 
+	CameraControl::GetInstance()->SetCameraState(CameraControl::BOSSCUTSCENE);
+
 	Nail::GetInstance()->ModelSet();
 	//Feed::GetInstance()->initialize();
 }
@@ -72,8 +74,6 @@ void BossScene::Update()
 	}
 	SistemConfig::GetInstance()->Update();
 
-	CameraControl::GetInstance()->SetCameraState(CameraControl::PLAYER);
-
 	if (Play) {//csvからの読み込み終わってから更新処理
 		//1->Player  0->Camera カメラの注視点Playerに合わすのでPlayerが先
 		AllObjectControl[1]->Update(CameraControl::GetInstance()->GetCamera());
@@ -81,11 +81,10 @@ void BossScene::Update()
 		for (int i = 2; i < AllObjectControl.size(); i++) {
 			AllObjectControl[i]->Update(CameraControl::GetInstance()->GetCamera());
 		}
+
 		AttackCollision::GetInstance()->Update();
 		PlayerAttackState::GetInstance()->Update();
-		//HalfAttack::GetInstance()->ActionJudg();
 		KnockAttack::GetInstance()->ActionJudg();
-		//CircleAttack::GetInstance()->ActionJudg();
 		Nail::GetInstance()->Update();
 		UI::GetInstance()->HUDUpdate(hudload, CameraControl::GetInstance()->GetCamera());
 		}
@@ -155,7 +154,7 @@ void BossScene::Draw()
 		HalfAttack::GetInstance()->Draw();
 		KnockAttack::GetInstance()->Draw();
 		UI::GetInstance()->HUDDraw();
-		Feed::GetInstance()->Draw();
+		//Feed::GetInstance()->Draw();
 		Field::GetInstance()->WarningDraw();
 		SistemConfig::GetInstance()->Draw();
 

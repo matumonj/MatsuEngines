@@ -31,14 +31,14 @@ void Nail::HalfAttack(HalfAttackArea area)
 			} else if (area == LEFT) {
 				HAttack.XN[i] = rand() % 40 - 40;
 			}
-			Nails[i]->SetScale({ 1,3,1 });
+			Nails[i]->SetScale({ 1.0f,3.0f,1.0f });
 			Nails[i]->SetPosition({ (float)HAttack.XN[i],MinY,(float)HAttack.ZN[i] });
 		}
 		HAttack.fase = FASE_TWO;
 		break;
 	case FASE_TWO:
-		if (MinY <= -10) {
-			MinY += 1;
+		if (MinY <= -10.0f) {
+			MinY += 1.0f;
 		} else {
 			HAttack.fase = FASE_THREE;
 		}
@@ -51,9 +51,9 @@ void Nail::HalfAttack(HalfAttackArea area)
 	case FASE_THREE:
 		HAttack.WaitCount++;
 		if (HAttack.WaitCount >= 60) {
-			MinY -= 1;
+			MinY -= 1.0f;
 		}
-		if (MinY <= -30) {
+		if (MinY <= -30.0f) {
 			HAttack.EndAction = true;
 			HAttack.fase = NON;
 		}
@@ -70,15 +70,15 @@ void Nail::HalfAttack(HalfAttackArea area)
 		break;
 	}
 	for (int i = 0; i < Nails.size(); i++) {
-		Nails[i]->SetRotation({ 180,0,0 });
-		Nails[i]->Update({ 1,1,1,1 }, CameraControl::GetInstance()->GetCamera());
+		Nails[i]->SetRotation({ 180.0f,0.0f,0.0f });
+		Nails[i]->Update({ 1.0f,1.0f,1.0f,1.0f }, CameraControl::GetInstance()->GetCamera());
 	}
 
 }
 void Nail::CircleAttack(int area1, int area2)
 {
 	//東西南北のAOE中心場所　参照するなりした方がいい
-	XMFLOAT3 DirectionPos[4] = { { 0,-18,30 }, { 0,-18,-30 }, { 30,-18,0 }, { -30,-18,0 } };//3
+	XMFLOAT3 DirectionPos[4] = { { 0.0f,-18.0f,30.0f }, { 0.0f,-18.0f,-30.0f }, { 30.0f,-18.0f,0.0f }, { -30.0f,-18.0f,0.0f } };//3
 	if (CAttack.fase == NON && !CAttack.EndAction) {
 		CAttack.fase = FASE_ONE;
 	}
@@ -107,23 +107,23 @@ void Nail::CircleAttack(int area1, int area2)
 		CAttack.fase = FASE_TWO;
 		break;
 	case FASE_TWO:
-		if (MinY <= -10) {
-			MinY += 1;//釘出るよ
+		if (MinY <= -10.0f) {
+			MinY += 1.0f;//釘出るよ
 		} else {
 			CAttack.fase = FASE_THREE;//出終わったら次のフェーズへ
 		}
 
 		for (int i = 0; i < Nails.size(); i++) {
 			Nails[i]->SetPosition({ Nails[i]->GetPosition().x ,MinY,Nails[i]->GetPosition().z });
-			Nails[i]->SetScale({ 1.5,3,1.5 });
+			Nails[i]->SetScale({ 1.5f,3.0f,1.5f });
 		}
 		break;
 	case FASE_THREE:
 		CAttack.WaitCount++;//釘出現してから一定時間立ったら引っ込める
 		if (CAttack.WaitCount >= 60) {
-			MinY -= 1;
+			MinY -= 1.0f;
 		}
-		if (MinY <= -30) {
+		if (MinY <= -30.0f) {
 			CAttack.fase = NON;
 			CAttack.EndAction = true;//１連の挙動終了
 		}
@@ -139,8 +139,8 @@ void Nail::CircleAttack(int area1, int area2)
 		break;
 	}
 	for (int i = 0; i < Nails.size(); i++) {
-		Nails[i]->SetRotation({ 180,0,0 });
-		Nails[i]->Update({ 1,1,1,1 }, CameraControl::GetInstance()->GetCamera());
+		Nails[i]->SetRotation({ 180.0f,0.0f,0.0f });
+		Nails[i]->Update({ 1.0f,1.0f,1.0f,1.0f }, CameraControl::GetInstance()->GetCamera());
 	}
 }
 void Nail::NailAmountSet(int amount)
@@ -163,9 +163,6 @@ void Nail::ModelSet()
 }
 void Nail::Update()
 {
-	//HalfAttack(RIGHT);
-	//CircleAttack(CircleAttack::GetInstance()->GetDamageArea1(), CircleAttack::GetInstance()->GetDamageArea2());
-
 }
 void Nail::Draw()
 {

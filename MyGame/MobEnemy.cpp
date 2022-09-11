@@ -47,6 +47,8 @@ void MobEnemy::Initialize(DebugCamera* camera)
 	SetCollider();
 	AttackTime = 1.5f;
 	DeathTime = 4.9f;
+	nowAttack = false;
+	nowDeath = false;
 	m_fbxObject->SetColor({ 1,0,0,alpha });
 	state_mob->Initialize(this);
 }
@@ -54,8 +56,6 @@ void MobEnemy::Initialize(DebugCamera* camera)
 //XVˆ—
 void MobEnemy::Update(DebugCamera* camera)
 {
-	Action();
-	
 	state_mob->Update(this);
 	if (EnemyHP <= 0) {
 		alpha -= 0.005f;
@@ -119,11 +119,7 @@ void MobEnemy::FbxAnimationControl()
 				nowDeath = true;
 				DeathFlag = false;
 				
-			} else {
-				if (!AttackFlag && !nowDeath && f_time >= end_time) {
-					//f_time = 0;
-				}
-			}
+			} 
 	if (f_time > DeathTime) {
 		nowAttack = false;
 	}
@@ -136,13 +132,11 @@ void MobEnemy::AttackCoolTime()
 {
 		if (f_time >= DeathTime-1) {
 			AfterAttack = true;
-			state =AFTER_ATTACK;
 		}
 	if (AfterAttack) {
 		
 		cooltime++;
 		if (cooltime > 480) {
-			state = None;
 			AfterAttack = false;
 		}
 	}

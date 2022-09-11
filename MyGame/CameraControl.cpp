@@ -4,6 +4,8 @@
 #include"Feed.h"
 #include"SceneManager.h"
 #include"PlayerControl.h"
+#include"EnemyControl.h"
+#include"imgui.h"
 CameraControl* CameraControl::GetInstance()
 {
 	static CameraControl instance;
@@ -114,19 +116,24 @@ void CameraControl::Update(DebugCamera* camera)
 	}
 
 	
-	CameraPosition.x = PlayerControl::GetInstance()->GetPlayer()->GetPosition().x + cosf((float)(cameraAngle) * 3.14f / 180.0f) * 25;
-	CameraPosition.z = PlayerControl::GetInstance()->GetPlayer()->GetPosition().z + sinf((float)(cameraAngle) * 3.14f / 180.0f) * 35;
-	CameraPosition.y = PlayerControl::GetInstance()->GetPlayer()->GetPosition().y + CameraHeight;
-
 		//this->camera->SetEye(CameraPosition);
-	this->camera->SetTarget({ PlayerControl::GetInstance()->GetPlayer()->GetPosition() });
 	this->camera->Update();
 
 	if(Tstate==SPLINE){
+		this->camera->SetTarget({ PlayerControl::GetInstance()->GetPlayer()->GetPosition() });
+
 		this->camera->SetEye(SplinePosition(points, startindex, timerate));
 	}
 	else if (Tstate == PLAYER) {
+		CameraPosition.x = PlayerControl::GetInstance()->GetPlayer()->GetPosition().x + cosf((float)(cameraAngle) * 3.14f / 180.0f) * 25;
+		CameraPosition.z = PlayerControl::GetInstance()->GetPlayer()->GetPosition().z + sinf((float)(cameraAngle) * 3.14f / 180.0f) * 35;
+		CameraPosition.y = PlayerControl::GetInstance()->GetPlayer()->GetPosition().y + CameraHeight;
+		this->camera->SetTarget({ PlayerControl::GetInstance()->GetPlayer()->GetPosition() });
+
 		this->camera->SetEye(CameraPosition);
+	}
+	else if (Tstate == BOSSCUTSCENE) {
+		BossSceneStart();
 	}
 }
 
@@ -176,10 +183,56 @@ XMFLOAT3 CameraControl::SplinePosition(const std::vector<XMFLOAT3>& points, size
 
 void CameraControl::Draw()
 {
-
+	ImGui::Begin("x");
+	ImGui::SliderFloat("angle", &BossCutAngle,0,360);
+	ImGui::End();
 }
 
 void CameraControl::SetColor(XMFLOAT4 color)
 {
 
+}
+
+void CameraControl::BossSceneStart()
+{
+	XMFLOAT3 BossPos = EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetPosition();
+	switch (bCamera)
+	{
+	case START:
+		CutCount[0]++;
+		if (CutCount[0] > 190) {
+			bCamera = ROLL;
+		}
+		
+		break;
+	case ROLL:
+		CutCount[0] = 0;
+		
+		if (BossCutAngle >= 270.0f+360.0f) {
+			bCamera = END;
+		}
+		else {
+			BossCutAngle += XMConvertToRadians(45);
+		}
+		break;
+	case END:
+		AttackSceneF = true;
+		if (EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetFbxTime() > 2.0f) {
+			CameraDis += 2;
+		}
+		Feed::GetInstance()->Update_White(Feed::FEEDIN);
+		if (Feed::GetInstance()->GetAlpha() >= 1.0f) {
+			Tstate = PLAYER;
+		}
+		break;
+	default:
+		break;
+	}
+	CameraPosition.x = BossPos.x + cosf((float)(BossCutAngle) * 3.14f / 180.0f) * 15;
+	CameraPosition.y = BossPos.y + BCutCameraHeight;
+
+	CameraPosition.z = BossPos.z + sinf((float)(BossCutAngle) * 3.14f / 180.0f) * CameraDis;
+
+	camera->SetTarget({ BossPos.x, BossPos.y + BCutCameraHeight, BossPos.z });
+	camera->SetEye(CameraPosition);
 }

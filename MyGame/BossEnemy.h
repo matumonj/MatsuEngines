@@ -56,10 +56,7 @@ public:
     void Death()override;
 private:
     float GetDistance() { return distance; }
-    //接地フラグ
-    bool onGround = true;
-    //落下ベクトル
-    XMVECTOR fallV;
+   
 public:
     void FieldCollision(DebugCamera* camera);
 
@@ -67,6 +64,6 @@ public:
 private:
     bool nowAttack;
     bool nowDeath;
-    float defaulttime = 1.8;
+    float defaulttime = 1.8f;
 };
 

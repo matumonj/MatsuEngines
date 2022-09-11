@@ -12,13 +12,13 @@ public:
     virtual void Update(DebugCamera* camera)override;
     virtual void Draw()override;
 protected:
-    float Damage;
-    float CoolTime;
+    int Damage;
+    int CoolTime;
     Box DamageArea;
     XMFLOAT2 Radius;
 public:
-    float GetDamage() { return Damage; }
-    float GetCoolTime() { return CoolTime; }
+    int GetDamage() { return Damage; }
+    int GetCoolTime() { return CoolTime; }
     Box SwordDamageArea() { return DamageArea; }
 };
 

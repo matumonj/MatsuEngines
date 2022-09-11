@@ -19,7 +19,8 @@ public:
     enum TargetState {
         PLAYER,
         TUTORIAL,
-        SPLINE
+        SPLINE,
+        BOSSCUTSCENE
     };
 private:
     Input* input;
@@ -35,7 +36,7 @@ private:
     long long nowCount = 0;
     long long elapsedCount = 0;
 
-    float maxtime = 6;
+    float maxtime = 6.0f;
     float timerate;
 
     long long time = 0.00000f;
@@ -50,9 +51,9 @@ private:
 
     TargetState Tstate;
     XMFLOAT3 CameraPosition;
-    float cameraAngle=-90;
+    float cameraAngle=-90.0f;
     float charaAngle;
-    float CameraDis = 25;
+    float CameraDis = 15.0f;
     float CameraHeight=12;
 public: 
 
@@ -60,5 +61,20 @@ public:
     void SetCameraState(TargetState state) { Tstate = state; }
     void move(XMFLOAT3& pos);
     void SetColor(XMFLOAT4 color)override;
-   
+
+private:
+    bool BossCutSene = false;
+    enum BossCamera {
+        START,
+        ROLL,
+        END,
+    };
+    int CutCount[3]={0};
+    float BossCutAngle = 270.0f;
+    BossCamera bCamera;
+    bool AttackSceneF = false;
+    float BCutCameraHeight = 5;
+public:
+    void BossSceneStart();
+    bool GetAttackSceneF() { return AttackSceneF; }
 };

@@ -31,11 +31,6 @@ void BossEnemy::Initialize(DebugCamera* camera)
 
 	EnemyHP = 150.0f;
 
-	Texture::LoadTexture(11, L"Resources/Sertch.png");
-	SearchPlayerTexture = Texture::Create(11, { 0,-50,50 }, { 1,1,1 }, { 1,1,1,1 });
-	SearchPlayerTexture->CreateTexture();
-	//パラメータのセット
-
 	Rotation = { -70,180,0 };
 
 	MaxHP = 30.0f;
@@ -49,6 +44,7 @@ void BossEnemy::Initialize(DebugCamera* camera)
 	SetCollider();
 	AttackTime = 1.5f;
 	DeathTime = 4.9f;
+	DeathFlag = false;
 	f_time = 200 / 60;
 	state_boss->Initialize(this);
 }
@@ -131,10 +127,8 @@ void BossEnemy::AttackCoolTime()
 		}
 	}
 	if (AfterAttack) {
-
 		cooltime++;
 		if (cooltime > 480) {
-			state = None;
 			AfterAttack = false;
 		}
 	} else {

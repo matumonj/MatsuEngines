@@ -45,7 +45,7 @@ void TutorialSprite::Update()
 	}
 
 	//歩きとジャンプ
-	ClearWalk = Movement > 300 && Jump == true;
+	ClearWalk = Movement > 30 && Jump == true;
 	
 	//オールコンプリート
 	AllTaskClear = ClearWalk && ClearAttack && ClearSetting;
