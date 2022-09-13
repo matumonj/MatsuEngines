@@ -110,7 +110,6 @@ void WoodControl::Update(DebugCamera* camera)
 		for (int i = 0; i < Quantity; i++) {
 			if (woods[i]->CollideWood() == true) {
 				PlayerControl::GetInstance()->GetPlayer()->SetPosition(Player_OldPos);
-				PlayerControl::GetInstance()->GetPlayer()->SetGround(true);
 				break;
 			}
 		}
@@ -128,7 +127,6 @@ void WoodControl::Update(DebugCamera* camera)
 		for (int i = 0; i < 3; i++) {
 			if (Tutorialwoods[i]->CollideWood() == true) {
 				PlayerControl::GetInstance()->GetPlayer()->SetPosition(Player_OldPos);
-				PlayerControl::GetInstance()->GetPlayer()->SetGround(true);
 				break;
 			}
 		}

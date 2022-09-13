@@ -11,16 +11,12 @@
 #include"DebugTxt.h"
 #include"LightGroup.h"
 #include"DebugCamera.h"
-#include"DirectXCommon.h"
 #include "FbxLoader.h"
 #include "f_Object3d.h"
 #include"Texture.h"
 #include"PostEffect.h"
 #include"Enemy.h"
-#include"Effects.h"
 #include"TargetMarker.h"
-#include"GameUI.h"
-
 #pragma comment(lib,"winmm.lib")
 class CollisionManager;
 class Player;

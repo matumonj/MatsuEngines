@@ -10,9 +10,8 @@ public:
 	void Update(Enemy* enemy);
 
 private:
+	//Œü‚«•Ï‚¦‚é‘O‚ÌŒü‚«
 	float BeforeRot;
-	float rot;
-	float tempx, tempz;
 	float AfterRot;
 	float RotTime = 0;
 	int StayCount = 0;

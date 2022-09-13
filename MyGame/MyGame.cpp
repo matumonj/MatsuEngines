@@ -1,6 +1,7 @@
 #include "MyGame.h"
 #include"SceneManager.h"
 #include"imgui.h"
+#include"ParticleManager.h"
 void MyGame::Initialize()
 {
 	Framework::Initialize();
@@ -8,6 +9,7 @@ void MyGame::Initialize()
 	LightGroup::StaticInitialize();
 	FbxLoader::GetInstance()->Initialize();
 	Texture::StaticInitialize(WinApp::window_width, WinApp::window_height);
+	ParticleManager::StaticInitialize( WinApp::window_width, WinApp::window_height);
 	//Scene = new TitleScene();
 	//‰ŠúƒV[ƒ“
 	BaseScene* scene_ = new TitleScene(sceneManger);

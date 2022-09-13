@@ -90,6 +90,7 @@ void Tutorial::Initialize()
 	postEffect = new PostEffect();
 	postEffect->Initialize();
 	Feed::GetInstance()->initialize();
+
 }
 #pragma endregion
 
@@ -119,6 +120,7 @@ void Tutorial::Update()
 		SceneManager::GetInstance()->SetScene(SceneManager::BOSS);
 		sceneManager_->SetnextScene(scene);//シーンのセット
 	}
+
 }
 #pragma endregion 
 

@@ -45,18 +45,11 @@ public:
     /// </summary>
     void Draw()override;
 
-    /// <summary>
-    /// ‰ğ•úˆ—
-    /// </summary>
-    void Finalize()override;
-   
     void AttackCoolTime()override;
     void FbxAnimationControl()override;
     
     void Death()override;
-private:
-    float GetDistance() { return distance; }
-   
+
 public:
     void FieldCollision(DebugCamera* camera);
 

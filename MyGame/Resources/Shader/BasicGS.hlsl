@@ -1,4 +1,4 @@
-#include"light.hlsli"
+#include"Object3d.hlsli"
 
 // lŠpŒ`‚Ì’¸“_”
 static const uint vnum = 3;

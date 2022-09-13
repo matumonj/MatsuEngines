@@ -38,9 +38,6 @@ Player* Player::Create(Model* model, DebugCamera* camera)
 
 void Player::Initialize(DebugCamera* camera)
 {
-	HP = MaxHP;
-	rotate = RotationPrm::FRONT;
-
 	m_Object = std::make_unique<Object3d>();
 	m_Object->Initialize(camera);
 	m_fbxModel = FbxLoader::GetInstance()->LoadModelFromFile("monster_golem_demo");
@@ -55,11 +52,19 @@ void Player::Initialize(DebugCamera* camera)
 	Rotation = { -90,0,0 };
 	Position = { 0,-30,0 };
 	SelectSword::GetInstance()->Initialize();
+	
+	HP = MaxHP;
+
+	rotate = RotationPrm::FRONT;
+
 }
 void Player::Update(DebugCamera* camera)
 {
+	//１フレーム前の座標を保存
 	oldpos = Position;
+
 	RotationStatus();
+	
 	Scale={ 0.02, 0.02f, 0.02f};
 	//移動ベクトルをy軸周りの角度で回転
 	XMVECTOR move = { 0.0f,0.0f,0.1f,0.0f };
@@ -70,22 +75,18 @@ void Player::Update(DebugCamera* camera)
 		|| (input->LeftTiltStick(input->Left) || input->LeftTiltStick(input->Right) || input->LeftTiltStick(input->Up) || input->LeftTiltStick(input->Down))) {
 		Position.x += move.m128_f32[0] * movespeed;
 		Position.z += move.m128_f32[2] * movespeed;
-		
-		stopf = false;
-	} else {
-		stopf = true;
-		
-	}
-	Gmove = move;
-	FbxAnimationControl();
-	//フィールド
+
+	} 
+	//3d更新
 	ParameterSet_Obj(camera);
-	//フィールド
+	//3d_fbx更新
+	FbxAnimationControl();
 	ParameterSet_Fbx(camera);
-
+	//フィールド当たり判定
 	CollisionField(camera);
-
+	//手のボーン取得
 	HandMat = m_fbxObject->GetRot();
+
 	SelectSword::GetInstance()->Update();
 }
 
@@ -213,14 +214,7 @@ void Player::FbxAnimationControl()
 			f_time = 0;
 		}
 	}
-
-
 	m_fbxObject->SetFbxTime(f_time);
-}
-
-void Player::SetColors(XMFLOAT4 color)
-{
-	m_fbxObject->SetColor(color);
 }
 
 XMMATRIX Player::GetMatrot()
@@ -233,7 +227,7 @@ XMMATRIX Player::GetMatrot()
 void Player::RecvDamage(int Damage)
 {
 	if (!HUD::GetInstance()->GetRecvDamageFlag()) {
-		HUD::GetInstance()->SetRecvDamageFlag(true);
+		HUD::GetInstance()->SetRecvDamageFlag(true);//プレイヤーHPのHUD用
 }
 	HP = HP - Damage;
 }

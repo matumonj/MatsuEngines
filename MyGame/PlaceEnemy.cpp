@@ -3,6 +3,7 @@
 #include "PlaceEnemy.h"
 #include"MobEnemy.h"
 #include"BossEnemy.h"
+#include"imgui.h"
 void PlaceEnemy::Initialize(DebugCamera* camera)
 {
 	Model = Model::CreateFromOBJ("box");

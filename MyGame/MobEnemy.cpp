@@ -1,5 +1,5 @@
 #include "MobEnemy.h"
-
+#include"CustomButton.h"
 #include"SphereCollider.h"
 #include"CollisionManager.h"
 #include"CollisionAttribute.h"
@@ -13,7 +13,6 @@
 using namespace DirectX;
 MobEnemy::MobEnemy()
 {
-
 }
 /// <summary>
 /// デストラクタ
@@ -51,6 +50,10 @@ void MobEnemy::Initialize(DebugCamera* camera)
 	nowDeath = false;
 	m_fbxObject->SetColor({ 1,0,0,alpha });
 	state_mob->Initialize(this);
+
+	particleMan = ParticleManager::Create();
+	particleMan->Update();
+
 }
 
 //更新処理
@@ -60,32 +63,53 @@ void MobEnemy::Update(DebugCamera* camera)
 	if (EnemyHP <= 0) {
 		alpha -= 0.005f;
 	}
-
+	if (CustomButton::GetInstance()->GetAttackAction()) {
+		RecvDamage(10);
+	}
 	FbxAnimationControl();
 	EnemyPop(150);
 	
-	//m_fbxObject->SeteCurrent(animeflag);
 	AttackCoolTime();
 	ParameterSet_Fbx(camera);
 
 	CollisionField(camera);
 	
+	for (int i = 0; i < ParticleSize; i++) {
+		const float rnd_vel = 0.5f;
+		XMFLOAT3 vel{};
+		vel.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+		vel.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+		vel.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+
+		XMFLOAT3 acc{};
+		const float rnd_acc = 0.001f;
+		acc.y = -(float)rand() / RAND_MAX * rnd_acc;
+
+		//追加
+		if (DamageParticleCreateF) {
+			particleMan->Add(80, { Position.x,Position.y + 10,Position.z }, vel, acc, 3.0f, 0.0f);
+			if (i == ParticleSize-1) {
+				DamageParticleCreateF = false;
+			}
+		}
+		
+	}
+	particleMan->Update();
 }
 
 //描画処理
 void MobEnemy::Draw()
 {
 	Draw_Fbx();
-	Texture::PreDraw();
-	Texture::PostDraw();
-}
-//解放処理
-void MobEnemy::Finalize()
-{
-	//delete SearchPlayerTexture;
-	//delete mob, MobModel;
-}
+	// 3Dオブジェクト描画前処理
+	ParticleManager::PreDraw();
 
+	// 3Dオブクジェクトの描画
+	particleMan->Draw();
+
+	// 3Dオブジェクト描画後処理
+	ParticleManager::PostDraw();
+}
 
 void MobEnemy::Death()
 {
@@ -97,11 +121,9 @@ void MobEnemy::Death()
 
 void MobEnemy::FbxAnimationControl()
 {
-	//アニメーション
-		//1フレーム進める
-			f_time += 0.02;
-			//最後まで再生したら先頭に戻す
-
+	//1フレーム進める
+			f_time += 0.02f;
+		
 			if (f_AttackFlag) {
 				f_time = AttackTime;
 				f_AttackFlag = false;
@@ -109,7 +131,7 @@ void MobEnemy::FbxAnimationControl()
 			} else {
 				if (nowDeath == false) {
 					if (!nowAttack && f_time >= AttackTime) {
-						f_time = 0;
+						f_time = 0.0f;
 					}
 				}
 			}

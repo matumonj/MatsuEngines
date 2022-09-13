@@ -4,22 +4,18 @@
 #include"Sprite.h"
 #include"Input.h"
 #include"WinApp.h"
-
 #include"Object3d.h"
 #include"Model.h"
 #include"Collision.h"
 #include"DebugTxt.h"
 #include"LightGroup.h"
 #include"DebugCamera.h"
-#include"DirectXCommon.h"
 #include "FbxLoader.h"
 #include "f_Object3d.h"
 #include"Texture.h"
 #include"PostEffect.h"
 #include"Enemy.h"
-#include"Effects.h"
 #include"TargetMarker.h"
-#include"GameUI.h"
 #include"ControlBase.h"
 
 #pragma comment(lib,"winmm.lib")
@@ -55,7 +51,6 @@ private:
 	unsigned long prev_time = timeGetTime();
 	int count_frame = 0;
 	TargetMarker* targetm = nullptr;
-	GameUI* gameui = nullptr;
 	float ty;
 	float cameraAngle = -90;
 	float charaAngle = 0;

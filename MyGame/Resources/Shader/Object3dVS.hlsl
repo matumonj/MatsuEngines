@@ -1,4 +1,4 @@
-#include "light.hlsli"
+#include "Object3d.hlsli"
 
 VSOutput main(float4 pos : POSITION, float3 normal : NORMAL, float2 uv : TEXCOORD)
 {
@@ -11,7 +11,7 @@ VSOutput main(float4 pos : POSITION, float3 normal : NORMAL, float2 uv : TEXCOOR
 
 	output.worldpos = mul(world, pos);
 	output.normal = wnormal.xyz;
-		uv.y -= time;
+	uv.y -= time;
 	
 	output.uv = uv;
 

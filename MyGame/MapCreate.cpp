@@ -6,6 +6,7 @@
 #include"PlaceEnemy.h"
 #include"PlaceChest.h"
 #include"PlaceCameraPoints.h"
+#include"imgui.h"
 MapCreate::MapCreate()
 {
 

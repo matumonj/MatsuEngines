@@ -124,6 +124,7 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FunctionLevelLinking>true</FunctionLevelLinking>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -143,6 +144,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)DirectXTex;$(SolutionDir)imgui;$(SolutionDir)Effekseer/Dev/Cpp/Effekseer;$(SolutionDir)Effekseer/Dev/Cpp/EffekseerRendererDX12;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <TreatWarningAsError>false</TreatWarningAsError>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -208,7 +210,6 @@
     <ClCompile Include="Framework.cpp" />
     <ClCompile Include="f_Model.cpp" />
     <ClCompile Include="f_Object3d.cpp" />
-    <ClCompile Include="GameUI.cpp" />
     <ClCompile Include="HalfAttack.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="HUDLayOut.cpp" />
@@ -230,6 +231,7 @@
     <ClCompile Include="OBBCollision.cpp" />
     <ClCompile Include="Object3d.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
+    <ClCompile Include="ParticleManager.cpp" />
     <ClCompile Include="PlaceCameraPoints.cpp" />
     <ClCompile Include="PlaceChest.cpp" />
     <ClCompile Include="PlaceEnemy.cpp" />
@@ -316,7 +318,6 @@
     <ClInclude Include="Framework.h" />
     <ClInclude Include="f_Model.h" />
     <ClInclude Include="f_Object3d.h" />
-    <ClInclude Include="GameUI.h" />
     <ClInclude Include="HalfAttack.h" />
     <ClInclude Include="HUD.h" />
     <ClInclude Include="HUDLayOut.h" />
@@ -339,6 +340,7 @@
     <ClInclude Include="OBBCollision.h" />
     <ClInclude Include="Object3d.h" />
     <ClInclude Include="ObjectManager.h" />
+    <ClInclude Include="ParticleManager.h" />
     <ClInclude Include="PlaceCameraPoints.h" />
     <ClInclude Include="PlaceChest.h" />
     <ClInclude Include="PlaceEnemy.h" />
@@ -401,15 +403,30 @@
     <FxCompile Include="Resources\Shader\FBXVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
-    <FxCompile Include="Resources\Shader\lightpixel.hlsl">
+    <FxCompile Include="Resources\Shader\Object3dPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
     </FxCompile>
-    <FxCompile Include="Resources\Shader\lightver.hlsl">
+    <FxCompile Include="Resources\Shader\Object3dVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Resources\Shader\ParticleGS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Geometry</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Resources\Shader\ParticlePS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Resources\Shader\ParticleVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
     <FxCompile Include="Resources\Shader\PostEffectTestPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
@@ -438,9 +455,10 @@
     <None Include="Resources\Shader\Blur.hlsli" />
     <None Include="Resources\Shader\FBX.hlsli" />
     <None Include="Resources\Shader\Header.hlsli" />
-    <None Include="Resources\Shader\light.hlsli">
+    <None Include="Resources\Shader\Object3d.hlsli">
       <FileType>Document</FileType>
     </None>
+    <None Include="Resources\Shader\Particle.hlsli" />
     <None Include="Resources\Shader\PostEffectTest.hlsli" />
     <None Include="Resources\Shader\Sprite.hlsli" />
     <None Include="Resources\Shader\Texture.hlsli" />

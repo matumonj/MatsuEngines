@@ -25,11 +25,7 @@ void AttackCollision::Init()
 void AttackCollision::Update()
 {
 
-	if (input->Pushkey(DIK_W) || input->Pushkey(DIK_A) || input->Pushkey(DIK_D) || input->Pushkey(DIK_S)
-		|| (input->LeftTiltStick(input->Left) || input->LeftTiltStick(input->Right) || input->LeftTiltStick(input->Up) || input->LeftTiltStick(input->Down))) {
-		Position.x += PlayerControl::GetInstance()->GetPlayer()->GetMove().m128_f32[0] * 3;
-		Position.z += PlayerControl::GetInstance()->GetPlayer()->GetMove().m128_f32[2] * 3;
-	}
+	
 
 	AttackArea.position = { Position.x,Position.z };
 	AttackArea.scale = { 30,30 };
@@ -55,15 +51,10 @@ void AttackCollision::GetCol(int damage)
 		for (int i = 0; i < EnemyArea.size(); i++) {
 			if (Collision::CheckBox2Box(AttackArea, EnemyArea[i]) == true) {
 				if (CustomButton::GetInstance()->GetAttackAction()) {
-					EnemyControl::GetInstance()->GetTutorialEnemyindex()[i]->Setcol({ 0,1,0,1 });
 					EnemyControl::GetInstance()->GetTutorialEnemyindex()[i]->RecvDamage(damage);
 					//break;
-				} else {
-					EnemyControl::GetInstance()->GetTutorialEnemyindex()[i]->Setcol({ 1,1,1,1 });
 				}
-			} else if (Collision::CheckBox2Box(AttackArea, EnemyArea[i]) == false) {
-				EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->Setcol({ 1,1,1,1 });
-			}
+			} 
 		}
 		break;
 
@@ -77,15 +68,10 @@ void AttackCollision::GetCol(int damage)
 		for (int i = 0; i < EnemyArea.size(); i++) {
 			if (Collision::CheckBox2Box(AttackArea, EnemyArea[i]) == true) {
 				if (CustomButton::GetInstance()->GetAttackAction()) {
-					EnemyControl::GetInstance()->GetEnemyindex(0)[i]->Setcol({ 0,1,0,1 });
 					EnemyControl::GetInstance()->GetEnemyindex(0)[i]->RecvDamage(damage);
-					break;
-				} else {
-					EnemyControl::GetInstance()->GetEnemyindex(0)[i]->Setcol({ 1,1,1,1 });
-				}
-			} else if (Collision::CheckBox2Box(AttackArea, EnemyArea[i]) == false) {
-				EnemyControl::GetInstance()->GetEnemyindex(0)[i]->Setcol({ 1,1,1,1 });
-			}
+					//break;
+				} 
+			} 
 		}
 		break;
 
@@ -98,14 +84,9 @@ void AttackCollision::GetCol(int damage)
 			if (EnemyControl::GetInstance()->GetBossEnemyindex()[0] != nullptr) {
 				if (Collision::CheckBox2Box(AttackArea, EnemyArea[i]) == true) {
 					if (CustomButton::GetInstance()->GetAttackAction()) {
-						EnemyControl::GetInstance()->GetBossEnemyindex()[i]->Setcol({ 0,1,0,1 });
 						EnemyControl::GetInstance()->GetBossEnemyindex()[i]->RecvDamage(damage);
 						//break;
-					} else {
-						EnemyControl::GetInstance()->GetBossEnemyindex()[i]->Setcol({ 1,1,1,1 });
-					}
-				} else if (Collision::CheckBox2Box(AttackArea, EnemyArea[i]) == false) {
-					EnemyControl::GetInstance()->GetBossEnemyindex()[0]->Setcol({ 1,1,1,1 });
+					} 
 				}
 			}
 		}

@@ -9,14 +9,14 @@
 using namespace DirectX;
 Enemy::Enemy()
 {
-
 	state_boss= new BossEnemyFollow();
 	state_mob = new EnemyWalkState();
 }
 
 Enemy::~Enemy()
 {
-	delete _state, state_mob;
+	delete particleMan;
+	delete  state_mob;
 }
 
 
@@ -38,8 +38,8 @@ void Enemy::Action()
 }
 void Enemy::RecvDamage(int Damage) 
 {
-	RecvDamageJudg = true;
 	EnemyHP = EnemyHP - Damage;
+	DamageParticleCreateF = true;
 }
 void Enemy::EnemyPop(int HP)
 {
@@ -50,13 +50,6 @@ void Enemy::EnemyPop(int HP)
 void Enemy::Draw()
 {
 }
-
-//‰ğ•úˆ—
-void Enemy::Finalize()
-{
-}
-
-
 
 void Enemy::Turn_toPlayer()
 {

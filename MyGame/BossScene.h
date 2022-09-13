@@ -20,7 +20,6 @@
 #include"Effects.h"
 #include"AttackCollision.h"
 #include"TargetMarker.h"
-#include"GameUI.h"
 #include"ControlBase.h"
 #include"Nail.h"
 #pragma comment(lib,"winmm.lib")

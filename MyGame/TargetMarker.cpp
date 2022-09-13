@@ -32,10 +32,10 @@ bool TargetMarker::GetEnemyPosition(std::vector<std::unique_ptr<Enemy>>& enemy, 
 		return false;
 	}
 		//Žw’è‚³‚ê‚½“Y‚¦Žš‚Ì“GÀ•W‚ðŽæ“¾
-		enemy[index]->Getposition(&tempx, &tempy, &tempz);
+		/*enemy[index]->Getposition(&tempx, &tempy, &tempz);
 		*x = enemy[index]->GetPosition().x;
 		*y = enemy[index]->GetPosition().y;
-		*z = enemy[index]->GetPosition().z;
+		*z = enemy[index]->GetPosition().z;*/
 
 		return true;
 }

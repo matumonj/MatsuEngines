@@ -12,13 +12,12 @@
 #include"LightGroup.h"
 #include"DebugCamera.h"
 #include"DirectXCommon.h"
-
 class TitleScene :public BaseScene
 {
 public:
 	TitleScene(SceneManager* sceneManager);
 private:
-
+	
 	Sprite* titlesprite;
 
 	Sprite* titlesprite2;

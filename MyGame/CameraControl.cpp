@@ -124,7 +124,7 @@ void CameraControl::Update(DebugCamera* camera)
 
 		this->camera->SetEye(SplinePosition(points, startindex, timerate));
 	}
-	else if (Tstate == PLAYER) {
+	else if (Tstate == PLAYER|| Tstate == BOSSCUTSCENE) {
 		CameraPosition.x = PlayerControl::GetInstance()->GetPlayer()->GetPosition().x + cosf((float)(cameraAngle) * 3.14f / 180.0f) * 25;
 		CameraPosition.z = PlayerControl::GetInstance()->GetPlayer()->GetPosition().z + sinf((float)(cameraAngle) * 3.14f / 180.0f) * 35;
 		CameraPosition.y = PlayerControl::GetInstance()->GetPlayer()->GetPosition().y + CameraHeight;
@@ -133,7 +133,7 @@ void CameraControl::Update(DebugCamera* camera)
 		this->camera->SetEye(CameraPosition);
 	}
 	else if (Tstate == BOSSCUTSCENE) {
-		BossSceneStart();
+		//BossSceneStart();
 	}
 }
 
@@ -212,6 +212,7 @@ void CameraControl::BossSceneStart()
 			bCamera = END;
 		}
 		else {
+			BCutCameraHeight += 0.01f;
 			BossCutAngle += XMConvertToRadians(45);
 		}
 		break;

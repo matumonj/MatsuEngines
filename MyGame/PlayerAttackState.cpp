@@ -121,7 +121,6 @@ void PlayerAttackState::ThirdAttack(std::vector<std::unique_ptr<Enemy>>& enemy)
 		Damage = SelectSword::GetInstance()->GetSword()->GetDamage() + ThirdAttackDamage;
 	}
 	DetailAttack(enemy,120);
-//}
 }
 
 

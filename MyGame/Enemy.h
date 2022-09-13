@@ -1,14 +1,8 @@
 #pragma once
-#ifndef ENEMY_H_
-#define ENMEY_H_
-
-#include <Windows.h>
 #include <wrl.h>
 #include <d3d12.h>
 #include <d3dx12.h>
 #include <DirectXMath.h>
-#include <string>
-#include"DirectXCommon.h"
 #include"DebugCamera.h"
 #include"Input.h"
 #include"Player.h"
@@ -17,6 +11,7 @@
 #include"Texture.h"
 #include"Destroy.h"
 #include"ObjectManager.h"
+#include"ParticleManager.h"
 class NodeBase;
 /// <summary>
 /// 敵キャラの基底クラス
@@ -36,93 +31,66 @@ public:
 
 	static Enemy* Create(Model* model, DebugCamera* camera);
 
-private:
-	EnemyState* _state;
+public:
+	//初期化
+	virtual void Initialize(DebugCamera* camera)override;
+	//更新処理
+	virtual void Update(DebugCamera* camera)override;
+	//描画処理
+	virtual void Draw()override;
+	//死亡処理
+	virtual void Death() = 0;
+	//Fbx制御
+	virtual void FbxAnimationControl() = 0;
+	//
+	virtual void Action();
 protected:
 	float EnemyHP;
 	float MaxHP;
-protected:
-	bool MoveFlag=false;
-	float AttackTime=0;
-private:
-	bool RecvDamagef;
 	float OldHP;
-	XMFLOAT3 OldPos;
-
 protected:
-	bool RecvDamageJudg;
+	bool MoveFlag = false;
+	float AttackTime = 0;
+	bool RecvDamagef;
+	bool DamageParticleCreateF;
+private:
+	XMFLOAT3 OldPos;
 public:
-
-	bool GetRecvDamageJudg() { return RecvDamageJudg; }
 	bool GetRecvDamage() { return RecvDamagef; }
 	void SetRecvDamage(bool f) { RecvDamagef = f; }
 	void SetMoveFlag(bool f) { MoveFlag = f; }
 	bool GetMoveFlag() { return MoveFlag; }
-	void RecvDamage(int Damage); 
+	void RecvDamage(int Damage);
 	bool GetonFlag() { return onGround; }
 	float GetHP() { return EnemyHP; };
 	float GetMaxHP() { return MaxHP; }
-	void SetHP(float hp) { EnemyHP = hp; }
-	void Setcol(XMFLOAT4 c) { m_fbxObject->SetColor(c); }
 
 	void Turn_toPlayer();
-	/// <summary>
-	/// 初期化
-	/// </summary>
-	virtual void Initialize( DebugCamera* camera)override;
 
-	/// <summary>
-	/// 更新処理
-	/// </summary>
-	virtual void Update(DebugCamera* camera)override;
-
-	virtual void Death()=0;
-
-	virtual void FbxAnimationControl() = 0;
-	/// <summary>
-	/// 描画処理
-	/// </summary>
-	virtual void Draw()override;
-
-	virtual void Action();
 	void EnemyPop(int HP);
-	void SetStartPosition(XMFLOAT3 position) {
-		StartPosition = { 0,0,0}; }
-	/// <summary>
-	/// 解放処理
-	/// </summary>
-	virtual void Finalize();
 
-	float distance;
 	bool AfterAttack;
-	float GetDistance() { return distance; }
 
-	void Getposition(float* x, float* y, float* z) {
-		*x = this->Position.x;
-		*y = this->Position.y;
-		*z = this->Position.z;
-	};
 
 	XMFLOAT3 GetScale() { return Scale; }
 
 	void SetScale(XMFLOAT3 scale) { Scale = scale; }
 
 	bool GetDeathTime() { return DeathFlag; }
-	void SetDeathTime(bool f) { if (!DeathFlag) { DeathFlag = f; } }
-	int GetTime() { return time; }
 
-	virtual void AttackCoolTime()=0;
+	virtual void AttackCoolTime() = 0;
 	int GetAttackCoolTime() { return cooltime; }
 	bool f_AttackFlag;
 	void SetAttackTime(bool f) { if (f_time < AttackTime) { f_AttackFlag = f; } }
 	bool GetAttackTime() { return f_AttackFlag; }
+
 	float GetFbxTime() { return f_time; }
 protected:
+	bool DeathFlag;
 	bool nowDeath;
-	int cooltime=0;
-	
+	int cooltime = 0;
+
 	int onGroundTime = 0;
-	int time=0;
 protected:
 	float f_time;
 	float start_time;
@@ -131,43 +99,39 @@ protected:
 	XMFLOAT3 StartPosition;
 	int PopCount;
 
-	protected:
+protected:
+	struct Attack_SE {
+		bool start;
+		bool end;
+	};
+	static const int AtckNum = 5;
+	Attack_SE Attack[AtckNum];
 
-	bool DeathFlag;
-	public:
-		struct Attack_SE {
-			bool start;
-			bool end;
-		};
-		Attack_SE Attack_Circle;
-		Attack_SE Attack_Knock;
-		Attack_SE Attack_Half;
-		Attack_SE Attack_Half2;
+public:
+	bool GetAttack_Start(int Num) { return Attack[Num].start; }
+	bool GetAttack_End(int Num) { return Attack[Num].end; }
 
-		bool GetAttack_Half_Start() { return Attack_Half.start; }
-		bool GetAttack_Half2_Start() { return Attack_Half2.start; }
-		bool GetAttack_Half_End() { return Attack_Half.end; }
-		bool GetAttack_Half2_End() { return Attack_Half2.end; }
-		bool GetAttack_Circle_Start() { return Attack_Circle.start; }
-		bool GetAttack_Circle_End() { return Attack_Circle.end; }
+	void SetAttack_Start(int Num, bool f) { Attack[Num].start = f; }
+	void SetAttack_End(int Num, bool f) { Attack[Num].end = f; }
 
-		void SetAttack_Half_Start(bool f) {Attack_Half.start=f; }
-		void SetAttack_Half2_Start(bool f) {  Attack_Half2.start = f; }
-		void SetAttack_Circle_Start(bool f) { Attack_Circle.start = f; }
-		void SetAttack_Circle_End(bool f) { Attack_Circle.end = f; }
-		void SetAttack_Half_End(bool f) {  Attack_Half.end = f; }
-		void SetAttack_Half2_End(bool f) { Attack_Half2.end = f; }
+	bool GetNowDeath() { return nowDeath; }
+	int GetCoolTime() { return cooltime; }
+public:
+	void ChangeState_Mob(EnemyState* state);
+	void ChangeState_Boss(BossEnemyState* state);
 
-		bool GetNowDeath() { return nowDeath; }
-		int GetCoolTime() { return cooltime; }
-	public:
-		void ChangeState_Mob(EnemyState* state);
-		void ChangeState_Boss(BossEnemyState* state);
+public:
+
+	enum {
+		CIRCLE_1,
+		CIRCLE_2,
+		KNOCK,
+		HALF_1,
+		HALF_2
+	};
 protected:
 	EnemyState* state_mob;
 	BossEnemyState* state_boss;
+	ParticleManager* particleMan = nullptr;
 
 };
-
-
-#endif

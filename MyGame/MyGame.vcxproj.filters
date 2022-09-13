@@ -160,6 +160,27 @@
     <Filter Include="Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン">
       <UniqueIdentifier>{c83847d2-65dc-444a-ac0b-10be1dc5ee3c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="リソース ファイル\Sprite">
+      <UniqueIdentifier>{bf4a6542-5688-4e14-9ed8-d38ceba9b990}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リソース ファイル\Particle">
+      <UniqueIdentifier>{0e393480-4770-4691-8cbc-553e04e52c6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リソース ファイル\Object">
+      <UniqueIdentifier>{d6d353b0-f6f0-4b02-a01f-5e8df6e85c37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リソース ファイル\Tex">
+      <UniqueIdentifier>{ebc9bd48-828a-474c-820f-bac6b5758553}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リソース ファイル\Fbx">
+      <UniqueIdentifier>{063aa41a-2940-45e8-8c61-a3afc45888bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リソース ファイル\PostEffect">
+      <UniqueIdentifier>{ef7f1cef-7a15-4b1c-8cef-8bc69ccc595a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\2d %28DebugTxt  Sprite Texture%29\Particle">
+      <UniqueIdentifier>{5c1b134c-f46a-42b5-b391-482ca91b7474}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -260,9 +281,6 @@
     </ClCompile>
     <ClCompile Include="MobEnemy.cpp">
       <Filter>Game\gameobject\オブジェクト種類\Enemy\派生クラス</Filter>
-    </ClCompile>
-    <ClCompile Include="GameUI.cpp">
-      <Filter>Game\UI</Filter>
     </ClCompile>
     <ClCompile Include="CollisionManager.cpp">
       <Filter>Game\collision</Filter>
@@ -465,6 +483,9 @@
     <ClCompile Include="EnemyDeathState.cpp">
       <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\雑魚</Filter>
     </ClCompile>
+    <ClCompile Include="ParticleManager.cpp">
+      <Filter>Game\2d %28DebugTxt  Sprite Texture%29\Particle</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sprite.h">
@@ -577,9 +598,6 @@
     </ClInclude>
     <ClInclude Include="MobEnemy.h">
       <Filter>Game\gameobject\オブジェクト種類\Enemy\派生クラス</Filter>
-    </ClInclude>
-    <ClInclude Include="GameUI.h">
-      <Filter>Game\UI</Filter>
     </ClInclude>
     <ClInclude Include="MeshCollider.h">
       <Filter>Game\collision</Filter>
@@ -797,6 +815,9 @@
     <ClInclude Include="EnemyDeathState.h">
       <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\雑魚</Filter>
     </ClInclude>
+    <ClInclude Include="ParticleManager.h">
+      <Filter>Game\2d %28DebugTxt  Sprite Texture%29\Particle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shader\BasicGS.hlsl">
@@ -808,64 +829,76 @@
     <FxCompile Include="Resources\Shader\BasicVS.hlsl">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\Shader\BlurPS.hlsl">
-      <Filter>リソース ファイル</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\Shader\BlurVS.hlsl">
-      <Filter>リソース ファイル</Filter>
-    </FxCompile>
     <FxCompile Include="Resources\Shader\FBXPS.hlsl">
-      <Filter>リソース ファイル</Filter>
+      <Filter>リソース ファイル\Fbx</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shader\FBXVS.hlsl">
-      <Filter>リソース ファイル</Filter>
+      <Filter>リソース ファイル\Fbx</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\Shader\lightpixel.hlsl">
-      <Filter>リソース ファイル</Filter>
+    <FxCompile Include="Resources\Shader\ParticleGS.hlsl">
+      <Filter>リソース ファイル\Particle</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\Shader\lightver.hlsl">
-      <Filter>リソース ファイル</Filter>
+    <FxCompile Include="Resources\Shader\ParticleVS.hlsl">
+      <Filter>リソース ファイル\Particle</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\Shader\PostEffectTestPS.hlsl">
-      <Filter>リソース ファイル</Filter>
+    <FxCompile Include="Resources\Shader\ParticlePS.hlsl">
+      <Filter>リソース ファイル\Particle</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\Shader\PostEffectTestVS.hlsl">
-      <Filter>リソース ファイル</Filter>
+    <FxCompile Include="Resources\Shader\Object3dVS.hlsl">
+      <Filter>リソース ファイル\Object</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shader\Object3dPS.hlsl">
+      <Filter>リソース ファイル\Object</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shader\SpritePS.hlsl">
-      <Filter>リソース ファイル</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\Shader\SpriteVS.hlsl">
-      <Filter>リソース ファイル</Filter>
+      <Filter>リソース ファイル\Sprite</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shader\TexturePS.hlsl">
-      <Filter>リソース ファイル</Filter>
+      <Filter>リソース ファイル\Tex</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shader\SpriteVS.hlsl">
+      <Filter>リソース ファイル\Sprite</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shader\TextureVS.hlsl">
-      <Filter>リソース ファイル</Filter>
+      <Filter>リソース ファイル\Tex</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shader\PostEffectTestPS.hlsl">
+      <Filter>リソース ファイル\PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shader\PostEffectTestVS.hlsl">
+      <Filter>リソース ファイル\PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shader\BlurVS.hlsl">
+      <Filter>リソース ファイル\PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shader\BlurPS.hlsl">
+      <Filter>リソース ファイル\PostEffect</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Shader\Blur.hlsli">
-      <Filter>リソース ファイル</Filter>
-    </None>
-    <None Include="Resources\Shader\FBX.hlsli">
-      <Filter>リソース ファイル</Filter>
-    </None>
     <None Include="Resources\Shader\Header.hlsli">
       <Filter>リソース ファイル</Filter>
     </None>
-    <None Include="Resources\Shader\PostEffectTest.hlsli">
-      <Filter>リソース ファイル</Filter>
+    <None Include="Resources\Shader\FBX.hlsli">
+      <Filter>リソース ファイル\Fbx</Filter>
+    </None>
+    <None Include="Resources\Shader\Particle.hlsli">
+      <Filter>リソース ファイル\Particle</Filter>
+    </None>
+    <None Include="Resources\Shader\Object3d.hlsli">
+      <Filter>リソース ファイル\Object</Filter>
     </None>
     <None Include="Resources\Shader\Sprite.hlsli">
-      <Filter>リソース ファイル</Filter>
+      <Filter>リソース ファイル\Sprite</Filter>
     </None>
     <None Include="Resources\Shader\Texture.hlsli">
-      <Filter>リソース ファイル</Filter>
+      <Filter>リソース ファイル\Tex</Filter>
     </None>
-    <None Include="Resources\Shader\light.hlsli">
-      <Filter>リソース ファイル</Filter>
+    <None Include="Resources\Shader\PostEffectTest.hlsli">
+      <Filter>リソース ファイル\PostEffect</Filter>
+    </None>
+    <None Include="Resources\Shader\Blur.hlsli">
+      <Filter>リソース ファイル\PostEffect</Filter>
     </None>
   </ItemGroup>
 </Project>

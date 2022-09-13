@@ -177,7 +177,7 @@ bool Object3d::InitializeGraphicsPipeline()
 	// 頂点シェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
 		//L"Resources/shaders/BasicVertexShader.hlsl",	// シェーダファイル名
-		L"Resources/Shader/lightver.hlsl",
+		L"Resources/Shader/Object3dVS.hlsl",
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "vs_5_0",	// エントリーポイント名、シェーダーモデル指定
@@ -201,7 +201,7 @@ bool Object3d::InitializeGraphicsPipeline()
 	// ピクセルシェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
 		//L"Resources/shaders/BasicPixelShader.hlsl",	// シェーダファイル名
-		L"Resources/Shader/lightpixel.hlsl",
+		L"Resources/Shader/Object3dPS.hlsl",
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "ps_5_0",	// エントリーポイント名、シェーダーモデル指定

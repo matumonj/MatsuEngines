@@ -1,5 +1,5 @@
 #include "BossEnemy.h"
-
+#include"CustomButton.h"
 #include"SphereCollider.h"
 #include"CollisionManager.h"
 #include"CollisionAttribute.h"
@@ -53,7 +53,9 @@ void BossEnemy::Initialize(DebugCamera* camera)
 void BossEnemy::Update(DebugCamera* camera)
 {
 	Action();
-
+	if (CustomButton::GetInstance()->GetAttackAction()) {
+		EnemyHP -= 10;
+	}
 	FbxAnimationControl();
 	EnemyPop(150);
 
@@ -68,11 +70,6 @@ void BossEnemy::Update(DebugCamera* camera)
 void BossEnemy::Draw()
 {
 	Draw_Fbx();
-}
-//‰ğ•úˆ—
-void BossEnemy::Finalize()
-{
-
 }
 
 void BossEnemy::Death()
