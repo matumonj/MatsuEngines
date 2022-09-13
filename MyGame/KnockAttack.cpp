@@ -17,9 +17,9 @@ void KnockAttack::Initialize()
 {
 	Texture::LoadTexture(20, L"Resources/Knock.png");
 
-	KnockTex = Texture::Create(20, {0,0,0}, { 100,100,1 }, { 1,1,1,1 });
+	KnockTex = Texture::Create(20, {0.0f ,0.0f ,0.0f }, { 100.0f ,100.0f ,1.0f }, { 1.0f ,1.0f ,1.0f ,1.0f });
 	KnockTex->CreateTexture();
-	KnockTex->SetAnchorPoint({0.5,0.5 });
+	KnockTex->SetAnchorPoint({0.5f,0.5f });
 
 }
 
@@ -35,10 +35,10 @@ void KnockAttack::ActionJudg()
 			fase1 = false;//待機フェーズend
 		}
 		//吹き飛ばし直前に吹き飛ばし後のプレイヤーz座標を設定
-		AfterPositionZ = PlayerControl::GetInstance()->GetPlayer()->GetPosition().z - 50;
+		AfterPositionZ = PlayerControl::GetInstance()->GetPlayer()->GetPosition().z - 50.0f;
 		BeforePositionZ = PlayerControl::GetInstance()->GetPlayer()->GetPosition().z;
 
-		KnockTime = 0;//イージング用カウンタリセット
+		KnockTime = 0.0f;//イージング用カウンタリセット
 	}
 	
 	if (fase2) {
@@ -59,10 +59,10 @@ void KnockAttack::ActionJudg()
 
 		KnockTex->Update(CameraControl::GetInstance()->GetCamera());
 	}
-		KnockTex->SetPosition({ 0,-18,0});
+		KnockTex->SetPosition({ 0.0f ,-18.0f ,0.0f });
 
-		KnockTex->SetRotation({ 90, 0,0 });
-		KnockTex->SetScale({ 10,10,3 });
+		KnockTex->SetRotation({ 90.0f , 0.0f ,0.0f });
+		KnockTex->SetScale({ 10.0f ,10.0f ,3.0f });
 	AttackCount = min(AttackCount, 180);
 	AttackCount = max(AttackCount, 0);
 

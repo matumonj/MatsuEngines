@@ -19,9 +19,9 @@ void HalfAttack::Initialize()
 	
 	Texture::LoadTexture(21, L"Resources/damage.png");
 
-	HalfAreaTex = Texture::Create(21, { 0,0,0 }, { 100,100,1 }, { 1,1,1,1 });
+	HalfAreaTex = Texture::Create(21, { 0.0f ,0.0f ,0.0f }, { 100.0f ,100.0f ,1.0f }, { 1.0f ,1.0f ,1.0f ,1.0f });
 	HalfAreaTex->CreateTexture();
-	HalfAreaTex->SetAnchorPoint({ 0.5,0.5 });
+	HalfAreaTex->SetAnchorPoint({ 0.5f,0.5f });
 
 }
 
@@ -31,17 +31,17 @@ void HalfAttack::ActionJudg()
 //fase1　カウントダウンと中央に戻る処理
 	PlayerPos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 	BossEnemyPos = EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetPosition();
-	CenterPos = { 0,-18,0 };
+	CenterPos = { 0.0f ,-18.0f ,0.0f };
 	if (fase==FASEONE) {
 		BossSpell::GetInstance()->SetEndSpell_HR(false);
 		BossSpell::GetInstance()->SetEndSpell_HL(false);
 
 		TexAlpha += 0.02f;
 		TurnCenter();
-		if (Collision::GetLength(BossEnemyPos, CenterPos) < 10) {
-			if (PlayerPos.x>0) {
+		if (Collision::GetLength(BossEnemyPos, CenterPos) < 10.0f) {
+			if (PlayerPos.x>0.0f) {
 				Area = LEFT;
-			} else if(PlayerPos.x <=0) {
+			} else if(PlayerPos.x <=0.0f) {
 				Area = RIGHT;
 			}
 			fase = FASETWO;	
@@ -76,30 +76,30 @@ void HalfAttack::ActionJudg()
 		}
 	}
 	if (fase==FASEFOUR) {
-		TexAlpha = 1;
+		TexAlpha = 0.5f;
 	}
 	HalfAreaTex->SetUVMove(true);
 	HalfAreaTex->SetBillboard(false);
-	HalfAreaTex->SetColor({ 1,1,1,TexAlpha });
+	HalfAreaTex->SetColor({ 1.0f ,1.0f ,1.0f ,TexAlpha });
 
 	HalfAreaTex->Update(CameraControl::GetInstance()->GetCamera());
-	HalfAreaTex->SetPosition({ 0,-18,0 });
+	HalfAreaTex->SetPosition({ 0.0f ,-18.0f ,0.0f });
 	HalfAreaTex->SetRotation({ 90,0,0 });
 	switch (Area)
 	{
 	case HalfAttack::LEFT:
 
-		HalfAreaTex->SetPosition({ 30,-18,0 });
-		HalfAreaTex->SetScale({ 8,11.5,3 });
+		HalfAreaTex->SetPosition({ 30.0f ,-18.0f ,0.0f });
+		HalfAreaTex->SetScale({ 8.0f ,11.5f,3.0f  });
 		break;
 	case HalfAttack::RIGHT:
-		HalfAreaTex->SetPosition({ -30,-18,0 });
-		HalfAreaTex->SetScale({ 8,11.5,3 });
+		HalfAreaTex->SetPosition({ -30.0f ,-18.0f ,0.0f });
+		HalfAreaTex->SetScale({ 8.0f ,11.5f,3.0f });
 		break;
 	default:
 		break;
 	}
-	TexAlpha = min(TexAlpha, 1.0f);
+	TexAlpha = min(TexAlpha, 0.6f);
 	TexAlpha = max(TexAlpha, 0.0f);
 }
 
@@ -140,10 +140,10 @@ void HalfAttack::TurnCenter()
 
 		EnemyControl::GetInstance()->GetBossEnemyindex()[0]->SetRotation({
 			EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetRotation().x,
-			RotY * 60 + 180,
+			RotY * 60.0f + 180.0f ,
 			EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetRotation().z });
 		//移動ベクトルをy軸周りの角度で回転
-		XMVECTOR move = { 0,0,0.1f,0 };
+		XMVECTOR move = { 0.0f ,0.0f ,0.1f,0.0f };
 
 		XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetRotation().y));
 

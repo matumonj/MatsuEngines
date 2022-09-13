@@ -169,6 +169,7 @@
     <ClCompile Include="BossEnemyDeath.cpp" />
     <ClCompile Include="BossEnemyFollow.cpp" />
     <ClCompile Include="BossEnemyState.cpp" />
+    <ClCompile Include="BossEnemyStay.cpp" />
     <ClCompile Include="BossScene.cpp" />
     <ClCompile Include="BossSpell.cpp" />
     <ClCompile Include="BossState.cpp" />
@@ -272,6 +273,7 @@
     <ClInclude Include="BossEnemyDeath.h" />
     <ClInclude Include="BossEnemyFollow.h" />
     <ClInclude Include="BossEnemyState.h" />
+    <ClInclude Include="BossEnemyStay.h" />
     <ClInclude Include="BossScene.h" />
     <ClInclude Include="BossSpell.h" />
     <ClInclude Include="BossState.h" />

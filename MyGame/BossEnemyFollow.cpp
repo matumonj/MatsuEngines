@@ -61,7 +61,7 @@ void BossEnemyFollow::Update(Enemy* enemy)
 		);
 	}
 
-	if (CameraControl::GetInstance()->GetAttackSceneF() || Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 20) {
+	if ( Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 20) {
 		if (enemy->GetCoolTime() == 0) {
 			enemy->ChangeState_Boss(new BossEnemyAttack());
 		}

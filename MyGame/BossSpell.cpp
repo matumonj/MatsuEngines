@@ -47,29 +47,29 @@ void BossSpell::Draw()
 void BossSpell::SpellsInit(Spells& spells, int TexNum_G,int TexNum_F)
 {
 	//¶UŒ‚
-	spells.SpellFrame = Sprite::Create(TexNum_F, { 30,200 });
-	spells.SpellGauge = Sprite::Create(TexNum_G, { 40,248 });
-	spells.SpellFrame->SetAnchorPoint({ 0,0 });
-	spells.SpellGauge->SetAnchorPoint({ 0,0.5 });
-	spells.SpellFrame->SetSize({ 300,300 });
-	spells.SpellGauge->SetSize({ 0,0 });
+	spells.SpellFrame = Sprite::Create(TexNum_F, { 30.0f ,200.0f });
+	spells.SpellGauge = Sprite::Create(TexNum_G, { 40.0f ,248.0f });
+	spells.SpellFrame->SetAnchorPoint({ 0.0f ,0.0f });
+	spells.SpellGauge->SetAnchorPoint({ 0.0f ,0.5f });
+	spells.SpellFrame->SetSize({ 300.0f ,300.0f });
+	spells.SpellGauge->SetSize({ 0.0f ,0.0f });
 }
 
 
 void BossSpell::SpellAction(Spells& spell, float spellCount)
 {
 	if (spell.StartJudg) {
-		spell.SpellFrame->setcolor({ 1,1,1,1 });
-		spell.SpellGauge->setcolor({ 1,1,1,1 });
+		spell.SpellFrame->setcolor({ 1.0f ,1.0f ,1.0f ,1.0f });
+		spell.SpellGauge->setcolor({ 1.0f ,1.0f ,1.0f ,1.0f });
 		spell.Time += 1.0f / spellCount;
-		spell.SpellGauge->SetSize({ Easing::EaseOut(spell.Time,0,286),200 });
+		spell.SpellGauge->SetSize({ Easing::EaseOut(spell.Time,0.0f ,286.0f),200.0f });
 		if (spell.Time >= 1.0f) {
 			spell.EndJudg = true;
 		}
 	}
 	if (spell.EndJudg) {
 		spell.Time = 0.0f;
-		spell.SpellGauge->SetSize({ 0,0 });
+		spell.SpellGauge->SetSize({ 0.0f ,0.0f });
 		spell.StartJudg = false;
 	}
 }

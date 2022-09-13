@@ -486,6 +486,9 @@
     <ClCompile Include="ParticleManager.cpp">
       <Filter>Game\2d %28DebugTxt  Sprite Texture%29\Particle</Filter>
     </ClCompile>
+    <ClCompile Include="BossEnemyStay.cpp">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sprite.h">
@@ -817,6 +820,9 @@
     </ClInclude>
     <ClInclude Include="ParticleManager.h">
       <Filter>Game\2d %28DebugTxt  Sprite Texture%29\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="BossEnemyStay.h">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

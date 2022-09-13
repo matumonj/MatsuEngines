@@ -59,6 +59,7 @@ public:
 
     XMFLOAT3 CameraPosIndex(int index) { return points[index]; }
     void SetCameraState(TargetState state) { Tstate = state; }
+    TargetState GetCameraState() { return Tstate; }
     void move(XMFLOAT3& pos);
     void SetColor(XMFLOAT4 color)override;
 

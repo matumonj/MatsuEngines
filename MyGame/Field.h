@@ -15,7 +15,7 @@ public:
 
 private:
 	TouchableObject* FieldObject;
-
+	TouchableObject* BossFieldObject;
 	std::unique_ptr <Object3d> CelestialSphereObject;
 
 	std::unique_ptr <Object3d> BackObject;
@@ -23,6 +23,7 @@ private:
 	std::unique_ptr<Object3d>DamageAreaObj;
 
 	Sprite* Explanation;
+	Sprite* BossName;
 	float TexAlpha;
 	bool feed;
 	Model* DamageAreaModel;

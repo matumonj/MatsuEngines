@@ -5,11 +5,11 @@
 #include"EnemyStayState.h"
 #include"EnemyFollowState.h"
 #include"EnemyFollowState.h"
-#include"BossEnemyFollow.h"
+#include"BossEnemyStay.h"
 using namespace DirectX;
 Enemy::Enemy()
 {
-	state_boss= new BossEnemyFollow();
+	state_boss= new BossEnemyStay();
 	state_mob = new EnemyWalkState();
 }
 
@@ -38,6 +38,7 @@ void Enemy::Action()
 }
 void Enemy::RecvDamage(int Damage) 
 {
+	if (EnemyHP <= 0)return;
 	EnemyHP = EnemyHP - Damage;
 	DamageParticleCreateF = true;
 }

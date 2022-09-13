@@ -124,7 +124,13 @@ void CameraControl::Update(DebugCamera* camera)
 
 		this->camera->SetEye(SplinePosition(points, startindex, timerate));
 	}
-	else if (Tstate == PLAYER|| Tstate == BOSSCUTSCENE) {
+	else if (Tstate == PLAYER) {
+		if (AttackSceneF) {
+			Feed::GetInstance()->Update_White(Feed::FEEDOUT);
+			if (Feed::GetInstance()->GetAlpha() <= 0.0f) {
+				AttackSceneF = false;
+			}
+		}
 		CameraPosition.x = PlayerControl::GetInstance()->GetPlayer()->GetPosition().x + cosf((float)(cameraAngle) * 3.14f / 180.0f) * 25;
 		CameraPosition.z = PlayerControl::GetInstance()->GetPlayer()->GetPosition().z + sinf((float)(cameraAngle) * 3.14f / 180.0f) * 35;
 		CameraPosition.y = PlayerControl::GetInstance()->GetPlayer()->GetPosition().y + CameraHeight;
@@ -133,7 +139,7 @@ void CameraControl::Update(DebugCamera* camera)
 		this->camera->SetEye(CameraPosition);
 	}
 	else if (Tstate == BOSSCUTSCENE) {
-		//BossSceneStart();
+		BossSceneStart();
 	}
 }
 
@@ -173,11 +179,7 @@ XMFLOAT3 CameraControl::SplinePosition(const std::vector<XMFLOAT3>& points, size
 	XMFLOAT3 ys;
 	ys = { b4.x + d1.x,b4.y + d1.y ,b4.z + d1.z };
 	XMFLOAT3 position = { 0.5f * ys.x,0.5f * ys.y ,0.5f * ys.z };
-	/*	XMFLOAT3 position = 0.5f * ((2 * p1) + (-p0 + p2) * t +
-		(2 * p0 - 5 * p1 + 4 * p2 - p3) * (t * t) +
-		(-p0 + 3 * p1 - 3 * p2 + p3) * (t * t * t));
-*/
-//return position;
+
 	return position;
 }
 
@@ -199,6 +201,8 @@ void CameraControl::BossSceneStart()
 	switch (bCamera)
 	{
 	case START:
+		Feed::GetInstance()->Update_White(Feed::FEEDOUT);
+		
 		CutCount[0]++;
 		if (CutCount[0] > 190) {
 			bCamera = ROLL;
@@ -219,7 +223,7 @@ void CameraControl::BossSceneStart()
 	case END:
 		AttackSceneF = true;
 		if (EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetFbxTime() > 2.0f) {
-			CameraDis += 2;
+			CameraDis += 1.5f;
 		}
 		Feed::GetInstance()->Update_White(Feed::FEEDIN);
 		if (Feed::GetInstance()->GetAlpha() >= 1.0f) {

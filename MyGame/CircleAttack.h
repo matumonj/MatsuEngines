@@ -13,15 +13,18 @@ private:
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
 	using XMVECTOR = DirectX::XMVECTOR;
-private:
-	static const int DirectionNum = 4;
-	XMFLOAT3 Direction[DirectionNum]; 
+
+public:
 	enum {
-		NORTH, 
-		SOUTH, 
+		NORTH,
+		SOUTH,
 		EAST,
 		WEST
 	};
+private:
+	static const int DirectionNum = 4;
+	XMFLOAT3 Direction[DirectionNum]; 
+	
 	std::vector<std::unique_ptr<Object3d>>NailObj;
 	Model* NailModel;
 	Texture* ImpactAreaTex[2];
@@ -49,7 +52,7 @@ public:
 	void Initialize();
 	void ActionJudg();
 	void Draw();
-	void ImpactAttack(int area1,int area2);
+	void ImpactAttack();
 	int GetDamageArea1() { return Area1; }
 	int GetDamageArea2() { return Area2; }
 	void SetDamageArea(int area1, int area2) { Area1 = area1; Area2 = area2; };
@@ -58,5 +61,6 @@ public:
 
 	void SetAttackFase(bool f) { if (f && fase != FASEONE) { fase = FASEONE; } }
 	Fase GetFaseEnd() { return fase; }
+
 };
 

@@ -9,6 +9,7 @@ void BossEnemyAttackCircle::Initialize(Enemy* enmey)
 
 void BossEnemyAttackCircle::Update(Enemy* enemy)
 {
+	CircleAttack::GetInstance()->SetDamageArea(CircleAttack::WEST, CircleAttack::NORTH);
 	CircleAttack::GetInstance()->ActionJudg();
 	if (Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) <= 40.0f) {
 		enemy->SetAttack_End(enemy->CIRCLE_1,true);

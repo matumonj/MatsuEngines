@@ -29,11 +29,11 @@ void BossEnemy::Initialize(DebugCamera* camera)
 	m_Object->Initialize(camera);
 	m_fbxModel = FbxLoader::GetInstance()->LoadModelFromFile("monster_golem_demo");
 
-	EnemyHP = 150.0f;
+	EnemyHP = 300.0f;
 
 	Rotation = { -70,180,0 };
 
-	MaxHP = 30.0f;
+	MaxHP = 300.0f;
 	m_fbxObject = std::make_unique<f_Object3d>();
 	m_fbxObject->Initialize();
 	m_fbxObject->SetModel(m_fbxModel);

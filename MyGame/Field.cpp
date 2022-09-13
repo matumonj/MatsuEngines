@@ -30,8 +30,8 @@ bool Field::Initialize(DebugCamera* camera)
 		DamageAreaObj->Initialize(camera);
 		DamageAreaObj->SetModel(DamageAreaModel);
 
-		Sprite::LoadTexture(40, L"Resources/warning1.png");
-	
+		Sprite::LoadTexture(40, L"Resources/BossName.png");
+		Sprite::LoadTexture(41, L"Resources/bossName.png");
 	}
 	else {
 		FieldModel = Model::CreateFromOBJ("LowPoly_Landscape");
@@ -45,7 +45,7 @@ bool Field::Initialize(DebugCamera* camera)
 
 	Explanation = Sprite::Create(40, { WinApp::window_width / 2,WinApp::window_height / 2 });
 	Explanation->SetAnchorPoint({ 0.5f,0.5f });
-	Explanation->SetPosition({ WinApp::window_width / 2,WinApp::window_height / 2 + 200 });
+	Explanation->SetPosition({ WinApp::window_width / 2,WinApp::window_height / 2  });
 	Explanation->SetSize({ 800,800 });
 	return true;
 }
@@ -78,9 +78,9 @@ void Field::Update(DebugCamera* camera)
 			TexAlpha -= 0.02f;
 		}
 		else {
-			TexAlpha += 0.002f;
+			TexAlpha += 0.005f;
 		}
-		if (TexAlpha >= 1.0f) {
+		if (TexAlpha >= 1.5f) {
 			feed = true;
 		}
 		FieldObject->SetFogCenter({ 0, -20, 0 });
@@ -98,29 +98,23 @@ void Field::Update(DebugCamera* camera)
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
 		BackObject->Update({ 0.6,0.6,0.6,1 }, camera);
 	}
-	TexAlpha = min(TexAlpha, 1);
+	TexAlpha = min(TexAlpha, 1.5);
 	TexAlpha = max(TexAlpha, 0);
 }
 
 void Field::Draw()
 {
-	CelestialSphereObject->PreDraw();
+	Object3d::PreDraw();
 	CelestialSphereObject->Draw();
-	CelestialSphereObject->PostDraw();
-
-	FieldObject->PreDraw();
+	
 	FieldObject->Draw();
-	FieldObject->PostDraw();
+	
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
-		BackObject->PreDraw();
 		BackObject->Draw();
-		BackObject->PostDraw();
-
-		DamageAreaObj->PreDraw();
+		
 		DamageAreaObj->Draw();
-		DamageAreaObj->PostDraw();
-	}
-
+		}
+	Object3d::PostDraw();
 	Explanation->setcolor({ 1,1,1,TexAlpha });
 }
 

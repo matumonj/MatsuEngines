@@ -88,7 +88,7 @@ void BossScene::Update()
 		Nail::GetInstance()->Update();
 		UI::GetInstance()->HUDUpdate(hudload, CameraControl::GetInstance()->GetCamera());
 		}
-	Feed::GetInstance()->Update_White(Feed::FEEDOUT);
+	
 
 	Field::GetInstance()->Update(CameraControl::GetInstance()->GetCamera());
 	//各オブジェクトの更新処理
@@ -153,8 +153,10 @@ void BossScene::Draw()
 		CircleAttack::GetInstance()->Draw();
 		HalfAttack::GetInstance()->Draw();
 		KnockAttack::GetInstance()->Draw();
-		UI::GetInstance()->HUDDraw();
-		//Feed::GetInstance()->Draw();
+		if (CameraControl::GetInstance()->GetCameraState() != CameraControl::BOSSCUTSCENE) {
+			UI::GetInstance()->HUDDraw();
+		}
+		Feed::GetInstance()->Draw();
 		Field::GetInstance()->WarningDraw();
 		SistemConfig::GetInstance()->Draw();
 

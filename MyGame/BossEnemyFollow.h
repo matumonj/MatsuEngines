@@ -19,6 +19,7 @@ public:
 	void AttackStart(Enemy* enemy, int num);
 private:
 	bool ActionCount = true, ActionCount2 = true;
+
 	float RotY=0;
 };
 

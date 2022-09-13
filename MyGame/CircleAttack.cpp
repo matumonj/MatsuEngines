@@ -17,18 +17,18 @@ void CircleAttack::Initialize()
 	Texture::LoadTexture(23, L"Resources/AOE.png");
 
 	for (int i = 0; i < 2; i++) {
-		ImpactAreaTex[i] = Texture::Create(23, { 0,0,0 }, { 100,100,1 }, { 1,1,1,1 });
+		ImpactAreaTex[i] = Texture::Create(23, { 0.0f ,0.0f ,0.0f }, { 100.0f ,100.0f ,1.0f }, { 1.0f ,1.0f ,1.0f ,1.0f });
 		ImpactAreaTex[i]->CreateTexture();
-		ImpactAreaTex[i]->SetAnchorPoint({ 0.5,0.5 });
+		ImpactAreaTex[i]->SetAnchorPoint({ 0.5f,0.5f });
 	}
 	
 //	}
 	//ps0 = new OBBCollision();
 	NailModel = Model::CreateFromOBJ("Nail");
-	Direction[NORTH] = { 0,0,30 };
-	Direction[SOUTH] = { 0,0,-30 };
-	Direction[EAST] = { 30,0,0 };
-	Direction[WEST] = { -30,0,0 };
+	Direction[NORTH] = { 0.0f ,0.0f ,30.0f };
+	Direction[SOUTH] = { 0.0f ,0.0f ,-30.0f };
+	Direction[EAST] = { 30.0f ,0.0f ,0.0f };
+	Direction[WEST] = { -30.0f ,0.0f ,0.0f };
 }
 void CircleAttack::ActionJudg()
 {
@@ -67,14 +67,14 @@ void CircleAttack::ActionJudg()
 
 	for (int i = 0; i < 2; i++) {
 		ImpactAreaTex[i]->Update(CameraControl::GetInstance()->GetCamera());
-		ImpactAreaTex[i]->SetScale({ CircleSize.x,CircleSize.y,3 });
-		ImpactAreaTex[i]->SetRotation({ 90,0,0 });
-		ImpactAreaTex[i]->SetColor({ 1,1,1,TexAlpha});
+		ImpactAreaTex[i]->SetScale({ CircleSize.x,CircleSize.y,3.0f });
+		ImpactAreaTex[i]->SetRotation({ 90.0f,0.0f,0.0f });
+		ImpactAreaTex[i]->SetColor({ 1.0f,1.0f,1.0f,TexAlpha});
 	}
-	ImpactAttack(WEST, EAST);
+	ImpactAttack();
 	for (int i = 0; i < NailObj.size(); i++) {
-		NailObj[i]->SetScale({ 3,3,3 });
-		NailObj[i]->Update({ 1,1,1,1 }, CameraControl::GetInstance()->GetCamera());
+		NailObj[i]->SetScale({ 3.0f,3.0f,3.0f });
+		NailObj[i]->Update({ 1.0f,1.0f,1.0f,1.0f }, CameraControl::GetInstance()->GetCamera());
 	}
 	TexAlpha = min(TexAlpha, 1.0f);
 	TexAlpha = max(TexAlpha, 0.0f);
@@ -100,9 +100,9 @@ void CircleAttack::Draw()
 	}
 }
 
-void CircleAttack::ImpactAttack(int area1, int area2)
+void CircleAttack::ImpactAttack()
 {
-	SetDamageArea(area1, area2);
+	
 	if (fase==FASEONE) {
 		NailObj.resize(2);
 		for (int i = 0; i < NailObj.size(); i++) {
@@ -119,14 +119,14 @@ void CircleAttack::ImpactAttack(int area1, int area2)
 		
 	}
 	if (fase == FASEONE) {
-		if (Direction[area1].y > -17) {
-			Direction[area1].y--;
-			Direction[area2].y--;
+		if (Direction[Area1].y > -17.0f) {
+			Direction[Area1].y--;
+			Direction[Area2].y--;
 		}
-		NailObj[0]->SetPosition(Direction[area1]);
-		NailObj[1]->SetPosition(Direction[area2]);
+		NailObj[0]->SetPosition(Direction[Area1]);
+		NailObj[1]->SetPosition(Direction[Area2]);
 	}
-	ImpactAreaTex[0]->SetPosition({ Direction[area1].x ,-18,Direction[area1].z });
-	ImpactAreaTex[1]->SetPosition({ Direction[area2].x ,-18,Direction[area2].z });
+	ImpactAreaTex[0]->SetPosition({ Direction[Area1].x ,-18,Direction[Area1].z });
+	ImpactAreaTex[1]->SetPosition({ Direction[Area2].x ,-18,Direction[Area2].z });
 
 }

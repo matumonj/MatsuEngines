@@ -43,20 +43,12 @@ private: // エイリアス
 
 public:
 	Input* input;
-	int obbf = 0;
-	unsigned long prev_time = timeGetTime();
-	int count_frame = 0;
-	TargetMarker* targetm = nullptr;
-	float cameraAngle = -90;
-	float charaAngle = 0;
-	XMFLOAT3 CameraPosition;
-
+	
 	bool scenechange;
 	bool feedflag;
 	XMFLOAT4 feedcolor = { 0,0,0,1 };
 	Nail* nails;
 public:
-	XMFLOAT3 efkposition = { -50,-10,90 };
 	//エフェクト用(ただプログラムでつくれるものはプログラムで作る方がいい　多用はいくない)
 	int c_postEffect = Default;
 	PostEffect* postEffect = nullptr;
