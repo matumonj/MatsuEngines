@@ -14,6 +14,9 @@ public:
 
 	void Draw()override;
 
+	void Finalize()override;
+
+public:
 	void SetColor(XMFLOAT4 color) {};
 
 	void GetChestAction();

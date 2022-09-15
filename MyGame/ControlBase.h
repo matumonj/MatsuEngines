@@ -22,6 +22,8 @@ public:
 	virtual void Draw()=0;
 
 	virtual void SetColor(XMFLOAT4 color) = 0;
+
+	virtual void Finalize() = 0;
 protected:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 	// DirectX::‚ğÈ—ª

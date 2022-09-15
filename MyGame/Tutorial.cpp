@@ -249,9 +249,9 @@ bool Tutorial::LoadParam(DebugCamera* camera)
 
 void Tutorial::Finalize()
 {
-	//SistemConfig::GetInstance()->~SistemConfig();
-	//delete CameraControl::GetInstance()->GetCamera();
-	//delete postEffect, lightGroup;
+	for (int i = 0; i < AllObjectControl.size(); i++) {//‰Šú‰»
+		AllObjectControl[i]->Finalize();
+	}
 	for (int i = 0; i < AllObjectControl.size(); i++) {
 		//delete AllObjectControl[i];
 	}

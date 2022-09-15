@@ -8,6 +8,16 @@ ChestControl* ChestControl::GetInstance()
 
 	return&instance;
 }
+
+void ChestControl::Finalize()
+{
+	Num.clear();
+	pos.clear();
+	Tutorial_chest.clear();
+	chests.clear();
+	Load_ChestPosition.clear();
+}
+
 void ChestControl::Load(DebugCamera* camera)
 {
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {

@@ -11,6 +11,17 @@ EnemyControl* EnemyControl::GetInstance()
 
 	return&instance;
 }
+
+void EnemyControl::Finalize()
+{
+	Num.clear();
+	pos.clear();
+	enemys.clear();
+	Load_EnemyPosition.clear();
+	boss_enemy.clear();
+	tutorial_enemy.clear();
+}
+
 void EnemyControl::Load(DebugCamera*camera)
 {
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {

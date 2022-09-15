@@ -2,11 +2,20 @@
 #include"TouchableObject.h"
 #include"CollisionManager.h"
 #include"SceneManager.h"
+#include"ModelManager.h"
+#include"Destroy.h"
 Field::~Field()
 {
-	delete CelestialSphereModel, CelestialSphereObject;
-	delete FieldObject, FieldModel;
-	delete BackM, BackObject;
+	
+}
+
+void Field::Finalize()
+{
+	Destroy_unique(CelestialSphereObject);
+	delete FieldObject;
+	//delete BackM;
+	Destroy_unique(BackObject);
+
 }
 Field* Field::GetInstance()
 {
@@ -21,7 +30,7 @@ bool Field::Initialize(DebugCamera* camera)
 	DamageAreaObj = std::make_unique<Object3d>();
 	BackM = Model::CreateFromOBJ("BackGround");
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
-		FieldModel = Model::CreateFromOBJ("BossField");
+		FieldModel = ModelManager::GetIns()->GetModel(ModelManager::BOSSFIELD);
 		DamageAreaModel = Model::CreateFromOBJ("BossFieldDamageArea");
 
 		BackObject->Initialize(camera);
@@ -34,7 +43,7 @@ bool Field::Initialize(DebugCamera* camera)
 		Sprite::LoadTexture(41, L"Resources/bossName.png");
 	}
 	else {
-		FieldModel = Model::CreateFromOBJ("LowPoly_Landscape");
+		FieldModel = ModelManager::GetIns()->GetModel(ModelManager::FIELD);
 	}
 
 	//フィールドにモデル割り当て

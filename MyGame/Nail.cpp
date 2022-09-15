@@ -1,6 +1,7 @@
 #include "Nail.h"
 #include"CameraControl.h"
 #include"Input.h"
+#include"ModelManager.h"
 Nail::~Nail()
 {
 	//delete Nailmodel;
@@ -156,7 +157,7 @@ void Nail::NailAmountSet(int amount)
 }
 void Nail::ModelSet()
 {
-	Nailmodel = Model::CreateFromOBJ("Nail");
+	Nailmodel = ModelManager::GetIns()->GetModel(ModelManager::NAIL);
 	//攻撃フェーズは初期値NON固定
 	HAttack.fase = NON;
 	CAttack.fase = NON;

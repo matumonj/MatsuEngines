@@ -14,14 +14,19 @@ private:
 public:
 
 	enum ModelName {
-		Field
+		FIELD,
+		BOSSFIELD,
+		WOOD,
+		CHEST,
+		FENCE,
+		NAIL
 	};
 	enum FBXName {
-		Player,
-		Enemy_Alpha,
-		Enemy_Beta,
-		Enemy_Camma,
-		Boss_Enemy,
+		PLAYER,
+		GOLEM,
+		Enemy_B,
+		Enemy_C,
+		BOSS,
 	};
 
 public:

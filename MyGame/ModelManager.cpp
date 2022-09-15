@@ -1,5 +1,4 @@
 #include "ModelManager.h"
-
 #include "FbxLoader.h"
 
 std::map<ModelManager::ModelName, Model*> ModelManager::model;
@@ -11,12 +10,15 @@ ModelManager* ModelManager::GetIns() {
 }
 
 void ModelManager::Initialize() {
-	LoadFBXModel(Player, "Player");
-	LoadModel(Field, "ground");
-	LoadFBXModel(Enemy_Alpha, "enmeyAlpha");
-	LoadFBXModel(Enemy_Beta, "enemyBeta");
-	LoadFBXModel(Enemy_Camma, "enemyCamma");
-	LoadFBXModel(Boss_Enemy, "bossEnemy");
+	LoadModel(FIELD, "LowPoly_Landscape");
+	LoadModel(BOSSFIELD, "BossField");
+	LoadModel(WOOD, "wood");
+	LoadModel(CHEST, "chest");
+	LoadModel(FENCE, "Fence");
+	LoadFBXModel(GOLEM, "monster_golem_demo");
+	LoadFBXModel(PLAYER, "monster_golem_demo");
+
+	LoadModel(NAIL, "Nail");
 }
 
 void ModelManager::LoadModel(const ModelName modelName, std::string fileName) {
@@ -27,4 +29,3 @@ void ModelManager::LoadFBXModel(const FBXName modelName, std::string fileName) {
 	fbxModel[modelName] = new f_Model();
 	fbxModel[modelName] = FbxLoader::GetInstance()->LoadModelFromFile(fileName);
 }
-

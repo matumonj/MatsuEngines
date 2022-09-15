@@ -6,8 +6,7 @@
 #include"Collision.h"
 ObjectManager::~ObjectManager()
 {
-	delete m_Model;
-	delete m_fbxModel;
+
 }
 void ObjectManager::SetCollider()
 {

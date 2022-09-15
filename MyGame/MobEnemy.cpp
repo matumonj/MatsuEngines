@@ -27,7 +27,7 @@ void MobEnemy::Initialize(DebugCamera* camera)
 {
 	m_Object = std::make_unique<Object3d>();
 	m_Object->Initialize(camera);
-	m_fbxModel = FbxLoader::GetInstance()->LoadModelFromFile("monster_golem_demo");
+	m_fbxModel = ModelManager::GetIns()->GetFBXModel(ModelManager::GOLEM);
 
 	EnemyHP = 15.00f;
 	MaxHP = 15.00f;

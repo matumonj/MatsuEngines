@@ -11,8 +11,19 @@ WoodControl* WoodControl::GetInstance()
 
 WoodControl::~WoodControl()
 {
+	Tutorialwoods.clear();
+	woods.clear();
+	Num.clear();
+	pos.clear();
 }
 
+void WoodControl::Finalize()
+{
+	Tutorialwoods.clear();
+	woods.clear();
+	Num.clear();
+	pos.clear();
+}
 void WoodControl::Load(DebugCamera* camera)
 {
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {

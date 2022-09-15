@@ -35,9 +35,6 @@ void BossScene::Initialize()
 		AllObjectControl.push_back(CameraControl::GetInstance());
 		AllObjectControl.push_back(PlayerControl::GetInstance());
 		AllObjectControl.push_back(EnemyControl::GetInstance());
-		AllObjectControl.push_back(FenceControl::GetInstance());
-		AllObjectControl.push_back(ChestControl::GetInstance());
-		AllObjectControl.push_back(WoodControl::GetInstance());
 	}
 	for (int i = 0; i < AllObjectControl.size(); i++) {//‰Šú‰»
 		AllObjectControl[i]->Initialize(CameraControl::GetInstance()->GetCamera());

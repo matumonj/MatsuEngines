@@ -11,7 +11,7 @@ void AreaFence::Initialize(DebugCamera* camera)
 {
 	m_Object = std::make_unique<Object3d>();
 
-	m_Model = Model::CreateFromOBJ("Fence");
+	m_Model = ModelManager::GetIns()->GetModel(ModelManager::FENCE);
 
 	//フィールドにモデル割り当て
 	m_Object->Initialize(camera);

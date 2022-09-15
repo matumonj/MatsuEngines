@@ -30,6 +30,8 @@ public:
 
 	void SetColor(XMFLOAT4 color)override;
 
+	void Finalize()override;
+
 	void ImGuiDraw();
 };
 

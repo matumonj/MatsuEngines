@@ -15,6 +15,8 @@ public:
 
 	void Draw()override;
 
+    void Finalize()override;
+
     DebugCamera* GetCamera() { return camera; }
     enum TargetState {
         PLAYER,

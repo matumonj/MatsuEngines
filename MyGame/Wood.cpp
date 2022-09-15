@@ -15,7 +15,8 @@ Wood::~Wood()
 void Wood::Initialize(DebugCamera* camera)
 {
 	m_Object = std::make_unique<Object3d>();
-	m_Model = Model::CreateFromOBJ("wood");
+	m_Model  = ModelManager::GetIns()->GetModel(ModelManager::WOOD);
+
 
 	//フィールドにモデル割り当て
 	m_Object->Initialize(camera);

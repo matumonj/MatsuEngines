@@ -11,6 +11,15 @@ CameraControl* CameraControl::GetInstance()
 	static CameraControl instance;
 	return &instance;
 }
+
+void CameraControl::Finalize()
+{
+	Destroy(camera);
+	Num.clear();
+	pos.clear();
+	points.clear();
+}
+
 void CameraControl::Initialize(DebugCamera* camera)
 {
 	this->camera = new DebugCamera(WinApp::window_width, WinApp::window_height);//(/*input*/);

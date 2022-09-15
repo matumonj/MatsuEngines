@@ -9,7 +9,7 @@
 void Chest::Initialize(DebugCamera* camera)
 {
 	m_Object = std::make_unique<Object3d>();
-	m_Model = Model::CreateFromOBJ("chest");
+	m_Model = ModelManager::GetIns()->GetModel(ModelManager::CHEST);
 
 	//フィールドにモデル割り当て
 	m_Object->Initialize(camera);

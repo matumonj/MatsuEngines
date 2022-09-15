@@ -4,6 +4,7 @@
 #include"f_Object3d.h"
 #include"f_Model.h"
 #include"DebugCamera.h"
+#include"ModelManager.h"
 #include<memory>
 class ObjectManager
 {

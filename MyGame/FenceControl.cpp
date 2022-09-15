@@ -9,6 +9,16 @@ FenceControl* FenceControl::GetInstance()
 	static FenceControl instance;
 	return &instance;
 }
+
+void FenceControl::Finalize()
+{
+	Tutorialfence.clear();
+	fences.clear();
+	Num.clear();
+	pos.clear();
+	rot.clear();
+	scl.clear();
+}
 void FenceControl::Load(DebugCamera* camera)
 {
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {

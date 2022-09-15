@@ -34,6 +34,7 @@ public:
 	bool Initialize(DebugCamera*camera);
 	void Update(DebugCamera* camera);
 	void Draw();
+	void Finalize();
 	void WarningDraw();
 };
 

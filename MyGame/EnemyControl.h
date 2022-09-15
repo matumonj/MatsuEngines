@@ -47,6 +47,8 @@ public:
 
 	void ImGuiDraw();
 
+	void Finalize()override;
+
 	void SetColor(XMFLOAT4 color)override;
 	std::vector<std::unique_ptr<Enemy>> &GetEnemyindex(int index);// { return enemys[index].get(); }
 	std::vector <std::unique_ptr<Enemy>> &GetTutorialEnemyindex();

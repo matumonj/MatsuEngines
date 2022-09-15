@@ -7,6 +7,11 @@ PlayerControl* PlayerControl::GetInstance()
 	static PlayerControl instance;
 	return &instance;
 }
+
+void PlayerControl::Finalize()
+{
+	//Destroy_unique(player);
+}
 void PlayerControl::Load(DebugCamera* camera)
 {
 	player = std::make_unique<Player>();
