@@ -28,18 +28,12 @@ PlayScene::PlayScene(SceneManager* sceneManager)
 #pragma region オブジェクト+ライトの更新処理
 void PlayScene::objUpdate(DebugCamera*camera)
 {
-
-	if (EnemyControl::GetInstance()->GetQuentity() > 1) {
-		for (int i = 0; i < AllObjectControl.size(); i++) {
+	for (int i = 0; i < AllObjectControl.size(); i++) {
 			AllObjectControl[i]->Update((CameraControl::GetInstance()->GetCamera()));
 		}
-		TargetMarker::GetInstance()->Update((CameraControl::GetInstance()->GetCamera()), PlayerControl::GetInstance()->GetPlayer());
 		PlayerAttackState::GetInstance()->Update();
 		UI::GetInstance()->HUDUpdate(hudload, (CameraControl::GetInstance()->GetCamera()));
-		//Effects::GetInstance()->Update((CameraControl::GetInstance()->GetCamera()));
-	}
 
-	PlayerControl::GetInstance()->GetPlayer()->Update( (CameraControl::GetInstance()->GetCamera()));
 	Field::GetInstance()->Update((CameraControl::GetInstance()->GetCamera()));
 	CustomButton::GetInstance()->Update();
 }
@@ -58,7 +52,7 @@ void PlayScene::Initialize()
 		AllObjectControl.push_back(FenceControl::GetInstance());
 		AllObjectControl.push_back(EnemyControl::GetInstance());
 		AllObjectControl.push_back(ChestControl::GetInstance());
-	
+		AllObjectControl.push_back(PlayerControl::GetInstance());
 	}
 	
 	for (int i = 0; i < AllObjectControl.size(); i++) {
@@ -71,75 +65,66 @@ void PlayScene::Initialize()
 	//グラフィックパイプライン生成
 	f_Object3d::CreateGraphicsPipeline();
 
-	PlayerControl::GetInstance()->GetPlayer()->Initialize((CameraControl::GetInstance()->GetCamera()));
-	UI::GetInstance()->Initialize();
-	SistemConfig::GetInstance()->Initialize();
-	CustomButton::GetInstance()->Initialize();
 	Field::GetInstance()->Initialize((CameraControl::GetInstance()->GetCamera()));
-	TargetMarker::GetInstance()->Initialize();
 	postEffect = new PostEffect();
 	postEffect->Initialize();
 
-	//Effects::GetInstance()->Initialize((CameraControl::GetInstance()->GetCamera()));
-	
-	PlayerControl::GetInstance()->GetPlayer()->SetPosition({ 110,-15,-379 });
 }
 #pragma endregion
 
 #pragma region 更新処理
 void PlayScene::Update()
 {
-
-
-	objUpdate((CameraControl::GetInstance()->GetCamera()));//オブジェクトの更新処理
-
-	LoadParam((CameraControl::GetInstance()->GetCamera()));
-
-	if (!cameraMove) {
-		if (Feed::GetInstance()->GetAlpha() == 1.0f) {
-			LoadEnemy = true;
-		}
-		Feed::GetInstance()->Update_White(Feed::FEEDOUT);
-	}
-
-	if (Feed::GetInstance()->GetAlpha() <= 0.0f) {
-		cameraMove = true;
+	if (!LoadEnemy &&!PlayGame) {
+		LoadEnemy = true;
 	}
 	
-	SistemConfig::GetInstance()->Update();
-	
-	if (playFeed) {
-		Feed::GetInstance()->Update_Black(Feed::FEEDIN);
-		if (Feed::GetInstance()->GetAlpha() >= 1.0f) {
-			feedout = true;
-			playFeed = false;
+		objUpdate((CameraControl::GetInstance()->GetCamera()));//オブジェクトの更新処理
+
+		LoadParam((CameraControl::GetInstance()->GetCamera()));
+		if (PlayGame) {
+		if (!cameraMove) {
+
+			Feed::GetInstance()->Update_White(Feed::FEEDOUT);
 		}
-	}
-	if(feedout) {
-		Feed::GetInstance()->Update_Black(Feed::FEEDOUT);
+
 		if (Feed::GetInstance()->GetAlpha() <= 0.0f) {
-			CameraControl::GetInstance()->SetCameraState(CameraControl::PLAYER);
+			cameraMove = true;
 		}
-	}
-	else {
-		if (Collision::GetLength(CameraControl::GetInstance()->GetCamera()->GetEye(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 50) {
-			playFeed = true;
-		}
-		else {
-			CameraControl::GetInstance()->SetCameraState(CameraControl::SPLINE);
-		}
-	}
-	
-	if (SistemConfig::GetInstance()->GetConfigJudgMent()) {
-		c_postEffect = Blur;
-	} else {
-		c_postEffect = Default;
-	}
-	if (input->TriggerKey(DIK_R)) {//押されたら
-		BaseScene* scene = new MapCreateScene(sceneManager_);//次のシーンのインスタンス生成
-		sceneManager_->SetnextScene(scene);//シーンのセット
-	}
 
+		SistemConfig::GetInstance()->Update();
+
+		if (playFeed) {
+			Feed::GetInstance()->Update_Black(Feed::FEEDIN);
+			if (Feed::GetInstance()->GetAlpha() >= 1.0f) {
+				feedout = true;
+				playFeed = false;
+			}
+		}
+		CameraControl::GetInstance()->SetCameraState(CameraControl::SPLINE);
+		if (feedout) {
+			Feed::GetInstance()->Update_Black(Feed::FEEDOUT);
+			if (Feed::GetInstance()->GetAlpha() <= 0.0f) {
+				//CameraControl::GetInstance()->SetCameraState(CameraControl::PLAYER);
+			}
+		} else {
+			if (Collision::GetLength(CameraControl::GetInstance()->GetCamera()->GetEye(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 50) {
+				playFeed = true;
+			} else {
+
+			}
+		}
+
+		if (SistemConfig::GetInstance()->GetConfigJudgMent()) {
+			c_postEffect = Blur;
+		} else {
+			c_postEffect = Default;
+		}
+		if (input->TriggerKey(DIK_R)) {//押されたら
+			BaseScene* scene = new MapCreateScene(sceneManager_);//次のシーンのインスタンス生成
+			sceneManager_->SetnextScene(scene);//シーンのセット
+		}
+	}
 }
 #pragma endregion 
 
@@ -147,16 +132,11 @@ void PlayScene::MyGameDraw()
 {
 	Field::GetInstance()->Draw();
 	
-	PlayerControl::GetInstance()->GetPlayer()->Draw();
 	if (EnemyControl::GetInstance()->GetQuentity() > 1) {
 		for (int i = 0; i < AllObjectControl.size(); i++) {
 		AllObjectControl[i]->Draw();
 		}
 	}
-	//Effects::GetInstance()->Draw();
-	Texture::PreDraw();
-	//TargetMarker::GetInstance()->Draw();
-	Texture::PostDraw();
 }
 
 void PlayScene::Draw()
@@ -192,7 +172,7 @@ void PlayScene::Draw()
 		SistemConfig::GetInstance()->Draw();
 		CustomButton::GetInstance()->Draw();
 	
-		Feed::GetInstance()->Draw();
+		//Feed::GetInstance()->Draw();
 		if (feedout) {
 			if (Feed::GetInstance()->GetAlpha() <= 0.0f) {
 				UI::GetInstance()->HUDDraw();
@@ -242,8 +222,6 @@ void PlayScene::ImGuiDraw()
 			CameraDis = 25;
 			CameraHeight = 9;
 		}
-		ImGui::SliderFloat("rotationX", &cameraAngle, -360, 360);
-
 		ImGui::End();
 	}
 	ImGui::Begin("Scene");
@@ -257,14 +235,7 @@ void PlayScene::ImGuiDraw()
 		sceneManager_->SetnextScene(scene);//シーンのセット
 	}
 	ImGui::End();
-	//
-	{
-		unsigned long current_time = timeGetTime();
-		float fps = float(count_frame) / (current_time - prev_time) * 1000;
-		ImGui::SliderFloat("FPS", &fps, -10, 50);
-		count_frame++;
-		ImGui::End();
-	}
+
 }
 
 void PlayScene::LoadParam(DebugCamera*camera)
@@ -275,15 +246,17 @@ void PlayScene::LoadParam(DebugCamera*camera)
 		}
 		hudload = true;
 		LoadEnemy = false;
+		PlayGame = true;
 	}
 }
 
 void PlayScene::Finalize()
 {
 	//SistemConfig::GetInstance()->~SistemConfig();
-	delete (CameraControl::GetInstance()->GetCamera());
-	//delete postEffect, lightGroup;
 	for (int i = 0; i < AllObjectControl.size(); i++) {
-		//delete AllObjectControl[i];
-	} 
+		AllObjectControl[i]->Finalize();
+	}
+	Field::GetInstance()->Finalize();
+	AllObjectControl.clear();
+
 }

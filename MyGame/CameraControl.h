@@ -76,7 +76,7 @@ private:
     float BossCutAngle = 270.0f;
     BossCamera bCamera;
     bool AttackSceneF = false;
-    float BCutCameraHeight = 5;
+    float BCutCameraHeight = 5.0f;
 public:
     void BossSceneStart();
     bool GetAttackSceneF() { return AttackSceneF; }

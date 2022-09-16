@@ -22,6 +22,16 @@ void CameraControl::Finalize()
 
 void CameraControl::Initialize(DebugCamera* camera)
 {
+	startindex = 1.0f;
+	startCount = 0.0f;
+	nowCount = 0.0f;
+	elapsedCount = 0.0f;
+
+	maxtime = 6.0f;
+	time = 0.00000f;
+	j = time;
+	
+
 	this->camera = new DebugCamera(WinApp::window_width, WinApp::window_height);//(/*input*/);
 	input = Input::GetInstance();
 }
@@ -87,30 +97,13 @@ void CameraControl::Load(DebugCamera* camera)
 	//Load_ChestPosition.resize(Quantity);
 	this->camera->SetEye(pos[0]);
 	UpdateRange = 200;
-	startCount = GetTickCount();
+	startCount = GetTickCount64();
 }
 
 void CameraControl::Update(DebugCamera* camera)
 {
 	
-	nowCount = GetTickCount();
-	elapsedCount = nowCount - startCount;
-	float elapsedTime = static_cast<float>(elapsedCount) / 1000.0f;
-
-	timerate = elapsedTime / maxtime;
-	if (timerate >= 1) {
-		if (startindex < points.size() - 3)
-		{
-			startindex++;
-			timerate -= 1;
-
-			startCount = GetTickCount();
-		} else
-		{
-			timerate = 1;
-		}
-	}
-
+	
 	if (input->Pushkey(DIK_RIGHT)) {
 		charaAngle += 0.5f;
 		cameraAngle -= 0.5f;
@@ -128,7 +121,26 @@ void CameraControl::Update(DebugCamera* camera)
 		//this->camera->SetEye(CameraPosition);
 	this->camera->Update();
 
+
 	if(Tstate==SPLINE){
+		nowCount = GetTickCount64();
+		elapsedCount = nowCount - startCount;
+		float elapsedTime = static_cast<float>(elapsedCount) / 1000.0f;
+
+		timerate = elapsedTime / maxtime;
+		if (timerate >= 1) {
+			if (startindex < points.size() - 3)
+			{
+				startindex++;
+				timerate -= 1;
+
+				startCount = GetTickCount64();
+			} else
+			{
+				timerate = 1;
+			}
+		}
+
 		this->camera->SetTarget({ PlayerControl::GetInstance()->GetPlayer()->GetPosition() });
 
 		this->camera->SetEye(SplinePosition(points, startindex, timerate));
@@ -250,3 +262,4 @@ void CameraControl::BossSceneStart()
 	camera->SetTarget({ BossPos.x, BossPos.y + BCutCameraHeight, BossPos.z });
 	camera->SetEye(CameraPosition);
 }
+

@@ -4,8 +4,6 @@
 #include"SceneManager.h"
 #include"MapCreateScene.h"
 #include"Field.h"
-#include"HUD.h"
-#include"DebugTxt.h"
 #include"PlayerAttackState.h"
 #include"SistemConfig.h"
 #include"EnemyControl.h"
@@ -14,11 +12,10 @@
 #include"ChestControl.h"
 #include"CameraControl.h"
 #include"UI.h"
-#include"Effects.h"
 #include"BossScene.h"
 #include"Feed.h"
 #include"PlayerControl.h"
-
+#include"PlayScene.h"
 #include"SelectSword.h"
 #include"KnockAttack.h"
 //シーンのコンストラクタ
@@ -48,8 +45,7 @@ void Tutorial::objUpdate(DebugCamera* camera)
 		PlayerAttackState::GetInstance()->Update();
 		KnockAttack::GetInstance()->ActionJudg();
 		UI::GetInstance()->HUDUpdate(hudload, CameraControl::GetInstance()->GetCamera());
-		//TargetMarker::GetInstance()->Update(CameraControl::GetInstance()->GetCamera(), PlayerControl::GetInstance()->GetPlayer());
-	}
+		}
 
 	
 	Field::GetInstance()->Update(CameraControl::GetInstance()->GetCamera());
@@ -72,7 +68,6 @@ void Tutorial::Initialize()
 	for (int i = 0; i < AllObjectControl.size(); i++) {//初期化
 		AllObjectControl[i]->Initialize(CameraControl::GetInstance()->GetCamera());
 	}
-	TargetMarker::GetInstance()->Initialize();
 	KnockAttack::GetInstance()->Initialize();
 	AttackCollision::GetInstance()->Init();
 	// 3Dオブジェクトにカメラをセット
@@ -114,9 +109,9 @@ void Tutorial::Update()
 		c_postEffect = Default;
 	}
 	if (Feed::GetInstance()->GetAlpha() >= 1.0f) {//画面真っ白なったら
-		BaseScene* scene = new BossScene(sceneManager_);//次のシーンのインスタンス生成
+		BaseScene* scene = new PlayScene(sceneManager_);//次のシーンのインスタンス生成
 		Play = false;
-		SceneManager::GetInstance()->SetScene(SceneManager::BOSS);
+		SceneManager::GetInstance()->SetScene(SceneManager::PLAY);
 		sceneManager_->SetnextScene(scene);//シーンのセット
 	}
 

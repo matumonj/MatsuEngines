@@ -37,47 +37,19 @@ private: // エイリアス
 	using XMVECTOR = DirectX::XMVECTOR;
 
 private:
-	const float window_width = 1900;
-	const float window_height = 1020;
-	static const int debugTextTexNumber = 0;
-	// デバイス
-	static ID3D12Device* device;
-
-	// コマンドリスト
-	static ID3D12GraphicsCommandList* cmdList;
-private:
 	Input* input;
-	int obbf = 0;
-	unsigned long prev_time = timeGetTime();
-	int count_frame = 0;
-	TargetMarker* targetm = nullptr;
-	float ty;
-	float cameraAngle = -90;
-	float charaAngle = 0;
-	XMFLOAT3 CameraPosition;
 	bool cameraMove;
 	XMFLOAT3 cameraTargetPoint;
 	bool playFeed;
 	bool feedout;
+	bool PlayGame;
 	PostEffect* postEffect = nullptr;
-	DebugCamera* camera;
-private:
-	float u;
-	XMFLOAT3 Player_Pos;// = player->GetPosition();
-	XMFLOAT3 Player_Rot;// = player->GetRotation();
-
-	float distance = 30;
-
-	float dy;
-	float dx;
-	float dz;
 
 public:
-void MyGameDraw();
+	void MyGameDraw();
 	void objUpdate( DebugCamera* camera);
 
 public:
-	XMFLOAT3 texpo = { 0,0,0 };
 	void Initialize()override;
 	void Update()override;
 	void Draw()override;
@@ -86,7 +58,6 @@ public:
 	void ImGuiDraw();
 	void Finalize()override;
 public:
-	XMFLOAT3 efkposition = { -50,-10,90 };
 	//エフェクト用(ただプログラムでつくれるものはプログラムで作る方がいい　多用はいくない)
 	int c_postEffect=Default;
 private:

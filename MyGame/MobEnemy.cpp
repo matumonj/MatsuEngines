@@ -29,7 +29,7 @@ void MobEnemy::Initialize(DebugCamera* camera)
 	m_Object->Initialize(camera);
 	//m_fbxModel = ModelManager::GetIns()->GetFBXModel(ModelManager::GOLEM);
 
-	EnemyHP = 150.00f;
+	EnemyHP = 10.00f;
 	MaxHP = 150.00f;
 	//パラメータのセット
 

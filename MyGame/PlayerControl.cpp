@@ -10,7 +10,7 @@ PlayerControl* PlayerControl::GetInstance()
 
 void PlayerControl::Finalize()
 {
-	//Destroy_unique(player);
+	Destroy_unique(player);
 }
 void PlayerControl::Load(DebugCamera* camera)
 {
@@ -19,7 +19,8 @@ void PlayerControl::Load(DebugCamera* camera)
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
 		player->SetPosition({ 92,2,-760 });
 	} else if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
-		player->SetPosition({ 92,2,-760 });
+
+		player->SetPosition({ 110,5,-379 });
 	}
 	else if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
 		player->SetPosition({ 0,2,-70 });
@@ -34,7 +35,7 @@ void PlayerControl::Initialize(DebugCamera* camera)
 		player->SetPosition({92,2,-760});
 	}
 	else if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
-		player->SetPosition({ 92,2,-760 });
+		player->SetPosition({ 110,5,-379 });
 	}
 }
 
