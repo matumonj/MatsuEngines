@@ -13,6 +13,7 @@
 #include"TitleScene.h"
 #include"Field.h"
 #include"PlayerAttackState.h"
+#include"CameraControl.h"
 #include<fstream>
 #include<string>
 #include<sstream>
@@ -29,7 +30,6 @@ MapCreateScene::MapCreateScene(SceneManager* sceneManager)
 #pragma region モデルとエフェクトとライトのインスタンス生成
 void MapCreateScene::ModelCreate(DebugCamera* camera)
 {
-	
 	postEffect = new PostEffect();
 	postEffect->Initialize();
 	
@@ -42,7 +42,7 @@ void MapCreateScene::ModelCreate(DebugCamera* camera)
 	//パラメータの設定
 	lightGroup->LightSetting();
 
-	MapCreate::GetInstance()->ObjectInitialize(camera);
+	MapCreate::GetInstance()->ObjectInitialize(CameraControl::GetInstance()->GetCamera());
 
 }
 #pragma endregion
@@ -51,25 +51,23 @@ void MapCreateScene::ModelCreate(DebugCamera* camera)
 #pragma region オブジェクト+ライトの更新処理
 void MapCreateScene::objUpdate(DebugCamera* camera)
 {
-	Field::GetInstance()->Update(camera);
+	Field::GetInstance()->Update(CameraControl::GetInstance()->GetCamera());
 
-	MapCreate::GetInstance()->ObjectUpdate(camera);
+	MapCreate::GetInstance()->ObjectUpdate(CameraControl::GetInstance()->GetCamera());
 }
 #pragma endregion
 
 #pragma region 初期化
 void MapCreateScene::Initialize()
 {
-	
-	// カメラ生成
-	camera = new DebugCamera(WinApp::window_width, WinApp::window_height/*input*/);
+	CameraControl::GetInstance()->Initialize(CameraControl::GetInstance()->GetCamera());
+
 	// 3Dオブジェクトにカメラをセット
-	Object3d::SetCamera(camera);
-	camera->SetEye({ 0,0,0 });
-	ModelCreate(camera);//
+	Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
+	ModelCreate(CameraControl::GetInstance()->GetCamera());//
 
 	//カメラをセット
-	f_Object3d::SetCamera(camera);
+	f_Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
 	//グラフィックパイプライン生成
 	f_Object3d::CreateGraphicsPipeline();
 
@@ -91,14 +89,14 @@ void MapCreateScene::Update()
 	//マウスの入力状態取得
 	
 	//カメラ関係の処理
-	camera->SetEye(CameraPosition);
-	camera->SetTarget({ CameraPosition.x,CameraPosition.y-15,CameraPosition.z+20});
-	camera->Update();
+	CameraControl::GetInstance()->GetCamera()->SetEye(CameraPosition);
+	CameraControl::GetInstance()->GetCamera()->SetTarget({ CameraPosition.x,CameraPosition.y - 15,CameraPosition.z + 20 });
+	
+	CameraControl::GetInstance()->Update(CameraControl::GetInstance()->GetCamera());
 
-
-	objUpdate(camera);//オブジェクトの更新処理
+	objUpdate(CameraControl::GetInstance()->GetCamera());//オブジェクトの更新処理
 	//Player::GetInstance()->Update({ 1,1,1,1 }, camera);
-	MapCreate::GetInstance()->ObjectArgment(camera);
+	MapCreate::GetInstance()->ObjectArgment(CameraControl::GetInstance()->GetCamera());
 	//シーンチェンジ
 
 	if (Input::GetInstance()->TriggerKey(DIK_R)) {//押されたら
@@ -176,5 +174,10 @@ void MapCreateScene::ImGuiDraw()
 #pragma region 解放部分
 void MapCreateScene::Finalize()
 {
+	Destroy(postEffect);
+	Destroy(lightGroup);
+	CameraControl::GetInstance()->Finalize();
+	MapCreate::GetInstance()->Finalize();
+	Field::GetInstance()->Finalize();
 }
 #pragma endregion

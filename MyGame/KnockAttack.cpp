@@ -38,6 +38,7 @@ void KnockAttack::ActionJudg()
 	}
 	
 	if (fase==FASETWO) {
+		TexAlpha -= 0.1f;
 		if (KnockTime >= 1.0f) {
 			fase = FASETHREE;
 		}

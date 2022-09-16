@@ -153,17 +153,12 @@ void Player::Draw()
 {
 	Draw_Fbx();
 	SelectSword::GetInstance()->SwordDraw();
+	ImguiDraw();
 }
 
 void Player::ImguiDraw()
 {
-	//ImGui::Begin("Player_State");
-	//if (ImGui::TreeNode("Position")) {
-
-	//	ImGui::Text(" PositionX   [%5f]", Position.x);
-	//	ImGui::Text(" PositionY   [%5f]", Position.y);
-	//	ImGui::Text(" PositionZ   [%5f]", Position.z);
-
+	
 	//}
 	////Rotation
 	//if (ImGui::TreeNode("Rotation")) {
@@ -187,11 +182,11 @@ void Player::ImguiDraw()
 	//	ReturnGround = false;
 	//}
 
-	//ImGui::End();
 }
 
 void Player::FbxAnimationControl()
 {
+	const float timespeed = 0.02f;
 	if (HUD::GetInstance()->GetSpriteSize(0) <=10.0f) {//このやり方あとで消す
 
 	if (CustomButton::GetInstance()->GetAttackAction() == true) {
@@ -205,13 +200,13 @@ void Player::FbxAnimationControl()
 	}
 
 
-	f_time += 0.02f;
+	f_time += timespeed;
 	if (nowattack) {
 		if (f_time >= DeathTime) {
 			f_time = 0;
 			nowattack = false;
 		}
-	} else {
+	} else {//歩くモーション　一つのアニメーションで回してるせいで攻撃モーション行く前にタイムを0に戻す
 		if (f_time > AttackTime) {
 			f_time = 0;
 		}
@@ -228,6 +223,7 @@ XMMATRIX Player::GetMatrot()
 
 void Player::RecvDamage(int Damage)
 {
+	//攻撃受けたあと2秒は無敵
 	if (CoolTime != 0)return;
 	if (!HUD::GetInstance()->GetRecvDamageFlag()) {
 		HUD::GetInstance()->SetRecvDamageFlag(true);//プレイヤーHPのHUD用
@@ -238,8 +234,9 @@ void Player::RecvDamage(int Damage)
 void Player::RecvDamage_Cool()
 {
 	if (HUD::GetInstance()->GetRecvDamageFlag()) {
-		CoolTime = 120;
+		CoolTime = 120;//無敵時間
 	}
+	//カウント開始
 	CoolTime--;
 
 	CoolTime = min(CoolTime, 120);

@@ -18,6 +18,8 @@ public:
 	void Draw()override;
 
 	bool ErrorJudg()override;
+
+	void Finalize()override;
 private:
 	std::vector<std::unique_ptr<Wood>>woods;
 };

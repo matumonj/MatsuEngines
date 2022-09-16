@@ -18,6 +18,8 @@ public:
 	void Draw()override;
 
 	bool ErrorJudg()override;
+
+	void Finalize()override;
 private:
 	//Enemyのみ複数種類配置するのでまた別のフラグ用意
 	bool BossArgmentFlag;

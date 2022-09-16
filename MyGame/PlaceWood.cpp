@@ -105,3 +105,11 @@ void PlaceWood::ImGui_Draw()
 	}
 	ImGui::End();
 }
+
+void PlaceWood::Finalize()
+{
+	Destroy(Obj);
+	for (int i = 0; i < woods.size(); i++) {
+		Destroy_unique(woods[i]);
+	}
+}

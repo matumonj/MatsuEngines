@@ -19,6 +19,7 @@ public:
 
 	bool ErrorJudg()override;
 
+	void Finalize()override;
 private:
 	std::vector<std::unique_ptr<AreaFence>>fences;
 };

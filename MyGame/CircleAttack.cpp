@@ -3,6 +3,8 @@
 #include"mHelper.h"
 #include"Nail.h"
 #include"BossSpell.h"
+#include"Collision.h"
+#include"PlayerControl.h"
 CircleAttack::~CircleAttack()
 {
 	//delete ImpactAreaTex;
@@ -53,6 +55,8 @@ void CircleAttack::ActionJudg()
 
 	if (fase == FASETHREE) {
 		Nail::GetInstance()->CircleAttack(Area1, Area2);
+		CollisonNailPlayer();
+
 		Direction[Area1].y++;
 		Direction[Area2].y++;
 	
@@ -91,9 +95,9 @@ void CircleAttack::Draw()
 	}
 	Texture::PostDraw();
 	for (int i = 0; i < NailObj.size(); i++) {
-			NailObj[i]->PreDraw();
+			Object3d::PreDraw();
 			NailObj[i]->Draw();
-			NailObj[i]->PostDraw();
+			Object3d::PostDraw();
 		}
 	if (fase == FASETHREE) {
 	Nail::GetInstance()->Draw();
@@ -129,4 +133,14 @@ void CircleAttack::ImpactAttack()
 	ImpactAreaTex[0]->SetPosition({ Direction[Area1].x ,-18,Direction[Area1].z });
 	ImpactAreaTex[1]->SetPosition({ Direction[Area2].x ,-18,Direction[Area2].z });
 
+}
+
+void CircleAttack::CollisonNailPlayer()
+{
+	if(Collision::GetLength(NailObj[0]->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 30) {
+		PlayerControl::GetInstance()->GetPlayer()->RecvDamage(20);
+	}
+	if (Collision::GetLength(NailObj[1]->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 30) {
+		PlayerControl::GetInstance()->GetPlayer()->RecvDamage(20);
+	}
 }

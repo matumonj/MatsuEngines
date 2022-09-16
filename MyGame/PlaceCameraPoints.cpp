@@ -95,3 +95,9 @@ void PlaceCameraPoints::ImGui_Draw()
 
 	}
 }
+
+void PlaceCameraPoints::Finalize()
+{
+	Destroy(Obj);
+	points.clear();
+}

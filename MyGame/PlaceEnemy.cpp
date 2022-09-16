@@ -126,3 +126,9 @@ void PlaceEnemy::ImGui_Draw()
 	}
 
 }
+
+void PlaceEnemy::Finalize()
+{
+	enemys.clear();
+	Destroy(Obj);
+}

@@ -53,6 +53,8 @@ public:
 	void ActionJudg();
 	void Draw();
 	void ImpactAttack();
+public:
+
 	int GetDamageArea1() { return Area1; }
 	int GetDamageArea2() { return Area2; }
 	void SetDamageArea(int area1, int area2) { Area1 = area1; Area2 = area2; };
@@ -61,6 +63,9 @@ public:
 
 	void SetAttackFase(bool f) { if (f && fase != FASEONE) { fase = FASEONE; } }
 	Fase GetFaseEnd() { return fase; }
+
+private:
+	void CollisonNailPlayer();
 
 };
 

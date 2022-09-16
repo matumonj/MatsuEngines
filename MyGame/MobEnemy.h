@@ -39,6 +39,8 @@ public:
     void FbxAnimationControl()override;
 
 private:
+    void DamageParticleSet();
+private:
    bool DeathFlag;
 private:
     bool nowAttack;

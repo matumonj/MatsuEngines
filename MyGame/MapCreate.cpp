@@ -88,3 +88,11 @@ bool MapCreate::Error()
 	}
 	return false;
 }
+
+void MapCreate::Finalize()
+{
+	for (int i = 0; i < placeobj.size(); i++) {
+		placeobj[i]->Finalize();
+	}
+	placeobj.clear();
+}

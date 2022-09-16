@@ -19,6 +19,7 @@ public:
 
     DebugCamera* GetCamera() { return camera; }
     enum TargetState {
+        MAPCREATE,
         PLAYER,
         TUTORIAL,
         PLAYCUTSCENE,

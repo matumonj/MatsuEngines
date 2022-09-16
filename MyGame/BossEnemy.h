@@ -58,5 +58,8 @@ private:
     bool nowAttack;
     bool nowDeath;
     float defaulttime = 1.8f;
+
+private:
+    void DamageParticleSet();
 };
 

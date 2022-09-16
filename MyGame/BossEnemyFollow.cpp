@@ -19,6 +19,7 @@ void BossEnemyFollow::Initialize(Enemy* enmey)
 
 void BossEnemyFollow::Update(Enemy* enemy)
 {
+	//’ÇÕˆ—•”•ª//////////
 	//õ“G”ÍˆÍ
 	const float DetectionRange = 10.0f;
 	//ƒvƒŒƒCƒ„[‚ªõ“G”ÍˆÍ“ü‚Á‚½‚ç
@@ -61,17 +62,21 @@ void BossEnemyFollow::Update(Enemy* enemy)
 					enemy->GetPosition().z + move.m128_f32[2] }
 		);
 	}
+	//////////////////////////////////////////////////////////////
 
+	//•’Ê‚ÌUŒ‚ˆÈ~
 	if ( Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 20) {
 		if (enemy->GetCoolTime() == 0) {
 			enemy->ChangeState_Boss(new BossEnemyAttack());
 		}
 	}
 
+	/*2ˆø”F‘Ì—ÍÝ’è(Ý’è’lˆÈ‰º‚È‚Á‚½‚ç‚Rˆø”‚ÌUŒ‚‚Ö)*/
 	AttackSelect(enemy, Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) <= 60.0f, enemy->HALF_1);
 	AttackSelect(enemy, Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) <= 40.0f, enemy->CIRCLE_1);
 	AttackSelect(enemy, Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) <= 20.0f, enemy->HALF_2);
 	AttackSelect(enemy, Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) <= 50.0f, enemy->KNOCK);
+	//Ž€–S
 	if (enemy->GetHP() <= 0.0f) {
 		enemy->ChangeState_Boss(new BossEnemyDeath());
 	}

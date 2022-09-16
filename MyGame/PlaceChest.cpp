@@ -98,3 +98,9 @@ void PlaceChest::ImGui_Draw()
 	}
 	ImGui::End();
 }
+
+void PlaceChest::Finalize()
+{
+	Destroy(Obj);
+	chests.clear();
+}

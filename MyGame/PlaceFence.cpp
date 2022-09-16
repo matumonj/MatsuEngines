@@ -113,3 +113,9 @@ void PlaceFence::ImGui_Draw()
 	}
 	ImGui::End();
 }
+
+void PlaceFence::Finalize()
+{
+	fences.clear();
+	Destroy(Obj);
+}

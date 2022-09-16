@@ -48,6 +48,8 @@ public:
 	void ObjectDraw();
 	//åxçêï\é¶
 	bool Error();
+	//
+	void Finalize();
 private:
 	bool savef;
 	

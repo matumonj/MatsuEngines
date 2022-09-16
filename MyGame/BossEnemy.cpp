@@ -46,6 +46,9 @@ void BossEnemy::Initialize(DebugCamera* camera)
 	DeathFlag = false;
 	f_time = 200 / 60;
 	state_boss->Initialize(this);
+
+	particleMan = ParticleManager::Create();
+	particleMan->Update();
 }
 
 //更新処理
@@ -62,6 +65,7 @@ void BossEnemy::Update(DebugCamera* camera)
 	AttackCoolTime();
 	CollisionField(camera);
 
+	DamageParticleSet();
 	state_boss->Update(this);
 }
 
@@ -69,6 +73,12 @@ void BossEnemy::Update(DebugCamera* camera)
 void BossEnemy::Draw()
 {
 	Draw_Fbx();
+	// 3Dオブジェクト描画前処理
+	ParticleManager::PreDraw();
+	// 3Dオブクジェクトの描画
+	particleMan->Draw();
+	// 3Dオブジェクト描画後処理
+	ParticleManager::PostDraw();
 }
 
 void BossEnemy::Death()
@@ -130,4 +140,30 @@ void BossEnemy::AttackCoolTime()
 	} else {
 		cooltime = 0;
 	}
+}
+
+void BossEnemy::DamageParticleSet()
+{
+	const int ParticleSize = 20;
+	for (int i = 0; i < ParticleSize; i++) {
+		const float rnd_vel = 0.5f;
+		XMFLOAT3 vel{};
+		vel.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+		vel.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+		vel.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+
+		XMFLOAT3 acc{};
+		const float rnd_acc = 0.001f;
+		acc.y = -(float)rand() / RAND_MAX * rnd_acc;
+
+		//追加
+		if (DamageParticleCreateF) {
+			particleMan->Add(80, { Position.x,Position.y + 10,Position.z }, vel, acc, 3.0f, 0.0f);
+			if (i == ParticleSize - 1) {
+				DamageParticleCreateF = false;
+			}
+		}
+
+	}
+	particleMan->Update();
 }

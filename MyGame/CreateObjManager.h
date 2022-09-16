@@ -7,6 +7,7 @@
 #include"Model.h"
 #include"Object3d.h"
 #include"DebugCamera.h"
+#include"Destroy.h"
 class CreateObjManager
 {
 protected:
@@ -34,6 +35,8 @@ public:
 	virtual void Draw()=0;
 
 	virtual bool ErrorJudg()=0;
+
+	virtual void Finalize() = 0;
 	
 protected:
 	std::vector<int>Number;

@@ -66,7 +66,20 @@ void AttackCollision::GetCol(int damage)
 		break;
 
 	case SceneManager::BOSS:
-		
+		if (colf) {
+			EnemyControl::GetInstance()->GetBossEnemyindex()[0]->RecvDamage(damage);
+		}
+
+		ColOBB(BOSS);
+
+		for (int i = 0; i < EnemyOBB.size(); i++) {
+			if (ColObb->ColOBBs(HandObb, EnemyOBB[i])) {
+				colf = true;
+				break;
+			} else {
+				colf = false;
+			}
+		}
 		break;
 	default:
 		break;
@@ -117,8 +130,7 @@ void AttackCollision::ColOBB(ColType Enemytype)
 
 		break;
 	case AttackCollision::BOSS:
-		EnemyOBB.resize(1);
-
+		
 		//OBB ‰ñ“]ƒxƒNƒgƒ‹
 		EnemyOBB[0].m_NormaDirect[0] = { EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetMatrot().r[0].m128_f32[0],EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetMatrot().r[0].m128_f32[1],EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetMatrot().r[0].m128_f32[2] };
 		EnemyOBB[0].m_NormaDirect[1] = { EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetMatrot().r[1].m128_f32[0], EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetMatrot().r[1].m128_f32[1], EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetMatrot().r[1].m128_f32[2] };
