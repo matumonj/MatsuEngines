@@ -27,7 +27,6 @@ void BossEnemy::Initialize(DebugCamera* camera)
 {
 	m_Object = std::make_unique<Object3d>();
 	m_Object->Initialize(camera);
-	m_fbxModel = ModelManager::GetIns()->GetFBXModel(ModelManager::GOLEM);
 
 	EnemyHP = 300.0f;
 
@@ -36,7 +35,7 @@ void BossEnemy::Initialize(DebugCamera* camera)
 	MaxHP = 300.0f;
 	m_fbxObject = std::make_unique<f_Object3d>();
 	m_fbxObject->Initialize();
-	m_fbxObject->SetModel(m_fbxModel);
+	m_fbxObject->SetModel(FbxLoader::GetInstance()->LoadModelFromFile("monster_golem"));
 	m_fbxObject->PlayAnimation();
 	radius_adjustment = 0;
 	Scale = { 0.04f, 0.04f, 0.04f

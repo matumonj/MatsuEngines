@@ -160,3 +160,5 @@ void PlayerAttackState::DetailAttack(std::vector<std::unique_ptr<Enemy>>& enemy,
 	//if (/*fbx‚Ìƒ‚[ƒVƒ‡ƒ“I‚í‚Á‚½‚ç*/) {
 	Skill = None;
 }
+
+

@@ -283,6 +283,8 @@ void f_Object3d::Updata(bool animeloop)
 	//	hand = bones[0].fbxCluster->GetTransformLinkMatrix();
 	}
 	//15.16
+	
+
 	int num = 13;
 	FbxLoader::ConvertMatrixFromFbx(&hRot, bones[num].fbxCluster->GetLink()->EvaluateGlobalTransform(currentTime));
 	//rot= XMMatrixIdentity();
@@ -293,13 +295,13 @@ void f_Object3d::Updata(bool animeloop)
 	PosNode2 = bones[num].fbxCluster->GetLink()->LclRotation.Get();
 	PosNode = bones[num].fbxCluster->GetLink()->LclTranslation.Get();
 	Posmat = XMMatrixTranslationFromVector(
-		{ (float)PosNode[0], (float)PosNode[1], (float)PosNode[2]
-,1.0f })*matScale * matRot*matTrans;
-
-	//Posmat = XMMatrixTranslationFromVector({ (float)PosNode[0], (float)PosNode[1], (float)PosNode[2], 1.0f }); //model->GetBones()[num].fbxCluster->GetLink()->LclTranslation.Get();
-	RotMat = XMMatrixRotationZ(XMConvertToRadians((float)PosNode2[0]));
-	RotMat = XMMatrixRotationX(XMConvertToRadians((float)PosNode2[1]));
-	RotMat = XMMatrixRotationY(XMConvertToRadians((float)PosNode2[2]));
+		{ (float)PosNode[0], (float)PosNode[1], (float)PosNode[2],1.0f })*matScale * matRot*matTrans;
+	XMMATRIX matRot = XMMatrixIdentity();
+	matRot *= XMMatrixRotationZ(XMConvertToRadians((float)PosNode2[0]));
+	matRot *= XMMatrixRotationX(XMConvertToRadians((float)PosNode2[1]));
+	matRot *= XMMatrixRotationY(XMConvertToRadians((float)PosNode2[2]));
+	
+	RotMat = matRot;
 	pos = { Posmat.r[0].m128_f32[0] + position.x,Posmat.r[0].m128_f32[1] +position.y, Posmat.r[0].m128_f32[2] + position.z };
 	rot =  hRot* matWorld;
 	constBuffSkin->Unmap(0, nullptr);

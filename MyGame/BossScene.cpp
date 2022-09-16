@@ -54,14 +54,15 @@ void BossScene::Initialize()
 
 	UI::GetInstance()->Initialize();
 	SistemConfig::GetInstance()->Initialize();
+	
 	Field::GetInstance()->Initialize(CameraControl::GetInstance()->GetCamera());
 	postEffect = new PostEffect();
 	postEffect->Initialize();
 
+	//カメラ挙動をボスカットシーン
 	CameraControl::GetInstance()->SetCameraState(CameraControl::BOSSCUTSCENE);
 
 	Nail::GetInstance()->ModelSet();
-	//Feed::GetInstance()->initialize();
 }
 
 void BossScene::Update()
@@ -89,23 +90,20 @@ void BossScene::Update()
 
 	Field::GetInstance()->Update(CameraControl::GetInstance()->GetCamera());
 	//各オブジェクトの更新処理
-	//objUpdate(CameraControl::GetInstance()->GetCamera());//オブジェクトの更新処理
 	//csv読み込み部分(Cameraの更新後にするのでobjUpdate()挟んでから)
 	LoadParam(CameraControl::GetInstance()->GetCamera());
 
 	if (scenechange) {
 		Feed::GetInstance()->Update_White(Feed::FEEDIN);//白くなります
 	}
+
+
 	if (SistemConfig::GetInstance()->GetConfigJudgMent()) {
 		c_postEffect = Blur;
 	} else {
 		c_postEffect = Default;
 	}
-	//if (Feed::GetInstance()->GetAlpha() >= 1.0f) {//画面真っ白なったら
-		//BaseScene* scene = new PlayScene(sceneManager_);//次のシーンのインスタンス生成
-		//SceneManager::GetInstance()->SetScene(SceneManager::PLAY);
-		//sceneManager_->SetnextScene(scene);//シーンのセット
-	//}
+	
 }
 
 void BossScene::MyGameDraw()
@@ -210,5 +208,6 @@ void BossScene::ImGuiDraw()
 
 void BossScene::Finalize()
 {
+	AllObjectControl.clear();
 
 }

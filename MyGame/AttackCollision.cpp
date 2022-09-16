@@ -5,6 +5,7 @@
 #include"Collision.h"
 #include"CustomButton.h"
 #include"SceneManager.h"
+#include"SelectSword.h"
 AttackCollision* AttackCollision::GetInstance()
 {
 	static AttackCollision instance;
@@ -12,84 +13,60 @@ AttackCollision* AttackCollision::GetInstance()
 }
 void AttackCollision::Init()
 {
-	cModel = Model::CreateFromOBJ("chest");
-	cObj = new Object3d();
-	cObj->Initialize(CameraControl::GetInstance()->GetCamera());
-	cObj->SetModel(cModel);
-	Position = { PlayerControl::GetInstance()->GetPlayer()->GetPosition().x,
-	PlayerControl::GetInstance()->GetPlayer()->GetPosition().y,
-	PlayerControl::GetInstance()->GetPlayer()->GetPosition().z };
 	input = Input::GetInstance();
+
+	ColObb = new OBBCollision();
 }
 
+void AttackCollision::Finalize()
+{
+	delete ColObb;
+}
 void AttackCollision::Update()
 {
-
-	
-
-	AttackArea.position = { Position.x,Position.z };
-	AttackArea.scale = { 30,30 };
-
-	//デバッグ用
-
-
-	cObj->SetScale({ 5,5,5 });
-	cObj->SetPosition(Position);
-	cObj->Update({ 1,1,1,1 }, CameraControl::GetInstance()->GetCamera());
 }
 
 void AttackCollision::GetCol(int damage)
 {
+	
+	HandObb.m_Pos.m128_f32[0] = PlayerControl::GetInstance()->GetPlayer()->GetHanMat().r[3].m128_f32[0];// GetPosition().x;
+	HandObb.m_Pos.m128_f32[1] = PlayerControl::GetInstance()->GetPlayer()->GetHanMat().r[3].m128_f32[1];
+	HandObb.m_Pos.m128_f32[2] = PlayerControl::GetInstance()->GetPlayer()->GetHanMat().r[3].m128_f32[2];
+
+	//今はプレイヤーの手に当たり判定　あと出修正
+	HandObb.m_NormaDirect[0] = { PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[0].m128_f32[0],PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[0].m128_f32[1],PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[0].m128_f32[2] };
+	HandObb.m_NormaDirect[1] = { PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[1].m128_f32[0], PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[1].m128_f32[1], PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[1].m128_f32[2] };
+	HandObb.m_NormaDirect[2] = { PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[2].m128_f32[0], PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[2].m128_f32[1], PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[2].m128_f32[2] };
+	HandObb.m_fLength[0] = 3;//x方向の長さ
+	HandObb.m_fLength[1] = 3;//y方向の長さ
+	HandObb.m_fLength[2] = 10;//z方向の長さ
 
 	switch (SceneManager::GetInstance()->GetScene())
 	{
 	case SceneManager::TUTORIAL:
-		EnemyArea.resize(1);
-		EnemyArea[0].position = { EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetPosition().x,
-		EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetPosition().z };
-		EnemyArea[0].scale = { 30,30 };
-		for (int i = 0; i < EnemyArea.size(); i++) {
-			if (Collision::CheckBox2Box(AttackArea, EnemyArea[i]) == true) {
-				if (CustomButton::GetInstance()->GetAttackAction()) {
-					EnemyControl::GetInstance()->GetTutorialEnemyindex()[i]->RecvDamage(damage);
-					//break;
-				}
-			} 
+		if (colf) {
+			EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->RecvDamage(damage);
+		}
+
+		ColOBB(TYTORIAL);
+
+		for (int i = 0; i < EnemyOBB.size(); i++) {
+			if (ColObb->ColOBBs(HandObb, EnemyOBB[i])) {
+				colf = true;
+				break;
+			}
+			else {
+				colf = false;
+			}
 		}
 		break;
 
 	case SceneManager::PLAY:
-		EnemyArea.resize(EnemyControl::GetInstance()->GetEnemyindex(0).size());
-		for (int i = 0; i < EnemyArea.size(); i++) {
-			EnemyArea[i].position = { EnemyControl::GetInstance()->GetEnemyindex(0)[i]->GetPosition().x,
-			EnemyControl::GetInstance()->GetEnemyindex(0)[i]->GetPosition().z };
-			EnemyArea[i].scale = { 10,10 };
-		}
-		for (int i = 0; i < EnemyArea.size(); i++) {
-			if (Collision::CheckBox2Box(AttackArea, EnemyArea[i]) == true) {
-				if (CustomButton::GetInstance()->GetAttackAction()) {
-					EnemyControl::GetInstance()->GetEnemyindex(0)[i]->RecvDamage(damage);
-					//break;
-				} 
-			} 
-		}
+	
 		break;
 
 	case SceneManager::BOSS:
-		EnemyArea.resize(1);
-		EnemyArea[0].position = { EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetPosition().x,
-		EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetPosition().z };
-		EnemyArea[0].scale = { 10,10 };
-		for (int i = 0; i < EnemyArea.size(); i++) {
-			if (EnemyControl::GetInstance()->GetBossEnemyindex()[0] != nullptr) {
-				if (Collision::CheckBox2Box(AttackArea, EnemyArea[i]) == true) {
-					if (CustomButton::GetInstance()->GetAttackAction()) {
-						EnemyControl::GetInstance()->GetBossEnemyindex()[i]->RecvDamage(damage);
-						//break;
-					} 
-				}
-			}
-		}
+		
 		break;
 	default:
 		break;
@@ -97,7 +74,66 @@ void AttackCollision::GetCol(int damage)
 }
 void AttackCollision::Draw()
 {
-	cObj->PreDraw();
-	cObj->Draw();
-	cObj->PostDraw();
+}
+
+void AttackCollision::ColOBB(ColType Enemytype)
+{
+	switch (Enemytype)
+	{
+	case AttackCollision::TYTORIAL:
+		EnemyOBB.resize(1);
+
+		//OBB 回転ベクトル
+		EnemyOBB[0].m_NormaDirect[0] = {EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetMatrot().r[0].m128_f32[0],EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetMatrot().r[0].m128_f32[1],EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetMatrot().r[0].m128_f32[2]};
+		EnemyOBB[0].m_NormaDirect[1] = { EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetMatrot().r[1].m128_f32[0], EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetMatrot().r[1].m128_f32[1], EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetMatrot().r[1].m128_f32[2] };
+		EnemyOBB[0].m_NormaDirect[2] = { EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetMatrot().r[2].m128_f32[0], EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetMatrot().r[2].m128_f32[1], EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetMatrot().r[2].m128_f32[2] };
+		EnemyOBB[0].m_fLength[0] = 2;//x方向の長さ
+		EnemyOBB[0].m_fLength[1] = 2;//y方向の長さ
+		EnemyOBB[0].m_fLength[2] = 2;//z方向の長さ
+
+		EnemyOBB[0].m_Pos.m128_f32[0] = { EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetPosition().x };
+		EnemyOBB[0].m_Pos.m128_f32[1] = { EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetPosition().y };
+		EnemyOBB[0].m_Pos.m128_f32[2] = { EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetPosition().z };
+
+		break;
+	case AttackCollision::PLAY://大量のOBB判定　軽量化必要かも
+		EnemyOBB.resize(EnemyControl::GetInstance()->GetEnemyindex(1).size());
+
+		for (int i = 0; i < EnemyOBB.size(); i++) {
+			if(Collision::GetLength(EnemyControl::GetInstance()->GetEnemyindex(0)[i]->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 15.0f) {
+				//OBB 回転ベクトル
+				EnemyOBB[i].m_NormaDirect[0] = { EnemyControl::GetInstance()->GetEnemyindex(0)[i]->GetMatrot().r[0].m128_f32[0],EnemyControl::GetInstance()->GetEnemyindex(0)[i]->GetMatrot().r[0].m128_f32[1],EnemyControl::GetInstance()->GetEnemyindex(0)[i]->GetMatrot().r[0].m128_f32[2] };
+				EnemyOBB[i].m_NormaDirect[1] = { EnemyControl::GetInstance()->GetEnemyindex(0)[i]->GetMatrot().r[1].m128_f32[0], EnemyControl::GetInstance()->GetEnemyindex(0)[i]->GetMatrot().r[1].m128_f32[1], EnemyControl::GetInstance()->GetEnemyindex(0)[i]->GetMatrot().r[1].m128_f32[2] };
+				EnemyOBB[i].m_NormaDirect[2] = { EnemyControl::GetInstance()->GetEnemyindex(0)[i]->GetMatrot().r[2].m128_f32[0], EnemyControl::GetInstance()->GetEnemyindex(0)[i]->GetMatrot().r[2].m128_f32[1], EnemyControl::GetInstance()->GetEnemyindex(0)[i]->GetMatrot().r[2].m128_f32[2] };
+				EnemyOBB[i].m_fLength[0] = 2;//x方向の長さ
+				EnemyOBB[i].m_fLength[1] = 2;//y方向の長さ
+				EnemyOBB[i].m_fLength[2] = 2;//z方向の長さ
+
+				EnemyOBB[i].m_Pos.m128_f32[0] = { EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetPosition().x };
+				EnemyOBB[i].m_Pos.m128_f32[1] = { EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetPosition().y };
+				EnemyOBB[i].m_Pos.m128_f32[2] = { EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetPosition().z };
+			}
+		}
+
+		break;
+	case AttackCollision::BOSS:
+		EnemyOBB.resize(1);
+
+		//OBB 回転ベクトル
+		EnemyOBB[0].m_NormaDirect[0] = { EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetMatrot().r[0].m128_f32[0],EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetMatrot().r[0].m128_f32[1],EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetMatrot().r[0].m128_f32[2] };
+		EnemyOBB[0].m_NormaDirect[1] = { EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetMatrot().r[1].m128_f32[0], EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetMatrot().r[1].m128_f32[1], EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetMatrot().r[1].m128_f32[2] };
+		EnemyOBB[0].m_NormaDirect[2] = { EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetMatrot().r[2].m128_f32[0], EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetMatrot().r[2].m128_f32[1], EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetMatrot().r[2].m128_f32[2] };
+		EnemyOBB[0].m_fLength[0] = 2;//x方向の長さ
+		EnemyOBB[0].m_fLength[1] = 2;//y方向の長さ
+		EnemyOBB[0].m_fLength[2] = 2;//z方向の長さ
+
+		EnemyOBB[0].m_Pos.m128_f32[0] = { EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetPosition().x };
+		EnemyOBB[0].m_Pos.m128_f32[1] = { EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetPosition().y };
+		EnemyOBB[0].m_Pos.m128_f32[2] = { EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetPosition().z };
+
+
+		break;
+	default:
+		break;
+	}
 }

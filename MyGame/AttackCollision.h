@@ -3,6 +3,8 @@
 #include"Model.h"
 #include"Input.h"
 #include"CollisionPrimitive.h"
+#include"OBB.h"
+#include"OBBCollision.h"
 class AttackCollision
 {
 public:
@@ -16,18 +18,28 @@ private:
 	using XMMATRIX = DirectX::XMMATRIX;
 	using XMVECTOR = DirectX::XMVECTOR;
 private:
-	Box AttackArea;
+	bool colf;
+	OBB HandObb;
+	OBBCollision* ColObb;
 	std::vector<Box> EnemyArea;
 	Input* input;
-	Object3d* cObj;
-	Model* cModel;
-	XMFLOAT3 Position;
 public:
 	void Init();
 
 	void Update();
 
 	void GetCol(int damage);
+
 	void Draw();
+
+	void Finalize();
+private:
+	enum ColType{
+		TYTORIAL,
+		PLAY,
+		BOSS
+	};
+	std::vector<OBB>EnemyOBB;
+	void ColOBB(ColType Enemytype);
 };
 

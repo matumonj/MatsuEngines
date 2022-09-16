@@ -1,5 +1,6 @@
 #include "NormalSword.h"
 #include"PlayerControl.h"
+#include"imgui.h"
 NormalSword::~NormalSword()
 {
 	//delete  m_Model;
@@ -10,7 +11,7 @@ void NormalSword::Initialize(DebugCamera* camera)
 
 	m_Model = Model::CreateFromOBJ("sword");
 
-	//フィールドにモデル割り当て
+	//モデル割り当て
 	m_Object->Initialize(camera);
 	m_Object->SetModel(m_Model);
 
@@ -27,8 +28,9 @@ void NormalSword::Update(DebugCamera* camera)
 
 	Damage = Damage_Value;
 	CoolTime = CoolTime_Value;
-	//m_Object->SetParent(PlayerControl::GetInstance()->GetPlayer()->GetHanMat());
+
 	m_Object->SetRotation(Rotation);
+
 	m_Object->Update(PlayerControl::GetInstance()->GetPlayer()->GetHanMat(), { 1,1,1,1 }, camera);
 
 }
@@ -36,4 +38,5 @@ void NormalSword::Update(DebugCamera* camera)
 void NormalSword::Draw()
 {
 	Draw_Obj();
+	
 }

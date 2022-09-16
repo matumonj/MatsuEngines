@@ -17,12 +17,12 @@ void PlayerControl::Load(DebugCamera* camera)
 	player = std::make_unique<Player>();
 	player->Initialize(camera);
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
-		player->SetPosition({ 92,-27,-760 });
+		player->SetPosition({ 92,2,-760 });
 	} else if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
-		player->SetPosition({ 92,-27,-760 });
+		player->SetPosition({ 92,2,-760 });
 	}
 	else if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
-		player->SetPosition({ 0,-27,-70 });
+		player->SetPosition({ 0,2,-70 });
 	}
 }
 
@@ -31,10 +31,10 @@ void PlayerControl::Initialize(DebugCamera* camera)
 	player = std::make_unique<Player>();
 	player->Initialize(camera);
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
-		player->SetPosition({92,-27,-760});
+		player->SetPosition({92,2,-760});
 	}
 	else if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
-		player->SetPosition({ 92,-27,-760 });
+		player->SetPosition({ 92,2,-760 });
 	}
 }
 

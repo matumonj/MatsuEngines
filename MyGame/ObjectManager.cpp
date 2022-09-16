@@ -4,9 +4,13 @@
 #include"TouchableObject.h"
 #include"CollisionManager.h"
 #include"Collision.h"
+#include"Destroy.h"
 ObjectManager::~ObjectManager()
 {
-
+	Destroy_unique(m_Object);
+	Destroy_unique(m_fbxObject);
+	Destroy(m_Model);
+	Destroy(m_fbxModel);
 }
 void ObjectManager::SetCollider()
 {
@@ -90,9 +94,9 @@ void ObjectManager::CollisionField(DebugCamera* camera)
 		// スムーズに坂を下る為の吸着距離
 		const float adsDistance = 5.0f;
 		// 接地を維持
-		if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit, sphereCollider->GetRadius() * 2.0f + adsDistance)) {
+		if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit, sphereCollider->GetRadius() * 2.5f + adsDistance)) {
 			onGround = true;
-			Position.y -= (raycastHit.distance - sphereCollider->GetRadius() * 2.0f);
+			Position.y -= (raycastHit.distance - sphereCollider->GetRadius() * 2.5f);
 		}
 		// 地面がないので落下
 		else {

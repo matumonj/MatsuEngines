@@ -5,12 +5,12 @@ class Chest :
 {
 public:
     Chest() {};
-  //  ~Chest();
+    ~Chest();
 
 public:
     void Initialize(DebugCamera* camera)override;
     void Update(DebugCamera* camera)override;
     void Draw()override;
-    bool CollideChest();
+   bool CollideChest();
 };
 

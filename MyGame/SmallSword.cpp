@@ -10,7 +10,7 @@ void SmallSword::Initialize(DebugCamera* camera)
 
 	m_Model = Model::CreateFromOBJ("SmallSword");
 
-	//フィールドにモデル割り当て
+	//モデル割り当て
 	m_Object->Initialize(camera);
 	m_Object->SetModel(m_Model);
 

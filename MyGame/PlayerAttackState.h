@@ -8,6 +8,8 @@ public:
 
 	void Update();
 
+	void Finalize();
+
 	enum AttackSkill
 	{
 		None,

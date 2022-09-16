@@ -22,7 +22,7 @@ using namespace DirectX;
 Player::~Player()
 {
 	delete fbxmodel;
-	delete  m_Model;
+	//delete  m_Model;
 }
 Player* Player::GetInstance()
 {
@@ -49,8 +49,8 @@ void Player::Initialize(DebugCamera* camera)
 
 	SetCollider();
 
-	Rotation = { -90,0,0 };
-	Position = { 0,-30,0 };
+	Rotation = { 0,0,0 };
+	Position = { 0,0,0 };
 	SelectSword::GetInstance()->Initialize();
 	
 	HP = MaxHP;

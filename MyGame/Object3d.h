@@ -248,7 +248,7 @@ public:
 	void Setf(bool flag);
 	XMMATRIX GetMatTrans() { return matTrans; }
 	void SetMatrot(XMMATRIX rot) { rm = rot; }
-	void SetMatRot(XMMATRIX rot) { rt = rot; }
+	void SetMatRot(XMMATRIX rot) {matRot = rot; }
 	void SetMatTrans(XMMATRIX rot) { rt = rot; }
 	void SetMatScale(XMMATRIX rot) { rs = rot; }
 	void UpdateWorldMatrix();

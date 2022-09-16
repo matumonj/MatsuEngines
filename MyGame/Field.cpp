@@ -10,10 +10,10 @@ Field::~Field()
 }
 
 void Field::Finalize()
-{
+{delete CelestialSphereModel;
 	Destroy_unique(CelestialSphereObject);
-	delete FieldObject;
-	//delete BackM;
+	delete FieldObject, FieldModel;
+	delete BackM;
 	Destroy_unique(BackObject);
 
 }

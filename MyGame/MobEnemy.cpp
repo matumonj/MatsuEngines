@@ -27,10 +27,10 @@ void MobEnemy::Initialize(DebugCamera* camera)
 {
 	m_Object = std::make_unique<Object3d>();
 	m_Object->Initialize(camera);
-	m_fbxModel = ModelManager::GetIns()->GetFBXModel(ModelManager::GOLEM);
+	//m_fbxModel = ModelManager::GetIns()->GetFBXModel(ModelManager::GOLEM);
 
-	EnemyHP = 15.00f;
-	MaxHP = 15.00f;
+	EnemyHP = 150.00f;
+	MaxHP = 150.00f;
 	//パラメータのセット
 
 	Rotation = { -70,180,0 };
@@ -38,7 +38,7 @@ void MobEnemy::Initialize(DebugCamera* camera)
 
 	m_fbxObject = std::make_unique<f_Object3d>();
 	m_fbxObject->Initialize();
-	m_fbxObject->SetModel(m_fbxModel);
+	m_fbxObject->SetModel(FbxLoader::GetInstance()->LoadModelFromFile("monster_golem"));
 	m_fbxObject->PlayAnimation();
 	radius_adjustment = 0;
 	Scale = { 0.04f, 0.04f, 0.04f
@@ -64,7 +64,7 @@ void MobEnemy::Update(DebugCamera* camera)
 		alpha -= 0.005f;
 	}
 	if (CustomButton::GetInstance()->GetAttackAction()) {
-		RecvDamage(10);
+		//RecvDamage(10);
 	}
 	FbxAnimationControl();
 	EnemyPop(150);

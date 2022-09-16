@@ -45,7 +45,6 @@ void Tutorial::objUpdate(DebugCamera* camera)
 				AllObjectControl[i]->Update(CameraControl::GetInstance()->GetCamera());
 			}
 		}
-		AttackCollision::GetInstance()->Update();
 		PlayerAttackState::GetInstance()->Update();
 		KnockAttack::GetInstance()->ActionJudg();
 		UI::GetInstance()->HUDUpdate(hudload, CameraControl::GetInstance()->GetCamera());
@@ -252,8 +251,10 @@ void Tutorial::Finalize()
 	for (int i = 0; i < AllObjectControl.size(); i++) {//‰Šú‰»
 		AllObjectControl[i]->Finalize();
 	}
-	for (int i = 0; i < AllObjectControl.size(); i++) {
-		//delete AllObjectControl[i];
-	}
+	AllObjectControl.clear();
+
+	AttackCollision::GetInstance()->Finalize();
+	Field::GetInstance()->Finalize();
+	
 	delete acol;
 }

@@ -64,7 +64,7 @@ public:
 	bool GetonFlag() { return onGround; }
 	float GetHP() { return EnemyHP; };
 	float GetMaxHP() { return MaxHP; }
-
+	XMMATRIX GetMatrot() { return m_fbxObject->GetMatrot(); }
 	void Turn_toPlayer();
 
 	void EnemyPop(int HP);

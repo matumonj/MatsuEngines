@@ -104,14 +104,14 @@ void EnemyControl::Load(DebugCamera*camera)
 		tutorial_enemy.resize(1);
 		tutorial_enemy[0] = std::make_unique<MobEnemy>();
 		tutorial_enemy[0]->Initialize(camera);
-		tutorial_pos = { 89.137f,-27.5045f,-707.987f };
+		tutorial_pos = { 89.137f,20.5045f,-707.987f };
 		tutorial_enemy[0]->SetPosition(tutorial_pos);
 	}
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
 		boss_enemy.resize(1);
 		boss_enemy[0] = std::make_unique<BossEnemy>();
 		boss_enemy[0]->Initialize(camera);
-		boss_pos = { 0.0f,-27.5045f,20.987f };
+		boss_pos = { 0.0f,20.5045f,20.987f };
 		boss_enemy[0]->SetPosition(boss_pos);
 	}
 }

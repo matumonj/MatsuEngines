@@ -39,6 +39,8 @@ public:
 public:
 	//OBBの当たり判定に使うプレイヤーの回転行列取得
 	XMMATRIX GetMatrot();
+	XMMATRIX GetHandMatRot() { return m_fbxObject->GetRotmatrix(); }
+	XMFLOAT3 GetHandRotation_xyz() { return m_fbxObject->GetHandRotation(); }
 	//SelectSwordに使うプレイヤーの手のワールド行列
 	XMMATRIX GetHanMat() { return HandMat; };
 	//座標の押し戻し

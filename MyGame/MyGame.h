@@ -7,12 +7,9 @@
 #include<DirectXMath.h>
 #include<d3dcompiler.h>
 #include<dinput.h>
-#include<dinput.h>
 
 #include<DirectXTex.h>
 #include<wrl.h>
-
-//‚Ü‚Á‚Â‚ñƒz[ƒ€‰˜‚·‚¬
 #pragma comment(lib,"d3dcompiler.lib")
 #pragma comment(lib,"d3d12.lib")
 
@@ -47,12 +44,8 @@ public:
 	void Initialize()override;
 	void Update()override;
 	void Draw()override;
-	//void SpriteDraw()override;
 	void Finalize()override;
-	void backGround();
 private:
 	bool t = false, y = false;
-	//PlayScene* Scene;
-	//IScene* Scene;
 };
 
