@@ -7,7 +7,6 @@
 #include"BossEnemyAttackknock.h"
 #include"BossEnemyAttackhalf.h"
 #include"mHelper.h"
-#include"Input.h"
 #include"HalfAttack.h"
 #include"CircleAttack.h"
 #include"BossEnemyDeath.h"
@@ -46,14 +45,14 @@ void BossEnemyFollow::Update(Enemy* enemy)
 	//Šp“x‚ÌŽæ“¾ ƒvƒŒƒCƒ„[‚ª“G‚Ìõ“GˆÊ’u‚É“ü‚Á‚½‚çŒü‚«‚ðƒvƒŒƒCƒ„[‚Ì•û‚É
 	RotY = atan2f(SubVector.m128_f32[0], SubVector.m128_f32[2]);
 	//ˆÚ“®ƒxƒNƒgƒ‹‚ðyŽ²Žü‚è‚ÌŠp“x‚Å‰ñ“]
-	XMVECTOR move = { 0,0,0.1f,0 };
+	XMVECTOR move = { 0.0f,0.0f,0.1f,0.0f };
 
 	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(enemy->GetRotation().y));
 
 	move = XMVector3TransformNormal(move, matRot);
 
 	enemy->SetRotation({ enemy->GetRotation().x,
-		 RotY * 60 + 180,
+		 RotY * 60.0f + 180.0f,
 		enemy->GetRotation().z });
 	if (Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) > 10) {
 		enemy->SetPosition({
@@ -64,7 +63,7 @@ void BossEnemyFollow::Update(Enemy* enemy)
 	}
 	//////////////////////////////////////////////////////////////
 
-	//•’Ê‚ÌUŒ‚ˆÈ~
+	//•’Ê‚ÌUŒ‚
 	if ( Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 20) {
 		if (enemy->GetCoolTime() == 0) {
 			enemy->ChangeState_Boss(new BossEnemyAttack());

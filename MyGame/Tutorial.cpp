@@ -45,7 +45,6 @@ void Tutorial::objUpdate(DebugCamera* camera)
 		UI::GetInstance()->HUDUpdate(hudload, CameraControl::GetInstance()->GetCamera());
 		}
 
-	
 	Field::GetInstance()->Update(CameraControl::GetInstance()->GetCamera());
 }
 
@@ -56,16 +55,17 @@ void Tutorial::Initialize()
 {
 	input = Input::GetInstance();
 	if (AllObjectControl.size() == 0) {//各オブジェクトインスタンスぶちこむ
-		AllObjectControl.push_back(CameraControl::GetInstance());
-		AllObjectControl.push_back(PlayerControl::GetInstance());
-		AllObjectControl.push_back(EnemyControl::GetInstance());
-		AllObjectControl.push_back(FenceControl::GetInstance());
-		AllObjectControl.push_back(ChestControl::GetInstance());
-		AllObjectControl.push_back(WoodControl::GetInstance());
+		AllObjectControl.push_back(CameraControl::GetInstance());//Camera
+		AllObjectControl.push_back(PlayerControl::GetInstance());//Player
+		AllObjectControl.push_back(EnemyControl::GetInstance());//Enemy
+		AllObjectControl.push_back(FenceControl::GetInstance());//Fence
+		AllObjectControl.push_back(ChestControl::GetInstance());//Chest
+		AllObjectControl.push_back(WoodControl::GetInstance());//Wood
 	}
 	for (int i = 0; i < AllObjectControl.size(); i++) {//初期化
 		AllObjectControl[i]->Initialize(CameraControl::GetInstance()->GetCamera());
 	}
+	Field::GetInstance()->Initialize(CameraControl::GetInstance()->GetCamera());
 
 	// 3Dオブジェクトにカメラをセット
 	Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
@@ -74,13 +74,13 @@ void Tutorial::Initialize()
 	//グラフィックパイプライン生成
 	f_Object3d::CreateGraphicsPipeline();
 
+	//フェードとUIスプライト初期化
 	Feed::GetInstance()->initialize();
 	UI::GetInstance()->Initialize();
 
+	//設定画面初期
 	SistemConfig::GetInstance()->Initialize();
 
-	Field::GetInstance()->Initialize(CameraControl::GetInstance()->GetCamera());
-	
 	postEffect = new PostEffect();
 	postEffect->Initialize();
 	
@@ -96,9 +96,12 @@ void Tutorial::Update()
 	//csv読み込み部分(Cameraの更新後にするのでobjUpdate()挟んでから)
 	LoadParam(CameraControl::GetInstance()->GetCamera());
 
-	if (PlayerControl::GetInstance()->GetPlayer()->GetPosition().z > -470) {
+	//一定数進んだらシーンチェンジ
+	bool ArrivalJudg = PlayerControl::GetInstance()->GetPlayer()->GetPosition().z > -470.0f;
+	if (ArrivalJudg) {
 		scenechange = true;
 	}
+
 	if (scenechange) {
 		Feed::GetInstance()->Update_White(Feed::FEEDIN);//白くなります
 	}
@@ -247,6 +250,7 @@ void Tutorial::Finalize()
 	AllObjectControl.clear();
 
 	AttackCollision::GetInstance()->Finalize();
+
 	Field::GetInstance()->Finalize();
 	
 	delete acol;

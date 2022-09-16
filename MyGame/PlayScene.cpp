@@ -78,14 +78,18 @@ void PlayScene::Update()
 	if (!Load && !PlayGame) {
 		Load = true;
 	}
-	objUpdate((CameraControl::GetInstance()->GetCamera()));//オブジェクトの更新処理
-
+	//オブジェクトの更新処理
+	objUpdate((CameraControl::GetInstance()->GetCamera()));
+	//csv読み込み
 	LoadParam((CameraControl::GetInstance()->GetCamera()));
+
+	//設定画面中ポストエフェクト（今は色反転のみ）
 	if (SistemConfig::GetInstance()->GetConfigJudgMent()) {
 		c_postEffect = Blur;
 	} else {
 		c_postEffect = Default;
 	}
+
 	if (input->TriggerKey(DIK_R)) {//押されたら
 		BaseScene* scene = new MapCreateScene(sceneManager_);//次のシーンのインスタンス生成
 		sceneManager_->SetnextScene(scene);//シーンのセット

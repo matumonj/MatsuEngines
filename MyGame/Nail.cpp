@@ -168,8 +168,8 @@ void Nail::Update()
 void Nail::Draw()
 {
 	for (int i = 0; i < Nails.size(); i++) {
-		Nails[i]->PreDraw();
+		Object3d::PreDraw();
 		Nails[i]->Draw();
-		Nails[i]->PostDraw();
+		Object3d::PostDraw();
 	}
 }

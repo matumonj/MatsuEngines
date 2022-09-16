@@ -50,15 +50,11 @@ public:
     
     void Death()override;
 
-public:
-    void FieldCollision(DebugCamera* camera);
-
-    bool DeathFlag;
 private:
     bool nowAttack;
     bool nowDeath;
     float defaulttime = 1.8f;
-
+    bool DeathFlag;
 private:
     void DamageParticleSet();
 };

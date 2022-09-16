@@ -28,23 +28,24 @@ void BossEnemy::Initialize(DebugCamera* camera)
 	m_Object = std::make_unique<Object3d>();
 	m_Object->Initialize(camera);
 
-	EnemyHP = 300.0f;
-
-	Rotation = { -70,180,0 };
-
 	MaxHP = 300.0f;
+	EnemyHP = MaxHP;
+
+	Scale = { 0.04f, 0.04f, 0.04f};
+	Rotation = { -70.0f,180.0f,0.0f };
+
 	m_fbxObject = std::make_unique<f_Object3d>();
 	m_fbxObject->Initialize();
 	m_fbxObject->SetModel(FbxLoader::GetInstance()->LoadModelFromFile("monster_golem"));
 	m_fbxObject->PlayAnimation();
 	radius_adjustment = 0;
-	Scale = { 0.04f, 0.04f, 0.04f
-	};
+	
 	SetCollider();
 	AttackTime = 1.5f;
 	DeathTime = 4.9f;
 	DeathFlag = false;
 	f_time = 200 / 60;
+
 	state_boss->Initialize(this);
 
 	particleMan = ParticleManager::Create();
@@ -55,17 +56,19 @@ void BossEnemy::Initialize(DebugCamera* camera)
 void BossEnemy::Update(DebugCamera* camera)
 {
 	Action();
-	if (CustomButton::GetInstance()->GetAttackAction()) {
-		EnemyHP -= 10;
-	}
+	
+	//fbxアニメーション制御
 	FbxAnimationControl();
 	EnemyPop(150);
-
+	//座標やスケールの反映
 	ParameterSet_Fbx(camera);
+	//攻撃後のクールタイム設定
 	AttackCoolTime();
+	//地形当たり判定
 	CollisionField(camera);
-
+	//攻撃受けたらパーティクル
 	DamageParticleSet();
+	//行動遷移
 	state_boss->Update(this);
 }
 
@@ -86,16 +89,14 @@ void BossEnemy::Death()
 	if (f_time < DeathTime) {
 		DeathFlag = true;
 	}
-
-
 }
 
 
 void BossEnemy::FbxAnimationControl()
 {
+	const float timespeed = 0.02f;
 	//アニメーション
-		//1フレーム進める
-	f_time += 0.02;
+	f_time += timespeed;;
 	//最後まで再生したら先頭に戻す
 
 	if (f_AttackFlag) {
@@ -126,15 +127,16 @@ void BossEnemy::FbxAnimationControl()
 }
 void BossEnemy::AttackCoolTime()
 {
+	const int CoolMax = 480;
+	//fbxtimeが死亡モーションまでいったら
 	if (f_AttackFlag) {
-
 		if (f_time >= DeathTime - 1) {
 			AfterAttack = true;
 		}
 	}
 	if (AfterAttack) {
 		cooltime++;
-		if (cooltime > 480) {
+		if (cooltime >CoolMax) {
 			AfterAttack = false;
 		}
 	} else {

@@ -30,6 +30,7 @@ private:
 	Model* FieldModel;
 	Model* CelestialSphereModel;
 	Model* BackM;
+	DirectX::XMFLOAT3 Ppos; 
 public:
 	bool Initialize(DebugCamera*camera);
 	void Update(DebugCamera* camera);

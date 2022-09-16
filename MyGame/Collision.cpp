@@ -4,6 +4,20 @@ bool Collision::ColFlag;
 void Collision::SetCollideOBB(bool f) { ColFlag = f; }
 bool Collision::GetCollideOBB() { return ColFlag; }
 
+bool Collision::Collision::CheckBox2Box(const Box& box1, const Box& box2)
+{
+	bool judg1 = box1.LUposition.x < box2.RBposition.x;
+	bool judg2 = box2.LUposition.x < box1.RBposition.x;
+	bool judg3 = box1.LUposition.y < box2.RUposition.y;
+	bool judg4 = box2.LUposition.y < box1.RUposition.y;
+
+	bool alljudg = judg1 && judg2 && judg3 && judg4;
+
+	if (alljudg) {
+		return true;
+	}
+	return false;
+}
 float Collision::GetLength(XMFLOAT3 position, XMFLOAT3 position2)
 {
 
@@ -13,14 +27,15 @@ float Collision::GetLength(XMFLOAT3 position, XMFLOAT3 position2)
 }
 bool Collision::CheckPoint2Rect(const Point& point, const Box& rect)
 {
-	if (point.x >= rect.position.x && point.x <= (rect.position.x + rect.scale.x) &&
+	/*if (point.x >= rect.position.x && point.x <= (rect.position.x + rect.scale.x) &&
 		point.y >= rect.position.y  && point.y <= (rect.position.y+ rect.scale.y))
 	{
 		return true;
 	}
 	else {
-		return false;
-	}
+		
+	}*/
+	return false;
 }
 void Collision::ClosestPtPoint2Triangle(const DirectX::XMVECTOR& point, const Triangle& triangle, DirectX::XMVECTOR* closest)
 {
@@ -149,39 +164,6 @@ bool Collision::CheckSphere2Triangle(const Sphere& sphere, const Triangle& trian
 	return true;
 }
 
-bool Collision::CheckBox2Box(const Box& box1, const Box& box2)
-{
-	BoxVertex Object1;
-	BoxVertex Object2;
-
-	//object1の右頂点
-	
-	Object1.Right = box1.position.x + box1.scale.x / 2;
-	//object1の左頂点
-	Object1.Left = box1.position.x - box1.scale.x / 2;
-	//object1の上頂点
-	Object1.Up = box1.position.y + box1.scale.y / 2 ;
-	//object1の下頂点
-	Object1.Down = box1.position.y -box1.scale.y / 2;
-
-	//object1の右頂点
-	Object2.Right = box2.position.x + box2.scale.x / 2;
-	//object1の左頂点
-	Object2.Left = box2.position.x - box2.scale.x / 2;
-	//object1の下頂点
-	Object2.Down = box2.position.y - box2.scale.y / 2;
-	//object1の上頂点
-	Object2.Up = box2.position.y + box2.scale.y / 2;
-
-	//→１と左２　→２と左１　上１と下２　上２と下１
-	if (Object1.Right >= Object2.Left && Object2.Right >= Object1.Left && Object1.Up >= Object2.Down && Object2.Up >= Object1.Down) {
-		return true;
-	}
-	else {
-		return false;
-	}
-
-}
 bool Collision::CheckRay2Plane(const Ray& lay, const Plane& plane, float* distance, DirectX::XMVECTOR* inter)
 {
 	const float epsilon = 1.0e-5f;	// 誤差吸収用の微小な値
