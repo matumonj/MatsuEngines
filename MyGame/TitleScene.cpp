@@ -29,12 +29,7 @@ void TitleScene::Initialize()
 /// </summary>
 void TitleScene::Update()
 {
-	//ENTERで次のシーンへ
-	//if (Input::GetInstance()->TriggerButton(Input::Button_B)) {//押されたら
-	//	BaseScene* scene = new BossScene(sceneManager_);//次のシーンのインスタンス生成
-	//	SceneManager::GetInstance()->SetScene(SceneManager::BOSS);
-	//	sceneManager_->SetnextScene(scene);//シーンのセット
-	//}
+
 	if (Input::GetInstance()->TriggerButton(Input::Button_A)) {//押されたら
 		BaseScene* scene = new MapCreateScene(sceneManager_);//次のシーンのインスタンス生成
 		//SceneManager::GetInstance()->SetScene(SceneManager::TUTORIAL);

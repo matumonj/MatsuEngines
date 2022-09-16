@@ -30,8 +30,9 @@ void CameraControl::Initialize(DebugCamera* camera)
 	maxtime = 6.0f;
 	time = 0.00000f;
 	j = time;
-	
-
+	elapsedTime = 0.0f;
+	bCamera = BOSSCUTSTART;
+	sCamera = PLAYCUTSTART;
 	this->camera = new DebugCamera(WinApp::window_width, WinApp::window_height);//(/*input*/);
 	input = Input::GetInstance();
 }
@@ -102,8 +103,6 @@ void CameraControl::Load(DebugCamera* camera)
 
 void CameraControl::Update(DebugCamera* camera)
 {
-	
-	
 	if (input->Pushkey(DIK_RIGHT)) {
 		charaAngle += 0.5f;
 		cameraAngle -= 0.5f;
@@ -117,35 +116,9 @@ void CameraControl::Update(DebugCamera* camera)
 		cameraAngle = 0;
 	}
 
-	
-		//this->camera->SetEye(CameraPosition);
 	this->camera->Update();
 
-
-	if(Tstate==SPLINE){
-		nowCount = GetTickCount64();
-		elapsedCount = nowCount - startCount;
-		float elapsedTime = static_cast<float>(elapsedCount) / 1000.0f;
-
-		timerate = elapsedTime / maxtime;
-		if (timerate >= 1) {
-			if (startindex < points.size() - 3)
-			{
-				startindex++;
-				timerate -= 1;
-
-				startCount = GetTickCount64();
-			} else
-			{
-				timerate = 1;
-			}
-		}
-
-		this->camera->SetTarget({ PlayerControl::GetInstance()->GetPlayer()->GetPosition() });
-
-		this->camera->SetEye(SplinePosition(points, startindex, timerate));
-	}
-	else if (Tstate == PLAYER) {
+	if (Tstate == PLAYER) {
 		if (AttackSceneF) {
 			Feed::GetInstance()->Update_White(Feed::FEEDOUT);
 			if (Feed::GetInstance()->GetAlpha() <= 0.0f) {
@@ -161,6 +134,9 @@ void CameraControl::Update(DebugCamera* camera)
 	}
 	else if (Tstate == BOSSCUTSCENE) {
 		BossSceneStart();
+	}
+	else if (Tstate == PLAYCUTSCENE) {
+		PlaySceneStart();
 	}
 }
 
@@ -221,7 +197,7 @@ void CameraControl::BossSceneStart()
 	XMFLOAT3 BossPos = EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetPosition();
 	switch (bCamera)
 	{
-	case START:
+	case BOSSCUTSTART:
 		Feed::GetInstance()->Update_White(Feed::FEEDOUT);
 		
 		CutCount[0]++;
@@ -234,22 +210,23 @@ void CameraControl::BossSceneStart()
 		CutCount[0] = 0;
 		
 		if (BossCutAngle >= 270.0f+360.0f) {
-			bCamera = END;
+			bCamera = BOSSCUTEND;
 		}
 		else {
 			BCutCameraHeight += 0.01f;
 			BossCutAngle += XMConvertToRadians(45);
 		}
 		break;
-	case END:
+	case BOSSCUTEND:
 		AttackSceneF = true;
 		if (EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetFbxTime() > 2.0f) {
 			CameraDis += 1.5f;
 		}
 		Feed::GetInstance()->Update_White(Feed::FEEDIN);
-		if (Feed::GetInstance()->GetAlpha() >= 1.0f) {
+		if (Feed::GetInstance()->GetAlpha() >= 0.9f) {
 			Tstate = PLAYER;
 		}
+
 		break;
 	default:
 		break;
@@ -261,5 +238,66 @@ void CameraControl::BossSceneStart()
 
 	camera->SetTarget({ BossPos.x, BossPos.y + BCutCameraHeight, BossPos.z });
 	camera->SetEye(CameraPosition);
+}
+
+
+void CameraControl::PlaySceneStart()
+{
+	switch (sCamera)
+	{
+	case PLAYCUTSTART:
+		Feed::GetInstance()->Update_White(Feed::FEEDOUT);
+
+		if (Feed::GetInstance()->GetAlpha() <= 0.9f) {
+			sCamera = SPLINE;
+		}
+		break;
+	case SPLINE:
+		
+		nowCount = GetTickCount64();
+		elapsedCount = nowCount - startCount;
+		 elapsedTime = static_cast<float>(elapsedCount) / 1000.0f;
+
+		timerate = elapsedTime / maxtime;
+		if (timerate >= 1) {
+			if (startindex < points.size() - 3)
+			{
+				startindex++;
+				timerate -= 1;
+
+				startCount = GetTickCount64();
+			} else
+			{
+				timerate = 1;
+			}
+		}
+
+		camera->SetEye(SplinePosition(points, startindex, timerate));
+
+		//カメラが一定距離近づいたらフェード
+		if (Collision::GetLength(camera->GetEye(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 50) {
+			Feed::GetInstance()->Update_Black(Feed::FEEDIN);
+		}
+		else {
+			Feed::GetInstance()->Update_Black(Feed::FEEDOUT);
+		}
+
+		if (Feed::GetInstance()->GetAlpha() >= 1.0f) {
+			sCamera = PLAYCUTEND;
+		}
+		break;
+
+	case PLAYCUTEND:
+		this->camera->SetEye(CameraPosition);
+		Feed::GetInstance()->Update_Black(Feed::FEEDOUT);
+		if (Feed::GetInstance()->GetAlpha() <= 0.0f) {
+			Tstate = PLAYER;
+		}
+		break;
+	default:
+		break;
+	}
+	this->camera->SetTarget({ PlayerControl::GetInstance()->GetPlayer()->GetPosition() });
+
 }
 

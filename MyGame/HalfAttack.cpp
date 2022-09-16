@@ -64,9 +64,11 @@ void HalfAttack::ActionJudg()
 			Nail::GetInstance()->SetEndAction_Half(false);
 		}
 		if ( Area == LEFT) {
+			DamageJudg_Left();
 			Nail::GetInstance()->HalfAttack(Nail::RIGHT);
 		}
 		else if (Area == RIGHT) {
+			DamageJudg_Right();
 			Nail::GetInstance()->HalfAttack(Nail::LEFT);
 		}
 		TexAlpha -= 0.02f;
@@ -154,4 +156,22 @@ void HalfAttack::TurnCenter()
 					EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetPosition().y,
 					EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetPosition().z + move.m128_f32[2] }
 		);
+}
+
+void HalfAttack::DamageJudg_Left()
+{
+	float Bpos = EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetPosition().x;
+	float Ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition().x;
+	if (Ppos >= Bpos) {
+		PlayerControl::GetInstance()->GetPlayer()->RecvDamage(20);
+	}
+}
+
+void HalfAttack::DamageJudg_Right()
+{
+	float Bpos = EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetPosition().x;
+	float Ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition().x;
+	if (Ppos <= Bpos) {
+		PlayerControl::GetInstance()->GetPlayer()->RecvDamage(20);
+	}
 }

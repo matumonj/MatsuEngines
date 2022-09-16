@@ -65,6 +65,8 @@ void Player::Update(DebugCamera* camera)
 
 	RotationStatus();
 	
+	RecvDamage_Cool();
+
 	Scale={ 0.02, 0.02f, 0.02f};
 	//移動ベクトルをy軸周りの角度で回転
 	XMVECTOR move = { 0.0f,0.0f,0.1f,0.0f };
@@ -185,7 +187,7 @@ void Player::ImguiDraw()
 	//	ReturnGround = false;
 	//}
 
-	ImGui::End();
+	//ImGui::End();
 }
 
 void Player::FbxAnimationControl()
@@ -226,8 +228,20 @@ XMMATRIX Player::GetMatrot()
 
 void Player::RecvDamage(int Damage)
 {
+	if (CoolTime != 0)return;
 	if (!HUD::GetInstance()->GetRecvDamageFlag()) {
 		HUD::GetInstance()->SetRecvDamageFlag(true);//プレイヤーHPのHUD用
 }
 	HP = HP - Damage;
+}
+
+void Player::RecvDamage_Cool()
+{
+	if (HUD::GetInstance()->GetRecvDamageFlag()) {
+		CoolTime = 120;
+	}
+	CoolTime--;
+
+	CoolTime = min(CoolTime, 120);
+	CoolTime = max(CoolTime, 0);
 }

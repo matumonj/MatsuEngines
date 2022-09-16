@@ -323,5 +323,5 @@ void DirectXCommon::ImguiDraw()
 		//imgui_turnoff_draw = false;
 	//}
 		
-	ImGui::End();
+	//ImGui::End();
 }

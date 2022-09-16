@@ -2,6 +2,7 @@
 #include"SceneManager.h"
 #include"TutorialSprite.h"
 #include"PlayerAttackState.h"
+#include"AttackCollision.h"
 PlayerControl* PlayerControl::GetInstance()
 {
 	static PlayerControl instance;
@@ -17,13 +18,12 @@ void PlayerControl::Load(DebugCamera* camera)
 	player = std::make_unique<Player>();
 	player->Initialize(camera);
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
-		player->SetPosition({ 92,2,-760 });
+		player->SetPosition({ 92.0f,2.0f,-760.0f });
 	} else if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
-
-		player->SetPosition({ 110,5,-379 });
+		player->SetPosition({ 110.0f,5.0f,-379.0f });
 	}
 	else if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
-		player->SetPosition({ 0,2,-70 });
+		player->SetPosition({ 0.0f,2.0f,-70.0f });
 	}
 }
 
@@ -32,23 +32,18 @@ void PlayerControl::Initialize(DebugCamera* camera)
 	player = std::make_unique<Player>();
 	player->Initialize(camera);
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
-		player->SetPosition({92,2,-760});
+		player->SetPosition({92.0f,2.0f,-760.0f});
 	}
 	else if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
-		player->SetPosition({ 110,5,-379 });
+		player->SetPosition({ 110.0f,5.0f,-379.0f });
 	}
+	AttackCollision::GetInstance()->Init();
 }
 
 void PlayerControl::Update(DebugCamera* camera)
 {
-	//player->SetPosition({ 92,-27,-760 });
-	//player->SetPosition({ 92,-27,-760 });
-	//PlayerAttackState::GetInstance()->Update();
-	//PlayerControl::GetInstance()->GetPlayer()->Update(camera);
-	//if (player != nullptr) {
 		player->Update(camera);
-	//}
-
+		PlayerAttackState::GetInstance()->Update();
 }
 
 void PlayerControl::Draw()

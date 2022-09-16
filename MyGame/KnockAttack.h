@@ -13,7 +13,7 @@ private:
 	using XMVECTOR = DirectX::XMVECTOR;
 private:
 	Texture* KnockTex;
-	bool fase1,fase2;
+
 	int AttackCount;
 	float TexAlpha = 1.0f;
 	float AfterPositionZ;
@@ -24,5 +24,19 @@ public:
 	void Initialize();
 	void Draw();
 	void ActionJudg();
+
+public:
+	enum Fase {
+		FASENON,
+		FASEONE,
+		FASETWO,
+		FASETHREE,
+		FASEFOUR
+	};
+	Fase GetFase() { return fase; }
+	void SetAttackFase(bool f) { if (f && fase != FASEONE) { fase = FASEONE; } }
+
+private:
+	Fase fase;
 };
 

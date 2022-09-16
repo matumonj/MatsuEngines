@@ -11,6 +11,7 @@
 #include"HalfAttack.h"
 #include"CircleAttack.h"
 #include"BossEnemyDeath.h"
+#include"KnockAttack.h"
 void BossEnemyFollow::Initialize(Enemy* enmey)
 {
 
@@ -70,6 +71,7 @@ void BossEnemyFollow::Update(Enemy* enemy)
 	AttackSelect(enemy, Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) <= 60.0f, enemy->HALF_1);
 	AttackSelect(enemy, Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) <= 40.0f, enemy->CIRCLE_1);
 	AttackSelect(enemy, Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) <= 20.0f, enemy->HALF_2);
+	AttackSelect(enemy, Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) <= 50.0f, enemy->KNOCK);
 	if (enemy->GetHP() <= 0.0f) {
 		enemy->ChangeState_Boss(new BossEnemyDeath());
 	}
@@ -101,6 +103,7 @@ void BossEnemyFollow::AttackStart(Enemy* enemy, int num)
 		CircleAttack::GetInstance()->SetAttackFase(true);
 		break;
 	case enemy->KNOCK:
+		KnockAttack::GetInstance()->SetAttackFase(true);
 		break;
 	case enemy->HALF_1:
 		HalfAttack::GetInstance()->SetAttackFase(true);
@@ -128,6 +131,9 @@ void BossEnemyFollow::AttackType(Enemy* enemy, int num)
 		}
 		break;
 	case enemy->KNOCK:
+		if (KnockAttack::GetInstance()->GetFase() != KnockAttack::FASETHREE) {
+			enemy->ChangeState_Boss(new BossEnemyAttackKnock());
+		}
 		break;
 	case enemy->HALF_1:
 		if (HalfAttack::GetInstance()->GetFaseEnd() != HalfAttack::FASEFOUR) {

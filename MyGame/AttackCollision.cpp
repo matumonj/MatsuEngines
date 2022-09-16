@@ -39,7 +39,7 @@ void AttackCollision::GetCol(int damage)
 	HandObb.m_NormaDirect[2] = { PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[2].m128_f32[0], PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[2].m128_f32[1], PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[2].m128_f32[2] };
 	HandObb.m_fLength[0] = 3;//x•ûŒü‚Ì’·‚³
 	HandObb.m_fLength[1] = 3;//y•ûŒü‚Ì’·‚³
-	HandObb.m_fLength[2] = 10;//z•ûŒü‚Ì’·‚³
+	HandObb.m_fLength[2] = 15;//z•ûŒü‚Ì’·‚³
 
 	switch (SceneManager::GetInstance()->GetScene())
 	{

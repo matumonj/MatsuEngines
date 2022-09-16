@@ -54,8 +54,6 @@ public:
 	void Update()override;
 	void Draw()override;
 	void LoadParam(DebugCamera* camera);
-	void SpriteDraw();
-	void ImGuiDraw();
 	void Finalize()override;
 public:
 	//エフェクト用(ただプログラムでつくれるものはプログラムで作る方がいい　多用はいくない)
@@ -72,7 +70,7 @@ private:
 	float CameraHeight = 9;
 	private:
 		//デバッグ用変数 後々消すやつ
-		bool LoadEnemy;
+		bool Load;
 		bool turnoff_player;
 		bool turnoff_enemy;
 

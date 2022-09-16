@@ -103,7 +103,7 @@ private:
 	float CameraHeight = 9;
 private:
 	//デバッグ用変数 後々消すやつ
-	bool LoadEnemy;
+	bool Load;
 	bool turnoff_player;
 	bool turnoff_enemy;
 

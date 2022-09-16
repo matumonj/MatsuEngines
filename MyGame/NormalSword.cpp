@@ -15,9 +15,9 @@ void NormalSword::Initialize(DebugCamera* camera)
 	m_Object->Initialize(camera);
 	m_Object->SetModel(m_Model);
 
-	Scale = { 1,1,1 };
+	Scale = { 1.0f,1.0f,1.0f };
 
-	Rotation = { 0,0 + 30,0 + 100 };
+	Rotation = { 0.0f,0.0f + 30.0f,0.0f + 100.0f };
 	DamageArea.scale = Radius;
 }
 

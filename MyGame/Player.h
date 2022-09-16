@@ -33,6 +33,8 @@ public:
 public:
 	//受攻撃
 	void RecvDamage(int Damage);
+	//
+	void RecvDamage_Cool();
 	//fbxtime制御
 	void FbxAnimationControl();
 
@@ -59,6 +61,8 @@ private:
 	//体力周り
 	int HP;
 	const int MaxHP = 100;
+	//
+	int CoolTime;
 	//プレイヤーの回転用
 	enum class RotationPrm {
 		RIGHT,//右

@@ -30,8 +30,8 @@ void Tutorial::objUpdate(DebugCamera* camera)
 {
 	//カメラの注視点をプレイヤーにセット
 	CameraControl::GetInstance()->SetCameraState(CameraControl::PLAYER);
-	if (!LoadEnemy && !Play) {
-		LoadEnemy = true;
+	if (!Load && !Play) {
+		Load = true;
 	}
 	if (Play) {//csvからの読み込み終わってから更新処理
 		//1->Player  0->Camera カメラの注視点Playerに合わすのでPlayerが先
@@ -42,8 +42,6 @@ void Tutorial::objUpdate(DebugCamera* camera)
 				AllObjectControl[i]->Update(CameraControl::GetInstance()->GetCamera());
 			}
 		}
-		PlayerAttackState::GetInstance()->Update();
-		KnockAttack::GetInstance()->ActionJudg();
 		UI::GetInstance()->HUDUpdate(hudload, CameraControl::GetInstance()->GetCamera());
 		}
 
@@ -68,23 +66,24 @@ void Tutorial::Initialize()
 	for (int i = 0; i < AllObjectControl.size(); i++) {//初期化
 		AllObjectControl[i]->Initialize(CameraControl::GetInstance()->GetCamera());
 	}
-	KnockAttack::GetInstance()->Initialize();
-	AttackCollision::GetInstance()->Init();
+
 	// 3Dオブジェクトにカメラをセット
 	Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
-
 	//カメラをセット
 	f_Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
 	//グラフィックパイプライン生成
 	f_Object3d::CreateGraphicsPipeline();
 
+	Feed::GetInstance()->initialize();
 	UI::GetInstance()->Initialize();
+
 	SistemConfig::GetInstance()->Initialize();
+
 	Field::GetInstance()->Initialize(CameraControl::GetInstance()->GetCamera());
+	
 	postEffect = new PostEffect();
 	postEffect->Initialize();
-	Feed::GetInstance()->initialize();
-
+	
 }
 #pragma endregion
 
@@ -109,9 +108,9 @@ void Tutorial::Update()
 		c_postEffect = Default;
 	}
 	if (Feed::GetInstance()->GetAlpha() >= 1.0f) {//画面真っ白なったら
-		BaseScene* scene = new PlayScene(sceneManager_);//次のシーンのインスタンス生成
+		BaseScene* scene = new BossScene(sceneManager_);//次のシーンのインスタンス生成
 		Play = false;
-		SceneManager::GetInstance()->SetScene(SceneManager::PLAY);
+		SceneManager::GetInstance()->SetScene(SceneManager::BOSS);
 		sceneManager_->SetnextScene(scene);//シーンのセット
 	}
 
@@ -160,7 +159,6 @@ void Tutorial::Draw()
 
 		DirectXCommon::GetInstance()->BeginDraw();
 		MyGameDraw();
-		KnockAttack::GetInstance()->Draw();
 		UI::GetInstance()->HUDDraw();
 		Feed::GetInstance()->Draw();
 		SistemConfig::GetInstance()->Draw();
@@ -230,13 +228,13 @@ void Tutorial::ImGuiDraw()
 
 bool Tutorial::LoadParam(DebugCamera* camera)
 {
-	if (LoadEnemy) {
+	if (Load) {
 		for (int i = 0; i < AllObjectControl.size(); i++) {
 			AllObjectControl[i]->Load(CameraControl::GetInstance()->GetCamera());
 		}
 		hudload = true;
 		Play = true;
-		LoadEnemy = false;
+		Load = false;
 	}
 	return true;
 }

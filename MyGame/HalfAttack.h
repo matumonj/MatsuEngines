@@ -32,6 +32,8 @@ private:
 	XMFLOAT3 PlayerPos;
 	XMFLOAT3 BossEnemyPos;
 
+	void DamageJudg_Left();
+	void DamageJudg_Right();
 public:enum Fase {
 	FASENON,
 	FASEONE,

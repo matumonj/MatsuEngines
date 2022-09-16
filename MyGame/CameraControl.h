@@ -21,7 +21,7 @@ public:
     enum TargetState {
         PLAYER,
         TUTORIAL,
-        SPLINE,
+        PLAYCUTSCENE,
         BOSSCUTSCENE
     };
 private:
@@ -29,7 +29,7 @@ private:
     DebugCamera*camera;
     int pointsindex = 6;
     std::vector<XMFLOAT3>p;
-   
+    float elapsedTime;
     XMFLOAT3 pos1;
     XMFLOAT3 pos2;
     size_t startindex = 1;
@@ -67,17 +67,29 @@ public:
 
 private:
     bool BossCutSene = false;
-    enum BossCamera {
-        START,
+    enum BossCamera {//ボス登場時のカメラ挙動
+        BOSSCUTSTART,
         ROLL,
-        END,
+        BOSSCUTEND,
     };
+    enum SplineCamera {//フィールドざっくりと見回すカメラ挙動
+        PLAYCUTSTART,
+        SPLINE,
+        FEED,
+        PLAYCUTEND
+    };
+    BossCamera bCamera;
+    SplineCamera sCamera;
+
+private:
     int CutCount[3]={0};
     float BossCutAngle = 270.0f;
-    BossCamera bCamera;
     bool AttackSceneF = false;
     float BCutCameraHeight = 5.0f;
 public:
-    void BossSceneStart();
     bool GetAttackSceneF() { return AttackSceneF; }
+
+private:
+    void BossSceneStart();
+    void PlaySceneStart();
 };

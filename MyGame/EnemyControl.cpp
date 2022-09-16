@@ -180,9 +180,7 @@ void EnemyControl::Draw()
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
 		for (int i = 0; i < Quantity; i++) {
 			if (enemys[i] != nullptr) {
-
 				enemys[i]->Draw();
-			//	enemys[i]->SearchDraw();
 			}
 		}
 	}

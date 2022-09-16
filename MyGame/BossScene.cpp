@@ -27,47 +27,46 @@ BossScene::BossScene(SceneManager* sceneManager)
 
 void BossScene::Initialize()
 {
-	nails = new Nail();
-	input = Input::GetInstance();
+	//各オブジェクトの初期化
 	if (AllObjectControl.size() == 0) {//各オブジェクトインスタンスぶちこむ
 		AllObjectControl.push_back(CameraControl::GetInstance());
 		AllObjectControl.push_back(PlayerControl::GetInstance());
 		AllObjectControl.push_back(EnemyControl::GetInstance());
 	}
-	for (int i = 0; i < AllObjectControl.size(); i++) {//初期化
+	for (int i = 0; i < AllObjectControl.size(); i++) {
 		AllObjectControl[i]->Initialize(CameraControl::GetInstance()->GetCamera());
 	}
-	AttackCollision::GetInstance()->Init();
-	TargetMarker::GetInstance()->Initialize();
+
+	Field::GetInstance()->Initialize(CameraControl::GetInstance()->GetCamera());
+	
+	//ボス攻撃用->できれば移す
 	KnockAttack::GetInstance()->Initialize();
 	CircleAttack::GetInstance()->Initialize();
 	HalfAttack::GetInstance()->Initialize();
+	Nail::GetInstance()->ModelSet();
+
 	// 3Dオブジェクトにカメラをセット
 	Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
-
 	//カメラをセット
 	f_Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
 	//グラフィックパイプライン生成
 	f_Object3d::CreateGraphicsPipeline();
-
-	UI::GetInstance()->Initialize();
-	SistemConfig::GetInstance()->Initialize();
 	
-	Field::GetInstance()->Initialize(CameraControl::GetInstance()->GetCamera());
 	postEffect = new PostEffect();
 	postEffect->Initialize();
 
 	//カメラ挙動をボスカットシーン
 	CameraControl::GetInstance()->SetCameraState(CameraControl::BOSSCUTSCENE);
 
-	Nail::GetInstance()->ModelSet();
 }
 
 void BossScene::Update()
 {
+	//読み込み
 	if (!LoadEnemy&&!Play) {
 		LoadEnemy = true;
 	}
+
 	SistemConfig::GetInstance()->Update();
 
 	if (Play) {//csvからの読み込み終わってから更新処理
@@ -77,15 +76,10 @@ void BossScene::Update()
 		for (int i = 2; i < AllObjectControl.size(); i++) {
 			AllObjectControl[i]->Update(CameraControl::GetInstance()->GetCamera());
 		}
-
-		AttackCollision::GetInstance()->Update();
-		PlayerAttackState::GetInstance()->Update();
-		KnockAttack::GetInstance()->ActionJudg();
 		Nail::GetInstance()->Update();
 		UI::GetInstance()->HUDUpdate(hudload, CameraControl::GetInstance()->GetCamera());
 		}
 	
-
 	Field::GetInstance()->Update(CameraControl::GetInstance()->GetCamera());
 	//各オブジェクトの更新処理
 	//csv読み込み部分(Cameraの更新後にするのでobjUpdate()挟んでから)
@@ -95,13 +89,11 @@ void BossScene::Update()
 		Feed::GetInstance()->Update_White(Feed::FEEDIN);//白くなります
 	}
 
-
 	if (SistemConfig::GetInstance()->GetConfigJudgMent()) {
 		c_postEffect = Blur;
 	} else {
 		c_postEffect = Default;
 	}
-	
 }
 
 void BossScene::MyGameDraw()
@@ -125,10 +117,13 @@ void BossScene::Draw()
 
 		DirectXCommon::GetInstance()->BeginDraw();
 		postEffect->Draw();
+		//UI
 		if (HUD::GetInstance()->GetLayOutMode()) {
 			UI::GetInstance()->HUDDraw();
 		}
+		//使用剣選択画面
 		SelectSword::GetInstance()->Draw();
+		//設定画面
 		SistemConfig::GetInstance()->Draw();
 		if (DirectXCommon::GetInstance()->GetFullScreen() == false) {
 			ImGuiDraw();
@@ -143,9 +138,11 @@ void BossScene::Draw()
 
 		DirectXCommon::GetInstance()->BeginDraw();
 		MyGameDraw();
+		//ボスの攻撃に使うテクスチャなどの描画->できれば他に移す
 		CircleAttack::GetInstance()->Draw();
 		HalfAttack::GetInstance()->Draw();
 		KnockAttack::GetInstance()->Draw();
+		//UI
 		if (CameraControl::GetInstance()->GetCameraState() != CameraControl::BOSSCUTSCENE) {
 			UI::GetInstance()->HUDDraw();
 		}
@@ -177,35 +174,11 @@ bool BossScene::LoadParam(DebugCamera* camera)
 
 void BossScene::ImGuiDraw()
 {
-	//{
-	//	ImGui::Begin("None");
-	//	if (ImGui::Button("Load", ImVec2(70, 50))) {
-	//		LoadEnemy = true;
-	//	}
-	//	ImGui::End();
-	//}
-	//{//カメラ
-	//	bool defaultPos;
-	//	if (ImGui::RadioButton("DefaultPosition", &defaultPos)) {
-	//		//CameraDis = 25;
-	//		//CameraHeight = 9;
-	//	}
-	//	ImGui::SliderFloat("rotationX", &cameraAngle, -360, 360);
 
-	//	ImGui::End();
-	//}
-	////
-	//{
-	//	unsigned long current_time = timeGetTime();
-	//	float fps = float(count_frame) / (current_time - prev_time) * 1000;
-	//	ImGui::SliderFloat("FPS", &fps, -10, 50);
-	//	count_frame++;
-	//	ImGui::End();
-	//}
 }
 
 void BossScene::Finalize()
 {
 	AllObjectControl.clear();
-
+	Field::GetInstance()->Finalize();
 }

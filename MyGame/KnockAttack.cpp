@@ -15,9 +15,9 @@ KnockAttack* KnockAttack::GetInstance()
 }
 void KnockAttack::Initialize()
 {
-	Texture::LoadTexture(20, L"Resources/Knock.png");
+	Texture::LoadTexture(63, L"Resources/Knock.png");
 
-	KnockTex = Texture::Create(20, {0.0f ,0.0f ,0.0f }, { 100.0f ,100.0f ,1.0f }, { 1.0f ,1.0f ,1.0f ,1.0f });
+	KnockTex = Texture::Create(63, {0.0f ,0.0f ,0.0f }, { 100.0f ,100.0f ,1.0f }, { 1.0f ,1.0f ,1.0f ,1.0f });
 	KnockTex->CreateTexture();
 	KnockTex->SetAnchorPoint({0.5f,0.5f });
 
@@ -25,14 +25,10 @@ void KnockAttack::Initialize()
 
 void KnockAttack::ActionJudg()
 {
-	if (Input::GetInstance()->TriggerButton(Input::GetInstance()->Button_B)) {
-		//fase1 = true;
-	}
-	if (fase1) {
+	if (fase==FASEONE) {
 		BossSpell::GetInstance()->SetStartSpell_KA(true);
 		if (BossSpell::GetInstance()->GetEndSpell_KA()) {//2秒立ったら
-			fase2 = true;//攻撃フェーズsrart
-			fase1 = false;//待機フェーズend
+			fase =FASETWO;//攻撃フェーズsrart
 		}
 		//吹き飛ばし直前に吹き飛ばし後のプレイヤーz座標を設定
 		AfterPositionZ = PlayerControl::GetInstance()->GetPlayer()->GetPosition().z - 50.0f;
@@ -41,9 +37,9 @@ void KnockAttack::ActionJudg()
 		KnockTime = 0.0f;//イージング用カウンタリセット
 	}
 	
-	if (fase2) {
+	if (fase==FASETWO) {
 		if (KnockTime >= 1.0f) {
-			fase2 = false;
+			fase = FASETHREE;
 		}
 		KnockTime += 0.04f;//イージング用カウンタ
 		AttackCount = 0;//攻撃待機時間リセット
@@ -60,9 +56,9 @@ void KnockAttack::ActionJudg()
 		KnockTex->Update(CameraControl::GetInstance()->GetCamera());
 	}
 		KnockTex->SetPosition({ 0.0f ,-18.0f ,0.0f });
-
+		KnockTex->SetColor({ 1.0f,1.0f,1.0f,TexAlpha });
 		KnockTex->SetRotation({ 90.0f , 0.0f ,0.0f });
-		KnockTex->SetScale({ 10.0f ,10.0f ,3.0f });
+		KnockTex->SetScale({ 11.0f ,11.0f ,3.0f });
 	AttackCount = min(AttackCount, 180);
 	AttackCount = max(AttackCount, 0);
 
@@ -72,7 +68,7 @@ void KnockAttack::ActionJudg()
 void KnockAttack::Draw()
 {
 	Texture::PreDraw();
-	if (fase1) {
+	if (fase==FASEONE) {
 		KnockTex->Draw();
 	}
 	Texture::PostDraw();

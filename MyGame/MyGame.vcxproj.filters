@@ -91,9 +91,6 @@
     <Filter Include="Game\UI">
       <UniqueIdentifier>{dd958707-cbce-4c7f-9484-fc9b5fe5c097}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\UI\Config">
-      <UniqueIdentifier>{077ed855-3902-457a-805f-209d6816ad7a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\gameobject\オブジェクト種類">
       <UniqueIdentifier>{6bdd6aec-aa3b-4bcb-adce-b0c79d15222c}</UniqueIdentifier>
     </Filter>
@@ -180,6 +177,9 @@
     </Filter>
     <Filter Include="Game\2d %28DebugTxt  Sprite Texture%29\Particle">
       <UniqueIdentifier>{5c1b134c-f46a-42b5-b391-482ca91b7474}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\UI\Config">
+      <UniqueIdentifier>{077ed855-3902-457a-805f-209d6816ad7a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

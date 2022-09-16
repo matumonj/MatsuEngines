@@ -150,8 +150,6 @@ void FenceControl::Update(DebugCamera* camera)
 
 void FenceControl::Draw()
 {
-	//if (fences[0].get() == nullptr)return;
-	//if (fences[0].get() != nullptr) {
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
 
 		for (int i = 0; i < Quantity; i++) {
@@ -165,7 +163,6 @@ void FenceControl::Draw()
 			Tutorialfence[0]->Draw();
 		}
 	}
-	//}
 }
 
 void FenceControl::ImGuiDraw()
