@@ -19,6 +19,8 @@ private:
 	using XMVECTOR = DirectX::XMVECTOR;
 
 	Sprite* PlayerHP;
+	Sprite* PlayerHPFrame;
+	Sprite* PlayerHPFrame2;
 	float PlayerHPSize;
 	float OldPlayerHPSize;
 	bool RecvDamageflag;
@@ -38,25 +40,28 @@ public:
 	void Initialize();
 	void Update();
 	void Draw();
-public://“G‘Ì—Í‚ÌHUD
-	Sprite* EnemyHP_Border;
-	Sprite* EnemyHP_Inner;
+
 	void EnemyHPGaugeInitialize();
 	void EnemyHPGaugeUpdate(std::vector<std::unique_ptr<Enemy>>& enemy);
 	void EnemyHPGaugeDraw();
+public://“G‘Ì—Í‚ÌHUD
+	Sprite* EnemyHP_Border;
+	Sprite* EnemyHP_Inner;
 	Sprite* TaskSprite;
 	float taskAlpha = 0;
 	XMFLOAT2 taskSpriteSize;
 	bool taskfeed;
 	std::vector<Texture*> EnemyHP_Border_Multi;
 	std::vector<Texture*>EnemyHP_Inner_Multi;
-	void EnemyHPGauge_MultiInitialize();
-	void EnemyHPGauge_MultiUpdate(bool& loadf,DebugCamera*camera, std::vector<std::unique_ptr<Enemy>>& enemy);
-	void EnemyHPGauge_MultiDraw();
 public:
+	void EnemyHPGauge_MultiInitialize();
+	void EnemyHPGauge_MultiUpdate(bool& loadf, DebugCamera* camera, std::vector<std::unique_ptr<Enemy>>& enemy);
+	void EnemyHPGauge_MultiDraw();
 	XMFLOAT2 GetCenterPosition() { return CenterPosition; }
 	void SetCenterPosition(XMFLOAT2 pos) { CenterPosition = pos; }
 	Sprite* GetSkillButton() { return FirstAttackSprite; }
+	int GetCoolTime() { return CoolTime_Time; }
+private:
 	XMFLOAT2 CenterPosition = {1050,500};
 	Sprite* coolDownSprite[4];
 	Sprite* FirstAttackSprite;
@@ -65,6 +70,7 @@ public:
 	Sprite* BuffSprite;
 
 	XMFLOAT2 CooltimeSize;
+public:
 	void SkillButtonInitialize();
 	void SkillBottonUpdate();
 	void TaskUpdate(DebugCamera* camera);
@@ -73,6 +79,7 @@ public:
 	void AreaName();
 	void SetRecvDamageFlag(bool f) { RecvDamageflag = f; }
 	bool GetRecvDamageFlag() { return RecvDamageflag; }
+private:
 	bool f;
 	float nowhp;
 	XMFLOAT2 sizel;

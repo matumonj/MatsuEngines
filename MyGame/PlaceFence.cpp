@@ -84,6 +84,9 @@ void PlaceFence::Draw()
 void PlaceFence::ImGui_Draw()
 {
 	ImGui::Begin("Fence");
+	ImGui::SetWindowPos(ImVec2(900, 500));
+	ImGui::SetWindowSize(ImVec2(300, 300));
+
 	if (ImGui::Button("Fence", ImVec2(90, 50))) {
 		ArgmentFlag = true;
 	}

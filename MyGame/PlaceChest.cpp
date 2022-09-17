@@ -80,6 +80,9 @@ void PlaceChest::Draw()
 void PlaceChest::ImGui_Draw()
 {
 	ImGui::Begin("Chest");
+	ImGui::SetWindowPos(ImVec2(600, 500));
+	ImGui::SetWindowSize(ImVec2(300, 300));
+
 	if (ImGui::Button("Chest", ImVec2(90, 50))) {
 		ArgmentFlag = true;
 	}

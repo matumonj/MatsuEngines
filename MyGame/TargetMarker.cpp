@@ -26,7 +26,6 @@ void TargetMarker::Initialize()
 
 bool TargetMarker::GetEnemyPosition(std::vector<std::unique_ptr<Enemy>>& enemy, int index, float* x, float* y, float* z)
 {
-	float tempx, tempy, tempz;
 	if (enemy[index] == nullptr||enemy[index]->GetHP()<0) {
 	
 		return false;

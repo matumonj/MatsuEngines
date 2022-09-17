@@ -67,7 +67,7 @@ void Player::Update(DebugCamera* camera)
 	
 	RecvDamage_Cool();
 
-	Scale={ 0.02, 0.02f, 0.02f};
+	Scale={ 0.02f, 0.02f, 0.02f};
 	//移動ベクトルをy軸周りの角度で回転
 	XMVECTOR move = { 0.0f,0.0f,0.1f,0.0f };
 	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(Rotation.y));
@@ -187,12 +187,12 @@ void Player::ImguiDraw()
 void Player::FbxAnimationControl()
 {
 	const float timespeed = 0.02f;
-	if (HUD::GetInstance()->GetSpriteSize(0) <=10.0f) {//このやり方あとで消す
 
 	if (CustomButton::GetInstance()->GetAttackAction() == true) {
+		if (HUD::GetInstance()->GetCoolTime() == 1.0f) {//クールスプライトのサイズ０（剣のクールダウン終わり）なったら　後でやり方変える
 			AttackFlag = true;
 		}
-		}
+	}
 	if (AttackFlag) {
 		f_time = AttackTime;
 		AttackFlag = false;

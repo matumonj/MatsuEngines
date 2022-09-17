@@ -64,10 +64,7 @@ struct AABB
 
 struct Box
 {
-	DirectX::XMFLOAT2 LUposition;
-	DirectX::XMFLOAT2 LBposition;
-	DirectX::XMFLOAT2 RUposition;
-	DirectX::XMFLOAT2 RBposition;
+	DirectX::XMFLOAT2 position;
 	DirectX::XMFLOAT2 scale;
 };
 

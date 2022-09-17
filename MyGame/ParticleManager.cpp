@@ -242,13 +242,13 @@ bool ParticleManager::InitializeGraphicsPipeline()
 	D3D12_RENDER_TARGET_BLEND_DESC blenddesc{};
 	blenddesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;	// RBGA全てのチャンネルを描画
 	blenddesc.BlendEnable = true;
-	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;
-	//blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;
-	//blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
-	//加算合成
 	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;
-	blenddesc.SrcBlend = D3D12_BLEND_ONE;
-	blenddesc.DestBlend = D3D12_BLEND_ONE;
+	blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;
+	blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
+	//加算合成
+	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;
+	//blenddesc.SrcBlend = D3D12_BLEND_ONE;
+	//blenddesc.DestBlend = D3D12_BLEND_ONE;
 	//デプスの書き込みを禁止
 	gpipeline.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
 
@@ -541,7 +541,7 @@ const DirectX::XMFLOAT3 operator+(const DirectX::XMFLOAT3& lhs, const DirectX::X
 	result.z = lhs.z + rhs.z;
 	return result;
 }
-void ParticleManager::Update()
+void ParticleManager::Update(ParticleType type)
 {
 	HRESULT result;
 	//寿命が尽きた物を削除
@@ -550,22 +550,13 @@ void ParticleManager::Update()
 			return x.frame >= x.num_frame;
 		}
 	);
-
-	//全パーティクル更新
-	for (std::forward_list<Particle>::iterator it = particles.begin();
-		it != particles.end(); it++) {
-		//経過フレーム数をカウント
-		it->frame++;
-		//速度に加速度を加算
-		it->velocity = it->velocity + it->accel;
-		//速度による移動
-		it->position = it->position + it->velocity;
-		float f = (float)it->num_frame / it->frame;
-		it->scale = (it->e_scale - it->s_scale) / f;
-		it->scale += it->s_scale;
-		//it->colors =XMFLOAT4(0,0,0,1) ;
+	if (type == NORMAL) {
+		Normal();
 	}
-
+	else if (type == ABSORPTION) {
+		Absorption();
+	}
+	
 	//頂点バッファへデータ転送
 
 	VertexPos* vertMap = nullptr;
@@ -632,3 +623,43 @@ void ParticleManager::Add(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOA
 	p.num_frame = life;
 }
 
+void ParticleManager::Absorption()
+{
+	//全パーティクル更新
+	for (std::forward_list<Particle>::iterator it = particles.begin();
+		it != particles.end(); it++) {
+		//経過フレーム数をカウント
+		it->frame++;
+
+		//速度に加速度を加算
+		if (it->frame < 60) {
+			it->velocity_old = it->velocity;
+			it->velocity = it->velocity + it->accel;
+		} else {
+			it->velocity = { it->velocity_old.x * -1 - it->accel.x ,it->velocity_old.y * -1 - it->accel.y,it->velocity_old.z };
+		}
+		//速度による移動
+		it->position = it->position + it->velocity;
+		float f = (float)it->num_frame / it->frame;
+		it->scale = (it->e_scale - it->s_scale) / f;
+		it->scale += it->s_scale;
+		//it->colors =XMFLOAT4(0,0,0,1) ;
+	}
+}
+void ParticleManager::Normal()
+{
+	//全パーティクル更新
+	for (std::forward_list<Particle>::iterator it = particles.begin();
+		it != particles.end(); it++) {
+		//経過フレーム数をカウント
+		it->frame++;
+		it->velocity = it->velocity + it->accel;
+		//速度による移動
+		it->position = it->position + it->velocity;
+		float f = (float)it->num_frame / it->frame;
+		it->scale = (it->e_scale - it->s_scale) / f;
+		it->scale += it->s_scale;
+		//it->colors =XMFLOAT4(0,0,0,1) ;
+	}
+
+}

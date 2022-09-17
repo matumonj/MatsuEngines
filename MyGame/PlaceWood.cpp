@@ -80,6 +80,9 @@ void PlaceWood::Draw()
 void PlaceWood::ImGui_Draw()
 {
 	ImGui::Begin("SelectWood");
+	ImGui::SetWindowPos(ImVec2(300, 500));
+	ImGui::SetWindowSize(ImVec2(300, 300));
+
 	if (ImGui::Button("Wood", ImVec2(90, 50))) {
 		ArgmentFlag = true;
 	}

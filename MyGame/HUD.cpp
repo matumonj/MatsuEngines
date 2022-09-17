@@ -30,13 +30,22 @@ HUD* HUD::GetInstance()
 void HUD::Initialize()
 {
 	Sprite::LoadTexture(143, L"Resources/quest.png");
-	Sprite::LoadTexture(120, L"Resources/bosshp.png");
+	Sprite::LoadTexture(144, L"Resources/HPTex/HPgauge.png");
+	Sprite::LoadTexture(145, L"Resources/HPTex/frame.png");
+	Sprite::LoadTexture(146, L"Resources/HPTex/frame2.png");
 	TaskSprite= Sprite::Create(143, { 0.0f,-200.0f });
 	TaskSprite->SetPosition({ WinApp::window_width/2,WinApp::window_height/2 });
 	TaskSprite->SetAnchorPoint({ 0.5,0.5 });
-		PlayerHP = Sprite::Create(120, { 0.0f,-200.0f });
-	PlayerHP->SetPosition({ 100,100 });
-	
+	PlayerHP = Sprite::Create(144, { 0.0f,-200.0f });
+	PlayerHP->SetPosition({ 70,50 });
+
+	PlayerHPFrame = Sprite::Create(145, { 0.0f,-200.0f });
+	PlayerHPFrame->SetPosition({ 70,50 });
+
+	PlayerHPFrame2 = Sprite::Create(146, { 0.0f,-200.0f });
+	PlayerHPFrame2->SetPosition({ 70,50 });
+
+
 	Sprite::LoadTexture(121, L"Resources/bosshp.png");
 	Sprite::LoadTexture(20, L"Resources/jump.png");
 	Sprite::LoadTexture(21, L"Resources/attack.png");
@@ -135,6 +144,7 @@ void HUD::SkillBottonUpdate()
 	coolDownSprite[2]->SetPosition({ CenterPosition.x - 100 + 120,CenterPosition.y + 120 });
 	coolDownSprite[3]->SetPosition({ CenterPosition.x + 120,CenterPosition.y - 100 + 120 });
 
+	//各剣のクールタイム参照
 	TimeSpeed = 1.0f/SelectSword::GetInstance()->GetSword()->GetCoolTime();
 	if (CoolTime_Time >= 1.0f) {
 		if (CustomButton::GetInstance()->GetAttackAction()) {
@@ -172,7 +182,11 @@ void HUD::SkillBottonUpdate()
 		easetime = 0.0f;
 		OldPlayerHPSize = PlayerControl::GetInstance()->GetPlayer()->GetHP();
 	}
-	PlayerHP->SetSize({ PlayerHPSize ,100 });
+	PlayerHP->SetSize({ PlayerHPSize ,50 });
+
+	PlayerHPFrame->SetSize({ (float)PlayerControl::GetInstance()->GetPlayer()->GetMaxHP()*7.0f ,50.0f });
+
+	PlayerHPFrame2->SetSize({ (float)PlayerControl::GetInstance()->GetPlayer()->GetMaxHP() * 7.0f ,50.0f });
 }
 
 void HUD::TaskUpdate(DebugCamera* camera)
@@ -282,7 +296,9 @@ void HUD::SkillBottonDraw()
 	BuffSprite->Draw();
 	SecondAttackSprite->Draw();
 
+	PlayerHPFrame2->Draw();
 	PlayerHP->Draw();
+	PlayerHPFrame->Draw();
 	for (int i = 0; i < 4; i++) {
 		coolDownSprite[i]->Draw();
 	}

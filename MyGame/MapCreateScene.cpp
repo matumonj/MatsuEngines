@@ -154,6 +154,11 @@ void MapCreateScene::Draw()
 void MapCreateScene::ImGuiDraw()
 {
 	MapCreate::GetInstance()->ImGuiDraw();
+
+	ImGui::Begin("SelectScene");
+	ImGui::SetWindowPos(ImVec2(600, 800));
+	ImGui::SetWindowSize(ImVec2(200, 250));
+
 	if (ImGui::RadioButton("Scene_Create", t)) {
 		BaseScene* scene = new PlayScene(sceneManager_);//次のシーンのインスタンス生成
 		sceneManager_->SetnextScene(scene);//シーンのセット
@@ -166,6 +171,9 @@ void MapCreateScene::ImGuiDraw()
 
 
 	ImGui::Begin("CameraPosition");
+	ImGui::SetWindowPos(ImVec2(0, 800));
+	ImGui::SetWindowSize(ImVec2(600, 250));
+
 	ImGui::SliderFloat("CameraPosx", &CameraPosition.x, -400, 400);
 	ImGui::SliderFloat("CameraPosy", &CameraPosition.y, -200, 200);
 	ImGui::SliderFloat("CameraPosz", &CameraPosition.z, -800, 500);

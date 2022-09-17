@@ -1,4 +1,5 @@
 #include "Field.h"
+#include"CameraControl.h"
 #include"TouchableObject.h"
 #include"CollisionManager.h"
 #include"SceneManager.h"
@@ -12,10 +13,12 @@ Field::~Field()
 }
 
 void Field::Finalize()
-{delete CelestialSphereModel;
+{
+	Destroy(CelestialSphereModel);
 	Destroy_unique(CelestialSphereObject);
-	delete FieldObject, FieldModel;
-	delete BackM;
+	Destroy(FieldObject);
+	Destroy(FieldModel);
+	Destroy(BackM);
 	Destroy_unique(BackObject);
 
 }
@@ -47,7 +50,7 @@ bool Field::Initialize(DebugCamera* camera)
 
 		//Bossの名前表示用とフィールド外周のダメージエリア通知
 		Sprite::LoadTexture(40, L"Resources/BossName.png");
-		Sprite::LoadTexture(41, L"Resources/bossName.png");
+		Sprite::LoadTexture(41, L"Resources/warning1.png");
 	}
 	else {
 		FieldModel = ModelManager::GetIns()->GetModel(ModelManager::FIELD);
@@ -59,10 +62,18 @@ bool Field::Initialize(DebugCamera* camera)
 	CelestialSphereObject->Initialize(camera);
 	CelestialSphereObject->SetModel(CelestialSphereModel);
 
-	Explanation = Sprite::Create(40, { WinApp::window_width / 2,WinApp::window_height / 2 });
+	//フィールド外周がダメージエリアになる警告スプライト
+	Explanation = Sprite::Create(41, { WinApp::window_width / 2,WinApp::window_height / 2 });
 	Explanation->SetAnchorPoint({ 0.5f,0.5f });
 	Explanation->SetPosition({ WinApp::window_width / 2,WinApp::window_height / 2  });
 	Explanation->SetSize({ 800,800 });
+
+	//ボスのネームプレート
+	BossName = Sprite::Create(40, { WinApp::window_width / 2,WinApp::window_height / 2 });
+	BossName->SetAnchorPoint({ 0.5f,0.5f });
+	BossName->SetPosition({ WinApp::window_width / 2,WinApp::window_height / 2 });
+	BossName->SetSize({ 800,800 });
+
 	return true;
 }
 
@@ -88,15 +99,12 @@ void Field::Update(DebugCamera* camera)
 		CelestialSphereObject->setFog(FALSE);
 	}
 	else if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
-		if (feed) {
-			TexAlpha -= 0.02f;
+
+		SpriteFeed(TexAlpha_BossName, feed_BossName, feedSpeed_BossName, 1.5f);
+		if (CameraControl::GetInstance()->GetCameraState() == CameraControl::PLAYER) {
+			SpriteFeed(t, feed, feedSpeed_Explanation, 2.5f);
 		}
-		else {
-			TexAlpha += 0.005f;
-		}
-		if (TexAlpha >= 1.5f) {
-			feed = true;
-		}
+
 		FieldObject->SetFogCenter({ 0.0f, -20.0f, 0.0f });
 
 		CelestialSphereObject->setFog(TRUE);
@@ -110,24 +118,8 @@ void Field::Update(DebugCamera* camera)
 		DamageAreaObj->SetPosition({ 0.0f,-19.2f,0.0f });
 		DamageAreaObj->Update({ 0.6f,0.6f,0.6f,1.0f }, camera);
 
-		if (PlayerControl::GetInstance()->GetPlayer() != nullptr && TexAlpha <= 0.2f) {
-			Box damagearea;
-			Box player;
-			 Ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
-			damagearea.LBposition = { -60.0f,-60.0f };
-			damagearea.LUposition = { -60.0f,60.0f };
-			damagearea.RUposition = { 60.0f,60.0f };
-			damagearea.RBposition = { 60.0f,-60.0f };
-
-			player.LBposition = { Ppos.x - 1.0f,Ppos.z - 1.0f };
-			player.LUposition = { Ppos.x - 1.0f,Ppos.z + 1.0f };
-			player.RBposition = { Ppos.x + 1.0f,Ppos.z + 1.0f };
-			player.RUposition = { Ppos.x + 1.0f,Ppos.z - 1.0f };
-
-			if (Collision::CheckBox2Box( player,damagearea) == false) {
-				PlayerControl::GetInstance()->GetPlayer()->RecvDamage(10);
-			}
-		}
+		//フィールド外周とプレイヤーの当たり判定(現時点では矩形と点)
+		FieldDamageAreaCol();
 	}
 
 	FieldObject->SetColor({ 0.6f,0.6f,0.6f,1.0f });
@@ -136,8 +128,10 @@ void Field::Update(DebugCamera* camera)
 	CelestialSphereObject->Update({ 1.0f,1.0f,1.0f,1.0f }, camera); 
 
 	
-	TexAlpha = min(TexAlpha, 1.5f);
-	TexAlpha = max(TexAlpha, 0.0f);
+	 t= min(t, 2.5f);
+	t = max(t, 0.0f);
+	TexAlpha_BossName = min(TexAlpha_BossName, 3.0f);
+	TexAlpha_BossName = max(TexAlpha_BossName, 0.0f);
 }
 
 void Field::Draw()
@@ -153,12 +147,45 @@ void Field::Draw()
 		DamageAreaObj->Draw();
 		}
 	Object3d::PostDraw();
-	Explanation->setcolor({ 1.0f,1.0f,1.0f,TexAlpha });
+	Explanation->setcolor({ 1.0f,1.0f,1.0f,t });
+	BossName->setcolor({ 1.0f,1.0f,1.0f,TexAlpha_BossName });
 }
 
 void Field::WarningDraw()
 {
 	Sprite::PreDraw();
+	BossName->Draw();
 	Explanation->Draw();
 	Sprite::PostDraw();
+}
+
+void Field::FieldDamageAreaCol()
+{
+	if (PlayerControl::GetInstance()->GetPlayer() != nullptr && t <= 0.2f) {
+		Box damagearea;
+		Point player;
+		Ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+
+		damagearea.position = { -60.0f,-50.0f };
+		damagearea.scale = { 120.0f,120.0f };
+
+		player.x = Ppos.x;
+		player.y = Ppos.z;
+
+		if (Collision::CheckPoint2Rect(player, damagearea) == false) {
+			PlayerControl::GetInstance()->GetPlayer()->RecvDamage(10);
+		}
+	}
+}
+
+void Field::SpriteFeed(float& alpha, bool& feed, const float feedSpeed, const float MaxAlphaValue)
+{
+	if (feed) {
+		alpha -= 0.02f;
+	} else {
+		alpha+= feedSpeed;
+	}
+	if (alpha >= MaxAlphaValue) {
+		feed = true;
+	}
 }

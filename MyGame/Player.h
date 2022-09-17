@@ -88,7 +88,7 @@ public:
 	void SetCharaRotation(float angle) { Rotation.y = angle; rotate = RotationPrm::FRONT; }
 
 	int GetHP() { return HP; }
-
+	int GetMaxHP() { return MaxHP; }
 private:
 	float f_time;
 	float AttackTime = 1.5f;

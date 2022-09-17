@@ -97,6 +97,9 @@ void PlaceEnemy::Draw()
 void PlaceEnemy::ImGui_Draw()
 {
 	ImGui::Begin("SelectEnemy");
+	ImGui::SetWindowPos(ImVec2(0, 500));
+	ImGui::SetWindowSize(ImVec2(300, 300));
+
 	if (ImGui::Button("AlphaEnemy", ImVec2(90, 50))) {
 		ArgmentFlag = true;
 		Number.push_back(1);
