@@ -52,7 +52,7 @@ void MobEnemy::Initialize(DebugCamera* camera)
 	state_mob->Initialize(this);
 
 	particleMan = ParticleManager::Create();
-	particleMan->Update();
+
 
 }
 
@@ -150,22 +150,26 @@ void MobEnemy::DamageParticleSet()
 	for (int i = 0; i < ParticleSize; i++) {
 		const float rnd_vel = 0.5f;
 		XMFLOAT3 vel{};
-		vel.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-		vel.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-		vel.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-
+		if (particleLife > 60) {
+			vel.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+			vel.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+			vel.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+		} else {
+			vel.x = -1 * vel.x;
+			vel.y = -1 * vel.y;
+		}
 		XMFLOAT3 acc{};
 		const float rnd_acc = 0.001f;
 		acc.y = -(float)rand() / RAND_MAX * rnd_acc;
 
 		//’Ç‰Á
 		if (DamageParticleCreateF) {
-			particleMan->Add(80, { Position.x,Position.y + 10,Position.z }, vel, acc, 3.0f, 0.0f);
+			particlePos = { Position.x,Position.y + 10,Position.z };
+			particleMan->Add(particleLife, particlePos, vel, acc, 3.0f, 0.0f);
 			if (i == ParticleSize - 1) {
 				DamageParticleCreateF = false;
 			}
 		}
-
 	}
-	particleMan->Update();
+		particleMan->Update(particleMan->NORMAL);
 }

@@ -49,7 +49,7 @@ void BossEnemy::Initialize(DebugCamera* camera)
 	state_boss->Initialize(this);
 
 	particleMan = ParticleManager::Create();
-	particleMan->Update();
+	
 }
 
 //XVˆ—
@@ -167,5 +167,5 @@ void BossEnemy::DamageParticleSet()
 		}
 
 	}
-	particleMan->Update();
+	particleMan->Update(particleMan->ABSORPTION);
 }

@@ -43,6 +43,7 @@ public: // サブクラス
 		XMFLOAT3 position = {};
 		//速度
 		XMFLOAT3 velocity = {};
+		XMFLOAT3 velocity_old = {};
 		//加速度
 		XMFLOAT3 accel = {};
 		//現在フレーム
@@ -177,31 +178,6 @@ private:// 静的メンバ関数
 	/// </summary>
 	static void UpdateViewMatrix();
 
-public: // メンバ関数
-	bool Initialize();
-	/// <summary>
-	/// 毎フレーム処理
-	/// </summary>
-	void Update();
-
-	/// <summary>
-	/// 描画
-	/// </summary>
-	void Draw();
-	//パーティクルの追加
-	void Add(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel, float start_scale, float end_scale);
-	/// <summary>
-	/// 座標の取得
-	/// </summary>
-	/// <returns>座標</returns>
-	//const XMFLOAT3& GetPosition() { return position; }
-
-	/// <summary>
-	/// 座標の設定
-	/// </summary>
-	/// <param name="position">座標</param>
-	//void SetPosition(XMFLOAT3 position) { this->position = position; }
-
 private: // メンバ変数
 	ComPtr<ID3D12Resource> constBuff; // 定数バッファ
 	// 色
@@ -211,6 +187,29 @@ private: // メンバ変数
 	
 //パーティクル配列
 	std::forward_list<Particle>particles;
+
+	public:
+		enum ParticleType {
+			NORMAL,
+			ABSORPTION
+		};
+		void Normal();
+		void Absorption();
+
+public: // メンバ関数
+	bool Initialize();
+	/// <summary>
+	/// 毎フレーム処理
+	/// </summary>
+	void Update(ParticleType type);
+
+	/// <summary>
+	/// 描画
+	/// </summary>
+	void Draw();
+	//パーティクルの追加
+	void Add(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel, float start_scale, float end_scale);
+
 };
 
 
