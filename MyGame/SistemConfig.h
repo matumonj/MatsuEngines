@@ -53,6 +53,7 @@ public:
 	//•`‰æ
 	void Draw();
 
+	void Finalize();
 private:
 	Config NowSelectButton();
 	bool EndConfigJudg;

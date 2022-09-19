@@ -49,6 +49,9 @@ void PlayerControl::Update(DebugCamera* camera)
 
 void PlayerControl::Draw()
 {
+	ImGui::Begin("hp");
+	ImGui::Text("hpv  %d", player->GetHP());
+	ImGui::End();
 	if (player!= nullptr) {
 		player->Draw();
 	}

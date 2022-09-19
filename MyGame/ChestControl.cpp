@@ -13,6 +13,7 @@ ChestControl* ChestControl::GetInstance()
 
 void ChestControl::Finalize()
 {
+	Destroy(particleMan);
 	Num.clear();
 	pos.clear();
 	Tutorial_chest.clear();
@@ -94,6 +95,7 @@ if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
 UpdateRange = 200;
 ParticleManager::LoadTexture(4, L"Resources/ParticleTex/normal.png");
 particleMan= ParticleManager::Create(4,L"Resources/ParticleTex/normal.png");
+ChestEvent = NON;
 //particleMan->CreateModel();
 }
 
@@ -108,9 +110,8 @@ void ChestControl::Update(DebugCamera* camera)
 		for (int i = 0; i < Quantity; i++) {
 			if (chests[i] != nullptr) {
 				chests[i]->SetColor({ 1,1,1,1 });
-				//if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), chests[i]->GetPosition()) < UpdateRange) {
 				chests[i]->Update(camera);
-				//}
+				GetChestEvent(chests[i].get());
 			}
 		}
 	}
@@ -118,9 +119,8 @@ void ChestControl::Update(DebugCamera* camera)
 		if (Tutorial_chest[0] != nullptr) {
 			Tutorial_chest[0]->SetColor({ 1,1,1,1 });
 			Tutorial_chest[0]->Update(camera);
-			//}
 			//	Destroy_unique(Tutorial_chest[0]);
-				GetChestEvent();
+			GetChestEvent(Tutorial_chest[0].get());
 		}
 	}
 
@@ -169,10 +169,10 @@ void ChestControl::ChestDestroy()
 	//”jŠüˆ—@I‚í‚Á‚½‚çnullptr
 }
 
-void ChestControl::GetChestEvent()
+void ChestControl::GetChestEvent(Chest* chest)
 {
 	XMFLOAT3 Ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
-	if (ChestEvent == NON&& Collision::GetLength(Ppos, Tutorial_chest[0]->GetPosition()) < 5.0f) {
+	if (ChestEvent == NON&& Collision::GetLength(Ppos, chest->GetPosition()) < 5.0f) {
 		ChestEvent = FEEDIN;
 	}
 	if (ChestEvent==FEEDIN) {
@@ -193,9 +193,9 @@ void ChestControl::GetChestEvent()
 			ChestEvent = GETCHEST;
 		}
 		Feed::GetInstance()->Update_Black(Feed::FEEDOUT);
-		PlayerControl::GetInstance()->GetPlayer()->SetPosition({ Tutorial_chest[0]->GetPosition().x,Ppos.y,Tutorial_chest[0]->GetPosition().z - 25.0f });
+		PlayerControl::GetInstance()->GetPlayer()->SetPosition({ chest->GetPosition().x,Ppos.y,chest->GetPosition().z - 25.0f });
 		CameraControl::GetInstance()->GetCamera()->SetEye({Ppos.x+8.0f,Ppos.y+10.0f,Ppos.z-20.0f});
-		CameraControl::GetInstance()->GetCamera()->SetTarget(Tutorial_chest[0]->GetPosition());
+		CameraControl::GetInstance()->GetCamera()->SetTarget(chest->GetPosition());
 	}
 	else if (ChestEvent ==GETCHEST) {
 		pCount++;
@@ -203,9 +203,9 @@ void ChestControl::GetChestEvent()
 			pCount = 0;
 			ChestEvent = FEEDIN2;
 		}
-		PlayerControl::GetInstance()->GetPlayer()->SetPosition({ Tutorial_chest[0]->GetPosition().x,Ppos.y,Tutorial_chest[0]->GetPosition().z - 25.0f });
+		PlayerControl::GetInstance()->GetPlayer()->SetPosition({ chest->GetPosition().x,Ppos.y,chest->GetPosition().z - 25.0f });
 		CameraControl::GetInstance()->GetCamera()->SetEye({ Ppos.x + 8.0f,Ppos.y + 10.0f,Ppos.z - 20.0f });
-		CameraControl::GetInstance()->GetCamera()->SetTarget(Tutorial_chest[0]->GetPosition());
+		CameraControl::GetInstance()->GetCamera()->SetTarget(chest->GetPosition());
 
 	}
 	else if (ChestEvent == FEEDIN2) {
@@ -216,23 +216,25 @@ void ChestControl::GetChestEvent()
 				ChestEvent = FEEDOUT2;
 			}
 		}
-		PlayerControl::GetInstance()->GetPlayer()->SetPosition({ Tutorial_chest[0]->GetPosition().x,Ppos.y,Tutorial_chest[0]->GetPosition().z - 25.0f });
+		PlayerControl::GetInstance()->GetPlayer()->SetPosition({chest->GetPosition().x,Ppos.y,chest->GetPosition().z - 25.0f });
 		CameraControl::GetInstance()->GetCamera()->SetEye({ Ppos.x + 8.0f,Ppos.y + 10.0f,Ppos.z - 20.0f });
-		CameraControl::GetInstance()->GetCamera()->SetTarget(Tutorial_chest[0]->GetPosition());
+		CameraControl::GetInstance()->GetCamera()->SetTarget(chest->GetPosition());
 
 	}
 	else if (ChestEvent == FEEDOUT2) {
 		Feed::GetInstance()->Update_Black(Feed::FEEDOUT);
 		if (Feed::GetInstance()->GetAlpha() <= 0.0f) {
 			pCount = 0;
+			GetChestCount++;
 			ChestEvent = END;
 		}
 	}
-	GetChestEffect();
+	GetChestEffect(chest);
 }
 
-void ChestControl::GetChestEffect()
+void ChestControl::GetChestEffect(Chest* chest)
 {
+	Tutorial_chest[0]->SetpColor({ 1.0f,0.9f,0.0f,0.7f });
 	const int ParticleSize = 30;
 	for (int i = 0; i < ParticleSize; i++) {
 		const float rnd_vel = 0.5f;

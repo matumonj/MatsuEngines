@@ -6,7 +6,18 @@ CustomButton* CustomButton::GetInstance()
 
 	return &instance;
 }
-
+void CustomButton::Finalize()
+{
+	delete Controller, SelectSprite, ErrorSprite, Custommenu;
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
+			delete ButtonSprite[i][j];
+		}
+	}
+	for (int i = 0; i < 4; i++) {
+		delete MenuSprite[i], ButtonFrame[i];
+	}
+}
 CustomButton::~CustomButton()
 {
 	delete Controller, SelectSprite, ErrorSprite, Custommenu;

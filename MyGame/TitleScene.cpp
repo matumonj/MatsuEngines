@@ -6,6 +6,7 @@
 #include"Tutorial.h"
 #include"Feed.h"
 #include"BossScene.h"
+#include"UI.h"
 TitleScene::TitleScene(SceneManager* sceneManager)
 	:BaseScene(sceneManager)
 {
@@ -22,6 +23,8 @@ void TitleScene::Initialize()
 	Sprite::LoadTexture(4, L"Resources/title2.png");
 	titlesprite2 = Sprite::Create(4, {  WinApp::window_width / 2,0.0f });
 	Feed::GetInstance()->initialize();
+
+	//UI::GetInstance()->Finalize();
 }
 
 /// <summary>

@@ -6,6 +6,11 @@ ConfigSprite* ConfigSprite::GetInstance()
 
 	return &instance;
 }
+void ConfigSprite::Finalize()
+{
+	delete RayOutSprite, EnemyHPSelectSprite;
+	delete MenuSprite, SwordSelectSprite;
+}
 ConfigSprite::~ConfigSprite()
 {
 	delete RayOutSprite, EnemyHPSelectSprite;

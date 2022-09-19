@@ -7,6 +7,14 @@ BossSpell::~BossSpell()
 	delete HalfAttack_Right.SpellFrame, HalfAttack_Right.SpellGauge;
 	delete CircleAttack.SpellFrame, CircleAttack.SpellGauge;
 }
+
+void BossSpell::Finalize()
+{
+	delete HalfAttack_Left.SpellFrame, HalfAttack_Left.SpellGauge;
+	delete HalfAttack_Right.SpellFrame, HalfAttack_Right.SpellGauge;
+	delete CircleAttack.SpellFrame, CircleAttack.SpellGauge;
+}
+
 BossSpell* BossSpell::GetInstance()
 {
 	static BossSpell instance;

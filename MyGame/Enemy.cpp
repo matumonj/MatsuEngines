@@ -51,12 +51,6 @@ void Enemy::EnemyPop(int HP)
 void Enemy::Draw()
 {
 }
-
-void Enemy::Turn_toPlayer()
-{
-	
-}
-
 void Enemy::ChangeState_Mob(EnemyState* state)
 {
 	delete state_mob;

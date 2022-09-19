@@ -15,6 +15,12 @@ SistemConfig::~SistemConfig()
 	delete SelectSprite;
 	//delete configSprite;
 }
+void SistemConfig::Finalize()
+{
+	delete SelectSprite;
+	//delete configSprite;
+	ConfigSprite::GetInstance()->Finalize();
+}
 void SistemConfig::Initialize()
 {
 	input = Input::GetInstance();

@@ -40,10 +40,9 @@ public:
 	void Initialize();
 	void Update();
 	void Draw();
-
+	void Finalize();
 	void EnemyHPGaugeInitialize();
 	void EnemyHPGaugeUpdate(std::vector<std::unique_ptr<Enemy>>& enemy);
-	void EnemyHPGaugeDraw();
 public://“G‘Ì—Í‚ÌHUD
 	Sprite* EnemyHP_Border;
 	Sprite* EnemyHP_Inner;
@@ -68,7 +67,8 @@ private:
 	Sprite* SecondAttackSprite;
 	Sprite* ThirdAttackSprite;
 	Sprite* BuffSprite;
-
+	Sprite* ChestCollect[5];
+	Sprite* ChestCollectFrame;
 	XMFLOAT2 CooltimeSize;
 public:
 	void SkillButtonInitialize();

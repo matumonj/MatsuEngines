@@ -15,6 +15,7 @@ public:
 
 	void Update(bool&hudload,DebugCamera*camera);
 
+	void Finalize();
 	void HUDDraw();
 	void Draw();
 	void AreaNameDraw();

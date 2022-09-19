@@ -10,6 +10,13 @@ TutorialSprite* TutorialSprite::GetInstance()
 	static TutorialSprite instance;
 	return &instance;
 }
+void TutorialSprite::Finalize()
+{
+	for (int i = 0; i < TaskNum; i++) {
+		delete Task[i];
+	}
+}
+
 void TutorialSprite::Initialize()
 {
 	input = Input::GetInstance();
@@ -29,8 +36,13 @@ void TutorialSprite::Initialize()
 	for (int i = 0; i < TaskNum; i++) {
 		Task[i]->SetAnchorPoint({ 0,0 });
 		SpriteSizeX[i] = 0;
+		MassageCheck[i]=false;
 	}
-
+	ClearWalk = false;
+	ClearAttack = false;
+	ClearSetting=false;
+	GetChest=false;
+	AllTaskClear=false;
 	task = THELLO;
 }
 

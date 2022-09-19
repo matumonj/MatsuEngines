@@ -28,6 +28,7 @@ public:
 	void Update(DebugCamera* camera)override;
 	//•`‰æ
 	void Draw();
+
 	//•`‰æ imgui
 	void ImguiDraw();
 public:

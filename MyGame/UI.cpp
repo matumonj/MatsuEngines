@@ -47,8 +47,7 @@ void UI::HUDDraw()
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
 		TutorialSprite::GetInstance()->Draw();
 	}
-
-	HUD::GetInstance()->Draw();
+	
 	HUD::GetInstance()->SkillBottonDraw();
 	BossSpell::GetInstance()->Draw();
 }
@@ -56,4 +55,9 @@ void UI::HUDDraw()
 void UI::AreaNameDraw()
 {
 	HUD::GetInstance()->AreaName();
+}
+void UI::Finalize()
+{
+	TutorialSprite::GetInstance()->Finalize();
+	HUD::GetInstance()->Finalize();
 }

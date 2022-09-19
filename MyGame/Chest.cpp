@@ -5,9 +5,10 @@
 #include"CollisionManager.h"
 #include"Collision.h"
 #include"Player.h"
+#include"Destroy.h"
 Chest::~Chest()
 {
-	//delete m_Model;
+	Destroy(DefaultEffect);
 }
 void Chest::Initialize(DebugCamera* camera)
 {
@@ -51,7 +52,7 @@ void Chest::Update(DebugCamera* camera)
 		if (!ChestLost) {
 			DefaultEffect->Add(120, Position, vel, acc, 3.0f, 0.0f);
 		}
-		DefaultEffect->SetColor({1.0f,0.8f,0.1f,0.8f});
+		DefaultEffect->SetColor(pColor);
 	}
 		DefaultEffect->Update(DefaultEffect->NORMAL);
 }
@@ -69,30 +70,6 @@ void Chest::Draw()
 }
 bool Chest::CollideChest()
 {
-	//playerOBB.m_NormaDirect[0] = { Player::GetInstance()->GetMatrot().r[0].m128_f32[0],Player::GetInstance()->GetMatrot().r[0].m128_f32[1],Player::GetInstance()->GetMatrot().r[0].m128_f32[2] };
-	//playerOBB.m_NormaDirect[1] = { Player::GetInstance()->GetMatrot().r[1].m128_f32[0],Player::GetInstance()->GetMatrot().r[1].m128_f32[1],Player::GetInstance()->GetMatrot().r[1].m128_f32[2] };
-	//playerOBB.m_NormaDirect[2] = { Player::GetInstance()->GetMatrot().r[2].m128_f32[0],Player::GetInstance()->GetMatrot().r[2].m128_f32[1],Player::GetInstance()->GetMatrot().r[2].m128_f32[2] };
-	//playerOBB.m_fLength[0] = 1;//x方向の長さ
-	//playerOBB.m_fLength[1] = 1;//y方向の長さ
-	//playerOBB.m_fLength[2] = 1;//z方向の長さ
-	////OBB 回転ベクトル
-	//woodOBB.m_NormaDirect[0] = { m_Object->GetMatrot().r[0].m128_f32[0],m_Object->GetMatrot().r[0].m128_f32[1],m_Object->GetMatrot().r[0].m128_f32[2] };
-	//woodOBB.m_NormaDirect[1] = { m_Object->GetMatrot().r[1].m128_f32[0], m_Object->GetMatrot().r[1].m128_f32[1], m_Object->GetMatrot().r[1].m128_f32[2] };
-	//woodOBB.m_NormaDirect[2] = { m_Object->GetMatrot().r[2].m128_f32[0], m_Object->GetMatrot().r[2].m128_f32[1], m_Object->GetMatrot().r[2].m128_f32[2] };
-	//woodOBB.m_fLength[0] = 1;//x方向の長さ
-	//woodOBB.m_fLength[1] = 20;//y方向の長さ
-	//woodOBB.m_fLength[2] = 1;//z方向の長さ
-	////OBBの設定位置
-	//playerOBB.m_Pos = { Player::GetInstance()->GetPosition().x,Player::GetInstance()->GetPosition().y,Player::GetInstance()->GetPosition().z };
-	//woodOBB.m_Pos = { m_Object->GetPosition().x,  m_Object->GetPosition().y, m_Object->GetPosition().z };
-
-	//if (Collision::GetLength(Player::GetInstance()->GetPosition(), Position) < 20) {
-	//	if (ps0->ColOBBs(playerOBB, woodOBB)) {
-	//		Player::GetInstance()->isOldPos();
-	//		return true;
-	//	} else {
-	//		return false;
-	//	}
 	//}
 	return false;
 }

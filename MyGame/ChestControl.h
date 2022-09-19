@@ -26,8 +26,9 @@ public:
 
 	bool GetTutorialChest() { return GetTutorialChestJudg; }
 
+	int ChestCount() { return GetChestCount; }
 private:
-	void GetChestEvent();
+	void GetChestEvent(Chest* chest);
 	enum Event {
 		FEEDIN,
 		FEEDOUT,
@@ -51,6 +52,6 @@ private:
 	XMFLOAT3 particlePos;
 	int ParticleLife = 420;
 	int pCount;
-	void GetChestEffect();
+	void GetChestEffect(Chest*chest);
 };
 

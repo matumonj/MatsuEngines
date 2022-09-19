@@ -51,7 +51,7 @@ public:
 	//•`‰æ
 	void Draw();
 	//‰ğ•ú Sprite‚àuniqueptrg‚¢‚½‚¢‚¯‚Ç**=Sprite::Create(...)‚Ì•”•ª‚Ç‚¤‚·‚é‚©
-	void Fainalize();
+	void Finalize();
 	//ƒ{ƒ^ƒ“İ’è
 	void Custom_Button(bool customflag,int index);
 	//İ’è”½‰f•”•ª

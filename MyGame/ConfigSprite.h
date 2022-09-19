@@ -36,5 +36,7 @@ public:
 	void Update();
 
 	void Draw();
+
+	void Finalize();
 };
 

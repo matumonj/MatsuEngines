@@ -58,39 +58,43 @@ private:
 public:
 	bool GetRecvDamage() { return RecvDamagef; }
 	void SetRecvDamage(bool f) { RecvDamagef = f; }
+
 	void SetMoveFlag(bool f) { MoveFlag = f; }
 	bool GetMoveFlag() { return MoveFlag; }
-	void RecvDamage(int Damage);
-	bool GetonFlag() { return onGround; }
-	float GetHP() { return EnemyHP; };
-	float GetMaxHP() { return MaxHP; }
-	XMMATRIX GetMatrot() { return m_fbxObject->GetMatrot(); }
-	void Turn_toPlayer();
 
+	void RecvDamage(int Damage);
+	
+	bool GetonFlag() { return onGround; }
+	
+	float GetHP() { return EnemyHP; };
+	
+	float GetMaxHP() { return MaxHP; }
+	
+	XMMATRIX GetMatrot() { return m_fbxObject->GetMatrot(); }
+	
 	void EnemyPop(int HP);
 
-	bool AfterAttack;
-
-
 	XMFLOAT3 GetScale() { return Scale; }
-
 	void SetScale(XMFLOAT3 scale) { Scale = scale; }
 
 	bool GetDeathTime() { return DeathFlag; }
 
 	virtual void AttackCoolTime() = 0;
-	int GetAttackCoolTime() { return cooltime; }
-	bool f_AttackFlag;
+	
 	void SetAttackTime(bool f) { if (f_time < AttackTime) { f_AttackFlag = f; } }
 	bool GetAttackTime() { return f_AttackFlag; }
 
 	float GetFbxTime() { return f_time; }
 protected:
+	bool f_AttackFlag;
 	bool DeathFlag;
 	bool nowDeath;
 	int cooltime = 0;
 
 	int onGroundTime = 0;
+
+	bool AfterAttack;
+
 protected:
 	float f_time;
 	float start_time;

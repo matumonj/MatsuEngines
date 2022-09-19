@@ -51,5 +51,7 @@ public:
 	void SetEndAction_Half(bool f) { HAttack.EndAction = f; }
 	bool GetEndAction_HalfFase() { if (HAttack.fase == NON) { return true; } else { return false; } }
 	bool GetEndAction_Circle() { return CAttack.EndAction; }
+
+	void Finalize();
 };
 

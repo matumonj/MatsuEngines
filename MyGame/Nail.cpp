@@ -173,3 +173,8 @@ void Nail::Draw()
 		Object3d::PostDraw();
 	}
 }
+
+void Nail::Finalize()
+{
+	Nails.clear();
+}

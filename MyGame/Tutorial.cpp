@@ -54,14 +54,14 @@ void Tutorial::objUpdate(DebugCamera* camera)
 void Tutorial::Initialize()
 {
 	input = Input::GetInstance();
-	if (AllObjectControl.size() == 0) {//各オブジェクトインスタンスぶちこむ
+	//if (AllObjectControl.size() == 0) {//各オブジェクトインスタンスぶちこむ
 		AllObjectControl.push_back(CameraControl::GetInstance());//Camera
 		AllObjectControl.push_back(PlayerControl::GetInstance());//Player
 		AllObjectControl.push_back(EnemyControl::GetInstance());//Enemy
 		AllObjectControl.push_back(FenceControl::GetInstance());//Fence
 		AllObjectControl.push_back(ChestControl::GetInstance());//Chest
 		AllObjectControl.push_back(WoodControl::GetInstance());//Wood
-	}
+	//}
 	for (int i = 0; i < AllObjectControl.size(); i++) {//初期化
 		AllObjectControl[i]->Initialize(CameraControl::GetInstance()->GetCamera());
 	}
@@ -112,9 +112,16 @@ void Tutorial::Update()
 	}
 
 	if (scenechange&& Feed::GetInstance()->GetAlpha() >= 1.0f) {//画面真っ白なったら
-		BaseScene* scene = new PlayScene(sceneManager_);//次のシーンのインスタンス生成
+		BaseScene* scene = new BossScene(sceneManager_);//次のシーンのインスタンス生成
 		Play = false;
-		SceneManager::GetInstance()->SetScene(SceneManager::PLAY);
+		SceneManager::GetInstance()->SetScene(SceneManager::BOSS);
+		sceneManager_->SetnextScene(scene);//シーンのセット
+	}
+
+	if (input->TriggerKey(DIK_G)) {//画面真っ白なったら
+		BaseScene* scene = new TitleScene(sceneManager_);//次のシーンのインスタンス生成
+		Play = false;
+		SceneManager::GetInstance()->SetScene(SceneManager::TITLE);
 		sceneManager_->SetnextScene(scene);//シーンのセット
 	}
 
@@ -254,5 +261,8 @@ void Tutorial::Finalize()
 
 	Field::GetInstance()->Finalize();
 	
+	UI::GetInstance()->Finalize();
+
+	SistemConfig::GetInstance()->Finalize();
 	delete acol;
 }

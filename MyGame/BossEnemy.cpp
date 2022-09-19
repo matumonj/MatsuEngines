@@ -41,6 +41,7 @@ void BossEnemy::Initialize(DebugCamera* camera)
 	radius_adjustment = 0;
 	
 	SetCollider();
+	cooltime = 0;
 	AttackTime = 1.5f;
 	DeathTime = 4.9f;
 	DeathFlag = false;
@@ -90,10 +91,7 @@ void BossEnemy::Death()
 
 void BossEnemy::FbxAnimationControl()
 {
-	const float timespeed = 0.02f;
-	//アニメーション
-	f_time += timespeed;;
-	//最後まで再生したら先頭に戻す
+	f_time += 0.02f;
 
 	if (f_AttackFlag) {
 		f_time = AttackTime;
@@ -102,37 +100,33 @@ void BossEnemy::FbxAnimationControl()
 	} else {
 		if (nowDeath == false) {
 			if (!nowAttack && f_time >= AttackTime) {
-				f_time = 0;
+				f_time = 0.0f;
 			}
 		}
 	}
 
 	if (DeathFlag) {
-		nowDeath = true;
 		f_time = DeathTime;
+		nowDeath = true;
 		DeathFlag = false;
 
 	}
 	if (f_time > DeathTime) {
-		//nowDeath = false;
 		nowAttack = false;
 	}
 
 	m_fbxObject->SetFbxTime(f_time);
-
 }
 void BossEnemy::AttackCoolTime()
 {
-	const int CoolMax = 480;
-	//fbxtimeが死亡モーションまでいったら
-	if (f_AttackFlag) {
-		if (f_time >= DeathTime - 1) {
-			AfterAttack = true;
-		}
+
+	if (f_time >= DeathTime - 1) {
+		AfterAttack = true;
 	}
 	if (AfterAttack) {
+
 		cooltime++;
-		if (cooltime >CoolMax) {
+		if (cooltime > 240) {
 			AfterAttack = false;
 		}
 	} else {

@@ -21,7 +21,7 @@ using namespace DirectX;
 
 Player::~Player()
 {
-	delete fbxmodel;
+	Destroy_unique( m_Object);
 	//delete  m_Model;
 }
 Player* Player::GetInstance()

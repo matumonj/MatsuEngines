@@ -10,6 +10,7 @@ public:
 	void Initialize();
 	void Update();
 	void Draw();
+	void Finalize();
 private:
 	struct Spells {
 		Sprite* SpellFrame;
