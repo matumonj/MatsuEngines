@@ -2,7 +2,7 @@
 #include "PlaceEnemy.h"
 #include "PlaceEnemy.h"
 #include"MobEnemy.h"
-#include"BossEnemy.h"
+#include"EnemyAlpha.h"
 #include"imgui.h"
 void PlaceEnemy::Initialize(DebugCamera* camera)
 {
@@ -52,7 +52,7 @@ void PlaceEnemy::ArgMent(DebugCamera* camera)
 			newEnemy = std::make_unique<MobEnemy>();
 		}
 		if (BossArgmentFlag) {
-			newEnemy = std::make_unique<BossEnemy>();
+			newEnemy = std::make_unique<EnemyAlpha>();
 		}
 		newEnemy->Initialize(camera);
 		newEnemy->SetPosition(pos);

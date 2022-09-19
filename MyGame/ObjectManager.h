@@ -50,6 +50,8 @@ protected:
 	//—Ž‰ºƒxƒNƒgƒ‹
 	XMVECTOR fallV;
 	float radius_adjustment;
+
+	float ObjAlpha=1.0f;
 public:
 	XMFLOAT3 GetPosition() { return Position;}
 	XMFLOAT3 GetRotation() { return Rotation; }

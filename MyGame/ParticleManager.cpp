@@ -6,21 +6,16 @@
 using namespace DirectX;
 using namespace Microsoft::WRL;
 #include"CameraControl.h"
-
+#include"PlayerControl.h"
 /// <summary>
 /// 静的メンバ変数の実体
-/// </summary>
-const float ParticleManager::radius = 5.0f;				// 底面の半径
-const float ParticleManager::prizmHeight = 8.0f;			// 柱の高さ
+/// </summary>			// 柱の高さ
 ID3D12Device* ParticleManager::device = nullptr;
 UINT ParticleManager::descriptorHandleIncrementSize = 0;
 ID3D12GraphicsCommandList* ParticleManager::cmdList = nullptr;
 ComPtr<ID3D12RootSignature> ParticleManager::rootsignature;
 ComPtr<ID3D12PipelineState> ParticleManager::pipelinestate;
 ComPtr<ID3D12DescriptorHeap> ParticleManager::descHeap;
-ComPtr<ID3D12Resource> ParticleManager::vertBuff;
-//ComPtr<ID3D12Resource> ParticleManager::indexBuff;
-ComPtr<ID3D12Resource> ParticleManager::texbuff;
 CD3DX12_CPU_DESCRIPTOR_HANDLE ParticleManager::cpuDescHandleSRV;
 CD3DX12_GPU_DESCRIPTOR_HANDLE ParticleManager::gpuDescHandleSRV;
 XMMATRIX ParticleManager::matView{};
@@ -28,11 +23,7 @@ XMMATRIX ParticleManager::matProjection{};
 XMFLOAT3 ParticleManager::eye = { 0, 0, 10.0f };
 XMFLOAT3 ParticleManager::target = { 0, 0, 0 };
 XMFLOAT3 ParticleManager::up = { 0, 1, 0 };
-D3D12_VERTEX_BUFFER_VIEW ParticleManager::vbView{};
-//D3D12_INDEX_BUFFER_VIEW ParticleManager::ibView{};
-//ParticleManager::VertexPosNormalUv ParticleManager::vertices[vertexCount];
-ParticleManager::VertexPos ParticleManager::vertices[vertexCount];
-//unsigned short ParticleManager::indices[indexCount];
+ComPtr<ID3D12Resource> ParticleManager::texbuff[10];
 XMMATRIX ParticleManager::matBillboard = XMMatrixIdentity();
 XMMATRIX ParticleManager::matBillboardY = XMMatrixIdentity();
 
@@ -48,12 +39,6 @@ bool ParticleManager::StaticInitialize(int window_width, int window_height)
 
 	// パイプライン初期化
 	InitializeGraphicsPipeline();
-
-	// テクスチャ読み込み
-	LoadTexture();
-
-	// モデル生成
-	CreateModel();
 
 	return true;
 }
@@ -77,16 +62,17 @@ void ParticleManager::PostDraw()
 	ParticleManager::cmdList = nullptr;
 }
 
-ParticleManager* ParticleManager::Create()
+ParticleManager* ParticleManager::Create(UINT texnum, const wchar_t* filename)
 {
+
 	// 3Dオブジェクトのインスタンスを生成
 	ParticleManager* object3d = new ParticleManager();
 	if (object3d == nullptr) {
 		return nullptr;
 	}
-
+	object3d->CreateModel();
 	// 初期化
-	if (!object3d->Initialize()) {
+	if (!object3d->Initialize(texnum)) {
 		delete object3d;
 		assert(0);
 		return nullptr;
@@ -210,11 +196,11 @@ bool ParticleManager::InitializeGraphicsPipeline()
 			"TEXCOORD",0,DXGI_FORMAT_R32_FLOAT,0,
 			D3D12_APPEND_ALIGNED_ELEMENT,D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,0
 },
-//{ // 法線ベクトル(1行で書いたほうが見やすい)
-//	"COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
-//	D3D12_APPEND_ALIGNED_ELEMENT,
-//	D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
-//},
+{ // 法線ベクトル(1行で書いたほうが見やすい)
+	"COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
+	D3D12_APPEND_ALIGNED_ELEMENT,
+	D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
+}
 //{ // uv座標(1行で書いたほうが見やすい)
 //	"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0,
 //	D3D12_APPEND_ALIGNED_ELEMENT,
@@ -310,19 +296,22 @@ bool ParticleManager::InitializeGraphicsPipeline()
 	return true;
 }
 
-bool ParticleManager::LoadTexture()
+bool ParticleManager::LoadTexture(UINT texnumber, const wchar_t* filename)
 {
-	HRESULT result = S_FALSE;
+	// nullptrチェック
+	assert(device);
 
+	HRESULT result;
 	// WICテクスチャのロード
 	TexMetadata metadata{};
 	ScratchImage scratchImg{};
 
 	result = LoadFromWICFile(
-		L"Resources/AOE.png", WIC_FLAGS_NONE,
+		filename, WIC_FLAGS_NONE,
 		&metadata, scratchImg);
 	if (FAILED(result)) {
-		return result;
+		assert(0);
+		return false;
 	}
 
 	const Image* img = scratchImg.GetImage(0, 0, 0); // 生データ抽出
@@ -343,13 +332,14 @@ bool ParticleManager::LoadTexture()
 		&texresDesc,
 		D3D12_RESOURCE_STATE_GENERIC_READ, // テクスチャ用指定
 		nullptr,
-		IID_PPV_ARGS(&texbuff));
+		IID_PPV_ARGS(&texbuff[texnumber]));
 	if (FAILED(result)) {
-		return result;
+		assert(0);
+		return false;
 	}
 
 	// テクスチャバッファにデータ転送
-	result = texbuff->WriteToSubresource(
+	result = texbuff[texnumber]->WriteToSubresource(
 		0,
 		nullptr, // 全領域へコピー
 		img->pixels,    // 元データアドレス
@@ -357,24 +347,25 @@ bool ParticleManager::LoadTexture()
 		(UINT)img->slicePitch // 1枚サイズ
 	);
 	if (FAILED(result)) {
-		return result;
+		assert(0);
+		return false;
 	}
-
 	// シェーダリソースビュー作成
-	cpuDescHandleSRV = CD3DX12_CPU_DESCRIPTOR_HANDLE(descHeap->GetCPUDescriptorHandleForHeapStart(), 0, descriptorHandleIncrementSize);
+cpuDescHandleSRV = CD3DX12_CPU_DESCRIPTOR_HANDLE(descHeap->GetCPUDescriptorHandleForHeapStart(), 0, descriptorHandleIncrementSize);
 	gpuDescHandleSRV = CD3DX12_GPU_DESCRIPTOR_HANDLE(descHeap->GetGPUDescriptorHandleForHeapStart(), 0, descriptorHandleIncrementSize);
 
+	// シェーダリソースビュー作成
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{}; // 設定構造体
-	D3D12_RESOURCE_DESC resDesc = texbuff->GetDesc();
+	D3D12_RESOURCE_DESC resDesc = texbuff[texnumber]->GetDesc();
 
 	srvDesc.Format = resDesc.Format;
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;//2Dテクスチャ
 	srvDesc.Texture2D.MipLevels = 1;
 
-	device->CreateShaderResourceView(texbuff.Get(), //ビューと関連付けるバッファ
+	device->CreateShaderResourceView(texbuff[texnumber].Get(), //ビューと関連付けるバッファ
 		&srvDesc, //テクスチャ設定情報
-		cpuDescHandleSRV
+		CD3DX12_CPU_DESCRIPTOR_HANDLE(descHeap->GetCPUDescriptorHandleForHeapStart(), texnumber, descriptorHandleIncrementSize)
 	);
 
 	return true;
@@ -384,76 +375,11 @@ void ParticleManager::CreateModel()
 {
 	HRESULT result = S_FALSE;
 
-	//std::vector<VertexPosNormalUv> realVertices;
-	std::vector<VertexPos> realVertices;
-	// 頂点座標の計算（重複あり）
-	{
-		/*VertexPosNormalUv verticesSquare[] = {
-			{{-5.0f,-5.0f,0.0f},{0,0,1},{0,1}},
-			{{-5.0f,+5.0f,0.0f},{0,0,1},{0,0}},
-			{{+5.0f,-5.0f,0.0f},{0,0,1},{1,1}},
-			{{+5.0f,+5.0f,0.0f},{0,0,1},{1,0}},
-		};
-		std::copy(std::begin(verticesSquare), std::end(verticesSquare), vertices);
-	*/
-	/*VertexPosNormalUv verticesPoint[] = {
-		{{0.0f,0.0f,0.0f},{0,0,1},{0,1}},
-	};
-	std::copy(std::begin(verticesPoint), std::end(verticesPoint), vertices);
-*/
-/*VertexPos verticesPoint[] = {
-	{{0.0f,0.0f,0.0f}}
-};
-std::copy(std::begin(verticesPoint), std::end(verticesPoint), vertices);*/
-//vert[30];
-
-/*for (int i = 0; i < 28; i++) {
-	const float rnd_width = 10.0f;
-
-	vertices[i].pos.x = (float)rand() / RAND_MAX * rnd_width - rnd_width / 2.0f;
-	vertices[i].pos.y = (float)rand() / RAND_MAX * rnd_width - rnd_width / 2.0f;
-	vertices[i].pos.z = (float)rand() / RAND_MAX * rnd_width - rnd_width / 2.0f;
-}*/
-//	std::copy(std::begin(vertices), std::end(vertices), vertices); 
-
-		unsigned short indicesSquare[] = {
-			0,1,2,
-			2,1,3,
-		};
-		//std::copy(std::begin(indicesSquare), std::end(indicesSquare), indices);
-		realVertices.resize((division + 1) * 2);
-		int index = 0;
-		float zValue;
-
-		// 底面
-		zValue = prizmHeight / 2.0f;
-		for (int i = 0; i < division; i++)
-		{
-			XMFLOAT3 vertex;
-			vertex.x = radius * sinf(XM_2PI / division * i);
-			vertex.y = radius * cosf(XM_2PI / division * i);
-			vertex.z = zValue;
-			realVertices[index++].pos = vertex;
-		}
-		realVertices[index++].pos = XMFLOAT3(0, 0, zValue);	// 底面の中心点
-		// 天面
-		zValue = -prizmHeight / 2.0f;
-		for (int i = 0; i < division; i++)
-		{
-			XMFLOAT3 vertex;
-			vertex.x = radius * sinf(XM_2PI / division * i);
-			vertex.y = radius * cosf(XM_2PI / division * i);
-			vertex.z = zValue;
-			realVertices[index++].pos = vertex;
-		}
-		realVertices[index++].pos = XMFLOAT3(0, 0, zValue);	// 天面の中心点
-	}
-
 	// 頂点バッファ生成
 	result = device->CreateCommittedResource(
 		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
 		D3D12_HEAP_FLAG_NONE,
-		&CD3DX12_RESOURCE_DESC::Buffer(sizeof(vertices)),
+		&CD3DX12_RESOURCE_DESC::Buffer(sizeof(VertexPos) * 1024),
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
 		IID_PPV_ARGS(&vertBuff));
@@ -462,52 +388,10 @@ std::copy(std::begin(verticesPoint), std::end(verticesPoint), vertices);*/
 		return;
 	}
 
-	// インデックスバッファ生成
-	/*result = device->CreateCommittedResource(
-		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
-		D3D12_HEAP_FLAG_NONE,
-		&CD3DX12_RESOURCE_DESC::Buffer(sizeof(indices)),
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(&indexBuff));
-	if (FAILED(result)) {
-		assert(0);
-		return;
-	}*/
-
-	// 頂点バッファへのデータ転送
-	//VertexPosNormalUv* vertMap = nullptr;
-	VertexPos* vertMap = nullptr;
-
-	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
-	if (SUCCEEDED(result)) {
-		memcpy(vertMap, vertices, sizeof(vertices));
-		vertBuff->Unmap(0, nullptr);
-	}
-
-	//// インデックスバッファへのデータ転送
-	//unsigned short* indexMap = nullptr;
-	//result = indexBuff->Map(0, nullptr, (void**)&indexMap);
-	//if (SUCCEEDED(result)) {
-
-	//	// 全インデックスに対して
-	//	for (int i = 0; i < _countof(indices); i++)
-	//	{
-	//		indexMap[i] = indices[i];	// インデックスをコピー
-	//	}
-
-	//	indexBuff->Unmap(0, nullptr);
-	//}
-
 	// 頂点バッファビューの作成
 	vbView.BufferLocation = vertBuff->GetGPUVirtualAddress();
-	vbView.SizeInBytes = sizeof(vertices);
-	vbView.StrideInBytes = sizeof(vertices[0]);
-
-	// インデックスバッファビューの作成
-	//ibView.BufferLocation = indexBuff->GetGPUVirtualAddress();
-	//ibView.Format = DXGI_FORMAT_R16_UINT;
-	//ibView.SizeInBytes = sizeof(indices);
+	vbView.SizeInBytes = sizeof(VertexPos) *1024;
+	vbView.StrideInBytes = sizeof(VertexPos);
 }
 
 void ParticleManager::UpdateViewMatrix()
@@ -515,8 +399,10 @@ void ParticleManager::UpdateViewMatrix()
 	
 }
 
-bool ParticleManager::Initialize()
+bool ParticleManager::Initialize(UINT texnum)
 {
+
+	texNumber = texnum;
 	// nullptrチェック
 	assert(device);
 
@@ -541,7 +427,7 @@ const DirectX::XMFLOAT3 operator+(const DirectX::XMFLOAT3& lhs, const DirectX::X
 	result.z = lhs.z + rhs.z;
 	return result;
 }
-void ParticleManager::Update(ParticleType type)
+void ParticleManager::Update(ParticleType type , XMFLOAT3 position , int lifejudg)
 {
 	HRESULT result;
 	//寿命が尽きた物を削除
@@ -556,6 +442,9 @@ void ParticleManager::Update(ParticleType type)
 	else if (type == ABSORPTION) {
 		Absorption();
 	}
+	else if (type ==FOLLOW) {
+		Follow(position,lifejudg);
+	}
 	
 	//頂点バッファへデータ転送
 
@@ -568,7 +457,6 @@ void ParticleManager::Update(ParticleType type)
 			//座標
 			vertMap->pos = it->position;
 			vertMap->scale = it->scale;
-			//vertMap->colors = it->colors;
 			//次の頂点へ
 			vertMap++;
 		}
@@ -578,7 +466,7 @@ void ParticleManager::Update(ParticleType type)
 	// 定数バッファへデータ転送
 	ConstBufferData* constMap = nullptr;
 	result = constBuff->Map(0, nullptr, (void**)&constMap);
-
+	constMap->color = color;
 	constMap->mat = CameraControl::GetInstance()->GetCamera()->GetViewMatrix() * CameraControl::GetInstance()->GetCamera()->GetProjectionMatrix();;	// 行列の合成
 
 	constMap->matBillboard = matBillboard;	// 行列の合成
@@ -604,7 +492,7 @@ void ParticleManager::Draw()
 	// 定数バッファビューをセット
 	cmdList->SetGraphicsRootConstantBufferView(0, constBuff->GetGPUVirtualAddress());
 	// シェーダリソースビューをセット
-	cmdList->SetGraphicsRootDescriptorTable(1, gpuDescHandleSRV);
+	cmdList->SetGraphicsRootDescriptorTable(1, CD3DX12_GPU_DESCRIPTOR_HANDLE(descHeap->GetGPUDescriptorHandleForHeapStart(), this->texNumber, descriptorHandleIncrementSize));
 	// 描画コマンド
 	cmdList->DrawInstanced((UINT)std::distance(particles.begin(), particles.end()), 1, 0, 0);
 }
@@ -659,7 +547,42 @@ void ParticleManager::Normal()
 		float f = (float)it->num_frame / it->frame;
 		it->scale = (it->e_scale - it->s_scale) / f;
 		it->scale += it->s_scale;
+	}
+}
+void ParticleManager::Follow(XMFLOAT3 position, int lifejudg)
+{
+	//全パーティクル更新
+	for (std::forward_list<Particle>::iterator it = particles.begin();
+		it != particles.end(); it++) {
+		//経過フレーム数をカウント
+		float dis,trad;
+		//追跡スピード
+		float centerSpeed = 0.2f;
+
+		if (it->frame > lifejudg) {
+			//敵とプレイヤーの距離求め
+			float disX = PlayerControl::GetInstance()->GetPlayer()->GetPosition().x - it->position.x;
+			float disY = PlayerControl::GetInstance()->GetPlayer()->GetPosition().y - it->position.y;
+			float disZ = PlayerControl::GetInstance()->GetPlayer()->GetPosition().z - it->position.z;
+			dis = Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), it->position);
+			//trad=(PlayerControl::GetInstance()->GetPlayer()->GetPosition().y - it->position.y, PlayerControl::GetInstance()->GetPlayer()->GetPosition().x - it->position.x);
+			
+			//座標のセット
+			if (dis > 1.0f) {
+				//座標のセット
+				it->position = { it->position.x + (disX / dis) * centerSpeed,it->position.y + (disY / dis) * centerSpeed,it->position.z + (disZ / dis) * centerSpeed };
+			}
+		}
+		else {
+			//速度による移動
+			it->position = it->position + it->velocity;
+		}
+		it->frame++;
+		it->velocity = it->velocity + it->accel;
+
+		float f = (float)it->num_frame / it->frame;
+		it->scale = (it->e_scale - it->s_scale) / f;
+		it->scale += it->s_scale;
 		//it->colors =XMFLOAT4(0,0,0,1) ;
 	}
-
 }

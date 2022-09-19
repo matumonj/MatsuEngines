@@ -30,6 +30,14 @@ void PlayerControl::Load(DebugCamera* camera)
 
 void PlayerControl::Initialize(DebugCamera* camera)
 {
+	player = std::make_unique<Player>();
+	player->Initialize(camera);
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
+		player->SetPosition({92.0f,2.0f,-760.0f});
+	}
+	else if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
+		player->SetPosition({ 110.0f,5.0f,-379.0f });
+	}
 	AttackCollision::GetInstance()->Init();
 }
 

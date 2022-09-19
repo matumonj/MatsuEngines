@@ -49,7 +49,7 @@ private:
 public:
    // bool GetFolatc() { return folatc; }
     bool isendtime;
-    int particleLife = 120;
+    int particleLife = 320;
     XMFLOAT3 particlePos;
 };
 

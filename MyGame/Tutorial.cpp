@@ -110,10 +110,11 @@ void Tutorial::Update()
 	} else {
 		c_postEffect = Default;
 	}
-	if (Feed::GetInstance()->GetAlpha() >= 1.0f) {//画面真っ白なったら
-		BaseScene* scene = new BossScene(sceneManager_);//次のシーンのインスタンス生成
+
+	if (scenechange&& Feed::GetInstance()->GetAlpha() >= 1.0f) {//画面真っ白なったら
+		BaseScene* scene = new PlayScene(sceneManager_);//次のシーンのインスタンス生成
 		Play = false;
-		SceneManager::GetInstance()->SetScene(SceneManager::BOSS);
+		SceneManager::GetInstance()->SetScene(SceneManager::PLAY);
 		sceneManager_->SetnextScene(scene);//シーンのセット
 	}
 

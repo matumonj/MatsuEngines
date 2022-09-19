@@ -48,8 +48,8 @@ void BossEnemy::Initialize(DebugCamera* camera)
 
 	state_boss->Initialize(this);
 
-	particleMan = ParticleManager::Create();
-	
+	particleMan= ParticleManager::Create(0,L"Resources/AOE.png");
+	particleMan->CreateModel();
 }
 
 //更新処理
@@ -77,11 +77,7 @@ void BossEnemy::Draw()
 {
 	Draw_Fbx();
 	// 3Dオブジェクト描画前処理
-	ParticleManager::PreDraw();
-	// 3Dオブクジェクトの描画
-	particleMan->Draw();
-	// 3Dオブジェクト描画後処理
-	ParticleManager::PostDraw();
+	
 }
 
 void BossEnemy::Death()

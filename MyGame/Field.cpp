@@ -39,7 +39,6 @@ bool Field::Initialize(DebugCamera* camera)
 	DamageAreaObj = std::make_unique<Object3d>();
 	
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
-		FieldModel = ModelManager::GetIns()->GetModel(ModelManager::BOSSFIELD);
 		DamageAreaModel = Model::CreateFromOBJ("BossFieldDamageArea");
 
 		BackObject->Initialize(camera);
@@ -52,12 +51,9 @@ bool Field::Initialize(DebugCamera* camera)
 		Sprite::LoadTexture(40, L"Resources/BossName.png");
 		Sprite::LoadTexture(41, L"Resources/warning1.png");
 	}
-	else {
-		FieldModel = ModelManager::GetIns()->GetModel(ModelManager::FIELD);
-	}
-
 	//フィールドにモデル割り当て
-	FieldObject = TouchableObject::Create(FieldModel,camera);
+	FieldObject = TouchableObject::Create(ModelManager::GetIns()->GetModel(ModelManager::FIELD),camera);
+	BossFieldObject = TouchableObject::Create(ModelManager::GetIns()->GetModel(ModelManager::BOSSFIELD), camera);
 
 	CelestialSphereObject->Initialize(camera);
 	CelestialSphereObject->SetModel(CelestialSphereModel);
@@ -87,6 +83,8 @@ void Field::Update(DebugCamera* camera)
 
 	FieldObject->SetScale(1.0f);
 	FieldObject->SetPosition({ 0.0f,-20.0f,0.0f });
+	BossFieldObject->SetScale(1.0f);
+	BossFieldObject->SetPosition({ 0.0f,-20.0f,0.0f });
 
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
 		FieldObject->SetFogCenter({ 125.0f, -25.0f, -680.0f });
@@ -105,7 +103,7 @@ void Field::Update(DebugCamera* camera)
 			SpriteFeed(t, feed, feedSpeed_Explanation, 2.5f);
 		}
 
-		FieldObject->SetFogCenter({ 0.0f, -20.0f, 0.0f });
+		BossFieldObject->SetFogCenter({ 0.0f, -20.0f, 0.0f });
 
 		CelestialSphereObject->setFog(TRUE);
 	
@@ -125,7 +123,10 @@ void Field::Update(DebugCamera* camera)
 	FieldObject->SetColor({ 0.6f,0.6f,0.6f,1.0f });
 	FieldObject->Update({ 0.6f,0.6f,0.6f,1.0f }, camera);
 	
-	CelestialSphereObject->Update({ 1.0f,1.0f,1.0f,1.0f }, camera); 
+	BossFieldObject->SetColor({ 0.6f,0.6f,0.6f,1.0f });
+	BossFieldObject->Update({ 0.6f,0.6f,0.6f,1.0f }, camera);
+
+	CelestialSphereObject->Update({ 1.0f,1.0f,1.0f,1.0f }, camera);
 
 	
 	 t= min(t, 2.5f);
@@ -136,17 +137,28 @@ void Field::Update(DebugCamera* camera)
 
 void Field::Draw()
 {
-	Object3d::PreDraw();
+	CelestialSphereObject->PreDraw();
 	CelestialSphereObject->Draw();
-	
+	CelestialSphereObject->PostDraw();
+
+	FieldObject->PreDraw();
 	FieldObject->Draw();
-	
+	FieldObject->PostDraw();
+
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
+		BackObject->PreDraw();
 		BackObject->Draw();
-		
+		BackObject->PostDraw();
+
+		BossFieldObject->PreDraw();
+		BossFieldObject->Draw();
+		BossFieldObject->PostDraw();
+
+		DamageAreaObj->PreDraw();
 		DamageAreaObj->Draw();
-		}
-	Object3d::PostDraw();
+		DamageAreaObj->PostDraw();
+	
+	}
 	Explanation->setcolor({ 1.0f,1.0f,1.0f,t });
 	BossName->setcolor({ 1.0f,1.0f,1.0f,TexAlpha_BossName });
 }

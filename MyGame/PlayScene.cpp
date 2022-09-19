@@ -45,14 +45,15 @@ void PlayScene::Initialize()
 	if (AllObjectControl.size() == 0) {
 		//カメラ一番上に　他のControlがカメラを引数にしてるから
 		AllObjectControl.push_back(CameraControl::GetInstance());
+		AllObjectControl.push_back(PlayerControl::GetInstance());
 		AllObjectControl.push_back(WoodControl::GetInstance());
 		AllObjectControl.push_back(FenceControl::GetInstance());
 		AllObjectControl.push_back(EnemyControl::GetInstance());
 		AllObjectControl.push_back(ChestControl::GetInstance());
-		AllObjectControl.push_back(PlayerControl::GetInstance());
 	}
 	//各オブジェクト初期化
 	Field::GetInstance()->Initialize((CameraControl::GetInstance()->GetCamera()));
+
 	for (int i = 0; i < AllObjectControl.size(); i++) {
 		AllObjectControl[i]->Initialize((CameraControl::GetInstance()->GetCamera()));
 	}
@@ -90,21 +91,18 @@ void PlayScene::Update()
 		c_postEffect = Default;
 	}
 
-	if (input->TriggerKey(DIK_R)) {//押されたら
-		BaseScene* scene = new MapCreateScene(sceneManager_);//次のシーンのインスタンス生成
-		sceneManager_->SetnextScene(scene);//シーンのセット
-	}
 }
 //描画（オブジェクト）
 void PlayScene::MyGameDraw()
 {
-	Field::GetInstance()->Draw();
-
 	if (EnemyControl::GetInstance()->GetQuentity() > 1) {
 		for (int i = 0; i < AllObjectControl.size(); i++) {
 			AllObjectControl[i]->Draw();
 		}
 	}
+
+	Field::GetInstance()->Draw();
+
 }
 
 //描画まとめ

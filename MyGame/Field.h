@@ -27,6 +27,7 @@ private:
 	//Model
 	Model* DamageAreaModel;
 	Model* FieldModel;
+	Model* BossFieldModel;
 	Model* CelestialSphereModel;
 	Model* BackM;
 private:

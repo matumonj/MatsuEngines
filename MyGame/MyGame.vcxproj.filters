@@ -40,9 +40,6 @@
     <Filter Include="Game\2d %28DebugTxt  Sprite Texture%29\texture">
       <UniqueIdentifier>{3e806fd0-a6b2-4fe8-bf08-baafb4aac7a9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\2d %28DebugTxt  Sprite Texture%29\posteffect">
-      <UniqueIdentifier>{3aec48ac-9748-421e-b3b2-330ac8332409}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\3d %28Model  Obj  Fbx%29">
       <UniqueIdentifier>{c85e5191-d41d-42d7-965e-2909d1472162}</UniqueIdentifier>
     </Filter>
@@ -180,6 +177,9 @@
     </Filter>
     <Filter Include="Game\UI\Config">
       <UniqueIdentifier>{077ed855-3902-457a-805f-209d6816ad7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\2d %28DebugTxt  Sprite Texture%29\posteffect">
+      <UniqueIdentifier>{3aec48ac-9748-421e-b3b2-330ac8332409}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

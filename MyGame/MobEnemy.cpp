@@ -51,8 +51,8 @@ void MobEnemy::Initialize(DebugCamera* camera)
 	m_fbxObject->SetColor({ 1,0,0,alpha });
 	state_mob->Initialize(this);
 
-	particleMan = ParticleManager::Create();
-
+	ParticleManager::LoadTexture(4, L"Resources/ParticleTex/Attack.png");
+	particleMan=ParticleManager::Create(4,L"Resources/AOE.png");
 
 }
 
@@ -150,19 +150,15 @@ void MobEnemy::DamageParticleSet()
 	for (int i = 0; i < ParticleSize; i++) {
 		const float rnd_vel = 0.5f;
 		XMFLOAT3 vel{};
-		if (particleLife > 60) {
-			vel.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-			vel.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-			vel.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-		} else {
-			vel.x = -1 * vel.x;
-			vel.y = -1 * vel.y;
-		}
+		vel.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+		vel.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+		vel.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+
 		XMFLOAT3 acc{};
 		const float rnd_acc = 0.001f;
 		acc.y = -(float)rand() / RAND_MAX * rnd_acc;
 
-		//’Ç‰Á
+	//	//’Ç‰Á
 		if (DamageParticleCreateF) {
 			particlePos = { Position.x,Position.y + 10,Position.z };
 			particleMan->Add(particleLife, particlePos, vel, acc, 3.0f, 0.0f);
@@ -170,6 +166,8 @@ void MobEnemy::DamageParticleSet()
 				DamageParticleCreateF = false;
 			}
 		}
+	
 	}
-		particleMan->Update(particleMan->NORMAL);
+	particleMan->SetColor({ 1.0f,0.2f,0.2f,0.7f });
+	particleMan->Update(particleMan->NORMAL);
 }

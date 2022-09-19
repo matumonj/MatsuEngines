@@ -281,7 +281,6 @@ void CameraControl::PlaySceneStart()
 		else {
 			Feed::GetInstance()->Update_Black(Feed::FEEDOUT);
 		}
-
 		if (Feed::GetInstance()->GetAlpha() >= 1.0f) {
 			sCamera = PLAYCUTEND;
 		}

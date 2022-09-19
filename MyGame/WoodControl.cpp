@@ -108,7 +108,6 @@ void WoodControl::Initialize(DebugCamera* camera)
 
 void WoodControl::Update(DebugCamera* camera)
 {
-	Player_OldPos= PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
 		for (int i = 0; i < Quantity; i++) {
 			//	if (woods[i] != nullptr) {
@@ -137,7 +136,7 @@ void WoodControl::Update(DebugCamera* camera)
 		}
 		for (int i = 0; i < 3; i++) {
 			if (Tutorialwoods[i]->CollideWood() == true) {
-				PlayerControl::GetInstance()->GetPlayer()->SetPosition(Player_OldPos);
+				PlayerControl::GetInstance()->GetPlayer()->isOldPos();
 				break;
 			}
 		}

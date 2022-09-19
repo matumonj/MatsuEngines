@@ -9,6 +9,6 @@ VSOutput main(float4 pos : POSITION, float scale : TEXCOORD)//,float4 colors:COL
 	//output.svpos = mul(mat, pos);
 	//output.normal = normal;
 	//
-	//output.color = color;
+	output.colors = color;
 	return output;
 }

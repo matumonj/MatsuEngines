@@ -1,7 +1,7 @@
 #include"EnemyControl.h"
 #include"MobEnemy.h"
 #include"BossEnemy.h"
-
+#include"EnemyAlpha.h"
 #include"TutorialSprite.h"
 #include"SistemConfig.h"
 #include"SceneManager.h"
@@ -93,7 +93,7 @@ void EnemyControl::Load(DebugCamera*camera)
 				enemys[i] = std::make_unique<MobEnemy>();
 			}
 			if (Num[i] == BETAENEMY) {
-				enemys[i] = std::make_unique<BossEnemy>();
+				enemys[i] = std::make_unique<EnemyAlpha>();
 			}
 
 			enemys[i]->Initialize(camera);
@@ -154,17 +154,17 @@ void EnemyControl::Update(DebugCamera* camera)
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
 		for (int i = 0; i < Quantity; i++) {
 			if (enemys[i] != nullptr) {
-				if (TutorialSprite::GetInstance()->GetClearSetting()) {
 					enemys[i]->SetMoveFlag(true);
 					enemys[i]->Update(camera);
 				}
 			}
-		}
 	}
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
 		if (tutorial_enemy[0] != nullptr) {
-			tutorial_enemy[0]->SetMoveFlag(true);
+			if (TutorialSprite::GetInstance()->GetClearSetting()) {
+				tutorial_enemy[0]->SetMoveFlag(true);
 				tutorial_enemy[0]->Update(camera);
+			}
 		}
 	}
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {

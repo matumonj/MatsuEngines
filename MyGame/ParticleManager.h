@@ -24,18 +24,17 @@ public: // サブクラス
 	struct VertexPos
 	{
 		XMFLOAT3 pos; // xyz座標
-		//XMFLOAT4 colors;
 		float scale;
 	};
 
 	// 定数バッファ用データ構造体
 	struct ConstBufferData
 	{
-		//XMFLOAT4 color;	// 色 (RGBA)
+		XMFLOAT4 color;	// 色 (RGBA)
 		XMMATRIX mat;	// ３Ｄ変換行列]
 		XMMATRIX matBillboard;//ビルボード行列
 	};
-
+	XMFLOAT4 color = { 1,1,1,1 };
 	struct Particle
 	{
 		using XMFLOAT3 = DirectX::XMFLOAT3;
@@ -53,20 +52,12 @@ public: // サブクラス
 		float scale = 1.0f;
 		float s_scale = 1.0f;
 		float e_scale = 0.0f;
-		///XMFLOAT4 colors = { 1,0,0,1 };
-		//XMFLOAT4 s_colors = { 1,0,0,1 };
+		XMFLOAT4 color;
+		XMFLOAT4 e_color= { 1,0,0,1 };
+		XMFLOAT4 s_color= { 1,0,0,1 };
 	};
 private: // 定数
-	static const int division = 50;					// 分割数
-	static const float radius;				// 底面の半径
-	static const float prizmHeight;			// 柱の高さ
-	static const int planeCount = division * 2 + division * 2;		// 面の数
-	//static const int vertexCount = planeCount * 3;		// 頂点数
-	//static const int vertexCount = 1;
-	//static const int vertexCount = 30;
-	static const int vertexCount = 1024;
 
-	//static const int indexCount = 3 * 2;
 public: // 静的メンバ関数
 	/// <summary>
 	/// 静的初期化
@@ -92,8 +83,7 @@ public: // 静的メンバ関数
 	/// 3Dオブジェクト生成
 	/// </summary>
 	/// <returns></returns>
-	static ParticleManager* Create();
-
+	
 private: // 静的メンバ変数
 	// デバイス
 	static ID3D12Device* device;
@@ -108,16 +98,17 @@ private: // 静的メンバ変数
 	// デスクリプタヒープ
 	static ComPtr<ID3D12DescriptorHeap> descHeap;
 	// 頂点バッファ
-	static ComPtr<ID3D12Resource> vertBuff;
+	ComPtr<ID3D12Resource> vertBuff;
 	// インデックスバッファ
 	//static ComPtr<ID3D12Resource> indexBuff;
 	// テクスチャバッファ
-	static ComPtr<ID3D12Resource> texbuff;
+	static ComPtr<ID3D12Resource> texbuff[10];
 	// シェーダリソースビューのハンドル(CPU)
 	static CD3DX12_CPU_DESCRIPTOR_HANDLE cpuDescHandleSRV;
 	// シェーダリソースビューのハンドル(CPU)
 	static CD3DX12_GPU_DESCRIPTOR_HANDLE gpuDescHandleSRV;
 	// ビュー行列
+	UINT texNumber=0;
 	static XMMATRIX matView;
 	// 射影行列
 	static XMMATRIX matProjection;
@@ -128,17 +119,7 @@ private: // 静的メンバ変数
 	// 上方向ベクトル
 	static XMFLOAT3 up;
 	// 頂点バッファビュー
-	static D3D12_VERTEX_BUFFER_VIEW vbView;
-	// インデックスバッファビュー
-	//static D3D12_INDEX_BUFFER_VIEW ibView;
-
-	// 頂点データ配列
-	//static VertexPosNormalUv vertices[vertexCount];
-	static VertexPos vertices[vertexCount];
-
-	// 頂点インデックス配列
-	//static unsigned short indices[indexCount];
-
+	D3D12_VERTEX_BUFFER_VIEW vbView;
 	//ビルボード行列
 	static XMMATRIX matBillboard;
 	static XMMATRIX matBillboardY;
@@ -166,18 +147,20 @@ private:// 静的メンバ関数
 	/// テクスチャ読み込み
 	/// </summary>
 	/// <returns>成否</returns>
-	static bool LoadTexture();
-
+	
 	/// <summary>
 	/// モデル作成
 	/// </summary>
-	static void CreateModel();
 
 	/// <summary>
 	/// ビュー行列を更新
 	/// </summary>
 	static void UpdateViewMatrix();
 
+	public:
+		static bool LoadTexture(UINT texnum, const wchar_t* filename);
+		void CreateModel();
+		void SetColor(XMFLOAT4 color) { this->color = color; }
 private: // メンバ変数
 	ComPtr<ID3D12Resource> constBuff; // 定数バッファ
 	// 色
@@ -191,17 +174,21 @@ private: // メンバ変数
 	public:
 		enum ParticleType {
 			NORMAL,
-			ABSORPTION
+			ABSORPTION,
+			FOLLOW
 		};
+		//普通の拡散エフェクト
 		void Normal();
+		//一定距離行ったらパーティクルが元の位置にもどってくる
 		void Absorption();
-
+		//一定距離行ったらposition方向に戻ってくる
+		void Follow(XMFLOAT3 position,int lifejudg);
 public: // メンバ関数
-	bool Initialize();
+	bool Initialize(UINT texnum);
 	/// <summary>
 	/// 毎フレーム処理
 	/// </summary>
-	void Update(ParticleType type);
+	void Update(ParticleType type, XMFLOAT3 position = { 0,0,0 }, int lifejudg=false);
 
 	/// <summary>
 	/// 描画
@@ -209,6 +196,7 @@ public: // メンバ関数
 	void Draw();
 	//パーティクルの追加
 	void Add(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel, float start_scale, float end_scale);
+	static ParticleManager* Create(UINT texnum, const wchar_t* filename);
 
 };
 

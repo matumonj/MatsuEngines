@@ -1,6 +1,7 @@
 #pragma once
 #include"ControlBase.h"
 #include"Chest.h"
+#include"ParticleManager.h"
 class ChestControl :public ControlBase
 {
 public:
@@ -24,6 +25,19 @@ public:
 	void ChestDestroy();
 
 	bool GetTutorialChest() { return GetTutorialChestJudg; }
+
+private:
+	void GetChestEvent();
+	enum Event {
+		FEEDIN,
+		FEEDOUT,
+		GETCHEST,
+		FEEDIN2,
+		FEEDOUT2,
+		END,
+		NON
+	};
+	Event ChestEvent = NON;
 private:
 	std::vector<std::unique_ptr<Chest>>chests;
 	std::vector <XMFLOAT3>Load_ChestPosition;
@@ -31,5 +45,12 @@ private:
 	int GetChestCount = 0;
 	bool GetTutorialChestJudg;
 	int ChestMax;
+private:
+	ParticleManager* particleMan = nullptr;
+	bool ParticleCreateF;
+	XMFLOAT3 particlePos;
+	int ParticleLife = 420;
+	int pCount;
+	void GetChestEffect();
 };
 
