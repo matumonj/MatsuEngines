@@ -3,9 +3,9 @@
 #include"imgui.h"
 void PlaceChest::Initialize(DebugCamera* camera)
 {
-	Model = Model::CreateFromOBJ("chest");
+	//Model = Model::CreateFromOBJ("chest");
 	Obj = Object3d::Create(camera);
-	Obj->SetModel(Model);
+	Obj->SetModel(ModelManager::GetIns()->GetModel(ModelManager::CHEST));
 }
 
 void PlaceChest::FileWriting()
@@ -15,7 +15,7 @@ void PlaceChest::FileWriting()
 
 	file.close();
 	///std::ofstream pofs("EnemyParam_CSV/position.csv");
-	std::ofstream ofs("EnemyParam_CSV/Chest.csv");  // ファイルパスを指定する
+	std::ofstream ofs("Param_CSV/Chest.csv");  // ファイルパスを指定する
 	ofs << "Chest_Quantity" << "," << chests.size() << std::endl;
 
 	for (int i = 0; i < chests.size(); i++) {

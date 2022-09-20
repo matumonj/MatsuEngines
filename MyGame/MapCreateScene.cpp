@@ -77,6 +77,8 @@ void MapCreateScene::Initialize()
 
 	CameraPosition.z = -190;
 	CameraPosition.y = 50;
+
+	CameraControl::GetInstance()->SetCameraState(CameraControl::MAPCREATE);
 }
 #pragma endregion
 

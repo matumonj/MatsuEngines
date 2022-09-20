@@ -8,10 +8,15 @@ SelectSword::~SelectSword()
 {
 	delete SwordSample[0], SwordSample[1], SwordSample[2], Frame;
 }
+
 SelectSword* SelectSword::GetInstance()
 {
 	static SelectSword instance;
 	return &instance;
+}
+void SelectSword::Finalize()
+{
+	delete SwordSample[0], SwordSample[1], SwordSample[2], Frame;
 }
 void SelectSword::Initialize()
 {
@@ -37,6 +42,7 @@ void SelectSword::Initialize()
 	Frame->SetPosition(Position[0]);
 	Frame->SetAnchorPoint({ 0.5,0.5 });
 	input = Input::GetInstance();
+	index = 0;
 }
 void SelectSword::SetSmallSword(SwordScale nowsword)
 {

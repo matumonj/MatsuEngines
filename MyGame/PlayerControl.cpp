@@ -15,8 +15,6 @@ void PlayerControl::Finalize()
 }
 void PlayerControl::Load(DebugCamera* camera)
 {
-	player = std::make_unique<Player>();
-	player->Initialize(camera);
 	//各シーンの初期座標設定
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
 		player->SetPosition({ 92.0f,2.0f,-760.0f });

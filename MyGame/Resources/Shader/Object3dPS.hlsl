@@ -26,7 +26,7 @@ PSOutPut main(GSOutput input) : SV_TARGET
 		output.target0 = float4(texcolor.rgb * fc, texcolor.a) + addcol;
 		output.target1 = float4(0, 0, 0, 1);
 	} else {
-		output.target0 = float4(texcolor.rgb * brightness, texcolor.a);
+		output.target0 = float4(texcolor.rgb * brightness, texcolor.a)*color;
 		output.target1 = float4(texcolor.rgb * brightness, texcolor.a);
 	}
 	return output;

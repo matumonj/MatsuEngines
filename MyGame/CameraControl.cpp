@@ -33,6 +33,7 @@ void CameraControl::Initialize(DebugCamera* camera)
 	elapsedTime = 0.0f;
 	bCamera = BOSSCUTSTART;
 	sCamera = PLAYCUTSTART;
+	Tstate = PLAYER;
 	this->camera = new DebugCamera(WinApp::window_width, WinApp::window_height);//(/*input*/);
 	input = Input::GetInstance();
 }

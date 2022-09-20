@@ -19,7 +19,10 @@ public:
 		WOOD,
 		CHEST,
 		FENCE,
-		NAIL
+		NAIL,
+		SPHERE,
+		BACKGROUND,
+		DAMAGEAREA
 	};
 	enum FBXName {
 		PLAYER,

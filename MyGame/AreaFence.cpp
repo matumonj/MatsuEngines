@@ -11,11 +11,11 @@ void AreaFence::Initialize(DebugCamera* camera)
 {
 	m_Object = std::make_unique<Object3d>();
 
-	m_Model = ModelManager::GetIns()->GetModel(ModelManager::FENCE);
+	//m_Model = ModelManager::GetIns()->GetModel(ModelManager::FENCE);
 
 	//フィールドにモデル割り当て
 	m_Object->Initialize(camera);
-	m_Object->SetModel(m_Model);
+	m_Object->SetModel(ModelManager::GetIns()->GetModel(ModelManager::FENCE));
 	ps0 = new OBBCollision();
 
 	Scale = { 10,10,10 };

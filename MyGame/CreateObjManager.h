@@ -8,6 +8,7 @@
 #include"Object3d.h"
 #include"DebugCamera.h"
 #include"Destroy.h"
+#include"ModelManager.h"
 class CreateObjManager
 {
 protected:

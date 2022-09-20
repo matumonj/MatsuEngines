@@ -10,7 +10,7 @@ ObjectManager::~ObjectManager()
 	Destroy_unique(m_Object);
 	Destroy_unique(m_fbxObject);
 	//Destroy(m_Model);
-	//Destroy(m_fbxModel);
+	Destroy(m_fbxModel);
 }
 
 void ObjectManager::SetCollider()

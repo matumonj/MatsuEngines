@@ -44,6 +44,8 @@ void TutorialSprite::Initialize()
 	GetChest=false;
 	AllTaskClear=false;
 	task = THELLO;
+	Jump = false;
+	Movement = 0;
 }
 
 void TutorialSprite::Update()

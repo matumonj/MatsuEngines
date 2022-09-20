@@ -34,27 +34,30 @@ bool Field::Initialize(DebugCamera* camera)
 	CelestialSphereModel = Model::CreateFromOBJ("skydome");
 	//Bossscene用の背景オブジェ
 	BackObject= std::make_unique<Object3d>();
-	BackM = Model::CreateFromOBJ("BackGround");
+	//BackM = Model::CreateFromOBJ("BackGround");
 	//Bossscene用のフィールドの外周ダメージエリア
 	DamageAreaObj = std::make_unique<Object3d>();
-	
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
-		DamageAreaModel = Model::CreateFromOBJ("BossFieldDamageArea");
 
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
+
+		FieldObject = TouchableObject::Create(ModelManager::GetIns()->GetModel(ModelManager::BOSSFIELD), camera);
+
+		//DamageAreaModel = Model::CreateFromOBJ("BossFieldDamageArea");
+	
 		BackObject->Initialize(camera);
-		BackObject->SetModel(BackM);
+		BackObject->SetModel(ModelManager::GetIns()->GetModel(ModelManager::BACKGROUND));
 
 		DamageAreaObj->Initialize(camera);
-		DamageAreaObj->SetModel(DamageAreaModel);
+		DamageAreaObj->SetModel(ModelManager::GetIns()->GetModel(ModelManager::DAMAGEAREA));
 
 		//Bossの名前表示用とフィールド外周のダメージエリア通知
 		Sprite::LoadTexture(40, L"Resources/BossName.png");
 		Sprite::LoadTexture(41, L"Resources/warning1.png");
 	}
-	//フィールドにモデル割り当て
-	FieldObject = TouchableObject::Create(ModelManager::GetIns()->GetModel(ModelManager::FIELD),camera);
-	BossFieldObject = TouchableObject::Create(ModelManager::GetIns()->GetModel(ModelManager::BOSSFIELD), camera);
-
+	else {
+		FieldObject = TouchableObject::Create(ModelManager::GetIns()->GetModel(ModelManager::FIELD), camera);
+	}
+	
 	CelestialSphereObject->Initialize(camera);
 	CelestialSphereObject->SetModel(CelestialSphereModel);
 
@@ -73,6 +76,7 @@ bool Field::Initialize(DebugCamera* camera)
 	return true;
 }
 
+	
 void Field::Update(DebugCamera* camera)
 {
 	CelestialSphereObject->SetPosition({ 0.0f,30.0f,0.0f });
@@ -81,29 +85,31 @@ void Field::Update(DebugCamera* camera)
 	BackObject->SetPosition({ 0.0f,30.0f,0.0f });
 	BackObject->SetScale({ 0.5f,0.5f,0.5f });
 
-	FieldObject->SetScale(1.0f);
-	FieldObject->SetPosition({ 0.0f,-20.0f,0.0f });
-	BossFieldObject->SetScale(1.0f);
-	BossFieldObject->SetPosition({ 0.0f,-20.0f,0.0f });
-
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
+		FieldObject->SetScale(1.0f);
+		FieldObject->SetPosition({ 0.0f,-20.0f,0.0f });
 		FieldObject->SetFogCenter({ 125.0f, -25.0f, -680.0f });
 		FieldObject->setFog(TRUE);
 		CelestialSphereObject->setFog(TRUE);
+
 	}
-	else if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
+	else if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY|| SceneManager::GetInstance()->GetScene() == SceneManager::MAPCREATE) {
+		FieldObject->SetScale(1.0f);
+		FieldObject->SetPosition({ 0.0f,-20.0f,0.0f });
 		FieldObject->SetFogCenter({ 125.0f, -25.0f, -680.0f });
 		FieldObject->setFog(FALSE);
 		CelestialSphereObject->setFog(FALSE);
+
 	}
 	else if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
-
 		SpriteFeed(TexAlpha_BossName, feed_BossName, feedSpeed_BossName, 1.5f);
 		if (CameraControl::GetInstance()->GetCameraState() == CameraControl::PLAYER) {
 			SpriteFeed(t, feed, feedSpeed_Explanation, 2.5f);
 		}
+		FieldObject->SetScale(1.0f);
+		FieldObject->SetPosition({ 0.0f,-20.0f,0.0f });
 
-		BossFieldObject->SetFogCenter({ 0.0f, -20.0f, 0.0f });
+		FieldObject->SetFogCenter({ 0.0f, -20.0f, 0.0f });
 
 		CelestialSphereObject->setFog(TRUE);
 	
@@ -118,13 +124,11 @@ void Field::Update(DebugCamera* camera)
 
 		//フィールド外周とプレイヤーの当たり判定(現時点では矩形と点)
 		FieldDamageAreaCol();
+		
 	}
+	FieldObject->SetColor({ 0.2f,0.2f,0.2f,1.0f });
+	FieldObject->Update({ 0.2f,0.2f,0.2f,1.0f }, camera);
 
-	FieldObject->SetColor({ 0.6f,0.6f,0.6f,1.0f });
-	FieldObject->Update({ 0.6f,0.6f,0.6f,1.0f }, camera);
-	
-	BossFieldObject->SetColor({ 0.6f,0.6f,0.6f,1.0f });
-	BossFieldObject->Update({ 0.6f,0.6f,0.6f,1.0f }, camera);
 
 	CelestialSphereObject->Update({ 1.0f,1.0f,1.0f,1.0f }, camera);
 
@@ -137,28 +141,17 @@ void Field::Update(DebugCamera* camera)
 
 void Field::Draw()
 {
-	CelestialSphereObject->PreDraw();
+	Object3d::PreDraw();
 	CelestialSphereObject->Draw();
-	CelestialSphereObject->PostDraw();
-
-	FieldObject->PreDraw();
+	
 	FieldObject->Draw();
-	FieldObject->PostDraw();
+	//FieldObject->PostDraw();
 
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
-		BackObject->PreDraw();
 		BackObject->Draw();
-		BackObject->PostDraw();
-
-		BossFieldObject->PreDraw();
-		BossFieldObject->Draw();
-		BossFieldObject->PostDraw();
-
-		DamageAreaObj->PreDraw();
 		DamageAreaObj->Draw();
-		DamageAreaObj->PostDraw();
-	
 	}
+	Object3d::PostDraw();
 	Explanation->setcolor({ 1.0f,1.0f,1.0f,t });
 	BossName->setcolor({ 1.0f,1.0f,1.0f,TexAlpha_BossName });
 }

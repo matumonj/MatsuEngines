@@ -2,9 +2,9 @@
 #include"imgui.h"
 void PlaceFence::Initialize(DebugCamera* camera)
 {
-	Model = Model::CreateFromOBJ("Fence");
+//	Model = Model::CreateFromOBJ("Fence");
 	Obj = Object3d::Create(camera);
-	Obj->SetModel(Model);
+	Obj->SetModel(ModelManager::GetIns()->GetModel(ModelManager::FENCE));
 }
 
 void PlaceFence::FileWriting()

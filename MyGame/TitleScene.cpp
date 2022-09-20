@@ -35,7 +35,7 @@ void TitleScene::Update()
 
 	if (Input::GetInstance()->TriggerButton(Input::Button_A)) {//押されたら
 		BaseScene* scene = new MapCreateScene(sceneManager_);//次のシーンのインスタンス生成
-		//SceneManager::GetInstance()->SetScene(SceneManager::TUTORIAL);
+		SceneManager::GetInstance()->SetScene(SceneManager::MAPCREATE);
 		sceneManager_->SetnextScene(scene);//シーンのセット
 	}
 	if (Input::GetInstance()->TriggerButton(Input::Button_B)) {//押されたら

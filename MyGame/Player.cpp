@@ -40,11 +40,11 @@ void Player::Initialize(DebugCamera* camera)
 {
 	m_Object = std::make_unique<Object3d>();
 	m_Object->Initialize(camera);
-	m_fbxModel = FbxLoader::GetInstance()->LoadModelFromFile("monster_golem_demo");
+	//m_fbxModel = FbxLoader::GetInstance()->LoadModelFromFile("monster_golem_demo");
 
 	m_fbxObject = std::make_unique<f_Object3d>();
 	m_fbxObject->Initialize();
-	m_fbxObject->SetModel(m_fbxModel);
+	m_fbxObject->SetModel(FbxLoader::GetInstance()->LoadModelFromFile("monster_golem_demo"));
 	m_fbxObject->PlayAnimation();
 
 	SetCollider();

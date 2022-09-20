@@ -261,8 +261,7 @@ void Tutorial::Finalize()
 
 	Field::GetInstance()->Finalize();
 	
-	UI::GetInstance()->Finalize();
-
-	SistemConfig::GetInstance()->Finalize();
 	delete acol;
+
+	Destroy(postEffect);
 }

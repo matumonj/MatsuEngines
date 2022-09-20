@@ -64,6 +64,7 @@ void Nail::HalfAttack(HalfAttackArea area)
 		break;
 
 	case NON:
+		Nails.clear();
 		HAttack.WaitCount = 0;
 		//HAttack.EndAction = false;
 		break;
@@ -134,6 +135,8 @@ void Nail::CircleAttack(int area1, int area2)
 		break;
 
 	case NON:
+
+		Nails.clear();
 		CAttack.WaitCount = 0;
 		break;
 	default:
@@ -161,6 +164,7 @@ void Nail::ModelSet()
 	//攻撃フェーズは初期値NON固定
 	HAttack.fase = NON;
 	CAttack.fase = NON;
+	MinY = -30;
 }
 void Nail::Update()
 {
@@ -177,4 +181,5 @@ void Nail::Draw()
 void Nail::Finalize()
 {
 	Nails.clear();
+
 }

@@ -19,6 +19,8 @@ MobEnemy::MobEnemy()
 /// </summary>
 MobEnemy::~MobEnemy()
 {
+	Destroy(state_mob);
+	Destroy(particleMan);
 	//delete mob, MobModel;
 }
 

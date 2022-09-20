@@ -5,6 +5,7 @@
 #include"BossSpell.h"
 #include"Collision.h"
 #include"PlayerControl.h"
+#include"imgui.h"
 CircleAttack::~CircleAttack()
 {
 	//delete ImpactAreaTex;
@@ -26,7 +27,7 @@ void CircleAttack::Initialize()
 	
 //	}
 	//ps0 = new OBBCollision();
-	NailModel = Model::CreateFromOBJ("Nail");
+	//NailModel = Model::CreateFromOBJ("Nail");
 	Direction[NORTH] = { 0.0f ,0.0f ,30.0f };
 	Direction[SOUTH] = { 0.0f ,0.0f ,-30.0f };
 	Direction[EAST] = { 30.0f ,0.0f ,0.0f };
@@ -36,6 +37,9 @@ void CircleAttack::ActionJudg()
 {
 	
 	if (fase==FASEONE) {
+
+		TexAlpha = 1;
+
 		NailAttackFlag = false;
 		BossSpell::GetInstance()->SetStartSpell_CA(true);
 		if (BossSpell::GetInstance()->GetEndSpell_CA()) {
@@ -44,6 +48,10 @@ void CircleAttack::ActionJudg()
 	}
 
 	if (fase == FASETWO) {
+		if (Nail::GetInstance()->GetEndAction_Circle()) {
+			Nail::GetInstance()->SetEndAction_Circle(false);
+		}
+		//NailObj.clear();
 		CircleAreaTime += 0.01f;
 		CircleSize.x = Easing::EaseOut(CircleAreaTime, 0, 8);
 		CircleSize.y = Easing::EaseOut(CircleAreaTime, 0, 8);
@@ -54,8 +62,11 @@ void CircleAttack::ActionJudg()
 	}
 
 	if (fase == FASETHREE) {
+		
 		Nail::GetInstance()->CircleAttack(Area1, Area2);
 		CollisonNailPlayer();
+
+		CircleAreaTime = 0;
 
 		Direction[Area1].y++;
 		Direction[Area2].y++;
@@ -67,8 +78,22 @@ void CircleAttack::ActionJudg()
 			fase = FASEFOUR;
 		}
 	}
+	if (fase == FASEFOUR) {
+		TexAlpha = 0.5f;
+		BossSpell::GetInstance()->SetEndSpell_CA(false);
+
+		Direction[NORTH] = { 0.0f ,0.0f ,30.0f };
+		Direction[SOUTH] = { 0.0f ,0.0f ,-30.0f };
+		Direction[EAST] = { 30.0f ,0.0f ,0.0f };
+		Direction[WEST] = { -30.0f ,0.0f ,0.0f };
 
 
+		NailObj[0]->SetPosition(Direction[Area1]);
+		NailObj[1]->SetPosition(Direction[Area2]);
+
+		CircleSize = { 0.0f,0.0f };
+		NailObj.clear();
+	}
 	for (int i = 0; i < 2; i++) {
 		ImpactAreaTex[i]->Update(CameraControl::GetInstance()->GetCamera());
 		ImpactAreaTex[i]->SetScale({ CircleSize.x,CircleSize.y,3.0f });
@@ -86,13 +111,17 @@ void CircleAttack::ActionJudg()
 
 void CircleAttack::Draw()
 {
+	ImGui::Begin("Wes");
+	if (fase==FASETWO) {
+		ImGui::Text("%f", CircleSize.x);
+	}
+	ImGui::End();
 	Texture::PreDraw();
-	if (Nail::GetInstance()->GetEndAction_Circle() == false) {
+	//if (Nail::GetInstance()->GetEndAction_Circle() == false) {
 		for (int i = 0; i < 2; i++) {
 			ImpactAreaTex[i]->Draw();
-			ImpactAreaTex[i]->Draw();
 		}
-	}
+	//}
 	Texture::PostDraw();
 	for (int i = 0; i < NailObj.size(); i++) {
 			Object3d::PreDraw();
@@ -113,7 +142,7 @@ void CircleAttack::ImpactAttack()
 			NailObj[i] = std::make_unique<Object3d>();
 			//フィールドにモデル割り当て
 			NailObj[i]->Initialize(CameraControl::GetInstance()->GetCamera());
-			NailObj[i]->SetModel(NailModel);
+			NailObj[i]->SetModel(ModelManager::GetIns()->GetModel(ModelManager::NAIL));
 			
 			//ps0 = new OBBCollision();
 		}

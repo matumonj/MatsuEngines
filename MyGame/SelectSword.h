@@ -39,7 +39,10 @@ public:
 	void Update();
 
 	void Draw();
+	
+	void Finalize();
 
+public:
 	void SwordDraw();
 	void SetSmallSword(SwordScale nowsword);
 	void SetNormalSword();

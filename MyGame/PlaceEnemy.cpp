@@ -6,7 +6,7 @@
 #include"imgui.h"
 void PlaceEnemy::Initialize(DebugCamera* camera)
 {
-	Model = Model::CreateFromOBJ("box");
+	//Model = Model::CreateFromOBJ("box");
 	Obj = Object3d::Create(camera);
 	Obj->SetModel(Model);
 }

@@ -17,6 +17,7 @@ Enemy::~Enemy()
 {
 	delete particleMan;
 	delete  state_mob;
+	delete state_boss;
 }
 
 

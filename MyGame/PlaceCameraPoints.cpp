@@ -2,9 +2,9 @@
 #include"imgui.h"
 void PlaceCameraPoints::Initialize(DebugCamera* camera)
 {
-	Model = Model::CreateFromOBJ("sphere");
+	//Model = Model::CreateFromOBJ("sphere");
 	Obj = Object3d::Create(camera);
-	Obj->SetModel(Model);
+	Obj->SetModel(ModelManager::GetIns()->GetModel(ModelManager::SPHERE));
 }
 
 

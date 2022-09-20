@@ -179,6 +179,8 @@ void BossScene::ImGuiDraw()
 
 void BossScene::Finalize()
 {
+	UI::GetInstance()->Finalize();
+	SistemConfig::GetInstance()->Finalize();
 	AllObjectControl.clear();
 	Field::GetInstance()->Finalize();
 }

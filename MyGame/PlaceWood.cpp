@@ -2,9 +2,9 @@
 #include"imgui.h"
 void PlaceWood::Initialize(DebugCamera* camera)
 {
-	Model = Model::CreateFromOBJ("wood");
+	//Model = Model::CreateFromOBJ("wood");
 	Obj = Object3d::Create(camera);
-	Obj->SetModel(Model);
+	Obj->SetModel(ModelManager::GetIns()->GetModel(ModelManager::WOOD));
 }
 
 void PlaceWood::FileWriting()
@@ -13,8 +13,8 @@ void PlaceWood::FileWriting()
 	popcom << file.rdbuf();
 
 	file.close();
-	///std::ofstream pofs("EnemyParam_CSV/position.csv");
-	std::ofstream ofs("EnemyParam_CSV/wood.csv");  // ファイルパスを指定する
+	//std::ofstream pofs("EnemyParam_CSV/position.csv");
+	std::ofstream ofs("Param_CSV/wood.csv");  // ファイルパスを指定する
 	ofs << "Wood_Quantity" << "," << woods.size() << std::endl;
 
 	for (int i = 0; i < woods.size(); i++) {
@@ -44,7 +44,7 @@ void PlaceWood::ArgMent(DebugCamera* camera)
 	}
 	for (std::unique_ptr<Wood>& wood : woods) {
 		if (wood != nullptr) {
-			wood->SetColor({ 0,1,0,1 });
+			wood->SetColor({ 1,1,1,1 });
 			wood->Update(camera);
 			wood->CollisionField(camera);
 		}
@@ -59,7 +59,7 @@ void PlaceWood::Update(DebugCamera* camera)
 	Obj->SetPosition(pos);
 	Obj->SetScale({ 2,3,2 });
 
-	Obj->Update({ 1,0,0,0.5 }, camera);
+	Obj->Update({ 1,0,1,0.5 }, camera);
 }
 
 void PlaceWood::Draw()
@@ -115,4 +115,5 @@ void PlaceWood::Finalize()
 	for (int i = 0; i < woods.size(); i++) {
 		Destroy_unique(woods[i]);
 	}
+	woods.clear();
 }
