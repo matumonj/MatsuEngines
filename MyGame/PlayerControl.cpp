@@ -3,6 +3,7 @@
 #include"TutorialSprite.h"
 #include"PlayerAttackState.h"
 #include"AttackCollision.h"
+#include"Feed.h"
 PlayerControl* PlayerControl::GetInstance()
 {
 	static PlayerControl instance;
@@ -48,7 +49,10 @@ void PlayerControl::Update(DebugCamera* camera)
 void PlayerControl::Draw()
 {
 	ImGui::Begin("hp");
-	ImGui::Text("hpv  %d", player->GetHP());
+	ImGui::Text("px  %f", player->GetPosition().x);
+	ImGui::Text("pz  %f", player->GetPosition().z);
+	ImGui::Text("py  %f", Feed::GetInstance()->GetAlpha());
+
 	ImGui::End();
 	if (player!= nullptr) {
 		player->Draw();

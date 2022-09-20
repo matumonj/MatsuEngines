@@ -42,8 +42,6 @@ bool Field::Initialize(DebugCamera* camera)
 
 		FieldObject = TouchableObject::Create(ModelManager::GetIns()->GetModel(ModelManager::BOSSFIELD), camera);
 
-		//DamageAreaModel = Model::CreateFromOBJ("BossFieldDamageArea");
-	
 		BackObject->Initialize(camera);
 		BackObject->SetModel(ModelManager::GetIns()->GetModel(ModelManager::BACKGROUND));
 
@@ -166,16 +164,16 @@ void Field::WarningDraw()
 
 void Field::FieldDamageAreaCol()
 {
-	if (PlayerControl::GetInstance()->GetPlayer() != nullptr && t <= 0.2f) {
+	if (PlayerControl::GetInstance()->GetPlayer() != nullptr) {
 		Box damagearea;
 		Point player;
 		Ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 
 		damagearea.position = { -60.0f,-50.0f };
-		damagearea.scale = { 120.0f,120.0f };
+		damagearea.scale = { 120.0f,115.0f };
 
 		player.x = Ppos.x;
-		player.y = Ppos.z;
+		player.y = Ppos.z*-1;
 
 		if (Collision::CheckPoint2Rect(player, damagearea) == false) {
 			PlayerControl::GetInstance()->GetPlayer()->RecvDamage(10);

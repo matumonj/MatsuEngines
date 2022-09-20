@@ -28,7 +28,6 @@ public:
 
 	int ChestCount() { return GetChestCount; }
 private:
-	void GetChestEvent(Chest* chest);
 	enum Event {
 		FEEDIN,
 		FEEDOUT,
@@ -38,7 +37,7 @@ private:
 		END,
 		NON
 	};
-	Event ChestEvent = NON;
+	
 private:
 	std::vector<std::unique_ptr<Chest>>chests;
 	std::vector <XMFLOAT3>Load_ChestPosition;
@@ -47,11 +46,20 @@ private:
 	bool GetTutorialChestJudg;
 	int ChestMax;
 private:
-	ParticleManager* particleMan = nullptr;
-	bool ParticleCreateF;
-	XMFLOAT3 particlePos;
-	int ParticleLife = 420;
-	int pCount;
-	void GetChestEffect(Chest*chest);
+	struct ParticleParam {
+		ParticleManager* particleMan = nullptr;
+		bool ParticleCreateF;
+		XMFLOAT3 particlePos;
+		int ParticleLife = 420;
+		int pCount;
+		XMFLOAT3 vel{};
+		XMFLOAT3 acc{};
+	};
+	Event ChestEvent = NON;
+	ParticleParam TutorialPchest;
+	ParticleParam PlayPchest[4];
+	void GetChestEffect(Chest* chest, ParticleParam pParam);
+	void GetChestEvent(Chest* chest, ParticleParam pParam);
+
 };
 
