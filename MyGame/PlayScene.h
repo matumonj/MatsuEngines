@@ -37,6 +37,7 @@ private: // エイリアス
 	using XMVECTOR = DirectX::XMVECTOR;
 
 private:
+	bool f;
 	Input* input;
 	bool cameraMove;
 	XMFLOAT3 cameraTargetPoint;

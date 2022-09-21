@@ -40,6 +40,7 @@ private:
 	const float feedSpeed_Explanation = 0.005f;
 
 	DirectX::XMFLOAT3 Ppos; 
+	float ypos;
 public:
 	bool Initialize(DebugCamera*camera);
 	void Update(DebugCamera* camera);

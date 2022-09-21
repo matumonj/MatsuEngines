@@ -19,8 +19,13 @@ private:
 	using XMVECTOR = DirectX::XMVECTOR;
 private:
 	bool colf;
+	bool setf;
+	bool boss_colf;
+	std::vector<bool>Play_colf;
 	OBB HandObb;
 	OBBCollision* ColObb;
+	OBBCollision* BossColObb;
+	std::vector<OBBCollision*>PlayColOBB;
 	std::vector<Box> EnemyArea;
 	Input* input;
 public:
@@ -40,6 +45,8 @@ private:
 		BOSS
 	};
 	std::vector<OBB>EnemyOBB;
+	std::vector<OBB>PlayEnemyOBB;
+	std::vector<OBB>BossEnemyOBB;
 	void ColOBB(ColType Enemytype);
 };
 

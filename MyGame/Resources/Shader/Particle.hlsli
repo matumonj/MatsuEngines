@@ -10,6 +10,7 @@ struct VSOutput
 {
 	float4 pos:POSITION;
 	float scale : TEXCOORD;
+	float3 rot:ROTATION;
 	float4 colors:COLOR;
 	};
 // ジオメトリシェーダーからピクセルシェーダーへのやり取りに使用する構造体

@@ -196,6 +196,11 @@ bool ParticleManager::InitializeGraphicsPipeline()
 			"TEXCOORD",0,DXGI_FORMAT_R32_FLOAT,0,
 			D3D12_APPEND_ALIGNED_ELEMENT,D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,0
 },
+	{ // xy座標(1行で書いたほうが見やすい)
+			"ROTATION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
+			D3D12_APPEND_ALIGNED_ELEMENT,
+			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
+		},
 { // 法線ベクトル(1行で書いたほうが見やすい)
 	"COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
 	D3D12_APPEND_ALIGNED_ELEMENT,
@@ -457,6 +462,7 @@ void ParticleManager::Update(ParticleType type , XMFLOAT3 position , int lifejud
 			//座標
 			vertMap->pos = it->position;
 			vertMap->scale = it->scale;
+			vertMap->rot = it->rot;
 			//次の頂点へ
 			vertMap++;
 		}

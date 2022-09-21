@@ -5,7 +5,6 @@
 #include"SceneManager.h"
 #include"MapCreateScene.h"
 #include"Field.h"
-#include"HUD.h"
 #include"PlayerAttackState.h"
 #include"SistemConfig.h"
 #include"EnemyControl.h"
@@ -14,10 +13,10 @@
 #include"ChestControl.h"
 #include"CameraControl.h"
 #include"UI.h"
-#include"Effects.h"
 #include"CustomButton.h"
 #include"Feed.h"
 #include"PlayerControl.h"
+#include"BossScene.h"
 //シーンのコンストラクタ
 PlayScene::PlayScene(SceneManager* sceneManager)
 	:BaseScene(sceneManager)
@@ -45,10 +44,10 @@ void PlayScene::Initialize()
 	if (AllObjectControl.size() == 0) {
 		//カメラ一番上に　他のControlがカメラを引数にしてるから
 		AllObjectControl.push_back(CameraControl::GetInstance());
+		AllObjectControl.push_back(EnemyControl::GetInstance());
 		AllObjectControl.push_back(PlayerControl::GetInstance());
 		AllObjectControl.push_back(WoodControl::GetInstance());
 		AllObjectControl.push_back(FenceControl::GetInstance());
-		AllObjectControl.push_back(EnemyControl::GetInstance());
 		AllObjectControl.push_back(ChestControl::GetInstance());
 	}
 	//各オブジェクト初期化
@@ -90,18 +89,25 @@ void PlayScene::Update()
 	} else {
 		c_postEffect = Default;
 	}
-
+	if (CameraControl::GetInstance()->GetMoveBosAreaCam() == CameraControl::TARGETPLAYER) {
+		if (Feed::GetInstance()->GetAlpha() >= 1.0f) {//画面真っ白なったら
+			BaseScene* scene = new BossScene(sceneManager_);//次のシーンのインスタンス生成
+			SceneManager::GetInstance()->SetScene(SceneManager::BOSS);
+			sceneManager_->SetnextScene(scene);//シーンのセット
+		}
+	}
 }
 //描画（オブジェクト）
 void PlayScene::MyGameDraw()
 {
+
+	Field::GetInstance()->Draw();
 	if (EnemyControl::GetInstance()->GetQuentity() > 1) {
 		for (int i = 0; i < AllObjectControl.size(); i++) {
 			AllObjectControl[i]->Draw();
 		}
 	}
 
-	Field::GetInstance()->Draw();
 
 }
 
@@ -138,13 +144,12 @@ void PlayScene::Draw()
 		CustomButton::GetInstance()->Draw();
 
 		Feed::GetInstance()->Draw();
-		if (feedout) {
 			if (Feed::GetInstance()->GetAlpha() <= 0.0f) {
 				UI::GetInstance()->HUDDraw();
 			}
-		}
+		
 		UI::GetInstance()->AreaNameDraw();
-
+		AttackCollision::GetInstance()->Draw();
 		DirectXCommon::GetInstance()->EndDraw();
 		break;
 	}

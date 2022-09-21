@@ -35,6 +35,7 @@ void KnockAttack::ActionJudg()
 		BeforePositionZ = PlayerControl::GetInstance()->GetPlayer()->GetPosition().z;
 
 		KnockTime = 0.0f;//イージング用カウンタリセット
+		TexAlpha = 0.6f;
 	}
 	
 	if (fase==FASETWO) {

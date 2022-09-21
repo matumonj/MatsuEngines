@@ -26,7 +26,7 @@ private:
 	Sprite*SwordSample[3];
 	Sprite* Frame;
 	float Alpha;
-	XMFLOAT2 Position[3] = { {100,400}, {300,400}, {500,400} };
+	XMFLOAT2 Position[3] = { {200,400}, {600,400}, {1000,400} };
 	SwordScale NowSelectSword=NORMAL;
 	int index;
 	std::unique_ptr<SwordBase>Sword;

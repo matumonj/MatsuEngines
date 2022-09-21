@@ -15,7 +15,7 @@ void PlaceFence::FileWriting()
 
 	file.close();
 	///std::ofstream pofs("EnemyParam_CSV/position.csv");
-	std::ofstream ofs("EnemyParam_CSV/fence.csv");  // ファイルパスを指定する
+	std::ofstream ofs("Param_CSV/fence.csv");  // ファイルパスを指定する
 	ofs << "Fence_Quantity" << "," << fences.size() << std::endl;
 
 	for (int i = 0; i < fences.size(); i++) {
@@ -47,13 +47,17 @@ void PlaceFence::ArgMent(DebugCamera* camera)
 		newFence->Initialize(camera);
 		newFence->SetPosition(pos);
 		newFence->SetRotation(rot);
+		scl = { 3,3,1 };
 		newFence->SetScale(scl);
+		
 		fences.push_back(std::move(newFence));
 		ArgmentFlag = false;
 	}
 	for (std::unique_ptr<AreaFence>& Fence : fences) {
 		if (Fence != nullptr) {
+			Fence->SetColor({ 1,1,1,1 });
 			Fence->Update(camera);
+			Fence->CollisionField(camera);
 		}
 	}
 	if (DeleteFlag && fences.size() > 1) {
@@ -98,18 +102,21 @@ void PlaceFence::ImGui_Draw()
 	}
 
 	{
+		ImGui::Text("Position");
 		ImGui::SliderFloat("posX", &pos.x, -500, 500);
 		ImGui::SliderFloat("posY", &pos.y, -300, 300);
 		ImGui::SliderFloat("posZ", &pos.z, -800, 800);
 
 	}
 	{
+		ImGui::Text("Rotation");
 		ImGui::SliderFloat("rotX", &rot.x, 0, 360);
 		ImGui::SliderFloat("rotY", &rot.y, 0, 360);
 		ImGui::SliderFloat("rotZ", &rot.z, 0, 360);
 
 	}
 	{
+		ImGui::Text("Scale");
 		ImGui::SliderFloat("sclX", &scl.x, 0, 30);
 		ImGui::SliderFloat("sclY", &scl.y, 0, 10);
 		ImGui::SliderFloat("sclZ", &scl.z, 0, 10);

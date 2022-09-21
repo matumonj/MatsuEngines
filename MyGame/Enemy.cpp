@@ -15,9 +15,10 @@ Enemy::Enemy()
 
 Enemy::~Enemy()
 {
-	delete particleMan;
+	delete particleMan,particleMan2;
 	delete  state_mob;
 	delete state_boss;
+	delete SlashTex;
 }
 
 

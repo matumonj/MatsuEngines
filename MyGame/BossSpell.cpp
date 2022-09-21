@@ -26,11 +26,12 @@ void BossSpell::Initialize()
 	Sprite::LoadTexture(50, L"Resources/Spail.png");
 	Sprite::LoadTexture(51, L"Resources/halfAttackFrame.png");
 	Sprite::LoadTexture(52, L"Resources/CircleAttackFarame.png");
+	Sprite::LoadTexture(52, L"Resources/KnockAttackFrame.png");
 	//ç∂çUåÇ
 	SpellsInit(HalfAttack_Left, 50, 51);
 	SpellsInit(HalfAttack_Right, 50, 51);
 	SpellsInit(CircleAttack, 50, 52);
-	SpellsInit(KnockAttack, 50, 51);
+	SpellsInit(KnockAttack, 50, 52);
 	}
 
 void BossSpell::Update()

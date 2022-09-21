@@ -135,7 +135,7 @@ void Nail::CircleAttack(int area1, int area2)
 		break;
 
 	case NON:
-
+		CAttack.EndAction = false;
 		Nails.clear();
 		CAttack.WaitCount = 0;
 		break;

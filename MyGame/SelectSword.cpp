@@ -22,11 +22,11 @@ void SelectSword::Initialize()
 {
 	Sword = std::make_unique<NormalSword>();
 	Sword->Initialize(CameraControl::GetInstance()->GetCamera());
-	Sprite::LoadTexture(230, L"Resources/smallSwordtex.png");
-	Sprite::LoadTexture(231, L"Resources/normalSwordtex.png");
-	Sprite::LoadTexture(232, L"Resources/bigSwordtex.png");
+	Sprite::LoadTexture(230, L"Resources/SwordA.png");
+	Sprite::LoadTexture(231, L"Resources/swordB.png");
+	Sprite::LoadTexture(232, L"Resources/swordC.png");
 
-	Sprite::LoadTexture(233, L"Resources/jump.png");
+	Sprite::LoadTexture(233, L"Resources/SelSwordFrame.png");
 	SwordSample[0] = Sprite::Create(230, { 1,1 });
 	SwordSample[1] = Sprite::Create(231, { 1,1 });
 	SwordSample[2] = Sprite::Create(232, { 1,1 });
@@ -34,11 +34,11 @@ void SelectSword::Initialize()
 	for (int i = 0; i < 3; i++) {
 		//フィールドにモデル割り当て
 		//SwordSample[i]->Initialize();
-		SwordSample[i]->SetSize({ 200,200 });
+		SwordSample[i]->SetSize({ 400,400 });
 		SwordSample[i]->SetAnchorPoint({ 0.5,0.5 });
 		SwordSample[i]->SetPosition({ Position[i] });
 	}
-	Frame->SetSize({ 250,250 });
+	Frame->SetSize({ 450,450 });
 	Frame->SetPosition(Position[0]);
 	Frame->SetAnchorPoint({ 0.5,0.5 });
 	input = Input::GetInstance();
@@ -97,9 +97,11 @@ void SelectSword::Draw()
 {
 	if (SelectJudg) {
 		Sprite::PreDraw();
+
 		for (int i = 0; i < 3; i++) {
 			SwordSample[i]->Draw();
 		}
+
 		Frame->Draw();
 		Sprite::PostDraw();
 	}

@@ -7,6 +7,7 @@
 #include"mHelper.h"
 #include"imgui.h"
 #include"Collision.h"
+#include"PlayerControl.h"
 /// <summary>
 /// コンストラクタ
 /// </summary>
@@ -27,6 +28,8 @@ MobEnemy::~MobEnemy()
 //初期化処理
 void MobEnemy::Initialize(DebugCamera* camera)
 {
+	
+
 	m_Object = std::make_unique<Object3d>();
 	m_Object->Initialize(camera);
 	//m_fbxModel = ModelManager::GetIns()->GetFBXModel(ModelManager::GOLEM);
@@ -52,9 +55,17 @@ void MobEnemy::Initialize(DebugCamera* camera)
 	nowDeath = false;
 	m_fbxObject->SetColor({ 1,0,0,alpha });
 	state_mob->Initialize(this);
+	Texture::LoadTexture(93, L"Resources/ParticleTex/slash.png");
 
-	ParticleManager::LoadTexture(4, L"Resources/ParticleTex/Attack.png");
-	particleMan=ParticleManager::Create(4,L"Resources/AOE.png");
+	SlashTex = Texture::Create(93, { 0.0f ,0.0f ,0.0f }, { 100.0f ,100.0f ,1.0f }, { 1.0f ,1.0f ,1.0f ,1.0f });
+	SlashTex->CreateTexture();
+	SlashTex->SetAnchorPoint({ 0.5f,0.5f });
+
+	ParticleManager::LoadTexture(4, L"Resources/ParticleTex/Normal.png");
+	particleMan=ParticleManager::Create(4,L"Resources/ParticleTex/Attack.png");
+	ParticleManager::LoadTexture(6, L"Resources/ParticleTex/Attack.png");
+	particleMan2 = ParticleManager::Create(6, L"Resources/ParticleTex/Attack.png");
+	SlashPos = { Position.x,Position.y,Position.z };
 
 }
 
@@ -74,6 +85,42 @@ void MobEnemy::Update(DebugCamera* camera)
 
 	CollisionField(camera);
 
+	SlashPos.z = Position.z;
+	if (DamageParticleCreateF&&!SlashF2) {
+		SlashPos.x = Position.x + 10;
+		SlashPos.y = Position.y + 10;
+		SlashAlpha = 0.0f;
+		SlashF = true;
+	}
+	if (SlashF && !SlashF2) {
+		if (PlayerControl::GetInstance()->GetPlayer()->GetFbxTime() >= 1.7f) {
+			
+			SlashAlpha = 1.0f;
+			SlashF2 = true;
+		}
+	}
+	if(SlashF2){
+		SlashF = false;
+		SlashPos.x -= 1.0f;
+		SlashPos.y -= 1.0f;
+			SlashAlpha -= 0.05f;
+			if (SlashAlpha <= 0.0f) {
+			SlashF2 = false;
+		}
+	}
+	if (!SlashF && !SlashF2) {
+		SlashAlpha = 0.0f;
+	}
+	SlashTex->SetUVMove(false);
+	SlashTex->SetBillboard(false);
+
+	SlashTex->Update(camera);
+	SlashTex->SetPosition(SlashPos);
+	SlashTex->SetColor({ 1.0f,1.0f,1.0f,1 });
+	SlashTex->SetRotation({0,180,0});
+	SlashTex->SetScale({ 2.0f ,2.0f ,3.0f });
+
+
 	DamageParticleSet();
 }
 
@@ -85,8 +132,16 @@ void MobEnemy::Draw()
 	ParticleManager::PreDraw();
 	// 3Dオブクジェクトの描画
 	particleMan->Draw();
+	particleMan2->Draw();
 	// 3Dオブジェクト描画後処理
 	ParticleManager::PostDraw();
+	Texture::PreDraw();
+	SlashTex->Draw();
+	Texture::PostDraw();
+
+	ImGui::Begin("sp");
+	ImGui::Text("%f", SlashPos.x);
+	ImGui::End();
 }
 
 void MobEnemy::Death()
@@ -160,16 +215,32 @@ void MobEnemy::DamageParticleSet()
 		const float rnd_acc = 0.001f;
 		acc.y = -(float)rand() / RAND_MAX * rnd_acc;
 
+		XMFLOAT3 vel2{};
+		vel2.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 3.0f;
+		vel2.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 3.0f;
+		vel2.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 3.0f;
+
+		XMFLOAT3 acc2{};
+		const float rnd_acc2 = 0.01f;
+		acc2.y = -(float)rand() / RAND_MAX * rnd_acc2;
 	//	//追加
 		if (DamageParticleCreateF) {
 			particlePos = { Position.x,Position.y + 10,Position.z };
-			particleMan->Add(particleLife, particlePos, vel, acc, 3.0f, 0.0f);
+			particleMan->Add(particleLife, particlePos, vel, acc, 5.0f, 0.0f);
+
+			particleMan2->Add(particleLife, { Position.x,Position.y + 10,Position.z }, vel2, acc2, 3.0f, 0.0f);
+
 			if (i == ParticleSize - 1) {
 				DamageParticleCreateF = false;
 			}
 		}
 	
 	}
+
+	particleMan2->SetColor({ 1.0f,1.0f,0.2f,0.7f });
+	particleMan2->Update(particleMan->NORMAL);
 	particleMan->SetColor({ 1.0f,0.2f,0.2f,0.7f });
 	particleMan->Update(particleMan->NORMAL);
+	
+	
 }

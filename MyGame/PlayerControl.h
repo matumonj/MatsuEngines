@@ -1,6 +1,7 @@
 #pragma once
 #include"Player.h"
 #include "ControlBase.h"
+#include"Texture.h"
 class PlayerControl :
     public ControlBase
 {
@@ -8,7 +9,8 @@ public:
 	~PlayerControl() {};
 private:
 	std::unique_ptr<Player>player;
-	
+	Input* input;
+
 	XMFLOAT3 Player_OldPos;
 
 	bool TutorialFenceOpen;

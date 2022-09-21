@@ -25,6 +25,7 @@ public: // サブクラス
 	{
 		XMFLOAT3 pos; // xyz座標
 		float scale;
+		XMFLOAT3 rot;
 	};
 
 	// 定数バッファ用データ構造体
@@ -55,6 +56,7 @@ public: // サブクラス
 		XMFLOAT4 color;
 		XMFLOAT4 e_color= { 1,0,0,1 };
 		XMFLOAT4 s_color= { 1,0,0,1 };
+		XMFLOAT3 rot={0,0,0};
 	};
 private: // 定数
 

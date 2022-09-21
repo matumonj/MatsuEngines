@@ -181,6 +181,7 @@ void BossScene::Finalize()
 {
 	UI::GetInstance()->Finalize();
 	SistemConfig::GetInstance()->Finalize();
+	AttackCollision::GetInstance()->Finalize();
 	AllObjectControl.clear();
 	Field::GetInstance()->Finalize();
 }

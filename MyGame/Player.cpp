@@ -38,6 +38,7 @@ Player* Player::Create(Model* model, DebugCamera* camera)
 
 void Player::Initialize(DebugCamera* camera)
 {
+	StopFlag = false;
 	m_Object = std::make_unique<Object3d>();
 	m_Object->Initialize(camera);
 	//m_fbxModel = FbxLoader::GetInstance()->LoadModelFromFile("monster_golem_demo");
@@ -73,12 +74,14 @@ void Player::Update(DebugCamera* camera)
 	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(Rotation.y));
 	move = XMVector3TransformNormal(move, matRot);
 
-	if (input->Pushkey(DIK_W) || input->Pushkey(DIK_A) || input->Pushkey(DIK_D) || input->Pushkey(DIK_S)
-		|| (input->LeftTiltStick(input->Left) || input->LeftTiltStick(input->Right) || input->LeftTiltStick(input->Up) || input->LeftTiltStick(input->Down))) {
-		Position.x += move.m128_f32[0] * movespeed;
-		Position.z += move.m128_f32[2] * movespeed;
-
-	} 
+	if (!StopFlag) {
+		if (input->Pushkey(DIK_W) || input->Pushkey(DIK_A) || input->Pushkey(DIK_D) || input->Pushkey(DIK_S)
+			|| (input->LeftTiltStick(input->Left) || input->LeftTiltStick(input->Right) || input->LeftTiltStick(input->Up) || input->LeftTiltStick(input->Down))) {
+			Position.x += move.m128_f32[0] * movespeed;
+			Position.z += move.m128_f32[2] * movespeed;
+		}
+	}
+	Gmove = move;
 	//3d更新
 	ParameterSet_Obj(camera);
 	//3d_fbx更新
@@ -94,7 +97,7 @@ void Player::Update(DebugCamera* camera)
 
 void Player::RotationStatus()
 {
-
+	if (StopFlag)return;
 	//左方向への移動
 	if (rotate != RotationPrm::LEFT && input->LeftTiltStick(input->Left)) {//今向いている方向が左じゃなくAキーが押され、
 		if (rotate == RotationPrm::FRONT) {//右以外を向いていたら

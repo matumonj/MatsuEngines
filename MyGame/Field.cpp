@@ -7,6 +7,7 @@
 #include"Destroy.h"
 #include"CollisionPrimitive.h"
 #include"PlayerControl.h"
+#include"ChestControl.h"
 Field::~Field()
 {
 	
@@ -20,7 +21,7 @@ void Field::Finalize()
 	Destroy(FieldModel);
 	Destroy(BackM);
 	Destroy_unique(BackObject);
-
+	Destroy(BossFieldObject);
 }
 Field* Field::GetInstance()
 {
@@ -53,6 +54,8 @@ bool Field::Initialize(DebugCamera* camera)
 		Sprite::LoadTexture(41, L"Resources/warning1.png");
 	}
 	else {
+		BossFieldObject = TouchableObject::Create(ModelManager::GetIns()->GetModel(ModelManager::BOSSFIELD), camera);
+
 		FieldObject = TouchableObject::Create(ModelManager::GetIns()->GetModel(ModelManager::FIELD), camera);
 	}
 	
@@ -71,6 +74,7 @@ bool Field::Initialize(DebugCamera* camera)
 	BossName->SetPosition({ WinApp::window_width / 2,WinApp::window_height / 2 });
 	BossName->SetSize({ 800,800 });
 
+	ypos = -40.0f;
 	return true;
 }
 
@@ -85,18 +89,31 @@ void Field::Update(DebugCamera* camera)
 
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
 		FieldObject->SetScale(1.0f);
-		FieldObject->SetPosition({ 0.0f,-20.0f,0.0f });
+		FieldObject->SetPosition({ 0.0f,-25.0f,0.0f });
 		FieldObject->SetFogCenter({ 125.0f, -25.0f, -680.0f });
 		FieldObject->setFog(TRUE);
 		CelestialSphereObject->setFog(TRUE);
 
 	}
 	else if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY|| SceneManager::GetInstance()->GetScene() == SceneManager::MAPCREATE) {
+		if (CameraControl::GetInstance()->GetMoveBosAreaCam()==CameraControl::TARGETPLAYER) {
+			ypos+=0.4f;
+			PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(true);
+		}
 		FieldObject->SetScale(1.0f);
 		FieldObject->SetPosition({ 0.0f,-20.0f,0.0f });
 		FieldObject->SetFogCenter({ 125.0f, -25.0f, -680.0f });
 		FieldObject->setFog(FALSE);
 		CelestialSphereObject->setFog(FALSE);
+
+		XMFLOAT3 Ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+		BossFieldObject->SetScale(1.0f);
+		BossFieldObject->SetPosition({Ppos.x, ypos,Ppos.z});
+		BossFieldObject->setFog(FALSE);
+		BossFieldObject ->setFog(FALSE);
+
+		BossFieldObject->SetColor({ 0.2f,0.2f,0.2f,1.0f });
+		BossFieldObject->Update({ 0.2f,0.2f,0.2f,1.0f }, camera);
 
 	}
 	else if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
@@ -122,15 +139,13 @@ void Field::Update(DebugCamera* camera)
 
 		//フィールド外周とプレイヤーの当たり判定(現時点では矩形と点)
 		FieldDamageAreaCol();
-		
+	
 	}
 	FieldObject->SetColor({ 0.2f,0.2f,0.2f,1.0f });
 	FieldObject->Update({ 0.2f,0.2f,0.2f,1.0f }, camera);
 
-
 	CelestialSphereObject->Update({ 1.0f,1.0f,1.0f,1.0f }, camera);
 
-	
 	 t= min(t, 2.5f);
 	t = max(t, 0.0f);
 	TexAlpha_BossName = min(TexAlpha_BossName, 3.0f);
@@ -148,6 +163,10 @@ void Field::Draw()
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
 		BackObject->Draw();
 		DamageAreaObj->Draw();
+	}
+	
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
+		BossFieldObject->Draw();
 	}
 	Object3d::PostDraw();
 	Explanation->setcolor({ 1.0f,1.0f,1.0f,t });

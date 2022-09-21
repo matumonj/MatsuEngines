@@ -257,7 +257,7 @@ void Tutorial::Finalize()
 	}
 	AllObjectControl.clear();
 
-	AttackCollision::GetInstance()->Finalize();
+	//AttackCollision::GetInstance()->Finalize();
 
 	Field::GetInstance()->Finalize();
 	

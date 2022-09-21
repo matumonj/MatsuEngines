@@ -4,8 +4,11 @@
 #include"Feed.h"
 #include"SceneManager.h"
 #include"PlayerControl.h"
+#include"ChestControl.h"
 #include"EnemyControl.h"
 #include"imgui.h"
+#include"mHelper.h"
+#include"UI.h"
 CameraControl* CameraControl::GetInstance()
 {
 	static CameraControl instance;
@@ -27,13 +30,21 @@ void CameraControl::Initialize(DebugCamera* camera)
 	nowCount = 0.0f;
 	elapsedCount = 0.0f;
 
+	EaseTime = 0.0f;
+	shakex = 0.0f;
+	shakey = 0.0f;
+	shake = 0.0f;
+	shaketime = 0.0f;
+
 	maxtime = 6.0f;
 	time = 0.00000f;
 	j = time;
 	elapsedTime = 0.0f;
 	bCamera = BOSSCUTSTART;
 	sCamera = PLAYCUTSTART;
+	mCamera = NON;
 	Tstate = PLAYER;
+
 	this->camera = new DebugCamera(WinApp::window_width, WinApp::window_height);//(/*input*/);
 	input = Input::GetInstance();
 }
@@ -130,9 +141,54 @@ void CameraControl::Update(DebugCamera* camera)
 		CameraPosition.z = PlayerControl::GetInstance()->GetPlayer()->GetPosition().z + sinf((float)(cameraAngle) * 3.14f / 180.0f) * 35;
 		CameraPosition.y = PlayerControl::GetInstance()->GetPlayer()->GetPosition().y + CameraHeight;
 		this->camera->SetTarget({ PlayerControl::GetInstance()->GetPlayer()->GetPosition() });
-
+		
 		this->camera->SetEye(CameraPosition);
+		if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
+			if (ChestControl::GetInstance()->ChestCount() >= 5) {
+				Tstate = MOVEBOSSAREA;
+			}
+		}
 	}
+	
+	else if (Tstate == MOVEBOSSAREA) {
+			switch (mCamera)
+			{
+			case NON:
+				countAreaMove = 0;
+				mCamera = SHAKESTART;
+				break;
+			case SHAKESTART:
+				ShakeCamera();
+				countAreaMove++;
+				if (countAreaMove >= 120) {
+					mCamera = YPOSUP;
+				}
+				OldCameraPosY = CameraPosition.y;
+				break;
+			case YPOSUP:
+				ShakeCamera();
+				countAreaMove = 0;
+				EaseTime += 1.0f / 120.0f;
+				CameraPosition.y = Easing::EaseOut(EaseTime, OldCameraPosY, OldCameraPosY + 50);
+				if (EaseTime >= 1.0f) {
+					mCamera = TARGETPLAYER;
+				}
+				break;
+			case TARGETPLAYER:
+				ShakeCamera();
+				EaseTime = 0.0f;
+				countAreaMove++;
+				if (countAreaMove >= 120) {
+					Feed::GetInstance()->Update_White(Feed::FEEDIN);
+				}
+				break;
+			default:
+				break;
+			}
+			this->camera->SetTarget({ PlayerControl::GetInstance()->GetPlayer()->GetPosition() });
+	}
+
+
 	else if (Tstate == BOSSCUTSCENE) {
 		BossSceneStart();
 	}
@@ -247,10 +303,11 @@ void CameraControl::PlaySceneStart()
 	switch (sCamera)
 	{
 	case PLAYCUTSTART:
+		UI::GetInstance()->SetTurnoffUIDraw(true);
 		Feed::GetInstance()->Update_White(Feed::FEEDOUT);
 
 		if (Feed::GetInstance()->GetAlpha() <= 0.9f) {
-			sCamera = SPLINE;
+			sCamera = PLAYCUTEND;
 		}
 		break;
 	case SPLINE:
@@ -291,6 +348,8 @@ void CameraControl::PlaySceneStart()
 		this->camera->SetEye(CameraPosition);
 		Feed::GetInstance()->Update_Black(Feed::FEEDOUT);
 		if (Feed::GetInstance()->GetAlpha() <= 0.0f) {
+
+			UI::GetInstance()->SetTurnoffUIDraw(false);
 			Tstate = PLAYER;
 		}
 		break;
@@ -301,3 +360,24 @@ void CameraControl::PlaySceneStart()
 
 }
 
+void CameraControl::ShakeCamera()
+{
+	if (shaketime == 0) {
+
+		shaketime = 40;
+	}
+	if (shaketime != 0) {
+		shake = rand() % 3 - 6;
+		shakex = rand() % 3 - 6;
+		shakey = rand() % 3 - 6;
+		shakex -= shake;
+		shakey -= shake;
+		shaketime--;
+		//}
+		//シェイク値を０に
+	} else if (shaketime == 0) {
+		shakex = 0;
+		shakey = 0;
+	}
+	camera->SetEye({ CameraPosition.x+shakex,	CameraPosition.y + shakey,CameraPosition.z });
+}

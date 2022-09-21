@@ -321,15 +321,25 @@ void HUD::SkillBottonDraw()
 		ChestCollect[0]->Draw();
 	}
 	if (ChestControl::GetInstance()->ChestCount() == 2) {
+		ChestCollect[0]->Draw();
 		ChestCollect[1]->Draw();
 	}
 	if (ChestControl::GetInstance()->ChestCount() == 3) {
+		ChestCollect[0]->Draw();
+		ChestCollect[1]->Draw();
 		ChestCollect[2]->Draw();
 	}
 	if (ChestControl::GetInstance()->ChestCount() == 4) {
+		ChestCollect[0]->Draw();
+		ChestCollect[1]->Draw();
+		ChestCollect[2]->Draw();
 		ChestCollect[3]->Draw();
 	}
 	if (ChestControl::GetInstance()->ChestCount() == 5) {
+		ChestCollect[0]->Draw();
+		ChestCollect[1]->Draw();
+		ChestCollect[2]->Draw();
+		ChestCollect[3]->Draw();
 		ChestCollect[4]->Draw();
 	}
 	Sprite::PostDraw();

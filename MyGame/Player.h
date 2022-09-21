@@ -50,6 +50,7 @@ public:
 	void isOldPos() {
 		Position.x = oldpos.x; Position.z = oldpos.z;
 	}
+	void SetStopFlag(bool f) { StopFlag = f; }
 private:
 	//プレイヤーが持つ剣
 	SwordBase* sword;
@@ -75,7 +76,7 @@ private:
 	//カメラに合わせたキャラクターの回転
 	float CharaRotation = 0;
 	RotationPrm rotate;
-
+	bool StopFlag;
 private:
 	Input* input = Input::GetInstance();
 	f_Model* fbxmodel = nullptr;
@@ -84,12 +85,14 @@ private:
 private:
 	bool jumpflag;
 	float movespeed = 8.0f;
+	XMVECTOR Gmove;
 public:
 	void RotationStatus();
 	void SetCharaRotation(float angle) { Rotation.y = angle; rotate = RotationPrm::FRONT; }
-
 	int GetHP() { return HP; }
 	int GetMaxHP() { return MaxHP; }
+
+	float GetFbxTime() { return f_time; }
 private:
 	float f_time;
 	float AttackTime = 1.5f;

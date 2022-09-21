@@ -46,20 +46,22 @@ private:
 	bool GetTutorialChestJudg;
 	int ChestMax;
 private:
-	struct ParticleParam {
+struct ParticleParam {
 		ParticleManager* particleMan = nullptr;
-		bool ParticleCreateF;
+		bool ParticleCreateF=false;
 		XMFLOAT3 particlePos;
 		int ParticleLife = 420;
-		int pCount;
+		int pCount=0;
 		XMFLOAT3 vel{};
 		XMFLOAT3 acc{};
-	};
-	Event ChestEvent = NON;
+
+		Event ChestEvent = NON;
+};
+int u=0;
 	ParticleParam TutorialPchest;
 	ParticleParam PlayPchest[4];
-	void GetChestEffect(Chest* chest, ParticleParam pParam);
-	void GetChestEvent(Chest* chest, ParticleParam pParam);
+	void GetChestEffect(Chest* chest, ParticleParam&pParam);
+	void GetChestEvent(Chest* chest, ParticleParam&pParam);
 
 };
 

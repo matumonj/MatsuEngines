@@ -12,7 +12,8 @@ PlayerControl* PlayerControl::GetInstance()
 
 void PlayerControl::Finalize()
 {
-	Destroy_unique(player);
+	AttackCollision::GetInstance()->Finalize();
+		Destroy_unique(player);
 }
 void PlayerControl::Load(DebugCamera* camera)
 {
@@ -29,6 +30,9 @@ void PlayerControl::Load(DebugCamera* camera)
 
 void PlayerControl::Initialize(DebugCamera* camera)
 {
+	Texture::LoadTexture(93, L"Resources/ParticleTex/slash.png");
+
+	
 	player = std::make_unique<Player>();
 	player->Initialize(camera);
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
@@ -44,6 +48,8 @@ void PlayerControl::Update(DebugCamera* camera)
 {
 	player->Update(camera);
 	PlayerAttackState::GetInstance()->Update();
+
+
 }
 
 void PlayerControl::Draw()
@@ -57,6 +63,7 @@ void PlayerControl::Draw()
 	if (player!= nullptr) {
 		player->Draw();
 	}
+	
 }
 
 void PlayerControl::ImGuiDraw()

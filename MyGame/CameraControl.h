@@ -22,6 +22,7 @@ public:
         MAPCREATE,
         PLAYER,
         TUTORIAL,
+        MOVEBOSSAREA,
         PLAYCUTSCENE,
         BOSSCUTSCENE
     };
@@ -63,11 +64,12 @@ public:
     XMFLOAT3 CameraPosIndex(int index) { return points[index]; }
     void SetCameraState(TargetState state) { Tstate = state; }
     TargetState GetCameraState() { return Tstate; }
-    void move(XMFLOAT3& pos);
     void SetColor(XMFLOAT4 color)override;
-
+    void ShakeCamera();
 private:
     bool BossCutSene = false;
+
+public:
     enum BossCamera {//É{ÉXìoèÍéûÇÃÉJÉÅÉâãììÆ
         BOSSCUTSTART,
         ROLL,
@@ -79,17 +81,34 @@ private:
         FEED,
         PLAYCUTEND
     };
+    enum MoveBossAreaCamera {
+        NON,
+        SHAKESTART,
+        YPOSUP,
+        TARGETPLAYER
+    };
+private:
     BossCamera bCamera;
     SplineCamera sCamera;
-
+    MoveBossAreaCamera mCamera;
+private:
+    bool UpStage;
+    int countAreaMove;
+    float OldCameraPosY;
+    float EaseTime=0;
 private:
     int CutCount[3]={0};
     float BossCutAngle = 270.0f;
     bool AttackSceneF = false;
     float BCutCameraHeight = 5.0f;
+private:
+    float shakex = 0.0f;
+    float shakey = 0.0f;
+    float shake = 0.0f;
+    float shaketime = 0.0f;
 public:
     bool GetAttackSceneF() { return AttackSceneF; }
-
+    int GetMoveBosAreaCam() { return mCamera; }
 private:
     void BossSceneStart();
     void PlaySceneStart();

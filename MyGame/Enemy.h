@@ -134,8 +134,13 @@ public:
 		HALF_2
 	};
 protected:
+	Texture* SlashTex;
+	XMFLOAT3 SlashRot;
+	XMFLOAT3 SlashPos;
+	float SlashAlpha = 1.0f;
+	protected:
 	EnemyState* state_mob;
 	BossEnemyState* state_boss;
 	ParticleManager* particleMan = nullptr;
-
+	ParticleManager* particleMan2 = nullptr;
 };

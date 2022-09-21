@@ -108,7 +108,7 @@ void EnemyControl::Load(DebugCamera*camera)
 		tutorial_enemy[0]->SetPosition(tutorial_pos);
 	}
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
-		boss_enemy.resize(1);
+		//boss_enemy.resize(1);
 		boss_enemy[0] = std::make_unique<BossEnemy>();
 		boss_enemy[0]->Initialize(camera);
 		boss_pos = { 0.0f,20.5045f,20.987f };
@@ -146,7 +146,7 @@ void EnemyControl::Initialize(DebugCamera* camera)
 
 	//behavior.AddNode("Root", "Follow", 2, BehaviorTree::SELECT_RULE::NON, FollowJudgement::GetInstance(), FollowAction::GetInstance());
 	//behavior.AddNode("Root", "Death", 4, BehaviorTree::SELECT_RULE::NON, DeathJudgment::GetInstance(), DeathAction::GetInstance());
-
+	boss_enemy.resize(1);
 }
 
 void EnemyControl::Update(DebugCamera* camera)

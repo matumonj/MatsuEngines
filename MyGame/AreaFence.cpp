@@ -1,7 +1,7 @@
 #pragma once
 #include "AreaFence.h"
 #include"PlayerControl.h"
-
+#include"SceneManager.h"
 AreaFence::~AreaFence()
 {
 	//delete  m_Model;
@@ -19,12 +19,14 @@ void AreaFence::Initialize(DebugCamera* camera)
 	ps0 = new OBBCollision();
 
 	Scale = { 10,10,10 };
-
+	SetCollider();
 }
 
 void AreaFence::Update(DebugCamera* camera)
 {
-	CollideAreaFence();
+	if (SceneManager::GetInstance()->GetScene() != SceneManager::MAPCREATE) {
+		CollideAreaFence();
+	}
 	//フィールド
 	ParameterSet_Obj(camera);
 }
@@ -55,7 +57,7 @@ bool AreaFence::CollideAreaFence()
 
 	if (ps0->ColOBBs(playerOBB, AreaFenceOBB)) {
 		//Collision::SetCollideOBB(true);
-		PlayerControl::GetInstance()->GetPlayer()->isOldPos();
+		//PlayerControl::GetInstance()->GetPlayer()->isOldPos();
 		return true;
 	}
 }

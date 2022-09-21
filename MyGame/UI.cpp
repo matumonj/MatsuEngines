@@ -41,6 +41,7 @@ void UI::HUDUpdate(bool&hudload, DebugCamera* camera)
 
 void UI::HUDDraw()
 {
+	if (TurnOffDrawUI)return;
 	if (TutorialSprite::GetInstance()->GetClearSetting()) {
 		HUD::GetInstance()->EnemyHPGauge_MultiDraw();
 	}

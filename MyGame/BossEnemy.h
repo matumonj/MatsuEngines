@@ -51,11 +51,22 @@ public:
     void Death()override;
 
 private:
+    bool sf;
     bool nowAttack;
     bool nowDeath;
     float defaulttime = 1.8f;
     bool DeathFlag;
 private:
     void DamageParticleSet();
+private:
+    bool SlashF;
+    bool SlashF2;
+   float alpha = 1;
+    const int ParticleSize = 20;
+public:
+    // bool GetFolatc() { return folatc; }
+    bool isendtime;
+    int particleLife = 320;
+    XMFLOAT3 particlePos;
 };
 
