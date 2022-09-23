@@ -33,7 +33,7 @@ void EnemyAlpha::Initialize(DebugCamera* camera)
 	MaxHP = 150.00f;
 	//パラメータのセット
 
-	Rotation = { 0,0,0 };
+	Rotation = { 0,180,0 };
 
 
 	m_fbxObject = std::make_unique<f_Object3d>();

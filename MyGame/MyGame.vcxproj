@@ -159,6 +159,7 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AltAttack.cpp" />
     <ClCompile Include="AreaFence.cpp" />
     <ClCompile Include="AttackCollision.cpp" />
     <ClCompile Include="BigSword.cpp" />
@@ -263,6 +264,7 @@
     <ClCompile Include="WoodControl.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AltAttack.h" />
     <ClInclude Include="AreaFence.h" />
     <ClInclude Include="AttackCollision.h" />
     <ClInclude Include="BigSword.h" />

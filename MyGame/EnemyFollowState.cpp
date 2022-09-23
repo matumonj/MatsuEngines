@@ -44,11 +44,13 @@ void EnemyFollowState::Update(Enemy* enemy)
 	enemy->SetRotation({ enemy->GetRotation().x,
 		 RotY * 60 + 180,
 		enemy->GetRotation().z });
-	enemy->SetPosition({
-				enemy->GetPosition().x + move.m128_f32[0],
-				enemy->GetPosition().y,
-				enemy->GetPosition().z + move.m128_f32[2] }
-	);
+	if (Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) > 5) {
+		enemy->SetPosition({
+					enemy->GetPosition().x + move.m128_f32[0],
+					enemy->GetPosition().y,
+					enemy->GetPosition().z + move.m128_f32[2] }
+		);
+	}
 	//movement++;
 	if (SearchPlayer&&enemy->GetCoolTime()==0) {
 		//í«ê’

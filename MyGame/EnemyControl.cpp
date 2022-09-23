@@ -111,7 +111,7 @@ void EnemyControl::Load(DebugCamera*camera)
 		//boss_enemy.resize(1);
 		boss_enemy[0] = std::make_unique<BossEnemy>();
 		boss_enemy[0]->Initialize(camera);
-		boss_pos = { 0.0f,20.5045f,20.987f };
+		boss_pos = { 0.0f,15.5045f,20.987f };
 		boss_enemy[0]->SetPosition(boss_pos);
 	}
 }

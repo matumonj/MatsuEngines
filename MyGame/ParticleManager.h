@@ -104,7 +104,7 @@ private: // 静的メンバ変数
 	// インデックスバッファ
 	//static ComPtr<ID3D12Resource> indexBuff;
 	// テクスチャバッファ
-	static ComPtr<ID3D12Resource> texbuff[10];
+	static ComPtr<ID3D12Resource> texbuff[100];
 	// シェーダリソースビューのハンドル(CPU)
 	static CD3DX12_CPU_DESCRIPTOR_HANDLE cpuDescHandleSRV;
 	// シェーダリソースビューのハンドル(CPU)
@@ -177,7 +177,8 @@ private: // メンバ変数
 		enum ParticleType {
 			NORMAL,
 			ABSORPTION,
-			FOLLOW
+			FOLLOW,
+			CHARGE
 		};
 		//普通の拡散エフェクト
 		void Normal();
@@ -185,6 +186,8 @@ private: // メンバ変数
 		void Absorption();
 		//一定距離行ったらposition方向に戻ってくる
 		void Follow(XMFLOAT3 position,int lifejudg);
+		//チャージもどき
+		void Charge(XMFLOAT3 position);
 public: // メンバ関数
 	bool Initialize(UINT texnum);
 	/// <summary>

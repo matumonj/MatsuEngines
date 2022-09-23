@@ -220,7 +220,7 @@ void BossEnemy::DamageParticleSet()
 		if (DamageParticleCreateF) {
 			sf = true;
 			particlePos = { Position.x,Position.y + 10,Position.z };
-			particleMan->Add(particleLife, particlePos, vel, acc, 5.0f, 0.0f);
+			particleMan->Add(particleLife, particlePos, vel, acc, 3.0f, 0.0f);
 
 			particleMan2->Add(particleLife, { Position.x,Position.y + 10,Position.z }, vel2, acc2, 3.0f, 0.0f);
 

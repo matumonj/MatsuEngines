@@ -24,7 +24,7 @@ void BigSword::Initialize(DebugCamera* camera)
 void BigSword::Update(DebugCamera* camera)
 {
 	const float Damage_Value = 20.0f;
-	const float CoolTime_Value = 240.0f;
+	const float CoolTime_Value = 180.0f;
 
 	Damage = Damage_Value;
 	CoolTime = CoolTime_Value;

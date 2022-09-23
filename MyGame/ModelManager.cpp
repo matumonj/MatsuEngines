@@ -24,6 +24,8 @@ void ModelManager::Initialize() {
 	LoadModel(NAIL, "Nail");
 	LoadModel(BACKGROUND, "BackGround");
 	LoadModel(DAMAGEAREA, "BossFieldDamageArea");
+	LoadModel(BOX, "Box");
+	LoadModel(BEAM, "BeamObj");
 }
 
 void ModelManager::LoadModel(const ModelName modelName, std::string fileName) {

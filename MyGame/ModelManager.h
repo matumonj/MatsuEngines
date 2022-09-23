@@ -22,7 +22,9 @@ public:
 		NAIL,
 		SPHERE,
 		BACKGROUND,
-		DAMAGEAREA
+		DAMAGEAREA,
+		BOX,
+		BEAM
 	};
 	enum FBXName {
 		PLAYER,

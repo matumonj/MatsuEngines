@@ -8,7 +8,7 @@ void PlaceEnemy::Initialize(DebugCamera* camera)
 {
 	//Model = Model::CreateFromOBJ("box");
 	Obj = Object3d::Create(camera);
-	Obj->SetModel(Model);
+	Obj->SetModel(ModelManager::GetIns()->GetModel(ModelManager::BOX));
 }
 
 bool PlaceEnemy::ErrorJudg()
@@ -78,7 +78,7 @@ void PlaceEnemy::Update(DebugCamera* camera)
 {
 	Obj->SetPosition(pos);
 	Obj->SetScale({ 2,3,2 });
-	Obj->SetColor({ 1,0,0,1 });
+	Obj->SetColor({ 1,0,0,0.5f});
 	Obj->Update({ 1,0,0,0.5 }, camera);
 }
 

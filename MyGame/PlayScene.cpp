@@ -17,6 +17,7 @@
 #include"Feed.h"
 #include"PlayerControl.h"
 #include"BossScene.h"
+#include"SelectSword.h"
 //シーンのコンストラクタ
 PlayScene::PlayScene(SceneManager* sceneManager)
 	:BaseScene(sceneManager)
@@ -32,9 +33,9 @@ void PlayScene::objUpdate(DebugCamera* camera)
 	UI::GetInstance()->HUDUpdate(hudload, (CameraControl::GetInstance()->GetCamera()));
 
 	Field::GetInstance()->Update((CameraControl::GetInstance()->GetCamera()));
-	CustomButton::GetInstance()->Update();
+	//CustomButton::GetInstance()->Update();
 
-	SistemConfig::GetInstance()->Update();
+	//SistemConfig::GetInstance()->Update();
 
 }
 
@@ -70,11 +71,14 @@ void PlayScene::Initialize()
 	//カメラ挙動をプレイカットシーン
 	CameraControl::GetInstance()->SetCameraState(CameraControl::PLAYCUTSCENE);
 
+	//CustomButton::GetInstance()->Initialize();
 }
 
 //更新処理
 void PlayScene::Update()
 {
+	SistemConfig::GetInstance()->Update();
+
 	if (!Load && !PlayGame) {
 		Load = true;
 	}
@@ -125,8 +129,10 @@ void PlayScene::Draw()
 		DirectXCommon::GetInstance()->BeginDraw();
 		postEffect->Draw();
 		if (HUD::GetInstance()->GetLayOutMode()) {
-			//UI::GetInstance()->HUDDraw();
+			UI::GetInstance()->HUDDraw();
 		}
+		SelectSword::GetInstance()->Draw();
+
 		SistemConfig::GetInstance()->Draw();
 		CustomButton::GetInstance()->Draw();
 		

@@ -24,7 +24,7 @@ void NormalSword::Initialize(DebugCamera* camera)
 void NormalSword::Update(DebugCamera* camera)
 {
 	const float Damage_Value = 5.0f;
-	const float CoolTime_Value = 60.0f;
+	const float CoolTime_Value = 90.0f;
 
 	Damage = Damage_Value;
 	CoolTime = CoolTime_Value;

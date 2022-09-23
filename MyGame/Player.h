@@ -58,6 +58,8 @@ private:
 	XMFLOAT3 SwordRot;
 	//‘OÀ•W
 	XMFLOAT3 oldpos;
+
+	XMFLOAT3 onGroundPos;
 	//ès—ñ
 	XMMATRIX HandMat;
 	//‘Ì—Íü‚è
@@ -83,8 +85,9 @@ private:
 	f_Object3d* object1 = nullptr;
 
 private:
+	int nogroundtime;
 	bool jumpflag;
-	float movespeed = 8.0f;
+	float movespeed = 5.0f;
 	XMVECTOR Gmove;
 public:
 	void RotationStatus();

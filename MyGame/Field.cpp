@@ -106,17 +106,21 @@ void Field::Update(DebugCamera* camera)
 		FieldObject->setFog(FALSE);
 		CelestialSphereObject->setFog(FALSE);
 
-		XMFLOAT3 Ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
-		BossFieldObject->SetScale(1.0f);
-		BossFieldObject->SetPosition({Ppos.x, ypos,Ppos.z});
-		BossFieldObject->setFog(FALSE);
-		BossFieldObject ->setFog(FALSE);
-
-		BossFieldObject->SetColor({ 0.2f,0.2f,0.2f,1.0f });
-		BossFieldObject->Update({ 0.2f,0.2f,0.2f,1.0f }, camera);
 
 	}
-	else if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
+	else if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
+		if (SceneManager::GetInstance()->GetScene() != SceneManager::MAPCREATE) {
+			XMFLOAT3 Ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+			BossFieldObject->SetScale(1.0f);
+			BossFieldObject->SetPosition({ Ppos.x, ypos,Ppos.z });
+			BossFieldObject->setFog(FALSE);
+			BossFieldObject->setFog(FALSE);
+
+	BossFieldObject->SetColor({ 0.2f,0.2f,0.2f,1.0f });
+	BossFieldObject->Update({ 0.2f,0.2f,0.2f,1.0f }, camera);
+		}
+	}
+		else if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
 		SpriteFeed(TexAlpha_BossName, feed_BossName, feedSpeed_BossName, 1.5f);
 		if (CameraControl::GetInstance()->GetCameraState() == CameraControl::PLAYER) {
 			SpriteFeed(t, feed, feedSpeed_Explanation, 2.5f);
@@ -166,7 +170,9 @@ void Field::Draw()
 	}
 	
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
-		BossFieldObject->Draw();
+		if (ypos > -15) {
+			BossFieldObject->Draw();
+		}
 	}
 	Object3d::PostDraw();
 	Explanation->setcolor({ 1.0f,1.0f,1.0f,t });
@@ -189,7 +195,7 @@ void Field::FieldDamageAreaCol()
 		Ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 
 		damagearea.position = { -60.0f,-50.0f };
-		damagearea.scale = { 120.0f,115.0f };
+		damagearea.scale = { 120.0f,110.0f };
 
 		player.x = Ppos.x;
 		player.y = Ppos.z*-1;

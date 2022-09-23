@@ -91,9 +91,9 @@ void AttackCollision::GetCol(int damage)
 				PlayEnemyOBB[i].m_NormaDirect[0] = { EnemyControl::GetInstance()->GetEnemyindex(0)[i]->GetMatrot().r[0].m128_f32[0],EnemyControl::GetInstance()->GetEnemyindex(0)[i]->GetMatrot().r[0].m128_f32[1],EnemyControl::GetInstance()->GetEnemyindex(0)[i]->GetMatrot().r[0].m128_f32[2] };
 				PlayEnemyOBB[i].m_NormaDirect[1] = { EnemyControl::GetInstance()->GetEnemyindex(0)[i]->GetMatrot().r[1].m128_f32[0], EnemyControl::GetInstance()->GetEnemyindex(0)[i]->GetMatrot().r[1].m128_f32[1], EnemyControl::GetInstance()->GetEnemyindex(0)[i]->GetMatrot().r[1].m128_f32[2] };
 				PlayEnemyOBB[i].m_NormaDirect[2] = { EnemyControl::GetInstance()->GetEnemyindex(0)[i]->GetMatrot().r[2].m128_f32[0], EnemyControl::GetInstance()->GetEnemyindex(0)[i]->GetMatrot().r[2].m128_f32[1], EnemyControl::GetInstance()->GetEnemyindex(0)[i]->GetMatrot().r[2].m128_f32[2] };
-				PlayEnemyOBB[i].m_fLength[0] = 2;//x•ûŒü‚Ì’·‚³
+				PlayEnemyOBB[i].m_fLength[0] = 4;//x•ûŒü‚Ì’·‚³
 				PlayEnemyOBB[i].m_fLength[1] = 2;//y•ûŒü‚Ì’·‚³
-				PlayEnemyOBB[i].m_fLength[2] = 2;//z•ûŒü‚Ì’·‚³
+				PlayEnemyOBB[i].m_fLength[2] = 4;//z•ûŒü‚Ì’·‚³
 
 				PlayEnemyOBB[i].m_Pos.m128_f32[0] = { EnemyControl::GetInstance()->GetEnemyindex(0)[i]->GetPosition().x };
 				PlayEnemyOBB[i].m_Pos.m128_f32[1] = { EnemyControl::GetInstance()->GetEnemyindex(0)[i]->GetPosition().y };
@@ -137,9 +137,6 @@ void AttackCollision::GetCol(int damage)
 }
 void AttackCollision::Draw()
 {
-	ImGui::Begin("size");
-	ImGui::Text("%d", PlayEnemyOBB.size());
-	ImGui::End();
 }
 
 void AttackCollision::ColOBB(ColType Enemytype)
@@ -153,9 +150,9 @@ void AttackCollision::ColOBB(ColType Enemytype)
 		EnemyOBB[0].m_NormaDirect[0] = {EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetMatrot().r[0].m128_f32[0],EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetMatrot().r[0].m128_f32[1],EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetMatrot().r[0].m128_f32[2]};
 		EnemyOBB[0].m_NormaDirect[1] = { EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetMatrot().r[1].m128_f32[0], EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetMatrot().r[1].m128_f32[1], EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetMatrot().r[1].m128_f32[2] };
 		EnemyOBB[0].m_NormaDirect[2] = { EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetMatrot().r[2].m128_f32[0], EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetMatrot().r[2].m128_f32[1], EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetMatrot().r[2].m128_f32[2] };
-		EnemyOBB[0].m_fLength[0] = 2;//x•ûŒü‚Ì’·‚³
+		EnemyOBB[0].m_fLength[0] = 4;//x•ûŒü‚Ì’·‚³
 		EnemyOBB[0].m_fLength[1] = 2;//y•ûŒü‚Ì’·‚³
-		EnemyOBB[0].m_fLength[2] = 2;//z•ûŒü‚Ì’·‚³
+		EnemyOBB[0].m_fLength[2] = 4;//z•ûŒü‚Ì’·‚³
 
 		EnemyOBB[0].m_Pos.m128_f32[0] = { EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetPosition().x };
 		EnemyOBB[0].m_Pos.m128_f32[1] = { EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetPosition().y };
@@ -171,9 +168,9 @@ void AttackCollision::ColOBB(ColType Enemytype)
 		BossEnemyOBB[0].m_NormaDirect[0] = { EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetMatrot().r[0].m128_f32[0],EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetMatrot().r[0].m128_f32[1],EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetMatrot().r[0].m128_f32[2] };
 		BossEnemyOBB[0].m_NormaDirect[1] = { EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetMatrot().r[1].m128_f32[0], EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetMatrot().r[1].m128_f32[1], EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetMatrot().r[1].m128_f32[2] };
 		BossEnemyOBB[0].m_NormaDirect[2] = { EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetMatrot().r[2].m128_f32[0], EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetMatrot().r[2].m128_f32[1], EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetMatrot().r[2].m128_f32[2] };
-		BossEnemyOBB[0].m_fLength[0] = 2;//x•ûŒü‚Ì’·‚³
+		BossEnemyOBB[0].m_fLength[0] = 4;//x•ûŒü‚Ì’·‚³
 		BossEnemyOBB[0].m_fLength[1] = 2;//y•ûŒü‚Ì’·‚³
-		BossEnemyOBB[0].m_fLength[2] = 2;//z•ûŒü‚Ì’·‚³
+		BossEnemyOBB[0].m_fLength[2] = 4;//z•ûŒü‚Ì’·‚³
 
 		BossEnemyOBB[0].m_Pos.m128_f32[0] = { EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetPosition().x };
 		BossEnemyOBB[0].m_Pos.m128_f32[1] = { EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetPosition().y };

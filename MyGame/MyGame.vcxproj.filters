@@ -181,6 +181,24 @@
     <Filter Include="Game\2d %28DebugTxt  Sprite Texture%29\posteffect">
       <UniqueIdentifier>{3aec48ac-9748-421e-b3b2-330ac8332409}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン\前半フェーズ">
+      <UniqueIdentifier>{2ed3641d-8ebe-40f6-814e-efefe807737c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン\前半フェーズ\行動遷移">
+      <UniqueIdentifier>{bdb8748a-af21-4e5e-b269-97f63a83b3f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン\前半フェーズ\行動内容">
+      <UniqueIdentifier>{f45bf99b-b140-4da5-ac78-312ed692bce7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン\後半フェーズ">
+      <UniqueIdentifier>{9fc05f87-29b3-45cd-aaa9-a71bae9ad6ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン\後半フェーズ\行動内容">
+      <UniqueIdentifier>{39652be0-e727-4160-a478-3daeab95fdb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン\後半フェーズ\行動遷移">
+      <UniqueIdentifier>{20191d69-8eea-4a71-8563-3466169c2c59}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -405,15 +423,6 @@
     <ClCompile Include="NormalSword.cpp">
       <Filter>Game\gameobject\オブジェクト種類\Sword\派生</Filter>
     </ClCompile>
-    <ClCompile Include="KnockAttack.cpp">
-      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン</Filter>
-    </ClCompile>
-    <ClCompile Include="CircleAttack.cpp">
-      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン</Filter>
-    </ClCompile>
-    <ClCompile Include="HalfAttack.cpp">
-      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン</Filter>
-    </ClCompile>
     <ClCompile Include="BossScene.cpp">
       <Filter>Game\Scene\title,play</Filter>
     </ClCompile>
@@ -453,15 +462,6 @@
     <ClCompile Include="BossEnemyState.cpp">
       <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス</Filter>
     </ClCompile>
-    <ClCompile Include="BossEnemyAttackCircle.cpp">
-      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス</Filter>
-    </ClCompile>
-    <ClCompile Include="BossEnemyAttackHalf.cpp">
-      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス</Filter>
-    </ClCompile>
-    <ClCompile Include="BossEnemyAttackKnock.cpp">
-      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス</Filter>
-    </ClCompile>
     <ClCompile Include="BossEnemyDeath.cpp">
       <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス</Filter>
     </ClCompile>
@@ -488,6 +488,27 @@
     </ClCompile>
     <ClCompile Include="BossEnemyStay.cpp">
       <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス</Filter>
+    </ClCompile>
+    <ClCompile Include="CircleAttack.cpp">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン\前半フェーズ\行動内容</Filter>
+    </ClCompile>
+    <ClCompile Include="KnockAttack.cpp">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン\前半フェーズ\行動内容</Filter>
+    </ClCompile>
+    <ClCompile Include="HalfAttack.cpp">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン\前半フェーズ\行動内容</Filter>
+    </ClCompile>
+    <ClCompile Include="BossEnemyAttackCircle.cpp">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン\前半フェーズ\行動遷移</Filter>
+    </ClCompile>
+    <ClCompile Include="BossEnemyAttackHalf.cpp">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン\前半フェーズ\行動遷移</Filter>
+    </ClCompile>
+    <ClCompile Include="BossEnemyAttackKnock.cpp">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン\前半フェーズ\行動遷移</Filter>
+    </ClCompile>
+    <ClCompile Include="AltAttack.cpp">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン\後半フェーズ\行動内容</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -734,15 +755,6 @@
     <ClInclude Include="NormalSword.h">
       <Filter>Game\gameobject\オブジェクト種類\Sword\派生</Filter>
     </ClInclude>
-    <ClInclude Include="HalfAttack.h">
-      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン</Filter>
-    </ClInclude>
-    <ClInclude Include="CircleAttack.h">
-      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン</Filter>
-    </ClInclude>
-    <ClInclude Include="KnockAttack.h">
-      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン</Filter>
-    </ClInclude>
     <ClInclude Include="BossScene.h">
       <Filter>Game\Scene\title,play</Filter>
     </ClInclude>
@@ -782,15 +794,6 @@
     <ClInclude Include="BossEnemyState.h">
       <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス</Filter>
     </ClInclude>
-    <ClInclude Include="BossEnemyAttackCircle.h">
-      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス</Filter>
-    </ClInclude>
-    <ClInclude Include="BossEnemyAttackHalf.h">
-      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス</Filter>
-    </ClInclude>
-    <ClInclude Include="BossEnemyAttackKnock.h">
-      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス</Filter>
-    </ClInclude>
     <ClInclude Include="BossEnemyDeath.h">
       <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス</Filter>
     </ClInclude>
@@ -823,6 +826,27 @@
     </ClInclude>
     <ClInclude Include="BossEnemyStay.h">
       <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス</Filter>
+    </ClInclude>
+    <ClInclude Include="CircleAttack.h">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン\前半フェーズ\行動内容</Filter>
+    </ClInclude>
+    <ClInclude Include="KnockAttack.h">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン\前半フェーズ\行動内容</Filter>
+    </ClInclude>
+    <ClInclude Include="HalfAttack.h">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン\前半フェーズ\行動内容</Filter>
+    </ClInclude>
+    <ClInclude Include="BossEnemyAttackCircle.h">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン\前半フェーズ\行動遷移</Filter>
+    </ClInclude>
+    <ClInclude Include="BossEnemyAttackHalf.h">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン\前半フェーズ\行動遷移</Filter>
+    </ClInclude>
+    <ClInclude Include="BossEnemyAttackKnock.h">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン\前半フェーズ\行動遷移</Filter>
+    </ClInclude>
+    <ClInclude Include="AltAttack.h">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン\後半フェーズ\行動内容</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

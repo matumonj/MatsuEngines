@@ -19,6 +19,7 @@
 #include"KnockAttack.h"
 #include"CircleAttack.h"
 #include"HalfAttack.h"
+#include"AltAttack.h"
 BossScene::BossScene(SceneManager* sceneManager)
 	:BaseScene(sceneManager)
 {
@@ -44,7 +45,7 @@ void BossScene::Initialize()
 	CircleAttack::GetInstance()->Initialize();
 	HalfAttack::GetInstance()->Initialize();
 	Nail::GetInstance()->ModelSet();
-
+	AltAttack::GetInstance()->Initialize();
 	// 3Dオブジェクトにカメラをセット
 	Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
 	//カメラをセット
@@ -88,7 +89,7 @@ void BossScene::Update()
 	if (scenechange) {
 		Feed::GetInstance()->Update_White(Feed::FEEDIN);//白くなります
 	}
-
+	AltAttack::GetInstance()->ActionJudg();
 	if (SistemConfig::GetInstance()->GetConfigJudgMent()) {
 		c_postEffect = Blur;
 	} else {
@@ -104,6 +105,7 @@ void BossScene::MyGameDraw()
 			AllObjectControl[i]->Draw();
 		}
 	}
+	AltAttack::GetInstance()->Draw();
 }
 void BossScene::Draw()
 {

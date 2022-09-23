@@ -193,6 +193,7 @@ void CameraControl::Update(DebugCamera* camera)
 		BossSceneStart();
 	}
 	else if (Tstate == PLAYCUTSCENE) {
+		
 		PlaySceneStart();
 	}
 }
@@ -239,9 +240,6 @@ XMFLOAT3 CameraControl::SplinePosition(const std::vector<XMFLOAT3>& points, size
 
 void CameraControl::Draw()
 {
-	ImGui::Begin("x");
-	ImGui::SliderFloat("angle", &BossCutAngle,0,360);
-	ImGui::End();
 }
 
 void CameraControl::SetColor(XMFLOAT4 color)
@@ -255,6 +253,8 @@ void CameraControl::BossSceneStart()
 	switch (bCamera)
 	{
 	case BOSSCUTSTART:
+		PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(true);
+
 		Feed::GetInstance()->Update_White(Feed::FEEDOUT);
 		
 		CutCount[0]++;
@@ -281,6 +281,8 @@ void CameraControl::BossSceneStart()
 		}
 		Feed::GetInstance()->Update_White(Feed::FEEDIN);
 		if (Feed::GetInstance()->GetAlpha() >= 0.9f) {
+			PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(false);
+
 			Tstate = PLAYER;
 		}
 
@@ -303,11 +305,13 @@ void CameraControl::PlaySceneStart()
 	switch (sCamera)
 	{
 	case PLAYCUTSTART:
+		PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(true);
+
 		UI::GetInstance()->SetTurnoffUIDraw(true);
 		Feed::GetInstance()->Update_White(Feed::FEEDOUT);
 
 		if (Feed::GetInstance()->GetAlpha() <= 0.9f) {
-			sCamera = PLAYCUTEND;
+			sCamera = SPLINE;
 		}
 		break;
 	case SPLINE:
@@ -348,6 +352,7 @@ void CameraControl::PlaySceneStart()
 		this->camera->SetEye(CameraPosition);
 		Feed::GetInstance()->Update_Black(Feed::FEEDOUT);
 		if (Feed::GetInstance()->GetAlpha() <= 0.0f) {
+			PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(false);
 
 			UI::GetInstance()->SetTurnoffUIDraw(false);
 			Tstate = PLAYER;

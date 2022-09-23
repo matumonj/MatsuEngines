@@ -34,8 +34,8 @@ void MobEnemy::Initialize(DebugCamera* camera)
 	m_Object->Initialize(camera);
 	//m_fbxModel = ModelManager::GetIns()->GetFBXModel(ModelManager::GOLEM);
 
-	EnemyHP = 10.00f;
-	MaxHP = 150.00f;
+	EnemyHP = 30.00f;
+	MaxHP = 30.00f;
 	//パラメータのセット
 
 	Rotation = { -70,180,0 };
@@ -87,7 +87,7 @@ void MobEnemy::Update(DebugCamera* camera)
 
 	SlashPos.z = Position.z;
 	if (DamageParticleCreateF&&!SlashF2) {
-		SlashPos.x = Position.x + 10;
+		SlashPos.x = Position.x + 5;
 		SlashPos.y = Position.y + 10;
 		SlashAlpha = 0.0f;
 		SlashF = true;
@@ -136,12 +136,11 @@ void MobEnemy::Draw()
 	// 3Dオブジェクト描画後処理
 	ParticleManager::PostDraw();
 	Texture::PreDraw();
-	SlashTex->Draw();
+	if (SlashF2) {
+		SlashTex->Draw();
+	}
 	Texture::PostDraw();
 
-	ImGui::Begin("sp");
-	ImGui::Text("%f", SlashPos.x);
-	ImGui::End();
 }
 
 void MobEnemy::Death()
@@ -226,7 +225,7 @@ void MobEnemy::DamageParticleSet()
 	//	//追加
 		if (DamageParticleCreateF) {
 			particlePos = { Position.x,Position.y + 10,Position.z };
-			particleMan->Add(particleLife, particlePos, vel, acc, 5.0f, 0.0f);
+			particleMan->Add(particleLife, particlePos, vel, acc, 3.0f, 0.0f);
 
 			particleMan2->Add(particleLife, { Position.x,Position.y + 10,Position.z }, vel2, acc2, 3.0f, 0.0f);
 

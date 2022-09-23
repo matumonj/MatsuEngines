@@ -94,9 +94,9 @@ void WoodControl::Load(DebugCamera* camera)
 			for (int i = 0; i < 3; i++) {
 				Tutorialwoods[i]->Initialize(camera);
 			}
-			Tutorialwoods[0]->SetPosition({92,-10,-689});
-			Tutorialwoods[1]->SetPosition({ 70,-10,-700 });
-			Tutorialwoods[2]->SetPosition({ 110,-10,-720 });
+			Tutorialwoods[0]->SetPosition({92,-15,-689});
+			Tutorialwoods[1]->SetPosition({ 70,-15,-700 });
+			Tutorialwoods[2]->SetPosition({ 110,-15,-720 });
 		}
 	UpdateRange = 200;
 }

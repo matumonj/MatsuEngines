@@ -19,12 +19,12 @@ void PlayerControl::Load(DebugCamera* camera)
 {
 	//各シーンの初期座標設定
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
-		player->SetPosition({ 92.0f,2.0f,-760.0f });
+		player->SetPosition({ 92.0f,-12.0f,-760.0f });
 	} else if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
-		player->SetPosition({ 110.0f,5.0f,-379.0f });
+		player->SetPosition({ 110.0f,-15.0f,-379.0f });
 	}
 	else if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
-		player->SetPosition({ 0.0f,2.0f,-70.0f });
+		player->SetPosition({ 0.0f,2.0f,-50.0f });
 	}
 }
 
@@ -36,10 +36,10 @@ void PlayerControl::Initialize(DebugCamera* camera)
 	player = std::make_unique<Player>();
 	player->Initialize(camera);
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
-		player->SetPosition({92.0f,2.0f,-760.0f});
+		player->SetPosition({92.0f,-15.0f,-760.0f});
 	}
 	else if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
-		player->SetPosition({ 110.0f,5.0f,-379.0f });
+		player->SetPosition({ 110.0f,-15.0f,-379.0f });
 	}
 	AttackCollision::GetInstance()->Init();
 }
@@ -54,12 +54,7 @@ void PlayerControl::Update(DebugCamera* camera)
 
 void PlayerControl::Draw()
 {
-	ImGui::Begin("hp");
-	ImGui::Text("px  %f", player->GetPosition().x);
-	ImGui::Text("pz  %f", player->GetPosition().z);
-	ImGui::Text("py  %f", Feed::GetInstance()->GetAlpha());
-
-	ImGui::End();
+	
 	if (player!= nullptr) {
 		player->Draw();
 	}

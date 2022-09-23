@@ -34,13 +34,14 @@ void ObjectManager::CollisionField(DebugCamera* camera)
 		// 移動
 		Position.y += fallV.m128_f32[1];
 	}
-
+	
 	// ワールド行列更新
 	m_Object->UpdateWorldMatrix();
 	m_Object->collider->Update();
 
 	SphereCollider* sphereCollider = dynamic_cast<SphereCollider*>(m_Object->collider);
 	assert(sphereCollider);
+
 
 	// クエリーコールバッククラス
 	class PlayerQueryCallback : public QueryCallback

@@ -98,9 +98,9 @@ if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
 		//Tutorial_chest[0]->SetScale({ 8.39,10,4 });
 	}
 	chests[0]->SetPosition({ 57,-20,-293 });
-	chests[1]->SetPosition({ 107,-20,-293 });
-	chests[2]->SetPosition({ 57,-20,-243 });
-	chests[3]->SetPosition({ 107,-20,-243 });
+	chests[1]->SetPosition({ 117,-20,-293 });
+	chests[2]->SetPosition({ 57,-20,-233 });
+	chests[3]->SetPosition({ 117,-20,-233 });
 
 }
 UpdateRange = 200;
@@ -160,14 +160,7 @@ void ChestControl::Update(DebugCamera* camera)
 
 void ChestControl::Draw()
 {
-	ImGui::Begin("Debug");
-	ImGui::Text("%f", Feed::GetInstance()->GetAlpha());
-	ImGui::Text("%d", PlayPchest[0].ChestEvent);
-	ImGui::Text("%d", PlayPchest[1].ChestEvent);
-	ImGui::Text("%d", PlayPchest[2].ChestEvent);
-	ImGui::Text("%d", u);
-	ImGui::Text("%d", TutorialPchest.ChestEvent);
-	ImGui::End();
+	
 	// 3Dオブジェクト描画前処理
 	ParticleManager::PreDraw();
 	// 3Dオブクジェクトの描画
@@ -299,6 +292,6 @@ void ChestControl::GetChestEffect(Chest* chest, ParticleParam& pParam)
 		}
 	}
 
-	pParam.particleMan->SetColor({ 1.0f,0.8f,1.0f,0.8f });
+	pParam.particleMan->SetColor({ 1.0f,0.8f,0.2f,0.8f });
 	pParam.particleMan->Update(pParam.particleMan->FOLLOW, PlayerControl::GetInstance()->GetPlayer()->GetPosition(), 120.0f);
 }

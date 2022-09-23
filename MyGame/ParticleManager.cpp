@@ -23,7 +23,7 @@ XMMATRIX ParticleManager::matProjection{};
 XMFLOAT3 ParticleManager::eye = { 0, 0, 10.0f };
 XMFLOAT3 ParticleManager::target = { 0, 0, 0 };
 XMFLOAT3 ParticleManager::up = { 0, 1, 0 };
-ComPtr<ID3D12Resource> ParticleManager::texbuff[10];
+ComPtr<ID3D12Resource> ParticleManager::texbuff[100];
 XMMATRIX ParticleManager::matBillboard = XMMatrixIdentity();
 XMMATRIX ParticleManager::matBillboardY = XMMatrixIdentity();
 
@@ -450,6 +450,9 @@ void ParticleManager::Update(ParticleType type , XMFLOAT3 position , int lifejud
 	else if (type ==FOLLOW) {
 		Follow(position,lifejudg);
 	}
+	else if (type == CHARGE) {
+		Charge(position);
+	}
 	
 	//頂点バッファへデータ転送
 
@@ -583,6 +586,38 @@ void ParticleManager::Follow(XMFLOAT3 position, int lifejudg)
 			//速度による移動
 			it->position = it->position + it->velocity;
 		}
+		it->frame++;
+		it->velocity = it->velocity + it->accel;
+
+		float f = (float)it->num_frame / it->frame;
+		it->scale = (it->e_scale - it->s_scale) / f;
+		it->scale += it->s_scale;
+		//it->colors =XMFLOAT4(0,0,0,1) ;
+	}
+}
+
+void ParticleManager::Charge(XMFLOAT3 position)
+{
+	//全パーティクル更新
+	for (std::forward_list<Particle>::iterator it = particles.begin();
+		it != particles.end(); it++) {
+		//経過フレーム数をカウント
+		float dis, trad;
+		//追跡スピード
+		float centerSpeed = 0.2f;
+
+			//敵とプレイヤーの距離求め
+			float disX = PlayerControl::GetInstance()->GetPlayer()->GetPosition().x - it->position.x;
+			float disY = PlayerControl::GetInstance()->GetPlayer()->GetPosition().y - it->position.y;
+			float disZ = PlayerControl::GetInstance()->GetPlayer()->GetPosition().z - it->position.z;
+			dis = Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), it->position);
+			//trad=(PlayerControl::GetInstance()->GetPlayer()->GetPosition().y - it->position.y, PlayerControl::GetInstance()->GetPlayer()->GetPosition().x - it->position.x);
+
+			//座標のセット
+			if (dis > 1.0f) {
+				//座標のセット
+				it->position = { it->position.x + (disX / dis) * centerSpeed,it->position.y + (disY / dis) * centerSpeed,it->position.z + (disZ / dis) * centerSpeed };
+			}
 		it->frame++;
 		it->velocity = it->velocity + it->accel;
 
