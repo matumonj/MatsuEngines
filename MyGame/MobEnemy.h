@@ -40,6 +40,7 @@ public:
 
 private:
     void DamageParticleSet();
+    void DamageTexUpdate();
 private:
    bool DeathFlag;
 private:
@@ -48,6 +49,7 @@ private:
     bool nowAttack;
     float alpha=1;
     const int ParticleSize = 20;
+
 public:
    // bool GetFolatc() { return folatc; }
     bool isendtime;

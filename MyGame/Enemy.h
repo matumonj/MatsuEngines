@@ -12,6 +12,7 @@
 #include"Destroy.h"
 #include"ObjectManager.h"
 #include"ParticleManager.h"
+#include"DebugTxt.h"
 class NodeBase;
 /// <summary>
 /// “GƒLƒƒƒ‰‚ÌŠî’êƒNƒ‰ƒX
@@ -53,6 +54,11 @@ protected:
 	float AttackTime = 0;
 	bool RecvDamagef;
 	bool DamageParticleCreateF;
+protected:
+	bool DamageDisplay;
+	XMFLOAT3 DamagTexPos;
+	float DamageTexAlpha;
+	int GetDamage;
 private:
 	XMFLOAT3 OldPos;
 public:
@@ -135,6 +141,7 @@ public:
 	};
 protected:
 	Texture* SlashTex;
+	std::unique_ptr<DebugTxt>Damagetxt;
 	XMFLOAT3 SlashRot;
 	XMFLOAT3 SlashPos;
 	float SlashAlpha = 1.0f;
@@ -143,4 +150,5 @@ protected:
 	BossEnemyState* state_boss;
 	ParticleManager* particleMan = nullptr;
 	ParticleManager* particleMan2 = nullptr;
+
 };

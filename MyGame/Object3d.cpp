@@ -577,3 +577,28 @@ void Object3d::Setf(bool flag)
 	gsf = flag;
 }
 
+
+XMMATRIX Object3d::ExtractRotationMat()
+{
+	XMMATRIX mOffset = ExtractPositionMat();
+	XMMATRIX mScaling = ExtractScaleMat();
+
+	XMVECTOR det;
+	// 左からScaling、右からOffsetの逆行列をそれぞれかける。
+	return XMMatrixInverse(&det, mScaling) * matWorld * XMMatrixInverse(&det, mOffset);
+}
+
+XMMATRIX Object3d::ExtractScaleMat()
+{
+	return XMMatrixScaling(
+		XMVector3Length(XMVECTOR{ matWorld.r[0].m128_f32[0],matWorld.r[0].m128_f32[1],matWorld.r[0].m128_f32[2] }).m128_f32[0],
+		XMVector3Length(XMVECTOR{ matWorld.r[1].m128_f32[0],matWorld.r[1].m128_f32[1],matWorld.r[1].m128_f32[2] }).m128_f32[0],
+		XMVector3Length(XMVECTOR{ matWorld.r[2].m128_f32[0],matWorld.r[2].m128_f32[1],matWorld.r[2].m128_f32[2] }).m128_f32[0]
+	);
+}
+
+XMMATRIX Object3d::ExtractPositionMat()
+{
+	return XMMatrixTranslation(matWorld.r[3].m128_f32[0], matWorld.r[3].m128_f32[1], matWorld.r[3].m128_f32[2]);
+
+}

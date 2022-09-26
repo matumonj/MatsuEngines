@@ -257,6 +257,10 @@ public:
 	virtual void OnCollision(const CollisionInfo& info) {}
 	void SetParent(XMMATRIX matworld) { this->matWorld *= matworld; }
 	void SetColor(XMFLOAT4 color) { this->color = color; }
+
+	XMMATRIX ExtractPositionMat();
+	XMMATRIX ExtractRotationMat();
+	XMMATRIX ExtractScaleMat();
 protected:
 	const char* name = nullptr;
 	public:

@@ -87,7 +87,7 @@ private:
 private:
 	int nogroundtime;
 	bool jumpflag;
-	float movespeed = 5.0f;
+	float movespeed = 9.0f;
 	XMVECTOR Gmove;
 public:
 	void RotationStatus();

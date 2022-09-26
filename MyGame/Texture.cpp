@@ -562,7 +562,7 @@ void Texture::TransferVertices()
 	if (texbuff[texNumber])
 	{
 		D3D12_RESOURCE_DESC resDesc = texbuff[texNumber]->GetDesc();
-		texSize = { (float)resDesc.Width, (float)resDesc.Height };
+		//texSize = { (float)resDesc.Width, (float)resDesc.Height };
 
 		float tex_left = texBase.x / resDesc.Width;
 		float tex_right = (texBase.x + texSize.x) / resDesc.Width;

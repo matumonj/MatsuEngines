@@ -56,14 +56,14 @@ void AttackCollision::GetCol(int damage)
 	HandObb.m_Pos.m128_f32[0] = PlayerControl::GetInstance()->GetPlayer()->GetHanMat().r[3].m128_f32[0];// GetPosition().x;
 	HandObb.m_Pos.m128_f32[1] = PlayerControl::GetInstance()->GetPlayer()->GetHanMat().r[3].m128_f32[1];
 	HandObb.m_Pos.m128_f32[2] = PlayerControl::GetInstance()->GetPlayer()->GetHanMat().r[3].m128_f32[2];
-
+	
 	//今はプレイヤーの手に当たり判定　あと出修正
-	HandObb.m_NormaDirect[0] = { PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[0].m128_f32[0],PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[0].m128_f32[1],PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[0].m128_f32[2] };
-	HandObb.m_NormaDirect[1] = { PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[1].m128_f32[0], PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[1].m128_f32[1], PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[1].m128_f32[2] };
-	HandObb.m_NormaDirect[2] = { PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[2].m128_f32[0], PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[2].m128_f32[1], PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[2].m128_f32[2] };
+	HandObb.m_NormaDirect[0] = { SelectSword::GetInstance()->GetSword()->GetMatrot().r[0].m128_f32[0],SelectSword::GetInstance()->GetSword()->GetMatrot().r[0].m128_f32[1],SelectSword::GetInstance()->GetSword()->GetMatrot().r[0].m128_f32[2] };
+	HandObb.m_NormaDirect[1] = { SelectSword::GetInstance()->GetSword()->GetMatrot().r[1].m128_f32[0], SelectSword::GetInstance()->GetSword()->GetMatrot().r[1].m128_f32[1], SelectSword::GetInstance()->GetSword()->GetMatrot().r[1].m128_f32[2] };
+	HandObb.m_NormaDirect[2] = { SelectSword::GetInstance()->GetSword()->GetMatrot().r[2].m128_f32[0], SelectSword::GetInstance()->GetSword()->GetMatrot().r[2].m128_f32[1], SelectSword::GetInstance()->GetSword()->GetMatrot().r[2].m128_f32[2] };
 	HandObb.m_fLength[0] = 3;//x方向の長さ
-	HandObb.m_fLength[1] = 3;//y方向の長さ
-	HandObb.m_fLength[2] = 15;//z方向の長さ
+	HandObb.m_fLength[1] = 5;//y方向の長さ
+	HandObb.m_fLength[2] = 2;//z方向の長さ
 
 	switch (SceneManager::GetInstance()->GetScene())
 	{

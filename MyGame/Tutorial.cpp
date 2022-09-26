@@ -18,6 +18,7 @@
 #include"PlayScene.h"
 #include"SelectSword.h"
 #include"KnockAttack.h"
+#include<iomanip>
 //シーンのコンストラクタ
 Tutorial::Tutorial(SceneManager* sceneManager)
 	:BaseScene(sceneManager)
@@ -53,6 +54,8 @@ void Tutorial::objUpdate(DebugCamera* camera)
 #pragma region 初期化
 void Tutorial::Initialize()
 {
+	Texture::LoadTexture(47, L"Resources/debugfont2.png");
+	
 	input = Input::GetInstance();
 	//if (AllObjectControl.size() == 0) {//各オブジェクトインスタンスぶちこむ
 		AllObjectControl.push_back(CameraControl::GetInstance());//Camera
@@ -170,6 +173,7 @@ void Tutorial::Draw()
 
 		DirectXCommon::GetInstance()->BeginDraw();
 		MyGameDraw();
+		
 		UI::GetInstance()->HUDDraw();
 		Feed::GetInstance()->Draw();
 		SistemConfig::GetInstance()->Draw();

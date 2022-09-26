@@ -43,6 +43,8 @@ void Enemy::RecvDamage(int Damage)
 	if (EnemyHP <= 0)return;
 	EnemyHP = EnemyHP - Damage;
 	DamageParticleCreateF = true;
+	DamageDisplay = true;
+	GetDamage = Damage;
 }
 void Enemy::EnemyPop(int HP)
 {

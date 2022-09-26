@@ -1,6 +1,8 @@
 #include "AltAttack.h"
 #include"EnemyControl.h"
 #include"CameraControl.h"
+#include"PlayerControl.h"
+#include"mHelper.h"
 AltAttack* AltAttack::GetInstance()
 {
 	static AltAttack ins;
@@ -12,22 +14,51 @@ void AltAttack::Initialize()
 
 	ParticleManager::LoadTexture(2, L"Resources/ParticleTex/Normal.png");
 	BeamParticle = ParticleManager::Create(2, L"Resources/ParticleTex/Attack.png");
-	BeamObj = std::make_unique<Object3d>();
-	BeamObj->SetModel(ModelManager::GetIns()->GetModel(ModelManager::BEAM));
-	BeamObj->Initialize(CameraControl::GetInstance()->GetCamera());
+	for (int i = 0; i < 2; i++) {
+		BeamObj[i] = std::make_unique<Object3d>();
+		BeamObj[i]->SetModel(ModelManager::GetIns()->GetModel(ModelManager::BEAM));
+		BeamObj[i]->Initialize(CameraControl::GetInstance()->GetCamera());
+	}
+	fase = FASEONE;
 }
 
+void AltAttack::CollisionParamSet()
+{
+	beamRay[0].start = { BeamPosition[0].x,BeamPosition[0].y,BeamPosition[0].z };
+	beamRay[1].start = { BeamPosition[1].x,BeamPosition[1].y,BeamPosition[1].z };
+
+	beamRay[0].dir = { -45.0f,0.0f, -90.0f };
+	beamRay[1].dir = { -45.0f, 0.0f, -90.0f };
+
+	XMFLOAT3 Ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	PlayerSpehre.center = { Ppos.x,Ppos.y, Ppos.z, 1.0f };
+	PlayerSpehre.radius = 10.2f;
+
+}
 void AltAttack::ActionJudg()
 {
+	CollisionParamSet();
 	EnergieCharge();
 	switch (fase)
 	{
 	case FASENON:
-
+		BeamEaseTime = 0.0f;
 		break;
 	case FASEONE:
+		
+		BeamScale = { 3.0f,3.0f,1.0f };
+		if (Input::GetInstance()->TriggerButton(Input::Button_Y)) {
+			fase = FASETWO;
+		}
 		break;
 	case FASETWO:
+		BeamEaseTime += 0.01f;
+		BeamScale.x = Easing::EaseOut(BeamEaseTime, 3.0f, 18.0f);
+		BeamScale.y = Easing::EaseOut(BeamEaseTime, 3.0f, 18.0f);
+		BeamScale.z = 22.0f;
+		if (BeamEaseTime >= 1.0f) {
+			fase = FASETHREE;
+		}
 		break;
 	case FASETHREE:
 		break;
@@ -36,9 +67,22 @@ void AltAttack::ActionJudg()
 	default:
 		break;
 	}
-	BeamObj->SetScale({ 1.0f,1.0f,1.0f });
-	BeamObj->Update({ 1.0f,1.0f,1.0f,1.0f }, CameraControl::GetInstance()->GetCamera());
+	for (int i = 0; i < 2; i++) {
+		if (Collision::CheckRay2Sphere(beamRay[i], PlayerSpehre)) {
+			PlayerControl::GetInstance()->GetPlayer()->RecvDamage(20);
+		}
+	}
+	BeamObj[0]->SetPosition({60.0f,-10.0f,120.0f});
+	BeamObj[0]->SetRotation({ 0.0f, 45.0f, 0.0f });
+	BeamObj[1]->SetPosition({ -60.0f,-10.0f,120.0f });
+	BeamObj[1]->SetRotation({ 0.0f, -45.0f, 180.0f });
 
+
+	for (int i = 0; i < 2; i++) {
+		BeamObj[i]->SetScale(BeamScale);
+		BeamObj[i]->SetUVf(true);
+		BeamObj[i]->Update({1.0f,1.0f,1.0f,1.0f}, CameraControl::GetInstance()->GetCamera());
+	}
 }
 
 void AltAttack::Draw()
@@ -49,7 +93,9 @@ void AltAttack::Draw()
 	// 3Dオブジェクト描画後処理
 	ParticleManager::PostDraw();
 	Object3d::PreDraw();
-	BeamObj->Draw();
+	for (int i = 0; i < 2; i++) {
+		BeamObj[i]->Draw();
+	}
 	Object3d::PostDraw();
 }
 

@@ -8,6 +8,8 @@
 #include"imgui.h"
 #include"Collision.h"
 #include"PlayerControl.h"
+#include<iomanip>
+
 /// <summary>
 /// コンストラクタ
 /// </summary>
@@ -66,6 +68,9 @@ void MobEnemy::Initialize(DebugCamera* camera)
 	ParticleManager::LoadTexture(6, L"Resources/ParticleTex/Attack.png");
 	particleMan2 = ParticleManager::Create(6, L"Resources/ParticleTex/Attack.png");
 	SlashPos = { Position.x,Position.y,Position.z };
+	
+	Damagetxt = std::make_unique<DebugTxt>();
+	Damagetxt->Initialize(47);
 
 }
 
@@ -120,8 +125,8 @@ void MobEnemy::Update(DebugCamera* camera)
 	SlashTex->SetRotation({0,180,0});
 	SlashTex->SetScale({ 2.0f ,2.0f ,3.0f });
 
-
 	DamageParticleSet();
+	DamageTexUpdate();
 }
 
 //描画処理
@@ -139,6 +144,8 @@ void MobEnemy::Draw()
 	if (SlashF2) {
 		SlashTex->Draw();
 	}
+		Damagetxt->DrawAll();
+	
 	Texture::PostDraw();
 
 }
@@ -239,7 +246,25 @@ void MobEnemy::DamageParticleSet()
 	particleMan2->SetColor({ 1.0f,1.0f,0.2f,0.7f });
 	particleMan2->Update(particleMan->NORMAL);
 	particleMan->SetColor({ 1.0f,0.2f,0.2f,0.7f });
-	particleMan->Update(particleMan->NORMAL);
-	
-	
+	particleMan->Update(particleMan->NORMAL);	
+}
+
+void MobEnemy::DamageTexUpdate()
+{
+	std::ostringstream Damagestr;
+
+	if (DamageDisplay) {
+		DamageTexAlpha = 1.0f;
+		DamagTexPos = { Position.x, Position.y + 5.0f, Position.z };
+		DamageDisplay = false;
+	}
+	if (DamageTexAlpha >= 0.0f) {
+		DamagTexPos.y-=0.2f;
+		DamageTexAlpha -= 0.02f;
+	}
+	Damagestr << std::fixed << std::setprecision(2)
+		<< GetDamage;
+	Damagetxt->SetColor({ 1,1,1,DamageTexAlpha });
+	Damagetxt->Print(Damagestr.str(),DamagTexPos.x, DamagTexPos.y, DamagTexPos.z, 2);
+
 }

@@ -3,6 +3,7 @@
 #include"Object3d.h"
 #include"Model.h"
 #include<memory>
+#include"CollisionPrimitive.h"
 #include"ParticleManager.h"
 class AltAttack
 {
@@ -18,12 +19,14 @@ public:
 	
 private:
 	std::vector<Texture*>EnergieSphere;
-	std::unique_ptr<Object3d>BeamObj;
+	std::unique_ptr<Object3d>BeamObj[2];
 	Model* BeamModel;
 	ParticleManager* BeamParticle;
 	bool fase1, fase2, fase3, fase4;
 	int AttackCount;
 
+	Ray beamRay[2];
+	Sphere PlayerSpehre;
 public:
 
 public:enum Fase {
@@ -35,6 +38,9 @@ public:enum Fase {
 };
 private:
 	Fase fase;
+	float BeamEaseTime;
+	XMFLOAT3 BeamScale;
+	XMFLOAT3 BeamPosition[2];
 public:
 	static AltAttack* GetInstance();
 	void Initialize();
@@ -44,6 +50,7 @@ public:
 private:
 	void EnergieCharge();
 	void BeamAttack();
+	void CollisionParamSet();
 public:
 
 	void SetAttackFase(bool f) { if (f && fase != FASEONE) { fase = FASEONE; } }

@@ -20,6 +20,7 @@
 #include"CircleAttack.h"
 #include"HalfAttack.h"
 #include"AltAttack.h"
+#include"DebugTxt.h"
 BossScene::BossScene(SceneManager* sceneManager)
 	:BaseScene(sceneManager)
 {
@@ -28,6 +29,8 @@ BossScene::BossScene(SceneManager* sceneManager)
 
 void BossScene::Initialize()
 {
+	Texture::LoadTexture(47, L"Resources/debugfont2.png");
+	DebugTxt::GetInstance()->Initialize(47);
 	//各オブジェクトの初期化
 	if (AllObjectControl.size() == 0) {//各オブジェクトインスタンスぶちこむ
 		AllObjectControl.push_back(CameraControl::GetInstance());
@@ -86,6 +89,9 @@ void BossScene::Update()
 	//csv読み込み部分(Cameraの更新後にするのでobjUpdate()挟んでから)
 	LoadParam(CameraControl::GetInstance()->GetCamera());
 
+
+	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	DebugTxt::GetInstance()->Print("100",ppos.x,ppos.y,ppos.z, 5);
 	if (scenechange) {
 		Feed::GetInstance()->Update_White(Feed::FEEDIN);//白くなります
 	}
@@ -105,7 +111,6 @@ void BossScene::MyGameDraw()
 			AllObjectControl[i]->Draw();
 		}
 	}
-	AltAttack::GetInstance()->Draw();
 }
 void BossScene::Draw()
 {
@@ -144,6 +149,12 @@ void BossScene::Draw()
 		CircleAttack::GetInstance()->Draw();
 		HalfAttack::GetInstance()->Draw();
 		KnockAttack::GetInstance()->Draw();
+
+		AltAttack::GetInstance()->Draw();
+
+		Texture::PreDraw();
+		DebugTxt::GetInstance()->DrawAll();
+		Texture::PostDraw();
 		//UI
 		if (CameraControl::GetInstance()->GetCameraState() != CameraControl::BOSSCUTSCENE) {
 			UI::GetInstance()->HUDDraw();

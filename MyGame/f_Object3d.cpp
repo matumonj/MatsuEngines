@@ -287,13 +287,11 @@ void f_Object3d::Updata(bool animeloop)
 
 	int num = 13;
 	FbxLoader::ConvertMatrixFromFbx(&hRot, bones[num].fbxCluster->GetLink()->EvaluateGlobalTransform(currentTime));
-	//rot= XMMatrixIdentity();
-		//matWorld = XMMatrixIdentity();
 	hand = modelTransform * hRot * matRot;
 	//bones[1].fbxCluster->GetLink()->EvaluateLocalTransform()
 	//pos = {position.x+};posnode
-	PosNode2 = bones[num].fbxCluster->GetLink()->LclRotation.Get();
-	PosNode = bones[num].fbxCluster->GetLink()->LclTranslation.Get();
+	PosNode2 = bones[num].fbxCluster->GetLink()->EvaluateLocalRotation();
+
 	Posmat = XMMatrixTranslationFromVector(
 		{ (float)PosNode[0], (float)PosNode[1], (float)PosNode[2],1.0f })*matScale * matRot*matTrans;
 	XMMATRIX matRot = XMMatrixIdentity();
