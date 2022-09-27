@@ -207,7 +207,7 @@ public: // メンバ関数
 private: // メンバ変数
 	ComPtr<ID3D12Resource> constBuff; // 定数バッファ
 	// 色
-	static XMFLOAT4 color;
+	XMFLOAT4 color;
 	// ローカルスケール
 	XMFLOAT3 scale = { 1,1,1 };
 	// X,Y,Z軸回りのローカル回転角

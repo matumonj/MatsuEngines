@@ -33,10 +33,8 @@ void PlaceWood::ArgMent(DebugCamera* camera)
 {
 	if (ArgmentFlag) {
 		std::unique_ptr<Wood>newWood;
-		if (ArgmentFlag) {
 			newWood = std::make_unique<Wood>();
-		}
-
+		
 		newWood->Initialize(camera);
 		newWood->SetPosition(pos);
 		woods.push_back(std::move(newWood));

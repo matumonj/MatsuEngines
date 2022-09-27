@@ -45,52 +45,28 @@ public:
 	virtual void FbxAnimationControl() = 0;
 	//
 	virtual void Action();
+
+	virtual void DamageTexUpdate(DebugCamera* camera)=0;
 protected:
-	float EnemyHP;
-	float MaxHP;
-	float OldHP;
+	//体力周り
+	float EnemyHP;//現在の体力
+	float MaxHP;//最大値(変動なし)
+	float OldHP;//前フレーム時の体力(HUDのイージング用)
 protected:
-	bool MoveFlag = false;
-	float AttackTime = 0;
-	bool RecvDamagef;
-	bool DamageParticleCreateF;
-protected:
-	bool DamageDisplay;
-	XMFLOAT3 DamagTexPos;
-	float DamageTexAlpha;
-	int GetDamage;
+
+	bool RecvDamagef;//
+	bool DamageParticleCreateF;//攻撃受けた直後パーティクル発生フラg
+
 private:
+	bool MoveFlag = false;
 	XMFLOAT3 OldPos;
+
 public:
-	bool GetRecvDamage() { return RecvDamagef; }
-	void SetRecvDamage(bool f) { RecvDamagef = f; }
-
-	void SetMoveFlag(bool f) { MoveFlag = f; }
-	bool GetMoveFlag() { return MoveFlag; }
-
+	//攻撃受けた直後の判定用
 	void RecvDamage(int Damage);
-	
-	bool GetonFlag() { return onGround; }
-	
-	float GetHP() { return EnemyHP; };
-	
-	float GetMaxHP() { return MaxHP; }
-	
-	XMMATRIX GetMatrot() { return m_fbxObject->GetMatrot(); }
-	
 	void EnemyPop(int HP);
-
-	XMFLOAT3 GetScale() { return Scale; }
-	void SetScale(XMFLOAT3 scale) { Scale = scale; }
-
-	bool GetDeathTime() { return DeathFlag; }
-
 	virtual void AttackCoolTime() = 0;
-	
-	void SetAttackTime(bool f) { if (f_time < AttackTime) { f_AttackFlag = f; } }
-	bool GetAttackTime() { return f_AttackFlag; }
 
-	float GetFbxTime() { return f_time; }
 protected:
 	bool f_AttackFlag;
 	bool DeathFlag;
@@ -98,22 +74,58 @@ protected:
 	int cooltime = 0;
 
 	int onGroundTime = 0;
-
 	bool AfterAttack;
 
-protected:
-	float f_time;
-	float start_time;
-	float end_time;
-	float DeathTime;
-	XMFLOAT3 StartPosition;
-	int PopCount;
+	int PopCount;//リスポーンカウント
 
 protected:
+	//FBXTime周りの変数
+	float f_time;//現在のフレーム
+	float start_time;//初期フレーム(0)
+	float end_time;//最終フレーム
+	float DeathTime;//死亡時のモーション開始フレーム
+	float AttackTime = 0;
+
+
+	/*ゲッター*/
+public:
+	//攻撃受けた直後の判定用
+	bool GetRecvDamage() { return RecvDamagef; }
+	//歩いているか
+	bool GetMoveFlag() { return MoveFlag; }
+	//地面設置状態かどうか
+	bool GetonFlag() { return onGround; }
+	//体力周り
+	float GetHP() { return EnemyHP; };
+	float GetMaxHP() { return MaxHP; }
+	//FBXTime(死にモーションと攻撃モーションの開始フレーム取得)
+	bool GetDeathTime() { return DeathFlag; }
+	bool GetAttackTime() { return f_AttackFlag; }
+	//現在の経過フレーム
+	float GetFbxTime() { return f_time; }
+	//回転行列取得(OBB用いらないかも)
+	XMMATRIX GetMatrot() { return m_fbxObject->GetMatrot(); }
+	//攻撃のクールタイム
+	int GetCoolTime() { return cooltime; }
+
+	/*セッター*/
+public:
+	void SetRecvDamage(bool f) { RecvDamagef = f; }
+	//
+	void SetMoveFlag(bool f) { MoveFlag = f; }
+
+	void SetScale(XMFLOAT3 scale) { Scale = scale; }
+
+	void SetAttackTime(bool f) { if (f_time < AttackTime) { f_AttackFlag = f; } }
+
+
+/*ボス攻撃用 できれば移したいが、、*/
+protected://攻撃の開始と終了判定用
 	struct Attack_SE {
 		bool start;
 		bool end;
 	};
+	//攻撃数
 	static const int AtckNum = 5;
 	Attack_SE Attack[AtckNum];
 
@@ -124,28 +136,28 @@ public:
 	void SetAttack_Start(int Num, bool f) { Attack[Num].start = f; }
 	void SetAttack_End(int Num, bool f) { Attack[Num].end = f; }
 
-	bool GetNowDeath() { return nowDeath; }
-	int GetCoolTime() { return cooltime; }
-public:
+public://state切り替え
 	void ChangeState_Mob(EnemyState* state);
 	void ChangeState_Boss(BossEnemyState* state);
 
-public:
+	public://攻撃種類列挙
+		enum {
+			CIRCLE_1,
+			CIRCLE_2,
+			KNOCK,
+			HALF_1,
+			HALF_2
+		};
+/*/////	ここまで////////*/
 
-	enum {
-		CIRCLE_1,
-		CIRCLE_2,
-		KNOCK,
-		HALF_1,
-		HALF_2
-	};
+
 protected:
 	Texture* SlashTex;
 	std::unique_ptr<DebugTxt>Damagetxt;
 	XMFLOAT3 SlashRot;
 	XMFLOAT3 SlashPos;
 	float SlashAlpha = 1.0f;
-	protected:
+protected:
 	EnemyState* state_mob;
 	BossEnemyState* state_boss;
 	ParticleManager* particleMan = nullptr;

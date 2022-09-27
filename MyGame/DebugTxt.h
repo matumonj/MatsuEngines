@@ -15,8 +15,8 @@ private:
 public:
 	// デバッグテキスト用のテクスチャ番号を指定
 	static const int maxCharCount = 256;// 最大文字数
-	static const int fontWidth = 9;// フォント画像内1文字分の横幅
-	static const int fontHeight = 18;// フォント画像内1文字分の縦幅
+	static const int fontWidth = 9*6;// フォント画像内1文字分の横幅
+	static const int fontHeight = 18*6;// フォント画像内1文字分の縦幅
 	static const int fontLineCount = 14;// フォント画像内1行分の文字数
 
 	DebugTxt();
@@ -26,11 +26,26 @@ public:// 静的メンバ関数
 
 	void Initialize(UINT texnumber);
 
-	void Print(const std::string& text, float x, float y,float z, float size);
+	void Print(float size);
 
 	void DrawAll();
+
+private:
+	bool isDestoy=false;
+	void TextBeha();
+	enum Fase {
+		FASEONE,
+		FASETWO
+	};
+	Fase fase;
 public:
+	void SetPosition(XMFLOAT3 position) { Position = position; }
+	XMFLOAT3 GetPosition() { return Position; }
+
 	void SetColor(XMFLOAT4 color) { this->color = color; }
+	bool GetisDestroy() { return isDestoy; }
+
+	void SetText(const std::string& text) { this->text = text; }
 private:
 	// スプライトデータの配列
 	Texture* spriteDatas[maxCharCount] = {};
@@ -38,4 +53,8 @@ private:
 	int spriteIndex = 0;
 	//
 	XMFLOAT4 color;
+	//
+	XMFLOAT3 Position;
+
+	std::string text;
 };

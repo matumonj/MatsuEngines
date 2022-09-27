@@ -28,11 +28,21 @@ void DebugTxt::Initialize(UINT texnumber)
 		spriteDatas[i]->SetAnchorPoint({ 0.5f,0.5f });
 
 	}
+	color = { 1.0f,1.0f,1.0f,1.0f };
+	isDestoy = false;
+}
+void DebugTxt::TextBeha()
+{
+	Position.y -= 0.1f;
+	color.w -= 0.01f;
 }
 
 // 1文字列追加
-void DebugTxt::Print(const std::string& text, float x, float y, float z,float scale = 1.0f)
+void DebugTxt::Print(float scale = 1.0f)
 {
+
+	TextBeha();
+
 	// 全ての文字について
 	for (int i = 0; i < text.size(); i++)
 	{
@@ -53,14 +63,18 @@ void DebugTxt::Print(const std::string& text, float x, float y, float z,float sc
 		int fontIndexX = fontIndex % fontLineCount;
 
 		// 座標計算
-		spriteDatas[spriteIndex]->SetPosition({ x + fontWidth * 1* i, y,z });
+		spriteDatas[spriteIndex]->SetPosition({ Position.x + fontWidth * 1* i/6, Position.y,Position.z });
 		spriteDatas[spriteIndex]->SetColor(color);
 		spriteDatas[spriteIndex]->SetTextureRect({ (float)fontIndexX * fontWidth, (float)fontIndexY * fontHeight }, { (float)fontWidth, (float)fontHeight });
-		spriteDatas[spriteIndex]->SetScale({ fontWidth * scale/10, fontHeight * scale/10,1 });
+		spriteDatas[spriteIndex]->SetScale({ fontWidth * scale/50, fontHeight * scale/50,1 });
 		spriteDatas[spriteIndex]->SetRotation({ 180,0,0 });
 		spriteDatas[spriteIndex]->Update(CameraControl::GetInstance()->GetCamera());
 		// 文字を１つ進める
 		spriteIndex++;
+	}
+
+	if (color.w <= 0.0f) {
+		isDestoy = true;
 	}
 }
 

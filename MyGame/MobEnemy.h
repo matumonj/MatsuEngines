@@ -38,9 +38,9 @@ public:
     //Fbxのアニメーション制御
     void FbxAnimationControl()override;
 
+    void DamageTexUpdate(DebugCamera* camera)override;
 private:
     void DamageParticleSet();
-    void DamageTexUpdate();
 private:
    bool DeathFlag;
 private:

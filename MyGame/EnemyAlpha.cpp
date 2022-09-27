@@ -163,3 +163,8 @@ void EnemyAlpha::DamageParticleSet()
 	}
 	particleMan->Update(particleMan->FOLLOW);
 }
+
+void EnemyAlpha::DamageTexUpdate(DebugCamera* camera)
+{
+	
+}

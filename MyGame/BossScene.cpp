@@ -91,7 +91,7 @@ void BossScene::Update()
 
 
 	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
-	DebugTxt::GetInstance()->Print("100",ppos.x,ppos.y,ppos.z, 5);
+//	DebugTxt::GetInstance()->Print("100",ppos.x,ppos.y,ppos.z, 5);
 	if (scenechange) {
 		Feed::GetInstance()->Update_White(Feed::FEEDIN);//”’‚­‚È‚è‚Ü‚·
 	}
@@ -152,9 +152,6 @@ void BossScene::Draw()
 
 		AltAttack::GetInstance()->Draw();
 
-		Texture::PreDraw();
-		DebugTxt::GetInstance()->DrawAll();
-		Texture::PostDraw();
 		//UI
 		if (CameraControl::GetInstance()->GetCameraState() != CameraControl::BOSSCUTSCENE) {
 			UI::GetInstance()->HUDDraw();

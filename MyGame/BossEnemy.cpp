@@ -236,3 +236,8 @@ void BossEnemy::DamageParticleSet()
 	particleMan->SetColor({ 1.0f,0.2f,0.2f,0.7f });
 	particleMan->Update(particleMan->NORMAL);
 }
+
+void BossEnemy::DamageTexUpdate(DebugCamera* camera)
+{
+
+}

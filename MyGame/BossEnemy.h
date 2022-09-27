@@ -49,7 +49,7 @@ public:
     void FbxAnimationControl()override;
     
     void Death()override;
-
+    void DamageTexUpdate(DebugCamera* camera)override;
 private:
     bool sf;
     bool nowAttack;

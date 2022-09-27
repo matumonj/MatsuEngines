@@ -39,38 +39,40 @@ void MobEnemy::Initialize(DebugCamera* camera)
 	EnemyHP = 30.00f;
 	MaxHP = 30.00f;
 	//パラメータのセット
-
 	Rotation = { -70,180,0 };
-	
+	Scale = { 0.04f, 0.04f, 0.04f };
 
 	m_fbxObject = std::make_unique<f_Object3d>();
 	m_fbxObject->Initialize();
 	m_fbxObject->SetModel(FbxLoader::GetInstance()->LoadModelFromFile("monster_golem"));
 	m_fbxObject->PlayAnimation();
+	m_fbxObject->SetColor({ 1,0,0,alpha });
+	//コライダー周り
 	radius_adjustment = 0;
-	Scale = { 0.04f, 0.04f, 0.04f
-	};
 	SetCollider();
+
+	//FBX切り替わりのタイム指定
 	AttackTime = 1.5f;
 	DeathTime = 4.9f;
+
 	nowAttack = false;
 	nowDeath = false;
-	m_fbxObject->SetColor({ 1,0,0,alpha });
-	state_mob->Initialize(this);
-	Texture::LoadTexture(93, L"Resources/ParticleTex/slash.png");
 
+	//state初期化
+	state_mob->Initialize(this);
+
+	//
+	Texture::LoadTexture(93, L"Resources/ParticleTex/slash.png");
 	SlashTex = Texture::Create(93, { 0.0f ,0.0f ,0.0f }, { 100.0f ,100.0f ,1.0f }, { 1.0f ,1.0f ,1.0f ,1.0f });
 	SlashTex->CreateTexture();
 	SlashTex->SetAnchorPoint({ 0.5f,0.5f });
+	SlashPos = { Position.x,Position.y,Position.z };
 
+	//パーティクルセット
 	ParticleManager::LoadTexture(4, L"Resources/ParticleTex/Normal.png");
 	particleMan=ParticleManager::Create(4,L"Resources/ParticleTex/Attack.png");
 	ParticleManager::LoadTexture(6, L"Resources/ParticleTex/Attack.png");
 	particleMan2 = ParticleManager::Create(6, L"Resources/ParticleTex/Attack.png");
-	SlashPos = { Position.x,Position.y,Position.z };
-	
-	Damagetxt = std::make_unique<DebugTxt>();
-	Damagetxt->Initialize(47);
 
 }
 
@@ -78,55 +80,23 @@ void MobEnemy::Initialize(DebugCamera* camera)
 void MobEnemy::Update(DebugCamera* camera)
 {
 	state_mob->Update(this);
+	
 	if (EnemyHP <= 0) {
 		alpha -= 0.005f;
 	}
 	
 	FbxAnimationControl();
+	
 	EnemyPop(150);
 	
 	AttackCoolTime();
+	
 	ParameterSet_Fbx(camera);
 
 	CollisionField(camera);
 
-	SlashPos.z = Position.z;
-	if (DamageParticleCreateF&&!SlashF2) {
-		SlashPos.x = Position.x + 5;
-		SlashPos.y = Position.y + 10;
-		SlashAlpha = 0.0f;
-		SlashF = true;
-	}
-	if (SlashF && !SlashF2) {
-		if (PlayerControl::GetInstance()->GetPlayer()->GetFbxTime() >= 1.7f) {
-			
-			SlashAlpha = 1.0f;
-			SlashF2 = true;
-		}
-	}
-	if(SlashF2){
-		SlashF = false;
-		SlashPos.x -= 1.0f;
-		SlashPos.y -= 1.0f;
-			SlashAlpha -= 0.05f;
-			if (SlashAlpha <= 0.0f) {
-			SlashF2 = false;
-		}
-	}
-	if (!SlashF && !SlashF2) {
-		SlashAlpha = 0.0f;
-	}
-	SlashTex->SetUVMove(false);
-	SlashTex->SetBillboard(false);
-
-	SlashTex->Update(camera);
-	SlashTex->SetPosition(SlashPos);
-	SlashTex->SetColor({ 1.0f,1.0f,1.0f,1 });
-	SlashTex->SetRotation({0,180,0});
-	SlashTex->SetScale({ 2.0f ,2.0f ,3.0f });
 
 	DamageParticleSet();
-	DamageTexUpdate();
 }
 
 //描画処理
@@ -144,8 +114,6 @@ void MobEnemy::Draw()
 	if (SlashF2) {
 		SlashTex->Draw();
 	}
-		Damagetxt->DrawAll();
-	
 	Texture::PostDraw();
 
 }
@@ -249,22 +217,41 @@ void MobEnemy::DamageParticleSet()
 	particleMan->Update(particleMan->NORMAL);	
 }
 
-void MobEnemy::DamageTexUpdate()
+void MobEnemy::DamageTexUpdate(DebugCamera* camera)
 {
-	std::ostringstream Damagestr;
+	SlashPos.z = Position.z;
+	if (DamageParticleCreateF && !SlashF2) {
+		SlashPos.x = Position.x + 5;
+		SlashPos.y = Position.y + 10;
+		SlashAlpha = 0.0f;
+		SlashF = true;
+	}
+	if (SlashF && !SlashF2) {
+		if (PlayerControl::GetInstance()->GetPlayer()->GetFbxTime() >= 1.7f) {
 
-	if (DamageDisplay) {
-		DamageTexAlpha = 1.0f;
-		DamagTexPos = { Position.x, Position.y + 5.0f, Position.z };
-		DamageDisplay = false;
+			SlashAlpha = 1.0f;
+			SlashF2 = true;
+		}
 	}
-	if (DamageTexAlpha >= 0.0f) {
-		DamagTexPos.y-=0.2f;
-		DamageTexAlpha -= 0.02f;
+	if (SlashF2) {
+		SlashF = false;
+		SlashPos.x -= 1.0f;
+		SlashPos.y -= 1.0f;
+		SlashAlpha -= 0.05f;
+		if (SlashAlpha <= 0.0f) {
+			SlashF2 = false;
+		}
 	}
-	Damagestr << std::fixed << std::setprecision(2)
-		<< GetDamage;
-	Damagetxt->SetColor({ 1,1,1,DamageTexAlpha });
-	Damagetxt->Print(Damagestr.str(),DamagTexPos.x, DamagTexPos.y, DamagTexPos.z, 2);
+	if (!SlashF && !SlashF2) {
+		SlashAlpha = 0.0f;
+	}
+	SlashTex->SetUVMove(false);
+	SlashTex->SetBillboard(false);
+
+	SlashTex->Update(camera);
+	SlashTex->SetPosition(SlashPos);
+	SlashTex->SetColor({ 1.0f,1.0f,1.0f,1 });
+	SlashTex->SetRotation({ 0,180,0 });
+	SlashTex->SetScale({ 2.0f ,2.0f ,3.0f });
 
 }

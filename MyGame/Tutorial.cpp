@@ -19,6 +19,7 @@
 #include"SelectSword.h"
 #include"KnockAttack.h"
 #include<iomanip>
+#include"DamageManager.h"
 //シーンのコンストラクタ
 Tutorial::Tutorial(SceneManager* sceneManager)
 	:BaseScene(sceneManager)
@@ -54,7 +55,7 @@ void Tutorial::objUpdate(DebugCamera* camera)
 #pragma region 初期化
 void Tutorial::Initialize()
 {
-	Texture::LoadTexture(47, L"Resources/debugfont2.png");
+	Texture::LoadTexture(47, L"Resources/debugfonnt2.png");
 	
 	input = Input::GetInstance();
 	//if (AllObjectControl.size() == 0) {//各オブジェクトインスタンスぶちこむ
@@ -127,6 +128,14 @@ void Tutorial::Update()
 		SceneManager::GetInstance()->SetScene(SceneManager::TITLE);
 		sceneManager_->SetnextScene(scene);//シーンのセット
 	}
+	XMFLOAT3 tepos = EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetPosition();
+	if (input->TriggerButton(input->Button_X)) {
+		DamageManager::GetIns()->DamageDisPlay(100, { 1,1,1,1 }, { tepos.x,tepos.y + 5,tepos.z });
+	}
+	if (input->TriggerButton(input->Button_Y)) {
+		DamageManager::GetIns()->DamageDisPlay(330, { 1,1,1,1 }, { tepos.x,tepos.y + 10,tepos.z });
+	}
+	DamageManager::GetIns()->Upda();
 
 }
 #pragma endregion 
@@ -173,7 +182,7 @@ void Tutorial::Draw()
 
 		DirectXCommon::GetInstance()->BeginDraw();
 		MyGameDraw();
-		
+		DamageManager::GetIns()->Draw();
 		UI::GetInstance()->HUDDraw();
 		Feed::GetInstance()->Draw();
 		SistemConfig::GetInstance()->Draw();

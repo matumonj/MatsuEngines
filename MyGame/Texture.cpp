@@ -32,7 +32,6 @@ XMFLOAT3 Texture::target = { 0, 0, 0 };
 XMFLOAT3 Texture::up = { 0, 1, 0 };
 Texture::VertexPosNormalUv Texture::vertices[vertexCount];
 unsigned short Texture::indices[indexCount];
-XMFLOAT4 Texture::color = { 1,1,1,1 };
 
 Texture::Texture(UINT texNumber, XMFLOAT3 position, XMFLOAT3 size, XMFLOAT4 color)
 {
