@@ -55,7 +55,7 @@ void Tutorial::objUpdate(DebugCamera* camera)
 #pragma region 初期化
 void Tutorial::Initialize()
 {
-	Texture::LoadTexture(47, L"Resources/debugfonnt2.png");
+	Texture::LoadTexture(47, L"Resources/df.png");
 	
 	input = Input::GetInstance();
 	//if (AllObjectControl.size() == 0) {//各オブジェクトインスタンスぶちこむ
@@ -129,12 +129,7 @@ void Tutorial::Update()
 		sceneManager_->SetnextScene(scene);//シーンのセット
 	}
 	XMFLOAT3 tepos = EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetPosition();
-	if (input->TriggerButton(input->Button_X)) {
-		DamageManager::GetIns()->DamageDisPlay(100, { 1,1,1,1 }, { tepos.x,tepos.y + 5,tepos.z });
-	}
-	if (input->TriggerButton(input->Button_Y)) {
-		DamageManager::GetIns()->DamageDisPlay(330, { 1,1,1,1 }, { tepos.x,tepos.y + 10,tepos.z });
-	}
+	
 	DamageManager::GetIns()->Upda();
 
 }

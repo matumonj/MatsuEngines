@@ -6,6 +6,8 @@
 #include"EnemyFollowState.h"
 #include"EnemyFollowState.h"
 #include"BossEnemyStay.h"
+#include"DamageManager.h"
+#include"PlayerControl.h"
 using namespace DirectX;
 Enemy::Enemy()
 {
@@ -41,6 +43,10 @@ void Enemy::Action()
 void Enemy::RecvDamage(int Damage) 
 {
 	if (EnemyHP <= 0)return;
+	float texZ= PlayerControl::GetInstance()->GetPlayer()->GetPosition().z- Position.z ;
+	float texX= PlayerControl::GetInstance()->GetPlayer()->GetPosition().x - Position.x;
+	DamageManager::GetIns()->DamageDisPlay(Damage, { 1,1,1,1 }, { Position.x+texX*2,Position.y + 10,Position.z+(texZ) });
+
 	EnemyHP = EnemyHP - Damage;
 	DamageParticleCreateF = true;
 }

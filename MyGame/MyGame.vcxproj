@@ -216,6 +216,7 @@
     <ClCompile Include="HalfAttack.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="HUDLayOut.cpp" />
+    <ClCompile Include="ImageManager.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="KnockAttack.cpp" />
     <ClCompile Include="LightGroup.cpp" />
@@ -327,6 +328,7 @@
     <ClInclude Include="HalfAttack.h" />
     <ClInclude Include="HUD.h" />
     <ClInclude Include="HUDLayOut.h" />
+    <ClInclude Include="ImageManager.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="KnockAttack.h" />
     <ClInclude Include="LightGroup.h" />

@@ -12,6 +12,7 @@ void DamageManager::Upda()
 {
 		for (std::unique_ptr<DebugTxt>& dtex : DamageTex) {
 			if (dtex != nullptr) {
+
 				dtex->Print(2);
 			}
 		}
@@ -43,7 +44,7 @@ void DamageManager::DamageDisPlay(int damage, XMFLOAT4 color, XMFLOAT3 Position)
 		newDTex->Initialize(47);
 		newDTex->SetPosition(Position);
 		
-		str << std::fixed << std::setprecision(2)
+		str << std::fixed << std::setprecision(1)
 			<< damage;
 		newDTex->SetText(str.str());
 

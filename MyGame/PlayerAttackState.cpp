@@ -34,6 +34,7 @@ void PlayerAttackState::Update()
 {
 	AttackCollision::GetInstance()->Update();
 	index =  TargetMarker::GetInstance()->GetNearIndex();
+	AttackCollision::GetInstance()->GetCol(Damage);
 
 //	if (AttackJudgeMent) {
 		if (CustomButton::GetInstance()->GetAttackAction()==true ){ /*CoolDownTime == 0*/
@@ -148,17 +149,16 @@ void PlayerAttackState::SkillCoolDown(int &cooltime)
 
 void PlayerAttackState::DetailAttack(std::vector<std::unique_ptr<Enemy>>& enemy,int cooltime)
 {
-	if (enemy[0] == nullptr)return;
+	//if (enemy[0] == nullptr)return;
 	//クールタイムを設定
 	CoolDownTime = SelectSword::GetInstance()->GetSword()->GetCoolTime();
 	//バフがかかっていた場合
 	if (BuffFlag) {
 		BuffAction();
 	}
-	if (HUD::GetInstance()->GetCoolTime() == 1.0f) {//クールスプライトの) {
+	//if (HUD::GetInstance()->GetCoolTime() == 1.0f) {//クールスプライトの) {
 		//敵に対して攻撃
-		AttackCollision::GetInstance()->GetCol(Damage);
-	}
+		//}
 	//if (/*fbxのモーション終わったら*/) {
 	Skill = None;
 }
