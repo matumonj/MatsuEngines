@@ -129,6 +129,9 @@ public:
 	}
 	bool GetJumpAction() { return actionButton[JUMP].judg; }
 	bool GetAttackAction() { return actionButton[ATTACK].judg; }
+	bool Get2AttackAction() { return actionButton[SATTACK].judg; }
+	bool Get3AttackAction() { return actionButton[TATTACK].judg; }
+
 	void SetJumpAction(bool flag) { actionButton[JUMP].judg = flag; }
 };
 

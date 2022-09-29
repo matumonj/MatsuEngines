@@ -66,7 +66,7 @@ void DebugTxt::Print(float scale = 1.0f)
 		spriteDatas[spriteIndex]->SetPosition({ Position.x + fontWidth * 1* i/6, Position.y,Position.z });
 		spriteDatas[spriteIndex]->SetColor(color);
 		spriteDatas[spriteIndex]->SetTextureRect({ (float)fontIndexX * fontWidth, (float)fontIndexY * fontHeight }, { (float)fontWidth, (float)fontHeight });
-		spriteDatas[spriteIndex]->SetScale({ fontWidth * scale/50, fontHeight * scale/50,1 });
+		spriteDatas[spriteIndex]->SetScale({ fontWidth * scale/70, fontHeight * scale/70,1 });
 		spriteDatas[spriteIndex]->SetRotation({ 180,0,0 });
 		spriteDatas[spriteIndex]->SetBillboard(true);
 		spriteDatas[spriteIndex]->Update(CameraControl::GetInstance()->GetCamera());

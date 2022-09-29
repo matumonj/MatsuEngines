@@ -34,12 +34,18 @@ void PlayerAttackState::Update()
 {
 	AttackCollision::GetInstance()->Update();
 	index =  TargetMarker::GetInstance()->GetNearIndex();
-	AttackCollision::GetInstance()->GetCol(Damage);
 
 //	if (AttackJudgeMent) {
 		if (CustomButton::GetInstance()->GetAttackAction()==true ){ /*CoolDownTime == 0*/
 			Skill = First;
-		} /*else if (Input::GetInstance()->PushButton(Input::GetInstance()->Button_A) && CoolDownTime == 0) {
+		}
+		if (CustomButton::GetInstance()->Get2AttackAction() == true) { /*CoolDownTime == 0*/
+			Skill = Second;
+		}
+		if (CustomButton::GetInstance()->Get3AttackAction() == true) { /*CoolDownTime == 0*/
+			Skill = Third;
+		}
+		/*else if (Input::GetInstance()->PushButton(Input::GetInstance()->Button_A) && CoolDownTime == 0) {
 			Skill = Second;
 		} else if (Input::GetInstance()->PushButton(Input::GetInstance()->Button_X) && CoolDownTime == 0) {
 			Skill = Third;
@@ -70,10 +76,28 @@ void PlayerAttackState::Update()
 		}
 		break;
 	case PlayerAttackState::Second:
+		if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
+			SecondAttack(EnemyControl::GetInstance()->GetTutorialEnemyindex());
+		}
+		if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
+			FirstAttack(EnemyControl::GetInstance()->GetEnemyindex(0));
+		}
+		if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
+			FirstAttack(EnemyControl::GetInstance()->GetBossEnemyindex());
+		}
 		//SecondAttack(EnemyControl::GetInstance()->GetEnemyindex(1)
 		//);
 		break;
 	case PlayerAttackState::Third:
+		if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
+			ThirdAttack(EnemyControl::GetInstance()->GetTutorialEnemyindex());
+		}
+		if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
+			FirstAttack(EnemyControl::GetInstance()->GetEnemyindex(0));
+		}
+		if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
+			FirstAttack(EnemyControl::GetInstance()->GetBossEnemyindex());
+		}
 		//ThirdAttack(EnemyControl::GetInstance()->GetEnemyindex(1)
 		//);
 		break;
@@ -158,7 +182,8 @@ void PlayerAttackState::DetailAttack(std::vector<std::unique_ptr<Enemy>>& enemy,
 	}
 	//if (HUD::GetInstance()->GetCoolTime() == 1.0f) {//クールスプライトの) {
 		//敵に対して攻撃
-		//}
+		AttackCollision::GetInstance()->GetCol(Damage);
+	//}
 	//if (/*fbxのモーション終わったら*/) {
 	Skill = None;
 }

@@ -170,7 +170,7 @@ void HUD::SkillBottonUpdate()
 	//各剣のクールタイム参照
 	TimeSpeed = 1.0f / SelectSword::GetInstance()->GetSword()->GetCoolTime();
 	if (CoolTime_Time >= 1.0f) {
-		if (CustomButton::GetInstance()->GetAttackAction()) {
+		if (CustomButton::GetInstance()->GetAttackAction()|| CustomButton::GetInstance()->Get2AttackAction()|| CustomButton::GetInstance()->Get3AttackAction()) {
 			CoolTime_Time = 0.0f;
 		}
 	} else {

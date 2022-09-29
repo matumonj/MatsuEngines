@@ -33,12 +33,10 @@ private:
 	TaskMenu task = THELLO;
 	float Movement = 0;
 	bool Jump;
-	bool ClearWalk;
-	bool ClearAttack;
-	bool ClearSetting;
-	bool GetChest;
+
 	bool AllTaskClear;
 
+	bool ClearTaskJudg[TaskNum];
 	bool MassageCheck[TaskNum];
 	Input* input;
 public:
@@ -53,6 +51,6 @@ public:
 	void Ease_SpriteSize_Up(float& x,float& t,int index);
 	void NextTask(float t,TaskMenu nexttask,bool nextjudg);
 
-	bool GetClearSetting() { return ClearSetting; }
+	bool GetClearSetting() { return ClearTaskJudg[SETTING]; }
 };
 

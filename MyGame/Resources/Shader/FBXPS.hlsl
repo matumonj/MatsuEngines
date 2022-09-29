@@ -23,11 +23,7 @@ PSInPut inp;
     //ïœçXå„
     output.target0 = texcolor*color;
 
-        //shadecolor * texcolor;
     output.target1 = texcolor*color;
 
-   // output.depth= input.depth;
-    
     return output;
-  //  return shadecolor * texcolor;
 }

@@ -40,7 +40,7 @@ void MobEnemy::Initialize(DebugCamera* camera)
 	MaxHP = 3000.00f;
 	//パラメータのセット
 	Rotation = { -70,180,0 };
-	Scale = { 0.04f, 0.04f, 0.04f };
+	Scale = { 0.01f, 0.01f, 0.01f };
 
 	m_fbxObject = std::make_unique<f_Object3d>();
 	m_fbxObject->Initialize();

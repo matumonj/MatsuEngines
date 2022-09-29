@@ -30,7 +30,7 @@ void BossEnemy::Initialize(DebugCamera* camera)
 	m_Object = std::make_unique<Object3d>();
 	m_Object->Initialize(camera);
 
-	MaxHP = 300.0f;
+	MaxHP = 200.0f;
 	EnemyHP = MaxHP;
 
 	Scale = { 0.04f, 0.04f, 0.04f};

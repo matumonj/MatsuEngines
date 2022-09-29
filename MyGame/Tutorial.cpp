@@ -154,15 +154,19 @@ void Tutorial::Draw()
 	{
 	case Blur://‚Ú‚©‚µ@•`‰æ€ˆá‚¤‚¾‚¯
 		postEffect->PreDrawScene();
-		MyGameDraw();
+		
 		postEffect->PostDrawScene();
+
 
 		DirectXCommon::GetInstance()->BeginDraw();
 		postEffect->Draw();
+
+		MyGameDraw();
+		SelectSword::GetInstance()->Draw();
+
 		if (HUD::GetInstance()->GetLayOutMode()) {
 			UI::GetInstance()->HUDDraw();
 		}
-		SelectSword::GetInstance()->Draw();
 		SistemConfig::GetInstance()->Draw();
 		if (DirectXCommon::GetInstance()->GetFullScreen() == false) {
 			ImGuiDraw();

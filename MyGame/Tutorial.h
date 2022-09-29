@@ -115,7 +115,7 @@ private:
 	bool t, y;
 
 private:
-	
+	bool f;
 	std::vector<Enemy*>subenemy;
 	std::vector<ControlBase*>AllObjectControl;
 };

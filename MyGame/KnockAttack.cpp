@@ -51,6 +51,11 @@ void KnockAttack::ActionJudg()
 					Easing::EaseOut(KnockTime, BeforePositionZ, AfterPositionZ)
 			});
 	}
+
+	if (fase == FASETHREE) {
+		BossSpell::GetInstance()->SetEndSpell_KA(false);
+
+	}
 	if (CameraControl::GetInstance()->GetCamera() != nullptr) {
 		KnockTex->SetUVMove(true);
 		KnockTex->SetBillboard(false);

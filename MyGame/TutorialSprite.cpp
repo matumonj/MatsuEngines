@@ -27,6 +27,7 @@ void TutorialSprite::Initialize()
 	Sprite::LoadTexture(175, L"Resources/tutorial5.png");
 	Sprite::LoadTexture(176, L"Resources/tutorial6.png");
 	Sprite::LoadTexture(170, L"Resources/Tuto");
+
 	Task[HELLO] = Sprite::Create(171, { 10,10 });
 	Task[WALK] = Sprite::Create(172, { 10,10 });
 	Task[SETTING] = Sprite::Create(173, { 10,10 });
@@ -37,11 +38,8 @@ void TutorialSprite::Initialize()
 		Task[i]->SetAnchorPoint({ 0,0 });
 		SpriteSizeX[i] = 0;
 		MassageCheck[i]=false;
+		ClearTaskJudg[i] = false;
 	}
-	ClearWalk = false;
-	ClearAttack = false;
-	ClearSetting=false;
-	GetChest=false;
 	AllTaskClear=false;
 	task = THELLO;
 	Jump = false;
@@ -59,13 +57,11 @@ void TutorialSprite::Update()
 	}
 
 	//歩きとジャンプ
-	ClearWalk = Movement > 30 && Jump == true;
-	
+	ClearTaskJudg[WALK]= Movement > 30 && Jump == true;
 	//オールコンプリート
-	AllTaskClear = ClearWalk && ClearAttack && ClearSetting;
+	AllTaskClear = ClearTaskJudg[WALK] && ClearTaskJudg[SETTING] && ClearTaskJudg[ATTACK]&& ClearTaskJudg[GETKEY];
 	//チュートリアルの宝箱
-	GetChest = ChestControl::GetInstance()->GetTutorialChest() == true;
-
+	ClearTaskJudg[GETKEY]= ChestControl::GetInstance()->GetTutorialChest() == true;
 	FenceControl::GetInstance()->SetTutorialFenceOpen(AllTaskClear);
 
 	switch (task)
@@ -81,7 +77,7 @@ void TutorialSprite::Update()
 
 	case TutorialSprite::TMOVE:
 		if (MassageCheck[WALK]) {
-			NextTask(t[WALK], TSETTING, ClearWalk);
+			NextTask(t[WALK], TSETTING, ClearTaskJudg[WALK]);
 		}
 
 		Ease_SpriteSize_Up(SpriteSizeX[WALK], t[WALK], WALK);
@@ -89,11 +85,10 @@ void TutorialSprite::Update()
 
 	case TutorialSprite::TSETTING:
 		//セッティング
-		if (SistemConfig::GetInstance()->GetEndConfig()) {
-			ClearSetting = true;
-		}
+		ClearTaskJudg[SETTING] = SistemConfig::GetInstance()->GetEndConfig();
+		
 		if (MassageCheck[SETTING]) {
-			NextTask(t[SETTING], TATTACK, ClearSetting);
+			NextTask(t[SETTING], TATTACK,ClearTaskJudg[SETTING]);
 		}
 
 		Ease_SpriteSize_Up(SpriteSizeX[SETTING], t[SETTING], SETTING);
@@ -101,17 +96,17 @@ void TutorialSprite::Update()
 	case TutorialSprite::TATTACK:
 		//攻撃
 		if (EnemyControl::GetInstance()->GetTutorialEnemyindex()[0] != nullptr) {
-			ClearAttack = EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetHP() <= 0;
+			ClearTaskJudg[ATTACK]= EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetHP() <= 0;
 		}
 		if (MassageCheck[ATTACK]) {
-			NextTask(t[ATTACK], TGETKEY, ClearAttack);
+			NextTask(t[ATTACK], TGETKEY, ClearTaskJudg[ATTACK]);
 		}
 
 		Ease_SpriteSize_Up(SpriteSizeX[ATTACK], t[ATTACK], ATTACK);
 		break;
 	case TutorialSprite::TGETKEY:
 		if (MassageCheck[GETKEY]) {
-			NextTask(t[GETKEY], TEND, GetChest);
+			NextTask(t[GETKEY], TEND,ClearTaskJudg[GETKEY]);
 		}
 
 		Ease_SpriteSize_Up(SpriteSizeX[GETKEY], t[GETKEY], GETKEY);
