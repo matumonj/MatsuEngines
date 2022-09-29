@@ -201,6 +201,7 @@
     <ClCompile Include="EnemyCamma.cpp" />
     <ClCompile Include="EnemyDeathState.cpp" />
     <ClCompile Include="EnemyFollowState.cpp" />
+    <ClCompile Include="EnemyRespawnState.cpp" />
     <ClCompile Include="EnemyState.cpp" />
     <ClCompile Include="EnemyStayState.cpp" />
     <ClCompile Include="EnemyWalkState.cpp" />
@@ -313,6 +314,7 @@
     <ClInclude Include="EnemyCamma.h" />
     <ClInclude Include="EnemyDeathState.h" />
     <ClInclude Include="EnemyFollowState.h" />
+    <ClInclude Include="EnemyRespawnState.h" />
     <ClInclude Include="EnemyState.h" />
     <ClInclude Include="EnemyStayState.h" />
     <ClInclude Include="EnemyWalkState.h" />

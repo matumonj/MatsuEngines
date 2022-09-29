@@ -98,6 +98,7 @@ void EnemyControl::Load(DebugCamera*camera)
 
 			enemys[i]->Initialize(camera);
 			enemys[i]->SetPosition(pos[i]);
+			enemys[i]->SetRespawnPos(pos[i]);
 		}
 	}
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
@@ -106,6 +107,7 @@ void EnemyControl::Load(DebugCamera*camera)
 		tutorial_enemy[0]->Initialize(camera);
 		tutorial_pos = { 89.137f,20.5045f,-707.987f };
 		tutorial_enemy[0]->SetPosition(tutorial_pos);
+		tutorial_enemy[0]->SetRespawnPos(tutorial_pos);
 	}
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
 		//boss_enemy.resize(1);

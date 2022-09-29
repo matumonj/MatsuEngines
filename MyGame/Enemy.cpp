@@ -50,6 +50,14 @@ void Enemy::RecvDamage(int Damage)
 	EnemyHP = EnemyHP - Damage;
 	DamageParticleCreateF = true;
 }
+
+void Enemy::isRespawn()
+{
+	EnemyHP = MaxHP;
+	alpha = 1.0f;
+	Position = RespawnPos;
+}
+
 void Enemy::EnemyPop(int HP)
 {
 	

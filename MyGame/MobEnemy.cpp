@@ -34,10 +34,9 @@ void MobEnemy::Initialize(DebugCamera* camera)
 
 	m_Object = std::make_unique<Object3d>();
 	m_Object->Initialize(camera);
-	//m_fbxModel = ModelManager::GetIns()->GetFBXModel(ModelManager::GOLEM);
-
-	EnemyHP = 3000.00f;
-	MaxHP = 3000.00f;
+	
+	EnemyHP = 30.00f;
+	MaxHP = 30.00f;
 	//パラメータのセット
 	Rotation = { -70,180,0 };
 	Scale = { 0.01f, 0.01f, 0.01f };

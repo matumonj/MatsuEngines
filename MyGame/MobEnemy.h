@@ -47,7 +47,6 @@ private:
     bool SlashF;
     bool SlashF2;
     bool nowAttack;
-    float alpha=1;
     const int ParticleSize = 20;
 
 public:

@@ -62,8 +62,8 @@ void TutorialSprite::Update()
 	AllTaskClear = ClearTaskJudg[WALK] && ClearTaskJudg[SETTING] && ClearTaskJudg[ATTACK]&& ClearTaskJudg[GETKEY];
 	//チュートリアルの宝箱
 	ClearTaskJudg[GETKEY]= ChestControl::GetInstance()->GetTutorialChest() == true;
+	
 	FenceControl::GetInstance()->SetTutorialFenceOpen(AllTaskClear);
-
 	switch (task)
 	{
 	case TutorialSprite::THELLO:
@@ -93,6 +93,7 @@ void TutorialSprite::Update()
 
 		Ease_SpriteSize_Up(SpriteSizeX[SETTING], t[SETTING], SETTING);
 		break;
+
 	case TutorialSprite::TATTACK:
 		//攻撃
 		if (EnemyControl::GetInstance()->GetTutorialEnemyindex()[0] != nullptr) {
@@ -104,6 +105,7 @@ void TutorialSprite::Update()
 
 		Ease_SpriteSize_Up(SpriteSizeX[ATTACK], t[ATTACK], ATTACK);
 		break;
+
 	case TutorialSprite::TGETKEY:
 		if (MassageCheck[GETKEY]) {
 			NextTask(t[GETKEY], TEND,ClearTaskJudg[GETKEY]);

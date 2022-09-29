@@ -47,20 +47,22 @@ public:
 	virtual void Action();
 
 	virtual void DamageTexUpdate(DebugCamera* camera)=0;
+
+	void isRespawn();
 protected:
 	//体力周り
 	float EnemyHP;//現在の体力
 	float MaxHP;//最大値(変動なし)
 	float OldHP;//前フレーム時の体力(HUDのイージング用)
 protected:
-
+	float alpha = 1.0f;
+	XMFLOAT3 RespawnPos;
 	bool RecvDamagef;//
 	bool DamageParticleCreateF;//攻撃受けた直後パーティクル発生フラg
 
 private:
 	bool MoveFlag = false;
 	XMFLOAT3 OldPos;
-
 public:
 	//攻撃受けた直後の判定用
 	void RecvDamage(int Damage);
@@ -118,7 +120,7 @@ public:
 
 	void SetAttackTime(bool f) { if (f_time < AttackTime) { f_AttackFlag = f; } }
 
-
+	void SetRespawnPos(XMFLOAT3 position) { RespawnPos = position; }
 /*ボス攻撃用 できれば移したいが、、*/
 protected://攻撃の開始と終了判定用
 	struct Attack_SE {
