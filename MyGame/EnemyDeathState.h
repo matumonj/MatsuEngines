@@ -9,6 +9,8 @@ public:
 	void Initialize(Enemy* enemy);
 
 	void Update(Enemy* enemy);
+private:
 
+	int RespawnCount = 0;
 };
 

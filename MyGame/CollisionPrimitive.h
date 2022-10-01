@@ -73,3 +73,9 @@ struct Point
 	float x;
 	float y;
 };
+
+struct Line2D
+{
+	DirectX::XMFLOAT2 start;
+	DirectX::XMFLOAT2 end;
+};

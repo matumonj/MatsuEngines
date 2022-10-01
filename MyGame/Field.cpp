@@ -201,7 +201,7 @@ void Field::FieldDamageAreaCol()
 		player.y = Ppos.z*-1;
 
 		if (Collision::CheckPoint2Rect(player, damagearea) == false) {
-			PlayerControl::GetInstance()->GetPlayer()->RecvDamage(10);
+		//	PlayerControl::GetInstance()->GetPlayer()->RecvDamage(10);
 		}
 	}
 }

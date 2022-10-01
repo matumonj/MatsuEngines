@@ -36,6 +36,24 @@ bool Collision::CheckPoint2Rect(const Point& point, const Box& rect)
 		return false;
 	}
 }
+float Collision::CollsionPoint2Line2D(const Point& point, const Line2D& lineseg)
+{
+	float lenY = lineseg.start.y - lineseg.end.y;
+	float lenX= lineseg.end.x- lineseg.start.x;
+
+	float lenXY = (-lenX * lineseg.start.y) + (-lenY * lineseg.start.x);
+
+	float root = sqrtf(lenY * lenY + lenX * lenX);
+
+	float len = ((lenY * point.x) + (lenX * point.y) + lenXY) / root;
+
+	if (len < 0.0f) {
+		len = -len;
+	}
+
+	return len;
+}
+
 void Collision::ClosestPtPoint2Triangle(const DirectX::XMVECTOR& point, const Triangle& triangle, DirectX::XMVECTOR* closest)
 {
 	// pointがp0の外側の頂点領域の中にあるかどうかチェック

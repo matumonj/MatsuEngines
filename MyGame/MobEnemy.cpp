@@ -162,7 +162,6 @@ void MobEnemy::AttackCoolTime()
 			AfterAttack = true;
 		}
 	if (AfterAttack) {
-		
 		cooltime++;
 		if (cooltime > 480) {
 			AfterAttack = false;
@@ -177,43 +176,7 @@ void MobEnemy::AttackCoolTime()
 void MobEnemy::DamageParticleSet()
 {
 
-	for (int i = 0; i < ParticleSize; i++) {
-		const float rnd_vel = 0.5f;
-		XMFLOAT3 vel{};
-		vel.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-		vel.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-		vel.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
 
-		XMFLOAT3 acc{};
-		const float rnd_acc = 0.001f;
-		acc.y = -(float)rand() / RAND_MAX * rnd_acc;
-
-		XMFLOAT3 vel2{};
-		vel2.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 3.0f;
-		vel2.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 3.0f;
-		vel2.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 3.0f;
-
-		XMFLOAT3 acc2{};
-		const float rnd_acc2 = 0.01f;
-		acc2.y = -(float)rand() / RAND_MAX * rnd_acc2;
-	//	//’Ç‰Á
-		if (DamageParticleCreateF) {
-			particlePos = { Position.x,Position.y + 10,Position.z };
-			particleMan->Add(particleLife, particlePos, vel, acc, 3.0f, 0.0f);
-
-			particleMan2->Add(particleLife, { Position.x,Position.y + 10,Position.z }, vel2, acc2, 3.0f, 0.0f);
-
-			if (i == ParticleSize - 1) {
-				DamageParticleCreateF = false;
-			}
-		}
-	
-	}
-
-	particleMan2->SetColor({ 1.0f,1.0f,0.2f,0.7f });
-	particleMan2->Update(particleMan->NORMAL);
-	particleMan->SetColor({ 1.0f,0.2f,0.2f,0.7f });
-	particleMan->Update(particleMan->NORMAL);	
 }
 
 void MobEnemy::DamageTexUpdate(DebugCamera* camera)

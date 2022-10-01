@@ -22,14 +22,15 @@ private:
 	std::unique_ptr<Object3d>BeamObj[2];
 	Model* BeamModel;
 	ParticleManager* BeamParticle;
-	bool fase1, fase2, fase3, fase4;
-	int AttackCount;
+	Texture* DamageAreaTex[2];
 
-	Ray beamRay[2];
-	Sphere PlayerSpehre;
+private:
+	Line2D beamRay[2];
+	Point PlayerSpehre;
 public:
 
-public:enum Fase {
+public:
+	enum Fase {
 	FASENON,
 	FASEONE,
 	FASETWO,
@@ -41,16 +42,23 @@ private:
 	float BeamEaseTime;
 	XMFLOAT3 BeamScale;
 	XMFLOAT3 BeamPosition[2];
+	float angleBeam;
+	int BeamAttackCount = 0;
+	float texAlpha = 0.0f;
 public:
 	static AltAttack* GetInstance();
 	void Initialize();
 	void ActionJudg();
 	void Draw();
-
+	void Finalize();
 private:
 	void EnergieCharge();
 	void BeamAttack();
 	void CollisionParamSet();
+
+	void BeamShotStart();
+	void BeamShotEnd();
+	void BeamParamReset();
 public:
 
 	void SetAttackFase(bool f) { if (f && fase != FASEONE) { fase = FASEONE; } }

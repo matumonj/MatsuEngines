@@ -72,7 +72,6 @@ void BossEnemy::Update(DebugCamera* camera)
 	
 	//fbxアニメーション制御
 	FbxAnimationControl();
-	EnemyPop(150);
 	//座標やスケールの反映
 	ParameterSet_Fbx(camera);
 	//攻撃後のクールタイム設定
@@ -112,7 +111,7 @@ void BossEnemy::Update(DebugCamera* camera)
 	SlashTex->SetRotation({ 0,180,0 });
 	SlashTex->SetScale({ 2.0f ,2.0f ,3.0f });
 
-
+	SummonGigaBoss(camera);
 	//攻撃受けたらパーティクル
 	DamageParticleSet();
 	
@@ -123,6 +122,9 @@ void BossEnemy::Update(DebugCamera* camera)
 void BossEnemy::Draw()
 {
 	Draw_Fbx();
+	if (GigaBossObj != nullptr) {
+		GigaBossObj->Draw();
+	}
 	// 3Dオブジェクト描画前処理
 	ParticleManager::PreDraw();
 	// 3Dオブクジェクトの描画
@@ -135,6 +137,7 @@ void BossEnemy::Draw()
 		SlashTex->Draw();
 	}
 	Texture::PostDraw();
+
 
 	// 3Dオブジェクト描画前処理
 	ImGui::Begin("slp");
@@ -240,4 +243,25 @@ void BossEnemy::DamageParticleSet()
 void BossEnemy::DamageTexUpdate(DebugCamera* camera)
 {
 
+}
+
+void BossEnemy::SummonGigaBoss(DebugCamera* camera)
+{
+	
+	if (gigantic) {
+		GigaBossObj = std::make_unique<f_Object3d>();
+		GigaBossObj->Initialize();
+		GigaBossObj->SetModel(FbxLoader::GetInstance()->LoadModelFromFile("monster_golem"));
+		GigaBossObj->PlayAnimation();
+
+		gigantic = false;
+	}
+	if (GigaBossObj != nullptr) {
+		GigaBossObj->SetPosition({ 0.0f,-190.0f,180.0f});
+
+		GigaBossObj->SetRotation({ -70.0f,180.0f,0.0f });
+		GigaBossObj->SetScale({0.6f,0.6f,0.6f});
+//GigaBossObj->SetColor({1,1,1,1});
+		GigaBossObj->Updata(true);
+	}
 }

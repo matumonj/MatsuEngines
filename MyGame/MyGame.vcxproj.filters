@@ -519,6 +519,9 @@
     <ClCompile Include="EnemyRespawnState.cpp">
       <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\雑魚</Filter>
     </ClCompile>
+    <ClCompile Include="FrontCircleAttack.cpp">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン\後半フェーズ\行動内容</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sprite.h">
@@ -865,6 +868,9 @@
     </ClInclude>
     <ClInclude Include="EnemyRespawnState.h">
       <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\雑魚</Filter>
+    </ClInclude>
+    <ClInclude Include="FrontCircleAttack.h">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン\後半フェーズ\行動内容</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

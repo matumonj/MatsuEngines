@@ -12,7 +12,8 @@ Output main(float4 pos:POSITION, float3 normal : NORMAL, float2 uv : TEXCOORD)
 	output.svpos = mul(mat, pos);
 	if (uvf) {
 		uv.y += time;
-	}
+	}	
+	output.worldpos = mul(world, pos);
 	output.uv = uv;
 	return output;
 }

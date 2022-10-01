@@ -11,5 +11,7 @@ private:
 	float tempx, tempz;
 	int movement;
 	bool SearchPlayer;
+private:
+	void BacktoGround(Enemy*enemy);
 };
 

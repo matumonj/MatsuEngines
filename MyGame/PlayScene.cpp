@@ -33,10 +33,7 @@ void PlayScene::objUpdate(DebugCamera* camera)
 	UI::GetInstance()->HUDUpdate(hudload, (CameraControl::GetInstance()->GetCamera()));
 
 	Field::GetInstance()->Update((CameraControl::GetInstance()->GetCamera()));
-	//CustomButton::GetInstance()->Update();
-
-	//SistemConfig::GetInstance()->Update();
-
+	
 }
 
 //‰Šú‰»ˆ—

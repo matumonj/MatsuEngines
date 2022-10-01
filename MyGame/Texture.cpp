@@ -479,9 +479,12 @@ void Texture::Update(DebugCamera* camera)
 	result = constBuff->Map(0, nullptr, (void**)&constMap);
 	constMap->color = color;
 	constMap->matbillbord = camera->GetBillboardMatrix();
+	constMap->world = matWorld;
 	constMap->mat = matWorld * camera->GetViewMatrix() * camera->GetProjectionMatrix();	// s—ñ‚Ì‡¬
 	constMap->uvmove = uvf;
 	constMap->time = uvtime;
+	constMap->dispos = position;
+	constMap->radius =  DisplayRadius;
 	constBuff->Unmap(0, nullptr);
 	//TransferVertices();
 }
@@ -561,7 +564,7 @@ void Texture::TransferVertices()
 	if (texbuff[texNumber])
 	{
 		D3D12_RESOURCE_DESC resDesc = texbuff[texNumber]->GetDesc();
-		//texSize = { (float)resDesc.Width, (float)resDesc.Height };
+		texSize = { (float)resDesc.Width, (float)resDesc.Height };
 
 		float tex_left = texBase.x / resDesc.Width;
 		float tex_right = (texBase.x + texSize.x) / resDesc.Width;

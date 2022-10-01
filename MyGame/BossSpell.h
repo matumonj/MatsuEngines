@@ -23,7 +23,8 @@ private:
 	Spells HalfAttack_Right;
 	Spells CircleAttack;
 	Spells KnockAttack;
-	//Spells UltimateAttack;
+	Spells UltimateAttack;
+	Spells FrontCircleAttack;
 private:
 	void SpellsInit(Spells& spell, int TexNum_G, int TexNum_F);
 	void SpellAction(Spells& spell,float spellCount);
@@ -34,7 +35,8 @@ public:
 	void SetStartSpell_HR(bool f) { HalfAttack_Right.StartJudg = f; }
 	void SetStartSpell_CA(bool f) { CircleAttack.StartJudg = f; }
 	void SetStartSpell_KA(bool f) { KnockAttack.StartJudg = f; }
-	//void SetStartSpell_UA(bool f) { UltimateAttack.StartJudg = f; }
+	void SetStartSpell_UA(bool f) { UltimateAttack.StartJudg = f; }
+	void SetStartSpell_FC(bool f) { FrontCircleAttack.StartJudg = f; }
 
 	bool GetEndSpell_HL() { return HalfAttack_Left.EndJudg; }
 	void SetEndSpell_HL(bool f) { HalfAttack_Left.EndJudg=f; }
@@ -47,9 +49,11 @@ public:
 	bool GetEndSpell_KA() { return KnockAttack.EndJudg; }
 	void SetEndSpell_KA(bool f) { KnockAttack.EndJudg = f; }
 
+	bool GetEndSpell_UA() { return UltimateAttack.EndJudg; }
+	void SetEndSpell_UA(bool f) { UltimateAttack.EndJudg = f; }
 
-	//bool GetEndSpell_UA() { return UltimateAttack.EndJudg; }
-	//void SetEndSpell_UA(bool f) { UltimateAttack.EndJudg = f; }
+	bool GetEndSpell_FC() { return  FrontCircleAttack.EndJudg; }
+	void SetEndSpell_FC(bool f) { FrontCircleAttack.EndJudg = f; }
 
 };
 

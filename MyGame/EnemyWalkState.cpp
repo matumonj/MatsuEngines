@@ -12,10 +12,10 @@ void EnemyWalkState::Update(Enemy* enemy)
 {
 
 	float RandMove = rand() % 90 + 20;
-	float RandMovement = rand() % 100 + 80;
-
+	float RandMovement = rand() % 180 + 120;
 	//õ“G”ÍˆÍ
 	const float DetectionRange = 30.0f;
+
 	//ƒvƒŒƒCƒ„[‚ªõ“G”ÍˆÍ“ü‚Á‚½‚ç
 	if (PlayerControl::GetInstance()->GetPlayer() != nullptr) {
 		SearchPlayer = Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < DetectionRange;
@@ -24,7 +24,7 @@ void EnemyWalkState::Update(Enemy* enemy)
 	XMVECTOR move = { 0,0,0.1f,0 };
 	
 	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(enemy->GetRotation().y));
-	
+
 	move = XMVector3TransformNormal(move, matRot);
 
 	//Œü‚¢‚Ä‚é•ûŒü‚ÉˆÚ“®
@@ -46,22 +46,20 @@ void EnemyWalkState::Update(Enemy* enemy)
 			movement = 0;
 		}
 	}
-	else if (enemy->GetonFlag() == false) {
-		if (enemy->GetMoveFlag() != false) {
-			enemy->SetPosition({ tempx,enemy->GetPosition().y,tempz });
-		}
-		else {
-			enemy->SetPosition({
-							enemy->GetPosition().x ,
-							enemy->GetPosition().y,
-							enemy->GetPosition().z }
-			);
-
-		}
-	}
+	
+	BacktoGround(enemy);
 	//UŒ‚
 	if (SearchPlayer) {
 		//’ÇÕ
 		enemy->ChangeState_Mob(new EnemyFollowState());
 }
+}
+
+void EnemyWalkState::BacktoGround(Enemy*enemy)
+{
+	//Ú’nó‘Ô‚Å‚È‚­ŠŽ‚Â“®‚¢‚Ä‚¢‚é‚Æ‚«
+	if (enemy->GetonFlag())return;
+	if (!enemy->GetMoveFlag()) return;
+
+	enemy->SetPosition({ tempx,enemy->GetPosition().y,tempz });
 }

@@ -42,8 +42,6 @@ public:
 private:
     void DamageParticleSet();
 private:
-   bool DeathFlag;
-private:
     bool SlashF;
     bool SlashF2;
     bool nowAttack;

@@ -45,10 +45,13 @@ public: // サブクラス
 	{
 		XMFLOAT4 color;	// 色 (RGBA)
 		XMMATRIX mat;	// ３Ｄ変換行列
+		XMMATRIX world;
 		XMMATRIX matbillbord;	// ３Ｄ変換行列
 		bool uvmove;
 		XMFLOAT3 sub = { 0,0,0 };
 		float time;
+		XMFLOAT3 dispos ;
+		float radius;
 	};
 
 private: // 定数
@@ -203,9 +206,11 @@ public: // メンバ関数
 	void SetColor(XMFLOAT4 color) { this->color = color; }
 	void SetRotation(XMFLOAT3 rotation);// { this->rotation = rotation; }
 	void SetScale(XMFLOAT3 scale);
+	void SetDisplayRadius(float rad) { DisplayRadius = rad; }
 	const XMFLOAT3& GetScale() { return scale; }
 private: // メンバ変数
 	ComPtr<ID3D12Resource> constBuff; // 定数バッファ
+	float DisplayRadius = 100;
 	// 色
 	XMFLOAT4 color;
 	// ローカルスケール

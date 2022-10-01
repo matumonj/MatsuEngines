@@ -17,7 +17,7 @@ CircleAttack*CircleAttack::GetInstance()
 }
 void CircleAttack::Initialize()
 {
-	Texture::LoadTexture(23, L"Resources/AOE.png");
+	Texture::LoadTexture(23, L"Resources/fissure.png");
 
 	for (int i = 0; i < 2; i++) {
 		ImpactAreaTex[i] = Texture::Create(23, { 0.0f ,0.0f ,0.0f }, { 100.0f ,100.0f ,1.0f }, { 1.0f ,1.0f ,1.0f ,1.0f });

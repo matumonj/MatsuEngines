@@ -20,6 +20,13 @@ public:
 	static void SetCollideOBB(bool f);
 	static bool GetCollideOBB();
 	/// <summary>
+	/// 点と線分の距離を求める
+	/// </summary>
+	/// <param name="point">点</param>
+	/// <param name="line">線分</param>
+	/// <param name="dist">距離（出力用）</param>
+	static float CollsionPoint2Line2D(const Point& point, const Line2D& lineseg);
+	/// <summary>
 	/// 点と三角形の最近接点を求める
 	/// </summary>
 	/// <param name="point">点</param>

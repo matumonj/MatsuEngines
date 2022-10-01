@@ -19,6 +19,7 @@ void EnemyStayState::Update(Enemy* enemy)
 	}
 	
 	StayCount++;
+	
 	if (StayCount > 90) {//’âŽ~ŽžŠÔ
 		RotTime += 0.01f;
 		enemy->SetRotation({

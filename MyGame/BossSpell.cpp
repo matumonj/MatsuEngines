@@ -31,7 +31,9 @@ void BossSpell::Initialize()
 	SpellsInit(HalfAttack_Left, 50, 51);
 	SpellsInit(HalfAttack_Right, 50, 51);
 	SpellsInit(CircleAttack, 50, 52);
-	SpellsInit(KnockAttack, 50, 53);
+	SpellsInit(KnockAttack, 50, 53); 
+	SpellsInit(UltimateAttack, 50, 51);
+	SpellsInit(FrontCircleAttack, 50, 51);
 	}
 
 void BossSpell::Update()
@@ -41,6 +43,8 @@ void BossSpell::Update()
 	SpellAction(HalfAttack_Right, 120.0f);
 	SpellAction(CircleAttack, 180.0f);
 	SpellAction(KnockAttack, 240.0f);
+	SpellAction(UltimateAttack, 120.0f);
+	SpellAction(FrontCircleAttack, 120.0f);
 }
 void BossSpell::Draw()
 {
@@ -49,6 +53,8 @@ void BossSpell::Draw()
 	SpellsDraw(HalfAttack_Right);
 	SpellsDraw(CircleAttack);
 	SpellsDraw(KnockAttack);
+	SpellsDraw(UltimateAttack);
+	SpellsDraw(FrontCircleAttack);
 	Sprite::PostDraw();
 }
 

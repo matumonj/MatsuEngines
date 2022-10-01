@@ -140,14 +140,6 @@ void EnemyControl::TuatorialDraw()
 }
 void EnemyControl::Initialize(DebugCamera* camera)
 {
-	//behavior.AddNode("", "Root", 0, BehaviorTree::SELECT_RULE::PRIORITY, NULL, NULL);
-	//behavior.AddNode("Root", "Walk", 1, BehaviorTree::SELECT_RULE::NON, WalkJudgment::GetInstance(), WalkAction::GetInstance());
-//
-
-	//behavior.AddNode("Root", "Attack", 3, BehaviorTree::SELECT_RULE::NON, EnemyAttackJudgement::GetInstance(), EnemyAttackAction::GetInstance());
-
-	//behavior.AddNode("Root", "Follow", 2, BehaviorTree::SELECT_RULE::NON, FollowJudgement::GetInstance(), FollowAction::GetInstance());
-	//behavior.AddNode("Root", "Death", 4, BehaviorTree::SELECT_RULE::NON, DeathJudgment::GetInstance(), DeathAction::GetInstance());
 	boss_enemy.resize(1);
 }
 
@@ -171,7 +163,6 @@ void EnemyControl::Update(DebugCamera* camera)
 	}
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
 		if (boss_enemy[0] != nullptr) {
-			//boss_enemy[0]->SetMoveFlag(true);
 			boss_enemy[0]->Update(camera);
 		}
 	}

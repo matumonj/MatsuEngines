@@ -56,6 +56,9 @@ void Enemy::isRespawn()
 	EnemyHP = MaxHP;
 	alpha = 1.0f;
 	Position = RespawnPos;
+	f_time = 0;
+	DeathFlag = false;
+	nowDeath = false;
 }
 
 void Enemy::EnemyPop(int HP)

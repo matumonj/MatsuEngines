@@ -21,6 +21,7 @@
 #include"HalfAttack.h"
 #include"AltAttack.h"
 #include"DebugTxt.h"
+#include"FrontCircleAttack.h"
 BossScene::BossScene(SceneManager* sceneManager)
 	:BaseScene(sceneManager)
 {
@@ -48,7 +49,7 @@ void BossScene::Initialize()
 	CircleAttack::GetInstance()->Initialize();
 	HalfAttack::GetInstance()->Initialize();
 	Nail::GetInstance()->ModelSet();
-	AltAttack::GetInstance()->Initialize();
+	FrontCircleAttack::GetInstance()->Initialize();
 	// 3Dオブジェクトにカメラをセット
 	Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
 	//カメラをセット
@@ -95,7 +96,7 @@ void BossScene::Update()
 	if (scenechange) {
 		Feed::GetInstance()->Update_White(Feed::FEEDIN);//白くなります
 	}
-	AltAttack::GetInstance()->ActionJudg();
+	FrontCircleAttack::GetInstance()->ActionJudg();
 	if (SistemConfig::GetInstance()->GetConfigJudgMent()) {
 		c_postEffect = Blur;
 	} else {
@@ -150,7 +151,7 @@ void BossScene::Draw()
 		HalfAttack::GetInstance()->Draw();
 		KnockAttack::GetInstance()->Draw();
 
-		AltAttack::GetInstance()->Draw();
+		FrontCircleAttack::GetInstance()->Draw();
 
 		//UI
 		if (CameraControl::GetInstance()->GetCameraState() != CameraControl::BOSSCUTSCENE) {

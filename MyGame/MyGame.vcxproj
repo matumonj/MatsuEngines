@@ -212,6 +212,7 @@
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="FieldCollision.cpp" />
     <ClCompile Include="Framework.cpp" />
+    <ClCompile Include="FrontCircleAttack.cpp" />
     <ClCompile Include="f_Model.cpp" />
     <ClCompile Include="f_Object3d.cpp" />
     <ClCompile Include="HalfAttack.cpp" />
@@ -325,6 +326,7 @@
     <ClInclude Include="Field.h" />
     <ClInclude Include="FieldCollision.h" />
     <ClInclude Include="Framework.h" />
+    <ClInclude Include="FrontCircleAttack.h" />
     <ClInclude Include="f_Model.h" />
     <ClInclude Include="f_Object3d.h" />
     <ClInclude Include="HalfAttack.h" />

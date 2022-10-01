@@ -20,6 +20,7 @@ public:
     ~BossEnemy();
 
 private:
+    std::unique_ptr<f_Object3d>GigaBossObj;
 
     Enemy* mob;
     //オブジェクトのインスタンス
@@ -51,12 +52,14 @@ public:
     void Death()override;
     void DamageTexUpdate(DebugCamera* camera)override;
 private:
+    bool gigantic=true;
     bool sf;
     bool nowAttack;
     bool nowDeath;
     float defaulttime = 1.8f;
     bool DeathFlag;
 private:
+    void SummonGigaBoss(DebugCamera* camera);
     void DamageParticleSet();
 private:
     bool SlashF;

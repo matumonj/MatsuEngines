@@ -393,7 +393,7 @@ bool Object3d::Initialize(DebugCamera* camera)
 void Object3d::Update(XMFLOAT4 color, DebugCamera* camera)
 {
 	if (uvf) {
-		uvtime += 0.01f;
+		uvtime += 0.05f;
 		if (uvtime > 1.0f) {
 			uvtime = 0.0f;
 		}
@@ -443,7 +443,7 @@ void Object3d::Update(XMMATRIX matworld, XMFLOAT4 color, DebugCamera* camera)
 {
 	time.x += 0.01f;
 
-	time.y += 0.001f;
+	time.y += 0.2f;
 	if (time.y > 1.0f) {
 		time.y = 0.0f;
 	}
