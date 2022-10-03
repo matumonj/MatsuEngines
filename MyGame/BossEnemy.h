@@ -51,15 +51,14 @@ public:
     
     void Death()override;
     void DamageTexUpdate(DebugCamera* camera)override;
+    //bool GetArmonGround() { return ArmonGround; }
 private:
-    bool gigantic=true;
     bool sf;
     bool nowAttack;
     bool nowDeath;
     float defaulttime = 1.8f;
     bool DeathFlag;
 private:
-    void SummonGigaBoss(DebugCamera* camera);
     void DamageParticleSet();
 private:
     bool SlashF;

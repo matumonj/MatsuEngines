@@ -58,7 +58,7 @@ private:
     float cameraAngle=-90.0f;
     float charaAngle;
     float CameraDis = 15.0f;
-    float CameraHeight=40;
+    float CameraHeight=30;
 public: 
 
     XMFLOAT3 CameraPosIndex(int index) { return points[index]; }

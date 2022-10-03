@@ -136,8 +136,9 @@ void ObjectManager::ParameterSet_Fbx(DebugCamera* camera)
 
 	m_fbxObject->SetRotation(Rotation);
 	m_fbxObject->SetScale(Scale);
-
-	m_Object->SetPosition(Position);
+	if (m_Object != nullptr) {
+		m_Object->SetPosition(Position);
+	}
 	//m_fbxObject->SetColor({1,1,1,1});
 	m_fbxObject->Updata(true);
 	

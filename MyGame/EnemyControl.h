@@ -7,6 +7,7 @@
 #include"Enemy.h"
 #include"DebugCamera.h"
 #include<memory>
+#include"GigaBossEnemy.h"
 class EnemyControl :
     public ControlBase
 {
@@ -21,6 +22,7 @@ private:
 	//É{ÉXóp
 	std::vector <std::unique_ptr<Enemy>> boss_enemy;
 
+	std::unique_ptr<GigaBossEnemy>gigaboss;
 	XMFLOAT3 tutorial_pos;
 	XMFLOAT3 boss_pos;
 	

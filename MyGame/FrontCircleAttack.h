@@ -21,9 +21,6 @@ public:
 	void Draw();
 	void Finalize();
 
-private:
-	void PowerAccumulate();
-	void SlamAttack();
 public:
 	enum Fase {
 		FASENON,
@@ -33,13 +30,12 @@ public:
 		FASEFOUR
 	};
 private:
+	bool SlamAttackF;
 	Texture* FissureTex;
 	Texture* DamageAreaTex;
 
 	Fase fase;
 
-	float fissureAlpha;
-	float disrad;
 public:
 	void SetAttackFase(bool f) { if (f && fase != FASEONE) { fase = FASEONE; } }
 	Fase GetFaseEnd() { return fase; }

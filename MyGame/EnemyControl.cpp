@@ -115,6 +115,10 @@ void EnemyControl::Load(DebugCamera*camera)
 		boss_enemy[0]->Initialize(camera);
 		boss_pos = { 0.0f,15.5045f,20.987f };
 		boss_enemy[0]->SetPosition(boss_pos);
+
+		gigaboss = std::make_unique<GigaBossEnemy>();
+
+		gigaboss->Initialize(camera);
 	}
 }
 
@@ -164,6 +168,7 @@ void EnemyControl::Update(DebugCamera* camera)
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
 		if (boss_enemy[0] != nullptr) {
 			boss_enemy[0]->Update(camera);
+			gigaboss->Update(camera);
 		}
 	}
 }
@@ -187,6 +192,7 @@ void EnemyControl::Draw()
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
 		if (boss_enemy[0] != nullptr) {
 			boss_enemy[0]->Draw();
+			gigaboss->Draw();
 		}
 	}
 }

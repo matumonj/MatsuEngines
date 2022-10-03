@@ -29,6 +29,7 @@ public:
 	enum FBXName {
 		PLAYER,
 		GOLEM,
+		GIGAGOLEM,
 		Enemy_B,
 		Enemy_C,
 		BOSS,

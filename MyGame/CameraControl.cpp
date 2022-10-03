@@ -137,8 +137,8 @@ void CameraControl::Update(DebugCamera* camera)
 				AttackSceneF = false;
 			}
 		}
-		CameraPosition.x = PlayerControl::GetInstance()->GetPlayer()->GetPosition().x + cosf((float)(cameraAngle) * 3.14f / 180.0f) * 55;
-		CameraPosition.z = PlayerControl::GetInstance()->GetPlayer()->GetPosition().z + sinf((float)(cameraAngle) * 3.14f / 180.0f) * 55;
+		CameraPosition.x = PlayerControl::GetInstance()->GetPlayer()->GetPosition().x + cosf((float)(cameraAngle) * 3.14f / 180.0f) * 45;
+		CameraPosition.z = PlayerControl::GetInstance()->GetPlayer()->GetPosition().z + sinf((float)(cameraAngle) * 3.14f / 180.0f) * 45;
 		CameraPosition.y = PlayerControl::GetInstance()->GetPlayer()->GetPosition().y + CameraHeight;
 		this->camera->SetTarget({ PlayerControl::GetInstance()->GetPlayer()->GetPosition() });
 		
@@ -372,9 +372,9 @@ void CameraControl::ShakeCamera()
 		shaketime = 40;
 	}
 	if (shaketime != 0) {
-		shake = rand() % 3 - 6;
-		shakex = rand() % 3 - 6;
-		shakey = rand() % 3 - 6;
+		shake = rand() % 4 - 8;
+		shakex = rand() % 4 - 8;
+		shakey = rand() % 4 - 8;
 		shakex -= shake;
 		shakey -= shake;
 		shaketime--;

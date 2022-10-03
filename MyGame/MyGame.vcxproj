@@ -215,6 +215,7 @@
     <ClCompile Include="FrontCircleAttack.cpp" />
     <ClCompile Include="f_Model.cpp" />
     <ClCompile Include="f_Object3d.cpp" />
+    <ClCompile Include="GigaBossEnemy.cpp" />
     <ClCompile Include="HalfAttack.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="HUDLayOut.cpp" />
@@ -329,6 +330,7 @@
     <ClInclude Include="FrontCircleAttack.h" />
     <ClInclude Include="f_Model.h" />
     <ClInclude Include="f_Object3d.h" />
+    <ClInclude Include="GigaBossEnemy.h" />
     <ClInclude Include="HalfAttack.h" />
     <ClInclude Include="HUD.h" />
     <ClInclude Include="HUDLayOut.h" />
