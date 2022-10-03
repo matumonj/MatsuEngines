@@ -10,15 +10,8 @@ public:
 private:
     std::unique_ptr<Texture>FissureTex;
 
-    enum Attack {
-        NON,
-        BEAM,
-        SLAM,
-        NORMAL
-    };
     float f_time;
-    Attack nowAttack;
-
+  
     float disrad;
     float fissureAlpha;
     bool stopanimation;
@@ -29,7 +22,19 @@ public:
     void Draw()override;
 
     static GigaBossEnemy* GetInstance();
+
+public:
+    enum Attack {
+        NON,
+        BEAM,
+        SLAM,
+        NORMAL
+    };
+    void SetMotion(Attack motion) { nowAttack = motion; }
+    bool EndSlamMotion() { if (f_time >= 4.0f) { return true; }return false; }
 private:
+    Attack nowAttack;
+
     void fbxtimeControl();
     void FissureTexUpdate(DebugCamera* camera);
 };

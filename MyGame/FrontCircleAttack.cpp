@@ -2,6 +2,7 @@
 #include"EnemyControl.h"
 #include"CameraControl.h"
 #include"BossSpell.h"
+#include"GigaBossEnemy.h"
 FrontCircleAttack* FrontCircleAttack::GetInstance()
 {
 	static FrontCircleAttack instance;
@@ -17,10 +18,13 @@ void FrontCircleAttack::Initialize()
 		DamageAreaTex->SetAnchorPoint({ 0.5f,0.5f });
 	
 	fase = FASENON;
+	
+	
 }
 
 void FrontCircleAttack::ActionJudg()
 {
+
 	//CameraControl::GetInstance()->ShakeCamera();
 	DamageAreaTex->SetRotation({ 90,0,45 });
 	DamageAreaTex->SetRotation({ 90,0,-45 });
@@ -43,9 +47,13 @@ void FrontCircleAttack::ActionJudg()
 		//fase = FASETWO;
 		break;
 	case FASETWO:
+		EnemyControl::GetInstance()->GetGigaBossEnemy()->SetMotion(EnemyControl::GetInstance()->GetGigaBossEnemy()->SLAM);
+		fase = FASETHREE;
 		break;
 	case FASETHREE:
-		
+		if (EnemyControl::GetInstance()->GetGigaBossEnemy()->EndSlamMotion()) {
+			fase = FASEFOUR;
+		}
 		break;
 	case FASEFOUR:
 		

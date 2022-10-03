@@ -49,7 +49,9 @@ void BossScene::Initialize()
 	CircleAttack::GetInstance()->Initialize();
 	HalfAttack::GetInstance()->Initialize();
 	Nail::GetInstance()->ModelSet();
+	AltAttack::GetInstance()->Initialize();
 	FrontCircleAttack::GetInstance()->Initialize();
+
 	// 3Dオブジェクトにカメラをセット
 	Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
 	//カメラをセット
@@ -62,6 +64,8 @@ void BossScene::Initialize()
 
 	//カメラ挙動をボスカットシーン
 	CameraControl::GetInstance()->SetCameraState(CameraControl::BOSSCUTSCENE);
+
+	GigaBossEnemy::GetInstance()->SetMotion(GigaBossEnemy::SLAM);
 
 }
 
@@ -96,7 +100,6 @@ void BossScene::Update()
 	if (scenechange) {
 		Feed::GetInstance()->Update_White(Feed::FEEDIN);//白くなります
 	}
-	FrontCircleAttack::GetInstance()->ActionJudg();
 	if (SistemConfig::GetInstance()->GetConfigJudgMent()) {
 		c_postEffect = Blur;
 	} else {
@@ -150,7 +153,7 @@ void BossScene::Draw()
 		CircleAttack::GetInstance()->Draw();
 		HalfAttack::GetInstance()->Draw();
 		KnockAttack::GetInstance()->Draw();
-
+		AltAttack::GetInstance()->Draw();
 		FrontCircleAttack::GetInstance()->Draw();
 
 		//UI

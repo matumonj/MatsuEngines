@@ -7,10 +7,14 @@
 #include"BossEnemyAttackknock.h"
 #include"BossEnemyAttackhalf.h"
 #include"mHelper.h"
+#include"AltAttack.h"
+#include"FrontCircleAttack.h"
 #include"HalfAttack.h"
 #include"CircleAttack.h"
 #include"BossEnemyDeath.h"
 #include"KnockAttack.h"
+#include"BossEnemyAttackSlam.h"
+#include"BossEnemyAttackBeam.h"
 void BossEnemyFollow::Initialize(Enemy* enmey)
 {
 
@@ -71,11 +75,13 @@ void BossEnemyFollow::Update(Enemy* enemy)
 	}
 
 	/*2ˆø”F‘Ì—ÍÝ’è(Ý’è’lˆÈ‰º‚È‚Á‚½‚ç‚Rˆø”‚ÌUŒ‚‚Ö)*/
-	AttackSelect(enemy, Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) <= 60.0f, enemy->HALF_1);
-	AttackSelect(enemy, Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) <= 80.0f, enemy->CIRCLE_1);
-	AttackSelect(enemy, Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) <= 20.0f, enemy->HALF_2);
-	AttackSelect(enemy, Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) <= 50.0f, enemy->KNOCK);
-	AttackSelect(enemy, Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) <= 70.0f, enemy->CIRCLE_2);
+	AttackSelect(enemy, Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) <= 0.0f, enemy->HALF_1);
+	AttackSelect(enemy, Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) <= 0.0f, enemy->CIRCLE_1);
+	AttackSelect(enemy, Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) <= 0.0f, enemy->HALF_2);
+	AttackSelect(enemy, Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) <= 0.0f, enemy->KNOCK);
+	AttackSelect(enemy, Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) <= 0.0f, enemy->CIRCLE_2);
+	AttackSelect(enemy, Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) <= 90.0f, enemy->Slam);
+	AttackSelect(enemy, Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) <= 70.0f, enemy->Beam);
 
 	//Ž€–S
 	if (enemy->GetHP() <= 0.0f) {
@@ -117,6 +123,12 @@ void BossEnemyFollow::AttackStart(Enemy* enemy, int num)
 	case enemy->HALF_2:
 		HalfAttack::GetInstance()->SetAttackFase(true);
 		break;
+	case enemy->Beam:
+		AltAttack::GetInstance()->SetAttackFase(true);
+		break;
+	case enemy->Slam:
+		FrontCircleAttack::GetInstance()->SetAttackFase(true);
+		break;
 	default:
 		break;
 	}
@@ -150,6 +162,18 @@ void BossEnemyFollow::AttackType(Enemy* enemy, int num)
 	case enemy->HALF_2:
 		if (HalfAttack::GetInstance()->GetFaseEnd() != HalfAttack::FASEFOUR) {
 			enemy->ChangeState_Boss(new BossEnemyAttackHalf());
+		}
+		break;
+
+	case enemy->Beam:
+		if (AltAttack::GetInstance()->GetFaseEnd() !=AltAttack::FASEFOUR) {
+			enemy->ChangeState_Boss(new BossEnemyAttackBeam());
+		}
+		break;
+
+	case enemy->Slam:
+		if (FrontCircleAttack::GetInstance()->GetFaseEnd() != FrontCircleAttack::FASEFOUR) {
+			enemy->ChangeState_Boss(new BossEnemyAttackSlam());
 		}
 		break;
 	default:

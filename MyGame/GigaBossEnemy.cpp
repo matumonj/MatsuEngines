@@ -43,12 +43,8 @@ void GigaBossEnemy::Draw()
 void GigaBossEnemy::fbxtimeControl()
 {
 	float SlamArmTime = 2.5f;
-	if (Input::GetInstance()->TriggerButton(Input::Button_Y)) {
-		nowAttack= SLAM;
-	}
-	if (f_time>=m_fbxObject->GetEndTime()) {
-		f_time= 0;
-	}
+	
+	
 	if (!stopanimation) {
 		f_time += 0.01f;
 	}
@@ -61,6 +57,16 @@ void GigaBossEnemy::fbxtimeControl()
 			ArmonGround = true;
 			CameraControl::GetInstance()->ShakeCamera();
 		}
+	}
+
+	if (nowAttack == SLAM) {
+		if (f_time <= 2.0f) {
+			f_time = 2.0f;
+		}
+	}
+	if (f_time >= m_fbxObject->GetEndTime()) {
+		nowAttack = NON;
+		f_time = 0;
 	}
 	m_fbxObject->SetFbxTime(f_time);
 }

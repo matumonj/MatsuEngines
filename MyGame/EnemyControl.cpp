@@ -214,6 +214,10 @@ std::vector<std::unique_ptr<Enemy>>& EnemyControl::GetBossEnemyindex()
 {
 	return boss_enemy;
 }
+std::unique_ptr<GigaBossEnemy>& EnemyControl::GetGigaBossEnemy()
+{
+	return gigaboss;
+}
 void EnemyControl::SetColor(XMFLOAT4 color)
 {
 	for (int i = 0; i < Quantity; i++) {

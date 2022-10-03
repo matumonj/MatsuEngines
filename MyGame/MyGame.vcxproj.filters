@@ -525,6 +525,12 @@
     <ClCompile Include="GigaBossEnemy.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="BossEnemyAttackBeam.cpp">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン\後半フェーズ\行動遷移</Filter>
+    </ClCompile>
+    <ClCompile Include="BossEnemyAttackSlam.cpp">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン\後半フェーズ\行動遷移</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sprite.h">
@@ -877,6 +883,12 @@
     </ClInclude>
     <ClInclude Include="GigaBossEnemy.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="BossEnemyAttackBeam.h">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン\後半フェーズ\行動遷移</Filter>
+    </ClInclude>
+    <ClInclude Include="BossEnemyAttackSlam.h">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン\後半フェーズ\行動遷移</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

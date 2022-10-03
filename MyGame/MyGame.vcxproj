@@ -164,9 +164,11 @@
     <ClCompile Include="AttackCollision.cpp" />
     <ClCompile Include="BigSword.cpp" />
     <ClCompile Include="BossEnemyAttack.cpp" />
+    <ClCompile Include="BossEnemyAttackBeam.cpp" />
     <ClCompile Include="BossEnemyAttackCircle.cpp" />
     <ClCompile Include="BossEnemyAttackHalf.cpp" />
     <ClCompile Include="BossEnemyAttackKnock.cpp" />
+    <ClCompile Include="BossEnemyAttackSlam.cpp" />
     <ClCompile Include="BossEnemyDeath.cpp" />
     <ClCompile Include="BossEnemyFollow.cpp" />
     <ClCompile Include="BossEnemyState.cpp" />
@@ -274,9 +276,11 @@
     <ClInclude Include="AttackCollision.h" />
     <ClInclude Include="BigSword.h" />
     <ClInclude Include="BossEnemyAttack.h" />
+    <ClInclude Include="BossEnemyAttackBeam.h" />
     <ClInclude Include="BossEnemyAttackCircle.h" />
     <ClInclude Include="BossEnemyAttackHalf.h" />
     <ClInclude Include="BossEnemyAttackKnock.h" />
+    <ClInclude Include="BossEnemyAttackSlam.h" />
     <ClInclude Include="BossEnemyDeath.h" />
     <ClInclude Include="BossEnemyFollow.h" />
     <ClInclude Include="BossEnemyState.h" />

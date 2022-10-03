@@ -128,7 +128,7 @@ protected://攻撃の開始と終了判定用
 		bool end;
 	};
 	//攻撃数
-	static const int AtckNum = 5;
+	static const int AtckNum = 7;
 	Attack_SE Attack[AtckNum];
 
 public:
@@ -148,7 +148,9 @@ public://state切り替え
 			CIRCLE_2,
 			KNOCK,
 			HALF_1,
-			HALF_2
+			HALF_2,
+			Slam,
+			Beam
 		};
 /*/////	ここまで////////*/
 

@@ -23,6 +23,7 @@ private:
 	std::vector <std::unique_ptr<Enemy>> boss_enemy;
 
 	std::unique_ptr<GigaBossEnemy>gigaboss;
+
 	XMFLOAT3 tutorial_pos;
 	XMFLOAT3 boss_pos;
 	
@@ -55,6 +56,7 @@ public:
 	std::vector<std::unique_ptr<Enemy>> &GetEnemyindex(int index);// { return enemys[index].get(); }
 	std::vector <std::unique_ptr<Enemy>> &GetTutorialEnemyindex();
 	std::vector <std::unique_ptr<Enemy>>& GetBossEnemyindex();
+	std::unique_ptr<GigaBossEnemy> &GetGigaBossEnemy();
 private:
 	//::vector<Enemy*>
 };
