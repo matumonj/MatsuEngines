@@ -18,33 +18,47 @@ void SelectSword::Finalize()
 {
 	delete SwordSample[0], SwordSample[1], SwordSample[2], Frame;
 }
-void SelectSword::Initialize()
+
+void SelectSword::SpriteSet()
 {
-	Sword = std::make_unique<NormalSword>();
-	Sword->Initialize(CameraControl::GetInstance()->GetCamera());
 	Sprite::LoadTexture(230, L"Resources/SwordA.png");
 	Sprite::LoadTexture(231, L"Resources/swordB.png");
 	Sprite::LoadTexture(232, L"Resources/swordC.png");
 
 	Sprite::LoadTexture(233, L"Resources/SelSwordFrame.png");
-	SwordSample[0] = Sprite::Create(230, { 1,1 });
-	SwordSample[1] = Sprite::Create(231, { 1,1 });
-	SwordSample[2] = Sprite::Create(232, { 1,1 });
-	Frame = Sprite::Create(233, { 1,1 });
+	SwordSample[0] = Sprite::Create(230, { 1.0f,1.0f });
+	SwordSample[1] = Sprite::Create(231, { 1.0f,1.0f });
+	SwordSample[2] = Sprite::Create(232, { 1.0f,1.0f });
+	Frame = Sprite::Create(233, { 1.0f,1.0f });
 	for (int i = 0; i < 3; i++) {
 		//フィールドにモデル割り当て
 		//SwordSample[i]->Initialize();
-		SwordSample[i]->SetSize({ 400,400 });
-		SwordSample[i]->SetAnchorPoint({ 0.5,0.5 });
+		SwordSample[i]->SetSize({ 400.0f,400.0f });
+		SwordSample[i]->SetAnchorPoint({ 0.5f,0.5f });
 		SwordSample[i]->SetPosition({ Position[i] });
 	}
-	Frame->SetSize({ 450,450 });
+	Frame->SetSize({ 450.0f,450.0f });
 	Frame->SetPosition(Position[0]);
-	Frame->SetAnchorPoint({ 0.5,0.5 });
+	Frame->SetAnchorPoint({ 0.5f,0.5f });
+}
+
+void SelectSword::pedestalSet()
+{
+
+}
+
+void SelectSword::Initialize()
+{
+	Sword = std::make_unique<NormalSword>();
+	Sword->Initialize(CameraControl::GetInstance()->GetCamera());
+	
+	SpriteSet();
+	pedestalSet();
 	input = Input::GetInstance();
 	index = 0;
 }
-void SelectSword::SetSmallSword(SwordScale nowsword)
+
+void SelectSword::SetSword(SwordScale nowsword)
 {
 	switch (nowsword)
 	{
@@ -60,8 +74,6 @@ void SelectSword::SetSmallSword(SwordScale nowsword)
 	default:
 		break;
 	}
-	//
-	//Sword = std::make_unique<SmallSword>();
 	Sword->Initialize(CameraControl::GetInstance()->GetCamera());
 }
 
@@ -82,18 +94,29 @@ void SelectSword::Update()
 			NowSelectSword = BIG;
 		}
 		if (input->TriggerButton(input->Button_A)) {
-			SetSmallSword(NowSelectSword);
+			SetSword(NowSelectSword);
 		}
 		Frame->SetPosition(Position[index]);
 	}
-	//else {
-		Sword->Update(CameraControl::GetInstance()->GetCamera());
-	//}
+	Sword->Update(CameraControl::GetInstance()->GetCamera());
+
+	PedestalUpdate();
+
 	index = min(index, 2);
 	index = max(index, 0);
 }
 
+void SelectSword::PedestalUpdate()
+{
+
+}
+
 void SelectSword::Draw()
+{
+	SpriteDraw();
+}
+
+void SelectSword::SpriteDraw()
 {
 	if (SelectJudg) {
 		Sprite::PreDraw();
@@ -105,10 +128,15 @@ void SelectSword::Draw()
 		Frame->Draw();
 		Sprite::PostDraw();
 	}
-	
+}
+
+void SelectSword::PedestalDraw()
+{
+
 }
 
 void SelectSword::SwordDraw()
 {
 	Sword->Draw();
 }
+

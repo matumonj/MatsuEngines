@@ -52,7 +52,12 @@ public:
 	void Initialize();
 	void ActionJudg();
 	void Draw();
-	void ImpactAttack();
+
+private:
+	void PierceNail();
+	void DamageAreaTexSet();
+	void ProtrudeNail();
+	void EndAttackAction();
 public:
 
 	int GetDamageArea1() { return Area1; }

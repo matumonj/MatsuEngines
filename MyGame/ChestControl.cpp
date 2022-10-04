@@ -171,7 +171,7 @@ void ChestControl::Draw()
 
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
 		for (int i = 0; i < 4; i++) {
-			PlayPchest[i].particleMan->Draw();
+//			PlayPchest[i].particleMan->Draw();
 		}
 		for (int i = 0; i < 4; i++) {
 			if (chests[i] != nullptr) {

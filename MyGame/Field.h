@@ -30,6 +30,8 @@ private:
 	Model* BossFieldModel;
 	Model* CelestialSphereModel;
 	Model* BackM;
+	DirectX::XMFLOAT3 ssp;
+
 private:
 	float t;
 	float TexAlpha_BossName;

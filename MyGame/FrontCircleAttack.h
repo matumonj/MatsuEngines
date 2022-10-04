@@ -35,7 +35,7 @@ private:
 	Texture* DamageAreaTex;
 
 	Fase fase;
-
+	float TexAlpha;
 public:
 	void SetAttackFase(bool f) { if (f && fase != FASEONE) { fase = FASEONE; } }
 	Fase GetFaseEnd() { return fase; }

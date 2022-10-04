@@ -35,7 +35,7 @@ void SistemConfig::Initialize()
 	SelectSprite->SetSize({ 600.0f,100.0f });
 
 	CustomButton::GetInstance()->Initialize();
-
+	SelectSword::GetInstance()->Initialize();
 }
 
 void SistemConfig::Update()
@@ -93,7 +93,6 @@ void SistemConfig::Update()
 	}
 
 	CustomButton::GetInstance()->Update();
-
 	sAlpha += 0.05f;
 	sAlpha = min(sAlpha, 1.0f);
 	sAlpha = max(sAlpha, 0.0f);
@@ -131,4 +130,5 @@ void SistemConfig::Draw()
 	}
 	Sprite::PostDraw();
 	CustomButton::GetInstance()->Draw();
+	SelectSword::GetInstance()->Draw();
 }

@@ -54,13 +54,7 @@ void PlayScene::Initialize()
 	for (int i = 0; i < AllObjectControl.size(); i++) {
 		AllObjectControl[i]->Initialize((CameraControl::GetInstance()->GetCamera()));
 	}
-	//オブジェクトにカメラセット
-	Object3d::SetCamera((CameraControl::GetInstance()->GetCamera()));
-	//カメラをセット
-	f_Object3d::SetCamera((CameraControl::GetInstance()->GetCamera()));
-	//グラフィックパイプライン生成
-	f_Object3d::CreateGraphicsPipeline();
-
+	
 	//ポストエフェクト初期化
 	postEffect = new PostEffect();
 	postEffect->Initialize();
@@ -68,7 +62,6 @@ void PlayScene::Initialize()
 	//カメラ挙動をプレイカットシーン
 	CameraControl::GetInstance()->SetCameraState(CameraControl::PLAYCUTSCENE);
 
-	//CustomButton::GetInstance()->Initialize();
 }
 
 //更新処理
@@ -108,8 +101,6 @@ void PlayScene::MyGameDraw()
 			AllObjectControl[i]->Draw();
 		}
 	}
-
-
 }
 
 //描画まとめ
@@ -128,10 +119,7 @@ void PlayScene::Draw()
 		if (HUD::GetInstance()->GetLayOutMode()) {
 			UI::GetInstance()->HUDDraw();
 		}
-		SelectSword::GetInstance()->Draw();
-
 		SistemConfig::GetInstance()->Draw();
-		CustomButton::GetInstance()->Draw();
 		
 		DirectXCommon::GetInstance()->EndDraw();
 		break;
@@ -144,8 +132,7 @@ void PlayScene::Draw()
 		DirectXCommon::GetInstance()->BeginDraw();
 		MyGameDraw();
 		SistemConfig::GetInstance()->Draw();
-		CustomButton::GetInstance()->Draw();
-
+	
 		Feed::GetInstance()->Draw();
 			if (Feed::GetInstance()->GetAlpha() <= 0.0f) {
 				UI::GetInstance()->HUDDraw();
@@ -179,5 +166,4 @@ void PlayScene::Finalize()
 	}
 	Field::GetInstance()->Finalize();
 	AllObjectControl.clear();
-
 }

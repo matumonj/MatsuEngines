@@ -25,16 +25,21 @@ void AltAttack::Initialize()
 		BeamObj[i]->SetModel(ModelManager::GetIns()->GetModel(ModelManager::BEAM));
 		BeamObj[i]->Initialize(CameraControl::GetInstance()->GetCamera());
 	}
+	texAlpha = 0.7f;
+
 	fase = FASENON;
 }
 
 void AltAttack::CollisionParamSet()
 {
-	beamRay[0].start = { 60,BeamPosition[0].z };
-	beamRay[1].start = {-60,BeamPosition[1].z };
+	const float LBeamShot_StartPos = -60.0f;
+	const float RBeamShot_StartPos = 60.0f;
+	const float BeamShot_EndPos = -60.0f;
+	beamRay[0].start = { RBeamShot_StartPos,BeamPosition[0].z };
+	beamRay[1].start = {LBeamShot_StartPos,BeamPosition[1].z };
 
-	beamRay[0].end = { -60,-60 };
-	beamRay[1].end = { 60,-60 };
+	beamRay[0].end = { -1*RBeamShot_StartPos,BeamShot_EndPos };
+	beamRay[1].end = { -1*LBeamShot_StartPos,BeamShot_EndPos };
 
 	XMFLOAT3 Ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 	PlayerSpehre.x = { Ppos.x};
@@ -43,18 +48,12 @@ void AltAttack::CollisionParamSet()
 }
 void AltAttack::ActionJudg()
 {
-	BeamPosition[0] = { 60.0f,-10.0f,60.0f };
-	BeamPosition[1] = { -60.0f,-10.0f,60.0f };
-	BeamObj[0]->SetRotation({ 0,45,0 });
-	BeamObj[1]->SetRotation({ 0,-45,0 });
-
 	DamageAreaTex[0]->SetRotation({ 90,0,45 });
 	DamageAreaTex[1]->SetRotation({ 90,0,-45 });
 	DamageAreaTex[0]->SetScale({ 6,13,3 });
 	DamageAreaTex[1]->SetScale({ 6,13,3 });
-	if (Input::GetInstance()->TriggerButton(Input::Button_X)) {
-		fase = FASEONE;
-	}
+	
+
 	CollisionParamSet();
 	EnergieCharge();
 
@@ -62,6 +61,7 @@ void AltAttack::ActionJudg()
 	switch (fase)
 	{
 	case FASENON:
+		texAlpha = 0.7f;
 		BeamEaseTime = 0.0f;
 		break;
 	case FASEONE:
@@ -69,7 +69,6 @@ void AltAttack::ActionJudg()
 		if (BossSpell::GetInstance()->GetEndSpell_UA()) {
 			fase = FASETWO;
 		}
-		//fase = FASETWO;
 		break;
 	case FASETWO:
 		BeamShotStart();
@@ -88,17 +87,12 @@ void AltAttack::ActionJudg()
 	for (int i = 0; i < 2; i++) {
 		DamageAreaTex[i]->SetUVMove(true);
 		DamageAreaTex[i]->SetBillboard(false);
-		DamageAreaTex[i]->SetColor({ 1.0f ,1.0f ,1.0f ,0.6f });
+		DamageAreaTex[i]->SetColor({ 1.0f ,1.0f ,1.0f ,texAlpha });
 
 		DamageAreaTex[i]->Update(CameraControl::GetInstance()->GetCamera());
 		DamageAreaTex[i]->SetPosition({ 0.0f ,-18.0f ,0.0f });
 	}
-	for (int i = 0; i < 2; i++) {
-		BeamObj[i]->SetPosition(BeamPosition[i]);
-		BeamObj[i]->SetScale(BeamScale);
-		BeamObj[i]->SetUVf(true);
-		BeamObj[i]->Update({1.5f,1.5f,1.5f,1.5f}, CameraControl::GetInstance()->GetCamera());
-	}
+	BeamObjSetParam();
 
 	BeamEaseTime = min(BeamEaseTime, 1.0f);
 	BeamEaseTime = max(BeamEaseTime, 0.0f);
@@ -118,11 +112,7 @@ void AltAttack::Draw()
 	}
 	Texture::PostDraw();
 
-	Object3d::PreDraw();
-	for (int i = 0; i < 2; i++) {
-		BeamObj[i]->Draw();
-	}
-	Object3d::PostDraw();
+	BeamObjDraw();
 }
 
 void AltAttack::EnergieCharge()
@@ -152,13 +142,46 @@ void AltAttack::EnergieCharge()
 	//BeamParticle->Update(BeamParticle->CHARGE,Bpos);
 }
 
+void AltAttack::BeamObjSetParam()
+{
+	if (BeamObj[0] == nullptr)return;
+
+	BeamPosition[0] = { 60.0f,-10.0f,60.0f };
+	BeamPosition[1] = { -60.0f,-10.0f,60.0f };
+	BeamObj[0]->SetRotation({ 0,45,0 });
+	BeamObj[1]->SetRotation({ 0,-45,0 });
+
+	for (int i = 0; i < 2; i++) {
+		BeamObj[i]->SetPosition(BeamPosition[i]);
+		BeamObj[i]->SetScale(BeamScale);
+		BeamObj[i]->SetUVf(true);
+		BeamObj[i]->Update({ 1.5f,1.5f,1.5f,1.5f }, CameraControl::GetInstance()->GetCamera());
+	}
+
+}
+
+void AltAttack::BeamObjDraw()
+{
+	if (BeamObj[0] == nullptr)return;
+	Object3d::PreDraw();
+	for (int i = 0; i < 2; i++) {
+		BeamObj[i]->Draw();
+	}
+	Object3d::PostDraw();
+}
+
 void AltAttack::BeamShotStart()
 {
+	//イージングカウント
+	const float EaseC = 0.05f;
+	//被ダメージ
+	const int Damage = 10;
+
 	BeamScale.x = Easing::EaseOut(BeamEaseTime, 0.0f, 10.0f);
 	BeamScale.y = Easing::EaseOut(BeamEaseTime, 0.0f, 10.0f);
 	BeamScale.z = 10.0f;
 	
-	BeamEaseTime += 0.05f;
+	BeamEaseTime += EaseC;
 	
 	if(BeamEaseTime>=1.0f){
 		BeamAttackCount++;
@@ -168,7 +191,7 @@ void AltAttack::BeamShotStart()
 	}
 	for (int i = 0; i < 2; i++) {
 		if (Collision::CollsionPoint2Line2D(PlayerSpehre, beamRay[i]) < 20) {
-			PlayerControl::GetInstance()->GetPlayer()->RecvDamage(5);
+			PlayerControl::GetInstance()->GetPlayer()->RecvDamage(Damage);
 		}
 	}
 }
@@ -176,10 +199,18 @@ void AltAttack::BeamShotStart()
 
 void AltAttack::BeamShotEnd()
 {
-	BeamEaseTime -= 0.02f;
+	//イージングカウント
+	const float EaseC = 0.02f;
+
+	BeamEaseTime -= EaseC;
 	BeamScale.x = Easing::EaseOut(BeamEaseTime, 0.0f, 10.0f);
 	BeamScale.y = Easing::EaseOut(BeamEaseTime, 0.0f, 10.0f);
+	
+	texAlpha = 0.0f;
 	if (BeamEaseTime <= 0.0f) {
+		//1度しか発動しないのであればここで破棄しても問題ないはず　メモリの無駄です
+		Destroy_unique(BeamObj[0]);
+		Destroy_unique(BeamObj[1]);
 		fase = FASEFOUR;
 	}
 }

@@ -40,39 +40,14 @@ private: // エイリアス
 	using XMVECTOR = DirectX::XMVECTOR;
 
 private:
-	AttackCollision* acol;
 	const float window_width = 1900;
 	const float window_height = 1020;
 	static const int debugTextTexNumber = 0;
 	
-private:
-	Input* input;
-	int obbf = 0;
-	unsigned long prev_time = timeGetTime();
-	int count_frame = 0;
-	TargetMarker* targetm = nullptr;
-float ty;
-	float cameraAngle = -90;
-	float charaAngle = 0;
-	XMFLOAT3 CameraPosition;
-
 	bool scenechange;
 	bool feedflag;
-	XMFLOAT4 feedcolor = { 0,0,0,1 };
 	PostEffect* postEffect = nullptr;
-private:
-	float u;
-	XMFLOAT3 Player_Pos;// = player->GetPosition();
-	XMFLOAT3 Player_Rot;// = player->GetRotation();
 
-	float distance = 30;
-
-	float dy;
-	float dx;
-	float dz;
-
-private://点光源
-	
 public:
 	void MyGameDraw();
 	void objUpdate(DebugCamera* camera);
@@ -83,8 +58,6 @@ public:
 	void Update()override;
 	void Draw()override;
 	bool LoadParam(DebugCamera* camera);
-	void SpriteDraw();
-	void ImGuiDraw();
 	void Finalize()override;
 public:
 	XMFLOAT3 efkposition = { -50,-10,90 };
@@ -96,27 +69,8 @@ private:
 		Default,
 	};
 	bool Play;
-	POINT p;
-	CollisionManager* collisionManager = nullptr;
 	bool hudload;
-	float CameraDis = 25;
-	float CameraHeight = 9;
-private:
-	//デバッグ用変数 後々消すやつ
 	bool Load;
-	bool turnoff_player;
-	bool turnoff_enemy;
-
-	float p_alpha = 1;
-	float e_alpha = 1;
-
-	bool CameraViewPoint_First = true;
-	bool CameraViewPoint_Third;
-	bool t, y;
-
-private:
-	bool f;
-	std::vector<Enemy*>subenemy;
 	std::vector<ControlBase*>AllObjectControl;
 };
 

@@ -564,8 +564,9 @@ void Texture::TransferVertices()
 	if (texbuff[texNumber])
 	{
 		D3D12_RESOURCE_DESC resDesc = texbuff[texNumber]->GetDesc();
-		texSize = { (float)resDesc.Width, (float)resDesc.Height };
-
+		if (texNormalSize) {
+			texSize = { (float)resDesc.Width, (float)resDesc.Height };
+		}
 		float tex_left = texBase.x / resDesc.Width;
 		float tex_right = (texBase.x + texSize.x) / resDesc.Width;
 		float tex_top = texBase.y / resDesc.Height;
@@ -589,14 +590,14 @@ Texture* Texture::Create(UINT texNumber, XMFLOAT3 position, XMFLOAT3 size, XMFLO
 {
 	// 仮サイズ
 	//size = { 10.0f, 10.0f,3 };
-	XMFLOAT3 ssize = { 100.0f, 100.0f,0 };
+	XMFLOAT3 ssize;// = { 100.0f, 100.0f,0 };
 	
 	if (texbuff[texNumber])
 	{
 		// テクスチャ情報取得
 		D3D12_RESOURCE_DESC resDesc = texbuff[texNumber]->GetDesc();
 		// スプライトのサイズをテクスチャのサイズに設定
-		size = { (float)resDesc.Width, (float)resDesc.Height,0 };
+		ssize = { (float)resDesc.Width, (float)resDesc.Height,0 };
 
 	}
 

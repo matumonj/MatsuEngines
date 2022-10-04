@@ -206,7 +206,7 @@ public: // メンバ関数
 	void SetColor(XMFLOAT4 color) { this->color = color; }
 	void SetRotation(XMFLOAT3 rotation);// { this->rotation = rotation; }
 	void SetScale(XMFLOAT3 scale);
-	void SetDisplayRadius(float rad) { DisplayRadius = rad; }
+	void SetDisplayRadius(float rad) { texNormalSize = false; DisplayRadius = rad; }
 	const XMFLOAT3& GetScale() { return scale; }
 private: // メンバ変数
 	ComPtr<ID3D12Resource> constBuff; // 定数バッファ
@@ -225,7 +225,7 @@ private: // メンバ変数
 	//SoulpEffect* parent = nullptr;
 private:
 	UINT texNumber = 0;
-
+	bool texNormalSize=true;
 public:
 	//コンストラクタ
 	Texture(UINT texNumber, XMFLOAT3 position, XMFLOAT3 size, XMFLOAT4 color);

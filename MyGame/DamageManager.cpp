@@ -44,7 +44,7 @@ void DamageManager::DamageDisPlay(int damage, XMFLOAT4 color, XMFLOAT3 Position)
 		newDTex->Initialize(47);
 		newDTex->SetPosition(Position);
 		
-		str << std::fixed << std::setprecision(1)
+		str << std::fixed << std::setprecision(2)
 			<< damage;
 		newDTex->SetText(str.str());
 

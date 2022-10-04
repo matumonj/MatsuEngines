@@ -5,6 +5,13 @@
 #include"TutorialSprite.h"
 #include"SistemConfig.h"
 #include"SceneManager.h"
+
+#include"KnockAttack.h"
+#include"CircleAttack.h"
+#include"HalfAttack.h"
+#include"AltAttack.h"
+#include"DebugTxt.h"
+#include"FrontCircleAttack.h"
 EnemyControl* EnemyControl::GetInstance()
 {
 	static EnemyControl instance;
@@ -119,6 +126,13 @@ void EnemyControl::Load(DebugCamera*camera)
 		gigaboss = std::make_unique<GigaBossEnemy>();
 
 		gigaboss->Initialize(camera);
+
+		KnockAttack::GetInstance()->Initialize();
+		CircleAttack::GetInstance()->Initialize();
+		HalfAttack::GetInstance()->Initialize();
+		AltAttack::GetInstance()->Initialize();
+		FrontCircleAttack::GetInstance()->Initialize();
+
 	}
 }
 
@@ -194,6 +208,12 @@ void EnemyControl::Draw()
 			boss_enemy[0]->Draw();
 			gigaboss->Draw();
 		}
+		CircleAttack::GetInstance()->Draw();
+		HalfAttack::GetInstance()->Draw();
+		KnockAttack::GetInstance()->Draw();
+		AltAttack::GetInstance()->Draw();
+		FrontCircleAttack::GetInstance()->Draw();
+
 	}
 }
 

@@ -16,11 +16,8 @@ public:
 protected:
     int Damage;
     int CoolTime;
-    Box DamageArea;
-    XMFLOAT2 Radius;
 public:
     int GetDamage() { return Damage; }
     int GetCoolTime() { return CoolTime; }
-    Box SwordDamageArea() { return DamageArea; }
 };
 

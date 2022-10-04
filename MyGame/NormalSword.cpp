@@ -18,7 +18,7 @@ void NormalSword::Initialize(DebugCamera* camera)
 	Scale = { 1.0f,1.0f,1.0f };
 
 	Rotation = { 0.0f,0.0f + 30.0f,0.0f + 100.0f };
-	DamageArea.scale = Radius;
+	
 }
 
 void NormalSword::Update(DebugCamera* camera)

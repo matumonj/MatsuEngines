@@ -12,7 +12,7 @@ void PlaceCameraPoints::Update(DebugCamera* camera)
 {
 	Obj->SetPosition(pos);
 	Obj->SetRotation(rot);
-	//Obj->SetScale(scl);
+	Obj->SetScale({10,10,10});
 	Obj->Update({ 1,0,0,0.5 }, camera);
 }
 
@@ -24,7 +24,7 @@ void PlaceCameraPoints::FileWriting()
 
 	file.close();
 	///std::ofstream pofs("EnemyParam_CSV/position.csv");
-	std::ofstream ofs("EnemyParam_CSV/CameraPoints.csv");  // ファイルパスを指定する
+	std::ofstream ofs("Param_CSV/CameraPoints.csv");  // ファイルパスを指定する
 	ofs << "Points_Quantity" << "," << points.size() << std::endl;
 
 	for (int i = 0; i < points.size(); i++) {

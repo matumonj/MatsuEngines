@@ -101,7 +101,7 @@ void Field::Update(DebugCamera* camera)
 			PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(true);
 		}
 		FieldObject->SetScale(1.0f);
-		FieldObject->SetPosition({ 0.0f,-20.0f,0.0f });
+		FieldObject->SetPosition({ssp });
 		FieldObject->SetFogCenter({ 125.0f, -25.0f, -680.0f });
 		FieldObject->setFog(FALSE);
 		CelestialSphereObject->setFog(FALSE);
@@ -156,6 +156,7 @@ void Field::Update(DebugCamera* camera)
 	TexAlpha_BossName = max(TexAlpha_BossName, 0.0f);
 }
 
+#include"imgui.h"
 void Field::Draw()
 {
 	Object3d::PreDraw();
@@ -177,6 +178,12 @@ void Field::Draw()
 	Object3d::PostDraw();
 	Explanation->setcolor({ 1.0f,1.0f,1.0f,t });
 	BossName->setcolor({ 1.0f,1.0f,1.0f,TexAlpha_BossName });
+
+	ImGui::Begin("pos");
+	ImGui::SliderFloat("x", &ssp.x, -600, 600);
+	ImGui::SliderFloat("y", &ssp.y, -100, 100);
+	ImGui::SliderFloat("z", &ssp.z, -600, 600);
+	ImGui::End();
 }
 
 void Field::WarningDraw()

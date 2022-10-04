@@ -42,12 +42,17 @@ public:
 	
 	void Finalize();
 
-public:
 	void SwordDraw();
-	void SetSmallSword(SwordScale nowsword);
-	void SetNormalSword();
-	void SetBigSword();
+	void PedestalDraw();
+private:
+	void SetSword(SwordScale nowsword);
 
+	void pedestalSet();
+	void PedestalUpdate();
+
+	void SpriteSet();
+	void SpriteDraw();
+public:
 	void SetSelectJudg(bool f) { SelectJudg = f; }
 	bool GetSelectJudg() { return SelectJudg; }
 

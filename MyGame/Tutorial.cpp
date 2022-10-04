@@ -16,9 +16,6 @@
 #include"Feed.h"
 #include"PlayerControl.h"
 #include"PlayScene.h"
-#include"SelectSword.h"
-#include"KnockAttack.h"
-#include<iomanip>
 #include"DamageManager.h"
 //シーンのコンストラクタ
 Tutorial::Tutorial(SceneManager* sceneManager)
@@ -56,19 +53,19 @@ void Tutorial::objUpdate(DebugCamera* camera)
 void Tutorial::Initialize()
 {
 	Texture::LoadTexture(47, L"Resources/df.png");
-	
-	input = Input::GetInstance();
-	//if (AllObjectControl.size() == 0) {//各オブジェクトインスタンスぶちこむ
+	{
 		AllObjectControl.push_back(CameraControl::GetInstance());//Camera
 		AllObjectControl.push_back(PlayerControl::GetInstance());//Player
 		AllObjectControl.push_back(EnemyControl::GetInstance());//Enemy
 		AllObjectControl.push_back(FenceControl::GetInstance());//Fence
 		AllObjectControl.push_back(ChestControl::GetInstance());//Chest
 		AllObjectControl.push_back(WoodControl::GetInstance());//Wood
-	//}
+	//初期化部
 	for (int i = 0; i < AllObjectControl.size(); i++) {//初期化
 		AllObjectControl[i]->Initialize(CameraControl::GetInstance()->GetCamera());
 	}
+	}
+	
 	Field::GetInstance()->Initialize(CameraControl::GetInstance()->GetCamera());
 
 	// 3Dオブジェクトにカメラをセット
@@ -82,12 +79,10 @@ void Tutorial::Initialize()
 	Feed::GetInstance()->initialize();
 	UI::GetInstance()->Initialize();
 
-	//設定画面初期
-	SistemConfig::GetInstance()->Initialize();
-
 	postEffect = new PostEffect();
 	postEffect->Initialize();
-	
+
+	SistemConfig::GetInstance()->Initialize();
 }
 #pragma endregion
 
@@ -122,16 +117,7 @@ void Tutorial::Update()
 		sceneManager_->SetnextScene(scene);//シーンのセット
 	}
 
-	if (input->TriggerKey(DIK_G)) {//画面真っ白なったら
-		BaseScene* scene = new TitleScene(sceneManager_);//次のシーンのインスタンス生成
-		Play = false;
-		SceneManager::GetInstance()->SetScene(SceneManager::TITLE);
-		sceneManager_->SetnextScene(scene);//シーンのセット
-	}
-	XMFLOAT3 tepos = EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetPosition();
-	
 	DamageManager::GetIns()->Upda();
-
 }
 #pragma endregion 
 
@@ -157,20 +143,16 @@ void Tutorial::Draw()
 		
 		postEffect->PostDrawScene();
 
-
 		DirectXCommon::GetInstance()->BeginDraw();
 		postEffect->Draw();
 
 		MyGameDraw();
-		SelectSword::GetInstance()->Draw();
-
+	
 		if (HUD::GetInstance()->GetLayOutMode()) {
 			UI::GetInstance()->HUDDraw();
 		}
 		SistemConfig::GetInstance()->Draw();
-		if (DirectXCommon::GetInstance()->GetFullScreen() == false) {
-			ImGuiDraw();
-		}
+		
 		DirectXCommon::GetInstance()->EndDraw();
 		break;
 
@@ -185,69 +167,12 @@ void Tutorial::Draw()
 		UI::GetInstance()->HUDDraw();
 		Feed::GetInstance()->Draw();
 		SistemConfig::GetInstance()->Draw();
-		
-		if (DirectXCommon::GetInstance()->GetFullScreen() == false) {
-			PlayerControl::GetInstance()->GetPlayer()->ImguiDraw();
-			ImGuiDraw();
-		}
 		DirectXCommon::GetInstance()->EndDraw();
 		break;
 	}
 }
 #pragma endregion
 
-void Tutorial::ImGuiDraw()
-{
-	//{
-	//	ImGui::Begin("Obj1");
-	//	ImGui::SetWindowPos(ImVec2(0, 500));
-	//	ImGui::SetWindowSize(ImVec2(500, 300));
-
-	//	if (ImGui::TreeNode("Damage")) {
-	//		int d = PlayerAttackState::GetInstance()->GetDamage();
-	//		ImGui::SliderInt("damage", &d, -100, 100);
-	//		ImGui::TreePop();
-	//	}
-	//	ImGui::End();
-	//}
-	//{
-	//	ImGui::Begin("None");
-	//	if (ImGui::Button("Load", ImVec2(70, 50))) {
-	//		LoadEnemy = true;
-	//	}
-	//	ImGui::End();
-	//}
-	//{//カメラ
-	//	bool defaultPos;
-	//	if (ImGui::RadioButton("DefaultPosition", &defaultPos)) {
-	//		CameraDis = 25;
-	//		CameraHeight = 9;
-	//	}
-	//	ImGui::SliderFloat("rotationX", &cameraAngle, -360, 360);
-
-	//	ImGui::End();
-	//}
-	//ImGui::Begin("Scene");
-
-	//if (ImGui::RadioButton("Scene_Create", t)) {
-	//	BaseScene* scene = new MapCreateScene(sceneManager_);//次のシーンのインスタンス生成
-	//	sceneManager_->SetnextScene(scene);//シーンのセット
-	//}
-	//if (ImGui::RadioButton("Scene_Tittle", y)) {
-	//	BaseScene* scene = new TitleScene(sceneManager_);//次のシーンのインスタンス生成
-	//	SceneManager::GetInstance()->SetScene(SceneManager::PLAY);
-	//	sceneManager_->SetnextScene(scene);//シーンのセット
-	//}
-	//ImGui::End();
-	////
-	//{
-	//	unsigned long current_time = timeGetTime();
-	//	float fps = float(count_frame) / (current_time - prev_time) * 1000;
-	//	ImGui::SliderFloat("FPS", &fps, -10, 50);
-	//	count_frame++;
-	//	ImGui::End();
-	//}
-}
 
 bool Tutorial::LoadParam(DebugCamera* camera)
 {
@@ -268,12 +193,6 @@ void Tutorial::Finalize()
 		AllObjectControl[i]->Finalize();
 	}
 	AllObjectControl.clear();
-
-	//AttackCollision::GetInstance()->Finalize();
-
 	Field::GetInstance()->Finalize();
-	
-	delete acol;
-
 	Destroy(postEffect);
 }

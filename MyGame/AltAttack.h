@@ -59,6 +59,9 @@ private:
 	void BeamShotStart();
 	void BeamShotEnd();
 	void BeamParamReset();
+
+	void BeamObjSetParam();
+	void BeamObjDraw();
 public:
 
 	void SetAttackFase(bool f) { if (f && fase != FASEONE) { fase = FASEONE; } }

@@ -18,7 +18,7 @@ void FrontCircleAttack::Initialize()
 		DamageAreaTex->SetAnchorPoint({ 0.5f,0.5f });
 	
 	fase = FASENON;
-	
+	TexAlpha = 1.0f;
 	
 }
 
@@ -40,6 +40,7 @@ void FrontCircleAttack::ActionJudg()
 	case FASENON:
 		break;
 	case FASEONE:
+		TexAlpha = 1.0f;
 		BossSpell::GetInstance()->SetStartSpell_FC(true);
 		if (BossSpell::GetInstance()->GetEndSpell_FC()) {
 			fase = FASETWO;
@@ -52,23 +53,28 @@ void FrontCircleAttack::ActionJudg()
 		break;
 	case FASETHREE:
 		if (EnemyControl::GetInstance()->GetGigaBossEnemy()->EndSlamMotion()) {
-			fase = FASEFOUR;
+			TexAlpha -= 0.02f;
+			if (TexAlpha <= 0.0f) {
+				fase = FASEFOUR;
+			}
 		}
 		break;
 	case FASEFOUR:
-		
-		BossSpell::GetInstance()->SetEndSpell_UA(false);
 
+			BossSpell::GetInstance()->SetEndSpell_UA(false);
+		
 		break;
 	default:
 		break;
 	}
 
 		DamageAreaTex->SetBillboard(false);
-		DamageAreaTex->SetColor({ 1.0f ,1.0f ,1.0f ,0.9f });
+		DamageAreaTex->SetColor({ 1.0f ,1.0f ,1.0f ,TexAlpha });
 		DamageAreaTex->Update(CameraControl::GetInstance()->GetCamera());
 		DamageAreaTex->SetPosition({ 0.0f ,-18.0f ,30.0f });
-		
+
+		TexAlpha = min(TexAlpha, 1.0f);
+		TexAlpha = max(TexAlpha, 0.0f);
 }
 
 void FrontCircleAttack::Draw()

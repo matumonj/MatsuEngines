@@ -318,7 +318,7 @@ void CameraControl::PlaySceneStart()
 		
 		nowCount = GetTickCount64();
 		elapsedCount = nowCount - startCount;
-		 elapsedTime = static_cast<float>(elapsedCount) / 1000.0f;
+		 elapsedTime = static_cast<float>(elapsedCount) / 2000.0f;
 
 		timerate = elapsedTime / maxtime;
 		if (timerate >= 1) {

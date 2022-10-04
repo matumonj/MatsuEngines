@@ -39,7 +39,7 @@ void PlayerControl::Initialize(DebugCamera* camera)
 		player->SetPosition({92.0f,-15.0f,-760.0f});
 	}
 	else if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
-		player->SetPosition({ 110.0f,-15.0f,-379.0f });
+		player->SetPosition({ 110.0f,15.0f,-379.0f });
 	}
 	AttackCollision::GetInstance()->Init();
 }

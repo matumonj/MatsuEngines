@@ -30,7 +30,6 @@ class BossScene :
 {
 public:
 	BossScene(SceneManager* sceneManager);
-private:
 private: // エイリアス
 // Microsoft::WRL::を省略
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
@@ -47,14 +46,11 @@ public:
 	bool scenechange;
 	bool feedflag;
 	XMFLOAT4 feedcolor = { 0,0,0,1 };
-	Nail* nails;
 public:
 	//エフェクト用(ただプログラムでつくれるものはプログラムで作る方がいい　多用はいくない)
 	int c_postEffect = Default;
 	PostEffect* postEffect = nullptr;
 	bool Play;
-	POINT p;
-	CollisionManager* collisionManager = nullptr;
 	bool hudload;
 private:
 	enum {
@@ -68,8 +64,6 @@ public:
 	void Update()override;
 	void Draw()override;
 	bool LoadParam(DebugCamera* camera);
-	void SpriteDraw();
-	void ImGuiDraw();
 	void Finalize()override;
 
 private:

@@ -16,9 +16,9 @@ void BigSword::Initialize(DebugCamera* camera)
 	
 	Scale = { 1,1,1 };
 	
-	Rotation={ 0,0 + 30,0 + 100 };
+	//rotation->blender‚©‚ç‚Á‚Ä‚«‚½Û‚ÌƒYƒŒ•â³—p
+	Rotation={ 0.0f,30.0f,100.0f };
 
-	DamageArea.scale = Radius;
 }
 
 void BigSword::Update(DebugCamera* camera)

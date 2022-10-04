@@ -25,9 +25,6 @@ void CircleAttack::Initialize()
 		ImpactAreaTex[i]->SetAnchorPoint({ 0.5f,0.5f });
 	}
 	
-//	}
-	//ps0 = new OBBCollision();
-	//NailModel = Model::CreateFromOBJ("Nail");
 	Direction[NORTH] = { 0.0f ,0.0f ,30.0f };
 	Direction[SOUTH] = { 0.0f ,0.0f ,-30.0f };
 	Direction[EAST] = { 30.0f ,0.0f ,0.0f };
@@ -35,72 +32,41 @@ void CircleAttack::Initialize()
 }
 void CircleAttack::ActionJudg()
 {
+	switch (fase)
+	{
+	case FASENON:
+		break;
+	case FASEONE:
+		//釘刺さります
+		PierceNail();
+		break;
+	case FASETWO:
+		//ダメージエリアの円広がります
+		DamageAreaTexSet();
+		break;
+	case FASETHREE:
+		//地面から釘出てきます
+		ProtrudeNail();
+		break;
+	case FASEFOUR:
+		//攻撃終了です
+		EndAttackAction();
+		break;
+	default:
+		break;
+	}
 	
-	if (fase==FASEONE) {
-
-		TexAlpha = 1;
-
-		NailAttackFlag = false;
-		BossSpell::GetInstance()->SetStartSpell_CA(true);
-		if (BossSpell::GetInstance()->GetEndSpell_CA()) {
-			fase = FASETWO;
-		}
-	}
-
-	if (fase == FASETWO) {
-		if (Nail::GetInstance()->GetEndAction_Circle()) {
-			Nail::GetInstance()->SetEndAction_Circle(false);
-		}
-		//NailObj.clear();
-		CircleAreaTime += 0.01f;
-		CircleSize.x = Easing::EaseOut(CircleAreaTime, 0, 8);
-		CircleSize.y = Easing::EaseOut(CircleAreaTime, 0, 8);
-		AttackCount = 0;
-		if (CircleAreaTime >= 1.0f) {
-			fase = FASETHREE;
-		}
-	}
-
-	if (fase == FASETHREE) {
-		
-		Nail::GetInstance()->CircleAttack(Area1, Area2);
-		CollisonNailPlayer();
-
-		CircleAreaTime = 0;
-
-		Direction[Area1].y++;
-		Direction[Area2].y++;
-	
-		NailObj[0]->SetPosition(Direction[Area1]);
-		NailObj[1]->SetPosition(Direction[Area2]);
-		TexAlpha -= 0.01f;
-		if (TexAlpha <= 0.0f) {
-			fase = FASEFOUR;
-		}
-	}
-	if (fase == FASEFOUR) {
-		TexAlpha = 0.5f;
-		BossSpell::GetInstance()->SetEndSpell_CA(false);
-
-		Direction[NORTH] = { 0.0f ,0.0f ,30.0f };
-		Direction[SOUTH] = { 0.0f ,0.0f ,-30.0f };
-		Direction[EAST] = { 30.0f ,0.0f ,0.0f };
-		Direction[WEST] = { -30.0f ,0.0f ,0.0f };
-
-
-		NailObj[0]->SetPosition(Direction[Area1]);
-		NailObj[1]->SetPosition(Direction[Area2]);
-
-		CircleSize = { 0.0f,0.0f };
-		NailObj.clear();
-	}
+	//ダメージエリアテクスチャの各種パラメータ
 	for (int i = 0; i < 2; i++) {
 		ImpactAreaTex[i]->Update(CameraControl::GetInstance()->GetCamera());
 		ImpactAreaTex[i]->SetScale({ CircleSize.x,CircleSize.y,3.0f });
 		ImpactAreaTex[i]->SetRotation({ 90.0f,0.0f,0.0f });
 		ImpactAreaTex[i]->SetColor({ 1.0f,1.0f,1.0f,TexAlpha});
 	}
-	ImpactAttack();
+	ImpactAreaTex[0]->SetPosition({ Direction[Area1].x ,-18,Direction[Area1].z });
+	ImpactAreaTex[1]->SetPosition({ Direction[Area2].x ,-18,Direction[Area2].z });
+
+	//釘オブジェの更新
 	for (int i = 0; i < NailObj.size(); i++) {
 		NailObj[i]->SetScale({ 3.0f,3.0f,3.0f });
 		NailObj[i]->Update({ 1.0f,1.0f,1.0f,1.0f }, CameraControl::GetInstance()->GetCamera());
@@ -111,65 +77,110 @@ void CircleAttack::ActionJudg()
 
 void CircleAttack::Draw()
 {
-	ImGui::Begin("Wes");
-	if (fase==FASETWO) {
-		ImGui::Text("%f", CircleSize.x);
-	}
-	ImGui::End();
 	Texture::PreDraw();
-	//if (Nail::GetInstance()->GetEndAction_Circle() == false) {
-		for (int i = 0; i < 2; i++) {
-			ImpactAreaTex[i]->Draw();
-		}
-	//}
+	for (int i = 0; i < 2; i++) {
+		ImpactAreaTex[i]->Draw();
+	}
 	Texture::PostDraw();
 	for (int i = 0; i < NailObj.size(); i++) {
-			Object3d::PreDraw();
-			NailObj[i]->Draw();
-			Object3d::PostDraw();
-		}
+		Object3d::PreDraw();
+		NailObj[i]->Draw();
+		Object3d::PostDraw();
+	}
 	if (fase == FASETHREE) {
-	Nail::GetInstance()->Draw();
+		Nail::GetInstance()->Draw();
 	}
-}
-
-void CircleAttack::ImpactAttack()
-{
-	
-	if (fase==FASEONE) {
-		NailObj.resize(2);
-		for (int i = 0; i < NailObj.size(); i++) {
-			NailObj[i] = std::make_unique<Object3d>();
-			//フィールドにモデル割り当て
-			NailObj[i]->Initialize(CameraControl::GetInstance()->GetCamera());
-			NailObj[i]->SetModel(ModelManager::GetIns()->GetModel(ModelManager::NAIL));
-			
-			//ps0 = new OBBCollision();
-		}
-	
-		ImpactAreaTex[0]->SetBillboard(false);
-		ImpactAreaTex[1]->SetBillboard(false);
-		
-	}
-	if (fase == FASEONE) {
-		if (Direction[Area1].y > -17.0f) {
-			Direction[Area1].y--;
-			Direction[Area2].y--;
-		}
-		NailObj[0]->SetPosition(Direction[Area1]);
-		NailObj[1]->SetPosition(Direction[Area2]);
-	}
-	ImpactAreaTex[0]->SetPosition({ Direction[Area1].x ,-18,Direction[Area1].z });
-	ImpactAreaTex[1]->SetPosition({ Direction[Area2].x ,-18,Direction[Area2].z });
-
 }
 
 void CircleAttack::CollisonNailPlayer()
 {
+	const int Damage = 20;
+
 	if(Collision::GetLength(NailObj[0]->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 30) {
-		PlayerControl::GetInstance()->GetPlayer()->RecvDamage(20);
+		PlayerControl::GetInstance()->GetPlayer()->RecvDamage(Damage);
 	}
 	if (Collision::GetLength(NailObj[1]->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 30) {
-		PlayerControl::GetInstance()->GetPlayer()->RecvDamage(20);
+		PlayerControl::GetInstance()->GetPlayer()->RecvDamage(Damage);
 	}
+}
+void CircleAttack::PierceNail()
+{
+	TexAlpha = 1.0f;
+	BossSpell::GetInstance()->SetStartSpell_CA(true);
+	if (BossSpell::GetInstance()->GetEndSpell_CA()) {
+		fase = FASETWO;
+	}
+	//釘生成
+	NailObj.resize(2);
+	for (int i = 0; i < NailObj.size(); i++) {
+		NailObj[i] = std::make_unique<Object3d>();
+		//フィールドにモデル割り当て
+		NailObj[i]->Initialize(CameraControl::GetInstance()->GetCamera());
+		NailObj[i]->SetModel(ModelManager::GetIns()->GetModel(ModelManager::NAIL));
+	}
+	//ビルボード切る(標準がtrueなので、、)
+	ImpactAreaTex[0]->SetBillboard(false);
+	ImpactAreaTex[1]->SetBillboard(false);
+
+	//Direction.y->釘のY座標と同じ
+	if (Direction[Area1].y > -17.0f) {
+		Direction[Area1].y--;
+		Direction[Area2].y--;
+	}
+	//座標合わせる
+	NailObj[0]->SetPosition(Direction[Area1]);
+	NailObj[1]->SetPosition(Direction[Area2]);
+}
+
+void CircleAttack::DamageAreaTexSet()
+{
+	const float EaseC = 0.01f;
+	const XMFLOAT2 DamageAreaTex_Max = { 8.0f,8.0f };
+	if (Nail::GetInstance()->GetEndAction_Circle()) {
+		Nail::GetInstance()->SetEndAction_Circle(false);
+	}
+	//ダメージエリアの円ひろがる
+	CircleAreaTime += EaseC;
+	CircleSize.x = Easing::EaseOut(CircleAreaTime, 0.0f, DamageAreaTex_Max.x);
+	CircleSize.y = Easing::EaseOut(CircleAreaTime, 0.0f, DamageAreaTex_Max.y);
+	AttackCount = 0;
+
+	if (CircleAreaTime >= 1.0f) {
+		fase = FASETHREE;//円の大きさが最大超えたら次へ
+	}
+}
+
+void CircleAttack::ProtrudeNail()
+{
+	Nail::GetInstance()->CircleAttack(Area1, Area2);
+	
+	CollisonNailPlayer();
+
+	CircleAreaTime = 0;
+	Direction[Area1].y++;
+	Direction[Area2].y++;
+
+	NailObj[0]->SetPosition(Direction[Area1]);
+	NailObj[1]->SetPosition(Direction[Area2]);
+	TexAlpha -= 0.01f;
+	if (TexAlpha <= 0.0f) {
+		fase = FASEFOUR;
+	}
+}
+
+void CircleAttack::EndAttackAction()
+{
+	TexAlpha = 0.5f;
+	BossSpell::GetInstance()->SetEndSpell_CA(false);
+
+	Direction[NORTH] = { 0.0f ,0.0f ,30.0f };
+	Direction[SOUTH] = { 0.0f ,0.0f ,-30.0f };
+	Direction[EAST] = { 30.0f ,0.0f ,0.0f };
+	Direction[WEST] = { -30.0f ,0.0f ,0.0f };
+
+	NailObj[0]->SetPosition(Direction[Area1]);
+	NailObj[1]->SetPosition(Direction[Area2]);
+
+	CircleSize = { 0.0f,0.0f };
+	NailObj.clear();
 }
