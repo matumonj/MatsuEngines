@@ -54,6 +54,8 @@ public:
 	void Draw();
 
 	void Finalize();
+
+	void SwordPedestalDraw();
 private:
 	Config NowSelectButton();
 	bool EndConfigJudg;

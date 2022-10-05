@@ -68,21 +68,20 @@ void AttackCollision::GetCol(int damage)
 	switch (SceneManager::GetInstance()->GetScene())
 	{
 	case SceneManager::TUTORIAL:
-		if (colf) {
-			EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->RecvDamage(damage);
-		}
-
+		
 		ColOBB(TYTORIAL);
-
-		for (int i = 0; i < EnemyOBB.size(); i++) {
-			if (ColObb->ColOBBs(HandObb, EnemyOBB[i])) {
-				colf = true;
-				break;
-			}
-			else {
-				colf = false;
+		if (PlayerControl::GetInstance()->GetPlayer()->GetNowAttack()) {
+			for (int i = 0; i < EnemyOBB.size(); i++) {
+				if (ColObb->ColOBBs(HandObb, EnemyOBB[i]) && !Hit_colf) {
+					EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->RecvDamage(damage);
+					Hit_colf = true;
+				} 
 			}
 		}
+		else {
+			Hit_colf = false;
+		}
+
 		break;
 
 	case SceneManager::PLAY:
@@ -99,18 +98,14 @@ void AttackCollision::GetCol(int damage)
 				PlayEnemyOBB[i].m_Pos.m128_f32[1] = { EnemyControl::GetInstance()->GetEnemyindex(0)[i]->GetPosition().y };
 				PlayEnemyOBB[i].m_Pos.m128_f32[2] = { EnemyControl::GetInstance()->GetEnemyindex(0)[i]->GetPosition().z };
 
-				if (PlayColOBB[i]->ColOBBs(HandObb, PlayEnemyOBB[i])) {
-					EnemyControl::GetInstance()->GetEnemyindex(1)[i]->RecvDamage(10);
+					if (PlayColOBB[i]->ColOBBs(HandObb, PlayEnemyOBB[i])) {
+						EnemyControl::GetInstance()->GetEnemyindex(1)[i]->RecvDamage(10);
 
-					Play_colf[i] = true;
-					//break;
-				//	break;
-				} else {
-					Play_colf[i] = false;
-				}
-				if (Play_colf[i]) {
-					//break;
-				}
+						Play_colf[i] = true;
+					} else {
+						Play_colf[i] = false;
+					}
+				
 			}
 		}
 		break;

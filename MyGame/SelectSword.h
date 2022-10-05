@@ -32,6 +32,25 @@ private:
 	std::unique_ptr<SwordBase>Sword;
 	bool SelectJudg;
 	bool SaveJudg;
+
+private:
+	std::unique_ptr<Object3d>PedestalObj;
+
+	std::unique_ptr<Object3d>SampleSword[3];
+
+	float RotAngle = 0;
+	XMFLOAT3 sampleSwordRot[3];
+	int sampindex = 0;
+	int oldindex = 0;
+	float RotAngle_Old[3] = {0,120,240};
+	float EaseTime = 0.0f;
+	bool RotationF;
+	enum RotDir {
+		NON,
+		RIGHT,
+		LEFT
+	};
+	RotDir rotDir;
 public:
 	static SelectSword* GetInstance();
 	void Initialize();
@@ -52,6 +71,8 @@ private:
 
 	void SpriteSet();
 	void SpriteDraw();
+
+	void SwordRot();
 public:
 	void SetSelectJudg(bool f) { SelectJudg = f; }
 	bool GetSelectJudg() { return SelectJudg; }

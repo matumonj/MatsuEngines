@@ -221,9 +221,8 @@ void Player::FbxAnimationControl()
 	const float timespeed = 0.02f;
 
 	if (CustomButton::GetInstance()->GetAttackAction() == true) {
-		if (HUD::GetInstance()->GetCoolTime() == 1.0f) {//クールスプライトのサイズ０（剣のクールダウン終わり）なったら　後でやり方変える
 			AttackFlag = true;
-		}
+		
 	}
 	if (AttackFlag) {
 		f_time = AttackTime;

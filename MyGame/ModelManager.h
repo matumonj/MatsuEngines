@@ -24,7 +24,11 @@ public:
 		BACKGROUND,
 		DAMAGEAREA,
 		BOX,
-		BEAM
+		BEAM,
+		PEDESTAL,
+		SMALLSWORD,
+		NORMALSWORD,
+		BIGSWORD
 	};
 	enum FBXName {
 		PLAYER,

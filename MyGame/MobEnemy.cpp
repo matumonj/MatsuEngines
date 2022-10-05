@@ -35,8 +35,8 @@ void MobEnemy::Initialize(DebugCamera* camera)
 	m_Object = std::make_unique<Object3d>();
 	m_Object->Initialize(camera);
 	
-	EnemyHP = 30.00f;
-	MaxHP = 30.00f;
+	EnemyHP = 30000.00f;
+	MaxHP = 30000.00f;
 	//パラメータのセット
 	Rotation = { -70,180,0 };
 	Scale = { 0.01f, 0.01f, 0.01f };
@@ -84,6 +84,7 @@ void MobEnemy::Update(DebugCamera* camera)
 		alpha -= 0.005f;
 	}
 	
+
 	FbxAnimationControl();
 	
 	EnemyPop(150);

@@ -104,6 +104,10 @@ void PlayerAttackState::Update()
 	}
 	//スキルクールダウン処理
 	SkillCoolDown(CoolDownTime);
+	
+	//if (PlayerControl::GetInstance()->GetPlayer()->GetFbxTime() >= 1.7f) {
+		AttackCollision::GetInstance()->GetCol(Damage);
+//	}
 
 }
 
@@ -115,7 +119,7 @@ void PlayerAttackState::FirstAttack(std::vector<std::unique_ptr<Enemy>>& enemy)
 	OldSkill = First;
 	
 	Damage = SelectSword::GetInstance()->GetSword()->GetDamage()+FIRSTATTACKDAMAGE;
-	
+
 	DetailAttack(enemy,120);
 }
 
@@ -180,11 +184,7 @@ void PlayerAttackState::DetailAttack(std::vector<std::unique_ptr<Enemy>>& enemy,
 	if (BuffFlag) {
 		BuffAction();
 	}
-	//if (HUD::GetInstance()->GetCoolTime() == 1.0f) {//クールスプライトの) {
-		//敵に対して攻撃
-		AttackCollision::GetInstance()->GetCol(Damage);
-	//}
-	//if (/*fbxのモーション終わったら*/) {
+	
 	Skill = None;
 }
 

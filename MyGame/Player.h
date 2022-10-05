@@ -96,6 +96,8 @@ public:
 	int GetMaxHP() { return MaxHP; }
 
 	float GetFbxTime() { return f_time; }
+
+	bool GetNowAttack() { return nowattack; }
 private:
 	float f_time;
 	float AttackTime = 1.5f;

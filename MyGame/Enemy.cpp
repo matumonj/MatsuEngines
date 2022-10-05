@@ -40,6 +40,8 @@ void Enemy::Action()
 {
 	AttackCoolTime();
 }
+
+#include"AttackCollision.h"
 void Enemy::RecvDamage(int Damage) 
 {
 	if (EnemyHP <= 0)return;

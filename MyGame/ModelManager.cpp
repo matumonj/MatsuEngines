@@ -26,6 +26,10 @@ void ModelManager::Initialize() {
 	LoadModel(DAMAGEAREA, "BossFieldDamageArea");
 	LoadModel(BOX, "Box");
 	LoadModel(BEAM, "BeamObj");
+	LoadModel(PEDESTAL, "Pedestal");
+	LoadModel(SMALLSWORD, "SmallSword");
+	LoadModel(NORMALSWORD, "sword");
+	LoadModel(BIGSWORD, "BigSword");
 }
 
 void ModelManager::LoadModel(const ModelName modelName, std::string fileName) {

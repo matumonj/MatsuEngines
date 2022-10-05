@@ -132,3 +132,8 @@ void SistemConfig::Draw()
 	CustomButton::GetInstance()->Draw();
 	SelectSword::GetInstance()->Draw();
 }
+
+void SistemConfig::SwordPedestalDraw()
+{
+	SelectSword::GetInstance()->PedestalDraw();
+}

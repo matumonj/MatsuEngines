@@ -58,6 +58,7 @@ protected:
 	float alpha = 1.0f;
 	XMFLOAT3 RespawnPos;
 	bool RecvDamagef;//
+	bool RecvAttackHit;
 	bool DamageParticleCreateF;//攻撃受けた直後パーティクル発生フラg
 
 private:
@@ -91,6 +92,8 @@ protected:
 
 	/*ゲッター*/
 public:
+	bool GetRecvAttack() { return RecvAttackHit;}
+	void SetRecvAttack(bool f) { RecvAttackHit = f; }
 	//攻撃受けた直後の判定用
 	bool GetRecvDamage() { return RecvDamagef; }
 	//歩いているか

@@ -24,10 +24,10 @@ PSOutPut main(GSOutput input) : SV_TARGET
 
 	if (flag) {
 		output.target0 = float4(texcolor.rgb * fc, texcolor.a) + addcol;
-		output.target1 = float4(0, 0, 0, 1);
+		output.target1 = float4(texcolor.rgb * fc, texcolor.a)+addcol;
 	} else {
 		output.target0 = float4(texcolor.rgb * brightness, texcolor.a)*color;
-		output.target1 = float4(texcolor.rgb * brightness, texcolor.a);
+		output.target1 = float4(texcolor.rgb * brightness, texcolor.a)*color;
 	}
 	return output;
 }

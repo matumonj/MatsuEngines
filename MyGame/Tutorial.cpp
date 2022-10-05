@@ -140,20 +140,25 @@ void Tutorial::Draw()
 	{
 	case Blur://‚Ú‚©‚µ@•`‰æ€ˆá‚¤‚¾‚¯
 		postEffect->PreDrawScene();
-		
+		SistemConfig::GetInstance()->SwordPedestalDraw();
+
 		postEffect->PostDrawScene();
 
 		DirectXCommon::GetInstance()->BeginDraw();
-		postEffect->Draw();
+		//postEffect->Draw();
+		SistemConfig::GetInstance()->SwordPedestalDraw();
 
-		MyGameDraw();
-	
+
+		//MyGameDraw();
+		
 		if (HUD::GetInstance()->GetLayOutMode()) {
 			UI::GetInstance()->HUDDraw();
 		}
 		SistemConfig::GetInstance()->Draw();
-		
+	
 		DirectXCommon::GetInstance()->EndDraw();
+
+		
 		break;
 
 	case Default://•’Ê‚Ì‚â‚Â“Á‚É‰½‚à‚©‚©‚Á‚Ä‚¢‚È‚¢
@@ -163,6 +168,7 @@ void Tutorial::Draw()
 
 		DirectXCommon::GetInstance()->BeginDraw();
 		MyGameDraw();
+
 		DamageManager::GetIns()->Draw();
 		UI::GetInstance()->HUDDraw();
 		Feed::GetInstance()->Draw();
