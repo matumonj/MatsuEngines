@@ -40,8 +40,6 @@ private:
 
 	float RotAngle = 0;
 	XMFLOAT3 sampleSwordRot[3];
-	int sampindex = 0;
-	int oldindex = 0;
 	float RotAngle_Old[3] = {0,120,240};
 	float EaseTime = 0.0f;
 	bool RotationF;

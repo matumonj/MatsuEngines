@@ -109,6 +109,8 @@ void Tutorial::Update()
 	} else {
 		c_postEffect = Default;
 	}
+	//postEffect->SetSize({ 10,10 });
+	
 
 	if (scenechange&& Feed::GetInstance()->GetAlpha() >= 1.0f) {//画面真っ白なったら
 		BaseScene* scene = new BossScene(sceneManager_);//次のシーンのインスタンス生成
@@ -116,14 +118,12 @@ void Tutorial::Update()
 		SceneManager::GetInstance()->SetScene(SceneManager::BOSS);
 		sceneManager_->SetnextScene(scene);//シーンのセット
 	}
-
 	DamageManager::GetIns()->Upda();
 }
 #pragma endregion 
 
 void Tutorial::MyGameDraw()
 {
-	Field::GetInstance()->Draw();
 	if (Play) {
 		for (int i = 0; i < AllObjectControl.size(); i++) {
 			if (AllObjectControl[i] != nullptr) {
@@ -131,6 +131,7 @@ void Tutorial::MyGameDraw()
 			}
 		}
 	}
+	
 }
 
 void Tutorial::Draw()
@@ -162,17 +163,35 @@ void Tutorial::Draw()
 		break;
 
 	case Default://普通のやつ特に何もかかっていない
+		
 		postEffect->PreDrawScene();
-		postEffect->Draw();
+		
+		Field::GetInstance()->MiniFieldDraw();
+
+	//Field::GetInstance()->Draw();
+
 		postEffect->PostDrawScene();
 
 		DirectXCommon::GetInstance()->BeginDraw();
-		MyGameDraw();
+		//		
+		//MyGameDraw();
+	
+	//	MyGameDraw();
 
-		DamageManager::GetIns()->Draw();
+		Field::GetInstance()->Draw();
+
+		MyGameDraw();
+		postEffect->Draw();
+		//Sprite::PreDraw();
+
+	//	Sprite::PostDraw();
+		
+		//	MyGameDraw();
 		UI::GetInstance()->HUDDraw();
 		Feed::GetInstance()->Draw();
 		SistemConfig::GetInstance()->Draw();
+//		DirectXCommon::GetInstance()->ClearDepthBuffer(DirectXCommon::GetInstance()->GetCmdList());
+
 		DirectXCommon::GetInstance()->EndDraw();
 		break;
 	}

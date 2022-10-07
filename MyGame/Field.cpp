@@ -58,6 +58,9 @@ bool Field::Initialize(DebugCamera* camera)
 
 		FieldObject = TouchableObject::Create(ModelManager::GetIns()->GetModel(ModelManager::FIELD), camera);
 	}
+	miniObj = std::make_unique<Object3d>();
+	miniObj->SetModel(ModelManager::GetIns()->GetModel(ModelManager::FIELD));
+	miniObj->Initialize(camera);
 	
 	CelestialSphereObject->Initialize(camera);
 	CelestialSphereObject->SetModel(CelestialSphereModel);
@@ -86,6 +89,11 @@ void Field::Update(DebugCamera* camera)
 
 	BackObject->SetPosition({ 0.0f,30.0f,0.0f });
 	BackObject->SetScale({ 0.5f,0.5f,0.5f });
+	miniObj->SetScale({1,0,1});
+
+	miniObj->SetPosition({ 0.0f,-25.0f,0.0f });
+	miniObj->SetRotation({ 0,0,0 });
+	miniObj->setFog(FALSE);
 
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
 		FieldObject->SetScale(1.0f);
@@ -93,6 +101,7 @@ void Field::Update(DebugCamera* camera)
 		FieldObject->SetFogCenter({ 125.0f, -25.0f, -680.0f });
 		FieldObject->setFog(TRUE);
 		CelestialSphereObject->setFog(TRUE);
+
 
 	}
 	else if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY|| SceneManager::GetInstance()->GetScene() == SceneManager::MAPCREATE) {
@@ -147,6 +156,8 @@ void Field::Update(DebugCamera* camera)
 	}
 	FieldObject->SetColor({ 0.2f,0.2f,0.2f,1.0f });
 	FieldObject->Update({ 0.2f,0.2f,0.2f,1.0f }, camera);
+	miniObj->SetColor({ 0.2f,0.2f,0.2f,1.0f });
+	miniObj->Update({ 0.2f,0.2f,0.2f,1.0f }, camera);
 
 	CelestialSphereObject->Update({ 1.0f,1.0f,1.0f,1.0f }, camera);
 
@@ -155,7 +166,12 @@ void Field::Update(DebugCamera* camera)
 	TexAlpha_BossName = min(TexAlpha_BossName, 3.0f);
 	TexAlpha_BossName = max(TexAlpha_BossName, 0.0f);
 }
-
+void Field::MiniFieldDraw()
+{
+	Object3d::PreDraw();
+	miniObj->Draw();
+	Object3d::PostDraw();
+}
 #include"imgui.h"
 void Field::Draw()
 {

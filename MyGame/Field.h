@@ -21,6 +21,7 @@ private:
 	std::unique_ptr <Object3d> CelestialSphereObject;
 	std::unique_ptr <Object3d> BackObject;
 	std::unique_ptr<Object3d>DamageAreaObj;
+	std::unique_ptr<Object3d>miniObj;
 	//Sprite
 	Sprite* Explanation;
 	Sprite* BossName;
@@ -50,6 +51,7 @@ public:
 	void Finalize();
 	void WarningDraw();
 
+	void MiniFieldDraw();
 private:
 	void SpriteFeed(float&alpha,bool&feed,const float feedSpeed,const float MaxAlphaValue);
 	void FieldDamageAreaCol();

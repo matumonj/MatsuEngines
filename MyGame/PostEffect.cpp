@@ -9,7 +9,7 @@ using namespace DirectX;
 //デバイス
 ComPtr<ID3D12Device> PostEffect::device = nullptr;
 ComPtr<ID3D12GraphicsCommandList> PostEffect::cmdList = nullptr;
-const float PostEffect::clearColor[4] = { 0.3f,0.3f,0.3f,0.0f };
+const float PostEffect::clearColor[4] = { 1.0f,1.0f,1.0f,0.0f };
 
 PostEffect::PostEffect()
 	:Sprite(100, { 0,0 }, { 500,500 }, { 1,1,1,1 }, { 0,0 })
@@ -116,6 +116,7 @@ void PostEffect::CreateGraphicsPipeline()
 
 	// ブレンドステートの設定
 	gpipeline.BlendState.RenderTarget[0] = blenddesc;
+	//gpipeline.BlendState.RenderTarget[1] = blenddesc;
 
 	// 深度バッファのフォーマット
 	gpipeline.DSVFormat = DXGI_FORMAT_D32_FLOAT;
@@ -129,6 +130,8 @@ void PostEffect::CreateGraphicsPipeline()
 
 	gpipeline.NumRenderTargets = 1;	// 描画対象は1つ
 	gpipeline.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM; // 0～255指定のRGBA
+	//gpipeline.RTVFormats[1] = DXGI_FORMAT_R8G8B8A8_UNORM; // 0～255指定のRGBA
+
 	gpipeline.SampleDesc.Count = 1; // 1ピクセルにつき1回サンプリング
 
 	// デスクリプタレンジ
@@ -183,8 +186,8 @@ void PostEffect::Initialize()
 	// リソース設定
 	CD3DX12_RESOURCE_DESC texresDesc = CD3DX12_RESOURCE_DESC::Tex2D(
 		DXGI_FORMAT_R8G8B8A8_UNORM,
-		WinApp::window_width,
-		(UINT)WinApp::window_height,
+		WinApp::window_width/2,
+		(UINT)WinApp::window_height/2,
 		1, 0, 1, 0, D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET
 	);
 
@@ -198,6 +201,7 @@ void PostEffect::Initialize()
 	//	IID_PPV_ARGS(&texBuff));
 
 //変更後
+
 	for (int i = 0; i < 2; i++) {
 		result = device->CreateCommittedResource(
 			&CD3DX12_HEAP_PROPERTIES(D3D12_CPU_PAGE_PROPERTY_WRITE_BACK, D3D12_MEMORY_POOL_L0),
@@ -242,11 +246,11 @@ void PostEffect::Initialize()
 		//変更後
 		{//テクスチャを赤クリア
 			//要素数
-			const UINT pixelCount = WinApp::window_width * WinApp::window_height;
+			const UINT pixelCount = WinApp::window_width/2 * WinApp::window_height/2;
 			//画像１行分のデータサイズ
-			const UINT rowPitch = sizeof(UINT) * WinApp::window_width;
+			const UINT rowPitch = sizeof(UINT) * WinApp::window_width/2;
 			//画像全体のデータサイズ
-			const UINT depthPitch = rowPitch * WinApp::window_height;
+			const UINT depthPitch = rowPitch * WinApp::window_height/2;
 			//画像イメージ
 			UINT* img = new UINT[pixelCount];
 
@@ -306,8 +310,8 @@ void PostEffect::Initialize()
 	CD3DX12_RESOURCE_DESC depthResDesc =
 		CD3DX12_RESOURCE_DESC::Tex2D(
 			DXGI_FORMAT_D32_FLOAT,
-			WinApp::window_width,
-			WinApp::window_height,
+			WinApp::window_width/5,
+			WinApp::window_height/5,
 			1, 0,
 			1, 0,
 			D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL);
@@ -325,7 +329,7 @@ void PostEffect::Initialize()
 	//DSV用デスクリプタヒープ設定
 	D3D12_DESCRIPTOR_HEAP_DESC DescHeapDesc = {};
 	DescHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
-	DescHeapDesc.NumDescriptors = 1;
+	DescHeapDesc.NumDescriptors = 2;
 	//DSV用デスクリプタヒープ生成
 	result = device->CreateDescriptorHeap(&DescHeapDesc, IID_PPV_ARGS(&descHeapDSV));
 
@@ -336,7 +340,6 @@ void PostEffect::Initialize()
 	dsvDesc.Format = DXGI_FORMAT_D32_FLOAT;
 	dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
 	device->CreateDepthStencilView(depthBuff.Get(), &dsvDesc, descHeapDSV->GetCPUDescriptorHandleForHeapStart());
-
 
 	//頂点バッファ生z成
 	result = device->CreateCommittedResource(
@@ -377,12 +380,13 @@ void PostEffect::Initialize()
 		IID_PPV_ARGS(&constBuff));
 
 	assert(SUCCEEDED(result));
-
+//	size = { 100,100 };
 
 }
 
 void PostEffect::Draw()
 {
+	//matScale = XMMatrixScaling(size.x, size.y, 1.0f);
 
 	// ワールド行列の更新
 	this->matWorld = XMMatrixIdentity();
@@ -427,7 +431,11 @@ void PostEffect::Draw()
 	//cmdList->SetGraphicsRootDescriptorTable(1, descheapSRV->GetGPUDescriptorHandleForHeapStart());
 	// 描画コマンド
 	cmdList->DrawInstanced(4, 1, 0, 0);
+
+//	DirectXCommon::GetInstance()->ClearDepthBuffer(DirectXCommon::GetInstance()->GetCmdList());
+
 }
+
 
 void PostEffect::PreDrawScene()
 {
@@ -448,17 +456,25 @@ void PostEffect::PreDrawScene()
 	//深度ステンシルビュー用デスクリプタヒープのハンドルを取得
 	D3D12_CPU_DESCRIPTOR_HANDLE dsvH =
 		descHeapDSV->GetCPUDescriptorHandleForHeapStart();
+	//CD3DX12_CPU_DESCRIPTOR_HANDLE dsvH = CD3DX12_CPU_DESCRIPTOR_HANDLE(descHeapDSV->GetCPUDescriptorHandleForHeapStart());
+	// 深度バッファのクリア
+	
 	//レンダーターゲットをセット
 	//変更後
-	cmdList->OMSetRenderTargets(2, rtvH, false, &dsvH);
+	cmdList->OMSetRenderTargets(2, rtvH,false, &dsvH);
 
 	//変更後　追加
 	CD3DX12_VIEWPORT viewPorts[2];
 	CD3DX12_RECT scissorRects[2];
-	for (int i = 0; i < 2; i++) {
-		viewPorts[i] = CD3DX12_VIEWPORT(0.0f, 0.0f, WinApp::window_width, WinApp::window_height);
-		scissorRects[i] = CD3DX12_RECT(0, 0, WinApp::window_width, WinApp::window_height);
-	}
+	//for (int i = 0; i < 2; i++) {
+		viewPorts[0] = CD3DX12_VIEWPORT(0.0f, 0.0f, WinApp::window_width/5, WinApp::window_height/5);
+		scissorRects[0] = CD3DX12_RECT(0, 0, WinApp::window_width/5, WinApp::window_height/5);
+		//viewPorts[1] = CD3DX12_VIEWPORT(0.0f, 0.0f, WinApp::window_width , WinApp::window_height );
+		//scissorRects[1] = CD3DX12_RECT(0, 0, WinApp::window_width , WinApp::window_height );
+		viewPorts[1] = CD3DX12_VIEWPORT(0.0f, 0.0f, WinApp::window_width / 5, WinApp::window_height / 5);
+		scissorRects[1] = CD3DX12_RECT(0, 0, WinApp::window_width / 5, WinApp::window_height / 5);
+
+		//}
 	//ビューポートの設定
 	cmdList->RSSetViewports(2, viewPorts);
 	//シザリング短形の設定
@@ -472,6 +488,8 @@ void PostEffect::PreDrawScene()
 	//深度バッファのクリア
 	cmdList->ClearDepthStencilView(dsvH, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0,
 		nullptr);
+	//cmdList->ClearDepthStencilView(dsvH, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+
 }
 
 void PostEffect::PostDrawScene()
@@ -482,5 +500,5 @@ void PostEffect::PostDrawScene()
 		cmdList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(
 			texBuff[i].Get(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE));
 	}
-
+	
 }

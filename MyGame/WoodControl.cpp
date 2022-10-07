@@ -159,7 +159,6 @@ void WoodControl::Draw()
 			if (Tutorialwoods[i] != nullptr) {
 				//if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), woods[i]->GetPosition()) <UpdateRange) {
 				Tutorialwoods[i]->Draw();
-				//}
 			}
 		}
 	}

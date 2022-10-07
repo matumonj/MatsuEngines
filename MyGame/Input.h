@@ -28,6 +28,7 @@ public:
 	//namespace省略
 	template<class T>using ComPtr = Microsoft::WRL::ComPtr<T>;
 public:
+	float rightAngle;
 	struct MouseMove {
 		LONG    lX;
 		LONG    lY;
@@ -125,7 +126,7 @@ public:
 		DIJOYSTATE2 oldGamePadState2 = {};
 		bool is_push[32] = {};
 		//スティックの無反応範囲
-		LONG unresponsive_range = 640;
+		LONG unresponsive_range = 200;
 		LONG unresponsive_range2 = 200;
 		float posX = 0;
 		float posY = 0;

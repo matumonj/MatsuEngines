@@ -1,5 +1,6 @@
 #include "Input.h"
 #include"WinApp.h"
+#include <cmath>
 //#pragma comment(lib,"dxguid.lib")
 Input* Input::GetInstance()
 {
@@ -115,6 +116,7 @@ void Input::update()
 			is_push[i] = false;
 		}
 	}
+
 }
 
 bool Input::Pushkey(BYTE keyNumber)
@@ -248,13 +250,15 @@ bool Input::LeftTriggerStick(int stick)
 
 bool Input::RightTiltStick(int stick)
 {
+	unresponsive_range = 200;
+
 	//ç∂
 	if (gamePadState.lRx < -unresponsive_range && stick == Left)
 	{
 		return true;
 	}
 	//âE
-	else if (gamePadState.lRx > unresponsive_range && stick == Right)
+	else if (gamePadState.lRx  >unresponsive_range && stick == Right)
 	{
 		return true;
 	}
@@ -268,8 +272,11 @@ bool Input::RightTiltStick(int stick)
 	{
 		return true;
 	}
-	posX = (float)gamePadState.lX;
-	posY = (float)gamePadState.lY;
+	
+	 rightAngle = static_cast<float>(atan2(0 - gamePadState.lRx, 0 - gamePadState.lRy));
+
+	posX = (float)gamePadState.lRx;
+	posY = (float)gamePadState.lRy;
 	return false;
 }
 

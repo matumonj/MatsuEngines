@@ -25,9 +25,13 @@ float4 main(Output input) : SV_TARGET
 float4 coltex0 = tex.Sample(smp, input.uv);
 float4 coltex1 = tex1.Sample(smp, input.uv);
 
-float4 col = coltex0;
+float4 col = coltex1;
+float f = input.svpos.x > 800 ? -1 :1;
+float f2 = input.svpos.y > 400 ? -1 : 1;
+clip(f);
+clip(f2);
 float4 feed = { 0.5,0.5,0.5,1 };
-	col = coltex1*feed;
+//	col = feed;
 
 return float4(col.rgb, 1);
 // ƒ{ƒP‰æ‘œ‚ğo—Í

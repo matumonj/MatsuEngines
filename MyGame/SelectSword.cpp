@@ -54,15 +54,15 @@ void SelectSword::pedestalSet()
 	}
 	SampleSword[SwordScale::SMALL]->SetModel(ModelManager::GetIns()->GetModel(ModelManager::SMALLSWORD));
 	SampleSword[SwordScale::SMALL]->Initialize(CameraControl::GetInstance()->GetCamera());
-	sampleSwordRot[SwordScale::SMALL] = { -60.0f,100.0f,90.0f };
+	sampleSwordRot[SwordScale::SMALL] = { -60.0f,100.0f,-90.0f };
 
 	SampleSword[SwordScale::NORMAL]->SetModel(ModelManager::GetIns()->GetModel(ModelManager::NORMALSWORD));
 	SampleSword[SwordScale::NORMAL]->Initialize(CameraControl::GetInstance()->GetCamera());
-	sampleSwordRot[SwordScale::NORMAL] = { -60.0f,100.0f,90.0f };
+	sampleSwordRot[SwordScale::NORMAL] = { -60.0f,100.0f,-90.0f };
 
 	SampleSword[SwordScale::BIG]->SetModel(ModelManager::GetIns()->GetModel(ModelManager::BIGSWORD));
 	SampleSword[SwordScale::BIG]->Initialize(CameraControl::GetInstance()->GetCamera());
-	sampleSwordRot[SwordScale::BIG] = { -60.0f,100.0f,90.0f };
+	sampleSwordRot[SwordScale::BIG] = { -60.0f,100.0f,-90.0f };
 
 	PedestalObj = std::make_unique<Object3d>();
 	PedestalObj->SetModel(ModelManager::GetIns()->GetModel(ModelManager::PEDESTAL));
@@ -144,25 +144,17 @@ void SelectSword::PedestalUpdate()
 	const float Radius = 3.0f;
 	const float Height = 3.0f;
 	//円回転するやつ
-	if (RotAngle <= 240) {
-		if (input->TriggerCrossKey(input->Cross_Right)) {
-			//RotAngle_Old[sampindex] = RotAngle;
-			oldindex = sampindex;
-			rotDir = RIGHT;
-		}
+	//右回転
+	if (input->TriggerCrossKey(input->Cross_Right)) {
+		rotDir = RIGHT;
 	}
-	if (RotAngle >= 0) {
-
+	//左回転
 	if (input->TriggerCrossKey(input->Cross_Left)) {
-//sampindex--;
-		oldindex = sampindex;
-		//RotAngle_Old = RotAngle;
 		rotDir = LEFT;
-		}
 	}
+	//イージングカウントリセット
 	if (rotDir==NON) {
 		EaseTime = 0.0f;
-		
 	}
 	SwordRot();
 	
@@ -193,13 +185,13 @@ void SelectSword::PedestalUpdate()
 	switch (index)
 	{
 	case SwordScale::SMALL:
-		sampleSwordRot[SwordScale::SMALL].y++;
+		sampleSwordRot[SwordScale::SMALL].y--;
 	break;
 	case SwordScale::NORMAL:
-		sampleSwordRot[SwordScale::NORMAL].y++;
+		sampleSwordRot[SwordScale::NORMAL].y--;
 		break; 
 	case SwordScale::BIG:
-		sampleSwordRot[SwordScale::BIG].y++;
+		sampleSwordRot[SwordScale::BIG].y--;
 		break;
 	default:
 		break;
@@ -214,11 +206,11 @@ void SelectSword::PedestalUpdate()
 void SelectSword::SwordRot()
 {
 	//イージングカウント
-	const float EaseC = 0.02f;
+	const float EaseC = 0.05f;
 	if (rotDir==RIGHT) {
 			EaseTime += EaseC;
 			//現在の角度から120度回転
-			RotAngle = Easing::EaseOut(EaseTime, RotAngle_Old[sampindex], RotAngle_Old[oldindex+1]);
+			RotAngle = Easing::EaseOut(EaseTime, RotAngle_Old[index-1], RotAngle_Old[index]);
 			if (EaseTime >= 1.0f) {
 				rotDir = NON;
 			}
@@ -226,7 +218,7 @@ void SelectSword::SwordRot()
 		else if (rotDir==LEFT) {
 			EaseTime -= EaseC;
 			//現在の角度から120度回転
-			RotAngle = Easing::EaseOut(EaseTime, RotAngle_Old[sampindex], RotAngle_Old[oldindex - 1]);
+			RotAngle = Easing::EaseOut(EaseTime, RotAngle_Old[index+1], RotAngle_Old[index]);
 			if (EaseTime <= -1.0f) {
 				rotDir = NON;
 			}
