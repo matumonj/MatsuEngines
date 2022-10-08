@@ -21,7 +21,7 @@ private: // エイリアス
 
 	Model* model = nullptr;
 
-	static Camera* camera;
+	 Camera* camera;
 public: // サブクラス
 	void SetModel(Model* model) { this->model = model; }
 
@@ -208,8 +208,8 @@ public: // メンバ関数
 	void SetRotation(XMFLOAT3 rotation) { this->rotation = rotation; }
 	void SetScale(XMFLOAT3 scale) { this->scale = scale; }
 
-	static void SetCamera(Camera* camera) {
-		Object3d::camera = camera;
+	void SetCamera(Camera* cameras) {
+		camera = cameras;
 	}
 
 	static void SetLightGroup(LightGroup* lightGroup) {

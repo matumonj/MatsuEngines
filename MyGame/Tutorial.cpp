@@ -43,6 +43,14 @@ void Tutorial::objUpdate(DebugCamera* camera)
 		}
 		UI::GetInstance()->HUDUpdate(hudload, CameraControl::GetInstance()->GetCamera());
 		}
+	
+	dc->Update();
+	
+	dc->SetTarget({ CameraControl::GetInstance()->GetCamera()->GetTarget()});
+	dc->SetEye({ PlayerControl::GetInstance()->GetPlayer()->GetPosition().x,
+		 PlayerControl::GetInstance()->GetPlayer()->GetPosition().y+130.0f,
+		PlayerControl::GetInstance()->GetPlayer()->GetPosition().z-1});
+	Field::GetInstance()->SetCamera(dc);
 
 	Field::GetInstance()->Update(CameraControl::GetInstance()->GetCamera());
 }
@@ -69,7 +77,7 @@ void Tutorial::Initialize()
 	Field::GetInstance()->Initialize(CameraControl::GetInstance()->GetCamera());
 
 	// 3Dオブジェクトにカメラをセット
-	Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
+	//Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
 	//カメラをセット
 	f_Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
 	//グラフィックパイプライン生成
@@ -79,8 +87,12 @@ void Tutorial::Initialize()
 	Feed::GetInstance()->initialize();
 	UI::GetInstance()->Initialize();
 
-	postEffect = new PostEffect();
+	postEffect = new MinimapSprite();
 	postEffect->Initialize();
+	//Field::GetInstance()->SetCamera(dc);
+	//postEffect->SetPosition({ 100,0 });
+	dc = new DebugCamera(WinApp::window_width, WinApp::window_height);
+	//Field::GetInstance()->SetCamera(dc);
 
 	SistemConfig::GetInstance()->Initialize();
 }
@@ -89,6 +101,10 @@ void Tutorial::Initialize()
 #pragma region 更新処理
 void Tutorial::Update()
 {
+	
+
+	
+	
 	SistemConfig::GetInstance()->Update();
 	//各オブジェクトの更新処理
 	objUpdate(CameraControl::GetInstance()->GetCamera());//オブジェクトの更新処理
@@ -111,14 +127,14 @@ void Tutorial::Update()
 	}
 	//postEffect->SetSize({ 10,10 });
 	
-
-	if (scenechange&& Feed::GetInstance()->GetAlpha() >= 1.0f) {//画面真っ白なったら
+if (scenechange&& Feed::GetInstance()->GetAlpha() >= 1.0f) {//画面真っ白なったら
 		BaseScene* scene = new BossScene(sceneManager_);//次のシーンのインスタンス生成
 		Play = false;
 		SceneManager::GetInstance()->SetScene(SceneManager::BOSS);
 		sceneManager_->SetnextScene(scene);//シーンのセット
 	}
 	DamageManager::GetIns()->Upda();
+
 }
 #pragma endregion 
 

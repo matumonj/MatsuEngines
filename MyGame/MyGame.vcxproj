@@ -231,6 +231,7 @@
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshCollider.cpp" />
+    <ClCompile Include="MinimapSprite.cpp" />
     <ClCompile Include="MobEnemy.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="ModelManager.cpp" />
@@ -348,6 +349,7 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshCollider.h" />
     <ClInclude Include="mHelper.h" />
+    <ClInclude Include="MinimapSprite.h" />
     <ClInclude Include="MobEnemy.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="ModelManager.h" />
@@ -435,6 +437,16 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
     </FxCompile>
+    <FxCompile Include="Resources\Shader\MiniMapPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Resources\Shader\MiniMapVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
     <FxCompile Include="Resources\Shader\Object3dPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
@@ -495,6 +507,7 @@
     <None Include="Resources\Shader\Blur.hlsli" />
     <None Include="Resources\Shader\FBX.hlsli" />
     <None Include="Resources\Shader\Header.hlsli" />
+    <None Include="Resources\Shader\MiniMap.hlsli" />
     <None Include="Resources\Shader\Object3d.hlsli">
       <FileType>Document</FileType>
     </None>

@@ -17,6 +17,8 @@ bool Collision::Collision::CheckBox2Box(const Box& box1, const Box& box2)
 		return true;
 	}
 	return false;*/
+
+	return false;
 }
 float Collision::GetLength(XMFLOAT3 position, XMFLOAT3 position2)
 {

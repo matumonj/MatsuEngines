@@ -21,6 +21,7 @@
 #include"ControlBase.h"
 #include"ParticleManager.h"
 #pragma comment(lib,"winmm.lib")
+#include"MinimapSprite.h"
 class CollisionManager;
 class Player;
 class Tutorial :public BaseScene
@@ -46,8 +47,8 @@ private:
 	
 	bool scenechange;
 	bool feedflag;
-	PostEffect* postEffect = nullptr;
-
+	MinimapSprite* postEffect = nullptr;
+	DebugCamera* dc;
 public:
 	void MyGameDraw();
 	void objUpdate(DebugCamera* camera);

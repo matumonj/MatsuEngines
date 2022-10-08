@@ -39,7 +39,7 @@ void BossScene::Initialize()
 	postEffect = new PostEffect();
 	postEffect->Initialize();
 	// 3Dオブジェクトにカメラをセット
-	Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
+	//Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
 	//カメラをセット
 	f_Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
 	//グラフィックパイプライン生成

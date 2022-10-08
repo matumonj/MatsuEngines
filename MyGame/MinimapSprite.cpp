@@ -1,4 +1,4 @@
-#include "PostEffect.h"
+#include "MinimapSprite.h"
 #include<d3dx12.h>
 #include"WinApp.h"
 #include<d3dcompiler.h>
@@ -7,17 +7,17 @@
 #pragma comment(lib,"d3dcompiler.lib")
 using namespace DirectX;
 //デバイス
-ComPtr<ID3D12Device> PostEffect::device = nullptr;
-ComPtr<ID3D12GraphicsCommandList> PostEffect::cmdList = nullptr;
-const float PostEffect::clearColor[4] = { 1.0f,0.3f,0.6f,0.0f };
+ComPtr<ID3D12Device> MinimapSprite::device = nullptr;
+ComPtr<ID3D12GraphicsCommandList> MinimapSprite::cmdList = nullptr;
+const float MinimapSprite::clearColor[4] = { 1.0f,0.3f,0.6f,0.0f };
 
-PostEffect::PostEffect()
+MinimapSprite::MinimapSprite()
 	:Sprite(100, { 0,0 }, { 500,500 }, { 1,1,1,1 }, { 0,0 })
 {
 
 }
 
-void PostEffect::CreateGraphicsPipeline()
+void MinimapSprite::CreateGraphicsPipeline()
 {
 	HRESULT result = S_FALSE;
 	ComPtr<ID3DBlob> vsBlob; // 頂点シェーダオブジェクト
@@ -26,7 +26,7 @@ void PostEffect::CreateGraphicsPipeline()
 
 	// 頂点シェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"Resources/Shader/PostEffectTestVS.hlsl",	// シェーダファイル名
+		L"Resources/Shader/MiniMapVS.hlsl",	// シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "vs_5_0",	// エントリーポイント名、シェーダーモデル指定
@@ -51,7 +51,7 @@ void PostEffect::CreateGraphicsPipeline()
 
 	// ピクセルシェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"Resources/Shader/PostEffectTestPS.hlsl",	// シェーダファイル名
+		L"Resources/Shader/MiniMapPS.hlsl",	// シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "ps_5_0",	// エントリーポイント名、シェーダーモデル指定
@@ -141,7 +141,7 @@ void PostEffect::CreateGraphicsPipeline()
 	descRangeSRV0.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0); // t0 レジスタ
 	descRangeSRV1.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 1); // t0 レジスタ
 
-															   // ルートパラメータ
+	// ルートパラメータ
 	CD3DX12_ROOT_PARAMETER rootparams[3];
 	rootparams[0].InitAsConstantBufferView(0, 0, D3D12_SHADER_VISIBILITY_ALL);
 	rootparams[1].InitAsDescriptorTable(1, &descRangeSRV0, D3D12_SHADER_VISIBILITY_ALL);
@@ -171,7 +171,7 @@ void PostEffect::CreateGraphicsPipeline()
 
 }
 
-void PostEffect::Initialize()
+void MinimapSprite::Initialize()
 {
 	device = DirectXCommon::GetInstance()->GetDev();
 	cmdList = DirectXCommon::GetInstance()->GetCmdList();
@@ -180,25 +180,13 @@ void PostEffect::Initialize()
 
 	HRESULT result;
 
-	//基底クラスとしての初期化
-	//Sprite::Initialize();
-
 	// リソース設定
 	CD3DX12_RESOURCE_DESC texresDesc = CD3DX12_RESOURCE_DESC::Tex2D(
 		DXGI_FORMAT_R8G8B8A8_UNORM,
-		WinApp::window_width/2,
-		(UINT)WinApp::window_height/2,
+		WinApp::window_width / 2,
+		(UINT)WinApp::window_height / 2,
 		1, 0, 1, 0, D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET
 	);
-
-	// テクスチャ用バッファの生成
-	//result = device->CreateCommittedResource(
-	//	&CD3DX12_HEAP_PROPERTIES(D3D12_CPU_PAGE_PROPERTY_WRITE_BACK, D3D12_MEMORY_POOL_L0),
-	//	D3D12_HEAP_FLAG_NONE,
-	//	&texresDesc,
-	//	D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, // テクスチャ用指定
-	//	&CD3DX12_CLEAR_VALUE(DXGI_FORMAT_R8G8B8A8_UNORM, clearColor),
-	//	IID_PPV_ARGS(&texBuff));
 
 //変更後
 
@@ -211,46 +199,16 @@ void PostEffect::Initialize()
 			&CD3DX12_CLEAR_VALUE(DXGI_FORMAT_R8G8B8A8_UNORM, clearColor),
 			IID_PPV_ARGS(&texBuff[i]));
 
-
-
-		//result = device->CreateCommittedResource(
-		//	&CD3DX12_HEAP_PROPERTIES(D3D12_CPU_PAGE_PROPERTY_WRITE_BACK, D3D12_MEMORY_POOL_L0),
-		//	D3D12_HEAP_FLAG_NONE,
-		//	&texresDesc,
-		//	D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, // テクスチャ用指定
-		//	&CD3DX12_CLEAR_VALUE(DXGI_FORMAT_R8G8B8A8_UNORM, clearColor),
-		//	IID_PPV_ARGS(&texBuff));
-
 		assert(SUCCEEDED(result));
 
-		//{//テクスチャを赤クリア
-		//	//要素数
-		//	const UINT pixelCount = WinApp::window_width * WinApp::window_height;
-		//	//画像１行分のデータサイズ
-		//	const UINT rowPitch = sizeof(UINT) * WinApp::window_width;
-		//	//画像全体のデータサイズ
-		//	const UINT depthPitch = rowPitch * WinApp::window_height;
-		//	//画像イメージ
-		//	UINT* img = new UINT[pixelCount];
-		//	for (int i = 0; i < pixelCount; i++) {
-		//		img[i] = 0xff0000ff;
-		//	}
-
-		//	//テクスチャバッファにデータ転送
-		//	result = texBuff->WriteToSubresource(0, nullptr,
-		//		img, rowPitch, depthPitch);
-
-		//	assert(SUCCEEDED(result));
-		//	delete[]img;
-		//}
 		//変更後
 		{//テクスチャを赤クリア
 			//要素数
-			const UINT pixelCount = WinApp::window_width/2 * WinApp::window_height/2;
+			const UINT pixelCount = WinApp::window_width / 2 * WinApp::window_height / 2;
 			//画像１行分のデータサイズ
-			const UINT rowPitch = sizeof(UINT) * WinApp::window_width/2;
+			const UINT rowPitch = sizeof(UINT) * WinApp::window_width / 2;
 			//画像全体のデータサイズ
-			const UINT depthPitch = rowPitch * WinApp::window_height/2;
+			const UINT depthPitch = rowPitch * WinApp::window_height / 2;
 			//画像イメージ
 			UINT* img = new UINT[pixelCount];
 
@@ -310,8 +268,8 @@ void PostEffect::Initialize()
 	CD3DX12_RESOURCE_DESC depthResDesc =
 		CD3DX12_RESOURCE_DESC::Tex2D(
 			DXGI_FORMAT_D32_FLOAT,
-			WinApp::window_width/5,
-			WinApp::window_height/5,
+			WinApp::window_width / 5,
+			WinApp::window_height / 5,
 			1, 0,
 			1, 0,
 			D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL);
@@ -380,14 +338,14 @@ void PostEffect::Initialize()
 		IID_PPV_ARGS(&constBuff));
 
 	assert(SUCCEEDED(result));
-//	size = { 100,100 };
+	//	size = { 100,100 };
 
 }
 
-void PostEffect::Draw()
+void MinimapSprite::Draw()
 {
 	//matScale = XMMatrixScaling(size.x, size.y, 1.0f);
-
+	position = { 900,0 };
 	// ワールド行列の更新
 	this->matWorld = XMMatrixIdentity();
 	this->matWorld *= XMMatrixRotationZ(XMConvertToRadians(rotation));
@@ -432,12 +390,12 @@ void PostEffect::Draw()
 	// 描画コマンド
 	cmdList->DrawInstanced(4, 1, 0, 0);
 
-//	DirectXCommon::GetInstance()->ClearDepthBuffer(DirectXCommon::GetInstance()->GetCmdList());
+	//	DirectXCommon::GetInstance()->ClearDepthBuffer(DirectXCommon::GetInstance()->GetCmdList());
 
 }
 
 
-void PostEffect::PreDrawScene()
+void MinimapSprite::PreDrawScene()
 {
 	//リソースバリアを変更
 	//変更後
@@ -458,24 +416,24 @@ void PostEffect::PreDrawScene()
 		descHeapDSV->GetCPUDescriptorHandleForHeapStart();
 	//CD3DX12_CPU_DESCRIPTOR_HANDLE dsvH = CD3DX12_CPU_DESCRIPTOR_HANDLE(descHeapDSV->GetCPUDescriptorHandleForHeapStart());
 	// 深度バッファのクリア
-	
+
 	//レンダーターゲットをセット
 	//変更後
-	cmdList->OMSetRenderTargets(2, rtvH,false, &dsvH);
+	cmdList->OMSetRenderTargets(2, rtvH, false, &dsvH);
 
 	//変更後　追加
 	CD3DX12_VIEWPORT viewPorts[2];
 	CD3DX12_RECT scissorRects[2];
 	//for (int i = 0; i < 2; i++) {
-		viewPorts[0] = CD3DX12_VIEWPORT(0.0f, 0.0f, WinApp::window_width/5, WinApp::window_height/5);
-		scissorRects[0] = CD3DX12_RECT(0, 0, WinApp::window_width/5, WinApp::window_height/5);
-		//viewPorts[1] = CD3DX12_VIEWPORT(0.0f, 0.0f, WinApp::window_width , WinApp::window_height );
-		//scissorRects[1] = CD3DX12_RECT(0, 0, WinApp::window_width , WinApp::window_height );
-		viewPorts[1] = CD3DX12_VIEWPORT(0.0f, 0.0f, WinApp::window_width / 5, WinApp::window_height / 5);
-		scissorRects[1] = CD3DX12_RECT(0, 0, WinApp::window_width / 5, WinApp::window_height / 5);
+	viewPorts[0] = CD3DX12_VIEWPORT(0.0f, 0.0f, WinApp::window_width / 5, WinApp::window_height / 5);
+	scissorRects[0] = CD3DX12_RECT(0, 0, WinApp::window_width / 5, WinApp::window_height / 5);
+	//viewPorts[1] = CD3DX12_VIEWPORT(0.0f, 0.0f, WinApp::window_width , WinApp::window_height );
+	//scissorRects[1] = CD3DX12_RECT(0, 0, WinApp::window_width , WinApp::window_height );
+	viewPorts[1] = CD3DX12_VIEWPORT(0.0f, 0.0f, WinApp::window_width / 5, WinApp::window_height / 5);
+	scissorRects[1] = CD3DX12_RECT(0, 0, WinApp::window_width / 5, WinApp::window_height / 5);
 
-		//}
-	//ビューポートの設定
+	//}
+//ビューポートの設定
 	cmdList->RSSetViewports(2, viewPorts);
 	//シザリング短形の設定
 	cmdList->RSSetScissorRects(2, scissorRects);
@@ -492,7 +450,7 @@ void PostEffect::PreDrawScene()
 
 }
 
-void PostEffect::PostDrawScene()
+void MinimapSprite::PostDrawScene()
 {
 	//リソースバリアを変更
 	//変更後
@@ -500,5 +458,5 @@ void PostEffect::PostDrawScene()
 		cmdList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(
 			texBuff[i].Get(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE));
 	}
-	
+
 }

@@ -60,7 +60,7 @@ bool Field::Initialize(DebugCamera* camera)
 	}
 	miniObj = std::make_unique<Object3d>();
 	miniObj->SetModel(ModelManager::GetIns()->GetModel(ModelManager::FIELD));
-	miniObj->Initialize(camera);
+	miniObj->Initialize(dc);
 	
 	CelestialSphereObject->Initialize(camera);
 	CelestialSphereObject->SetModel(CelestialSphereModel);
@@ -91,6 +91,7 @@ void Field::Update(DebugCamera* camera)
 	BackObject->SetScale({ 0.5f,0.5f,0.5f });
 	miniObj->SetScale({1,0,1});
 
+	miniObj->SetCamera(dc);
 	miniObj->SetPosition({ 0.0f,-25.0f,0.0f });
 	miniObj->SetRotation({ 0,0,0 });
 	miniObj->setFog(FALSE);
@@ -157,7 +158,7 @@ void Field::Update(DebugCamera* camera)
 	FieldObject->SetColor({ 0.2f,0.2f,0.2f,1.0f });
 	FieldObject->Update({ 0.2f,0.2f,0.2f,1.0f }, camera);
 	miniObj->SetColor({ 0.2f,0.2f,0.2f,1.0f });
-	miniObj->Update({ 0.2f,0.2f,0.2f,1.0f }, camera);
+	miniObj->Update({ 0.2f,0.2f,0.2f,1.0f },dc);
 
 	CelestialSphereObject->Update({ 1.0f,1.0f,1.0f,1.0f }, camera);
 

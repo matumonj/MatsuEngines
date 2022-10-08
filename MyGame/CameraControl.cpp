@@ -137,9 +137,9 @@ void CameraControl::Update(DebugCamera* camera)
 				AttackSceneF = false;
 			}
 		}
-		CameraPosition.x = PlayerControl::GetInstance()->GetPlayer()->GetPosition().x + cosf((float)(cameraAngle) * 3.14f / 180.0f) * 45;
-		CameraPosition.z = PlayerControl::GetInstance()->GetPlayer()->GetPosition().z + sinf((float)(cameraAngle) * 3.14f / 180.0f) * 45;
-		CameraPosition.y = PlayerControl::GetInstance()->GetPlayer()->GetPosition().y + CameraHeight;
+		CameraPosition.x = PlayerControl::GetInstance()->GetPlayer()->GetPosition().x + cosf((float)(cameraAngle) * 3.14f / 180.0f)*45 ;
+		CameraPosition.z = PlayerControl::GetInstance()->GetPlayer()->GetPosition().z + sinf((float)(cameraAngle) * 3.14f / 180.0f)*45;
+		CameraPosition.y = PlayerControl::GetInstance()->GetPlayer()->GetPosition().y +CameraHeight;
 		this->camera->SetTarget({ PlayerControl::GetInstance()->GetPlayer()->GetPosition() });
 		
 		this->camera->SetEye(CameraPosition);

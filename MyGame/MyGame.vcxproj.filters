@@ -531,6 +531,9 @@
     <ClCompile Include="BossEnemyAttackSlam.cpp">
       <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン\後半フェーズ\行動遷移</Filter>
     </ClCompile>
+    <ClCompile Include="MinimapSprite.cpp">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sprite.h">
@@ -890,6 +893,9 @@
     <ClInclude Include="BossEnemyAttackSlam.h">
       <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン\後半フェーズ\行動遷移</Filter>
     </ClInclude>
+    <ClInclude Include="MinimapSprite.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shader\BasicGS.hlsl">
@@ -946,6 +952,12 @@
     <FxCompile Include="Resources\Shader\BlurPS.hlsl">
       <Filter>リソース ファイル\PostEffect</Filter>
     </FxCompile>
+    <FxCompile Include="Resources\Shader\MiniMapPS.hlsl">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shader\MiniMapVS.hlsl">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shader\Header.hlsli">
@@ -971,6 +983,9 @@
     </None>
     <None Include="Resources\Shader\Blur.hlsli">
       <Filter>リソース ファイル\PostEffect</Filter>
+    </None>
+    <None Include="Resources\Shader\MiniMap.hlsli">
+      <Filter>リソース ファイル</Filter>
     </None>
   </ItemGroup>
 </Project>

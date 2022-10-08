@@ -63,7 +63,7 @@ void MapCreateScene::Initialize()
 	CameraControl::GetInstance()->Initialize(CameraControl::GetInstance()->GetCamera());
 
 	// 3Dオブジェクトにカメラをセット
-	Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
+//	Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
 	ModelCreate(CameraControl::GetInstance()->GetCamera());//
 
 	//カメラをセット

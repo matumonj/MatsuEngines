@@ -29,7 +29,7 @@ XMFLOAT3 Object3d::eye = { 0, 0, -50.0f };
 XMFLOAT3 Object3d::target = { 0, 0, 0 };
 XMFLOAT3 Object3d::up = { 0, 1, 0 };
 LightGroup* Object3d::lightGroup = nullptr;
-Camera* Object3d::camera = nullptr;
+//Camera* Object3d::camera = nullptr;
 //Object3d::VertexPosNormalUv Object3d::vertices[vertexCount];
 //unsigned short Object3d::indices[planeCount * 3];
 
@@ -50,9 +50,8 @@ bool Object3d::StaticInitialize(int window_width, int window_height, Camera* cam
 	Object3d::device = DirectXCommon::GetInstance()->GetDev();
 	Object3d::cmdList = DirectXCommon::GetInstance()->GetCmdList();
 	//Model::SetDevice(device);
-	Object3d::camera = camera;
+//	Object3d::camera = camera;
 	// デスクリプタヒープの初期化
-
 	// カメラ初期化
 	InitializeCamera(window_width, window_height);
 
@@ -364,6 +363,8 @@ void Object3d::UpdateViewMatrix()
 
 bool Object3d::Initialize(DebugCamera* camera)
 {
+	this->camera = camera;
+
 	// nullptrチェック
 	assert(device);
 
