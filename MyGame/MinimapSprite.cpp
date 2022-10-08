@@ -184,7 +184,7 @@ void MinimapSprite::Initialize()
 	CD3DX12_RESOURCE_DESC texresDesc = CD3DX12_RESOURCE_DESC::Tex2D(
 		DXGI_FORMAT_R8G8B8A8_UNORM,
 		WinApp::window_width / 2,
-		(UINT)WinApp::window_height / 2,
+		(UINT)WinApp::window_height / 3,
 		1, 0, 1, 0, D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET
 	);
 
@@ -208,7 +208,7 @@ void MinimapSprite::Initialize()
 			//画像１行分のデータサイズ
 			const UINT rowPitch = sizeof(UINT) * WinApp::window_width / 2;
 			//画像全体のデータサイズ
-			const UINT depthPitch = rowPitch * WinApp::window_height / 2;
+			const UINT depthPitch = rowPitch * WinApp::window_height / 3;
 			//画像イメージ
 			UINT* img = new UINT[pixelCount];
 
@@ -269,7 +269,7 @@ void MinimapSprite::Initialize()
 		CD3DX12_RESOURCE_DESC::Tex2D(
 			DXGI_FORMAT_D32_FLOAT,
 			WinApp::window_width / 5,
-			WinApp::window_height / 5,
+			WinApp::window_height /3,
 			1, 0,
 			1, 0,
 			D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL);
@@ -352,11 +352,11 @@ void MinimapSprite::Draw()
 	this->matWorld *= XMMatrixTranslation(position.x, position.y, 0.0f);
 
 	// 定数バッファにデータ転送
-	ConstBufferData* constMap = nullptr;
+	MinimapConstBufferData* constMap = nullptr;
 	HRESULT result = this->constBuff->Map(0, nullptr, (void**)&constMap);
 	if (SUCCEEDED(result)) {
-		constMap->color = this->color;
-		constMap->mat = XMMatrixIdentity();//this->matWorld * matProjection;	// 行列の合成	
+		constMap->centerpos = { 1600,200 };
+		//this->matWorld * matProjection;	// 行列の合成	
 		this->constBuff->Unmap(0, nullptr);
 	}
 

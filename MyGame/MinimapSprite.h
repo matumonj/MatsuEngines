@@ -6,6 +6,11 @@ class MinimapSprite :
 {
 private:
     template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+    using XMFLOAT2 = DirectX::XMFLOAT2;
+    using XMFLOAT3 = DirectX::XMFLOAT3;
+    using XMFLOAT4 = DirectX::XMFLOAT4;
+    using XMMATRIX = DirectX::XMMATRIX;
+
 private:
     //テクスチャバッファ
     //ComPtr<ID3D12Resource>texBuff;
@@ -29,7 +34,11 @@ private:
 private:
     //画面クリアカラー
     static const float clearColor[4];
-
+public:
+    struct MinimapConstBufferData
+    {
+        XMFLOAT2 centerpos;	// ３Ｄ変換行列
+    };
 public:
     /// <summary>
     /// コンストラクタ
@@ -62,6 +71,7 @@ public:
    /// <param name="cmdList"></param>
     void PostDrawScene();
 
+    
 };
 
 

@@ -8,11 +8,12 @@ float4 main(Output input) : SV_TARGET
 float4 coltex0 = tex.Sample(smp, input.uv);
 
 float4 col = coltex0;
-float f = input.svpos.x <600 ? -1 : 1;
-float f2 = input.svpos.y > 400 ? -1 : 1;
 
-clip(f);
-clip(f2);
+float radius = 200;
+
+float v = pow(input.svpos.x -centerpos.x, 2) + pow(input.svpos.y - centerpos.y, 2) <= pow(radius, 2) ? 1 : -1;
+
+clip(v);
 
 return float4(col.rgb, 1);
 }

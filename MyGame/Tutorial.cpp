@@ -48,7 +48,7 @@ void Tutorial::objUpdate(DebugCamera* camera)
 	
 	dc->SetTarget({ CameraControl::GetInstance()->GetCamera()->GetTarget()});
 	dc->SetEye({ PlayerControl::GetInstance()->GetPlayer()->GetPosition().x,
-		 PlayerControl::GetInstance()->GetPlayer()->GetPosition().y+130.0f,
+		 PlayerControl::GetInstance()->GetPlayer()->GetPosition().y+300.0f,
 		PlayerControl::GetInstance()->GetPlayer()->GetPosition().z-1});
 	Field::GetInstance()->SetCamera(dc);
 
