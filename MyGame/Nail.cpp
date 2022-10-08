@@ -11,7 +11,7 @@ Nail* Nail::GetInstance()
 	static Nail instance;
 	return &instance;
 }
-void Nail::HalfAttack(HalfAttackArea area)
+void Nail::HalfAttack(const HalfAttackArea& area)
 {
 	if (HAttack.fase == NON && !HAttack.EndAction) {
 		HAttack.fase = FASE_ONE;

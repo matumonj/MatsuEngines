@@ -59,19 +59,34 @@ void Player::Initialize(DebugCamera* camera)
 	rotate = RotationPrm::FRONT;
 
 }
-void Player::Update(DebugCamera* camera)
+
+void Player::Jump()
+{
+	if (onGround) {
+		if (CustomButton::GetInstance()->GetJumpAction()) {
+			onGround = false;
+			const float jumpVYFist = 0.5f;
+			fallV = { 0, jumpVYFist, 0, 0 };
+		}
+	}
+}
+void Player::ReturnGround()
 {
 	if (onGround) {
 		onGroundPos = Position;
 		nogroundtime = 0;
-	}
-	else {
+	} else {
 		nogroundtime++;
 		if (nogroundtime > 120) {
 			Position = onGroundPos;
 			nogroundtime = 0;
 		}
 	}
+}
+void Player::Update(DebugCamera* camera)
+{
+	ReturnGround();
+
 	//１フレーム前の座標を保存
 	oldpos = Position;
 
@@ -92,13 +107,7 @@ void Player::Update(DebugCamera* camera)
 			Position.z += move.m128_f32[2] * movespeed;
 		}
 		// ジャンプ操作
-		if (onGround) {
-			if (CustomButton::GetInstance()->GetJumpAction()) {
-				onGround = false;
-				const float jumpVYFist = 0.5f;
-				fallV = { 0, jumpVYFist, 0, 0 };
-			}
-		}
+		Jump();
 	}
 	Gmove = move;
 	//3d更新
@@ -106,18 +115,9 @@ void Player::Update(DebugCamera* camera)
 	//3d_fbx更新
 	FbxAnimationControl();
 	ParameterSet_Fbx(camera);
-	//フィールド当たり判定
-	// ワールド行列更新
-	m_Object->UpdateWorldMatrix();
-
-	
 	
 	CollisionField(camera);
 
-	// 行列の更新など
-	m_Object->Update({ 1,1,1,1 }, camera);
-
-	//CollisionField(camera);
 	//手のボーン取得
 	HandMat = m_fbxObject->GetRot();
 
@@ -185,35 +185,6 @@ void Player::Draw()
 {
 	Draw_Fbx();
 	SelectSword::GetInstance()->SwordDraw();
-	ImguiDraw();
-}
-
-void Player::ImguiDraw()
-{
-	
-	//}
-	////Rotation
-	//if (ImGui::TreeNode("Rotation")) {
-	//	XMMATRIX sub = m_fbxObject->GetPos();
-
-	//	XMFLOAT3 rots = { sub.r[3].m128_f32[0],sub.r[3].m128_f32[1], sub.r[3].m128_f32[2] };
-	//	ImGui::Text(" RotationX   [%5f]", rots.x);
-	//	ImGui::Text(" RotationY   [%5f]", rots.y);
-	//	ImGui::Text(" RotationZ   [%5f]", rots.z);
-	//	ImGui::TreePop();
-	//}
-	//ImGui::SliderInt("HP", &HP, 1, MaxHP);
-	//ImGui::SliderFloat("MoveSpeed", &movespeed, 1, 15);
-	////もし落下したとき地面に戻ってくる 1秒前の接地位置に戻ってくる
-	//PosSavetime++;
-	//if (PosSavetime > 60) {
-	//	PosSavetime = 0;
-	//}
-	//if (ImGui::RadioButton("ReturnGround", &ReturnGround)) {
-	//	Position = OldPos_Onground;
-	//	ReturnGround = false;
-	//}
-
 }
 
 void Player::FbxAnimationControl()
@@ -222,7 +193,6 @@ void Player::FbxAnimationControl()
 
 	if (CustomButton::GetInstance()->GetAttackAction() == true) {
 			AttackFlag = true;
-		
 	}
 	if (AttackFlag) {
 		f_time = AttackTime;

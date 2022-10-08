@@ -88,7 +88,7 @@ void BossSpell::SpellAction(Spells& spell, float spellCount)
 		spell.StartJudg = false;
 	}
 }
-void BossSpell::SpellsDraw(Spells spells)
+void BossSpell::SpellsDraw(const Spells& spells)
 {
 	if (!spells.EndJudg&&spells.StartJudg) {
 		spells.SpellFrame->Draw();

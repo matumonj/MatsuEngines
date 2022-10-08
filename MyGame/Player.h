@@ -29,16 +29,17 @@ public:
 	//•`‰æ
 	void Draw();
 
-	//•`‰æ imgui
-	void ImguiDraw();
 public:
 	//óUŒ‚
 	void RecvDamage(int Damage);
 	//
 	void RecvDamage_Cool();
+	
+private:
 	//fbxtime§Œä
 	void FbxAnimationControl();
-
+	void ReturnGround();
+	void Jump();
 public:
 	//OBB‚Ì“–‚½‚è”»’è‚Ég‚¤ƒvƒŒƒCƒ„[‚Ì‰ñ“]s—ñæ“¾
 	XMMATRIX GetMatrot();
@@ -99,6 +100,7 @@ public:
 
 	bool GetNowAttack() { return nowattack; }
 private:
+	
 	float f_time;
 	float AttackTime = 1.5f;
 	float DeathTime = 4.9f;

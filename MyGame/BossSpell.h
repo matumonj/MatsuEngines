@@ -28,7 +28,7 @@ private:
 private:
 	void SpellsInit(Spells& spell, int TexNum_G, int TexNum_F);
 	void SpellAction(Spells& spell,float spellCount);
-	void SpellsDraw(Spells spells);
+	void SpellsDraw(const Spells& spells);
 
 public:
 	void SetStartSpell_HL(bool f) { HalfAttack_Left.StartJudg = f; }

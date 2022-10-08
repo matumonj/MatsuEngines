@@ -131,9 +131,6 @@ void BossScene::Draw()
 		Field::GetInstance()->WarningDraw();
 		SistemConfig::GetInstance()->Draw();
 
-		if (DirectXCommon::GetInstance()->GetFullScreen() == false) {
-			PlayerControl::GetInstance()->GetPlayer()->ImguiDraw();
-		}
 		DirectXCommon::GetInstance()->EndDraw();
 		break;
 	}

@@ -39,7 +39,7 @@ public:
 		RIGHT,
 		LEFT
 	};
-	void HalfAttack(HalfAttackArea area);
+	void HalfAttack(const HalfAttackArea& area);
 
 	void CircleAttack(int area1,int area2);
 	void NailAmountSet(int amount);
