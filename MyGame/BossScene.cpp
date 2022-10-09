@@ -36,7 +36,7 @@ void BossScene::Initialize()
 	//ボス攻撃用->できれば移す
 	Nail::GetInstance()->ModelSet();
 	
-	postEffect = new PostEffect();
+	postEffect = new MinimapSprite();
 	postEffect->Initialize();
 	// 3Dオブジェクトにカメラをセット
 	//Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
@@ -47,6 +47,7 @@ void BossScene::Initialize()
 
 	//カメラ挙動をボスカットシーン
 	CameraControl::GetInstance()->SetCameraState(CameraControl::BOSSCUTSCENE);
+	dc = new DebugCamera(WinApp::window_width, WinApp::window_height);
 
 }
 
@@ -69,7 +70,14 @@ void BossScene::Update()
 		Nail::GetInstance()->Update();
 		UI::GetInstance()->HUDUpdate(hudload, CameraControl::GetInstance()->GetCamera());
 		}
-	
+	dc->Update();
+
+	dc->SetTarget({ CameraControl::GetInstance()->GetCamera()->GetTarget() });
+	dc->SetEye({ PlayerControl::GetInstance()->GetPlayer()->GetPosition().x,
+		 PlayerControl::GetInstance()->GetPlayer()->GetPosition().y + 300.0f,
+		PlayerControl::GetInstance()->GetPlayer()->GetPosition().z - 1 });
+	Field::GetInstance()->SetCamera(dc);
+
 	Field::GetInstance()->Update(CameraControl::GetInstance()->GetCamera());
 	//各オブジェクトの更新処理
 	//csv読み込み部分(Cameraの更新後にするのでobjUpdate()挟んでから)
@@ -118,11 +126,16 @@ void BossScene::Draw()
 
 	case Default://普通のやつ特に何もかかっていない
 		postEffect->PreDrawScene();
-		postEffect->Draw();
+
+		Field::GetInstance()->MiniFieldDraw();
+
+		//Field::GetInstance()->Draw();
+
 		postEffect->PostDrawScene();
 
 		DirectXCommon::GetInstance()->BeginDraw();
 		MyGameDraw();
+		postEffect->Draw();
 		//UI
 		if (CameraControl::GetInstance()->GetCameraState() != CameraControl::BOSSCUTSCENE) {
 			UI::GetInstance()->HUDDraw();

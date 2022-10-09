@@ -37,9 +37,5 @@ void NormalSword::Update(DebugCamera* camera)
 
 void NormalSword::Draw()
 {
-	ImGui::Begin("SROT");
-	ImGui::Text("%f", m_Object->ExtractPositionMat().r[2].m128_f32[2]);
-	ImGui::End();
 	Draw_Obj();
-	
 }

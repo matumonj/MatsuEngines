@@ -19,6 +19,9 @@ EnemyControl* EnemyControl::GetInstance()
 	return&instance;
 }
 
+/*------------------------*/
+/*--------‰ð•úˆ—---------*/
+/*------------------------*/
 void EnemyControl::Finalize()
 {
 	Num.clear();
@@ -29,7 +32,15 @@ void EnemyControl::Finalize()
 	tutorial_enemy.clear();
 }
 
-void EnemyControl::Load(DebugCamera*camera)
+/*------------------------*/
+/*--------“Çžˆ—---------*/
+/*----------csv-----------*/
+void EnemyControl::Initialize(DebugCamera* camera)
+{
+	boss_enemy.resize(1);
+}
+
+void EnemyControl::Load(DebugCamera* camera)
 {
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
 
@@ -132,61 +143,51 @@ void EnemyControl::Load(DebugCamera*camera)
 		HalfAttack::GetInstance()->Initialize();
 		AltAttack::GetInstance()->Initialize();
 		FrontCircleAttack::GetInstance()->Initialize();
-
 	}
 }
-
-void EnemyControl::TutorialLoad(DebugCamera* camera)
+/*------------------------*/
+/*--------XVˆ—---------*/
+/*------------------------*/
+void EnemyControl::Update_Tutorial(DebugCamera* camera)
 {
-
+	if (tutorial_enemy[0] == nullptr)return;
+		if (TutorialSprite::GetInstance()->GetClearSetting()) {
+			tutorial_enemy[0]->SetMoveFlag(true);
+			tutorial_enemy[0]->Update(camera);
+		}
 }
-void EnemyControl::TutorialUpdate(DebugCamera* camera)
+void EnemyControl::Update_Play(DebugCamera* camera)
 {
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
-		if (tutorial_enemy[0] != nullptr) {
-			if (TutorialSprite::GetInstance()->GetClearSetting()) {
-				tutorial_enemy[0]->SetMoveFlag(true);
-				tutorial_enemy[0]->Update(camera);
-			}
+	for (int i = 0; i < Quantity; i++) {
+		if (enemys[i] != nullptr) {
+			enemys[i]->SetMoveFlag(true);
+			enemys[i]->Update(camera);
 		}
 	}
 }
-
-void EnemyControl::TuatorialDraw()
+void EnemyControl::Update_Boss(DebugCamera* camera)
 {
-	
-}
-void EnemyControl::Initialize(DebugCamera* camera)
-{
-	boss_enemy.resize(1);
+	if (boss_enemy[0] == nullptr) return;
+		boss_enemy[0]->Update(camera);
+		gigaboss->Update(camera);
 }
 
 void EnemyControl::Update(DebugCamera* camera)
 {
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
-		for (int i = 0; i < Quantity; i++) {
-			if (enemys[i] != nullptr) {
-					enemys[i]->SetMoveFlag(true);
-					enemys[i]->Update(camera);
-				}
-			}
+		Update_Play(camera);
 	}
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
-		if (tutorial_enemy[0] != nullptr) {
-			if (TutorialSprite::GetInstance()->GetClearSetting()) {
-				tutorial_enemy[0]->SetMoveFlag(true);
-				tutorial_enemy[0]->Update(camera);
-			}
-		}
+		Update_Tutorial(camera);
 	}
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
-		if (boss_enemy[0] != nullptr) {
-			boss_enemy[0]->Update(camera);
-			gigaboss->Update(camera);
-		}
+		Update_Boss(camera);
 	}
 }
 
+/*------------------------*/
+/*--------•`‰æˆ—---------*/
+/*------------------------*/
 void EnemyControl::Draw()
 {
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
@@ -217,10 +218,6 @@ void EnemyControl::Draw()
 	}
 }
 
-void EnemyControl::ImGuiDraw()
-{
-
-}
 
 std::vector<std::unique_ptr<Enemy>>& EnemyControl::GetEnemyindex(int index)
 {
@@ -237,12 +234,4 @@ std::vector<std::unique_ptr<Enemy>>& EnemyControl::GetBossEnemyindex()
 std::unique_ptr<GigaBossEnemy>& EnemyControl::GetGigaBossEnemy()
 {
 	return gigaboss;
-}
-void EnemyControl::SetColor(XMFLOAT4 color)
-{
-	for (int i = 0; i < Quantity; i++) {
-		if (enemys[i] != nullptr) {
-			enemys[i]->SetColor(color);
-		}
-	}
 }

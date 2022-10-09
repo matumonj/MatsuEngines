@@ -10,10 +10,9 @@ public:
 private:
 	std::unique_ptr<Player>player;
 	Input* input;
-
+	XMFLOAT3 StartPos;
 	XMFLOAT3 Player_OldPos;
 
-	bool TutorialFenceOpen;
 private:
 	enum {
 		TYUTORIAL,
@@ -30,14 +29,19 @@ public:
 
 	void Draw()override;
 
-	void SetColor(XMFLOAT4 color)override;
-
 	void Finalize()override;
 
 	void ImGuiDraw();
 
 
 	Player* GetPlayer() { return player.get(); }
+
+private:
+	void Update_Tutorial(DebugCamera*camera)override;
+
+	void Update_Play(DebugCamera*camera)override;
+
+	void Update_Boss(DebugCamera*camera)override;
 
 };
 

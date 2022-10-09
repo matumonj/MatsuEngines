@@ -10,63 +10,77 @@ PlayerControl* PlayerControl::GetInstance()
 	return &instance;
 }
 
+/*------------------------*/
+/*--------解放処理---------*/
+/*------------------------*/
 void PlayerControl::Finalize()
 {
 	AttackCollision::GetInstance()->Finalize();
 		Destroy_unique(player);
 }
+
+/*------------------------*/
+/*--------読込処理---------*/
+/*----------scv----------*/
 void PlayerControl::Load(DebugCamera* camera)
 {
 	//各シーンの初期座標設定
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
-		player->SetPosition({ 92.0f,-12.0f,-760.0f });
-	} else if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
-		player->SetPosition({ 110.0f,-15.0f,-379.0f });
+	switch (SceneManager::GetInstance()->GetScene())
+	{
+	case SceneManager::TUTORIAL:
+		StartPos={ 92.0f,-12.0f,-760.0f };
+		break;
+	case SceneManager::PLAY:
+		StartPos = { 110.0f,-15.0f,-379.0f };
+		break;
+	case SceneManager::BOSS:
+		StartPos = { 0.0f,2.0f,-50.0f };
+		break;
+	default:
+		break;
 	}
-	else if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
-		player->SetPosition({ 0.0f,2.0f,-50.0f });
-	}
+	
+	player->SetPosition(StartPos);
 }
 
 void PlayerControl::Initialize(DebugCamera* camera)
 {
 	Texture::LoadTexture(93, L"Resources/ParticleTex/slash.png");
 
-	
 	player = std::make_unique<Player>();
 	player->Initialize(camera);
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
-		player->SetPosition({92.0f,-15.0f,-760.0f});
-	}
-	else if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
-		player->SetPosition({ 110.0f,15.0f,-379.0f });
-	}
+
 	AttackCollision::GetInstance()->Init();
 }
 
+/*------------------------*/
+/*--------更新処理---------*/
+/*------------------------*/
+void PlayerControl::Update_Tutorial(DebugCamera* camera)//チュートリアル時
+{
+	
+}
+
+void PlayerControl::Update_Play(DebugCamera* camera)//プレイシーン時
+{
+	
+}
+void PlayerControl::Update_Boss(DebugCamera* camera)
+{
+
+}
 void PlayerControl::Update(DebugCamera* camera)
 {
+	if (player == nullptr)return;
 	player->Update(camera);
 	PlayerAttackState::GetInstance()->Update();
-
-
 }
 
+/*------------------------*/
+/*--------描画処理---------*/
+/*------------------------*/
 void PlayerControl::Draw()
 {
-	
-	if (player!= nullptr) {
-		player->Draw();
-	}
-	
-}
-
-void PlayerControl::ImGuiDraw()
-{
-
-}
-
-void PlayerControl::SetColor(XMFLOAT4 color)
-{
-
+	if (player == nullptr)return;
+		player->Draw();	
 }

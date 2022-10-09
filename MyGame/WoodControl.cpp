@@ -17,6 +17,9 @@ WoodControl::~WoodControl()
 	pos.clear();
 }
 
+/*------------------------*/
+/*--------‰ð•úˆ—---------*/
+/*------------------------*/
 void WoodControl::Finalize()
 {
 	Tutorialwoods.clear();
@@ -24,6 +27,10 @@ void WoodControl::Finalize()
 	Num.clear();
 	pos.clear();
 }
+
+/*------------------------*/
+/*--------“Çžˆ—---------*/
+/*---------csv-----------*/
 void WoodControl::Load(DebugCamera* camera)
 {
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
@@ -91,12 +98,12 @@ void WoodControl::Load(DebugCamera* camera)
 			Tutorialwoods[0] = std::make_unique<Wood>();
 			Tutorialwoods[1] = std::make_unique<Wood>();
 			Tutorialwoods[2] = std::make_unique<Wood>();
-			for (int i = 0; i < 3; i++) {
+			for (int i = 0; i < Tutorialwoods.size(); i++) {
 				Tutorialwoods[i]->Initialize(camera);
 			}
-			Tutorialwoods[0]->SetPosition({92,-15,-689});
-			Tutorialwoods[1]->SetPosition({ 70,-15,-700 });
-			Tutorialwoods[2]->SetPosition({ 110,-15,-720 });
+			Tutorialwoods[0]->SetPosition({92.0f,-15.0f,-689.0f});
+			Tutorialwoods[1]->SetPosition({ 70.0f,-15.0f,-700.0f });
+			Tutorialwoods[2]->SetPosition({ 110.0f,-15.0f,-720.0f });
 		}
 	UpdateRange = 200;
 }
@@ -106,71 +113,73 @@ void WoodControl::Initialize(DebugCamera* camera)
 
 }
 
-void WoodControl::Update(DebugCamera* camera)
+/*------------------------*/
+/*--------XVˆ—---------*/
+/*------------------------*/
+void WoodControl::Update_Tutorial(DebugCamera*camera)
 {
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
-		for (int i = 0; i < Quantity; i++) {
-			//	if (woods[i] != nullptr) {
-			woods[i]->SetColor({ 0,1,0,1 });
-			//if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(),woods[i]->GetPosition()) <UpdateRange) {
-			woods[i]->Update(camera);
-			//}
-		//}
-		}
-		for (int i = 0; i < Quantity; i++) {
-			if (woods[i]->CollideWood() == true) {
-				PlayerControl::GetInstance()->GetPlayer()->SetPosition(Player_OldPos);
-				break;
-			}
-		}
-	}
+	for (int i = 0; i < Tutorialwoods.size(); i++) {
+		Tutorialwoods[i]->SetColor({ 0.0f,1.0f,0.0f,1.0f });
+		Tutorialwoods[i]->Update(camera);
 
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
-		for (int i = 0; i < 3; i++) {
-			//	if (woods[i] != nullptr) {
-			Tutorialwoods[i]->SetColor({ 0,1,0,1 });
-			//if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(),woods[i]->GetPosition()) <UpdateRange) {
-			Tutorialwoods[i]->Update(camera);
-			//}
-		//}
-		}
-		for (int i = 0; i < 3; i++) {
-			if (Tutorialwoods[i]->CollideWood() == true) {
-				PlayerControl::GetInstance()->GetPlayer()->isOldPos();
-				break;
-			}
+	}
+	for (int i = 0; i < Tutorialwoods.size(); i++) {
+		if (Tutorialwoods[i]->CollideWood()==true) {
+			PlayerControl::GetInstance()->GetPlayer()->isOldPos();
+			break;
+		//	
 		}
 	}
 }
 
+void WoodControl::Update_Play(DebugCamera* camera)
+{
+	for (int i = 0; i < Quantity; i++) {
+		if (woods[i] != nullptr) {
+			woods[i]->SetColor({ 0.0f,1.0f,0.0f,1.0f });
+			woods[i]->Update(camera);
+		}
+		if (woods[i]->CollideWood()==true) {
+			PlayerControl::GetInstance()->GetPlayer()->SetPosition(Player_OldPos);
+			break;
+		}
+	}
+}
+
+void WoodControl::Update_Boss(DebugCamera* camera)
+{
+
+	
+}
+
+void WoodControl::Update(DebugCamera* camera)
+{
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
+		Update_Play(camera);
+	}
+
+	else if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
+		Update_Tutorial(camera);
+	}
+}
+
+/*------------------------*/
+/*--------•`‰æˆ—---------*/
+/*------------------------*/
 void WoodControl::Draw()
 {
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
 		for (int i = 0; i < Quantity; i++) {
 			if (woods[i] != nullptr) {
-				//if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), woods[i]->GetPosition()) <UpdateRange) {
 				woods[i]->Draw();
-				//}
 			}
 		}
 	}
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
-		for (int i = 0; i <3; i++) {
+		for (int i = 0; i < Tutorialwoods.size(); i++) {
 			if (Tutorialwoods[i] != nullptr) {
-				//if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), woods[i]->GetPosition()) <UpdateRange) {
 				Tutorialwoods[i]->Draw();
 			}
 		}
 	}
-}
-
-void WoodControl::ImGuiDraw()
-{
-
-}
-
-
-void WoodControl::SetColor(XMFLOAT4 color)
-{
-	
 }

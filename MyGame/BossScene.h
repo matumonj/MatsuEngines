@@ -22,6 +22,7 @@
 #include"TargetMarker.h"
 #include"ControlBase.h"
 #include"Nail.h"
+#include"MinimapSprite.h"
 #pragma comment(lib,"winmm.lib")
 class CollisionManager;
 class Player;
@@ -46,10 +47,12 @@ public:
 	bool scenechange;
 	bool feedflag;
 	XMFLOAT4 feedcolor = { 0,0,0,1 };
+	std::unique_ptr<MinimapSprite>minimap;
+	DebugCamera* dc;
 public:
 	//エフェクト用(ただプログラムでつくれるものはプログラムで作る方がいい　多用はいくない)
 	int c_postEffect = Default;
-	PostEffect* postEffect = nullptr;
+	MinimapSprite* postEffect = nullptr;
 	bool Play;
 	bool hudload;
 private:

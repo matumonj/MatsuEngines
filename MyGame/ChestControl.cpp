@@ -11,7 +11,9 @@ ChestControl* ChestControl::GetInstance()
 
 	return&instance;
 }
-
+/*------------------------*/
+/*--------解放処理---------*/
+/*------------------------*/
 void ChestControl::Finalize()
 {
 	//Destroy(particleMan);
@@ -21,7 +23,9 @@ void ChestControl::Finalize()
 	chests.clear();
 	Load_ChestPosition.clear();
 }
-
+/*------------------------*/
+/*--------読込処理---------*/
+/*----------csv-----------*/
 void ChestControl::Load(DebugCamera* camera)
 {
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
@@ -73,29 +77,21 @@ if (word.find("POP") == 0) {
 }
 		}
 	}
-	
 	Load_ChestPosition.resize(Quantity);
-
-	for (int i = 0; i < Quantity; i++) {
-
-			//chests[i]->SetPosition(pos[i]);
-	}
 }
 if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
 	Tutorial_chest.resize(1);
 	Tutorial_chest[0] = std::make_unique<Chest>();
 	Tutorial_chest[0]->Initialize(camera);
-	Tutorial_chest[0]->SetPosition({ 115,-24,-576 });
-	Tutorial_chest[0]->SetRotation({ 0,90,0 });
-	//Tutorial_chest[0]->SetScale({ 8.39,10,4 });
+	Tutorial_chest[0]->SetPosition({ 115.0f,-24.0f,-576.0f });
+	Tutorial_chest[0]->SetRotation({ 0.0f,90.0f,0.0f });
 }
 
 if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
 	for (int i = 0; i < 4; i++) {
 		chests[i] = std::make_unique<Chest>();
 		chests[i]->Initialize(camera);
-		chests[i]->SetRotation({ 0,90,0 });
-		//Tutorial_chest[0]->SetScale({ 8.39,10,4 });
+		chests[i]->SetRotation({ 0.0f,90.0f,0.0f });
 	}
 	chests[0]->SetPosition({ 57,-20,-293 });
 	chests[1]->SetPosition({ 117,-20,-293 });
@@ -119,48 +115,67 @@ void ChestControl::Initialize(DebugCamera* camera)
 	chests.resize(4);
 }
 
+/*------------------------*/
+/*--------更新処理---------*/
+/*------------------------*/
+void ChestControl::Update_Tutorial(DebugCamera* camera)
+{
+	if (Tutorial_chest[0] != nullptr) {
+		Tutorial_chest[0]->SetColor({ 1.0f,1.0f,1.0f,1.0f });
+		Tutorial_chest[0]->SetpColor({ 1.0f,1.0f,1.0f,1.0f });
+		Tutorial_chest[0]->Update(camera);
+		GetChestEvent(Tutorial_chest[0].get(), TutorialPchest);
+	}
+}
+
+void ChestControl::Update_Play(DebugCamera* camera)
+{
+	const XMFLOAT4 color_red = { 1.0f,0.1f,0.1f,0.7f };
+	const XMFLOAT4 color_green = { 0.1f,1.0f,0.1f,0.7f };
+	const XMFLOAT4 color_blue = { 0.1f,0.1f,1.0f,0.7f };
+	const XMFLOAT4 color_yellow = { 1.0f,0.2f,0.7f,0.7f };
+
+	for (int i = 0; i < 4; i++) {
+		if (chests[i] != nullptr) {
+			chests[i]->SetColor({ 1.0f,1.0f,1.0f,1.0f });
+			chests[i]->Update(camera);
+			GetChestEvent(chests[i].get(), PlayPchest[i]);
+		}
+	}
+	if (chests[0] != nullptr) {
+		chests[0]->SetpColor(color_red);
+	}
+	if (chests[1] != nullptr) {
+		chests[1]->SetpColor(color_green);
+	}
+	if (chests[2] != nullptr) {
+		chests[2]->SetpColor(color_blue);
+	}
+	if (chests[3] != nullptr) {
+		chests[3]->SetpColor(color_yellow);
+	}
+}
+void ChestControl::Update_Boss(DebugCamera* camera)
+{
+	
+}
 void ChestControl::Update(DebugCamera* camera)
 {
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
-		for (int i = 0; i <4; i++) {
-			if (chests[i] != nullptr) {
-				chests[i]->SetColor({ 1,1,1,1 });
-				chests[i]->Update(camera);
-				GetChestEvent(chests[i].get(), PlayPchest[i]);
-			}
-		}
-		if (chests[0] != nullptr) {
-			chests[0]->SetpColor({ 1.0f,0.1f,0.1f,0.7f });
-		}
-		if (chests[1] != nullptr) {
-			chests[1]->SetpColor({ 0.1f,1.0f,0.1f,0.7f });
-		}
-		if (chests[2] != nullptr) {
-			chests[2]->SetpColor({ 0.1f,0.1f,1.0f,0.7f });
-		}
-		if (chests[3] != nullptr) {
-			chests[3]->SetpColor({ 1.0f,0.2f,0.7f,0.7f });
-		}
-
-
+		Update_Play(camera);
 	}
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
-		if (Tutorial_chest[0] != nullptr) {
-			Tutorial_chest[0]->SetColor({ 1,1,1,1 });
-			Tutorial_chest[0]->SetpColor({ 1,1,1,1 });
-			Tutorial_chest[0]->Update(camera);
-			GetChestEvent(Tutorial_chest[0].get(), TutorialPchest);
-
-			//	Destroy_unique(Tutorial_chest[0]);
-			
-		}
+		Update_Tutorial(camera);
 	}
 
 }
 
+
+/*------------------------*/
+/*--------描画処理---------*/
+/*------------------------*/
 void ChestControl::Draw()
 {
-	
 	// 3Dオブジェクト描画前処理
 	ParticleManager::PreDraw();
 	// 3Dオブクジェクトの描画

@@ -189,11 +189,7 @@ void Tutorial::Draw()
 		postEffect->PostDrawScene();
 
 		DirectXCommon::GetInstance()->BeginDraw();
-		//		
-		//MyGameDraw();
 	
-	//	MyGameDraw();
-
 		Field::GetInstance()->Draw();
 
 		MyGameDraw();

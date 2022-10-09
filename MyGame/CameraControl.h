@@ -64,8 +64,7 @@ public:
     XMFLOAT3 CameraPosIndex(int index) { return points[index]; }
     void SetCameraState(TargetState state) { Tstate = state; }
     TargetState GetCameraState() { return Tstate; }
-    void SetColor(XMFLOAT4 color)override;
-    void ShakeCamera();
+   void ShakeCamera();
 private:
     bool BossCutSene = false;
 
@@ -112,4 +111,12 @@ public:
 private:
     void BossSceneStart();
     void PlaySceneStart();
+  
+  private:
+        void Update_Tutorial(DebugCamera*camera)override;
+
+        void Update_Play(DebugCamera*camera)override;
+
+        void Update_Boss(DebugCamera*camera)override;
+
 };

@@ -10,6 +10,10 @@ FenceControl* FenceControl::GetInstance()
 	return &instance;
 }
 
+
+/*------------------------*/
+/*--------解放処理---------*/
+/*------------------------*/
 void FenceControl::Finalize()
 {
 	Tutorialfence.clear();
@@ -19,6 +23,11 @@ void FenceControl::Finalize()
 	rot.clear();
 	scl.clear();
 }
+
+
+/*------------------------*/
+/*--------読み込み処理---------*/
+/*-----------csv---------*/
 void FenceControl::Load(DebugCamera* camera)
 {
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
@@ -124,30 +133,49 @@ void FenceControl::Initialize(DebugCamera* camera)
 
 }
 
-void FenceControl::Update(DebugCamera* camera)
+/*------------------------*/
+/*--------更新処理---------*/
+/*------------------------*/
+void FenceControl::Update_Tutorial(DebugCamera* camera)//チュートリアル時
 {
+	//チュートリアルエリアの柵が開く条件
 	if (EnemyControl::GetInstance()->GetTutorialEnemyindex()[0] != nullptr) {
 		TutorialFenceOpen = EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetHP() < 0;
-		//if (fences[0].get() == nullptr)return;
 	}
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
-		Player_OldPos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
-		for (int i = 0; i < Quantity; i++) {
-			if (fences[i] != nullptr) {
-				fences[i]->Update(camera);
-			}
+	if (Tutorialfence[0] != nullptr) {
+		Tutorialfence[0]->Update(camera);
+		Tutorialfence[0]->SetColor({ 1.0f,0.0f,0.0f,1.0f });
+	}
+	Tutorialfence[0]->FenceOpenCondition(TutorialFenceOpen);
+}
+
+void FenceControl::Update_Play(DebugCamera* camera)//プレイシーン時
+{
+	Player_OldPos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	for (int i = 0; i < Quantity; i++) {
+		if (fences[i] != nullptr) {
+			fences[i]->Update(camera);
 		}
+	}
+}
+void FenceControl::Update_Boss(DebugCamera* camera)
+{
+
+}
+void FenceControl::Update(DebugCamera* camera)
+{
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
+		Update_Play(camera);
 	}
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
-		if (Tutorialfence[0] != nullptr) {
-			Tutorialfence[0]->Update(camera);
-			Tutorialfence[0]->SetColor({ 1.0f,0.0f,0.0f,1.0f });
-		}
-		Tutorialfence[0]->FenceOpenCondition(TutorialFenceOpen);
-		
+		Update_Tutorial(camera);
 	}
 }
 
+
+/*------------------------*/
+/*--------描画処理---------*/
+/*------------------------*/
 void FenceControl::Draw()
 {
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
@@ -163,14 +191,4 @@ void FenceControl::Draw()
 			Tutorialfence[0]->Draw();
 		}
 	}
-}
-
-void FenceControl::ImGuiDraw()
-{
-
-}
-
-void FenceControl::SetColor(XMFLOAT4 color)
-{
-	
 }

@@ -18,8 +18,6 @@ public:
 	void Finalize()override;
 
 public:
-	void SetColor(XMFLOAT4 color) {};
-
 	void GetChestAction();
 
 	void ChestDestroy();
@@ -62,6 +60,13 @@ int u=0;
 	ParticleParam PlayPchest[4];
 	void GetChestEffect(Chest* chest, ParticleParam&pParam);
 	void GetChestEvent(Chest* chest, ParticleParam&pParam);
+
+private:
+	void Update_Tutorial(DebugCamera*camera)override;
+
+	void Update_Play(DebugCamera*camera)override;
+
+	void Update_Boss(DebugCamera*camera)override;
 
 };
 

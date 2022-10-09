@@ -3,16 +3,18 @@ Output main(float4 pos : POSITION, float2 uv : TEXCOORD)
 {
 	Output output;
 
-	float window_x = 1600;
-	float window_y = 1080;
+	const float window_x = 1600.0f;
+	const float window_y = 1080.0f;
 
-	float addx=0;
-	float addy=0;
+	float addx=0.0f;
+	float addy=0.0f;
 
-	addx=smoothstep(0,window_x,centerpos.x);
-	addy=smoothstep(0,window_y, centerpos.y);
+	const float correction_Value = 0.25f;
 
-	output.svpos = float4(pos.x+addx+0.25f, pos.y+addy, pos.z, pos.w);
+	addx=smoothstep(0.0f,window_x,centerpos.x);
+	addy=smoothstep(0.0f,window_y, centerpos.y);
+
+	output.svpos = float4(pos.x+addx+correction_Value, pos.y+addy, pos.z, pos.w);
 	
 	output.uv = uv;
 	return output;

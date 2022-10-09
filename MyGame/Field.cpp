@@ -33,6 +33,8 @@ bool Field::Initialize(DebugCamera* camera)
 	//playscene用のスカイドーム
 	CelestialSphereObject = std::make_unique<Object3d>();
 	CelestialSphereModel = Model::CreateFromOBJ("skydome");
+	miniObj = std::make_unique<Object3d>();
+
 	//Bossscene用の背景オブジェ
 	BackObject= std::make_unique<Object3d>();
 	//BackM = Model::CreateFromOBJ("BackGround");
@@ -48,18 +50,19 @@ bool Field::Initialize(DebugCamera* camera)
 
 		DamageAreaObj->Initialize(camera);
 		DamageAreaObj->SetModel(ModelManager::GetIns()->GetModel(ModelManager::DAMAGEAREA));
+		miniObj->SetModel(ModelManager::GetIns()->GetModel(ModelManager::BOSSFIELD));
 
 		//Bossの名前表示用とフィールド外周のダメージエリア通知
 		Sprite::LoadTexture(40, L"Resources/BossName.png");
 		Sprite::LoadTexture(41, L"Resources/warning1.png");
 	}
 	else {
+		miniObj->SetModel(ModelManager::GetIns()->GetModel(ModelManager::FIELD));
+
 		BossFieldObject = TouchableObject::Create(ModelManager::GetIns()->GetModel(ModelManager::BOSSFIELD), camera);
 
 		FieldObject = TouchableObject::Create(ModelManager::GetIns()->GetModel(ModelManager::FIELD), camera);
 	}
-	miniObj = std::make_unique<Object3d>();
-	miniObj->SetModel(ModelManager::GetIns()->GetModel(ModelManager::FIELD));
 	miniObj->Initialize(dc);
 	
 	CelestialSphereObject->Initialize(camera);

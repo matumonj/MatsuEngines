@@ -15,6 +15,10 @@ CameraControl* CameraControl::GetInstance()
 	return &instance;
 }
 
+
+/*------------------------*/
+/*--------âï˙èàóù---------*/
+/*------------------------*/
 void CameraControl::Finalize()
 {
 	Destroy(camera);
@@ -23,6 +27,10 @@ void CameraControl::Finalize()
 	points.clear();
 }
 
+
+/*------------------------*/
+/*--------ì«çûèàóù---------*/
+/*----------csv-----------*/
 void CameraControl::Initialize(DebugCamera* camera)
 {
 	startindex = 1.0f;
@@ -111,6 +119,26 @@ void CameraControl::Load(DebugCamera* camera)
 	this->camera->SetEye(pos[0]);
 	UpdateRange = 200;
 	startCount = GetTickCount64();
+}
+
+
+/*------------------------*/
+/*--------çXêVèàóù---------*/
+/*------------------------*/
+
+void CameraControl::Update_Tutorial(DebugCamera* camera)
+{
+
+}
+
+void CameraControl::Update_Play(DebugCamera* camera)
+{
+
+}
+
+void CameraControl::Update_Boss(DebugCamera* camera)
+{
+
 }
 
 void CameraControl::Update(DebugCamera* camera)
@@ -242,10 +270,6 @@ void CameraControl::Draw()
 {
 }
 
-void CameraControl::SetColor(XMFLOAT4 color)
-{
-
-}
 
 void CameraControl::BossSceneStart()
 {

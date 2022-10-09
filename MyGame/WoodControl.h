@@ -25,13 +25,19 @@ public:
 	void Initialize(DebugCamera* camera)override;
 
 	void Update(DebugCamera* camera)override;
-
+	
 	void Draw()override;
-
-	void SetColor(XMFLOAT4 color)override;
 
 	void Finalize()override;
 
 	void ImGuiDraw();
+
+private:
+	void Update_Tutorial(DebugCamera*camera)override;
+
+	void Update_Play(DebugCamera*camera)override;
+
+	void Update_Boss(DebugCamera*camera)override;
+
 };
 

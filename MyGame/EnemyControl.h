@@ -48,16 +48,19 @@ public:
 
 	void TuatorialDraw();
 
-	void ImGuiDraw();
-
+	
 	void Finalize()override;
 
-	void SetColor(XMFLOAT4 color)override;
 	std::vector<std::unique_ptr<Enemy>> &GetEnemyindex(int index);// { return enemys[index].get(); }
 	std::vector <std::unique_ptr<Enemy>> &GetTutorialEnemyindex();
 	std::vector <std::unique_ptr<Enemy>>& GetBossEnemyindex();
 	std::unique_ptr<GigaBossEnemy> &GetGigaBossEnemy();
 private:
-	//::vector<Enemy*>
+	void Update_Tutorial(DebugCamera*camera)override;
+
+	void Update_Play(DebugCamera*camera)override;
+
+	void Update_Boss(DebugCamera*camera)override;
+
 };
 
