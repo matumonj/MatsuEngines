@@ -159,17 +159,6 @@ void ChestControl::Update_Boss(DebugCamera* camera)
 {
 	
 }
-void ChestControl::Update(DebugCamera* camera)
-{
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
-		Update_Play(camera);
-	}
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
-		Update_Tutorial(camera);
-	}
-
-}
-
 
 /*------------------------*/
 /*--------•`‰æˆ—---------*/

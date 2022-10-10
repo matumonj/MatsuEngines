@@ -11,8 +11,6 @@ public:
 
 	void Initialize(DebugCamera* camera)override;
 
-	void Update(DebugCamera* camera)override;
-
 	void Draw()override;
 
     void Finalize()override;
@@ -113,6 +111,13 @@ private:
     void PlaySceneStart();
   
   private:
+      void AngleRotation();
+
+      void TargetPlayer();
+      void TargetBossField();
+
+      static void (CameraControl::* targetTable[])();
+      private:
         void Update_Tutorial(DebugCamera*camera)override;
 
         void Update_Play(DebugCamera*camera)override;

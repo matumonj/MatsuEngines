@@ -128,20 +128,32 @@ void CameraControl::Load(DebugCamera* camera)
 
 void CameraControl::Update_Tutorial(DebugCamera* camera)
 {
+	AngleRotation();
+	this->camera->Update();
 
+	(this->*targetTable[Tstate])();
 }
 
 void CameraControl::Update_Play(DebugCamera* camera)
 {
+	AngleRotation();
 
+	this->camera->Update();
+
+	(this->*targetTable[Tstate])();
 }
 
 void CameraControl::Update_Boss(DebugCamera* camera)
 {
+	AngleRotation();
 
+	this->camera->Update();
+
+	(this->*targetTable[Tstate])();
 }
 
-void CameraControl::Update(DebugCamera* camera)
+
+void CameraControl::AngleRotation()
 {
 	if (input->Pushkey(DIK_RIGHT)) {
 		charaAngle += 0.5f;
@@ -155,76 +167,78 @@ void CameraControl::Update(DebugCamera* camera)
 	if (cameraAngle >= 360 + 90 || cameraAngle <= -360) {
 		cameraAngle = 0;
 	}
+}
 
-	this->camera->Update();
-
-	if (Tstate == PLAYER) {
-		if (AttackSceneF) {
-			Feed::GetInstance()->Update_White(Feed::FEEDOUT);
-			if (Feed::GetInstance()->GetAlpha() <= 0.0f) {
-				AttackSceneF = false;
-			}
-		}
-		CameraPosition.x = PlayerControl::GetInstance()->GetPlayer()->GetPosition().x + cosf((float)(cameraAngle) * 3.14f / 180.0f)*45 ;
-		CameraPosition.z = PlayerControl::GetInstance()->GetPlayer()->GetPosition().z + sinf((float)(cameraAngle) * 3.14f / 180.0f)*45;
-		CameraPosition.y = PlayerControl::GetInstance()->GetPlayer()->GetPosition().y +CameraHeight;
-		this->camera->SetTarget({ PlayerControl::GetInstance()->GetPlayer()->GetPosition() });
-		
-		this->camera->SetEye(CameraPosition);
-		if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
-			if (ChestControl::GetInstance()->ChestCount() >= 5) {
-				Tstate = MOVEBOSSAREA;
-			}
+void CameraControl::TargetPlayer()
+{
+	if (AttackSceneF) {
+		Feed::GetInstance()->Update_White(Feed::FEEDOUT);
+		if (Feed::GetInstance()->GetAlpha() <= 0.0f) {
+			AttackSceneF = false;
 		}
 	}
-	
-	else if (Tstate == MOVEBOSSAREA) {
-			switch (mCamera)
-			{
-			case NON:
-				countAreaMove = 0;
-				mCamera = SHAKESTART;
-				break;
-			case SHAKESTART:
-				ShakeCamera();
-				countAreaMove++;
-				if (countAreaMove >= 120) {
-					mCamera = YPOSUP;
-				}
-				OldCameraPosY = CameraPosition.y;
-				break;
-			case YPOSUP:
-				ShakeCamera();
-				countAreaMove = 0;
-				EaseTime += 1.0f / 120.0f;
-				CameraPosition.y = Easing::EaseOut(EaseTime, OldCameraPosY, OldCameraPosY + 50);
-				if (EaseTime >= 1.0f) {
-					mCamera = TARGETPLAYER;
-				}
-				break;
-			case TARGETPLAYER:
-				ShakeCamera();
-				EaseTime = 0.0f;
-				countAreaMove++;
-				if (countAreaMove >= 120) {
-					Feed::GetInstance()->Update_White(Feed::FEEDIN);
-				}
-				break;
-			default:
-				break;
-			}
-			this->camera->SetTarget({ PlayerControl::GetInstance()->GetPlayer()->GetPosition() });
-	}
+	CameraPosition.x = PlayerControl::GetInstance()->GetPlayer()->GetPosition().x + cosf((float)(cameraAngle) * 3.14f / 180.0f) * 45;
+	CameraPosition.z = PlayerControl::GetInstance()->GetPlayer()->GetPosition().z + sinf((float)(cameraAngle) * 3.14f / 180.0f) * 45;
+	CameraPosition.y = PlayerControl::GetInstance()->GetPlayer()->GetPosition().y + CameraHeight;
+	this->camera->SetTarget({ PlayerControl::GetInstance()->GetPlayer()->GetPosition() });
 
-
-	else if (Tstate == BOSSCUTSCENE) {
-		BossSceneStart();
-	}
-	else if (Tstate == PLAYCUTSCENE) {
-		
-		PlaySceneStart();
+	this->camera->SetEye(CameraPosition);
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
+		if (ChestControl::GetInstance()->ChestCount() >= 5) {
+			Tstate = MOVEBOSSAREA;
+		}
 	}
 }
+
+void CameraControl::TargetBossField()
+{
+	switch (mCamera)
+	{
+	case NON:
+		countAreaMove = 0;
+		mCamera = SHAKESTART;
+		break;
+	case SHAKESTART:
+		ShakeCamera();
+		countAreaMove++;
+		if (countAreaMove >= 120) {
+			mCamera = YPOSUP;
+		}
+		OldCameraPosY = CameraPosition.y;
+		break;
+	case YPOSUP:
+		ShakeCamera();
+		countAreaMove = 0;
+		EaseTime += 1.0f / 120.0f;
+		CameraPosition.y = Easing::EaseOut(EaseTime, OldCameraPosY, OldCameraPosY + 50);
+		if (EaseTime >= 1.0f) {
+			mCamera = TARGETPLAYER;
+		}
+		break;
+	case TARGETPLAYER:
+		ShakeCamera();
+		EaseTime = 0.0f;
+		countAreaMove++;
+		if (countAreaMove >= 120) {
+			Feed::GetInstance()->Update_White(Feed::FEEDIN);
+		}
+		break;
+	default:
+		break;
+	}
+	this->camera->SetTarget({ PlayerControl::GetInstance()->GetPlayer()->GetPosition() });
+
+}
+
+void (CameraControl::* CameraControl::targetTable[])() = {
+	nullptr,
+		&CameraControl::TargetPlayer,
+		nullptr,
+		&CameraControl::TargetBossField,
+		&CameraControl::PlaySceneStart,
+		&CameraControl::BossSceneStart
+};
+
 
 XMFLOAT3 CameraControl::SplinePosition(const std::vector<XMFLOAT3>& points, size_t startindex, float t)
 {

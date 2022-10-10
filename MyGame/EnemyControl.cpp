@@ -172,19 +172,6 @@ void EnemyControl::Update_Boss(DebugCamera* camera)
 		gigaboss->Update(camera);
 }
 
-void EnemyControl::Update(DebugCamera* camera)
-{
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
-		Update_Play(camera);
-	}
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
-		Update_Tutorial(camera);
-	}
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
-		Update_Boss(camera);
-	}
-}
-
 /*------------------------*/
 /*--------•`‰æˆ—---------*/
 /*------------------------*/

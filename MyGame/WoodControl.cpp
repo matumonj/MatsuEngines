@@ -152,16 +152,6 @@ void WoodControl::Update_Boss(DebugCamera* camera)
 	
 }
 
-void WoodControl::Update(DebugCamera* camera)
-{
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
-		Update_Play(camera);
-	}
-
-	else if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
-		Update_Tutorial(camera);
-	}
-}
 
 /*------------------------*/
 /*--------•`‰æˆ—---------*/

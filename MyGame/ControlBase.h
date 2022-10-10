@@ -17,7 +17,7 @@ public:
 
 	virtual void Initialize(DebugCamera* camera)=0;
 
-	virtual void Update(DebugCamera* camera)=0;
+	virtual void Update(DebugCamera* camera);
 
 	virtual void Update_Tutorial(DebugCamera*camera) = 0;
 	virtual void Update_Play(DebugCamera*camera) = 0; 
@@ -25,6 +25,8 @@ public:
 	virtual void Draw()=0;
 
 	virtual void Finalize() = 0;
+private:
+	static void (ControlBase::* updateTable[])(DebugCamera*camera);
 protected:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 	// DirectX::Çè»ó™
