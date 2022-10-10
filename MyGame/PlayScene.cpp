@@ -25,18 +25,9 @@ PlayScene::PlayScene(SceneManager* sceneManager)
 
 }
 
-void PlayScene::objUpdate(DebugCamera* camera)
-{
-	for (int i = 0; i < AllObjectControl.size(); i++) {
-		AllObjectControl[i]->Update((CameraControl::GetInstance()->GetCamera()));
-	}
-	UI::GetInstance()->HUDUpdate(hudload, (CameraControl::GetInstance()->GetCamera()));
-
-	Field::GetInstance()->Update((CameraControl::GetInstance()->GetCamera()));
-	
-}
-
-//初期化処理
+/*------------------------*/
+/*--------初期化処理-------*/
+/*-----------------------*/
 void PlayScene::Initialize()
 {
 	if (AllObjectControl.size() == 0) {
@@ -64,7 +55,23 @@ void PlayScene::Initialize()
 
 }
 
-//更新処理
+/*------------------------*/
+/*--------更新処理--------*/
+/*-----------------------*/
+void PlayScene::objUpdate(DebugCamera* camera)
+{
+	for (int i = 0; i < AllObjectControl.size(); i++) {
+		AllObjectControl[i]->Update((CameraControl::GetInstance()->GetCamera()));
+	}
+	UI::GetInstance()->HUDUpdate(hudload, (CameraControl::GetInstance()->GetCamera()));
+
+	Field::GetInstance()->Update((CameraControl::GetInstance()->GetCamera()));
+
+}
+
+/*------------------------*/
+/*--------更新処理--------*/
+/*-----------------------*/
 void PlayScene::Update()
 {
 	SistemConfig::GetInstance()->Update();
@@ -91,7 +98,10 @@ void PlayScene::Update()
 		}
 	}
 }
-//描画（オブジェクト）
+
+/*------------------------*/
+/*--------描画処理--------*/
+/*-----------------------*/
 void PlayScene::MyGameDraw()
 {
 
@@ -103,7 +113,9 @@ void PlayScene::MyGameDraw()
 	}
 }
 
-//描画まとめ
+/*------------------------*/
+/*--------描画処理--------*/
+/*-----------------------*/
 void PlayScene::Draw()
 {
 	//ポストエフェクトの場合わけ(Bでぼかし Dがデフォルト)
@@ -145,7 +157,9 @@ void PlayScene::Draw()
 	}
 }
 
-//csv読み込み
+/*------------------------*/
+/*--------読込処理--------*/
+/*-----------------------*/
 void PlayScene::LoadParam(DebugCamera* camera)
 {
 	if (Load) {
@@ -158,7 +172,9 @@ void PlayScene::LoadParam(DebugCamera* camera)
 	}
 }
 
-//解放処理
+/*------------------------*/
+/*--------解放処理--------*/
+/*-----------------------*/
 void PlayScene::Finalize()
 {
 	for (int i = 0; i < AllObjectControl.size(); i++) {

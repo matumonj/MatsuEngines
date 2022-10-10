@@ -24,40 +24,9 @@ Tutorial::Tutorial(SceneManager* sceneManager)
 
 }
 
-#pragma region オブジェクト+ライトの更新処理
-void Tutorial::objUpdate(DebugCamera* camera)
-{
-	//カメラの注視点をプレイヤーにセット
-	CameraControl::GetInstance()->SetCameraState(CameraControl::PLAYER);
-	if (!Load && !Play) {
-		Load = true;
-	}
-	if (Play) {//csvからの読み込み終わってから更新処理
-		//1->Player  0->Camera カメラの注視点Playerに合わすのでPlayerが先
-		AllObjectControl[1]->Update(CameraControl::GetInstance()->GetCamera());
-		AllObjectControl[0]->Update(CameraControl::GetInstance()->GetCamera());
-		for (int i = 2; i < AllObjectControl.size(); i++) {
-			if (AllObjectControl[i] != nullptr) {
-				AllObjectControl[i]->Update(CameraControl::GetInstance()->GetCamera());
-			}
-		}
-		UI::GetInstance()->HUDUpdate(hudload, CameraControl::GetInstance()->GetCamera());
-		}
-	
-	dc->Update();
-	
-	dc->SetTarget({ CameraControl::GetInstance()->GetCamera()->GetTarget()});
-	dc->SetEye({ PlayerControl::GetInstance()->GetPlayer()->GetPosition().x,
-		 PlayerControl::GetInstance()->GetPlayer()->GetPosition().y+300.0f,
-		PlayerControl::GetInstance()->GetPlayer()->GetPosition().z-1});
-	Field::GetInstance()->SetCamera(dc);
-
-	Field::GetInstance()->Update(CameraControl::GetInstance()->GetCamera());
-}
-
-#pragma endregion
-
-#pragma region 初期化
+/*------------------------*/
+/*--------初期化処理-------*/
+/*------------------------*/
 void Tutorial::Initialize()
 {
 	Texture::LoadTexture(47, L"Resources/df.png");
@@ -96,15 +65,42 @@ void Tutorial::Initialize()
 
 	SistemConfig::GetInstance()->Initialize();
 }
-#pragma endregion
 
-#pragma region 更新処理
+/*------------------------*/
+/*--------更新処理---------*/
+/*------------------------*/
+void Tutorial::objUpdate(DebugCamera* camera)
+{
+	//カメラの注視点をプレイヤーにセット
+	CameraControl::GetInstance()->SetCameraState(CameraControl::PLAYER);
+	if (!Load && !Play) {
+		Load = true;
+	}
+	if (Play) {//csvからの読み込み終わってから更新処理
+		//1->Player  0->Camera カメラの注視点Playerに合わすのでPlayerが先
+		AllObjectControl[1]->Update(CameraControl::GetInstance()->GetCamera());
+		AllObjectControl[0]->Update(CameraControl::GetInstance()->GetCamera());
+		for (int i = 2; i < AllObjectControl.size(); i++) {
+			if (AllObjectControl[i] != nullptr) {
+				AllObjectControl[i]->Update(CameraControl::GetInstance()->GetCamera());
+			}
+		}
+		UI::GetInstance()->HUDUpdate(hudload, CameraControl::GetInstance()->GetCamera());
+	}
+
+	dc->Update();
+
+	dc->SetTarget({ CameraControl::GetInstance()->GetCamera()->GetTarget() });
+	dc->SetEye({ PlayerControl::GetInstance()->GetPlayer()->GetPosition().x,
+		 PlayerControl::GetInstance()->GetPlayer()->GetPosition().y + 300.0f,
+		PlayerControl::GetInstance()->GetPlayer()->GetPosition().z - 1 });
+	Field::GetInstance()->SetCamera(dc);
+
+	Field::GetInstance()->Update(CameraControl::GetInstance()->GetCamera());
+}
+
 void Tutorial::Update()
 {
-	
-
-	
-	
 	SistemConfig::GetInstance()->Update();
 	//各オブジェクトの更新処理
 	objUpdate(CameraControl::GetInstance()->GetCamera());//オブジェクトの更新処理
@@ -136,8 +132,10 @@ if (scenechange&& Feed::GetInstance()->GetAlpha() >= 1.0f) {//画面真っ白なったら
 	DamageManager::GetIns()->Upda();
 
 }
-#pragma endregion 
 
+/*------------------------*/
+/*--------描画処理---------*/
+/*----------obj----------*/
 void Tutorial::MyGameDraw()
 {
 	if (Play) {
@@ -146,10 +144,12 @@ void Tutorial::MyGameDraw()
 				AllObjectControl[i]->Draw();
 			}
 		}
-	}
-	
+	}	
 }
 
+/*------------------------*/
+/*--------描画処理---------*/
+/*---------まとめ---------*/
 void Tutorial::Draw()
 {
 	//ポストエフェクトの場合わけ(Bでぼかし Dがデフォルト)
@@ -181,36 +181,24 @@ void Tutorial::Draw()
 	case Default://普通のやつ特に何もかかっていない
 		
 		postEffect->PreDrawScene();
-		
 		Field::GetInstance()->MiniFieldDraw();
-
-	//Field::GetInstance()->Draw();
-
 		postEffect->PostDrawScene();
 
 		DirectXCommon::GetInstance()->BeginDraw();
-	
 		Field::GetInstance()->Draw();
-
 		MyGameDraw();
 		postEffect->Draw();
-		//Sprite::PreDraw();
-
-	//	Sprite::PostDraw();
-		
-		//	MyGameDraw();
 		UI::GetInstance()->HUDDraw();
 		Feed::GetInstance()->Draw();
 		SistemConfig::GetInstance()->Draw();
-//		DirectXCommon::GetInstance()->ClearDepthBuffer(DirectXCommon::GetInstance()->GetCmdList());
-
 		DirectXCommon::GetInstance()->EndDraw();
 		break;
 	}
 }
-#pragma endregion
 
-
+/*------------------------*/
+/*--------読込処理--------*/
+/*-----------------------*/
 bool Tutorial::LoadParam(DebugCamera* camera)
 {
 	if (Load) {
@@ -224,6 +212,9 @@ bool Tutorial::LoadParam(DebugCamera* camera)
 	return true;
 }
 
+/*------------------------*/
+/*--------解放処理---------*/
+/*-----------------------*/
 void Tutorial::Finalize()
 {
 	for (int i = 0; i < AllObjectControl.size(); i++) {//初期化

@@ -18,6 +18,9 @@ BossScene::BossScene(SceneManager* sceneManager)
 
 }
 
+/*------------------------*/
+/*-------初期化処理-------*/
+/*-----------------------*/
 void BossScene::Initialize()
 {
 	DebugTxt::GetInstance()->Initialize(47);
@@ -38,8 +41,6 @@ void BossScene::Initialize()
 	
 	postEffect = new MinimapSprite();
 	postEffect->Initialize();
-	// 3Dオブジェクトにカメラをセット
-	//Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
 	//カメラをセット
 	f_Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
 	//グラフィックパイプライン生成
@@ -51,6 +52,9 @@ void BossScene::Initialize()
 
 }
 
+/*------------------------*/
+/*--------更新処理--------*/
+/*-----------------------*/
 void BossScene::Update()
 {
 	//読み込み
@@ -93,6 +97,9 @@ void BossScene::Update()
 	}
 }
 
+/*------------------------*/
+/*--------描画処理--------*/
+/*-----------------------*/
 void BossScene::MyGameDraw()
 {
 	Field::GetInstance()->Draw();
@@ -102,6 +109,10 @@ void BossScene::MyGameDraw()
 		}
 	}
 }
+
+/*------------------------*/
+/*--------描画処理--------*/
+/*-----------------------*/
 void BossScene::Draw()
 {
 	//ポストエフェクトの場合わけ(Bでぼかし Dがデフォルト)
@@ -149,6 +160,9 @@ void BossScene::Draw()
 	}
 }
 
+/*------------------------*/
+/*--------読込処理--------*/
+/*-----------------------*/
 bool BossScene::LoadParam(DebugCamera* camera)
 {
 	if (LoadEnemy) {
@@ -162,6 +176,9 @@ bool BossScene::LoadParam(DebugCamera* camera)
 	return true;
 }
 
+/*------------------------*/
+/*--------解放処理--------*/
+/*-----------------------*/
 void BossScene::Finalize()
 {
 	UI::GetInstance()->Finalize();

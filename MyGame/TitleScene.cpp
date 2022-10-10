@@ -12,9 +12,10 @@ TitleScene::TitleScene(SceneManager* sceneManager)
 {
 
 }
-/// <summary>
-/// 初期化
-/// </summary>
+
+/*------------------------*/
+/*-------初期化処理--------*/
+/*-----------------------*/
 void TitleScene::Initialize()
 {
 	Sprite::LoadTexture(3, L"Resources/title.png");
@@ -23,13 +24,11 @@ void TitleScene::Initialize()
 	Sprite::LoadTexture(4, L"Resources/title2.png");
 	titlesprite2 = Sprite::Create(4, {  WinApp::window_width / 2,0.0f });
 	Feed::GetInstance()->initialize();
-
-	//UI::GetInstance()->Finalize();
 }
 
-/// <summary>
-/// 更新処理
-/// </summary>
+/*------------------------*/
+/*-------更新処理--------*/
+/*-----------------------*/
 void TitleScene::Update()
 {
 
@@ -48,10 +47,9 @@ void TitleScene::Update()
 	titlesprite2->SetSize({ WinApp::window_width / 2,WinApp::window_height });
 }
 
-/// <summary>
-/// スプライト描画
-/// </summary>
-/// <param name="cmdList"></param>
+/*------------------------*/
+/*-------描画処理--------*/
+/*-----------------------*/
 void TitleScene::SpriteDraw()
 {
 	Sprite::PreDraw();
@@ -60,18 +58,18 @@ void TitleScene::SpriteDraw()
 	Sprite::PostDraw();
 }
 
-/// <summary>
-/// 描画
-/// </summary>
-/// <param name="cmdList"></param>
 void TitleScene::Draw()
 {
 	//ポストエフェクトの描画
 	DirectXCommon::GetInstance()->BeginDraw();//描画コマンドの上らへんに
 	SpriteDraw();
 	DirectXCommon::GetInstance()->EndDraw();
-
 }
+
+
+/*------------------------*/
+/*-------解放処理--------*/
+/*-----------------------*/
 void TitleScene::Finalize()
 {
 	//delete postEffect;
