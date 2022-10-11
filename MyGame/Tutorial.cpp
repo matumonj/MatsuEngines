@@ -188,6 +188,7 @@ void Tutorial::Draw()
 		Field::GetInstance()->Draw();
 		MyGameDraw();
 		postEffect->Draw();
+		DamageManager::GetIns()->Draw();
 		UI::GetInstance()->HUDDraw();
 		Feed::GetInstance()->Draw();
 		SistemConfig::GetInstance()->Draw();

@@ -11,7 +11,6 @@ public:
     virtual void Initialize(DebugCamera* camera)override;
     virtual void Update(DebugCamera* camera)override;
     virtual void Draw()override;
-
     XMMATRIX GetMatrot() {return m_Object->ExtractRotationMat(); }
 protected:
     int Damage;

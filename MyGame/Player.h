@@ -40,6 +40,7 @@ private:
 	void FbxAnimationControl();
 	void ReturnGround();
 	void Jump();
+	void Move();
 public:
 	//OBBの当たり判定に使うプレイヤーの回転行列取得
 	XMMATRIX GetMatrot();

@@ -58,24 +58,21 @@ void PlayerControl::Initialize(DebugCamera* camera)
 /*------------------------*/
 void PlayerControl::Update_Tutorial(DebugCamera* camera)//チュートリアル時
 {
-	
-}
-
-void PlayerControl::Update_Play(DebugCamera* camera)//プレイシーン時
-{
-	
-}
-void PlayerControl::Update_Boss(DebugCamera* camera)
-{
-
-}
-void PlayerControl::Update(DebugCamera* camera)
-{
-	if (player == nullptr)return;
 	player->Update(camera);
 	PlayerAttackState::GetInstance()->Update();
 }
 
+void PlayerControl::Update_Play(DebugCamera* camera)//プレイシーン時
+{
+	player->Update(camera);
+	PlayerAttackState::GetInstance()->Update();
+}
+void PlayerControl::Update_Boss(DebugCamera* camera)
+{
+	player->Update(camera);
+	PlayerAttackState::GetInstance()->Update();
+
+}
 /*------------------------*/
 /*--------描画処理---------*/
 /*------------------------*/

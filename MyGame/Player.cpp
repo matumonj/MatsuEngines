@@ -50,8 +50,10 @@ void Player::Initialize(DebugCamera* camera)
 
 	SetCollider();
 
-	Rotation = { 0,0,0 };
-	Position = { 0,0,0 };
+	Rotation = { 0.0f,0.0f,0.0f };
+	Position = { 0.0f,0.0f,0.0f };
+	Scale = { 0.02f, 0.02f, 0.02f };
+
 	SelectSword::GetInstance()->Initialize();
 	
 	HP = MaxHP;
@@ -70,6 +72,7 @@ void Player::Jump()
 		}
 	}
 }
+
 void Player::ReturnGround()
 {
 	if (onGround) {
@@ -83,18 +86,11 @@ void Player::ReturnGround()
 		}
 	}
 }
-void Player::Update(DebugCamera* camera)
+
+void Player::Move()
 {
-	ReturnGround();
-
-	//１フレーム前の座標を保存
-	oldpos = Position;
-
 	RotationStatus();
-	
-	RecvDamage_Cool();
 
-	Scale={ 0.02f, 0.02f, 0.02f};
 	//移動ベクトルをy軸周りの角度で回転
 	XMVECTOR move = { 0.0f,0.0f,0.1f,0.0f };
 	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(Rotation.y));
@@ -110,10 +106,24 @@ void Player::Update(DebugCamera* camera)
 		Jump();
 	}
 	Gmove = move;
-	//3d更新
-	ParameterSet_Obj(camera);
+}
+
+void Player::Update(DebugCamera* camera)
+{
+	ReturnGround();
+
+	//１フレーム前の座標を保存
+	oldpos = Position;
+
+	RecvDamage_Cool();
+	
+	Move();
+
 	//3d_fbx更新
 	FbxAnimationControl();
+
+	//3d更新
+	ParameterSet_Obj(camera);
 	ParameterSet_Fbx(camera);
 	
 	CollisionField(camera);

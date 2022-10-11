@@ -30,6 +30,7 @@ void ModelManager::Initialize() {
 	LoadModel(SMALLSWORD, "SmallSword");
 	LoadModel(NORMALSWORD, "sword");
 	LoadModel(BIGSWORD, "BigSword");
+	LoadModel(CELESTIALSPHERE, "skydome");
 }
 
 void ModelManager::LoadModel(const ModelName modelName, std::string fileName) {

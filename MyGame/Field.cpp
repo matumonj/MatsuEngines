@@ -15,59 +15,48 @@ Field::~Field()
 
 void Field::Finalize()
 {
-	Destroy(CelestialSphereModel);
 	Destroy_unique(CelestialSphereObject);
 	Destroy(FieldObject);
-	Destroy(FieldModel);
-	Destroy(BackM);
 	Destroy_unique(BackObject);
-	Destroy(BossFieldObject);
+	for (int i = 0; i < objNum; i++) {
+		Destroy_unique(m_object[i]);
+	}
 }
 Field* Field::GetInstance()
 {
 	static Field instance;
 	return &instance;
 }
-bool Field::Initialize(DebugCamera* camera)
+void Field::Initialize(DebugCamera* camera)
 {
-	//playscene用のスカイドーム
-	CelestialSphereObject = std::make_unique<Object3d>();
-	CelestialSphereModel = Model::CreateFromOBJ("skydome");
-	miniObj = std::make_unique<Object3d>();
-
-	//Bossscene用の背景オブジェ
-	BackObject= std::make_unique<Object3d>();
-	//BackM = Model::CreateFromOBJ("BackGround");
-	//Bossscene用のフィールドの外周ダメージエリア
-	DamageAreaObj = std::make_unique<Object3d>();
 
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
+			TouchableObject* bossField = TouchableObject::Create(ModelManager::GetIns()->GetModel(ModelManager::BOSSFIELD), camera);
+			FieldObject = bossField;
 
-		FieldObject = TouchableObject::Create(ModelManager::GetIns()->GetModel(ModelManager::BOSSFIELD), camera);
+			SetFieldModel(MINI, ModelManager::GetIns()->GetModel(ModelManager::BOSSFIELD), camera);
 
-		BackObject->Initialize(camera);
-		BackObject->SetModel(ModelManager::GetIns()->GetModel(ModelManager::BACKGROUND));
+			SetFieldModel(DAMAGEAREA, ModelManager::GetIns()->GetModel(ModelManager::DAMAGEAREA), camera);
 
-		DamageAreaObj->Initialize(camera);
-		DamageAreaObj->SetModel(ModelManager::GetIns()->GetModel(ModelManager::DAMAGEAREA));
-		miniObj->SetModel(ModelManager::GetIns()->GetModel(ModelManager::BOSSFIELD));
+			SetFieldModel(CELESTIALSPHERE, ModelManager::GetIns()->GetModel(ModelManager::CELESTIALSPHERE), camera);
+
+			SetFieldModel(BOSSBACK, ModelManager::GetIns()->GetModel(ModelManager::BACKGROUND), camera);
 
 		//Bossの名前表示用とフィールド外周のダメージエリア通知
 		Sprite::LoadTexture(40, L"Resources/BossName.png");
 		Sprite::LoadTexture(41, L"Resources/warning1.png");
 	}
 	else {
-		miniObj->SetModel(ModelManager::GetIns()->GetModel(ModelManager::FIELD));
+		TouchableObject* normalField = TouchableObject::Create(ModelManager::GetIns()->GetModel(ModelManager::FIELD), camera);
+		FieldObject = normalField;
 
-		BossFieldObject = TouchableObject::Create(ModelManager::GetIns()->GetModel(ModelManager::BOSSFIELD), camera);
+		SetFieldModel(MINI, ModelManager::GetIns()->GetModel(ModelManager::FIELD), camera);
 
-		FieldObject = TouchableObject::Create(ModelManager::GetIns()->GetModel(ModelManager::FIELD), camera);
+		SetFieldModel(CELESTIALSPHERE, ModelManager::GetIns()->GetModel(ModelManager::CELESTIALSPHERE), camera);
+
 	}
-	miniObj->Initialize(dc);
+	m_object[ObjType::MINI]->SetCamera(dc);
 	
-	CelestialSphereObject->Initialize(camera);
-	CelestialSphereObject->SetModel(CelestialSphereModel);
-
 	//フィールド外周がダメージエリアになる警告スプライト
 	Explanation = Sprite::Create(41, { WinApp::window_width / 2,WinApp::window_height / 2 });
 	Explanation->SetAnchorPoint({ 0.5f,0.5f });
@@ -81,89 +70,64 @@ bool Field::Initialize(DebugCamera* camera)
 	BossName->SetSize({ 800,800 });
 
 	ypos = -40.0f;
-	return true;
 }
 
 	
 void Field::Update(DebugCamera* camera)
 {
-	CelestialSphereObject->SetPosition({ 0.0f,30.0f,0.0f });
-	CelestialSphereObject->SetScale({ 40.0f,40.0f,40.0f });
+	m_object[ObjType::MINI]->SetCamera(dc);
 
-	BackObject->SetPosition({ 0.0f,30.0f,0.0f });
-	BackObject->SetScale({ 0.5f,0.5f,0.5f });
-	miniObj->SetScale({1,0,1});
-
-	miniObj->SetCamera(dc);
-	miniObj->SetPosition({ 0.0f,-25.0f,0.0f });
-	miniObj->SetRotation({ 0,0,0 });
-	miniObj->setFog(FALSE);
-
+SetFieldUpdate(MINI, camera, { 0.0f,-25.0f,0.0f }, { 1,0,1 });
+	
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
-		FieldObject->SetScale(1.0f);
 		FieldObject->SetPosition({ 0.0f,-25.0f,0.0f });
 		FieldObject->SetFogCenter({ 125.0f, -25.0f, -680.0f });
 		FieldObject->setFog(TRUE);
-		CelestialSphereObject->setFog(TRUE);
 
+		SetFieldUpdate(CELESTIALSPHERE, camera, { 0.0f,30.0f,0.0f }, { 40.0f,40.0f,40.0f }, FALSE, TRUE);
+}
 
-	}
 	else if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY|| SceneManager::GetInstance()->GetScene() == SceneManager::MAPCREATE) {
 		if (CameraControl::GetInstance()->GetMoveBosAreaCam()==CameraControl::TARGETPLAYER) {
 			ypos+=0.4f;
 			PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(true);
 		}
-		FieldObject->SetScale(1.0f);
 		FieldObject->SetPosition({ssp });
 		FieldObject->SetFogCenter({ 125.0f, -25.0f, -680.0f });
 		FieldObject->setFog(FALSE);
-		CelestialSphereObject->setFog(FALSE);
-
 
 	}
+
 	else if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
 		if (SceneManager::GetInstance()->GetScene() != SceneManager::MAPCREATE) {
 			XMFLOAT3 Ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
-			BossFieldObject->SetScale(1.0f);
-			BossFieldObject->SetPosition({ Ppos.x, ypos,Ppos.z });
-			BossFieldObject->setFog(FALSE);
-			BossFieldObject->setFog(FALSE);
-
-	BossFieldObject->SetColor({ 0.2f,0.2f,0.2f,1.0f });
-	BossFieldObject->Update({ 0.2f,0.2f,0.2f,1.0f }, camera);
+			FieldObject->SetPosition({ Ppos.x, ypos,Ppos.z });
+			FieldObject->setFog(FALSE);
+			FieldObject->Update({ 0.2f,0.2f,0.2f,1.0f }, camera);
 		}
 	}
-		else if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
-		SpriteFeed(TexAlpha_BossName, feed_BossName, feedSpeed_BossName, 1.5f);
-		if (CameraControl::GetInstance()->GetCameraState() == CameraControl::PLAYER) {
+	else if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
+			SpriteFeed(TexAlpha_BossName, feed_BossName, feedSpeed_BossName, 1.5f);
+			if (CameraControl::GetInstance()->GetCameraState() == CameraControl::PLAYER) {
 			SpriteFeed(t, feed, feedSpeed_Explanation, 2.5f);
 		}
+
 		FieldObject->SetScale(1.0f);
 		FieldObject->SetPosition({ 0.0f,-20.0f,0.0f });
-
 		FieldObject->SetFogCenter({ 0.0f, -20.0f, 0.0f });
 
-		CelestialSphereObject->setFog(TRUE);
-	
-		DamageAreaObj->setFog(FALSE);
-
-		BackObject->setFog(TRUE);
-		BackObject->Update({ 0.6f,0.6f,0.6f,1.0f }, camera);
-
-		DamageAreaObj->SetUVf(true);
-		DamageAreaObj->SetPosition({ 0.0f,-19.2f,0.0f });
-		DamageAreaObj->Update({ 0.6f,0.6f,0.6f,1.0f }, camera);
+		SetFieldUpdate(CELESTIALSPHERE, camera, { 0.0f,30.0f,0.0f }, { 40.0f,40.0f,40.0f }, FALSE, TRUE);
+		SetFieldUpdate(DAMAGEAREA, camera, { 0.0f,0.0f,0.0f }, { 1.0f,1.0f,1.0f },TRUE,FALSE);
+		SetFieldUpdate(BOSSBACK, camera, { 0.0f,-19.2f,0.0f }, { 1,1,1 },TRUE,TRUE);
 
 		//フィールド外周とプレイヤーの当たり判定(現時点では矩形と点)
 		FieldDamageAreaCol();
-	
 	}
+
 	FieldObject->SetColor({ 0.2f,0.2f,0.2f,1.0f });
 	FieldObject->Update({ 0.2f,0.2f,0.2f,1.0f }, camera);
-	miniObj->SetColor({ 0.2f,0.2f,0.2f,1.0f });
-	miniObj->Update({ 0.2f,0.2f,0.2f,1.0f },dc);
 
-	CelestialSphereObject->Update({ 1.0f,1.0f,1.0f,1.0f }, camera);
+	SetFieldUpdate(MINI,dc, { 0.0f,-25.0f,0.0f }, { 1.0f,0.0f,1.0f });
 
 	 t= min(t, 2.5f);
 	t = max(t, 0.0f);
@@ -173,28 +137,20 @@ void Field::Update(DebugCamera* camera)
 void Field::MiniFieldDraw()
 {
 	Object3d::PreDraw();
-	miniObj->Draw();
+	m_object[ObjType::MINI]->Draw();
 	Object3d::PostDraw();
 }
 #include"imgui.h"
 void Field::Draw()
 {
 	Object3d::PreDraw();
-	CelestialSphereObject->Draw();
-	
+	m_object[ObjType::CELESTIALSPHERE]->Draw();
 	FieldObject->Draw();
-	//FieldObject->PostDraw();
-
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
-		BackObject->Draw();
-		DamageAreaObj->Draw();
+		ModelDraw_nullCheck(BOSSBACK);
+		ModelDraw_nullCheck(DAMAGEAREA);
 	}
-	
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
-		if (ypos > -15) {
-			BossFieldObject->Draw();
-		}
-	}
+
 	Object3d::PostDraw();
 	Explanation->setcolor({ 1.0f,1.0f,1.0f,t });
 	BossName->setcolor({ 1.0f,1.0f,1.0f,TexAlpha_BossName });
@@ -243,4 +199,29 @@ void Field::SpriteFeed(float& alpha, bool& feed, const float feedSpeed, const fl
 	if (alpha >= MaxAlphaValue) {
 		feed = true;
 	}
+}
+
+void Field::SetFieldModel(ObjType type, Model* model, DebugCamera* camera)
+{
+	m_object[type] = std::make_unique<Object3d>();
+	m_object[type]->SetModel(model);
+	m_object[type]->Initialize(camera);
+	
+}
+
+void Field::SetFieldUpdate(ObjType type, DebugCamera* camera, XMFLOAT3 Pos, XMFLOAT3 Scl, bool uvscroll, bool fog)
+{
+	if (m_object[type] == nullptr)return;
+
+	m_object[type]->SetPosition(Pos);
+	m_object[type]->SetScale(Scl);
+	m_object[type]->SetUVf(uvscroll);
+	m_object[type]->setFog(fog);
+	m_object[type]->Update({ 1.0f,1.0f,1.0f,1.0f }, camera);
+}
+
+void Field::ModelDraw_nullCheck(ObjType type)
+{
+	if (m_object[type] == nullptr)return;
+	m_object[type]->Draw();
 }

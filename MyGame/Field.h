@@ -4,9 +4,10 @@
 #include"Model.h"
 #include"DebugCamera.h"
 #include<memory>
+#include"ObjectManager.h"
 class TouchableObject;
 class CollisionManager;
-class Field
+class Field:public ObjectManager
 {
 public:
 	Field() {};
@@ -14,10 +15,17 @@ public:
 	static Field* GetInstance();
 
 private:
-	//ColObj
+	
 	TouchableObject* FieldObject;
-	TouchableObject* BossFieldObject;
 	//Obj
+	enum ObjType {
+		CELESTIALSPHERE,
+		BOSSBACK,
+		DAMAGEAREA,
+		MINI
+	};
+	const static int objNum=4;
+	std::unique_ptr<Object3d>m_object[objNum];
 	std::unique_ptr <Object3d> CelestialSphereObject;
 	std::unique_ptr <Object3d> BackObject;
 	std::unique_ptr<Object3d>DamageAreaObj;
@@ -26,11 +34,6 @@ private:
 	Sprite* Explanation;
 	Sprite* BossName;
 	//Model
-	Model* DamageAreaModel;
-	Model* FieldModel;
-	Model* BossFieldModel;
-	Model* CelestialSphereModel;
-	Model* BackM;
 	DirectX::XMFLOAT3 ssp;
 
 private:
@@ -47,14 +50,17 @@ private:
 	float ypos;
 public:
 	void SetCamera(DebugCamera* camera) { dc = camera; }
-	bool Initialize(DebugCamera*camera);
-	void Update(DebugCamera* camera);
-	void Draw();
+	void Initialize(DebugCamera*camera)override;
+	void Update(DebugCamera* camera)override;
+	void Draw()override;
 	void Finalize();
 	void WarningDraw();
 
 	void MiniFieldDraw();
 private:
+	void SetFieldModel(ObjType type, Model* model,DebugCamera*camera);
+	void SetFieldUpdate(ObjType type, DebugCamera* camera,XMFLOAT3 Pos,XMFLOAT3 Scl,bool uvscroll=FALSE,bool fog=FALSE);
+	void ModelDraw_nullCheck(ObjType type);
 	void SpriteFeed(float&alpha,bool&feed,const float feedSpeed,const float MaxAlphaValue);
 	void FieldDamageAreaCol();
 };
