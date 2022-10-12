@@ -52,7 +52,7 @@ void Player::Initialize(DebugCamera* camera)
 
 	Rotation = { 0.0f,0.0f,0.0f };
 	Position = { 0.0f,0.0f,0.0f };
-	Scale = { 0.02f, 0.02f, 0.02f };
+	Scale = { 0.01f, 0.01f, 0.01f };
 
 	SelectSword::GetInstance()->Initialize();
 	
@@ -123,11 +123,12 @@ void Player::Update(DebugCamera* camera)
 	FbxAnimationControl();
 
 	//3d更新
+	CollisionField(camera);
+
 	ParameterSet_Obj(camera);
 	ParameterSet_Fbx(camera);
 	
-	CollisionField(camera);
-
+	
 	//手のボーン取得
 	HandMat = m_fbxObject->GetRot();
 
@@ -201,7 +202,7 @@ void Player::FbxAnimationControl()
 {
 	const float timespeed = 0.02f;
 
-	if (CustomButton::GetInstance()->GetAttackAction() == true) {
+	if (CustomButton::GetInstance()->GetAttackAction() == true&&PlayerAttackState::GetInstance()->GetCoolTime()==0) {
 			AttackFlag = true;
 	}
 	if (AttackFlag) {

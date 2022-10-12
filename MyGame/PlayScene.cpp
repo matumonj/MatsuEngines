@@ -33,19 +33,24 @@ void PlayScene::Initialize()
 	if (AllObjectControl.size() == 0) {
 		//カメラ一番上に　他のControlがカメラを引数にしてるから
 		AllObjectControl.push_back(CameraControl::GetInstance());
-		AllObjectControl.push_back(EnemyControl::GetInstance());
 		AllObjectControl.push_back(PlayerControl::GetInstance());
+		AllObjectControl.push_back(EnemyControl::GetInstance());
 		AllObjectControl.push_back(WoodControl::GetInstance());
 		AllObjectControl.push_back(FenceControl::GetInstance());
 		AllObjectControl.push_back(ChestControl::GetInstance());
 	}
+
 	//各オブジェクト初期化
 	Field::GetInstance()->Initialize((CameraControl::GetInstance()->GetCamera()));
 
 	for (int i = 0; i < AllObjectControl.size(); i++) {
 		AllObjectControl[i]->Initialize((CameraControl::GetInstance()->GetCamera()));
 	}
-	
+	//カメラをセット
+	f_Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
+	//グラフィックパイプライン生成
+	f_Object3d::CreateGraphicsPipeline();
+
 	//ポストエフェクト初期化
 	postEffect = new PostEffect();
 	postEffect->Initialize();
@@ -60,13 +65,19 @@ void PlayScene::Initialize()
 /*-----------------------*/
 void PlayScene::objUpdate(DebugCamera* camera)
 {
-	for (int i = 0; i < AllObjectControl.size(); i++) {
-		AllObjectControl[i]->Update((CameraControl::GetInstance()->GetCamera()));
+	//PlayerControl::GetInstance()->GetPlayer()->SetPosition({ 150.0f,-42.0f,-379.0f });
+	Field::GetInstance()->Update((CameraControl::GetInstance()->GetCamera()));
+	if (PlayGame) {
+		AllObjectControl[1]->Update(CameraControl::GetInstance()->GetCamera());
+		AllObjectControl[0]->Update(CameraControl::GetInstance()->GetCamera());
+
+		for (int i = 2; i < AllObjectControl.size(); i++) {
+			AllObjectControl[i]->Update((CameraControl::GetInstance()->GetCamera()));
+		}
 	}
 	UI::GetInstance()->HUDUpdate(hudload, (CameraControl::GetInstance()->GetCamera()));
 
-	Field::GetInstance()->Update((CameraControl::GetInstance()->GetCamera()));
-
+	
 }
 
 /*------------------------*/
@@ -79,8 +90,10 @@ void PlayScene::Update()
 	if (!Load && !PlayGame) {
 		Load = true;
 	}
+	
 	//オブジェクトの更新処理
 	objUpdate((CameraControl::GetInstance()->GetCamera()));
+
 	//csv読み込み
 	LoadParam((CameraControl::GetInstance()->GetCamera()));
 
@@ -106,11 +119,11 @@ void PlayScene::MyGameDraw()
 {
 
 	Field::GetInstance()->Draw();
-	if (EnemyControl::GetInstance()->GetQuentity() > 1) {
+//	if (EnemyControl::GetInstance()->GetQuentity() > 1) {
 		for (int i = 0; i < AllObjectControl.size(); i++) {
 			AllObjectControl[i]->Draw();
 		}
-	}
+	//}
 }
 
 /*------------------------*/

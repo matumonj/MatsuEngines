@@ -42,7 +42,7 @@ void Tutorial::Initialize()
 		AllObjectControl[i]->Initialize(CameraControl::GetInstance()->GetCamera());
 	}
 	}
-	
+	Field::GetInstance()->Setplay(CameraControl::GetInstance()->GetCamera());
 	Field::GetInstance()->Initialize(CameraControl::GetInstance()->GetCamera());
 
 	// 3Dオブジェクトにカメラをセット

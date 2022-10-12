@@ -34,7 +34,7 @@ void DebugTxt::Initialize(UINT texnumber)
 void DebugTxt::TextBeha()
 {
 	Position.y -= 0.1f;
-	color.w -= 0.01f;
+	color.w -= 0.005f;
 }
 
 // 1•¶Žš—ñ’Ç‰Á

@@ -5,6 +5,7 @@
 #include"DebugCamera.h"
 #include<memory>
 #include"ObjectManager.h"
+#include"Texture.h"
 class TouchableObject;
 class CollisionManager;
 class Field:public ObjectManager
@@ -13,7 +14,7 @@ public:
 	Field() {};
 	~Field() ;
 	static Field* GetInstance();
-
+	void Setplay(DebugCamera* camera);
 private:
 	
 	TouchableObject* FieldObject;
@@ -25,6 +26,8 @@ private:
 		MINI
 	};
 	const static int objNum=4;
+
+	Texture* playerpoint;
 	std::unique_ptr<Object3d>m_object[objNum];
 	std::unique_ptr <Object3d> CelestialSphereObject;
 	std::unique_ptr <Object3d> BackObject;
@@ -52,6 +55,11 @@ public:
 	void SetCamera(DebugCamera* camera) { dc = camera; }
 	void Initialize(DebugCamera*camera)override;
 	void Update(DebugCamera* camera)override;
+
+	void Update_Tutorial(DebugCamera* camera);
+	void Update_Play(DebugCamera* camera);
+	void Update_Boss(DebugCamera* camera);
+	
 	void Draw()override;
 	void Finalize();
 	void WarningDraw();

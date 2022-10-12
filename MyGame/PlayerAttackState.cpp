@@ -118,7 +118,8 @@ void PlayerAttackState::FirstAttack(std::vector<std::unique_ptr<Enemy>>& enemy)
 	//
 	OldSkill = First;
 	
-	Damage = SelectSword::GetInstance()->GetSword()->GetDamage()+FIRSTATTACKDAMAGE;
+	int randDam = rand() % 5+1;
+	Damage = SelectSword::GetInstance()->GetSword()->GetDamage()+FIRSTATTACKDAMAGE+randDam;
 
 	DetailAttack(enemy,120);
 }

@@ -15,7 +15,7 @@ void BossEnemyAttackHalf::Update(Enemy* enemy)
 		enemy->SetAttack_End(enemy->HALF_1,true);
 	}
 	//40%以下時の半面攻撃終了
-	if (Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) < 20.0f) {
+	if (Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) < 40.0f) {
 		enemy->SetAttack_End(enemy->HALF_2, true);
 	}
 	//半面攻撃のフェーズが最後まで行ったらボスのstateを追跡に

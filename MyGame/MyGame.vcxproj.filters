@@ -58,21 +58,6 @@
     <Filter Include="Game\collision">
       <UniqueIdentifier>{a5d15daa-90ff-4b7f-a438-af2ba141053a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Scene">
-      <UniqueIdentifier>{71571380-9e3e-4eae-8be2-8821f123a3af}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Scene\title,play">
-      <UniqueIdentifier>{1c29f6ca-2414-4584-bc7f-019dad1dc8ef}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Scene\basescene">
-      <UniqueIdentifier>{ba3e160d-6499-4593-ad7e-388c395ab9f1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Scene\SceneManager">
-      <UniqueIdentifier>{56fcbf9e-9fe0-4faa-aa45-1615c0d8fd02}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Scene\framework">
-      <UniqueIdentifier>{a1bad7c0-fa12-4aaf-8391-fafcad7f2b9f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\gameobject">
       <UniqueIdentifier>{21df807f-5c3c-43d9-9a7d-fa929d490fa6}</UniqueIdentifier>
     </Filter>
@@ -199,6 +184,21 @@
     <Filter Include="Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン\後半フェーズ\行動遷移">
       <UniqueIdentifier>{20191d69-8eea-4a71-8563-3466169c2c59}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\gameobject\Scene">
+      <UniqueIdentifier>{71571380-9e3e-4eae-8be2-8821f123a3af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\Scene\title,play">
+      <UniqueIdentifier>{1c29f6ca-2414-4584-bc7f-019dad1dc8ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\Scene\basescene">
+      <UniqueIdentifier>{ba3e160d-6499-4593-ad7e-388c395ab9f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\Scene\SceneManager">
+      <UniqueIdentifier>{56fcbf9e-9fe0-4faa-aa45-1615c0d8fd02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\Scene\framework">
+      <UniqueIdentifier>{a1bad7c0-fa12-4aaf-8391-fafcad7f2b9f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -268,22 +268,22 @@
       <Filter>Game\collision</Filter>
     </ClCompile>
     <ClCompile Include="Framework.cpp">
-      <Filter>Game\Scene\framework</Filter>
+      <Filter>Game\gameobject\Scene\framework</Filter>
     </ClCompile>
     <ClCompile Include="SceneManager.cpp">
-      <Filter>Game\Scene\SceneManager</Filter>
+      <Filter>Game\gameobject\Scene\SceneManager</Filter>
     </ClCompile>
     <ClCompile Include="MyGame.cpp">
-      <Filter>Game\Scene\basescene</Filter>
+      <Filter>Game\gameobject\Scene\basescene</Filter>
     </ClCompile>
     <ClCompile Include="PlayScene.cpp">
-      <Filter>Game\Scene\title,play</Filter>
+      <Filter>Game\gameobject\Scene\title,play</Filter>
     </ClCompile>
     <ClCompile Include="TitleScene.cpp">
-      <Filter>Game\Scene\title,play</Filter>
+      <Filter>Game\gameobject\Scene\title,play</Filter>
     </ClCompile>
     <ClCompile Include="BaseScene.cpp">
-      <Filter>Game\Scene\basescene</Filter>
+      <Filter>Game\gameobject\Scene\basescene</Filter>
     </ClCompile>
     <ClCompile Include="LightGroup.cpp">
       <Filter>Game\gameobject\light</Filter>
@@ -424,10 +424,10 @@
       <Filter>Game\gameobject\オブジェクト種類\Sword\派生</Filter>
     </ClCompile>
     <ClCompile Include="BossScene.cpp">
-      <Filter>Game\Scene\title,play</Filter>
+      <Filter>Game\gameobject\Scene\title,play</Filter>
     </ClCompile>
     <ClCompile Include="Tutorial.cpp">
-      <Filter>Game\Scene\title,play</Filter>
+      <Filter>Game\gameobject\Scene\title,play</Filter>
     </ClCompile>
     <ClCompile Include="Nail.cpp">
       <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン</Filter>
@@ -606,22 +606,22 @@
       <Filter>Game\collision</Filter>
     </ClInclude>
     <ClInclude Include="Framework.h">
-      <Filter>Game\Scene\framework</Filter>
+      <Filter>Game\gameobject\Scene\framework</Filter>
     </ClInclude>
     <ClInclude Include="SceneManager.h">
-      <Filter>Game\Scene\SceneManager</Filter>
+      <Filter>Game\gameobject\Scene\SceneManager</Filter>
     </ClInclude>
     <ClInclude Include="MyGame.h">
-      <Filter>Game\Scene\basescene</Filter>
+      <Filter>Game\gameobject\Scene\basescene</Filter>
     </ClInclude>
     <ClInclude Include="TitleScene.h">
-      <Filter>Game\Scene\title,play</Filter>
+      <Filter>Game\gameobject\Scene\title,play</Filter>
     </ClInclude>
     <ClInclude Include="PlayScene.h">
-      <Filter>Game\Scene\title,play</Filter>
+      <Filter>Game\gameobject\Scene\title,play</Filter>
     </ClInclude>
     <ClInclude Include="BaseScene.h">
-      <Filter>Game\Scene\basescene</Filter>
+      <Filter>Game\gameobject\Scene\basescene</Filter>
     </ClInclude>
     <ClInclude Include="DirectionalLight.h">
       <Filter>Game\gameobject\light</Filter>
@@ -780,10 +780,10 @@
       <Filter>Game\gameobject\オブジェクト種類\Sword\派生</Filter>
     </ClInclude>
     <ClInclude Include="BossScene.h">
-      <Filter>Game\Scene\title,play</Filter>
+      <Filter>Game\gameobject\Scene\title,play</Filter>
     </ClInclude>
     <ClInclude Include="Tutorial.h">
-      <Filter>Game\Scene\title,play</Filter>
+      <Filter>Game\gameobject\Scene\title,play</Filter>
     </ClInclude>
     <ClInclude Include="Nail.h">
       <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン</Filter>
@@ -894,6 +894,9 @@
       <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン\後半フェーズ\行動遷移</Filter>
     </ClInclude>
     <ClInclude Include="MinimapSprite.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="FieldControl.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

@@ -23,6 +23,7 @@ private:
 	bool boss_colf;
 	std::vector<bool>Play_colf;
 	bool Hit_colf;
+	bool Hit_colf2;
 	OBB HandObb;
 	OBBCollision* ColObb;
 	OBBCollision* BossColObb;

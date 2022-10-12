@@ -14,7 +14,7 @@ Output main(float4 pos : POSITION, float2 uv : TEXCOORD)
 	addx=smoothstep(0.0f,window_x,centerpos.x);
 	addy=smoothstep(0.0f,window_y, centerpos.y);
 
-	output.svpos = float4(pos.x+addx+correction_Value, pos.y+addy, pos.z, pos.w);
+	output.svpos =  float4(pos.x + addx + correction_Value, pos.y + addy, pos.z, pos.w);
 	
 	output.uv = uv;
 	return output;

@@ -111,19 +111,16 @@ void AttackCollision::GetCol(int damage)
 		break;
 
 	case SceneManager::BOSS:
-		if (boss_colf) {
-			EnemyControl::GetInstance()->GetBossEnemyindex()[0]->RecvDamage(damage);
-		}
-
 		ColOBB(BOSS);
-
-		for (int i = 0; i < BossEnemyOBB.size(); i++) {
-			if (BossColObb->ColOBBs(HandObb, BossEnemyOBB[i])) {
-				boss_colf = true;
-				//break;
-			} else {
-				boss_colf = false;
+		if (PlayerControl::GetInstance()->GetPlayer()->GetNowAttack()) {
+			for (int i = 0; i < BossEnemyOBB.size(); i++) {
+				if (BossColObb->ColOBBs(HandObb, BossEnemyOBB[i]) && !Hit_colf2) {
+					EnemyControl::GetInstance()->GetBossEnemyindex()[0]->RecvDamage(damage);
+					Hit_colf2 = true;
+				}
 			}
+		} else {
+			Hit_colf2 = false;
 		}
 		break;
 	default:

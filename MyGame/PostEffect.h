@@ -1,6 +1,6 @@
 #pragma once
 #include "Sprite.h"
-
+#include"Texture.h"
 class PostEffect :
     public Sprite
 {

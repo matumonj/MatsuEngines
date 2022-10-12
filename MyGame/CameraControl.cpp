@@ -130,8 +130,8 @@ void CameraControl::Update_Tutorial(DebugCamera* camera)
 {
 	AngleRotation();
 	this->camera->Update();
-
-	(this->*targetTable[Tstate])();
+	TargetPlayer();
+	//(this->*targetTable[Tstate])();
 }
 
 void CameraControl::Update_Play(DebugCamera* camera)
@@ -140,6 +140,8 @@ void CameraControl::Update_Play(DebugCamera* camera)
 
 	this->camera->Update();
 
+	TargetPlayer();
+	//Feed::GetInstance()->Update_White(Feed::FEEDOUT);
 	(this->*targetTable[Tstate])();
 }
 
@@ -375,7 +377,7 @@ void CameraControl::PlaySceneStart()
 		camera->SetEye(SplinePosition(points, startindex, timerate));
 
 		//カメラが一定距離近づいたらフェード
-		if (Collision::GetLength(camera->GetEye(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 50) {
+		if (Collision::GetLength(camera->GetEye(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 500) {
 			Feed::GetInstance()->Update_Black(Feed::FEEDIN);
 		}
 		else {
