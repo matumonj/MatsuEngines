@@ -73,6 +73,7 @@ void MobEnemy::Initialize(DebugCamera* camera)
 	ParticleManager::LoadTexture(6, L"Resources/ParticleTex/Attack.png");
 	particleMan2 = ParticleManager::Create(6, L"Resources/ParticleTex/Attack.png");
 
+	colObb = new OBBCollision();
 }
 
 //更新処理
@@ -83,8 +84,32 @@ void MobEnemy::Update(DebugCamera* camera)
 	if (EnemyHP <= 0) {
 		alpha -= 0.005f;
 	}
-	
+	HandMat = m_fbxObject->GetRot();
+	HandSiteOBB.m_Pos.m128_f32[0] = HandMat.r[3].m128_f32[0];// GetPosition().x;
+	HandSiteOBB.m_Pos.m128_f32[1] = HandMat.r[3].m128_f32[1];
+	HandSiteOBB.m_Pos.m128_f32[2] = HandMat.r[3].m128_f32[2];
 
+	//今はプレイヤーの手に当たり判定　あと出修正
+	HandSiteOBB.m_NormaDirect[0] = { HandMat.r[0].m128_f32[0],HandMat.r[0].m128_f32[1],HandMat.r[0].m128_f32[2] };
+	HandSiteOBB.m_NormaDirect[1] = { HandMat.r[1].m128_f32[0], HandMat.r[1].m128_f32[1], HandMat.r[1].m128_f32[2] };
+	HandSiteOBB.m_NormaDirect[2] = { HandMat.r[2].m128_f32[0],HandMat.r[2].m128_f32[1],HandMat.r[2].m128_f32[2] };
+
+	HandSiteOBB.m_fLength[0] = 2.0f;
+	HandSiteOBB.m_fLength[1] = 2.0f;
+	HandSiteOBB.m_fLength[2] = 2.0f;
+
+	playerOBB.m_NormaDirect[0] = { PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[0].m128_f32[0],PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[0].m128_f32[1],PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[0].m128_f32[2] };
+	playerOBB.m_NormaDirect[1] = { PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[1].m128_f32[0],PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[1].m128_f32[1],PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[1].m128_f32[2] };
+	playerOBB.m_NormaDirect[2] = { PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[2].m128_f32[0],PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[2].m128_f32[1],PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[2].m128_f32[2] };
+	playerOBB.m_fLength[0] = 1;//x方向の長さ
+	playerOBB.m_fLength[1] = 1;//y方向の長さ
+	playerOBB.m_fLength[2] = 1;//z方向の長さ
+	//OBBの設定位置
+	playerOBB.m_Pos = { PlayerControl::GetInstance()->GetPlayer()->GetPosition().x,PlayerControl::GetInstance()->GetPlayer()->GetPosition().y,PlayerControl::GetInstance()->GetPlayer()->GetPosition().z };
+
+	if (colObb->ColOBBs(HandSiteOBB, playerOBB)) {
+		PlayerControl::GetInstance()->GetPlayer()->RecvDamage(10);
+	}
 	FbxAnimationControl();
 	
 	EnemyPop(150);

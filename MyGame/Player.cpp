@@ -96,7 +96,7 @@ void Player::Move()
 	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(Rotation.y));
 	move = XMVector3TransformNormal(move, matRot);
 
-	if (!StopFlag) {
+	if (!StopFlag&&!evasionF) {
 		if (input->Pushkey(DIK_W) || input->Pushkey(DIK_A) || input->Pushkey(DIK_D) || input->Pushkey(DIK_S)
 			|| (input->LeftTiltStick(input->Left) || input->LeftTiltStick(input->Right) || input->LeftTiltStick(input->Up) || input->LeftTiltStick(input->Down))) {
 			Position.x += move.m128_f32[0] * movespeed;
@@ -106,6 +106,28 @@ void Player::Move()
 		Jump();
 	}
 	Gmove = move;
+	if (input->TriggerButton(input->Button_B)) {
+		evasionF = true;
+	}
+	Evasion();
+}
+
+#include"mHelper.h"
+void Player::Evasion()
+{
+	if (evasionF) {
+		evaTime += 0.02f;
+		Position.x += Gmove.m128_f32[0] * Easing::EaseOut(evaTime,5.0f, 0.0f);
+		Position.z += Gmove.m128_f32[2] * Easing::EaseOut(evaTime,5.0f, 0.0f);
+		if (evaTime >= 1.0f) {
+			evasionF = false;
+		}
+		m_fbxObject->SetColor({ 0,0,0,0 });
+	}
+	else {
+		m_fbxObject->SetColor({ 1,1,1,1 });
+		evaTime = 0.0f;
+	}
 }
 
 void Player::Update(DebugCamera* camera)
@@ -137,7 +159,7 @@ void Player::Update(DebugCamera* camera)
 
 void Player::RotationStatus()
 {
-	if (StopFlag)return;
+	if (StopFlag||evasionF)return;
 	//左方向への移動
 	if (rotate != RotationPrm::LEFT && input->LeftTiltStick(input->Left)) {//今向いている方向が左じゃなくAキーが押され、
 		if (rotate == RotationPrm::FRONT) {//右以外を向いていたら

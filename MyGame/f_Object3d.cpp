@@ -277,31 +277,13 @@ void f_Object3d::Updata(bool animeloop)
 		FbxLoader::ConvertMatrixFromFbx(&matCurrentPose, fbxCurrentPose);
 		//合成してスキニング行列に
 		constMapSkin->bones[i] = bones[i].invInitialPose * matCurrentPose;
-		//hand = bones[0].invInitialPose * matCurrentPose;
-
-
-	//	hand = bones[0].fbxCluster->GetTransformLinkMatrix();
-	}
-	//15.16
-	
+			}
 
 	int num = 13;
 	FbxLoader::ConvertMatrixFromFbx(&hRot, bones[num].fbxCluster->GetLink()->EvaluateGlobalTransform(currentTime));
-	hand = modelTransform * hRot * matRot;
-	//bones[1].fbxCluster->GetLink()->EvaluateLocalTransform()
-	//pos = {position.x+};posnode
-	PosNode2 = bones[num].fbxCluster->GetLink()->EvaluateLocalRotation();
-
-	Posmat = XMMatrixTranslationFromVector(
-		{ (float)PosNode[0], (float)PosNode[1], (float)PosNode[2],1.0f })*matScale * matRot*matTrans;
-	XMMATRIX matRot = XMMatrixIdentity();
-	matRot *= XMMatrixRotationZ(XMConvertToRadians((float)PosNode2[0]));
-	matRot *= XMMatrixRotationX(XMConvertToRadians((float)PosNode2[1]));
-	matRot *= XMMatrixRotationY(XMConvertToRadians((float)PosNode2[2]));
 	
-	RotMat = matRot;
-	pos = { Posmat.r[0].m128_f32[0] + position.x,Posmat.r[0].m128_f32[1] +position.y, Posmat.r[0].m128_f32[2] + position.z };
 	rot =  hRot* matWorld;
+	
 	constBuffSkin->Unmap(0, nullptr);
 }
 
@@ -344,4 +326,29 @@ void f_Object3d::PlayAnimation()
 	currentTime = startTime;
 	//再生中状態にする
 	isPlay = true;
+}
+
+XMMATRIX f_Object3d::ExtractRotationMat(XMMATRIX matworld)
+{
+	XMMATRIX mOffset = ExtractPositionMat(matworld);
+	XMMATRIX mScaling = ExtractScaleMat(matworld);
+
+	XMVECTOR det;
+	// 左からScaling、右からOffsetの逆行列をそれぞれかける。
+	return XMMatrixInverse(&det, mScaling) * matworld * XMMatrixInverse(&det, mOffset);
+}
+
+XMMATRIX f_Object3d::ExtractScaleMat(XMMATRIX matworld)
+{
+	return XMMatrixScaling(
+		XMVector3Length(XMVECTOR{ matworld.r[0].m128_f32[0],matworld.r[0].m128_f32[1],matworld.r[0].m128_f32[2] }).m128_f32[0],
+		XMVector3Length(XMVECTOR{ matworld.r[1].m128_f32[0],matworld.r[1].m128_f32[1],matworld.r[1].m128_f32[2] }).m128_f32[0],
+		XMVector3Length(XMVECTOR{ matworld.r[2].m128_f32[0],matworld.r[2].m128_f32[1],matworld.r[2].m128_f32[2] }).m128_f32[0]
+	);
+}
+
+XMMATRIX f_Object3d::ExtractPositionMat(XMMATRIX matworld)
+{
+	return XMMatrixTranslation(matworld.r[3].m128_f32[0], matworld.r[3].m128_f32[1], matworld.r[3].m128_f32[2]);
+
 }

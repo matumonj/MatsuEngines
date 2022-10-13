@@ -171,4 +171,8 @@ public:	//íËêî
 	void SetDeathTime(float time) { DeathTime = time; }
 	float GetEndTime() { return end_time; }
 	XMMATRIX GetWorld() { return matWorld; }
+
+	XMMATRIX ExtractPositionMat(XMMATRIX matworld);
+	XMMATRIX ExtractRotationMat(XMMATRIX matworld);
+	XMMATRIX ExtractScaleMat(XMMATRIX matworld);
 };
