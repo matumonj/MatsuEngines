@@ -97,8 +97,11 @@ private:
 	XMVECTOR Gmove;
 public:
 	void RotationStatus();
+	
 	void SetCharaRotation(float angle) { Rotation.y = angle; rotate = RotationPrm::FRONT; }
+	
 	int GetHP() { return HP; }
+	
 	int GetMaxHP() { return MaxHP; }
 
 	float GetFbxTime() { return f_time; }

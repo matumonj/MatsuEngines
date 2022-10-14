@@ -56,11 +56,10 @@ void PlayerControl::Initialize(DebugCamera* camera)
 /*------------------------*/
 /*--------更新処理---------*/
 /*------------------------*/
+//playerの中にある移動処理とかは後でこっち持ってくる
 void PlayerControl::Update_Tutorial(DebugCamera* camera)//チュートリアル時
 {
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
-		player->Update(camera);
-	}
+	player->Update(camera);
 	PlayerAttackState::GetInstance()->Update();
 }
 
@@ -80,14 +79,6 @@ void PlayerControl::Update_Boss(DebugCamera* camera)
 /*------------------------*/
 void PlayerControl::Draw()
 {
-
-
-	ImGui::Begin("pos");
-	ImGui::Text("x  %f", player->GetPosition().x);
-	ImGui::Text("y %f", player->GetPosition().y);
-	ImGui::Text("z %f", player->GetPosition().z);
-	ImGui::End();
-	//if (player == nullptr)return;
+	if (player == nullptr)return;
 		player->Draw();	
-
 }

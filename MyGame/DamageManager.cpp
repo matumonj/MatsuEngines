@@ -19,7 +19,7 @@ void DamageManager::Upda()
 
 		DamageTex.remove_if([](std::unique_ptr<DebugTxt>& dtex) {
 			return dtex->GetisDestroy();
-			});
+		});
 }
 
 void DamageManager::TextBeha()

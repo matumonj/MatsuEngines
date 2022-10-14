@@ -9,8 +9,7 @@
 #include"SceneManager.h"
 Wood::~Wood()
 {
-	delete ps0;
-	//delete  m_Model;
+	
 }
 void Wood::Initialize(DebugCamera* camera)
 {
@@ -19,7 +18,6 @@ void Wood::Initialize(DebugCamera* camera)
 	//フィールドにモデル割り当て
 	m_Object->Initialize(camera);
 	m_Object->SetModel(ModelManager::GetIns()->GetModel(ModelManager::WOOD));
-	ps0 = new OBBCollision();
 	Scale = { 2,3,2 };
 	radius_adjustment = -14;
 	SetCollider();
@@ -43,25 +41,17 @@ void Wood::Draw()
 bool Wood::CollideWood()
 {
 	if (PlayerControl::GetInstance()->GetPlayer() == nullptr)return false;
-	playerOBB.m_NormaDirect[0] = { PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[0].m128_f32[0],PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[0].m128_f32[1],PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[0].m128_f32[2] };
-	playerOBB.m_NormaDirect[1] = { PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[1].m128_f32[0],PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[1].m128_f32[1],PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[1].m128_f32[2] };
-	playerOBB.m_NormaDirect[2] = { PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[2].m128_f32[0],PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[2].m128_f32[1],PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[2].m128_f32[2] };
-	playerOBB.m_fLength[0] = 1;//x方向の長さ
-	playerOBB.m_fLength[1] = 1;//y方向の長さ
-	playerOBB.m_fLength[2] = 1;//z方向の長さ
+	playerOBB.SetOBBParam_Pos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
+	playerOBB.SetOBBParam_Scl({ 1,1,1 });
+	playerOBB.SetOBBParam_Rot(PlayerControl::GetInstance()->GetPlayer()->GetMatrot());
+	
 	//OBB 回転ベクトル
-	woodOBB.m_NormaDirect[0] = { m_Object->GetMatrot().r[0].m128_f32[0],m_Object->GetMatrot().r[0].m128_f32[1],m_Object->GetMatrot().r[0].m128_f32[2] };
-	woodOBB.m_NormaDirect[1] = { m_Object->GetMatrot().r[1].m128_f32[0], m_Object->GetMatrot().r[1].m128_f32[1], m_Object->GetMatrot().r[1].m128_f32[2] };
-	woodOBB.m_NormaDirect[2] = { m_Object->GetMatrot().r[2].m128_f32[0], m_Object->GetMatrot().r[2].m128_f32[1], m_Object->GetMatrot().r[2].m128_f32[2] };
-	woodOBB.m_fLength[0] = 2;//x方向の長さ
-	woodOBB.m_fLength[1] = 20;//y方向の長さ
-	woodOBB.m_fLength[2] =3;//z方向の長さ
-	//OBBの設定位置
-	playerOBB.m_Pos = { PlayerControl::GetInstance()->GetPlayer()->GetPosition().x,PlayerControl::GetInstance()->GetPlayer()->GetPosition().y,PlayerControl::GetInstance()->GetPlayer()->GetPosition().z };
-	woodOBB.m_Pos = { m_Object->GetPosition().x,  m_Object->GetPosition().y, m_Object->GetPosition().z };
+	woodOBB.SetOBBParam_Pos(m_Object->GetPosition());
+	woodOBB.SetOBBParam_Scl({ 2,20,3});
+	woodOBB.SetOBBParam_Rot(m_Object->GetMatrot());
 
 	if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), Position) < 20) {
-		if (ps0->ColOBBs(playerOBB, woodOBB)) {
+		if (Collision::CheckOBBCollision(playerOBB, woodOBB)==true) {
 		PlayerControl::GetInstance()->GetPlayer()->isOldPos();
 			return true;
 		} else {

@@ -46,7 +46,7 @@ private:
     bool SlashF2;
     bool nowAttack;
     const int ParticleSize = 20;
-    OBBCollision* colObb;
+    //OBBCollision* colObb;
    
 public:
    // bool GetFolatc() { return folatc; }

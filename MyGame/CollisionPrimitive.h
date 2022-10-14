@@ -79,3 +79,21 @@ struct Line2D
 	DirectX::XMFLOAT2 start;
 	DirectX::XMFLOAT2 end;
 };
+
+class OBB
+{
+private:
+	DirectX::XMVECTOR m_Pos;              // 位置
+	DirectX::XMVECTOR m_NormaDirect[3];   // 方向ベクトル 回転ベクトル打ち込む
+	float m_fLength[3];             // 各軸方向の長さ
+public:
+	DirectX::XMVECTOR GetDirect(int elem) { return m_NormaDirect[elem]; }   // 指定軸番号の方向ベクトルを取得
+	float GetLen_W(int elem) { return m_fLength[elem]; }          // 指定軸方向の長さを取得
+	DirectX::XMVECTOR GetPos_W() { return m_Pos; }
+
+	void SetOBBParam_Pos(DirectX::XMMATRIX posMat);
+	void SetOBBParam_Pos(DirectX::XMFLOAT3 pos);
+	void SetOBBParam_Scl(DirectX::XMFLOAT3 scl);
+	void SetOBBParam_Rot(DirectX::XMMATRIX rotMat);
+
+};

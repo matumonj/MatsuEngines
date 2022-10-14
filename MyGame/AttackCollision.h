@@ -25,9 +25,9 @@ private:
 	bool Hit_colf;
 	bool Hit_colf2;
 	OBB HandObb;
-	OBBCollision* ColObb;
-	OBBCollision* BossColObb;
-	std::vector<OBBCollision*>PlayColOBB;
+	//OBBCollision* ColObb;
+	//OBBCollision* BossColObb;
+	//std::vector<OBBCollision*>PlayColOBB;
 	std::vector<Box> EnemyArea;
 	Input* input;
 public:

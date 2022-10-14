@@ -90,12 +90,6 @@ void Field::Update_Tutorial(DebugCamera* camera)
 	FieldObject->SetColor({ 0.2f,0.2f,0.2f,1.0f });
 	FieldObject->Update({ 0.2f,0.2f,0.2f,1.0f }, camera);
 
-	playerpoint->SetPosition({ PlayerControl::GetInstance()->GetPlayer()->GetPosition().x,PlayerControl::GetInstance()->GetPlayer()->GetPosition() .y+10,PlayerControl::GetInstance()->GetPlayer()->GetPosition().z});
-	playerpoint->Update(dc);
-	playerpoint->SetScale({ 4.0f,4.0f,4.0f });
-	playerpoint->SetBillboard(true);
-	playerpoint->SetColor({ 1.0f,1.0f,1.0f,1 });
-
 }
 
 void Field::Update_Play(DebugCamera* camera)
@@ -157,9 +151,7 @@ void Field::MiniFieldDraw()
 	m_object[ObjType::MINI]->Draw();
 	Object3d::PostDraw();
 
-	Texture::PreDraw();
-	playerpoint->Draw();
-	Texture::PostDraw();
+	
 }
 #include"imgui.h"
 void Field::Draw()

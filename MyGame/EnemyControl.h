@@ -41,12 +41,6 @@ public:
 
 	void Draw()override;
 
-	void TutorialLoad(DebugCamera* camera);
-	void TutorialUpdate(DebugCamera* camera);
-
-	void TuatorialDraw();
-
-	
 	void Finalize()override;
 
 	std::vector<std::unique_ptr<Enemy>> &GetEnemyindex(int index);// { return enemys[index].get(); }

@@ -37,15 +37,14 @@ void Tutorial::Initialize()
 		AllObjectControl.push_back(FenceControl::GetInstance());//Fence
 		AllObjectControl.push_back(ChestControl::GetInstance());//Chest
 		AllObjectControl.push_back(WoodControl::GetInstance());//Wood
-	//初期化部
+
 	for (int i = 0; i < AllObjectControl.size(); i++) {//初期化
 		AllObjectControl[i]->Initialize(CameraControl::GetInstance()->GetCamera());
+		}
 	}
-	}
+	//Field
 	Field::GetInstance()->Initialize(CameraControl::GetInstance()->GetCamera());
 
-	// 3Dオブジェクトにカメラをセット
-	//Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
 	//カメラをセット
 	f_Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
 	//グラフィックパイプライン生成
@@ -57,8 +56,9 @@ void Tutorial::Initialize()
 
 	postEffect = new MinimapSprite();
 	postEffect->Initialize();
+	//ミニマップ用のカメラ　後で別のところに移す
 	dc = new DebugCamera(WinApp::window_width, WinApp::window_height);
-
+	//各種設定画面
 	SistemConfig::GetInstance()->Initialize();
 }
 
@@ -82,7 +82,7 @@ void Tutorial::objUpdate(DebugCamera* camera)
 		}
 		UI::GetInstance()->HUDUpdate(hudload, CameraControl::GetInstance()->GetCamera());
 	}
-
+	//後で別ん所移す
 	dc->Update();
 
 	dc->SetTarget({ CameraControl::GetInstance()->GetCamera()->GetTarget() });

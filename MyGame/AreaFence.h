@@ -1,6 +1,7 @@
 #pragma once
 #include"OBBCollision.h"
 #include"ObjectManager.h"
+#include"CollisionPrimitive.h"
 class AreaFence:public ObjectManager
 {
 public:
@@ -10,8 +11,7 @@ public:
 private:
 	OBB playerOBB;
 	OBB AreaFenceOBB;// = nullptr;
-	OBBCollision* ps0 = nullptr;
-
+	
 	float FencePosY_Min;
 public:
 	void Initialize(DebugCamera* camera)override;

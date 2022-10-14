@@ -2,10 +2,10 @@
 #include "AreaFence.h"
 #include"PlayerControl.h"
 #include"SceneManager.h"
+#include"Collision.h"
 AreaFence::~AreaFence()
 {
-	//delete  m_Model;
-	delete ps0;
+
 }
 void AreaFence::Initialize(DebugCamera* camera)
 {
@@ -16,8 +16,7 @@ void AreaFence::Initialize(DebugCamera* camera)
 	//フィールドにモデル割り当て
 	m_Object->Initialize(camera);
 	m_Object->SetModel(ModelManager::GetIns()->GetModel(ModelManager::FENCE));
-	ps0 = new OBBCollision();
-
+	
 	Scale = { 10,10,10 };
 	SetCollider();
 }
@@ -38,24 +37,18 @@ void AreaFence::Draw()
 
 bool AreaFence::CollideAreaFence()
 {
-	playerOBB.m_NormaDirect[0] = { PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[0].m128_f32[0],PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[0].m128_f32[1],PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[0].m128_f32[2] };
-	playerOBB.m_NormaDirect[1] = { PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[1].m128_f32[0],PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[1].m128_f32[1],PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[1].m128_f32[2] };
-	playerOBB.m_NormaDirect[2] = { PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[2].m128_f32[0],PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[2].m128_f32[1],PlayerControl::GetInstance()->GetPlayer()->GetMatrot().r[2].m128_f32[2] };
-	playerOBB.m_fLength[0] = 1;//x方向の長さ
-	playerOBB.m_fLength[1] = 1;//y方向の長さ
-	playerOBB.m_fLength[2] = 1;//z方向の長さ
-	//敵のOBB 回転ベクトル
-	AreaFenceOBB.m_NormaDirect[0] = { m_Object->GetMatrot().r[0].m128_f32[0],m_Object->GetMatrot().r[0].m128_f32[1],m_Object->GetMatrot().r[0].m128_f32[2] };
-	AreaFenceOBB.m_NormaDirect[1] = { m_Object->GetMatrot().r[1].m128_f32[0], m_Object->GetMatrot().r[1].m128_f32[1], m_Object->GetMatrot().r[1].m128_f32[2] };
-	AreaFenceOBB.m_NormaDirect[2] = { m_Object->GetMatrot().r[2].m128_f32[0], m_Object->GetMatrot().r[2].m128_f32[1], m_Object->GetMatrot().r[2].m128_f32[2] };
-	AreaFenceOBB.m_fLength[0] = m_Object->GetMatScl().r[0].m128_f32[0] * 4;
-	AreaFenceOBB.m_fLength[1] = m_Object->GetMatScl().r[1].m128_f32[1] * 3;//y方向の長さ
-	AreaFenceOBB.m_fLength[2] = m_Object->GetMatScl().r[2].m128_f32[2] - 2;//z方向の長さ
-	//OBBの設定位置
-	playerOBB.m_Pos = { PlayerControl::GetInstance()->GetPlayer()->GetPosition().x,PlayerControl::GetInstance()->GetPlayer()->GetPosition().y,PlayerControl::GetInstance()->GetPlayer()->GetPosition().z };
-	AreaFenceOBB.m_Pos = { Position.x,Position.y,Position.z };
+	playerOBB.SetOBBParam_Pos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
+	playerOBB.SetOBBParam_Rot(PlayerControl::GetInstance()->GetPlayer()->GetMatrot());
+	playerOBB.SetOBBParam_Scl({ 1.0f,1.0f,1.0f });
 
-	if (ps0->ColOBBs(playerOBB, AreaFenceOBB)) {
+	//柵のOBB 回転ベクトル
+	AreaFenceOBB.SetOBBParam_Pos(Position);
+	AreaFenceOBB.SetOBBParam_Rot(m_Object->GetMatrot());
+	AreaFenceOBB.SetOBBParam_Scl({ m_Object->GetMatScl().r[0].m128_f32[0] * 4,
+		m_Object->GetMatScl().r[1].m128_f32[1] * 3 ,
+		m_Object->GetMatScl().r[2].m128_f32[2] - 2 });
+
+	if (Collision::CheckOBBCollision(playerOBB,AreaFenceOBB)==true) {
 		//Collision::SetCollideOBB(true);
 		//PlayerControl::GetInstance()->GetPlayer()->isOldPos();
 		return true;

@@ -6,8 +6,7 @@
 
 #include"Player.h"
 #include<memory>
-#include"OBBCollision.h"
-#include"ObjectManager.h"
+#include"CollisionPrimitive.h"
 class Wood :public ObjectManager
 {
 
@@ -18,7 +17,6 @@ public:
 private:
 	OBB playerOBB;
 	OBB woodOBB;// = nullptr;
-	OBBCollision* ps0 = nullptr;
 
 public:
 	void Initialize(DebugCamera* camera)override;

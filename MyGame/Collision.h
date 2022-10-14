@@ -5,7 +5,6 @@ using namespace DirectX;
 class Collision
 {
 public:
-
 	static float GetLength(XMFLOAT3 position, XMFLOAT3 position2);
 	struct BoxVertex
 	{
@@ -88,5 +87,9 @@ public:
 	/// <returns>åç∑ÇµÇƒÇ¢ÇÈÇ©î€Ç©</returns>
 	static bool CheckRay2Sphere(const Ray& lay, const Sphere& sphere, float* distance = nullptr, DirectX::XMVECTOR* inter = nullptr);
 
+public:
+	static bool CheckOBBCollision(OBB& obb1,OBB& obb2);
+private:
+	static double LenSegOnSeparateAxis(XMVECTOR* Sep, XMVECTOR* e1, XMVECTOR* e2, XMVECTOR* e3 = 0);
 };
 
