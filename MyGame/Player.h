@@ -41,6 +41,10 @@ private:
 	void ReturnGround();
 	void Jump();
 	void Move();
+	bool evasionF;
+	float evaTime;
+	XMFLOAT3 EvaPos;
+	void Evasion();
 public:
 	//OBBの当たり判定に使うプレイヤーの回転行列取得
 	XMMATRIX GetMatrot();

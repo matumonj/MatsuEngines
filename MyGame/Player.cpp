@@ -52,7 +52,7 @@ void Player::Initialize(DebugCamera* camera)
 
 	Rotation = { 0.0f,0.0f,0.0f };
 	Position = { 0.0f,0.0f,0.0f };
-	Scale = { 0.02f, 0.02f, 0.02f };
+	Scale = { 0.01f, 0.01f, 0.01f };
 
 	SelectSword::GetInstance()->Initialize();
 	
@@ -96,7 +96,7 @@ void Player::Move()
 	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(Rotation.y));
 	move = XMVector3TransformNormal(move, matRot);
 
-	if (!StopFlag) {
+	if (!StopFlag&&!evasionF) {
 		if (input->Pushkey(DIK_W) || input->Pushkey(DIK_A) || input->Pushkey(DIK_D) || input->Pushkey(DIK_S)
 			|| (input->LeftTiltStick(input->Left) || input->LeftTiltStick(input->Right) || input->LeftTiltStick(input->Up) || input->LeftTiltStick(input->Down))) {
 			Position.x += move.m128_f32[0] * movespeed;
@@ -106,6 +106,28 @@ void Player::Move()
 		Jump();
 	}
 	Gmove = move;
+	if (input->TriggerButton(input->Button_B)) {
+		evasionF = true;
+	}
+	Evasion();
+}
+
+#include"mHelper.h"
+void Player::Evasion()
+{
+	if (evasionF) {
+		evaTime += 0.02f;
+		Position.x += Gmove.m128_f32[0] * Easing::EaseOut(evaTime,5.0f, 0.0f);
+		Position.z += Gmove.m128_f32[2] * Easing::EaseOut(evaTime,5.0f, 0.0f);
+		if (evaTime >= 1.0f) {
+			evasionF = false;
+		}
+		m_fbxObject->SetColor({ 0,0,0,0 });
+	}
+	else {
+		m_fbxObject->SetColor({ 1,1,1,1 });
+		evaTime = 0.0f;
+	}
 }
 
 void Player::Update(DebugCamera* camera)
@@ -123,11 +145,12 @@ void Player::Update(DebugCamera* camera)
 	FbxAnimationControl();
 
 	//3d更新
+	CollisionField(camera);
+
 	ParameterSet_Obj(camera);
 	ParameterSet_Fbx(camera);
 	
-	CollisionField(camera);
-
+	
 	//手のボーン取得
 	HandMat = m_fbxObject->GetRot();
 
@@ -136,7 +159,7 @@ void Player::Update(DebugCamera* camera)
 
 void Player::RotationStatus()
 {
-	if (StopFlag)return;
+	if (StopFlag||evasionF)return;
 	//左方向への移動
 	if (rotate != RotationPrm::LEFT && input->LeftTiltStick(input->Left)) {//今向いている方向が左じゃなくAキーが押され、
 		if (rotate == RotationPrm::FRONT) {//右以外を向いていたら
@@ -201,7 +224,7 @@ void Player::FbxAnimationControl()
 {
 	const float timespeed = 0.02f;
 
-	if (CustomButton::GetInstance()->GetAttackAction() == true) {
+	if (CustomButton::GetInstance()->GetAttackAction() == true&&PlayerAttackState::GetInstance()->GetCoolTime()==0) {
 			AttackFlag = true;
 	}
 	if (AttackFlag) {

@@ -91,7 +91,7 @@ void EnemyControl::Load(DebugCamera* camera)
 
 					std::getline(line_stream, word, ',');
 					float y = (float)std::atof(word.c_str());
-
+					   
 					std::getline(line_stream, word, ',');
 					float z = (float)std::atof(word.c_str());
 

@@ -42,12 +42,13 @@ void Enemy::Action()
 }
 
 #include"AttackCollision.h"
+#include"CameraControl.h"
 void Enemy::RecvDamage(int Damage) 
 {
 	if (EnemyHP <= 0)return;
 	float texZ= PlayerControl::GetInstance()->GetPlayer()->GetPosition().z- Position.z ;
 	float texX= PlayerControl::GetInstance()->GetPlayer()->GetPosition().x - Position.x;
-	DamageManager::GetIns()->DamageDisPlay(Damage, { 1,1,1,1 }, { Position.x,Position.y + 10,Position.z });
+	DamageManager::GetIns()->DamageDisPlay(Damage, { 1,1,1,1 }, { Position.x,Position.y + 20, CameraControl::GetInstance()->GetCamera()->GetEye().z + 40.0f });
 
 	EnemyHP = EnemyHP - Damage;
 	DamageParticleCreateF = true;

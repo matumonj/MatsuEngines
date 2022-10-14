@@ -9,7 +9,7 @@ using namespace DirectX;
 //デバイス
 ComPtr<ID3D12Device> MinimapSprite::device = nullptr;
 ComPtr<ID3D12GraphicsCommandList> MinimapSprite::cmdList = nullptr;
-const float MinimapSprite::clearColor[4] = { 1.0f,0.3f,0.6f,0.0f };
+const float MinimapSprite::clearColor[4] = { 210.0f/255.0f,180.0f/255.0f,140.0f/255.0f };
 
 MinimapSprite::MinimapSprite()
 	:Sprite(100, { 0,0 }, { 500,500 }, { 1,1,1,1 }, { 0,0 })

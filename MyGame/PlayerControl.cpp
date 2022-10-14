@@ -24,14 +24,13 @@ void PlayerControl::Finalize()
 /*----------scv----------*/
 void PlayerControl::Load(DebugCamera* camera)
 {
-	//各シーンの初期座標設定
 	switch (SceneManager::GetInstance()->GetScene())
 	{
 	case SceneManager::TUTORIAL:
-		StartPos={ 92.0f,-12.0f,-760.0f };
+		StartPos = { 92.0f,-12.0f,-760.0f };
 		break;
 	case SceneManager::PLAY:
-		StartPos = { 110.0f,-15.0f,-379.0f };
+		StartPos = { 110.0f,-12.0f,-379.0f };
 		break;
 	case SceneManager::BOSS:
 		StartPos = { 0.0f,2.0f,-50.0f };
@@ -39,8 +38,9 @@ void PlayerControl::Load(DebugCamera* camera)
 	default:
 		break;
 	}
-	
+
 	player->SetPosition(StartPos);
+	AttackCollision::GetInstance()->Init();
 }
 
 void PlayerControl::Initialize(DebugCamera* camera)
@@ -49,8 +49,8 @@ void PlayerControl::Initialize(DebugCamera* camera)
 
 	player = std::make_unique<Player>();
 	player->Initialize(camera);
+	//各シーンの初期座標設定
 
-	AttackCollision::GetInstance()->Init();
 }
 
 /*------------------------*/
@@ -58,7 +58,9 @@ void PlayerControl::Initialize(DebugCamera* camera)
 /*------------------------*/
 void PlayerControl::Update_Tutorial(DebugCamera* camera)//チュートリアル時
 {
-	player->Update(camera);
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
+		player->Update(camera);
+	}
 	PlayerAttackState::GetInstance()->Update();
 }
 
@@ -78,6 +80,14 @@ void PlayerControl::Update_Boss(DebugCamera* camera)
 /*------------------------*/
 void PlayerControl::Draw()
 {
-	if (player == nullptr)return;
+
+
+	ImGui::Begin("pos");
+	ImGui::Text("x  %f", player->GetPosition().x);
+	ImGui::Text("y %f", player->GetPosition().y);
+	ImGui::Text("z %f", player->GetPosition().z);
+	ImGui::End();
+	//if (player == nullptr)return;
 		player->Draw();	
+
 }

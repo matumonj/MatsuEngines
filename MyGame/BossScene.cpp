@@ -12,6 +12,7 @@
 #include"PlayScene.h"
 #include"Feed.h"
 #include"PlayerControl.h"
+#include"DamageManager.h"
 BossScene::BossScene(SceneManager* sceneManager)
 	:BaseScene(sceneManager)
 {
@@ -83,10 +84,17 @@ void BossScene::Update()
 	Field::GetInstance()->SetCamera(dc);
 
 	Field::GetInstance()->Update(CameraControl::GetInstance()->GetCamera());
+	DamageManager::GetIns()->Upda();
+
 	//各オブジェクトの更新処理
 	//csv読み込み部分(Cameraの更新後にするのでobjUpdate()挟んでから)
 	LoadParam(CameraControl::GetInstance()->GetCamera());
-
+	if (scenechange && Feed::GetInstance()->GetAlpha() >= 1.0f) {//画面真っ白なったら
+		BaseScene* scene = new BossScene(sceneManager_);//次のシーンのインスタンス生成
+		Play = false;
+		SceneManager::GetInstance()->SetScene(SceneManager::BOSS);
+		sceneManager_->SetnextScene(scene);//シーンのセット
+	}
 	if (scenechange) {
 		Feed::GetInstance()->Update_White(Feed::FEEDIN);//白くなります
 	}
@@ -120,11 +128,13 @@ void BossScene::Draw()
 	{
 	case Blur://ぼかし　描画準違うだけ
 		postEffect->PreDrawScene();
-		MyGameDraw();
+		//MyGameDraw();
 		postEffect->PostDrawScene();
 
 		DirectXCommon::GetInstance()->BeginDraw();
-		postEffect->Draw();
+	//	postEffect->Draw();
+		SistemConfig::GetInstance()->SwordPedestalDraw();
+
 		//UI
 		if (HUD::GetInstance()->GetLayOutMode()) {
 			UI::GetInstance()->HUDDraw();
@@ -146,6 +156,8 @@ void BossScene::Draw()
 
 		DirectXCommon::GetInstance()->BeginDraw();
 		MyGameDraw();
+		DamageManager::GetIns()->Draw();
+
 		postEffect->Draw();
 		//UI
 		if (CameraControl::GetInstance()->GetCameraState() != CameraControl::BOSSCUTSCENE) {

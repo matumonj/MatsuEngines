@@ -7,7 +7,7 @@ inline void Destroy(T*& p) {
 }
 template <class T>
 inline void Destroy_unique(std::unique_ptr<T>& p) {
-	
-	p.reset();
+	p.release();
+	//p.relese();
 	p = nullptr;
 }

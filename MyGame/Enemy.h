@@ -13,6 +13,7 @@
 #include"ObjectManager.h"
 #include"ParticleManager.h"
 #include"DebugTxt.h"
+#include"OBB.h"
 class NodeBase;
 /// <summary>
 /// 敵キャラの基底クラス
@@ -89,7 +90,9 @@ protected:
 	float DeathTime;//死亡時のモーション開始フレーム
 	float AttackTime = 0;
 
-
+	XMMATRIX HandMat;
+	OBB HandSiteOBB;
+	OBB playerOBB;
 	/*ゲッター*/
 public:
 	bool GetRecvAttack() { return RecvAttackHit;}
@@ -102,9 +105,11 @@ public:
 	bool GetonFlag() { return onGround; }
 	//体力周り
 	float GetHP() { return EnemyHP; };
+	
 	float GetMaxHP() { return MaxHP; }
 	//FBXTime(死にモーションと攻撃モーションの開始フレーム取得)
 	bool GetDeathTime() { return DeathFlag; }
+	
 	bool GetAttackTime() { return f_AttackFlag; }
 	//現在の経過フレーム
 	float GetFbxTime() { return f_time; }
@@ -112,7 +117,9 @@ public:
 	XMMATRIX GetMatrot() { return m_fbxObject->GetMatrot(); }
 	//攻撃のクールタイム
 	int GetCoolTime() { return cooltime; }
-
+	//
+	XMMATRIX GetHandMat() { return HandMat; }
+	OBB GetHandSiteMat() { return HandSiteOBB; }
 	/*セッター*/
 public:
 	void SetRecvDamage(bool f) { RecvDamagef = f; }

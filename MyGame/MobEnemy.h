@@ -5,7 +5,7 @@
 #include"Player.h"
 #include"Texture.h"
 #include"Sprite.h"
-
+#include"OBBCollision.h"
 class MobEnemy :
     public Enemy
 {
@@ -46,7 +46,8 @@ private:
     bool SlashF2;
     bool nowAttack;
     const int ParticleSize = 20;
-
+    OBBCollision* colObb;
+   
 public:
    // bool GetFolatc() { return folatc; }
     bool isendtime;
