@@ -41,8 +41,8 @@ void FrontCircleAttack::ActionJudg()
 		break;
 	case FASEONE:
 		TexAlpha = 1.0f;
-		BossSpell::GetInstance()->SetStartSpell_FC(true);
-		if (BossSpell::GetInstance()->GetEndSpell_FC()) {
+		BossSpell::GetInstance()->SetStartSpell(BossSpell::SLAM,true);
+		if (BossSpell::GetInstance()->GetEndSpell(BossSpell::SLAM)) {
 			fase = FASETWO;
 		}
 		//fase = FASETWO;
@@ -60,9 +60,7 @@ void FrontCircleAttack::ActionJudg()
 		}
 		break;
 	case FASEFOUR:
-
-			BossSpell::GetInstance()->SetEndSpell_UA(false);
-		
+		BossSpell::GetInstance()->SetEndSpell(BossSpell::SLAM,false);
 		break;
 	default:
 		break;

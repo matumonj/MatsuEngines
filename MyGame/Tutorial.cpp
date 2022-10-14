@@ -42,7 +42,6 @@ void Tutorial::Initialize()
 		AllObjectControl[i]->Initialize(CameraControl::GetInstance()->GetCamera());
 	}
 	}
-	Field::GetInstance()->Setplay(CameraControl::GetInstance()->GetCamera());
 	Field::GetInstance()->Initialize(CameraControl::GetInstance()->GetCamera());
 
 	// 3Dオブジェクトにカメラをセット
@@ -58,10 +57,7 @@ void Tutorial::Initialize()
 
 	postEffect = new MinimapSprite();
 	postEffect->Initialize();
-	//Field::GetInstance()->SetCamera(dc);
-	//postEffect->SetPosition({ 100,0 });
 	dc = new DebugCamera(WinApp::window_width, WinApp::window_height);
-	//Field::GetInstance()->SetCamera(dc);
 
 	SistemConfig::GetInstance()->Initialize();
 }
@@ -77,7 +73,6 @@ void Tutorial::objUpdate(DebugCamera* camera)
 		Load = true;
 	}
 	if (Play) {//csvからの読み込み終わってから更新処理
-		//1->Player  0->Camera カメラの注視点Playerに合わすのでPlayerが先
 		AllObjectControl[1]->Update(CameraControl::GetInstance()->GetCamera());
 		AllObjectControl[0]->Update(CameraControl::GetInstance()->GetCamera());
 		for (int i = 2; i < AllObjectControl.size(); i++) {
@@ -158,24 +153,16 @@ void Tutorial::Draw()
 	case Blur://ぼかし　描画準違うだけ
 		postEffect->PreDrawScene();
 		SistemConfig::GetInstance()->SwordPedestalDraw();
-
 		postEffect->PostDrawScene();
 
 		DirectXCommon::GetInstance()->BeginDraw();
-		//postEffect->Draw();
 		SistemConfig::GetInstance()->SwordPedestalDraw();
-
-
-		//MyGameDraw();
-		
 		if (HUD::GetInstance()->GetLayOutMode()) {
 			UI::GetInstance()->HUDDraw();
 		}
 		SistemConfig::GetInstance()->Draw();
-	
 		DirectXCommon::GetInstance()->EndDraw();
 
-		
 		break;
 
 	case Default://普通のやつ特に何もかかっていない

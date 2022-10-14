@@ -3,16 +3,16 @@
 #include"Input.h"
 BossSpell::~BossSpell()
 {
-	delete HalfAttack_Left.SpellFrame, HalfAttack_Left.SpellGauge;
-	delete HalfAttack_Right.SpellFrame, HalfAttack_Right.SpellGauge;
-	delete CircleAttack.SpellFrame, CircleAttack.SpellGauge;
+	for (int i = 0; i < 6; i++) {
+		delete Attack[i].SpellFrame, Attack[i].SpellGauge;
+	}
 }
 
 void BossSpell::Finalize()
 {
-	delete HalfAttack_Left.SpellFrame, HalfAttack_Left.SpellGauge;
-	delete HalfAttack_Right.SpellFrame, HalfAttack_Right.SpellGauge;
-	delete CircleAttack.SpellFrame, CircleAttack.SpellGauge;
+	for (int i = 0; i < 6; i++) {
+		delete Attack[i].SpellFrame, Attack[i].SpellGauge;
+	}
 }
 
 BossSpell* BossSpell::GetInstance()
@@ -28,33 +28,30 @@ void BossSpell::Initialize()
 	Sprite::LoadTexture(52, L"Resources/CircleAttackFarame.png");
 	Sprite::LoadTexture(53, L"Resources/KnockAttackFrame.png");
 	//¶UŒ‚
-	SpellsInit(HalfAttack_Left, 50, 51);
-	SpellsInit(HalfAttack_Right, 50, 51);
-	SpellsInit(CircleAttack, 50, 52);
-	SpellsInit(KnockAttack, 50, 53); 
-	SpellsInit(UltimateAttack, 50, 51);
-	SpellsInit(FrontCircleAttack, 50, 51);
+	SpellsInit(Attack[AttackType::HALF_LEFT], 50, 51);
+	SpellsInit(Attack[AttackType::HALF_RIGHT], 50, 51);
+	SpellsInit(Attack[AttackType::CIRCLE], 50, 52);
+	SpellsInit(Attack[AttackType::KNOCK], 50, 53);
+	SpellsInit(Attack[AttackType::ULTIMATE], 50, 51);
+	SpellsInit(Attack[AttackType::SLAM], 50, 51);
 	}
 
 void BossSpell::Update()
 {
 	/*1ˆø”:UŒ‚Ží—Þ 2ˆø”:UŒ‚‘Ò‹@ŽžŠÔ*/
-	SpellAction(HalfAttack_Left, 120.0f);
-	SpellAction(HalfAttack_Right, 120.0f);
-	SpellAction(CircleAttack, 180.0f);
-	SpellAction(KnockAttack, 240.0f);
-	SpellAction(UltimateAttack, 120.0f);
-	SpellAction(FrontCircleAttack, 120.0f);
+	SpellAction(Attack[AttackType::HALF_LEFT], 120.0f);
+	SpellAction(Attack[AttackType::HALF_RIGHT], 120.0f);
+	SpellAction(Attack[AttackType::CIRCLE], 180.0f);
+	SpellAction(Attack[AttackType::KNOCK], 240.0f);
+	SpellAction(Attack[AttackType::ULTIMATE], 120.0f);
+	SpellAction(Attack[AttackType::SLAM], 120.0f);
 }
 void BossSpell::Draw()
 {
 	Sprite::PreDraw();
-	SpellsDraw(HalfAttack_Left);
-	SpellsDraw(HalfAttack_Right);
-	SpellsDraw(CircleAttack);
-	SpellsDraw(KnockAttack);
-	SpellsDraw(UltimateAttack);
-	SpellsDraw(FrontCircleAttack);
+	for (int i = 0; i < max_attack; i++) {
+		SpellsDraw(Attack[i]);
+	}
 	Sprite::PostDraw();
 }
 

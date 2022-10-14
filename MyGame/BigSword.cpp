@@ -10,13 +10,12 @@ void BigSword::Initialize(DebugCamera* camera)
 
 	m_Model = Model::CreateFromOBJ("BigSword");
 
-	//フィールドにモデル割り当て
+	//モデル割り当て
 	m_Object->Initialize(camera);
 	m_Object->SetModel(m_Model);
 	
-	Scale = { 1,1,1 };
-	
-	//rotation->blenderから持ってきた際のズレ補正用
+	Scale = { 1.0f,1.0f,1.0f };
+
 	Rotation={ 0.0f,30.0f,100.0f };
 
 }

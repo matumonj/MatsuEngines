@@ -106,8 +106,8 @@ void CircleAttack::CollisonNailPlayer()
 void CircleAttack::PierceNail()
 {
 	TexAlpha = 1.0f;
-	BossSpell::GetInstance()->SetStartSpell_CA(true);
-	if (BossSpell::GetInstance()->GetEndSpell_CA()) {
+	BossSpell::GetInstance()->SetStartSpell(BossSpell::CIRCLE,true);
+	if (BossSpell::GetInstance()->GetEndSpell(BossSpell::CIRCLE)) {
 		fase = FASETWO;
 	}
 	//“B¶¬
@@ -171,7 +171,7 @@ void CircleAttack::ProtrudeNail()
 void CircleAttack::EndAttackAction()
 {
 	TexAlpha = 0.5f;
-	BossSpell::GetInstance()->SetEndSpell_CA(false);
+	BossSpell::GetInstance()->SetEndSpell(BossSpell::CIRCLE,false);
 
 	Direction[NORTH] = { 0.0f ,0.0f ,30.0f };
 	Direction[SOUTH] = { 0.0f ,0.0f ,-30.0f };

@@ -66,7 +66,6 @@ void BossScene::Update()
 	SistemConfig::GetInstance()->Update();
 
 	if (Play) {//csvからの読み込み終わってから更新処理
-		//1->Player  0->Camera カメラの注視点Playerに合わすのでPlayerが先
 		AllObjectControl[1]->Update(CameraControl::GetInstance()->GetCamera());
 		AllObjectControl[0]->Update(CameraControl::GetInstance()->GetCamera());
 		for (int i = 2; i < AllObjectControl.size(); i++) {
@@ -128,13 +127,10 @@ void BossScene::Draw()
 	{
 	case Blur://ぼかし　描画準違うだけ
 		postEffect->PreDrawScene();
-		//MyGameDraw();
 		postEffect->PostDrawScene();
 
 		DirectXCommon::GetInstance()->BeginDraw();
-	//	postEffect->Draw();
 		SistemConfig::GetInstance()->SwordPedestalDraw();
-
 		//UI
 		if (HUD::GetInstance()->GetLayOutMode()) {
 			UI::GetInstance()->HUDDraw();
@@ -147,17 +143,12 @@ void BossScene::Draw()
 
 	case Default://普通のやつ特に何もかかっていない
 		postEffect->PreDrawScene();
-
 		Field::GetInstance()->MiniFieldDraw();
-
-		//Field::GetInstance()->Draw();
-
 		postEffect->PostDrawScene();
 
 		DirectXCommon::GetInstance()->BeginDraw();
 		MyGameDraw();
 		DamageManager::GetIns()->Draw();
-
 		postEffect->Draw();
 		//UI
 		if (CameraControl::GetInstance()->GetCameraState() != CameraControl::BOSSCUTSCENE) {

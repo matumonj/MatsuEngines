@@ -31,7 +31,7 @@ void NormalSword::Update(DebugCamera* camera)
 
 	m_Object->SetRotation(Rotation);
 
-	m_Object->Update(PlayerControl::GetInstance()->GetPlayer()->GetHanMat(), { 1,1,1,1 }, camera);
+	m_Object->Update(PlayerControl::GetInstance()->GetPlayer()->GetHanMat(), { 1.0f,1.0f,1.0f,1.0f }, camera);
 
 }
 

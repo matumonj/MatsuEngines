@@ -14,14 +14,13 @@
 using namespace DirectX;
 BossEnemy::BossEnemy()
 {
-	//m_BehaviorData = new BehaviorDatas();
+
 }
 /// <summary>
 /// デストラクタ
 /// </summary>
 BossEnemy::~BossEnemy()
 {
-	//	delete  m_Model;
 	delete mob, MobModel;
 }
 
@@ -56,10 +55,9 @@ void BossEnemy::Initialize(DebugCamera* camera)
 	SlashTex->CreateTexture();
 	SlashTex->SetAnchorPoint({ 0.5f,0.5f });
 
-	//ParticleManager::LoadTexture(4, L"Resources/ParticleTex/Normal.png");
 	particleMan = ParticleManager::Create(4, L"Resources/ParticleTex/Attack.png");
-	//ParticleManager::LoadTexture(6, L"Resources/ParticleTex/Attack.png");
 	particleMan2 = ParticleManager::Create(6, L"Resources/ParticleTex/Attack.png");
+	
 	SlashPos = { Position.x,Position.y,Position.z };
 }
 
@@ -108,7 +106,6 @@ void BossEnemy::Update(DebugCamera* camera)
 
 	SlashTex->Update(camera);
 	SlashTex->SetPosition(SlashPos);
-	//SlashTex->SetColor({ 1.0f,1.0f,1.0f,1 });
 	SlashTex->SetRotation({ 0,180,0 });
 	SlashTex->SetScale({ 2.0f ,2.0f ,3.0f });
 //攻撃受けたらパーティクル

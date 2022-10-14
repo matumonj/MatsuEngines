@@ -65,7 +65,6 @@ void PlayScene::Initialize()
 /*-----------------------*/
 void PlayScene::objUpdate(DebugCamera* camera)
 {
-	//PlayerControl::GetInstance()->GetPlayer()->SetPosition({ 150.0f,-42.0f,-379.0f });
 	Field::GetInstance()->Update((CameraControl::GetInstance()->GetCamera()));
 	if (PlayGame) {
 		AllObjectControl[1]->Update(CameraControl::GetInstance()->GetCamera());
@@ -76,8 +75,6 @@ void PlayScene::objUpdate(DebugCamera* camera)
 		}
 	}
 	UI::GetInstance()->HUDUpdate(hudload, (CameraControl::GetInstance()->GetCamera()));
-
-	
 }
 
 /*------------------------*/
@@ -117,13 +114,10 @@ void PlayScene::Update()
 /*-----------------------*/
 void PlayScene::MyGameDraw()
 {
-
 	Field::GetInstance()->Draw();
-//	if (EnemyControl::GetInstance()->GetQuentity() > 1) {
-		for (int i = 0; i < AllObjectControl.size(); i++) {
-			AllObjectControl[i]->Draw();
-		}
-	//}
+	for (int i = 0; i < AllObjectControl.size(); i++) {
+		AllObjectControl[i]->Draw();
+	}
 }
 
 /*------------------------*/

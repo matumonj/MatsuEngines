@@ -55,7 +55,7 @@ void Field::Initialize(DebugCamera* camera)
 
 	if(SceneManager::GetInstance()->GetScene()==SceneManager::PLAY|| SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL){
 		FieldObject = TouchableObject::Create(ModelManager::GetIns()->GetModel(ModelManager::FIELD), camera);
-	//ミニマップ(通常ふぃ－るど)
+		//ミニマップ(通常ふぃ－るど)
 		SetFieldModel(MINI, ModelManager::GetIns()->GetModel(ModelManager::FIELD), camera);
 		//天球
 		SetFieldModel(CELESTIALSPHERE, ModelManager::GetIns()->GetModel(ModelManager::CELESTIALSPHERE), camera);
@@ -65,7 +65,7 @@ void Field::Initialize(DebugCamera* camera)
 	Explanation = Sprite::Create(41, { WinApp::window_width / 2,WinApp::window_height / 2 });
 	Explanation->SetAnchorPoint({ 0.5f,0.5f });
 	Explanation->SetPosition({ WinApp::window_width / 2,WinApp::window_height / 2 });
-	Explanation->SetSize({ 800,800 });
+	Explanation->SetSize({ 800.0f,800.0f });
 
 	//ボスのネームプレート
 	BossName = Sprite::Create(40, { WinApp::window_width / 2,WinApp::window_height / 2 });
@@ -76,7 +76,6 @@ void Field::Initialize(DebugCamera* camera)
 	Texture::LoadTexture(299, L"Resources/AOE.png");
 
 	playerpoint = Texture::Create(299, { 0.0f ,0.0f ,0.0f }, { 100.0f ,100.0f ,1.0f }, { 1.0f ,1.0f ,1.0f ,1.0f });
-	//playerpoint.reset(points);
 	playerpoint->CreateTexture();
 	playerpoint->SetAnchorPoint({ 0.5f,0.5f });
 }
@@ -93,9 +92,8 @@ void Field::Update_Tutorial(DebugCamera* camera)
 
 	playerpoint->SetPosition({ PlayerControl::GetInstance()->GetPlayer()->GetPosition().x,PlayerControl::GetInstance()->GetPlayer()->GetPosition() .y+10,PlayerControl::GetInstance()->GetPlayer()->GetPosition().z});
 	playerpoint->Update(dc);
-	playerpoint->SetScale({ 4,4,4 });
+	playerpoint->SetScale({ 4.0f,4.0f,4.0f });
 	playerpoint->SetBillboard(true);
-	//playerpoint->SetRotation({ 0.0f,0.0f,0.0f });
 	playerpoint->SetColor({ 1.0f,1.0f,1.0f,1 });
 
 }

@@ -65,8 +65,8 @@ void AltAttack::ActionJudg()
 		BeamEaseTime = 0.0f;
 		break;
 	case FASEONE:
-		BossSpell::GetInstance()->SetStartSpell_UA(true);
-		if (BossSpell::GetInstance()->GetEndSpell_UA()) {
+		BossSpell::GetInstance()->SetStartSpell(BossSpell::ULTIMATE,true);
+		if (BossSpell::GetInstance()->GetEndSpell(BossSpell::ULTIMATE)) {
 			fase = FASETWO;
 		}
 		break;
@@ -78,7 +78,7 @@ void AltAttack::ActionJudg()
 		break;
 	case FASEFOUR:
 		BeamParamReset();
-		BossSpell::GetInstance()->SetEndSpell_UA(false);
+		BossSpell::GetInstance()->SetEndSpell(BossSpell::ULTIMATE,false);
 
 		break;
 	default:

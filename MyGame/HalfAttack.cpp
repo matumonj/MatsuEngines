@@ -33,8 +33,8 @@ void HalfAttack::ActionJudg()
 	BossEnemyPos = EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetPosition();
 	CenterPos = { 0.0f ,-18.0f ,0.0f };
 	if (fase==FASEONE) {
-		BossSpell::GetInstance()->SetEndSpell_HR(false);
-		BossSpell::GetInstance()->SetEndSpell_HL(false);
+		BossSpell::GetInstance()->SetEndSpell(BossSpell::HALF_RIGHT,false);
+		BossSpell::GetInstance()->SetEndSpell(BossSpell::HALF_LEFT,false);
 
 		TexAlpha += 0.02f;
 		TurnCenter();
@@ -50,11 +50,11 @@ void HalfAttack::ActionJudg()
 
 	if (fase==FASETWO) {
 		if (Area == LEFT) {
-			BossSpell::GetInstance()->SetStartSpell_HR(true);
+			BossSpell::GetInstance()->SetStartSpell(BossSpell::HALF_RIGHT,true);
 		} else if (Area == RIGHT) {
-			BossSpell::GetInstance()->SetStartSpell_HL(true);
+			BossSpell::GetInstance()->SetStartSpell(BossSpell::HALF_LEFT,true);
 		}
-		if (BossSpell::GetInstance()->GetEndSpell_HL()|| BossSpell::GetInstance()->GetEndSpell_HR()) {
+		if (BossSpell::GetInstance()->GetEndSpell(BossSpell::HALF_LEFT)|| BossSpell::GetInstance()->GetEndSpell(BossSpell::HALF_RIGHT)) {
 			fase = FASETHREE;
 		}
 	}

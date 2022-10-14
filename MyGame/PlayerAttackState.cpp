@@ -33,10 +33,8 @@ void PlayerAttackState::ComboAction()
 void PlayerAttackState::Update()
 {
 	AttackCollision::GetInstance()->Update();
-	index =  TargetMarker::GetInstance()->GetNearIndex();
 
-//	if (AttackJudgeMent) {
-		if (CustomButton::GetInstance()->GetAttackAction()==true ){ /*CoolDownTime == 0*/
+	if (CustomButton::GetInstance()->GetAttackAction()==true ){ /*CoolDownTime == 0*/
 			Skill = First;
 		}
 		if (CustomButton::GetInstance()->Get2AttackAction() == true) { /*CoolDownTime == 0*/
@@ -45,14 +43,7 @@ void PlayerAttackState::Update()
 		if (CustomButton::GetInstance()->Get3AttackAction() == true) { /*CoolDownTime == 0*/
 			Skill = Third;
 		}
-		/*else if (Input::GetInstance()->PushButton(Input::GetInstance()->Button_A) && CoolDownTime == 0) {
-			Skill = Second;
-		} else if (Input::GetInstance()->PushButton(Input::GetInstance()->Button_X) && CoolDownTime == 0) {
-			Skill = Third;
-		} else if (Input::GetInstance()->PushButton(Input::GetInstance()->Button_Y) && BufCoolDownTime == 0) {
-			BuffFlag = true;
-		}*/
-	//}
+		
 	if (BuffFlag) {
 		//ƒoƒtŒp‘±ŽžŠÔ
 		BuffTime++;

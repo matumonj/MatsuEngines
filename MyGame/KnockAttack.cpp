@@ -26,8 +26,8 @@ void KnockAttack::Initialize()
 void KnockAttack::ActionJudg()
 {
 	if (fase==FASEONE) {
-		BossSpell::GetInstance()->SetStartSpell_KA(true);
-		if (BossSpell::GetInstance()->GetEndSpell_KA()) {//2秒立ったら
+		BossSpell::GetInstance()->SetStartSpell(BossSpell::KNOCK,true);
+		if (BossSpell::GetInstance()->GetEndSpell(BossSpell::KNOCK)) {//2秒立ったら
 			fase =FASETWO;//攻撃フェーズsrart
 		}
 		//吹き飛ばし直前に吹き飛ばし後のプレイヤーz座標を設定
@@ -53,7 +53,7 @@ void KnockAttack::ActionJudg()
 	}
 
 	if (fase == FASETHREE) {
-		BossSpell::GetInstance()->SetEndSpell_KA(false);
+		BossSpell::GetInstance()->SetEndSpell(BossSpell::KNOCK,false);
 
 	}
 	if (CameraControl::GetInstance()->GetCamera() != nullptr) {

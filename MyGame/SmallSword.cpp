@@ -29,7 +29,7 @@ void SmallSword::Update(DebugCamera* camera)
 	CoolTime = CoolTime_Value;
 	
 	m_Object->SetRotation(Rotation);
-	m_Object->Update(PlayerControl::GetInstance()->GetPlayer()->GetHanMat(), { 1,1,1,1 }, camera);
+	m_Object->Update(PlayerControl::GetInstance()->GetPlayer()->GetHanMat(), { 1.0f,1.0f,1.0f,1.0f }, camera);
 
 }
 

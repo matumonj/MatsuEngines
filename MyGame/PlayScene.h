@@ -27,7 +27,7 @@ public:
 	//シーンのコンストラクタ
 	PlayScene(SceneManager* sceneManager);
 private: // エイリアス
-// Microsoft::WRL::を省略
+	//Microsoft::WRL::を省略
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 	// DirectX::を省略
 	using XMFLOAT2 = DirectX::XMFLOAT2;
@@ -37,12 +37,7 @@ private: // エイリアス
 	using XMVECTOR = DirectX::XMVECTOR;
 
 private:
-	bool f;
-	Input* input;
-	bool cameraMove;
-	XMFLOAT3 cameraTargetPoint;
 	bool playFeed;
-	bool feedout;
 	bool PlayGame;
 	PostEffect* postEffect = nullptr;
 
@@ -64,26 +59,9 @@ private:
 		Blur,
 		Default,
 	};
-	POINT p;
-	CollisionManager* collisionManager = nullptr;
 	bool hudload;
-	float CameraDis = 25;
-	float CameraHeight = 9;
-	private:
-		//デバッグ用変数 後々消すやつ
-		bool Load;
-		bool turnoff_player;
-		bool turnoff_enemy;
-
-		float p_alpha=1;
-		float e_alpha=1;
-
-		bool CameraViewPoint_First=true;
-		bool CameraViewPoint_Third;
-		bool t, y;
-
-		private:
-			std::vector<Enemy*>subenemy;
-			std::vector<ControlBase*>AllObjectControl;
+	bool Load;
+private:
+	std::vector<ControlBase*>AllObjectControl;
 };
 
