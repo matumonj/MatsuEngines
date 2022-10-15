@@ -482,6 +482,15 @@ void Sprite::feed(float& feed)
 #pragma region 描画
 void Sprite::Draw()
 {
+
+	uv_time += uv_addTime;
+	if (uv_time > 1.0f) {
+		uv_time = 0.0f;
+	}
+	else if(uv_time <-1.0f) {
+		uv_time = 0.0f;
+	}
+
 	// ワールド行列の更新
 	this->matWorld = XMMatrixIdentity();
 	this->matWorld *= XMMatrixRotationZ(XMConvertToRadians(rotation));
@@ -493,6 +502,8 @@ void Sprite::Draw()
 	if (SUCCEEDED(result)) {
 		constMap->color = color;
 		constMap->mat = this->matWorld * matProjection;	// 行列の合成	
+		constMap->UvScflag = uvscrollf;
+		constMap->uv_time = uv_time;
 		this->constBuff->Unmap(0, nullptr);
 	}
 

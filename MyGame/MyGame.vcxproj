@@ -196,6 +196,7 @@
     <ClCompile Include="DebugCamera.cpp" />
     <ClCompile Include="DebugTxt.cpp" />
     <ClCompile Include="DirectXCommon.cpp" />
+    <ClCompile Include="EncountGuardianSprite.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyAlpha.cpp" />
     <ClCompile Include="EnemyAttackState.cpp" />
@@ -238,7 +239,6 @@
     <ClCompile Include="MyGame.cpp" />
     <ClCompile Include="Nail.cpp" />
     <ClCompile Include="NormalSword.cpp" />
-    <ClCompile Include="OBBCollision.cpp" />
     <ClCompile Include="Object3d.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="ParticleManager.cpp" />
@@ -314,6 +314,7 @@
     <ClInclude Include="DebugTxt.h" />
     <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="DirectXCommon.h" />
+    <ClInclude Include="EncountGuardianSprite.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyAlpha.h" />
     <ClInclude Include="EnemyAttackState.h" />
@@ -357,8 +358,6 @@
     <ClInclude Include="MyGame.h" />
     <ClInclude Include="Nail.h" />
     <ClInclude Include="NormalSword.h" />
-    <ClInclude Include="OBB.h" />
-    <ClInclude Include="OBBCollision.h" />
     <ClInclude Include="Object3d.h" />
     <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="ParticleManager.h" />

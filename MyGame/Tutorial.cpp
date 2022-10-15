@@ -60,6 +60,9 @@ void Tutorial::Initialize()
 	dc = new DebugCamera(WinApp::window_width, WinApp::window_height);
 	//各種設定画面
 	SistemConfig::GetInstance()->Initialize();
+
+		//カメラの注視点をプレイヤーにセット
+		CameraControl::GetInstance()->SetCameraState(CameraControl::PLAYER);
 }
 
 /*------------------------*/
@@ -67,8 +70,6 @@ void Tutorial::Initialize()
 /*------------------------*/
 void Tutorial::objUpdate(DebugCamera* camera)
 {
-	//カメラの注視点をプレイヤーにセット
-	CameraControl::GetInstance()->SetCameraState(CameraControl::PLAYER);
 	if (!Load && !Play) {
 		Load = true;
 	}
@@ -85,7 +86,7 @@ void Tutorial::objUpdate(DebugCamera* camera)
 	//後で別ん所移す
 	dc->Update();
 
-	dc->SetTarget({ CameraControl::GetInstance()->GetCamera()->GetTarget() });
+	dc->SetTarget({ PlayerControl::GetInstance()->GetPlayer()->GetPosition() });
 	dc->SetEye({ PlayerControl::GetInstance()->GetPlayer()->GetPosition().x,
 		 PlayerControl::GetInstance()->GetPlayer()->GetPosition().y + 300.0f,
 		PlayerControl::GetInstance()->GetPlayer()->GetPosition().z - 1 });

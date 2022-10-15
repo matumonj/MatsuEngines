@@ -29,7 +29,9 @@ public:
 	{
 		XMFLOAT4 color;	// F (RGBA)
 		XMMATRIX mat;	// ‚R‚c•ÏŠ·s—ñ
-
+		bool UvScflag;
+		XMFLOAT3 sub;
+		float uv_time;
 	};
 	
 	static bool StaticInitialize(int window_width, int window_height);
@@ -86,6 +88,7 @@ public:
 	//•`‰æ
 	void Draw();
 	void feed(float& feed);
+
 protected:
 	bool CollisionCursul;
 	int setf = 0;
@@ -114,7 +117,12 @@ protected:
 	// ƒeƒNƒXƒ`ƒƒ•A‚‚³
 	XMFLOAT2 texSize = { 100.0f, 100.0f };
 bool f;
+bool uvscrollf=false;
+float uv_time;
+float uv_addTime;
 public:
+	void SetUvscroll(bool f) { uvscrollf = f; }
+	void SetUv_time(float t) { uv_addTime = t; }
 	void SetHUDLayOutFlag(bool flag) { f = flag; }
 	bool GetHUDLayOutFlag() { return f; }
 	void Setfeed(int set) { this->setf = set; }

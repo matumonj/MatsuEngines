@@ -3,8 +3,6 @@
 #include"Model.h"
 #include"Input.h"
 #include"CollisionPrimitive.h"
-#include"OBB.h"
-#include"OBBCollision.h"
 class AttackCollision
 {
 public:

@@ -20,6 +20,7 @@ public:
         MAPCREATE,
         PLAYER,
         TUTORIAL,
+        ENCOUNTGUARDIAN,
         MOVEBOSSAREA,
         PLAYCUTSCENE,
         BOSSCUTSCENE
@@ -67,6 +68,11 @@ private:
     bool BossCutSene = false;
 
 public:
+    enum GuardianEnemyEncount {
+        START,
+        BATTLE,
+        END
+    };
     enum BossCamera {//É{ÉXìoèÍéûÇÃÉJÉÅÉâãììÆ
         BOSSCUTSTART,
         ROLL,
@@ -88,6 +94,7 @@ private:
     BossCamera bCamera;
     SplineCamera sCamera;
     MoveBossAreaCamera mCamera;
+    GuardianEnemyEncount encountGuardian;
 private:
     bool UpStage;
     int countAreaMove;
@@ -99,6 +106,16 @@ private:
     bool AttackSceneF = false;
     float BCutCameraHeight = 5.0f;
 private:
+    bool EncountFlag;
+    XMFLOAT3 OldCameraPos;
+    XMFLOAT3 OldCameratarget;
+    XMFLOAT3 EaseTime_EnGuar_target = { 0.0f,0.0f,0.0f };
+    XMFLOAT3 EaseTime_EnGuar_pos= { 0.0f,0.0f,0.0f };
+    int waitCount;
+
+    public:
+        bool GetEncountFlag() { return EncountFlag; }
+private:
     float shakex = 0.0f;
     float shakey = 0.0f;
     float shake = 0.0f;
@@ -109,7 +126,12 @@ public:
 private:
     void BossSceneStart();
     void PlaySceneStart();
-  
+    private:
+        void EncountGuardian_Start();
+        void EncountGuardian_Battle();
+        void EncountGuardian_End();
+    void GuardianBattleStart();
+    Enemy* GuardianEnemy();
   private:
       void AngleRotation();
 

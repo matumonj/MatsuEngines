@@ -1,5 +1,4 @@
 #pragma once
-#include"OBBCollision.h"
 #include"ObjectManager.h"
 #include"CollisionPrimitive.h"
 class AreaFence:public ObjectManager

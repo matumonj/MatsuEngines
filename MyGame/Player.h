@@ -83,9 +83,15 @@ private:
 	float angle;
 	//カメラに合わせたキャラクターの回転
 	float CharaRotation = 0;
+	XMMATRIX rot2;
+	XMVECTOR v;
+
 	RotationPrm rotate;
 	bool StopFlag;
 private:
+	float vel;
+	XMFLOAT3 MoveVECTOR(DirectX::XMVECTOR v, float angle);
+
 	Input* input = Input::GetInstance();
 	f_Model* fbxmodel = nullptr;
 	f_Object3d* object1 = nullptr;

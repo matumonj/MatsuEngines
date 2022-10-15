@@ -8,7 +8,7 @@ void SmallSword::Initialize(DebugCamera* camera)
 {
 	m_Object = std::make_unique<Object3d>();
 
-	m_Model = Model::CreateFromOBJ("SmallSword");
+	m_Model = Model::CreateFromOBJ("axe");
 
 	//ƒ‚ƒfƒ‹Š„‚è“–‚Ä
 	m_Object->Initialize(camera);

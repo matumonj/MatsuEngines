@@ -14,29 +14,18 @@ AttackCollision* AttackCollision::GetInstance()
 void AttackCollision::Init()
 {
 	input = Input::GetInstance();
-	//PlayColOBB.resize()
-	Play_colf.resize(EnemyControl::GetInstance()->GetEnemyindex(1).size());
 }
 
 void AttackCollision::Finalize()
 {
 	EnemyOBB.clear();
 	BossEnemyOBB.clear();
-	Play_colf.clear();
 }
 void AttackCollision::Update()
 {
 	PlayEnemyOBB.resize(EnemyControl::GetInstance()->GetEnemyindex(1).size());
-	for (int i = 0; i < PlayEnemyOBB.size(); i++) {
-		//if (PlayColOBB[i] == nullptr) {
-		
-		//}
-	}
-
-
-
 	//for (int i = 0; i < PlayEnemyOBB.size(); i++) {
-		//OBB 回転ベクトル
+	//OBB 回転ベクトル
 	if(SceneManager::GetInstance()->GetScene()== SceneManager::PLAY) {
 	
 	}
@@ -55,8 +44,12 @@ void AttackCollision::GetCol(int damage)
 	case SceneManager::TUTORIAL:
 		
 		ColOBB(TYTORIAL);
+
 		if (PlayerControl::GetInstance()->GetPlayer()->GetNowAttack()) {
 			for (int i = 0; i < EnemyOBB.size(); i++) {
+				if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetPosition())>10.0f) {
+					continue;
+				}
 				if (Collision::CheckOBBCollision(HandObb, EnemyOBB[0])==true && !Hit_colf) {
 					EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->RecvDamage(damage);
 					Hit_colf = true;

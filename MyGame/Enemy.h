@@ -13,7 +13,7 @@
 #include"ObjectManager.h"
 #include"ParticleManager.h"
 #include"DebugTxt.h"
-#include"OBB.h"
+
 class NodeBase;
 /// <summary>
 /// “GƒLƒƒƒ‰‚ÌŠî’êƒNƒ‰ƒX
