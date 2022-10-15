@@ -596,6 +596,7 @@ void CameraControl::EncountGuardian_Battle()
 
 void CameraControl::EncountGuardian_End()
 {
+
 	EncountFlag = false;
 	//ˆÚ“®‰Â”\‚É
 	PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(false);

@@ -199,6 +199,12 @@
     <Filter Include="Game\gameobject\Scene\framework">
       <UniqueIdentifier>{a1bad7c0-fa12-4aaf-8391-fafcad7f2b9f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\gameobject\オブジェクト種類\Enemy\派生クラス\宝箱用のガーディアン">
+      <UniqueIdentifier>{7f74627d-cc14-4caf-a0d9-ed8b210264c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\オブジェクト種類\Enemy\派生クラス\宝箱用のガーディアン\NewFilter1">
+      <UniqueIdentifier>{ce8001df-cc52-4bd4-b479-06f126ac2aaa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -533,6 +539,21 @@
     </ClCompile>
     <ClCompile Include="EncountGuardianSprite.cpp">
       <Filter>Game\UI\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="GuardianEnemy.cpp">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\派生クラス\宝箱用のガーディアン</Filter>
+    </ClCompile>
+    <ClCompile Include="GurdianRed.cpp">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\派生クラス\宝箱用のガーディアン\NewFilter1</Filter>
+    </ClCompile>
+    <ClCompile Include="GuardianGreen.cpp">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\派生クラス\宝箱用のガーディアン\NewFilter1</Filter>
+    </ClCompile>
+    <ClCompile Include="GuardianBlue.cpp">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\派生クラス\宝箱用のガーディアン\NewFilter1</Filter>
+    </ClCompile>
+    <ClCompile Include="GuardianYellow.cpp">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\派生クラス\宝箱用のガーディアン\NewFilter1</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -875,9 +896,6 @@
     <ClInclude Include="FrontCircleAttack.h">
       <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン\後半フェーズ\行動内容</Filter>
     </ClInclude>
-    <ClInclude Include="GigaBossEnemy.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="BossEnemyAttackBeam.h">
       <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン\後半フェーズ\行動遷移</Filter>
     </ClInclude>
@@ -895,6 +913,12 @@
     </ClInclude>
     <ClInclude Include="PlayerControl.h">
       <Filter>Game\gameobject\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="GuardianEnemy.h">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\派生クラス\宝箱用のガーディアン</Filter>
+    </ClInclude>
+    <ClInclude Include="GigaBossEnemy.h">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\派生クラス</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
