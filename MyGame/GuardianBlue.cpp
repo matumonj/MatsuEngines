@@ -1,5 +1,6 @@
 #include"GuardianEnemy.h"
-
+#include"PlayerControl.h"
+#include"Collision.h"
 void GuardianBlue::Initialize(DebugCamera* camera)
 {
 

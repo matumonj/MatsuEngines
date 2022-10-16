@@ -43,7 +43,6 @@ private:
 private:
     bool SlashF;
     bool SlashF2;
-    bool nowAttack;
     const int ParticleSize = 20;
     //OBBCollision* colObb;
    

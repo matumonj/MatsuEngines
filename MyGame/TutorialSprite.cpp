@@ -96,8 +96,8 @@ void TutorialSprite::Update()
 
 	case TutorialSprite::TATTACK:
 		//UŒ‚
-		if (EnemyControl::GetInstance()->GetTutorialEnemyindex()[0] != nullptr) {
-			ClearTaskJudg[ATTACK]= EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetHP() <= 0;
+		if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr) {
+			ClearTaskJudg[ATTACK]= EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetHP() <= 0;
 		}
 		if (MassageCheck[ATTACK]) {
 			NextTask(t[ATTACK], TGETKEY, ClearTaskJudg[ATTACK]);

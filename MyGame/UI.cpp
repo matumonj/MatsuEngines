@@ -30,7 +30,7 @@ void UI::HUDUpdate(bool&hudload, DebugCamera* camera)
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
 	//	
 	//	HUD::GetInstance()->EnemyHPGaugeUpdate(EnemyControl::GetInstance()->GetTutorialEnemyindex());
-		HUD::GetInstance()->EnemyHPGauge_MultiUpdate(hudload, camera, EnemyControl::GetInstance()->GetTutorialEnemyindex());
+		HUD::GetInstance()->EnemyHPGauge_MultiUpdate(hudload, camera, EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL));
 	TutorialSprite::GetInstance()->Update();
 	//
 	}

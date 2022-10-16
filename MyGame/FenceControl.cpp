@@ -139,8 +139,8 @@ void FenceControl::Initialize(DebugCamera* camera)
 void FenceControl::Update_Tutorial(DebugCamera* camera)//チュートリアル時
 {
 	//チュートリアルエリアの柵が開く条件
-	if (EnemyControl::GetInstance()->GetTutorialEnemyindex()[0] != nullptr) {
-		TutorialFenceOpen = EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetHP() < 0;
+	if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr) {
+		TutorialFenceOpen = EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetHP() < 0;
 	}
 	if (Tutorialfence[0] != nullptr) {
 		Tutorialfence[0]->Update(camera);

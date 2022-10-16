@@ -23,7 +23,7 @@ void AttackCollision::Finalize()
 }
 void AttackCollision::Update()
 {
-	PlayEnemyOBB.resize(EnemyControl::GetInstance()->GetEnemyindex(1).size());
+	PlayEnemyOBB.resize(EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE).size());
 	//for (int i = 0; i < PlayEnemyOBB.size(); i++) {
 	//OBB 回転ベクトル
 	if(SceneManager::GetInstance()->GetScene()== SceneManager::PLAY) {
@@ -47,11 +47,11 @@ void AttackCollision::GetCol(int damage)
 
 		if (PlayerControl::GetInstance()->GetPlayer()->GetNowAttack()) {
 			for (int i = 0; i < EnemyOBB.size(); i++) {
-				if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetPosition())>10.0f) {
+				if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition())>10.0f) {
 					continue;
 				}
 				if (Collision::CheckOBBCollision(HandObb, EnemyOBB[0])==true && !Hit_colf) {
-					EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->RecvDamage(damage);
+					EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->RecvDamage(damage);
 					Hit_colf = true;
 				} 
 			}
@@ -71,7 +71,7 @@ void AttackCollision::GetCol(int damage)
 		if (PlayerControl::GetInstance()->GetPlayer()->GetNowAttack()) {
 			for (int i = 0; i < BossEnemyOBB.size(); i++) {
 				if (Collision::CheckOBBCollision(HandObb, BossEnemyOBB[0])==true && !Hit_colf2) {
-					EnemyControl::GetInstance()->GetBossEnemyindex()[0]->RecvDamage(damage);
+					EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->RecvDamage(damage);
 					Hit_colf2 = true;
 				}
 			}
@@ -93,8 +93,8 @@ void AttackCollision::ColOBB(ColType Enemytype)
 	{
 	case AttackCollision::TYTORIAL:
 		EnemyOBB.resize(1);
-		EnemyOBB[0].SetOBBParam_Pos(EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetPosition());
-		EnemyOBB[0].SetOBBParam_Rot(EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetMatrot());
+		EnemyOBB[0].SetOBBParam_Pos(EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition());
+		EnemyOBB[0].SetOBBParam_Rot(EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetMatrot());
 		EnemyOBB[0].SetOBBParam_Scl({ 4.0f,2.0f,4.0f });
 		break;
 	case AttackCollision::PLAY://大量のOBB判定　軽量化必要かも
@@ -103,8 +103,8 @@ void AttackCollision::ColOBB(ColType Enemytype)
 	case AttackCollision::BOSS:
 		BossEnemyOBB.resize(1);
 		//OBB 回転ベクトル
-		BossEnemyOBB[0].SetOBBParam_Pos(EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetPosition());
-		BossEnemyOBB[0].SetOBBParam_Rot(EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetMatrot());
+		BossEnemyOBB[0].SetOBBParam_Pos(EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition());
+		BossEnemyOBB[0].SetOBBParam_Rot(EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetMatrot());
 		BossEnemyOBB[0].SetOBBParam_Scl({ 4.0f,2.0f,4.0f });
 
 		break;

@@ -314,7 +314,7 @@ void CameraControl::Draw()
 /*---------boss---------*/
 void CameraControl::BossSceneStart()
 {
-	XMFLOAT3 BossPos = EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetPosition();
+	XMFLOAT3 BossPos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
 	switch (bCamera)
 	{
 	case BOSSCUTSTART:
@@ -341,7 +341,7 @@ void CameraControl::BossSceneStart()
 		break;
 	case BOSSCUTEND:
 		AttackSceneF = true;
-		if (EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetFbxTime() > 2.0f) {
+		if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetFbxTime() > 2.0f) {
 			CameraDis += 1.5f;
 		}
 		Feed::GetInstance()->Update_White(Feed::FEEDIN);
@@ -464,7 +464,7 @@ Enemy* CameraControl::GuardianEnemy()
 	//エンカウントする範囲
 	const float range = 30.0f;
 	//エンカウント範囲入ったら
-	if (Collision::GetLength(EnemyControl::GetInstance()->GetTutorialEnemyindex()[0]->GetPosition(), pPos) < range) {
+	if (Collision::GetLength(EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition(), pPos) < range) {
 		EncountFlag = true;
 	}
 	if (encountGuardian == END) {
@@ -490,7 +490,7 @@ Enemy* CameraControl::GuardianEnemy()
 		//EncountJudg = Collision::GetLength(EnemyControl::GetInstance()->GetEnemyindex(0)[i]->GetPosition(), pPos) < range;
 	//}
 	if (EncountFlag) {
-		return EnemyControl::GetInstance()->GetTutorialEnemyindex()[0].get();
+		return EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0].get();
 	}
 
 }

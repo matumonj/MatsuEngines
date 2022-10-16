@@ -75,6 +75,7 @@ protected:
 	bool f_AttackFlag;
 	bool DeathFlag;
 	bool nowDeath;
+	bool nowAttack;
 	int cooltime = 0;
 
 	int onGroundTime = 0;

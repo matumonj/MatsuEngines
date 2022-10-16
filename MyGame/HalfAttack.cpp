@@ -30,7 +30,7 @@ void HalfAttack::ActionJudg()
 	
 //fase1　カウントダウンと中央に戻る処理
 	PlayerPos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
-	BossEnemyPos = EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetPosition();
+	BossEnemyPos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
 	CenterPos = { 0.0f ,-18.0f ,0.0f };
 	if (fase==FASEONE) {
 		BossSpell::GetInstance()->SetEndSpell(BossSpell::HALF_RIGHT,false);
@@ -140,27 +140,27 @@ void HalfAttack::TurnCenter()
 		//角度の取得 プレイヤーが敵の索敵位置に入ったら向きをプレイヤーの方に
 		RotY = atan2f(SubVector.m128_f32[0], SubVector.m128_f32[2]);
 
-		EnemyControl::GetInstance()->GetBossEnemyindex()[0]->SetRotation({
-			EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetRotation().x,
+		EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->SetRotation({
+			EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetRotation().x,
 			RotY * 60.0f + 180.0f ,
-			EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetRotation().z });
+			EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetRotation().z });
 		//移動ベクトルをy軸周りの角度で回転
 		XMVECTOR move = { 0.0f ,0.0f ,0.1f,0.0f };
 
-		XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetRotation().y));
+		XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetRotation().y));
 
 		move = XMVector3TransformNormal(move, matRot);
 
-		EnemyControl::GetInstance()->GetBossEnemyindex()[0]->SetPosition({
-					EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetPosition().x + move.m128_f32[0],
-					EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetPosition().y,
-					EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetPosition().z + move.m128_f32[2] }
+		EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->SetPosition({
+					EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition().x + move.m128_f32[0],
+					EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition().y,
+					EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition().z + move.m128_f32[2] }
 		);
 }
 
 void HalfAttack::DamageJudg_Left()
 {
-	float Bpos = EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetPosition().x;
+	float Bpos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition().x;
 	float Ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition().x;
 	if (Ppos >= Bpos) {
 		PlayerControl::GetInstance()->GetPlayer()->RecvDamage(20);
@@ -169,7 +169,7 @@ void HalfAttack::DamageJudg_Left()
 
 void HalfAttack::DamageJudg_Right()
 {
-	float Bpos = EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetPosition().x;
+	float Bpos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition().x;
 	float Ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition().x;
 	if (Ppos <= Bpos) {
 		PlayerControl::GetInstance()->GetPlayer()->RecvDamage(20);

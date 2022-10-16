@@ -117,7 +117,7 @@ void AltAttack::Draw()
 
 void AltAttack::EnergieCharge()
 {
-	XMFLOAT3 Bpos = EnemyControl::GetInstance()->GetBossEnemyindex()[0]->GetPosition();
+	XMFLOAT3 Bpos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
 	//for (int i = 0; i < 1; i++) {
 	//const float rnd_pos = 30.0f;
 	//	XMFLOAT3 pos{};

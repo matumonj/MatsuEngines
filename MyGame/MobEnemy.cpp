@@ -193,39 +193,5 @@ void MobEnemy::DamageParticleSet()
 
 void MobEnemy::DamageTexUpdate(DebugCamera* camera)
 {
-	SlashPos.z = Position.z;
-	if (DamageParticleCreateF && !SlashF2) {
-		SlashPos.x = Position.x + 5;
-		SlashPos.y = Position.y + 10;
-		SlashAlpha = 0.0f;
-		SlashF = true;
-	}
-	if (SlashF && !SlashF2) {
-		if (PlayerControl::GetInstance()->GetPlayer()->GetFbxTime() >= 1.7f) {
-
-			SlashAlpha = 1.0f;
-			SlashF2 = true;
-		}
-	}
-	if (SlashF2) {
-		SlashF = false;
-		SlashPos.x -= 1.0f;
-		SlashPos.y -= 1.0f;
-		SlashAlpha -= 0.05f;
-		if (SlashAlpha <= 0.0f) {
-			SlashF2 = false;
-		}
-	}
-	if (!SlashF && !SlashF2) {
-		SlashAlpha = 0.0f;
-	}
-	SlashTex->SetUVMove(false);
-	SlashTex->SetBillboard(false);
-
-	SlashTex->Update(camera);
-	SlashTex->SetPosition(SlashPos);
-	SlashTex->SetColor({ 1.0f,1.0f,1.0f,1 });
-	SlashTex->SetRotation({ 0,180,0 });
-	SlashTex->SetScale({ 2.0f ,2.0f ,3.0f });
-
+	
 }

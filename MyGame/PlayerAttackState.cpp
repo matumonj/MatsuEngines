@@ -57,37 +57,37 @@ void PlayerAttackState::Update()
 		break;
 	case PlayerAttackState::First:
 		if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
-			FirstAttack(EnemyControl::GetInstance()->GetTutorialEnemyindex());
+			FirstAttack(EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL));
 		}
 		if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
-			FirstAttack(EnemyControl::GetInstance()->GetEnemyindex(0));
+			FirstAttack(EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE));
 		}
 		if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
-			FirstAttack(EnemyControl::GetInstance()->GetBossEnemyindex());
+			FirstAttack(EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS));
 		}
 		break;
 	case PlayerAttackState::Second:
 		if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
-			SecondAttack(EnemyControl::GetInstance()->GetTutorialEnemyindex());
+			SecondAttack(EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL));
 		}
 		if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
-			FirstAttack(EnemyControl::GetInstance()->GetEnemyindex(0));
+			FirstAttack(EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE));
 		}
 		if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
-			FirstAttack(EnemyControl::GetInstance()->GetBossEnemyindex());
+			FirstAttack(EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS));
 		}
 		//SecondAttack(EnemyControl::GetInstance()->GetEnemyindex(1)
 		//);
 		break;
 	case PlayerAttackState::Third:
 		if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
-			ThirdAttack(EnemyControl::GetInstance()->GetTutorialEnemyindex());
+			ThirdAttack(EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL));
 		}
 		if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
-			FirstAttack(EnemyControl::GetInstance()->GetEnemyindex(0));
+			FirstAttack(EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE));
 		}
 		if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
-			FirstAttack(EnemyControl::GetInstance()->GetBossEnemyindex());
+			FirstAttack(EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS));
 		}
 		//ThirdAttack(EnemyControl::GetInstance()->GetEnemyindex(1)
 		//);

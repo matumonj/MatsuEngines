@@ -14,14 +14,8 @@ class EnemyControl :
 public:
 	~EnemyControl() {};
 private:
-	//std::unique_ptr<Player>player;
-	std::vector<std::unique_ptr<Enemy>>enemys;
 	std::vector <XMFLOAT3>Load_EnemyPosition;
-	//チュートリアル用
-	std::vector <std::unique_ptr<Enemy>> tutorial_enemy;
-	//ボス用
-	std::vector <std::unique_ptr<Enemy>> boss_enemy;
-
+	std::vector < std::vector <std::unique_ptr<Enemy>>>enemys;
 	std::unique_ptr<GigaBossEnemy>gigaboss;
 
 	XMFLOAT3 tutorial_pos;
@@ -43,10 +37,19 @@ public:
 
 	void Finalize()override;
 
-	std::vector<std::unique_ptr<Enemy>> &GetEnemyindex(int index);// { return enemys[index].get(); }
-	std::vector <std::unique_ptr<Enemy>> &GetTutorialEnemyindex();
-	std::vector <std::unique_ptr<Enemy>>& GetBossEnemyindex();
-	std::unique_ptr<GigaBossEnemy> &GetGigaBossEnemy();
+	enum EnemyType {
+		TUTORIAL,
+		PLAYSCENE,
+		GUARDIAN_RED,
+		GUARDIAN_BLUE,
+		GUARDIAN_YELLOW,
+		GUARDIAN_GREEN,
+		BOSS,
+	};
+	std::vector<std::unique_ptr<Enemy>>& GetEnemy(EnemyType type);
+
+	std::unique_ptr<GigaBossEnemy>& GetGigaBossEnemy() { return gigaboss; };
+
 private:
 	void Update_Tutorial(DebugCamera*camera)override;
 
@@ -54,5 +57,6 @@ private:
 
 	void Update_Boss(DebugCamera*camera)override;
 
+	void GuardianSetPos();
 };
 
