@@ -6,6 +6,9 @@
 #include"SistemConfig.h"
 #include"SceneManager.h"
 
+#include"ChestControl.h"
+#include"PlayerControl.h"
+#include"CameraControl.h"
 #include"KnockAttack.h"
 #include"CircleAttack.h"
 #include"HalfAttack.h"
@@ -118,7 +121,9 @@ void EnemyControl::Load(DebugCamera* camera)
 			enemys[EnemyType::PLAYSCENE][i]->SetPosition(pos[i]);
 			enemys[EnemyType::PLAYSCENE][i]->SetRespawnPos(pos[i]);
 		}
+		GuardianSetPos();
 	}
+
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
 		enemys[EnemyType::TUTORIAL].resize(1);
 		enemys[EnemyType::TUTORIAL][0] = std::make_unique<MobEnemy>();
@@ -158,11 +163,24 @@ void EnemyControl::Update_Tutorial(DebugCamera* camera)
 }
 void EnemyControl::Update_Play(DebugCamera* camera)
 {
+	XMFLOAT3 pPos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+
 	for (int i = 0; i < Quantity; i++) {
 		if (enemys[EnemyType::PLAYSCENE][i] != nullptr) {
 			enemys[EnemyType::PLAYSCENE][i]->SetMoveFlag(true);
 			enemys[EnemyType::PLAYSCENE][i]->Update(camera);
 		}
+	}
+		if (CameraControl::GetInstance()->GetEncountFlag() == FALSE) {
+			for (int i = GUARDIAN_RED; i < GUARDIAN_GREEN + 1; i++) {
+				if (enemys[i][0]->GetHP() <= 0) {
+					continue;
+				}
+				if (Collision::GetLength(pPos, enemys[i][0]->GetPosition()) < 50.0f) {
+					CameraControl::GetInstance()->SetEncountGuardianFlag(TRUE);
+				}
+				enemys[i][0]->Update(camera);
+			}
 	}
 }
 void EnemyControl::Update_Boss(DebugCamera* camera)
@@ -182,6 +200,9 @@ void EnemyControl::Draw()
 			if (enemys[EnemyType::PLAYSCENE][i] != nullptr) {
 				enemys[EnemyType::PLAYSCENE][i]->Draw();
 			}
+		}
+		for (int i = GUARDIAN_RED; i < GUARDIAN_GREEN + 1; i++) {
+			enemys[i][0]->Draw();
 		}
 	}
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
@@ -205,10 +226,21 @@ void EnemyControl::Draw()
 	}
 }
 
-#include"ChestControl.h"
 void EnemyControl::GuardianSetPos()
 {
-	//guardianBlue_enemy
+	enemys[GUARDIAN_RED][0]->Initialize(CameraControl::GetInstance()->GetCamera());
+	enemys[GUARDIAN_RED][0]->SetPosition(ChestControl::GetInstance()->GetChest(ChestControl::RED)->GetPosition());
+	
+	enemys[GUARDIAN_GREEN][0]->Initialize(CameraControl::GetInstance()->GetCamera());
+	enemys[GUARDIAN_GREEN][0]->SetPosition(ChestControl::GetInstance()->GetChest(ChestControl::GREEN)->GetPosition());
+	
+	enemys[GUARDIAN_BLUE][0]->Initialize(CameraControl::GetInstance()->GetCamera());
+	enemys[GUARDIAN_BLUE][0]->SetPosition(ChestControl::GetInstance()->GetChest(ChestControl::BLUE)->GetPosition());
+	
+	enemys[GUARDIAN_YELLOW][0]->Initialize(CameraControl::GetInstance()->GetCamera());
+	enemys[GUARDIAN_YELLOW][0]->SetPosition(ChestControl::GetInstance()->GetChest(ChestControl::YELLOW)->GetPosition());
+
+
 }
 std::vector<std::unique_ptr<Enemy>>&EnemyControl::GetEnemy(EnemyType type)
 {

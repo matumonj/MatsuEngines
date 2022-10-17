@@ -23,6 +23,14 @@ public:
 	bool GetTutorialChest() { return GetTutorialChestJudg; }
 
 	int ChestCount() { return GetChestCount; }
+
+	enum Color {
+		RED,
+		BLUE,
+		GREEN,
+		YELLOW
+	};
+	Chest* GetChest(Color col) { return chests[col].get(); }
 private:
 	enum Event {
 		FEEDIN,

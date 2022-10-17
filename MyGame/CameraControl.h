@@ -114,6 +114,7 @@ private:
     int waitCount;
 
     public:
+        void SetEncountGuardianFlag(bool f) { EncountFlag = f; }
         bool GetEncountFlag() { return EncountFlag; }
 private:
     float shakex = 0.0f;

@@ -93,10 +93,10 @@ if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
 		chests[i]->Initialize(camera);
 		chests[i]->SetRotation({ 0.0f,90.0f,0.0f });
 	}
-	chests[0]->SetPosition({ 57,-20,-293 });
-	chests[1]->SetPosition({ 117,-20,-293 });
-	chests[2]->SetPosition({ 57,-20,-233 });
-	chests[3]->SetPosition({ 117,-20,-233 });
+	chests[Color::RED]->SetPosition({ 57,-20,-293 });
+	chests[Color::GREEN]->SetPosition({ 117,-20,-293 });
+	chests[Color::BLUE]->SetPosition({ 57,-20,-233 });
+	chests[Color::YELLOW]->SetPosition({ 117,-20,-233 });
 
 	for (int i = 0; i < 4; i++) {
 		PlayPchest[i].particleMan = ParticleManager::Create(4, L"Resources/ParticleTex/normal.png");
@@ -137,22 +137,21 @@ void ChestControl::Update_Play(DebugCamera* camera)
 
 	for (int i = 0; i < 4; i++) {
 		if (chests[i] != nullptr) {
-			chests[i]->SetColor({ 1.0f,1.0f,1.0f,1.0f });
 			chests[i]->Update(camera);
 			GetChestEvent(chests[i].get(), PlayPchest[i]);
 		}
 	}
-	if (chests[0] != nullptr) {
-		chests[0]->SetpColor(color_red);
+	if (chests[Color::RED] != nullptr) {
+		chests[Color::RED]->SetpColor(color_red);
 	}
-	if (chests[1] != nullptr) {
-		chests[1]->SetpColor(color_green);
+	if (chests[Color::GREEN] != nullptr) {
+		chests[Color::GREEN]->SetpColor(color_green);
 	}
-	if (chests[2] != nullptr) {
-		chests[2]->SetpColor(color_blue);
+	if (chests[Color::BLUE] != nullptr) {
+		chests[Color::BLUE]->SetpColor(color_blue);
 	}
-	if (chests[3] != nullptr) {
-		chests[3]->SetpColor(color_yellow);
+	if (chests[Color::YELLOW] != nullptr) {
+		chests[Color::YELLOW]->SetpColor(color_yellow);
 	}
 }
 void ChestControl::Update_Boss(DebugCamera* camera)

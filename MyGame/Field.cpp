@@ -73,11 +73,11 @@ void Field::Initialize(DebugCamera* camera)
 	BossName->SetPosition({ WinApp::window_width / 2,WinApp::window_height / 2 });
 	BossName->SetSize({ 800,800 });
 
-	Texture::LoadTexture(299, L"Resources/AOE.png");
+	//Texture::LoadTexture(299, L"Resources/AOE.png");
 
-	playerpoint = Texture::Create(299, { 0.0f ,0.0f ,0.0f }, { 100.0f ,100.0f ,1.0f }, { 1.0f ,1.0f ,1.0f ,1.0f });
-	playerpoint->CreateTexture();
-	playerpoint->SetAnchorPoint({ 0.5f,0.5f });
+	//playerpoint = Texture::Create(299, { 0.0f ,0.0f ,0.0f }, { 100.0f ,100.0f ,1.0f }, { 1.0f ,1.0f ,1.0f ,1.0f });
+	//playerpoint->CreateTexture();
+	//playerpoint->SetAnchorPoint({ 0.5f,0.5f });
 }
 
 void Field::Update_Tutorial(DebugCamera* camera)
@@ -119,12 +119,12 @@ void Field::Update_Boss(DebugCamera* camera)
 	FieldObject->SetColor({ 0.2f,0.2f,0.2f,1.0f });
 	FieldObject->Update({ 0.2f,0.2f,0.2f,1.0f }, camera);
 
-	playerpoint->SetPosition({ PlayerControl::GetInstance()->GetPlayer()->GetPosition().x,PlayerControl::GetInstance()->GetPlayer()->GetPosition().y + 10,PlayerControl::GetInstance()->GetPlayer()->GetPosition().z });
-	playerpoint->Update(dc);
-	playerpoint->SetScale({ 4,4,4 });
-	playerpoint->SetBillboard(true);
+	//playerpoint->SetPosition({ PlayerControl::GetInstance()->GetPlayer()->GetPosition().x,PlayerControl::GetInstance()->GetPlayer()->GetPosition().y + 10,PlayerControl::GetInstance()->GetPlayer()->GetPosition().z });
+	//playerpoint->Update(dc);
+	//playerpoint->SetScale({ 4,4,4 });
+	//playerpoint->SetBillboard(true);
 	//playerpoint->SetRotation({ 0.0f,0.0f,0.0f });
-	playerpoint->SetColor({ 1.0f,1.0f,1.0f,1 });
+	//playerpoint->SetColor({ 1.0f,1.0f,1.0f,1 });
 
 }
 
