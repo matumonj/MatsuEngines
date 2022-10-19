@@ -17,7 +17,7 @@ void NormalSword::Initialize(DebugCamera* camera)
 
 	Scale = { 1.0f,1.0f,1.0f };
 
-	Rotation = { 0.0f,0.0f + 30.0f,0.0f + 100.0f };
+	Rotation = { -18.0f, 18.0f,0.0f + 11.0f };
 	
 }
 
@@ -35,7 +35,14 @@ void NormalSword::Update(DebugCamera* camera)
 
 }
 
+#include"imgui.h"
 void NormalSword::Draw()
 {
 	Draw_Obj();
+	ImGui::Begin("rot");
+	ImGui::SliderFloat("x", &Rotation.x, -180, 180);
+	ImGui::SliderFloat("y", &Rotation.y, -180, 180);
+	ImGui::SliderFloat("z", &Rotation.z, -180, 180);
+	ImGui::End();
+
 }

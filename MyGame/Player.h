@@ -113,12 +113,25 @@ public:
 	float GetFbxTime() { return f_time; }
 
 	bool GetNowAttack() { return nowattack; }
+	enum AttackMotion {
+		NON,
+		RUN,
+		FIRST,
+		SECOND
+	};
+	AttackMotion GetAttackType() { return attackMotion; }
 private:
 	
+	AttackMotion attackMotion;
+	bool SecAttack;
+	bool nowSecAttack;
+	float sectime=1.8f;
 	float f_time;
-	float AttackTime = 1.5f;
-	float DeathTime = 4.9f;
+	float AttackTime = 0.6f;
+	float DeathTime =20.1f;
 	bool AttackFlag;
 	bool nowattack;
+
+	int hindex=15;
 };
 

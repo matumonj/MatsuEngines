@@ -279,7 +279,7 @@ void f_Object3d::Updata(bool animeloop)
 		constMapSkin->bones[i] = bones[i].invInitialPose * matCurrentPose;
 			}
 
-	int num = 13;
+	int num = bindexs;
 	FbxLoader::ConvertMatrixFromFbx(&hRot, bones[num].fbxCluster->GetLink()->EvaluateGlobalTransform(currentTime));
 	
 	rot =  hRot* matWorld;

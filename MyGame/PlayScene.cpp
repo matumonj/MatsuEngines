@@ -34,10 +34,10 @@ void PlayScene::Initialize()
 		//カメラ一番上に　他のControlがカメラを引数にしてるから
 		AllObjectControl.push_back(CameraControl::GetInstance());
 		AllObjectControl.push_back(PlayerControl::GetInstance());
+		AllObjectControl.push_back(ChestControl::GetInstance());
 		AllObjectControl.push_back(EnemyControl::GetInstance());
 		AllObjectControl.push_back(WoodControl::GetInstance());
 		AllObjectControl.push_back(FenceControl::GetInstance());
-		AllObjectControl.push_back(ChestControl::GetInstance());
 	}
 
 	//各オブジェクト初期化

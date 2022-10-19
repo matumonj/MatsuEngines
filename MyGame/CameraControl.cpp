@@ -178,7 +178,7 @@ void CameraControl::AngleRotation()
 /*---------player---------*/
 void CameraControl::TargetPlayer()
 {
-		
+	EncountFlag = false;
 		if (input->TriggerButton(input->Button_X)) {
 
 			OldCameraPos = camera->GetEye();
@@ -460,16 +460,13 @@ void CameraControl::ShakeCamera()
 Enemy* CameraControl::GuardianEnemy()
 {
 	XMFLOAT3 pPos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
-
+	Enemy* encountEnemy;
+	EnemyControl::EnemyType etype;
 	//エンカウントする範囲
-	const float range = 30.0f;
+	const float range = 300.0f;
 	//エンカウント範囲入ったら
-	if (Collision::GetLength(EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition(), pPos) < range) {
-		EncountFlag = true;
-	}
-	if (encountGuardian == END) {
-		EncountFlag = false;
-	}
+	
+	
 	//for (int i = 0; i < 4) {
 	//	if (EnemyControl::GetInstance()->GetEnemyindex(0)[i]->GetHP() <= 0) {
 		//	continue;
@@ -490,7 +487,7 @@ Enemy* CameraControl::GuardianEnemy()
 		//EncountJudg = Collision::GetLength(EnemyControl::GetInstance()->GetEnemyindex(0)[i]->GetPosition(), pPos) < range;
 	//}
 	if (EncountFlag) {
-		return EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0].get();
+		return EnemyControl::GetInstance()->GetEncountEnemy();
 	}
 
 }

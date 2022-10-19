@@ -45,14 +45,14 @@ void Player::Initialize(DebugCamera* camera)
 
 	m_fbxObject = std::make_unique<f_Object3d>();
 	m_fbxObject->Initialize();
-	m_fbxObject->SetModel(FbxLoader::GetInstance()->LoadModelFromFile("monster_golem_demo"));
+	m_fbxObject->SetModel(FbxLoader::GetInstance()->LoadModelFromFile("playerGolem"));
 	m_fbxObject->PlayAnimation();
 
 	SetCollider();
 
-	Rotation = { 0.0f,0.0f,0.0f };
+	Rotation = { -163.0f,-62.0f,103.0f };
 	Position = { 0.0f,0.0f,0.0f };
-	Scale = { 0.01f, 0.01f, 0.01f };
+	Scale = { 0.02f, 0.02f, 0.02f };
 
 	SelectSword::GetInstance()->Initialize();
 	
@@ -61,7 +61,7 @@ void Player::Initialize(DebugCamera* camera)
 	rotate = RotationPrm::FRONT;
 
 }
-
+//80,145
 void Player::Jump()
 {
 	if (onGround) {
@@ -93,7 +93,7 @@ void Player::Move()
 
 	//移動ベクトルをy軸周りの角度で回転
 	XMVECTOR move = { 0.0f,0.0f,0.1f,0.0f };
-	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(Rotation.y));
+	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(Rotation.y+63.0f));
 	move = XMVector3TransformNormal(move, matRot);
 
 	if (!StopFlag&&!evasionF) {
@@ -116,7 +116,7 @@ void Player::Move()
 void Player::Evasion()
 {
 	if (evasionF) {
-		evaTime += 0.02f;
+		evaTime += 0.03f;
 		Position.x += Gmove.m128_f32[0] * Easing::EaseOut(evaTime,5.0f, 0.0f);
 		Position.z += Gmove.m128_f32[2] * Easing::EaseOut(evaTime,5.0f, 0.0f);
 		if (evaTime >= 1.0f) {
@@ -141,6 +141,7 @@ void Player::Update(DebugCamera* camera)
 	
 	Move();
 
+	m_fbxObject->SetHandBoneIndex(hindex);
 	//3d_fbx更新
 	FbxAnimationControl();
 
@@ -213,38 +214,66 @@ void Player::RotationStatus()
 	}
 }
 
-
+#include"imgui.h"
 void Player::Draw()
 {
 	Draw_Fbx();
 	SelectSword::GetInstance()->SwordDraw();
+
+
+	ImGui::Begin("we");
+	ImGui::SliderFloat("rx", &Rotation.x,-360,360);
+	ImGui::SliderFloat("ry", &Rotation.y, -360, 360);
+	ImGui::SliderFloat("rz", &Rotation.z, -360, 360);
+
+	ImGui::SliderInt("HandBone", &hindex, 0, 30);
+	
+	ImGui::End();
 }
 
 void Player::FbxAnimationControl()
 {
-	const float timespeed = 0.02f;
+	const float timespeed = 0.01f;
 
 	if (CustomButton::GetInstance()->GetAttackAction() == true&&PlayerAttackState::GetInstance()->GetCoolTime()==0) {
 			AttackFlag = true;
+			attackMotion = FIRST;
 	}
-	if (AttackFlag) {
-		f_time = AttackTime;
-		AttackFlag = false;
-		nowattack = true;
+	if (CustomButton::GetInstance()->Get2AttackAction() == true && PlayerAttackState::GetInstance()->GetCoolTime() == 0){
+		SecAttack = true;
+		attackMotion = SECOND;
 	}
-
 
 	f_time += timespeed;
-	if (nowattack) {
-		if (f_time >= DeathTime) {
-			f_time = 0;
-			nowattack = false;
+
+	if (attackMotion==FIRST) {
+		if (f_time <= AttackTime) {
+			f_time = AttackTime;
 		}
-	} else {//歩くモーション　一つのアニメーションで回してるせいで攻撃モーション行く前にタイムを0に戻す
-		if (f_time > AttackTime) {
+		if (f_time >= sectime) {
+			attackMotion = RUN;
+		}
+	}	else if (attackMotion == SECOND) {
+		if (f_time <= sectime) {
+			f_time = sectime;
+		}
+		if (f_time >=m_fbxObject->GetEndTime()) {
+			attackMotion = RUN;
+		}
+	}
+	else if (attackMotion == NON) {
+		f_time = 0;
+		//if()
+	}
+	else if (attackMotion == RUN) {
+		if (f_time >= AttackTime) {
 			f_time = 0;
 		}
 	}
+
+
+
+
 	m_fbxObject->SetFbxTime(f_time);
 }
 

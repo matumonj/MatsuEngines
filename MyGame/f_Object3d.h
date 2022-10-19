@@ -158,6 +158,10 @@ public:	//íËêî
 	XMMATRIX GetHandBone() { return hand; }
 	XMFLOAT3 GetHandRotation() { return { (float)PosNode2[0],(float)PosNode2[1],(float)PosNode2[2] }; }
 	FbxTime SetCurrent() { return currentTime = startTime; }
+
+	int bindexs=13;
+
+	void SetHandBoneIndex(int bindex) { bindexs = bindex; }
 	private:
 		bool nowAttack;
 		bool nowDeath;

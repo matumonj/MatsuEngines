@@ -21,6 +21,7 @@ private:
 	XMFLOAT3 tutorial_pos;
 	XMFLOAT3 boss_pos;
 	
+	Enemy* encountEnemy;
 private:
 	enum {
 		ALPHAENEMY=1,
@@ -46,10 +47,12 @@ public:
 		GUARDIAN_GREEN,
 		BOSS,
 	};
+	int index = 0;
 	std::vector<std::unique_ptr<Enemy>>& GetEnemy(EnemyType type);
 
 	std::unique_ptr<GigaBossEnemy>& GetGigaBossEnemy() { return gigaboss; };
 
+	Enemy* GetEncountEnemy() { if(encountEnemy!=nullptr)return encountEnemy; }
 private:
 	void Update_Tutorial(DebugCamera*camera)override;
 

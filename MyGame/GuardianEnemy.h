@@ -7,24 +7,24 @@ private:
 
 public:
     //初期化
-    virtual void Initialize(DebugCamera* camera)override;
+    virtual void Initialize(DebugCamera* camera)override=0;
 
     //更新処理
-    virtual void Update(DebugCamera* camera)override;
+    virtual void Update(DebugCamera* camera)override=0;
 
     //描画処理
-    virtual void Draw()override;
+    virtual void Draw()override=0;
 
     //死亡処理
-    virtual void Death()override;
+    virtual void Death()override=0;
 
     //攻撃後のクールタイム挙動
-    virtual void AttackCoolTime()override;
+    virtual void AttackCoolTime()override=0;
 
     //Fbxのアニメーション制御
-    virtual void FbxAnimationControl()override;
+    virtual void FbxAnimationControl()override=0;
 
-    virtual void DamageTexUpdate(DebugCamera* camera)override;
+    virtual void DamageTexUpdate(DebugCamera* camera)override=0;
 };
 
 

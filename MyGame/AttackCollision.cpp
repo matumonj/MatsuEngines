@@ -45,7 +45,7 @@ void AttackCollision::GetCol(int damage)
 		
 		ColOBB(TYTORIAL);
 
-		if (PlayerControl::GetInstance()->GetPlayer()->GetNowAttack()) {
+		if (PlayerControl::GetInstance()->GetPlayer()->GetAttackType()!=PlayerControl::GetInstance()->GetPlayer()->RUN) {
 			for (int i = 0; i < EnemyOBB.size(); i++) {
 				if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition())>10.0f) {
 					continue;
