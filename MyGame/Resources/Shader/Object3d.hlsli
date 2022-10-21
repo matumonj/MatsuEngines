@@ -10,6 +10,10 @@ cbuffer cbuff0 : register(b0)
 	bool flag;
 	float3 ks3;
 	float time;
+	float3 ks4;
+	bool destF;
+	float3 ks5;
+	float desttime;
 };
 
 cbuffer cbuff1 : register(b1)

@@ -179,22 +179,20 @@ void CameraControl::AngleRotation()
 void CameraControl::TargetPlayer()
 {
 	EncountFlag = false;
-		if (input->TriggerButton(input->Button_X)) {
-
-			OldCameraPos = camera->GetEye();
-			OldCameratarget = camera->GetTarget();
-			encountGuardian = START;
-			Tstate=ENCOUNTGUARDIAN;
-		}
-		else {
+			//OldCameraPos = camera->GetEye();
+			//OldCameratarget = camera->GetTarget();
+		//	encountGuardian = START;
+		//	Tstate=ENCOUNTGUARDIAN;
+		//}
+		//else {
 			if (AttackSceneF) {
 				Feed::GetInstance()->Update_White(Feed::FEEDOUT);
 				if (Feed::GetInstance()->GetAlpha() <= 0.0f) {
 					AttackSceneF = false;
 				}
 			}
-			CameraPosition.x = PlayerControl::GetInstance()->GetPlayer()->GetPosition().x + cosf((float)(cameraAngle) * 3.14f / 180.0f) * 45;
-			CameraPosition.z = PlayerControl::GetInstance()->GetPlayer()->GetPosition().z + sinf((float)(cameraAngle) * 3.14f / 180.0f) * 45;
+			CameraPosition.x = PlayerControl::GetInstance()->GetPlayer()->GetPosition().x + cosf((float)(cameraAngle) * 3.14f / 180.0f) * 35;
+			CameraPosition.z = PlayerControl::GetInstance()->GetPlayer()->GetPosition().z + sinf((float)(cameraAngle) * 3.14f / 180.0f) * 35;
 			CameraPosition.y = PlayerControl::GetInstance()->GetPlayer()->GetPosition().y + CameraHeight;
 			this->camera->SetTarget({ PlayerControl::GetInstance()->GetPlayer()->GetPosition() });
 
@@ -204,7 +202,7 @@ void CameraControl::TargetPlayer()
 					Tstate = MOVEBOSSAREA;
 				}
 			}
-		}
+		//}
 
 	
 }

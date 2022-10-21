@@ -286,7 +286,7 @@ void Model::LoadMaterial(const std::string& directoryPath, const std::string& fi
 	file.open(directoryPath + filename);
 	// ファイルオープン失敗をチェック
 	if (file.fail()) {
-		assert(0);
+	//	assert(0);
 	}
 
 	Material* material = nullptr;

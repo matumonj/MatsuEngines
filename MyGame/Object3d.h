@@ -40,6 +40,10 @@ public: // サブクラス
 		bool f;
 		XMFLOAT3 ks3;
 		float time;
+		XMFLOAT3 ks4;
+		bool destF;
+		XMFLOAT3 ks5;
+		float destTime;
 	};
 
 private: // 定数
@@ -238,7 +242,13 @@ protected: // メンバ変数
 	bool setef=false;
 	bool uvf=false;
 	float uvtime;
+
+	bool DestF = false;
+	float DestTime = 0;
 public:
+	void SetDestFlag(bool f) { DestF = f; }
+	void SetDestTime(float t) { DestTime = t; }
+
 	void setFog(bool f) { setef = f; }
 	void SetUVf(bool f) { uvf = f; }
 	void setr(bool f) { rf = f; }

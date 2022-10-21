@@ -101,12 +101,20 @@ void Player::Move()
 			|| (input->LeftTiltStick(input->Left) || input->LeftTiltStick(input->Right) || input->LeftTiltStick(input->Up) || input->LeftTiltStick(input->Down))) {
 			Position.x += move.m128_f32[0] * movespeed;
 			Position.z += move.m128_f32[2] * movespeed;
+			if (f_time < AttackTime) {
+				attackMotion = RUN;
+			}
+		}
+		else {
+			if (f_time <AttackTime) {
+				attackMotion = NON;
+			}
 		}
 		// ƒWƒƒƒ“ƒv‘€ì
 		Jump();
 	}
 	Gmove = move;
-	if (input->TriggerButton(input->Button_B)) {
+	if (input->TriggerButton(input->Button_RB)) {
 		evasionF = true;
 	}
 	Evasion();
@@ -227,13 +235,13 @@ void Player::Draw()
 	ImGui::SliderFloat("rz", &Rotation.z, -360, 360);
 
 	ImGui::SliderInt("HandBone", &hindex, 0, 30);
-	
+	ImGui::SliderFloat("at", &sectime, 0, 3);
 	ImGui::End();
 }
 
 void Player::FbxAnimationControl()
 {
-	const float timespeed = 0.01f;
+	const float timespeed = 0.02f;
 
 	if (CustomButton::GetInstance()->GetAttackAction() == true&&PlayerAttackState::GetInstance()->GetCoolTime()==0) {
 			AttackFlag = true;

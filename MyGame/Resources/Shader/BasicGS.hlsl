@@ -34,7 +34,12 @@ void main(
 		if (gsflag) {
 			element.svpos.xyz = center + (element.svpos.xyz - center) * (1 - destruction * 0.9);//mul(viewproj, element.svpos);
 		}
-		
+		if (destF) {
+			element.svpos.xyz+=input[i].normal* rand(center.xy) * ((0.5f +desttime)* 0.9);
+		}
+		else {
+			element.svpos = input[i].svpos;
+		}
 		element.normal = input[i].normal;
 		element.uv = input[i].uv;
 

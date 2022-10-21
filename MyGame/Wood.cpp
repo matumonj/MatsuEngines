@@ -21,14 +21,17 @@ void Wood::Initialize(DebugCamera* camera)
 	Scale = { 2,3,2 };
 	radius_adjustment = -14;
 	SetCollider();
+	alpha = 1;
 }
-
+#include"Input.h"
 void Wood::Update(DebugCamera* camera)
 {
 	m_Object->SetColor({ 1,1,1,1 });
 
+
+	Color = { 1,1,1,alpha };
 	ParameterSet_Obj(camera);
-	m_Object->Setf(TRUE);
+	//m_Object->Setf(TRUE);
 	//フィールド
 	CollideWood();
 	

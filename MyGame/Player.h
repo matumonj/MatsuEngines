@@ -122,12 +122,12 @@ public:
 	AttackMotion GetAttackType() { return attackMotion; }
 private:
 	
-	AttackMotion attackMotion;
+	AttackMotion attackMotion=NON;
 	bool SecAttack;
 	bool nowSecAttack;
 	float sectime=1.8f;
 	float f_time;
-	float AttackTime = 0.6f;
+	float AttackTime = 0.571f;
 	float DeathTime =20.1f;
 	bool AttackFlag;
 	bool nowattack;

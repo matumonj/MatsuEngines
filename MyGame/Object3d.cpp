@@ -424,6 +424,10 @@ void Object3d::Update(XMFLOAT4 color, DebugCamera* camera)
 	constMap->f = setef;
 	constMap->ks3 = { 0,0,0 };
 	constMap->time = uvtime;
+	constMap->ks4 = { 0,0,0 };
+	constMap->destF = DestF;
+	constMap->ks5 = { 0,0,0 };
+	constMap->destTime = DestTime;
 	// 定数バッファへデータ転送
 	//ConstBufferDataB0* constMap = nullptr;
 	//result = constBuffB0->Map(0, nullptr, (void**)&constMap);

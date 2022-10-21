@@ -15,7 +15,7 @@ ObjectManager::~ObjectManager()
 
 void ObjectManager::SetCollider()
 {
-	float radius = 5.0f;
+	float radius = 1.0f;
 	m_Object->SetCollider(new SphereCollider(XMVECTOR({ 0,radius,0,0 }), radius));
 	m_Object->collider->SetAttribute(COLLISION_ATTR_ALLIES);
 }

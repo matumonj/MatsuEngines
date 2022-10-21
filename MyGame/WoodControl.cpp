@@ -136,7 +136,7 @@ void WoodControl::Update_Play(DebugCamera* camera)
 {
 	for (int i = 0; i < Quantity; i++) {
 		if (woods[i] != nullptr) {
-			woods[i]->SetColor({ 0.0f,1.0f,0.0f,1.0f });
+			//woods[i]->SetColor({ 0.0f,1.0f,0.0f,1.0f });
 			woods[i]->Update(camera);
 		}
 		if (woods[i]->CollideWood()==true) {
