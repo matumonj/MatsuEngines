@@ -32,8 +32,9 @@ void Tutorial::Initialize()
 	Texture::LoadTexture(47, L"Resources/df.png");
 	{
 		AllObjectControl.push_back(CameraControl::GetInstance());//Camera
-		AllObjectControl.push_back(PlayerControl::GetInstance());//Player
 		AllObjectControl.push_back(EnemyControl::GetInstance());//Enemy
+
+		AllObjectControl.push_back(PlayerControl::GetInstance());//Player
 		AllObjectControl.push_back(FenceControl::GetInstance());//Fence
 		AllObjectControl.push_back(ChestControl::GetInstance());//Chest
 		AllObjectControl.push_back(WoodControl::GetInstance());//Wood
@@ -120,9 +121,9 @@ void Tutorial::Update()
 	//postEffect->SetSize({ 10,10 });
 	
 if (scenechange&& Feed::GetInstance()->GetAlpha() >= 1.0f) {//画面真っ白なったら
-		BaseScene* scene = new PlayScene(sceneManager_);//次のシーンのインスタンス生成
+		BaseScene* scene = new BossScene(sceneManager_);//次のシーンのインスタンス生成
 		Play = false;
-		SceneManager::GetInstance()->SetScene(SceneManager::PLAY);
+		SceneManager::GetInstance()->SetScene(SceneManager::BOSS);
 		sceneManager_->SetnextScene(scene);//シーンのセット
 	}
 	DamageManager::GetIns()->Upda();

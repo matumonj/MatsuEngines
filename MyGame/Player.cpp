@@ -124,13 +124,20 @@ void Player::Move()
 void Player::Evasion()
 {
 	if (evasionF) {
-		evaTime += 0.03f;
-		Position.x += Gmove.m128_f32[0] * Easing::EaseOut(evaTime,5.0f, 0.0f);
-		Position.z += Gmove.m128_f32[2] * Easing::EaseOut(evaTime,5.0f, 0.0f);
-		if (evaTime >= 1.0f) {
+		if (evaTime < 1.0f) {
+			evaTime += 0.03f;
+			Position.x += Gmove.m128_f32[0] * Easing::EaseOut(evaTime, 15.0f, 0.0f);
+			Position.z += Gmove.m128_f32[2] * Easing::EaseOut(evaTime, 15.0f, 0.0f);
+
+		}
+		//m_fbxObject->SetColor({ 0,0,0,0 });
+		if (f_time <= EvaTime_Start) {
+			f_time = EvaTime_Start;
+		}
+		if (f_time >= EvaTime_End) {
 			evasionF = false;
 		}
-		m_fbxObject->SetColor({ 0,0,0,0 });
+		f_time += 0.02f;
 	}
 	else {
 		m_fbxObject->SetColor({ 1,1,1,1 });
@@ -153,6 +160,7 @@ void Player::Update(DebugCamera* camera)
 	//3d_fbx更新
 	FbxAnimationControl();
 
+	m_fbxObject->SetFbxTime(f_time);
 	//3d更新
 	CollisionField(camera);
 
@@ -235,12 +243,13 @@ void Player::Draw()
 	ImGui::SliderFloat("rz", &Rotation.z, -360, 360);
 
 	ImGui::SliderInt("HandBone", &hindex, 0, 30);
-	ImGui::SliderFloat("at", &sectime, 0, 3);
+	ImGui::SliderFloat("at", &sectime, 0, 20);
 	ImGui::End();
 }
 
 void Player::FbxAnimationControl()
 {
+	if (evasionF)return;
 	const float timespeed = 0.02f;
 
 	if (CustomButton::GetInstance()->GetAttackAction() == true&&PlayerAttackState::GetInstance()->GetCoolTime()==0) {
@@ -282,7 +291,6 @@ void Player::FbxAnimationControl()
 
 
 
-	m_fbxObject->SetFbxTime(f_time);
 }
 
 XMMATRIX Player::GetMatrot()
@@ -295,7 +303,7 @@ XMMATRIX Player::GetMatrot()
 void Player::RecvDamage(int Damage)
 {
 	//攻撃受けたあと2秒は無敵
-	if (CoolTime != 0)return;
+	if (CoolTime != 0||evasionF)return;
 	if (!HUD::GetInstance()->GetRecvDamageFlag()) {
 		HUD::GetInstance()->SetRecvDamageFlag(true);//プレイヤーHPのHUD用
 	}

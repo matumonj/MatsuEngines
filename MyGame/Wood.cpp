@@ -31,7 +31,7 @@ void Wood::Update(DebugCamera* camera)
 
 	Color = { 1,1,1,alpha };
 	ParameterSet_Obj(camera);
-	//m_Object->Setf(TRUE);
+	m_Object->Setf(TRUE);
 	//フィールド
 	CollideWood();
 	

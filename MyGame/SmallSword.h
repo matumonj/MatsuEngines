@@ -2,6 +2,7 @@
 #include "SwordBase.h"
 #include"ParticleManager.h"
 #include"Texture.h"
+#include"CollisionPrimitive.h"
 class SmallSword :
     public SwordBase
 {
@@ -23,7 +24,7 @@ private:
     DirectX::XMFLOAT3 magicSpherePos;
     ParticleManager* pMan;
     void MagicAttack();
-
+    DirectX::XMFLOAT3 Correction;
     /*------------*/
     /*    ñÇñ@ïX   */
     /*------------*/
@@ -65,17 +66,27 @@ private:
 
     class Slash {
     private:
-        std::unique_ptr<Texture>InpactTex[5];
+        static const int TexNum = 15;
+        std::unique_ptr<Texture>InpactTex[TexNum];
+        std::unique_ptr<Object3d>HolyObj;
+        ParticleManager* pMan[2];
         bool CollideEnemy;
         bool ActFlag;
         //int IceExistence = 0;
-        float Alpha[5] = { 1.0f };
+        
         float EaseTime;
         XMFLOAT3 inpactTexPos;
         XMFLOAT3 inpactTexScl;
-
-        int rotCorrection_Value[5];
-        int posCorrection_Value[5];
+        XMFLOAT3 HolyScl;
+       
+        bool next;
+        int rotCorrection_Value[TexNum];
+        int posCorrection_Valuex[TexNum];
+        int posCorrection_Valuey[TexNum];
+        int posCorrection_Valuez[TexNum];
+        XMFLOAT3 TexScale[TexNum];
+        float Alpha[TexNum] = { 1.0f };
+        int slashCount[TexNum] = {0};
     public:
         void Init(DebugCamera* camera);
         void Updata(DebugCamera* camera);
@@ -93,6 +104,42 @@ private:
     };
 
 
+ /*----------------*/
+ /*  ÉrÅ[ÉÄ(íºê¸)  */
+ /*----------------*/
+
+    class Beam {
+    private:
+        std::unique_ptr<Object3d>HolyObj;
+        ParticleManager* pManBeam;
+
+        bool CollideEnemy;
+        bool ActFlag;
+        
+        float EaseTime;
+        XMFLOAT3 HolyScl;
+        XMFLOAT3 HolyRot;
+        float Alpha = { 1.0f };
+       
+        Point targetEnemyPoints;
+        Line2D BeamLine;
+    public:
+        void Init(DebugCamera* camera);
+        void Updata(DebugCamera* camera);
+        void Draw();
+
+        void SetActFlag(bool f) { ActFlag = f; }
+    private:
+        enum Phase
+        {
+            NON,
+            SHOTMAGICSPHERE,
+            ACTIVE,
+            DEST
+        }phase = NON;
+    };
+
+    std::unique_ptr<Beam>beam;
     std::unique_ptr<Slash>SlashArea;
     std::unique_ptr<Blizzard> Bliz;
 };

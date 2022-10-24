@@ -129,6 +129,8 @@ private:
 	float f_time;
 	float AttackTime = 0.571f;
 	float DeathTime =20.1f;
+	const float EvaTime_Start = 5.5f;
+	const float EvaTime_End = 7.0f;
 	bool AttackFlag;
 	bool nowattack;
 

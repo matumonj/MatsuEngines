@@ -39,7 +39,7 @@ void MobEnemy::Initialize(DebugCamera* camera)
 	MaxHP = 30.0f;
 	//パラメータのセット
 	Rotation = { -70.0f,180.0f,0.0f };
-	Scale = { 0.02f, 0.02f, 0.02f };
+	Scale = { 0.04f, 0.04f, 0.04f };
 
 	m_fbxObject = std::make_unique<f_Object3d>();
 	m_fbxObject->Initialize();
@@ -96,6 +96,7 @@ void MobEnemy::Update(DebugCamera* camera)
 	if (Collision::CheckOBBCollision(playerOBB,HandSiteOBB)==true) {
 		PlayerControl::GetInstance()->GetPlayer()->RecvDamage(10);
 	}
+	SearchPlayer(camera);
 	FbxAnimationControl();
 	
 	EnemyPop(150);
@@ -127,11 +128,13 @@ void MobEnemy::Draw()
 	}
 	Texture::PostDraw();
 
+	ArrowDraw();
 }
 
 void MobEnemy::Death()
 {
-	if (f_time < DeathTime) {
+	if (f_time > DeathTime) {
+		movestop = false;
 		DeathFlag = true;
 	}
 }
@@ -140,8 +143,9 @@ void MobEnemy::Death()
 void MobEnemy::FbxAnimationControl()
 {
 	//1フレーム進める
-			f_time += 0.02f;
-		
+	if (!movestop) {
+		f_time += 0.02f;
+	}
 			if (f_AttackFlag) {
 				f_time = AttackTime;
 				f_AttackFlag = false;

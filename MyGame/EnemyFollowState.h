@@ -1,6 +1,7 @@
 #pragma once
 #include"EnemyState.h"
 #include"Enemy.h"
+
 class EnemyFollowState :public EnemyState
 {
 private:

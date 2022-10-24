@@ -32,7 +32,7 @@ void EnemyWalkState::Update(Enemy* enemy)
 	if (enemy->GetonFlag()==true) {
 		tempx = enemy->GetPosition().x;
 		tempz = enemy->GetPosition().z;
-		if (enemy->GetMoveFlag()) {
+		if (enemy->GetMoveFlag()&&!enemy->GetMoveStop()) {
 			enemy->SetPosition({
 				enemy->GetPosition().x + move.m128_f32[0],
 				enemy->GetPosition().y,

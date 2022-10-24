@@ -432,6 +432,8 @@ const DirectX::XMFLOAT3 operator+(const DirectX::XMFLOAT3& lhs, const DirectX::X
 	result.z = lhs.z + rhs.z;
 	return result;
 }
+
+
 void ParticleManager::Update(ParticleType type , XMFLOAT3 position , int lifejudg)
 {
 	HRESULT result;
@@ -476,7 +478,7 @@ void ParticleManager::Update(ParticleType type , XMFLOAT3 position , int lifejud
 	ConstBufferData* constMap = nullptr;
 	result = constBuff->Map(0, nullptr, (void**)&constMap);
 	constMap->color = color;
-	constMap->mat = CameraControl::GetInstance()->GetCamera()->GetViewMatrix() * CameraControl::GetInstance()->GetCamera()->GetProjectionMatrix();;	// s—ñ‚Ì‡¬
+	constMap->mat = CameraControl::GetInstance()->GetCamera()->GetViewMatrix() * CameraControl::GetInstance()->GetCamera()->GetProjectionMatrix();// s—ñ‚Ì‡¬
 
 	constMap->matBillboard = matBillboard;	// s—ñ‚Ì‡¬
 

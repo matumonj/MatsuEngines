@@ -271,6 +271,8 @@ public:
 	XMMATRIX ExtractPositionMat();
 	XMMATRIX ExtractRotationMat();
 	XMMATRIX ExtractScaleMat();
+
+	XMMATRIX ExtractPositionMat(XMMATRIX matworld);
 protected:
 	const char* name = nullptr;
 	public:

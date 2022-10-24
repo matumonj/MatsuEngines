@@ -37,7 +37,7 @@ void main(
 		if (destF) {
 			element.svpos.xyz+=input[i].normal* rand(center.xy) * ((0.5f +desttime)* 0.9);
 		}
-		else {
+		else if(!destF&&!gsflag) {
 			element.svpos = input[i].svpos;
 		}
 		element.normal = input[i].normal;

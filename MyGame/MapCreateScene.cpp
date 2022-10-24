@@ -51,7 +51,7 @@ void MapCreateScene::ModelCreate(DebugCamera* camera)
 #pragma region オブジェクト+ライトの更新処理
 void MapCreateScene::objUpdate(DebugCamera* camera)
 {
-	Field::GetInstance()->Update(CameraControl::GetInstance()->GetCamera());
+	Field::GetInstance()->Update_Edit(CameraControl::GetInstance()->GetCamera());
 
 	MapCreate::GetInstance()->ObjectUpdate(CameraControl::GetInstance()->GetCamera());
 }
@@ -94,7 +94,7 @@ void MapCreateScene::Update()
 	CameraControl::GetInstance()->GetCamera()->SetEye(CameraPosition);
 	CameraControl::GetInstance()->GetCamera()->SetTarget({ CameraPosition.x,CameraPosition.y - 15,CameraPosition.z + 20 });
 	
-	CameraControl::GetInstance()->Update(CameraControl::GetInstance()->GetCamera());
+	CameraControl::GetInstance()->GetCamera()->Update();
 
 	objUpdate(CameraControl::GetInstance()->GetCamera());//オブジェクトの更新処理
 	//Player::GetInstance()->Update({ 1,1,1,1 }, camera);

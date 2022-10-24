@@ -60,7 +60,9 @@ void Field::Initialize(DebugCamera* camera)
 		//天球
 		SetFieldModel(CELESTIALSPHERE, ModelManager::GetIns()->GetModel(ModelManager::CELESTIALSPHERE), camera);
 	}
-
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::MAPCREATE) {
+		FieldObject = TouchableObject::Create(ModelManager::GetIns()->GetModel(ModelManager::FIELD), camera);
+	}
 	//フィールド外周がダメージエリアになる警告スプライト
 	Explanation = Sprite::Create(41, { WinApp::window_width / 2,WinApp::window_height / 2 });
 	Explanation->SetAnchorPoint({ 0.5f,0.5f });
@@ -101,6 +103,14 @@ void Field::Update_Play(DebugCamera* camera)
 
 }
 
+void Field::Update_Edit(DebugCamera* camera)
+{
+	FieldObject->SetPosition({ 0.0f,-25.0f,0.0f });
+	FieldObject->SetFogCenter({ 0.0f, -20.0f, 0.0f });
+	FieldObject->SetColor({ 0.2f,0.2f,0.2f,1.0f });
+	FieldObject->Update({ 0.2f,0.2f,0.2f,1.0f }, camera);
+
+}
 void Field::Update_Boss(DebugCamera* camera)
 {
 	SpriteFeed(TexAlpha_BossName, feed_BossName, feedSpeed_BossName, 1.5f);
@@ -157,7 +167,9 @@ void Field::MiniFieldDraw()
 void Field::Draw()
 {
 	Object3d::PreDraw();
-	m_object[ObjType::CELESTIALSPHERE]->Draw();
+	if (SceneManager::GetInstance()->GetScene() != SceneManager::MAPCREATE) {
+		m_object[ObjType::CELESTIALSPHERE]->Draw();
+	}
 	FieldObject->Draw();
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
 		ModelDraw_nullCheck(BOSSBACK);

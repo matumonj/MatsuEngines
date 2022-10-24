@@ -59,6 +59,7 @@ public:
 	void Update_Tutorial(DebugCamera* camera);
 	void Update_Play(DebugCamera* camera);
 	void Update_Boss(DebugCamera* camera);
+	void Update_Edit(DebugCamera* camera);
 	
 	void Draw()override;
 	void Finalize();

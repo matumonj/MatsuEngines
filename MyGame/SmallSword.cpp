@@ -1,5 +1,6 @@
 #include "SmallSword.h"
 #include"PlayerControl.h"
+#include"TargetMarker.h"
 SmallSword::~SmallSword()
 {
 	//delete  m_Model;
@@ -8,7 +9,7 @@ void SmallSword::Initialize(DebugCamera* camera)
 {
 	m_Object = std::make_unique<Object3d>();
 
-	m_Model = Model::CreateFromOBJ("axe");
+	m_Model = Model::CreateFromOBJ("Wand");
 
 	//ƒ‚ƒfƒ‹Š„‚è“–‚Ä
 	m_Object->Initialize(camera);
@@ -25,6 +26,7 @@ void SmallSword::Initialize(DebugCamera* camera)
 
 	SlashArea = std::make_unique<Slash>();
 	SlashArea->Init(camera);
+	TargetMarker::GetInstance()->Initialize();
 }
 
 void SmallSword::Update(DebugCamera* camera)
@@ -35,12 +37,13 @@ void SmallSword::Update(DebugCamera* camera)
 	Damage = Damage_Value;
 	CoolTime = CoolTime_Value;
 	
+	m_Object->SetRotation(Rotation);
+	m_Object->Update(PlayerControl::GetInstance()->GetPlayer()->GetHanMat(), { 1.0f,1.0f,1.0f,1.0f }, camera);
 	MagicAttack();
 	Bliz->Updata(camera);
 	SlashArea->Updata(camera);
-	m_Object->SetRotation(Rotation);
-	m_Object->Update(PlayerControl::GetInstance()->GetPlayer()->GetHanMat(), { 1.0f,1.0f,1.0f,1.0f }, camera);
-	
+
+	TargetMarker::GetInstance()->Update(camera);
 }
 
 void SmallSword::Draw()
@@ -48,9 +51,16 @@ void SmallSword::Draw()
 	Draw_Obj();
 	Bliz->Draw();
 	SlashArea->Draw();
+	TargetMarker::GetInstance()->Draw();
 	ParticleManager::PreDraw();
 	pMan->Draw();
 	ParticleManager::PostDraw();
+	ImGui::Begin("rodpos");
+			ImGui::SliderFloat("x", &Correction.x,-10.0,10.0f);
+			ImGui::SliderFloat("y", &Correction.y, -10.0, 10.0f);
+			ImGui::SliderFloat("z", &Correction.z, -10.0, 10.0f);
+		
+	ImGui::End();
 }
 
 #include"EnemyControl.h"
@@ -62,10 +72,13 @@ void SmallSword::MagicAttack()
 	if(CustomButton::GetInstance()->Get2AttackAction()){
 		attackMotion = FIRESPHERE;
 	}
+	if (CustomButton::GetInstance()->GetAttackAction()) {
+		attackMotion = BLIZZARD;
+	}
 	DirectX::XMFLOAT3 pPos= PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 	if (attackMotion == NON) {
 		EaseTime = { 0.0f,0.0f,0.0f };
-		magicSpherePos =pPos;
+		//magicSpherePos = { m_Object->ExtractPositionMat().r[3].m128_f32[0]+Correction.x, m_Object->ExtractPositionMat().r[3].m128_f32[1]+Correction.y, m_Object->ExtractPositionMat().r[3].m128_f32[2]+Correction.z };
 	}
 
 	if (attackMotion == FIRESPHERE || attackMotion == BLIZZARD) {
@@ -99,12 +112,23 @@ void SmallSword::MagicAttack()
 	}
 	else {
 		magicSpherePos = pPos;
+		if (attackMotion == BLIZZARD) {
+			Bliz->SetActFlag(TRUE);
+		}
+		if (attackMotion == FIRESPHERE) {
+			SlashArea->SetActFlag(TRUE);
+		}
 		attackMotion = NON;
-		Bliz->SetActFlag(TRUE);
+
 	}
-	
-	pMan->SetColor({ 1,0,0,1 });
-		pMan->Update(pMan->NORMAL);
+	if (attackMotion == BLIZZARD) {
+		pMan->SetColor({ 0.1,0.1,1.0f,0.6f });
+	}
+	if (attackMotion == FIRESPHERE) {
+		pMan->SetColor({ 0.8,0.8,0.8f,0.6f });
+	}
+
+	pMan->Update( pMan->NORMAL);
 	}
 	
 }
@@ -114,7 +138,7 @@ void SmallSword::Blizzard::Init(DebugCamera* camera)
 	IceCrystalObj = std::make_unique<Object3d>();
 	IceCrystalObj->Initialize(camera);
 	Texture::LoadTexture(69, L"Resources/iceMagic.png");
-	IceCrystalObj->SetModel(ModelManager::GetIns()->GetModel(ModelManager::WOOD));
+	IceCrystalObj->SetModel(ModelManager::GetIns()->GetModel(ModelManager::ICECRYSTAL));
 
 	Texture*l_tex= { Texture::Create(69, {0.0f ,0.0f ,0.0f}, {100.0f ,100.0f ,1.0f}, {1.0f ,1.0f ,1.0f ,1.0f}) };
 	IceMagicTex.reset(l_tex);
@@ -126,53 +150,69 @@ void SmallSword::Blizzard::Init(DebugCamera* camera)
 }
 void SmallSword::Slash::Init(DebugCamera* camera)
 {
-	Texture* l_tex[5];
-	for (int i = 0; i < 5; i++) {
-		l_tex[i] = {Texture::Create(93, {0.0f ,0.0f ,0.0f}, {100.0f ,100.0f ,1.0f}, {1.0f ,1.0f ,1.0f ,1.0f})};
+	Texture* l_tex[TexNum];
+	Texture::LoadTexture(24, L"Resources/crystal.jpg");
+	for (int i = 0; i<TexNum; i++) {
+		l_tex[i] = {Texture::Create(24, {0.0f ,0.0f ,0.0f}, {100.0f ,100.0f ,1.0f}, {1.0f ,1.0f ,1.0f ,1.0f})};
 		InpactTex[i].reset(l_tex[i]);
 		InpactTex[i]->CreateTexture();
 		InpactTex[i]->SetAnchorPoint({ 0.5f,0.5f });
 	}
 
+	pMan[0] = ParticleManager::Create(2, L"Resources/ParticleTex/normal.png");
+	pMan[1] = ParticleManager::Create(2, L"Resources/ParticleTex/normal.png");
 }
 
+void SmallSword::Beam::Init(DebugCamera* camera)
+{
+	HolyObj = std::make_unique<Object3d>();
+	HolyObj->SetModel(ModelManager::GetIns()->GetModel(ModelManager::BEAM));
+}
+
+
+/*-------------*/
+/*    XV     */
+/*-------------*/
 void SmallSword::Blizzard::Updata(DebugCamera* camera)
 {
 	const float texSclupSpeed = 0.2f;
 	if (phase == NON) {
+		EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->SetMoveStop(false);
 		EaseTime = 0.0f;
 		IceExistence = 0;
 		DestAlpha = 1.0f;
 		DestTime = 0.0f;
 
 		IceCrystalObj->SetDestFlag(FALSE);
-		IceScl = { 3.0f,5.0f,3.0f };
+		IceScl = { 5.0f,5.0f,5.0f };
 		TexScl = { 0.0f,0.0f,1.0f };
 		if (ActFlag) {
 			IcePos.x = EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition().x;
-			IcePos.z = EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition().z;
+			IcePos.z = EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition().z-5;
 
+			EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->RecvDamage(20);
 			phase = ACTIVE;
 		}
 	}
 	else if (phase == ACTIVE) {
+		EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->SetMoveStop(true);
 		IceExistence++;
 		TexScl.x += texSclupSpeed;
 		TexScl.y += texSclupSpeed;
-		TexAlpha -= 0.01f;
+		TexAlpha -= 0.04f;
 		if (EaseTime < 1.0f) {
 			EaseTime += 1.0f / 25.0f;
 		}
-		IcePos.y=Easing::EaseOut(EaseTime, EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition().y - 20, EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition().y);
+		IcePos.y=Easing::EaseOut(EaseTime, EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition().y - 20.0f, EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition().y-5.0f);
 		bool nextPhase = IceExistence > 90;
 		if (nextPhase) {
 
-			EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->RecvDamage(20);
 			phase = DEST;
 		}
 		///IceScl.y = min(IceScl.y, 5.0f);
 	}
 	else if (phase == DEST) {
+		EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->SetMoveStop(true);
 		TexScl.x += texSclupSpeed;
 		TexScl.y += texSclupSpeed;
 		DestTime += 0.2f;
@@ -208,52 +248,124 @@ void SmallSword::Slash::Updata(DebugCamera* camera)
 {
 	
 	if (phase == NON) {
+	
 
-		for (int i = 0; i < 5; i++) {
-			if (Alpha[i] == 0.0f) {
-				rotCorrection_Value[i] = rand() % 20 - 21;
-				posCorrection_Value[i] = rand() % 20 - 21;
+		
+		if(ActFlag){
+			for (int i = 0; i < TexNum; i++) {
+				int randAlpha = rand() % 2;
+				Alpha[i] = (float)randAlpha / 1.50f;
+				//Alpha[i] = 1.0f;
+				TexScale[i] = { 1.0f,2.0f,2.0f };
+				slashCount[i] = 0;
+				next = false;
 			}
-		}
-	//	if(ActFlag){
+
+			EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->RecvDamage(40);
 			phase = ACTIVE;
-		//}
+		}
 	}
 	
 	else if (phase == ACTIVE) {
-		bool nextPhase=false;
-		if (nextPhase) {
+		EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->SetMoveStop(true);
+
+		for (int i = 1; i < TexNum; i++) {
+			if (slashCount[0] <= 3||Alpha[0]>0.0f) {
+				continue;
+			}
+			if (slashCount[0]== slashCount[i]&&Alpha[0]==Alpha[i]) {
+				next = true;
+			}
+		}
+		bool nextPhase;
+		XMFLOAT3 ePos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition();
+
+		for (int i = 0; i<TexNum; i++) {
+			Alpha[i] -= 0.01f;
+			TexScale[i].x -= 0.02f;
+			TexScale[i].y += 0.2f;
+			if (TexScale[i].y >= 6.0f&&slashCount[i] <= 3) {
+				rotCorrection_Value[i] = rand() % 60 - 31;
+				posCorrection_Valuex[i] = rand() % 20- 10;
+				posCorrection_Valuey[i] = rand() % 20 - 10;
+				posCorrection_Valuez[i] = rand() % 5 - 10;
+				InpactTex[i]->SetPosition({ ePos.x + (float)posCorrection_Valuex[i],ePos.y+(float)posCorrection_Valuey[i],ePos.z + (float)posCorrection_Valuez[i] });
+				Alpha[i] = 1.0f;
+				slashCount[i]++;
+				TexScale[i] = { 1.0f,2.0f,2.0f };
+				
+			}
+		}
+		if (next) {
 			phase = DEST;
 		}
 		
 	} else if (phase == DEST) {
-		
-		bool EndDest=false;
-		if (EndDest) {
-			//IceCrystalObj->SetDestFlag(FALSE);
-
-		}
+		next = false;
+		EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->SetMoveStop(false);
+		phase = NON;
+		ActFlag = false;
 	}
-	XMFLOAT3 ePos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition();
-
 	
-for (int i = 0; i < 5; i++) {
+	
+for (int i = 0; i<TexNum; i++) {
 		InpactTex[i]->SetDisplayRadius(100);
 		
 
-		InpactTex[i]->SetColor({ 1.0f,1.0f,1.0f,1 });
-		InpactTex[i]->SetScale({ 2.0f,5.0f,1.0f });
+		InpactTex[i]->SetColor({ 1.0f,1.0f,1.0f,Alpha[i]});
+		InpactTex[i]->SetScale(TexScale[i]);
 		InpactTex[i]->Update( camera);
 		InpactTex[i]->SetRotation({ 0.0f ,0.0f,0.0f + rotCorrection_Value[i] });
 
-		InpactTex[i]->SetPosition({ ePos.x + (float)posCorrection_Value[i],ePos.y,ePos.z + (float)posCorrection_Value[i] });
-
+		
 
 		Alpha[i] = min(Alpha[i], 1.0f);
 		Alpha[i] = max(Alpha[i], 0.0f);
 }
 
 }
+
+
+void SmallSword::Beam::Updata(DebugCamera* camera)
+{
+	const float texSclupSpeed = 0.2f;
+	if (phase == NON) {
+		EaseTime = 0.0f;
+		if (ActFlag) {
+			EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->RecvDamage(20);
+			phase = ACTIVE;
+		}
+	} else if (phase == ACTIVE) {
+		EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->SetMoveStop(true);
+		if (EaseTime < 1.0f) {
+			EaseTime += 1.0f / 25.0f;
+		}
+		bool nextPhase;
+		if (nextPhase) {
+
+			phase = DEST;
+		}
+		///IceScl.y = min(IceScl.y, 5.0f);
+	} else if (phase == DEST) {
+		EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->SetMoveStop(false);
+		bool EndDest;
+		if (EndDest) {
+			//IceCrystalObj->SetDestFlag(FALSE);
+			ActFlag = false;
+			phase = NON;
+		}
+	}
+	
+	HolyObj->SetPosition(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
+	HolyObj->SetScale(HolyScl);
+	HolyObj->SetRotation(HolyRot);
+	HolyObj->Update({ 1.0f,1.0f,1.0f,1.0f }, camera);
+}
+
+
+/*-------------*/
+/*     •`‰æ    */
+/*-------------*/
 void SmallSword::Blizzard::Draw()
 {
 	if (!ActFlag)return;
@@ -267,21 +379,22 @@ void SmallSword::Blizzard::Draw()
 	Texture::PostDraw();
 }
 
-#include"imgui.h"
 void SmallSword::Slash::Draw()
 {
 	Texture::PreDraw();
-	for (int i= 0; i < 5; i++) {
+	for (int i= 0; i<TexNum; i++) {
 		InpactTex[i]->Draw();
 	}
 	Texture::PostDraw();
 
-	ImGui::Begin("posrand");
-	ImGui::Text("1 %d", posCorrection_Value[0]);
-	ImGui::Text("2 %d", posCorrection_Value[1]);
-	ImGui::Text("3 %d", posCorrection_Value[2]);
-	ImGui::Text("4 %d", posCorrection_Value[3]);
-	ImGui::Text("5 %d", posCorrection_Value[4]);
-	ImGui::End();
+	
+}
+void SmallSword::Beam::Draw()
+{
+	if (!ActFlag)return;
+	Object3d::PreDraw();
+
+	HolyObj->Draw();
+	Object3d::PostDraw();
 
 }

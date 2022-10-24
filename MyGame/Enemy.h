@@ -49,6 +49,8 @@ public:
 
 	virtual void DamageTexUpdate(DebugCamera* camera)=0;
 
+	void SearchPlayer(DebugCamera*camera);
+	void ArrowDraw();
 	void isRespawn();
 protected:
 	//体力周り
@@ -70,7 +72,8 @@ public:
 	void RecvDamage(int Damage);
 	void EnemyPop(int HP);
 	virtual void AttackCoolTime() = 0;
-
+	void SetMoveStop(bool f) { movestop = f; }
+	bool GetMoveStop() { return movestop; }
 protected:
 	bool f_AttackFlag;
 	bool DeathFlag;
@@ -83,6 +86,7 @@ protected:
 
 	int PopCount;//リスポーンカウント
 
+	bool movestop;
 protected:
 	//FBXTime周りの変数
 	float f_time;//現在のフレーム
@@ -168,10 +172,17 @@ public://state切り替え
 
 protected:
 	Texture* SlashTex;
+	std::unique_ptr<Texture>ArrowTex;
 	std::unique_ptr<DebugTxt>Damagetxt;
 	XMFLOAT3 SlashRot;
 	XMFLOAT3 SlashPos;
 	float SlashAlpha = 1.0f;
+	float ArrowRot;
+	float ArrowScl;
+	float ArrowAlpha;
+	bool SearchF;
+	XMFLOAT3 EaseTime_Arrow;
+	XMFLOAT3 ArrowPos;
 protected:
 	EnemyState* state_mob;
 	BossEnemyState* state_boss;

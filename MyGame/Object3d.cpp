@@ -463,12 +463,12 @@ void Object3d::Update(XMMATRIX matworld, XMFLOAT4 color, DebugCamera* camera)
 	const XMMATRIX& matViewProjection = camera->GetViewProjectionMatrix();
 	const XMFLOAT3& cameraPos = camera->GetEye();
 	UpdateWorldMatrix();
-
+	matWorld = matWorld * matworld;
 	// 定数バッファへデータ転送
 	ConstBufferDataB0* constMap = nullptr;
 	result = constBuffB0->Map(0, nullptr, (void**)&constMap);
 	constMap->viewproj = camera->GetViewProjectionMatrix();
-	constMap->world = matWorld*matworld;
+	constMap->world = matWorld;
 	constMap->color = color;
 	constMap->ks = 0;
 	constMap->gsflag = true;
@@ -607,5 +607,11 @@ XMMATRIX Object3d::ExtractScaleMat()
 XMMATRIX Object3d::ExtractPositionMat()
 {
 	return XMMatrixTranslation(matWorld.r[3].m128_f32[0], matWorld.r[3].m128_f32[1], matWorld.r[3].m128_f32[2]);
+
+}
+
+XMMATRIX Object3d::ExtractPositionMat(XMMATRIX matworld)
+{
+	return XMMatrixTranslation(matworld.r[3].m128_f32[0], matworld.r[3].m128_f32[1], matworld.r[3].m128_f32[2]);
 
 }

@@ -12,7 +12,7 @@ ModelManager* ModelManager::GetIns() {
 void ModelManager::Initialize() {
 	LoadModel(FIELD, "LowPoly_Landscape");
 	LoadModel(BOSSFIELD, "BossField");
-	LoadModel(WOOD, "crystal");
+	LoadModel(WOOD, "wood");
 	LoadModel(CHEST, "chest");
 	LoadModel(FENCE, "Fence");
 	LoadFBXModel(GOLEM, "monster_golem_demo");
@@ -31,6 +31,7 @@ void ModelManager::Initialize() {
 	LoadModel(NORMALSWORD, "sword");
 	LoadModel(BIGSWORD, "BigSword");
 	LoadModel(CELESTIALSPHERE, "skydome");
+	LoadModel(ICECRYSTAL, "crystal");
 }
 
 void ModelManager::LoadModel(const ModelName modelName, std::string fileName) {

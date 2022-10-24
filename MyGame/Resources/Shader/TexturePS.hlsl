@@ -15,7 +15,7 @@ float4 main(Output input) : SV_TARGET
 
 	float v = pow(input.worldpos.x - DisplayCenterpos.x, 2) + pow(input.worldpos.y - DisplayCenterpos.y, 2) + pow(input.worldpos.z -  DisplayCenterpos.z,2) <= pow(radius, 2) ? 1 : -1;
 
-	clip(v);
+	//clip(v);
 	//•ÏXŒã
 	return tex.Sample(smp, input.uv)* color;
 	}
