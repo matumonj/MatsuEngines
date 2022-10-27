@@ -14,8 +14,6 @@ using namespace Microsoft::WRL;
 /// <summary>
 /// 静的メンバ変数の実体
 /// </summary>
-const float GrassObj::radius = 5.0f;				// 底面の半径
-const float GrassObj::prizmHeight = 8.0f;			// 柱の高さ
 ComPtr<ID3D12Device> GrassObj::device = nullptr;
 ComPtr<ID3D12GraphicsCommandList> GrassObj::cmdList = nullptr;
 ComPtr<ID3D12RootSignature> GrassObj::rootsignature;
@@ -27,9 +25,6 @@ XMFLOAT3 GrassObj::eye = { 0, 0, -50.0f };
 XMFLOAT3 GrassObj::target = { 0, 0, 0 };
 XMFLOAT3 GrassObj::up = { 0, 1, 0 };
 LightGroup* GrassObj::lightGroup = nullptr;
-//Camera* GrassObj::camera = nullptr;
-//GrassObj::VertexPosNormalUv GrassObj::vertices[vertexCount];
-//unsigned short GrassObj::indices[planeCount * 3];
 
 GrassObj::~GrassObj()
 {
@@ -68,12 +63,6 @@ bool GrassObj::StaticInitialize(int window_width, int window_height, Camera* cam
 
 void GrassObj::PreDraw()
 {
-	// PreDrawとPostDrawがペアで呼ばれていなければエラー
-	//assert(GrassObj::cmdList == nullptr);
-
-	// コマンドリストをセット
-	//GrassObj::cmdList = cmdList;
-
 	// パイプラインステートの設定
 	cmdList->SetPipelineState(pipelinestate.Get());
 	// ルートシグネチャの設定
@@ -332,12 +321,21 @@ bool GrassObj::Initialize(DebugCamera* camera)
 
 void GrassObj::Update(XMFLOAT4 color, DebugCamera* camera)
 {
-	if (uvf) {
-		uvtime += 0.05f;
-		if (uvtime > 1.0f) {
-			uvtime = 0.0f;
+	//if (uvf) {
+		
+		if (uvf) {
+			uvtime -= 0.05f;
+			if (uvtime < -5.0f) {
+				uvf =false;
+			}
 		}
-	}
+		else {
+			uvtime += 0.05f;
+			if (uvtime > 5.0f) {
+				uvf = true;
+			}
+		}
+	//}
 	HRESULT result;
 
 	//rotation.y = 90;
@@ -354,17 +352,7 @@ void GrassObj::Update(XMFLOAT4 color, DebugCamera* camera)
 	constMap->color = this->color;
 	constMap->viewproj = camera->GetViewProjectionMatrix();
 	constMap->world = matWorld;
-	constMap->cameraPos = cameraPos;
-	constMap->ks = 0;
-	constMap->gsflag = gsf;
-	constMap->ks2 = { 0,0,0 };
-	constMap->f = setef;
-	constMap->ks3 = { 0,0,0 };
-	constMap->time = uvtime;
-	constMap->ks4 = { 0,0,0 };
-	constMap->destF = DestF;
-	constMap->ks5 = { 0,0,0 };
-	constMap->destTime = DestTime;
+constMap->time = uvtime;
 	// 定数バッファへデータ転送
 	
 	constBuffB0->Unmap(0, nullptr);

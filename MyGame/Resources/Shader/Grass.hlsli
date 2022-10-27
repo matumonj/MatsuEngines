@@ -3,17 +3,8 @@ cbuffer cbuff0 : register(b0)
 	float4 color;
 	matrix viewproj; // ビュープロジェクション行列
 	matrix world; // ワールド行列
-	float3 cameraPos; // カメラ座標（ワールド座標）
-	float ks;
-	bool gsflag;
-	float3 ks2;
-	bool flag;
-	float3 ks3;
 	float time;
-	float3 ks4;
-	bool destF;
-	float3 ks5;
-	float desttime;
+
 };
 
 cbuffer cbuff1 : register(b1)

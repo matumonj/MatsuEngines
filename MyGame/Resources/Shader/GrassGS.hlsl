@@ -20,9 +20,9 @@ void main(
     float4 _BottomColor = { 0.0, 0.0, 0.0, 1.0 };
 
     //高さの基準値
-    float _Height = 10;
+    float _Height = 2;
     //幅の基準値
-    float _Width = 1;
+    float _Width = 0.5f;
     //高さの比率@bottom, middle, high
     float4 _HeightRate = { 0.3, 0.4, 0.5, 0 };
     //幅の比率@bottom, middle, high
@@ -47,20 +47,15 @@ void main(
     //法線ベクトルの平均値
     float4 centerNor = float4((nor0 + nor1 + nor2).xyz / 3, 1.0f);
 
-    // VFX用の高さ、幅の調整
     float height = (1 +1 +1) / 3.0f;
     float width = (1+ 1+ 1) / 3.0f;
 
     //草の向き
     float4 dir = float4(normalize(pos2 * rand(pos2) - pos0 * rand(pos1)).xyz * width, 1.0f);
 
-    //風向きマッピング用のテクスチャ
-    //tilitn, offsetを加味したuv座標＋uvスクロール
-    //xz平面がuv座標に対応
-    float2 uv = pos0.xz *float2(0.5,0.5) + float2(0.5, 0.5) + _WindFrequency * 1;
-    //風向きはRG情報＠パーリンノイズ
-   // float2 windDir_xy = (tex2Dlod(_WindDistortionMap, float4(uv, 0, 0)).xy * 2 - 1) * _WindPower;
-   // float4 wind = float4(windDir_xy, 0, 0);
+    //風表現もどきGrassObjの方でuvtimeいじって調整
+    float2 uv = pos0.xz *float2(0.5,0.5) + float2(0.5, 0.5) + _WindFrequency * time;
+    float4 wind = float4(uv, 0, 0);
 
     g2f o[7];
 
@@ -88,16 +83,15 @@ void main(
     //top
     o[6].pos = o[5].pos + centerNor * height * _Height * _HeightRate.z;
     o[6].col = _TopColor;
- 
+
+    o[2].pos += wind * _WindPowerRate.x;
+    o[3].pos += wind * _WindPowerRate.x;
+    o[4].pos += wind * _WindPowerRate.y;
+    o[5].pos += wind * _WindPowerRate.y;
+    o[6].pos += wind * _WindPowerRate.z;
     [unroll]
     for (int i = 0; i < 7; i++) {
-      //  for (int j = 0; j < 3; j++) {
-            o[i].pos =  mul(viewproj,mul(world, float4(o[i].pos.xyz,1.0f)));
-           
-           //output.svpos = mul(mul(viewproj, world), pos);
-
-        //o[i].worldpos = mul(mul(viewproj, world),o[i].pos);;
-      
+        o[i].pos =  mul(viewproj,mul(world, float4(o[i].pos.xyz,1.0f)));
         output.Append(o[i]);
     }
 	[unroll]

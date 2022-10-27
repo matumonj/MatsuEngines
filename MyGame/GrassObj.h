@@ -31,26 +31,12 @@ public: // サブクラス
 		// 定数バッファ用データ構造体B0
 		XMMATRIX viewproj;    // ビュープロジェクション行列
 		XMMATRIX world; // ワールド行列
-		XMFLOAT3 cameraPos; // カメラ座標（ワールド座標）
-		float ks;
-		bool gsflag;
-		XMFLOAT3 ks2;
-		bool f;
-		XMFLOAT3 ks3;
 		float time;
-		XMFLOAT3 ks4;
-		bool destF;
-		XMFLOAT3 ks5;
-		float destTime;
+	
 	};
 
 private: // 定数
 	XMFLOAT3 FogCenter;
-	static const int division = 50;					// 分割数
-	static const float radius;				// 底面の半径
-	static const float prizmHeight;			// 柱の高さ
-	static const int planeCount = division * 2 + division * 2;		// 面の数
-	static const int vertexCount = planeCount * 3;		// 頂点数
 
 public: // 静的メンバ関数
 	/// <summary>
