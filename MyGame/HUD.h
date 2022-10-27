@@ -10,7 +10,6 @@ public:
 	~HUD();
 	static HUD* GetInstance();
 private:
-	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 	// DirectX::Çè»ó™
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;

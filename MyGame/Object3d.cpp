@@ -457,23 +457,26 @@ void Object3d::Update(XMMATRIX matworld, XMFLOAT4 color, DebugCamera* camera)
 	HRESULT result;
 
 	//rotation.y = 90;
-	//rotation.x = 50;
-	// 親オブジェクトがあれば
-
-	const XMMATRIX& matViewProjection = camera->GetViewProjectionMatrix();
-	const XMFLOAT3& cameraPos = camera->GetEye();
+	//rotation.x = 50;s>GetEye();
 	UpdateWorldMatrix();
 	matWorld = matWorld * matworld;
 	// 定数バッファへデータ転送
 	ConstBufferDataB0* constMap = nullptr;
 	result = constBuffB0->Map(0, nullptr, (void**)&constMap);
+	constMap->color = this->color;
 	constMap->viewproj = camera->GetViewProjectionMatrix();
 	constMap->world = matWorld;
-	constMap->color = color;
+	constMap->cameraPos = FogCenter;
 	constMap->ks = 0;
-	constMap->gsflag = true;
+	constMap->gsflag = gsf;
 	constMap->ks2 = { 0,0,0 };
 	constMap->f = setef;
+	constMap->ks3 = { 0,0,0 };
+	constMap->time = uvtime;
+	constMap->ks4 = { 0,0,0 };
+	constMap->destF = DestF;
+	constMap->ks5 = { 0,0,0 };
+	constMap->destTime = DestTime;
 	// 定数バッファへデータ転送
 	//ConstBufferDataB0* constMap = nullptr;
 	//result = constBuffB0->Map(0, nullptr, (void**)&constMap);
@@ -499,7 +502,9 @@ void Object3d::Draw()
 	if (model == nullptr)return;
 	cmdList->SetGraphicsRootConstantBufferView(0, constBuffB0->GetGPUVirtualAddress());
 	// ライトの描画
-	
+
+	lightGroup->Draw(cmdList.Get(), 3);
+
 	model->Draw();
 
 }

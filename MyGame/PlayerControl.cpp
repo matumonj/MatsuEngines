@@ -16,7 +16,7 @@ PlayerControl* PlayerControl::GetInstance()
 void PlayerControl::Finalize()
 {
 	AttackCollision::GetInstance()->Finalize();
-		Destroy_unique(player);
+	Destroy_unique(player);
 }
 
 /*------------------------*/

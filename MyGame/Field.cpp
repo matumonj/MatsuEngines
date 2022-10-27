@@ -56,9 +56,14 @@ void Field::Initialize(DebugCamera* camera)
 	if(SceneManager::GetInstance()->GetScene()==SceneManager::PLAY|| SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL){
 		FieldObject = TouchableObject::Create(ModelManager::GetIns()->GetModel(ModelManager::FIELD), camera);
 		//ミニマップ(通常ふぃ－るど)
-		SetFieldModel(MINI, ModelManager::GetIns()->GetModel(ModelManager::FIELD), camera);
+		SetFieldModel(MINI, ModelManager::GetIns()->GetModel(ModelManager::MINI), camera);
 		//天球
 		SetFieldModel(CELESTIALSPHERE, ModelManager::GetIns()->GetModel(ModelManager::CELESTIALSPHERE), camera);
+		Texture::LoadTexture(36, L"Resources/life.png");
+
+		playerpoint = Texture::Create(36, { 0.0f ,0.0f ,0.0f }, { 100.0f ,100.0f ,1.0f }, { 1.0f ,1.0f ,1.0f ,1.0f });
+		playerpoint->CreateTexture();
+		playerpoint->SetAnchorPoint({ 0.5f,0.5f });
 	}
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::MAPCREATE) {
 		FieldObject = TouchableObject::Create(ModelManager::GetIns()->GetModel(ModelManager::FIELD), camera);
@@ -91,6 +96,11 @@ void Field::Update_Tutorial(DebugCamera* camera)
 	SetFieldUpdate(CELESTIALSPHERE, camera, { 0.0f,30.0f,0.0f }, { 40.0f,40.0f,40.0f }, FALSE, TRUE);
 	FieldObject->SetColor({ 0.2f,0.2f,0.2f,1.0f });
 	FieldObject->Update({ 0.2f,0.2f,0.2f,1.0f }, camera);
+	playerpoint->SetPosition({ PlayerControl::GetInstance()->GetPlayer()->GetPosition().x,PlayerControl::GetInstance()->GetPlayer()->GetPosition().y + 10,PlayerControl::GetInstance()->GetPlayer()->GetPosition().z });
+	playerpoint->Update(dc);
+	playerpoint->SetScale({ 4.0f,4.0f,4.0f });
+	playerpoint->SetBillboard(true);
+	playerpoint->SetColor({ 1.0f,1.0f,1.0f,1 });
 
 }
 
@@ -161,7 +171,9 @@ void Field::MiniFieldDraw()
 	m_object[ObjType::MINI]->Draw();
 	Object3d::PostDraw();
 
-	
+	Texture::PreDraw();
+	playerpoint->Draw();
+	Texture::PostDraw();
 }
 #include"imgui.h"
 void Field::Draw()

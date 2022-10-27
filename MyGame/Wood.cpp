@@ -18,7 +18,7 @@ void Wood::Initialize(DebugCamera* camera)
 	//フィールドにモデル割り当て
 	m_Object->Initialize(camera);
 	m_Object->SetModel(ModelManager::GetIns()->GetModel(ModelManager::WOOD));
-	Scale = { 2,3,2 };
+	Scale = { 2,3,3 };
 	radius_adjustment = -14;
 	SetCollider();
 	alpha = 1;

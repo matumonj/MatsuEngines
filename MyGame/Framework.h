@@ -8,6 +8,7 @@
 #include"Object3d.h"
 #include"SceneManager.h"
 #include "FbxLoader.h"
+#include"GrassObj.h"
 class Framework
 {
 public:

@@ -36,7 +36,7 @@ void AttackCollision::GetCol(int damage)
 {
 	HandObb.SetOBBParam_Pos(PlayerControl::GetInstance()->GetPlayer()->GetHanMat());
 	HandObb.SetOBBParam_Rot(SelectSword::GetInstance()->GetSword()->GetMatrot());
-	HandObb.SetOBBParam_Scl({ 3.0f,5.0f,2.0f });
+	HandObb.SetOBBParam_Scl({ 3.0f,9.0f,2.0f });
 
 	
 	switch (SceneManager::GetInstance()->GetScene())
@@ -45,20 +45,25 @@ void AttackCollision::GetCol(int damage)
 		
 		ColOBB(TYTORIAL);
 
-		if (PlayerControl::GetInstance()->GetPlayer()->GetAttackType()!=PlayerControl::GetInstance()->GetPlayer()->RUN) {
-			for (int i = 0; i < EnemyOBB.size(); i++) {
-				if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition())>10.0f) {
-					continue;
-				}
-				if (Collision::CheckOBBCollision(HandObb, EnemyOBB[0])==true && !Hit_colf) {
-					EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->RecvDamage(damage);
-					Hit_colf = true;
-				} 
-			}
-		}
-		else {
+	
+		if (PlayerControl::GetInstance()->GetPlayer()->GetFbxTime() < 0.51f) {
 			Hit_colf = false;
 		}
+		for (int i = 0; i < EnemyOBB.size(); i++) {
+			if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition()) > 10.0f) {
+				//continue;
+			}
+			if (PlayerControl::GetInstance()->GetPlayer()->GetAttackType() != PlayerControl::GetInstance()->GetPlayer()->NON && PlayerControl::GetInstance()->GetPlayer()->GetAttackType() != PlayerControl::GetInstance()->GetPlayer()->RUN) {
+				if (Collision::CheckOBBCollision(HandObb, EnemyOBB[0]) == true && !Hit_colf) {
+					EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->RecvDamage(damage);
+					Hit_colf = true;
+				}
+			}
+		}
+		//}
+		//else {
+	//		Hit_colf = false;
+	//	}
 
 		break;
 

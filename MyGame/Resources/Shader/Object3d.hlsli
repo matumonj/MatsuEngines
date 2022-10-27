@@ -24,9 +24,9 @@ cbuffer cbuff1 : register(b1)
 	float m_alpha : packoffset(c2.w);	// アルファ
 }
 
+
 // 平行光源の数
 static const int DIRLIGHT_NUM = 3;
-
 
 struct DirLight
 {
@@ -59,12 +59,26 @@ struct SpotLight
 	uint active;
 };
 
+// 丸影の数
+static const int CIRCLESHADOW_NUM = 3;
+
+struct CircleShadow
+{
+	float3 dir;		// 投影方向の逆ベクトル（単位ベクトル）
+	float3 casterPos;    // キャスター座標
+	float  distanceCasterLight;	// キャスターとライトの距離
+	float3 atten;	// 距離減衰係数
+	float2 factorAngleCos; // 減衰角度のコサイン
+	uint active;
+};
+
 cbuffer cbuff2 : register(b2)
 {
 	float3 ambientColor;
 	DirLight dirLights[DIRLIGHT_NUM];
 	PointLight pointLights[POINTLIGHT_NUM];
 	SpotLight spotLights[SPOTLIGHT_NUM];
+	CircleShadow circleShadows[CIRCLESHADOW_NUM];
 }
 
 // 頂点シェーダーからピクセルシェーダーへのやり取りに使用する構造体
@@ -84,7 +98,14 @@ struct PSOutPut
 	float4 target1:SV_TARGET1;
 
 };
-
+struct g2f
+{
+	float4 pos : SV_POSITION;
+	float4 col : COLOR;
+	float4 wo : POSITION; // ワールド座標
+	float3 normal:NORMAL;
+	float2 uv:TEXCOORD;
+};
 struct GSOutput
 {
 	//float color_Alpha:COLOR;

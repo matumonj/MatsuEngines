@@ -15,6 +15,7 @@ public:
 
 	enum ModelName {
 		FIELD,
+		MINI,
 		BOSSFIELD,
 		WOOD,
 		CHEST,
@@ -30,7 +31,10 @@ public:
 		NORMALSWORD,
 		BIGSWORD,
 		CELESTIALSPHERE,
-		ICECRYSTAL
+		ICECRYSTAL,
+		BIGROCK_A,
+		BIGROCK_B,
+		GRASSFIELD
 	};
 	enum FBXName {
 		PLAYER,

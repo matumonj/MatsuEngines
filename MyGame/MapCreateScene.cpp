@@ -40,7 +40,7 @@ void MapCreateScene::ModelCreate(DebugCamera* camera)
 	// 3Dオブエクトにライトをセット
 	Object3d::SetLightGroup(lightGroup);
 	//パラメータの設定
-	lightGroup->LightSetting();
+	//lightGroup->LightSetting();
 
 	MapCreate::GetInstance()->ObjectInitialize(CameraControl::GetInstance()->GetCamera());
 
@@ -85,7 +85,7 @@ void MapCreateScene::Initialize()
 #pragma region 更新処理
 void MapCreateScene::Update()
 {
-	lightGroup->SpotLightUpdate();
+	//lightGroup->SpotLightUpdate();
 
 	Input::MouseMove mouseMove = Input::GetInstance()->GetMouseMove();
 	//マウスの入力状態取得
@@ -178,7 +178,7 @@ void MapCreateScene::ImGuiDraw()
 
 	ImGui::SliderFloat("CameraPosx", &CameraPosition.x, -400, 400);
 	ImGui::SliderFloat("CameraPosy", &CameraPosition.y, -200, 200);
-	ImGui::SliderFloat("CameraPosz", &CameraPosition.z, -800, 500);
+	ImGui::SliderFloat("CameraPosz", &CameraPosition.z, -1600, 500);
 	ImGui::End();
 }
 #pragma region 解放部分

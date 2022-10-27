@@ -171,6 +171,7 @@ private:// 静的メンバ関数
 
 	static void UpdateViewMatrix(XMMATRIX mat);
 
+	static LightGroup* lightGroup;
 public: // メンバ関数
 	Object3d() = default;
 
@@ -219,7 +220,6 @@ public: // メンバ関数
 	static void SetLightGroup(LightGroup* lightGroup) {
 		Object3d::lightGroup = lightGroup;
 	}
-	static LightGroup* lightGroup;
 protected: // メンバ変数
 	ComPtr<ID3D12Resource> constBuffB0; // 定数バッファ
 

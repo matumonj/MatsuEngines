@@ -555,6 +555,21 @@
     <ClCompile Include="GuardianYellow.cpp">
       <Filter>Game\gameobject\オブジェクト種類\Enemy\派生クラス\宝箱用のガーディアン\NewFilter1</Filter>
     </ClCompile>
+    <ClCompile Include="Stone.cpp">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="PlaceStone.cpp">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="StoneControl.cpp">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="GrassObj.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="GrassField.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sprite.h">
@@ -920,6 +935,24 @@
     <ClInclude Include="GigaBossEnemy.h">
       <Filter>Game\gameobject\オブジェクト種類\Enemy\派生クラス</Filter>
     </ClInclude>
+    <ClInclude Include="CircleShadow.h">
+      <Filter>Game\gameobject\light</Filter>
+    </ClInclude>
+    <ClInclude Include="StoneControl.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Stone.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="PlaceStone.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="GrassObj.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="GrassField.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shader\BasicGS.hlsl">
@@ -961,9 +994,6 @@
     <FxCompile Include="Resources\Shader\SpriteVS.hlsl">
       <Filter>リソース ファイル\Sprite</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\Shader\TextureVS.hlsl">
-      <Filter>リソース ファイル\Tex</Filter>
-    </FxCompile>
     <FxCompile Include="Resources\Shader\PostEffectTestPS.hlsl">
       <Filter>リソース ファイル\PostEffect</Filter>
     </FxCompile>
@@ -980,6 +1010,18 @@
       <Filter>リソース ファイル</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shader\MiniMapVS.hlsl">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shader\TextureVS.hlsl">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shader\GrassGS.hlsl">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shader\GrassPS.hlsl">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shader\GrassVS.hlsl">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
   </ItemGroup>
@@ -1009,6 +1051,9 @@
       <Filter>リソース ファイル\PostEffect</Filter>
     </None>
     <None Include="Resources\Shader\MiniMap.hlsli">
+      <Filter>リソース ファイル</Filter>
+    </None>
+    <None Include="Resources\Shader\Grass.hlsli">
       <Filter>リソース ファイル</Filter>
     </None>
   </ItemGroup>

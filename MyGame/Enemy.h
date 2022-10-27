@@ -98,6 +98,18 @@ protected:
 	XMMATRIX HandMat;
 	OBB HandSiteOBB;
 	OBB playerOBB;
+
+public:
+	enum AnimationState {
+		NON,
+		WALK,
+		ATTACK1,
+		ATTACK2,
+		DEATH
+	};
+	void SetAnimeState(AnimationState state) { animeState = state; }
+protected:
+	AnimationState animeState;
 	/*ゲッター*/
 public:
 	bool GetRecvAttack() { return RecvAttackHit;}
@@ -113,7 +125,7 @@ public:
 	
 	float GetMaxHP() { return MaxHP; }
 	//FBXTime(死にモーションと攻撃モーションの開始フレーム取得)
-	bool GetDeathTime() { return DeathFlag; }
+	bool GetDeathTime() { return nowDeath; }
 	
 	bool GetAttackTime() { return f_AttackFlag; }
 	//現在の経過フレーム

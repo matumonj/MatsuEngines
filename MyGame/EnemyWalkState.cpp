@@ -23,7 +23,7 @@ void EnemyWalkState::Update(Enemy* enemy)
 	//移動ベクトルをy軸周りの角度で回転
 	XMVECTOR move = { 0,0,0.1f,0 };
 	
-	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(enemy->GetRotation().y));
+	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(enemy->GetRotation().y+110));
 
 	move = XMVector3TransformNormal(move, matRot);
 
@@ -32,7 +32,7 @@ void EnemyWalkState::Update(Enemy* enemy)
 	if (enemy->GetonFlag()==true) {
 		tempx = enemy->GetPosition().x;
 		tempz = enemy->GetPosition().z;
-		if (enemy->GetMoveFlag()&&!enemy->GetMoveStop()) {
+		if (!enemy->GetMoveStop()) {
 			enemy->SetPosition({
 				enemy->GetPosition().x + move.m128_f32[0],
 				enemy->GetPosition().y,
@@ -48,6 +48,7 @@ void EnemyWalkState::Update(Enemy* enemy)
 	}
 	
 	BacktoGround(enemy);
+	//enemy->SetAnimeState(enemy->WALK);
 	//攻撃
 	if (SearchPlayer) {
 		//追跡

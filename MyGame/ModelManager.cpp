@@ -11,6 +11,7 @@ ModelManager* ModelManager::GetIns() {
 
 void ModelManager::Initialize() {
 	LoadModel(FIELD, "LowPoly_Landscape");
+	LoadModel(MINI, "minimap");
 	LoadModel(BOSSFIELD, "BossField");
 	LoadModel(WOOD, "wood");
 	LoadModel(CHEST, "chest");
@@ -26,12 +27,11 @@ void ModelManager::Initialize() {
 	LoadModel(DAMAGEAREA, "BossFieldDamageArea");
 	LoadModel(BOX, "Box");
 	LoadModel(BEAM, "BeamObj");
-	LoadModel(PEDESTAL, "Pedestal");
-	LoadModel(SMALLSWORD, "SmallSword");
+	LoadModel(SMALLSWORD, "Wand");
 	LoadModel(NORMALSWORD, "sword");
-	LoadModel(BIGSWORD, "BigSword");
-	LoadModel(CELESTIALSPHERE, "skydome");
-	LoadModel(ICECRYSTAL, "crystal");
+	LoadModel(BIGROCK_A, "BigStone_A");
+	LoadModel(BIGROCK_B, "crystal");
+	LoadModel(GRASSFIELD, "GrassField");
 }
 
 void ModelManager::LoadModel(const ModelName modelName, std::string fileName) {

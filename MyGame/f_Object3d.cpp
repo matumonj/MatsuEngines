@@ -304,6 +304,9 @@ void f_Object3d::Draw()
 	//定数バッファビューをセット
 	cmdList->SetGraphicsRootConstantBufferView(2, constBuffSkin->GetGPUVirtualAddress());
 
+	// ライトの描画
+	//lightGroup->Draw(cmdList, 3);
+
 	//モデル描画
 	model->Draw();
 }

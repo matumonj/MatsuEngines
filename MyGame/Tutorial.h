@@ -22,6 +22,8 @@
 #include"ParticleManager.h"
 #pragma comment(lib,"winmm.lib")
 #include"MinimapSprite.h"
+#include"GrassField.h"
+#include"GrassObj.h"
 class CollisionManager;
 class Player;
 class Tutorial :public BaseScene
@@ -60,6 +62,27 @@ public:
 	void Draw()override;
 	bool LoadParam(DebugCamera* camera);
 	void Finalize()override;
+
+private:
+	LightGroup* lightGroup = nullptr;
+	LightGroup* lightGroup2 = nullptr;
+	float ambientColor0[3] = { 1,1,1 };
+	// 光線方向初期値
+	float lightDir0[3] = { 0,0,1 };
+	float lightColor0[3] = { 1,0,0 };
+
+	float lightDir1[3] = { 0,1,0 };
+	float lightColor1[3] = { 0,1,0 };
+
+	float lightDir2[3] = { 1,0,0 };
+	float lightColor2[3] = { 0,0,1 };
+
+	float circleShadowDir[3] = { 0,-1,0 };
+	float circleShadowPos[3] = { 1,2,0 };
+	float circleShadowAtten[3] = { 0.2f,0.0f,0.0f };
+	float circleShadowFactorAngle[2] = { 1.0f, 3.0f };
+	float circleShadowFactorAngle2[2] = { 1.0f, 6.0f };
+	float fighterPos[3] = { 1, 0.0f, 0 };
 public:
 	XMFLOAT3 efkposition = { -50,-10,90 };
 	//エフェクト用(ただプログラムでつくれるものはプログラムで作る方がいい　多用はいくない)
@@ -73,5 +96,6 @@ private:
 	bool hudload;
 	bool Load;
 	std::vector<ControlBase*>AllObjectControl;
+	std::unique_ptr<GrassField>grassfield;
 };
 

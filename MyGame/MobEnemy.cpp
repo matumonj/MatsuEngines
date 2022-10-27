@@ -30,29 +30,32 @@ MobEnemy::~MobEnemy()
 //初期化処理
 void MobEnemy::Initialize(DebugCamera* camera)
 {
-	
+	Sword = std::make_unique<Object3d>();
+	Sword->Initialize(camera);
+	Sword->SetModel(ModelManager::GetIns()->GetModel(ModelManager::BIGSWORD));
+	Sword->SetRotation({ 0,0 + 30,0 + 100 });
 
 	m_Object = std::make_unique<Object3d>();
 	m_Object->Initialize(camera);
 	
-	EnemyHP = 30.0f;
-	MaxHP = 30.0f;
+	EnemyHP = 200.0f;
+	MaxHP = 200.0f;
 	//パラメータのセット
-	Rotation = { -70.0f,180.0f,0.0f };
+	Rotation = { -163.0f,71.0f,-16.0f };
 	Scale = { 0.04f, 0.04f, 0.04f };
 
 	m_fbxObject = std::make_unique<f_Object3d>();
 	m_fbxObject->Initialize();
-	m_fbxObject->SetModel(FbxLoader::GetInstance()->LoadModelFromFile("monster_golem"));
+	m_fbxObject->SetModel(FbxLoader::GetInstance()->LoadModelFromFile("monster_golem_demo"));
 	m_fbxObject->PlayAnimation();
-	m_fbxObject->SetColor({ 1,0,0,alpha });
+//	m_fbxObject->SetColor({ 1,0,0,alpha });
 	//コライダー周り
 	radius_adjustment = 0;
 	SetCollider();
 
 	//FBX切り替わりのタイム指定
-	AttackTime = 1.5f;
-	DeathTime = 4.9f;
+	AttackTime = 0.9f;
+	DeathTime = 8.9f;
 
 	nowAttack = false;
 	nowDeath = false;
@@ -74,28 +77,16 @@ void MobEnemy::Initialize(DebugCamera* camera)
 	particleMan2 = ParticleManager::Create(6, L"Resources/ParticleTex/Attack.png");
 
 }
-
+#include"SceneManager.h"
 //更新処理
 void MobEnemy::Update(DebugCamera* camera)
 {
 	state_mob->Update(this);
 	
-	if (EnemyHP <= 0) {
+	if (nowDeath) {
 		alpha -= 0.005f;
 	}
-	HandMat = m_fbxObject->GetRot();
-
-	HandSiteOBB.SetOBBParam_Pos(HandMat);
-	HandSiteOBB.SetOBBParam_Rot(HandMat);
-	HandSiteOBB.SetOBBParam_Scl({ 2.0f,2.0f,2.0f });
 	
-	playerOBB.SetOBBParam_Pos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
-	playerOBB.SetOBBParam_Rot(PlayerControl::GetInstance()->GetPlayer()->GetMatrot());
-	playerOBB.SetOBBParam_Scl({ 1.0f,1.0f,1.0f });
-	
-	if (Collision::CheckOBBCollision(playerOBB,HandSiteOBB)==true) {
-		PlayerControl::GetInstance()->GetPlayer()->RecvDamage(10);
-	}
 	SearchPlayer(camera);
 	FbxAnimationControl();
 	
@@ -103,53 +94,96 @@ void MobEnemy::Update(DebugCamera* camera)
 	
 	AttackCoolTime();
 	
+
+	m_fbxObject->SetColor({ 1,0,1,alpha });
 	ParameterSet_Fbx(camera);
 
 	CollisionField(camera);
-
+	
+	m_fbxObject->SetHandBoneIndex(19);
+	Sword->SetRotation({-23,43,83});
+	Sword->Update(m_fbxObject->GetRot(), { 1.0f,1.0f,1.0f,1.0f }, camera);
 
 	DamageParticleSet();
+
+	HandMat = m_fbxObject->GetRot();
+
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
+		HandSiteOBB.SetOBBParam_Pos(Sword->GetMatWorld());
+		HandSiteOBB.SetOBBParam_Rot(Sword->GetMatWorld());
+		HandSiteOBB.SetOBBParam_Scl({ 14.0f,15.0f,12.0f });
+
+		playerOBB.SetOBBParam_Pos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
+		playerOBB.SetOBBParam_Rot(PlayerControl::GetInstance()->GetPlayer()->GetMatrot());
+		playerOBB.SetOBBParam_Scl({ 1.0f,1.0f,1.0f });
+
+		if (f_time >= 1.9f) {
+			if (Collision::CheckOBBCollision(playerOBB, HandSiteOBB) == true) {
+				PlayerControl::GetInstance()->GetPlayer()->RecvDamage(10);
+			}
+		}
+	}
 }
+
 
 //描画処理
 void MobEnemy::Draw()
 {
-	Draw_Fbx();
-	// 3Dオブジェクト描画前処理
-	ParticleManager::PreDraw();
-	// 3Dオブクジェクトの描画
-	particleMan->Draw();
-	particleMan2->Draw();
-	// 3Dオブジェクト描画後処理
-	ParticleManager::PostDraw();
-	Texture::PreDraw();
-	if (SlashF2) {
-		SlashTex->Draw();
+	if (alpha >= 0.0f) {
+		Draw_Fbx();
+
+		// 3Dオブジェクト描画前処理
+		Object3d::PreDraw();
+		Sword->Draw();
+		Object3d::PostDraw();
+
+		ParticleManager::PreDraw();
+		// 3Dオブクジェクトの描画
+		particleMan->Draw();
+		particleMan2->Draw();
+		// 3Dオブジェクト描画後処理
+		ParticleManager::PostDraw();
+		Texture::PreDraw();
+		if (SlashF2) {
+			SlashTex->Draw();
+		}
+		Texture::PostDraw();
 	}
-	Texture::PostDraw();
+	ImGui::Begin("sw");
+	ImGui::SliderInt("x", &HandIndex, 0, 27);
+	ImGui::SliderFloat("y", &Rotation.y, -270, 270);
+	ImGui::SliderFloat("z", &Rotation.z, -270, 270);
+	ImGui::End();
 
 	ArrowDraw();
 }
 
+
 void MobEnemy::Death()
 {
-	if (f_time > DeathTime) {
-		movestop = false;
+	if (!DeathFlag&&f_time != DeathTime) {
+		//f_time = DeathTime;
+		//if (f_time > DeathTime) {
 		DeathFlag = true;
+		EnemyHP = MaxHP;
 	}
+	movestop = false;
+	
+	//}
 }
 
 
 void MobEnemy::FbxAnimationControl()
 {
 	//1フレーム進める
-	if (!movestop) {
-		f_time += 0.02f;
-	}
+	//if (!movestop) {
+		f_time += 0.01f;
+	//}
 			if (f_AttackFlag) {
 				f_time = AttackTime;
-				f_AttackFlag = false;
 				nowAttack = true;
+				f_AttackFlag = false;
+				
 			} else {
 				if (nowDeath == false) {
 					if (!nowAttack && f_time >= AttackTime) {
@@ -158,9 +192,11 @@ void MobEnemy::FbxAnimationControl()
 				}
 			}
 
-			if (DeathFlag) {
-				f_time = DeathTime;
+			if (DeathFlag&& f_time != DeathTime) {
 				nowDeath = true;
+				//f_time = DeathTime;
+				f_time = DeathTime;
+				f_time += 0.02f;
 				DeathFlag = false;
 				
 			} 
@@ -192,6 +228,29 @@ void MobEnemy::AttackCoolTime()
 void MobEnemy::DamageParticleSet()
 {
 
+	for (int i = 0; i < ParticleSize; i++) {
+		const float rnd_vel = 0.5f;
+		XMFLOAT3 vel{};
+		vel.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+		vel.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+		vel.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+
+		XMFLOAT3 acc{};
+		const float rnd_acc = 0.001f;
+		acc.y = -(float)rand() / RAND_MAX * rnd_acc;
+
+		//	//追加
+		if (DamageParticleCreateF) {
+			particlePos = { Position.x,Position.y + 10,Position.z };
+			particleMan->Add(particleLife, particlePos, vel, acc, 3.0f, 0.0f);
+			if (i == ParticleSize - 1) {
+				DamageParticleCreateF = false;
+			}
+		}
+
+	}
+	particleMan->SetColor({ 1.0f,0.2f,0.2f,0.7f });
+	particleMan->Update(particleMan->NORMAL);
 
 }
 

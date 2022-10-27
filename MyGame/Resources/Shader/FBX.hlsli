@@ -20,6 +20,7 @@ struct VSInput
 struct VSOutput
 {
     float4 svpos : SV_POSITION; //システム用頂点座標
+  //  float4 worldpos : POSITION; // ワールド座標
     float3 normal : NORMAL; //法線
     float2 uv : TEXCOORD; //uv値
     //float depth : TEXCOORD2; // カメラ空間でのZ値

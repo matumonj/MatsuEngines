@@ -31,6 +31,7 @@ public:
 
 	void ImGuiDraw();
 
+	Wood* GetWood(int index) { return Tutorialwoods[index].get(); }
 private:
 	void Update_Tutorial(DebugCamera*camera)override;
 

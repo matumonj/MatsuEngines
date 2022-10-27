@@ -11,7 +11,7 @@ void EnemyFollowState::Update(Enemy* enemy)
 {
 
 	//çıìGîÕàÕ
-	const float DetectionRange = 10.0f;
+	const float DetectionRange = 30.0f;
 	//ÉvÉåÉCÉÑÅ[Ç™çıìGîÕàÕì¸Ç¡ÇΩÇÁ
 	bool SearchPlayer = Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < DetectionRange;
 
@@ -36,12 +36,12 @@ void EnemyFollowState::Update(Enemy* enemy)
 	//à⁄ìÆÉxÉNÉgÉãÇyé≤é¸ÇËÇÃäpìxÇ≈âÒì]
 	XMVECTOR move = { 0,0,0.1f,0 };
 
-	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(enemy->GetRotation().y));
+	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(enemy->GetRotation().y+110));
 
 	move = XMVector3TransformNormal(move, matRot);
 
 	enemy->SetRotation({ enemy->GetRotation().x,
-		 RotY * 60 + 180,
+		 RotY * 60 +70,
 		enemy->GetRotation().z });
 
 	if (!enemy->GetMoveStop()) {
@@ -53,6 +53,7 @@ void EnemyFollowState::Update(Enemy* enemy)
 			);
 		}
 	}
+	enemy->SetAnimeState(enemy->WALK);
 	//movement++;
 	if (SearchPlayer&&enemy->GetCoolTime()==0) {
 		//í«ê’

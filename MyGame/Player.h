@@ -120,8 +120,9 @@ public:
 		SECOND
 	};
 	AttackMotion GetAttackType() { return attackMotion; }
+	void FbxAnimationControls(const AttackMotion& motiiontype,const float attacktime=0,const float nextAnimation=0);
 private:
-	
+
 	AttackMotion attackMotion=NON;
 	bool SecAttack;
 	bool nowSecAttack;
@@ -130,10 +131,10 @@ private:
 	float AttackTime = 0.571f;
 	float DeathTime =20.1f;
 	const float EvaTime_Start = 5.5f;
-	const float EvaTime_End = 7.0f;
+	const float EvaTime_End = 6.5f;
 	bool AttackFlag;
 	bool nowattack;
 
-	int hindex=15;
+	int hindex=25;
 };
 

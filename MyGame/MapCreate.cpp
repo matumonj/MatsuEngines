@@ -5,6 +5,7 @@
 #include"PlaceWood.h"
 #include"PlaceEnemy.h"
 #include"PlaceChest.h"
+#include"PlaceStone.h"
 #include"PlaceCameraPoints.h"
 #include"imgui.h"
 MapCreate::MapCreate()
@@ -27,6 +28,7 @@ void MapCreate::ObjectInitialize(DebugCamera* camera)
 		placeobj.push_back(new PlaceWood());//–Ø
 		placeobj.push_back(new PlaceEnemy());//“G
 		placeobj.push_back(new PlaceChest());
+		placeobj.push_back(new PlaceStone());
 		placeobj.push_back(new PlaceCameraPoints());
 	}
 	for (int i = 0; i < placeobj.size(); i++) {

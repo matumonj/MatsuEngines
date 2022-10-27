@@ -31,6 +31,7 @@ void Framework::Initialize()
 
 	// ƒ‰ƒCƒgÃ“I‰Šú‰»
 	Object3d::StaticInitialize(WinApp::window_width, WinApp::window_height);
+	GrassObj::StaticInitialize(WinApp::window_width, WinApp::window_height);
 	//MyGame* MyGame = new MyGame();
 	sceneManger = new SceneManager();
 	

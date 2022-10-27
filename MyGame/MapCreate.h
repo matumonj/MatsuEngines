@@ -30,7 +30,8 @@ private:
 		WOOD=0,
 		FENCE=1,
 		ENEMY=2,
-		CHEST=3
+		CHEST=3,
+		STONE=4
 	};
 	//設置オブジェクト
 	std::vector<CreateObjManager*> placeobj;

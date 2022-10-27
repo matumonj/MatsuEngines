@@ -15,8 +15,8 @@ void main(
 {
 	float3 center = { (input[0].svpos.xyz + input[1].svpos.xyz + input[2].svpos.xyz) / 3 };
 	float3 posworld = mul(world, float3(center));
-	float3 dist = length(float3(0,0,0) - posworld);
-	float destruction = clamp(50 - dist, 0, 1);
+	float3 dist = length(cameraPos - posworld);
+	float destruction = clamp(150 - dist, 0, 1);
 	float4 offset = float4(0, 0, 0, 0);
 
 	float3 vec1 = input[1].svpos.xyz - input[0].svpos.xyz;

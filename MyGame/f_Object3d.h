@@ -9,6 +9,9 @@
 #include <d3dx12.h>
 #include <DirectXMath.h>
 #include <string>
+#include"LightGroup.h"
+//LightGroup* Object3d::lightGroup = nullptr;
+
 class BaseCollider;
 
 class f_Object3d
@@ -26,6 +29,7 @@ public:	//静的メンバ関数
 	//setter
 	static void SetDevice(ID3D12Device* device) { f_Object3d::device = device; }
 	static void SetCamera(Camera* camera) { f_Object3d::camera = camera; }
+	
 
 	/// <summary>
 	///グラフィックパイプラインの生成
@@ -158,7 +162,8 @@ public:	//定数
 	XMMATRIX GetHandBone() { return hand; }
 	XMFLOAT3 GetHandRotation() { return { (float)PosNode2[0],(float)PosNode2[1],(float)PosNode2[2] }; }
 	FbxTime SetCurrent() { return currentTime = startTime; }
-
+	// ライト
+	//static LightGroup* lightGroup;
 	int bindexs=13;
 
 	void SetHandBoneIndex(int bindex) { bindexs = bindex; }

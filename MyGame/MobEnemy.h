@@ -38,11 +38,14 @@ public:
     void FbxAnimationControl()override;
 
     void DamageTexUpdate(DebugCamera* camera)override;
-private:
+ 
+    void FbxAnimeControl(const AnimationState& animestate,bool& Judg, const float nowanimeTime, const float nextanimetime);
     void DamageParticleSet();
 private:
+    bool atc;
     bool SlashF;
     bool SlashF2;
+    int HandIndex;
     const int ParticleSize = 20;
     //OBBCollision* colObb;
    
@@ -51,5 +54,7 @@ public:
     bool isendtime;
     int particleLife = 320;
     XMFLOAT3 particlePos;
+    std::unique_ptr<Object3d>Sword;
+    XMFLOAT3 swordrot;
 };
 

@@ -247,51 +247,53 @@ void Player::Draw()
 	ImGui::End();
 }
 
+
+void Player::FbxAnimationControls(const AttackMotion& motiontype,const float attacktime,const float nextAnimationtime)
+{
+	//if (evasionF)return;
+
+	if (attackMotion == motiontype) {
+		if (f_time <= attacktime) {
+			f_time = attacktime;
+		}
+		if (f_time >= nextAnimationtime) {
+			attackMotion = RUN;
+		}
+	}
+
+	/*•à‚«‚Æ‘Ò‹@ƒ‚[ƒVƒ‡ƒ“‚Ç‚¤‚·‚é‚©‚±‚Á‚¿‚Å“ÆŽ©‚Éì‚é‚Ì‚ ‚è‚©‚Ç‚¤‚©*/
+	if (attackMotion == NON) {
+		f_time = 0;
+	}
+	if (attackMotion == RUN) {
+		if (f_time >= AttackTime) {
+			f_time = 0;
+		}
+
+	}
+}
+
 void Player::FbxAnimationControl()
 {
 	if (evasionF)return;
 	const float timespeed = 0.02f;
 
-	if (CustomButton::GetInstance()->GetAttackAction() == true&&PlayerAttackState::GetInstance()->GetCoolTime()==0) {
-			AttackFlag = true;
-			attackMotion = FIRST;
+	if (CustomButton::GetInstance()->GetAttackAction() == true && PlayerAttackState::GetInstance()->GetCoolTime() == 0) {
+		AttackFlag = true;
+		attackMotion = FIRST;
 	}
-	if (CustomButton::GetInstance()->Get2AttackAction() == true && PlayerAttackState::GetInstance()->GetCoolTime() == 0){
+	if (CustomButton::GetInstance()->Get2AttackAction() == true && PlayerAttackState::GetInstance()->GetCoolTime() == 0) {
 		SecAttack = true;
 		attackMotion = SECOND;
 	}
 
 	f_time += timespeed;
 
-	if (attackMotion==FIRST) {
-		if (f_time <= AttackTime) {
-			f_time = AttackTime;
-		}
-		if (f_time >= sectime) {
-			attackMotion = RUN;
-		}
-	}	else if (attackMotion == SECOND) {
-		if (f_time <= sectime) {
-			f_time = sectime;
-		}
-		if (f_time >=m_fbxObject->GetEndTime()) {
-			attackMotion = RUN;
-		}
-	}
-	else if (attackMotion == NON) {
-		f_time = 0;
-		//if()
-	}
-	else if (attackMotion == RUN) {
-		if (f_time >= AttackTime) {
-			f_time = 0;
-		}
-	}
-
-
-
-
+	FbxAnimationControls(FIRST, AttackTime, sectime);
+	FbxAnimationControls(SECOND, sectime, m_fbxObject->GetEndTime());
+	
 }
+
 
 XMMATRIX Player::GetMatrot()
 {

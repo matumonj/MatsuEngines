@@ -219,6 +219,8 @@
     <ClCompile Include="f_Model.cpp" />
     <ClCompile Include="f_Object3d.cpp" />
     <ClCompile Include="GigaBossEnemy.cpp" />
+    <ClCompile Include="GrassField.cpp" />
+    <ClCompile Include="GrassObj.cpp" />
     <ClCompile Include="GuardianBlue.cpp" />
     <ClCompile Include="GuardianEnemy.cpp" />
     <ClCompile Include="GuardianGreen.cpp" />
@@ -251,6 +253,7 @@
     <ClCompile Include="PlaceChest.cpp" />
     <ClCompile Include="PlaceEnemy.cpp" />
     <ClCompile Include="PlaceFence.cpp" />
+    <ClCompile Include="PlaceStone.cpp" />
     <ClCompile Include="PlaceWood.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerAttackState.cpp" />
@@ -264,6 +267,8 @@
     <ClCompile Include="SmallSword.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="Stone.cpp" />
+    <ClCompile Include="StoneControl.cpp" />
     <ClCompile Include="SwordBase.cpp" />
     <ClCompile Include="TargetMarker.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -298,6 +303,7 @@
     <ClInclude Include="Chest.h" />
     <ClInclude Include="ChestControl.h" />
     <ClInclude Include="CircleAttack.h" />
+    <ClInclude Include="CircleShadow.h" />
     <ClInclude Include="ConfigSprite.h" />
     <ClInclude Include="ControlBase.h" />
     <ClInclude Include="CreateObjManager.h" />
@@ -343,6 +349,8 @@
     <ClInclude Include="f_Model.h" />
     <ClInclude Include="f_Object3d.h" />
     <ClInclude Include="GigaBossEnemy.h" />
+    <ClInclude Include="GrassField.h" />
+    <ClInclude Include="GrassObj.h" />
     <ClInclude Include="GuardianEnemy.h" />
     <ClInclude Include="HalfAttack.h" />
     <ClInclude Include="HUD.h" />
@@ -371,6 +379,7 @@
     <ClInclude Include="PlaceChest.h" />
     <ClInclude Include="PlaceEnemy.h" />
     <ClInclude Include="PlaceFence.h" />
+    <ClInclude Include="PlaceStone.h" />
     <ClInclude Include="PlaceWood.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerAttackState.h" />
@@ -387,6 +396,8 @@
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="SpotLight.h" />
     <ClInclude Include="Sprite.h" />
+    <ClInclude Include="Stone.h" />
+    <ClInclude Include="StoneControl.h" />
     <ClInclude Include="SwordBase.h" />
     <ClInclude Include="TargetMarker.h" />
     <ClInclude Include="Texture.h" />
@@ -442,6 +453,21 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Resources\Shader\GrassGS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Geometry</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Resources\Shader\GrassPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Resources\Shader\GrassVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
     <FxCompile Include="Resources\Shader\MiniMapPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
@@ -512,6 +538,7 @@
   <ItemGroup>
     <None Include="Resources\Shader\Blur.hlsli" />
     <None Include="Resources\Shader\FBX.hlsli" />
+    <None Include="Resources\Shader\Grass.hlsli" />
     <None Include="Resources\Shader\Header.hlsli" />
     <None Include="Resources\Shader\MiniMap.hlsli" />
     <None Include="Resources\Shader\Object3d.hlsli">

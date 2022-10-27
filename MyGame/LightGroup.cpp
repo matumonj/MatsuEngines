@@ -6,17 +6,18 @@ using namespace DirectX;
 /// <summary>
 /// 静的メンバ変数の実体
 /// </summary>
-ComPtr<ID3D12Device> LightGroup::device = nullptr;
-
-ComPtr<ID3D12GraphicsCommandList>LightGroup::cmdList=nullptr;
+ID3D12Device* LightGroup::device = nullptr;
 
 void LightGroup::StaticInitialize()
 {
-
 	LightGroup::device = DirectXCommon::GetInstance()->GetDev();
-	LightGroup::cmdList = DirectXCommon::GetInstance()->GetCmdList();
-	
-	
+	// 再初期化チェック
+	assert(!LightGroup::device);
+
+	// nullptrチェック
+	assert(device);
+
+	LightGroup::device = device;
 }
 
 LightGroup* LightGroup::Create()
@@ -63,51 +64,12 @@ void LightGroup::Update()
 	}
 }
 
-void LightGroup::Draw( UINT rootParameterIndex)
+void LightGroup::Draw(ID3D12GraphicsCommandList* cmdList, UINT rootParameterIndex)
 {
 	// 定数バッファビューをセット
 	cmdList->SetGraphicsRootConstantBufferView(rootParameterIndex, constBuff->GetGPUVirtualAddress());
 }
 
-//void LightGroup::TransferConstBuffer()
-//{
-//	HRESULT result;
-//	// 定数バッファへデータ転送
-//	ConstBufferData* constMap = nullptr;
-//	result = constBuff->Map(0, nullptr, (void**)&constMap);
-//	if (SUCCEEDED(result)) {
-//		// 環境光
-//		constMap->ambientColor = ambientColor;
-//		// 平行光源
-//		for (int i = 0; i < DirLightNum; i++) {
-//			// ライトが有効なら設定を転送
-//			if (dirLights[i].IsActive()) {
-//				constMap->dirLights[i].active = 1;
-//				constMap->dirLights[i].lightv = -dirLights[i].GetLightDir();
-//				constMap->dirLights[i].lightcolor = dirLights[i].GetLightColor();
-//			}
-//			// ライトが無効ならライト色を0に
-//			else {
-//				constMap->dirLights[i].active = 0;
-//			}
-//		}
-//		// 点光源
-//		for (int i = 0; i < PointLightNum; i++) {
-//			// ライトが有効なら設定を転送
-//			if (pointLights[i].IsActive()) {
-//				constMap->pointLights[i].active = 1;
-//				constMap->pointLights[i].lightpos = pointLights[i].GetLightPos();
-//				constMap->pointLights[i].lightcolor = pointLights[i].GetLightColor();
-//				constMap->pointLights[i].lightatten = pointLights[i].GetLightAtten();
-//			}
-//			// ライトが無効ならライト色を0に
-//			else {
-//				constMap->pointLights[i].active = 0;
-//			}
-//		}
-//		constBuff->Unmap(0, nullptr);
-//	}
-//}
 void LightGroup::TransferConstBuffer()
 {
 	HRESULT result;
@@ -160,9 +122,26 @@ void LightGroup::TransferConstBuffer()
 				constMap->spotLights[i].active = 0;
 			}
 		}
+		// 丸影
+		for (int i = 0; i < CircleShadowNum; i++) {
+			// 有効なら設定を転送
+			if (circleShadows[i].IsActive()) {
+				constMap->circleShadows[i].active = 1;
+				constMap->circleShadows[i].dir = -circleShadows[i].GetDir();
+				constMap->circleShadows[i].casterPos = circleShadows[i].GetCasterPos();
+				constMap->circleShadows[i].distanceCasterLight = circleShadows[i].GetDistanceCasterLight();
+				constMap->circleShadows[i].atten = circleShadows[i].GetAtten();
+				constMap->circleShadows[i].factorAngleCos = circleShadows[i].GetFactorAngleCos();
+			}
+			// 無効なら色を0に
+			else {
+				constMap->circleShadows[i].active = 0;
+			}
+		}
 		constBuff->Unmap(0, nullptr);
 	}
 }
+
 void LightGroup::DefaultLightSetting()
 {
 	dirLights[0].SetActive(true);
@@ -206,7 +185,7 @@ void LightGroup::SetDirLightColor(int index, const XMFLOAT3& lightcolor)
 	dirLights[index].SetLightColor(lightcolor);
 	dirty = true;
 }
-///点光源//////////////////////////
+
 void LightGroup::SetPointLightActive(int index, bool active)
 {
 	assert(0 <= index && index < PointLightNum);
@@ -237,9 +216,7 @@ void LightGroup::SetPointLightAtten(int index, const XMFLOAT3& lightAtten)
 	pointLights[index].SetLightAtten(lightAtten);
 	dirty = true;
 }
-////////////////////////////////////////
 
-//スポットライト/////////////////////////
 void LightGroup::SetSpotLightActive(int index, bool active)
 {
 	assert(0 <= index && index < SpotLightNum);
@@ -287,30 +264,49 @@ void LightGroup::SetSpotLightFactorAngle(int index, const XMFLOAT2& lightFactorA
 	dirty = true;
 }
 
-void LightGroup::LightSetting()
+void LightGroup::SetCircleShadowActive(int index, bool active)
 {
-	SetDirLightActive(0, false);
-	SetDirLightActive(1, false);
-	SetDirLightActive(2, false);
-	SetPointLightActive(0, true);
-	//pointLightPos[0] = 0.0f;
-	//pointLightPos[1] = 1.0f;
-	//pointLightPos[2] = 0.0f;
-	SetPointLightActive(0, false);
-	SetPointLightActive(1, false);
-	SetPointLightActive(2, false);
-	SetSpotLightActive(0, true);
+	assert(0 <= index && index < CircleShadowNum);
+
+	circleShadows[index].SetActive(active);
 }
 
-void LightGroup::SpotLightUpdate()
+void LightGroup::SetCircleShadowCasterPos(int index, const XMFLOAT3& casterPos)
 {
-	{//ライトのパラメータを反映 	
-		SetSpotLightDir(0, XMVECTOR({ spotLightDir[0],spotLightDir[1],spotLightDir[2],0 }));
-		SetSpotLightPos(0, XMFLOAT3(spotLightpos));
-		SetSpotLightColor(0, XMFLOAT3(spotLightColor));
-		SetSpotLightAtten(0, XMFLOAT3(spotLightAtten));
-		SetSpotLightFactorAngle(0, XMFLOAT2(spotLightFactorAngle));
-	}
-	Update();
+	assert(0 <= index && index < CircleShadowNum);
+
+	circleShadows[index].SetCasterPos(casterPos);
+	dirty = true;
 }
-////////////////////////////////////
+
+void LightGroup::SetCircleShadowDir(int index, const XMVECTOR& lightdir)
+{
+	assert(0 <= index && index < CircleShadowNum);
+
+	circleShadows[index].SetDir(lightdir);
+	dirty = true;
+}
+
+void LightGroup::SetCircleShadowDistanceCasterLight(int index, float distanceCasterLight)
+{
+	assert(0 <= index && index < CircleShadowNum);
+
+	circleShadows[index].SetDistanceCasterLight(distanceCasterLight);
+	dirty = true;
+}
+
+void LightGroup::SetCircleShadowAtten(int index, const XMFLOAT3& lightAtten)
+{
+	assert(0 <= index && index < CircleShadowNum);
+
+	circleShadows[index].SetAtten(lightAtten);
+	dirty = true;
+}
+
+void LightGroup::SetCircleShadowFactorAngle(int index, const XMFLOAT2& lightFactorAngle)
+{
+	assert(0 <= index && index < CircleShadowNum);
+
+	circleShadows[index].SetFactorAngle(lightFactorAngle);
+	dirty = true;
+}
