@@ -55,8 +55,8 @@ private:
 	enum DamageValue
 	{
 		FIRSTATTACKDAMAGE = 2,
-		SECONDATTACKDAMAGE = 105,
-		THIRDAttackDamage = 100,
+		SECONDATTACKDAMAGE = 5,
+		THIRDAttackDamage = 7,
 		COMBOBONUS = 10,
 	};
 	bool AttackJudgeMent = false;

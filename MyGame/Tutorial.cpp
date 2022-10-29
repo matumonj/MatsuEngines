@@ -268,4 +268,5 @@ void Tutorial::Finalize()
 	AllObjectControl.clear();
 	Field::GetInstance()->Finalize();
 	Destroy(postEffect);
+	Destroy(dc);
 }

@@ -171,12 +171,17 @@ PSOutPut main(GSOutput input) : SV_TARGET
 	 //ïœçXå„
 	
 	if (flag) {
-		output.target0 = shadecolor * float4(texcolor.rgb * fc, texcolor.a) +addcol;
-		output.target1 = shadecolor * float4(texcolor.rgb * fc, texcolor.a)+addcol;
+		if (shadowf) {
+			output.target0 = shadecolor * float4(texcolor.rgb * fc, texcolor.a) + addcol;
+			output.target1 = shadecolor * float4(texcolor.rgb * fc, texcolor.a) + addcol;
+		}
 	} else {
 		output.target0 = shadecolor * float4(texcolor.rgb * brightness, texcolor.a)*color;
 		output.target1 = shadecolor * float4(texcolor.rgb * brightness, texcolor.a)*color;
 	}
-
+	if (!shadowf) {
+		output.target0 =  float4(texcolor.rgb * fc, texcolor.a) + addcol;
+		output.target1 =float4(texcolor.rgb * fc, texcolor.a) + addcol;
+	}
 	return output;
 }

@@ -100,8 +100,9 @@ void Stone_B::Update(DebugCamera* camera)
 
 
 	Color = { 1,1,1,alpha };
+
 	ParameterSet_Obj(camera);
-	m_Object->Setf(FALSE);
+	
 	//フィールド
 	CollideStone();
 

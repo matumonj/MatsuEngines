@@ -34,7 +34,7 @@ public: // サブクラス
 		XMMATRIX viewproj;    // ビュープロジェクション行列
 		XMMATRIX world; // ワールド行列
 		XMFLOAT3 cameraPos; // カメラ座標（ワールド座標）
-		float ks;
+		//bool shadowf;
 		bool gsflag;
 		XMFLOAT3 ks2;
 		bool f;
@@ -44,16 +44,13 @@ public: // サブクラス
 		bool destF;
 		XMFLOAT3 ks5;
 		float destTime;
+		bool shadowf;
 	};
 
 private: // 定数
 	XMFLOAT3 FogCenter;
-	static const int division = 50;					// 分割数
-	static const float radius;				// 底面の半径
-	static const float prizmHeight;			// 柱の高さ
-	static const int planeCount = division * 2 + division * 2;		// 面の数
-	static const int vertexCount = planeCount * 3;		// 頂点数
-
+	static const int division = 50;
+	bool shadowf = true;
 public: // 静的メンバ関数
 	/// <summary>
 	/// 静的初期化
@@ -267,7 +264,7 @@ public:
 	virtual void OnCollision(const CollisionInfo& info) {}
 	void SetParent(XMMATRIX matworld) { this->matWorld *= matworld; }
 	void SetColor(XMFLOAT4 color) { this->color = color; }
-
+	void SetShadowF(bool f) { shadowf = f; }
 	XMMATRIX ExtractPositionMat();
 	XMMATRIX ExtractRotationMat();
 	XMMATRIX ExtractScaleMat();

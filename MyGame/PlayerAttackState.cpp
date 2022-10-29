@@ -106,6 +106,7 @@ void PlayerAttackState::FirstAttack(std::vector<std::unique_ptr<Enemy>>& enemy)
 {
 	//2„–Ú‚ÌƒRƒ“ƒ{‘ÅÁ
 	ComboLast = false;
+	ComboFirst = false;
 	//
 	OldSkill = First;
 	

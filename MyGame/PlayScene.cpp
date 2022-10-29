@@ -54,9 +54,11 @@ void PlayScene::Initialize()
 	f_Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
 	//グラフィックパイプライン生成
 	f_Object3d::CreateGraphicsPipeline();
+	//ミニマップ用のカメラ　後で別のところに移す
+	dc = new DebugCamera(WinApp::window_width, WinApp::window_height);
 
 	//ポストエフェクト初期化
-	postEffect = new PostEffect();
+	postEffect = new MinimapSprite();
 	postEffect->Initialize();
 
 	//カメラ挙動をプレイカットシーン
@@ -69,7 +71,6 @@ void PlayScene::Initialize()
 /*-----------------------*/
 void PlayScene::objUpdate(DebugCamera* camera)
 {
-	Field::GetInstance()->Update((CameraControl::GetInstance()->GetCamera()));
 	if (PlayGame) {
 		AllObjectControl[1]->Update(CameraControl::GetInstance()->GetCamera());
 		AllObjectControl[0]->Update(CameraControl::GetInstance()->GetCamera());
@@ -78,6 +79,16 @@ void PlayScene::objUpdate(DebugCamera* camera)
 			AllObjectControl[i]->Update((CameraControl::GetInstance()->GetCamera()));
 		}
 	}
+	dc->Update();
+
+	dc->SetTarget({ PlayerControl::GetInstance()->GetPlayer()->GetPosition() });
+	dc->SetEye({ PlayerControl::GetInstance()->GetPlayer()->GetPosition().x,
+		 300.0f,
+		PlayerControl::GetInstance()->GetPlayer()->GetPosition().z - 1 });
+	Field::GetInstance()->SetCamera(dc);
+	
+	Field::GetInstance()->Update((CameraControl::GetInstance()->GetCamera()));
+
 	UI::GetInstance()->HUDUpdate(hudload, (CameraControl::GetInstance()->GetCamera()));
 }
 
@@ -174,11 +185,13 @@ void PlayScene::Draw()
 
 	case Default://普通のやつ特に何もかかっていない
 		postEffect->PreDrawScene();
-		postEffect->Draw();
+		Field::GetInstance()->MiniFieldDraw();
 		postEffect->PostDrawScene();
 
 		DirectXCommon::GetInstance()->BeginDraw();
 		MyGameDraw();
+		postEffect->Draw();
+
 		SistemConfig::GetInstance()->Draw();
 	
 		Feed::GetInstance()->Draw();

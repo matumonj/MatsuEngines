@@ -7,6 +7,7 @@
 #include"PlayerControl.h"
 #include"mHelper.h"
 #include"CustomButton.h"
+#include"SceneManager.h"
 SmallSword::~SmallSword()
 {
 	//delete  m_Model;
@@ -42,49 +43,20 @@ void SmallSword::Update(DebugCamera* camera)
 
 	Damage = Damage_Value;
 	CoolTime = CoolTime_Value;
-
-	TargetMarker::GetInstance()->Update_Tutorial(camera);
-
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
+		TargetMarker::GetInstance()->Update_Tutorial(camera);
+	}
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
+		TargetMarker::GetInstance()->Update_PlayScene(camera);
+	}
+	
 	m_Object->SetRotation(Rotation);
 	m_Object->Update(PlayerControl::GetInstance()->GetPlayer()->GetHanMat(), { 1.0f,1.0f,1.0f,1.0f }, camera);
 	MagicAttack();
 	Bliz->Updata(camera);
 	SlashArea->Updata(camera);
 
-	//if (CameraTargetEnemy) {
-	//	if (!ReturnMoveCameraTarget) {
-	//		if (EaseTime_CT <= 1.0f) {
-	//			EaseTime_CT += 0.02f;
-	//		}
-	//		CameraPos.x = Easing::EaseOut(EaseTime_CT, OldCameraTargetPos.x, OldTargetEnemyPos.x);
-	//		CameraPos.z = Easing::EaseOut(EaseTime_CT, OldCameraTargetPos.z, OldTargetEnemyPos.z);
-	//		CameraPos.y = OldCameraTargetPos.y;
-	//		if (Bliz->Getphase() == Bliz->DEST || SlashArea->Getphase() == SlashArea->DEST) {
-	//	PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(true);	
-	// 	ReturnMoveCameraTarget = true;
-	//		}
-	//		camera->SetTarget(CameraPos);
-	//	}
-	//	else {
-
-	//		if (EaseTime_CT >= 0.0f) {
-	//			EaseTime_CT -= 0.02f;
-	//		}
-	//		else {
-	//			CameraTargetEnemy = false;
-	//		}
-	//		CameraPos.x = Easing::EaseOut(EaseTime_CT, OldCameraTargetPos.x, OldTargetEnemyPos.x);
-	//		CameraPos.z = Easing::EaseOut(EaseTime_CT, OldCameraTargetPos.z, OldTargetEnemyPos.z);
-	//		CameraPos.y = OldCameraTargetPos.y;
-	//		camera->SetTarget(CameraPos);
-	//	}
-	//}
-	//else {
-	//	ReturnMoveCameraTarget = false;
-	//	OldTargetEnemyPos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition();
-	//	OldCameraTargetPos = camera->GetTarget();
-	//}
-	//
+	
 }
 
 void SmallSword::Draw()
@@ -136,12 +108,32 @@ void SmallSword::MagicAttack()
 			EaseTime.y += 0.02f;
 			EaseTime.z += 0.02f;
 		}
-		magicSpherePos.x = Easing::EaseOut(EaseTime.x, pPos.x, EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[index]->GetPosition().x);
-		magicSpherePos.y = Easing::EaseOut(EaseTime.y, pPos.y, EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[index]->GetPosition().y);
-		magicSpherePos.z = Easing::EaseOut(EaseTime.z, pPos.z, EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[index]->GetPosition().z);
-	}
-	float len = Collision::GetLength(magicSpherePos, EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition());
+		if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
+			magicSpherePos.x = Easing::EaseOut(EaseTime.x, pPos.x, EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[index]->GetPosition().x);
+			magicSpherePos.y = Easing::EaseOut(EaseTime.y, pPos.y, EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[index]->GetPosition().y);
+			magicSpherePos.z = Easing::EaseOut(EaseTime.z, pPos.z, EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[index]->GetPosition().z);
+		}
+		if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
+			magicSpherePos.x = Easing::EaseOut(EaseTime.x, pPos.x, EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[index]->GetPosition().x);
+			magicSpherePos.y = Easing::EaseOut(EaseTime.y, pPos.y, EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[index]->GetPosition().y);
+			magicSpherePos.z = Easing::EaseOut(EaseTime.z, pPos.z, EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[index]->GetPosition().z);
 
+		}
+	}
+	std::vector<float>len;
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
+		len.resize(EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL).size());
+		for (int i = 0; i < len.size(); i++) {
+			len[i] = Collision::GetLength(magicSpherePos, EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[i]->GetPosition());
+		}
+	}
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
+		len.resize(EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE).size());
+		for (int i = 0; i < len.size(); i++) {
+			len[i] = Collision::GetLength(magicSpherePos, EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetPosition());
+		}
+	}
+	
 	for (int i = 0; i < 1; i++) {
 		const float rnd_vel = 0.1f;
 		XMFLOAT3 vel{};
@@ -154,21 +146,23 @@ void SmallSword::MagicAttack()
 		acc.y = -(float)rand() / RAND_MAX * rnd_acc;
 
 		//’Ç‰Á
+		for (int i = 0; i < len.size(); i++) {
+			if (len[i] > 2.0f) {
+				pMan->Add(120, magicSpherePos, vel, acc, 1.0f, 0.0f);
+			}
+			else {
+				magicSpherePos = pPos;
+				if (attackMotion == BLIZZARD) {
+					Bliz->SetActFlag(TRUE);
+				}
+				if (attackMotion == FIRESPHERE) {
+					SlashArea->SetActFlag(TRUE);
+				}
+				attackMotion = NON;
 
-	if (len > 2.0f) {
-		pMan->Add(120, magicSpherePos, vel, acc, 1.0f, 0.0f);
-	}
-	else {
-		magicSpherePos = pPos;
-		if (attackMotion == BLIZZARD) {
-			Bliz->SetActFlag(TRUE);
+			}
 		}
-		if (attackMotion == FIRESPHERE) {
-			SlashArea->SetActFlag(TRUE);
-		}
-		attackMotion = NON;
 
-	}
 	if (attackMotion == BLIZZARD) {
 		pMan->SetColor({ 0.1,0.1,1.0f,0.6f });
 	}
@@ -225,7 +219,27 @@ void SmallSword::Blizzard::Updata(DebugCamera* camera)
 {
 	const float texSclupSpeed = 0.2f;
 	if (phase == NON) {
-		EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->SetMoveStop(false);
+		if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
+			EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->SetMoveStop(false);
+			if (ActFlag) {
+				IcePos.x = EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition().x;
+				IcePos.z = EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition().z - 5;
+
+				EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->RecvDamage(20);
+				phase = ACTIVE;
+			}
+		}
+		else if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
+			int index = TargetMarker::GetInstance()->GetNearIndex();
+			EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[index]->SetMoveStop(false);
+			if (ActFlag) {
+				IcePos.x = EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[index]->GetPosition().x;
+				IcePos.z = EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[index]->GetPosition().z - 5;
+
+				EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[index]->RecvDamage(20);
+				phase = ACTIVE;
+			}
+		}
 		EaseTime = 0.0f;
 		IceExistence = 0;
 		DestAlpha = 1.0f;
@@ -234,16 +248,20 @@ void SmallSword::Blizzard::Updata(DebugCamera* camera)
 		IceCrystalObj->SetDestFlag(FALSE);
 		IceScl = { 5.0f,5.0f,5.0f };
 		TexScl = { 0.0f,0.0f,1.0f };
-		if (ActFlag) {
-			IcePos.x = EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition().x;
-			IcePos.z = EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition().z-5;
-
-			EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->RecvDamage(20);
-			phase = ACTIVE;
-		}
+	
 	}
 	else if (phase == ACTIVE) {
-		EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->SetMoveStop(true);
+		if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
+			EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->SetMoveStop(true);
+			IcePos.y = Easing::EaseOut(EaseTime, EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition().y - 20.0f, EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition().y - 5.0f);
+		}
+		else if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
+			int index = TargetMarker::GetInstance()->GetNearIndex();
+
+			EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[index]->SetMoveStop(true);
+			IcePos.y = Easing::EaseOut(EaseTime, EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[index]->GetPosition().y - 20.0f,
+				EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[index]->GetPosition().y - 5.0f);
+		}
 		IceExistence++;
 		TexScl.x += texSclupSpeed;
 		TexScl.y += texSclupSpeed;
@@ -251,7 +269,6 @@ void SmallSword::Blizzard::Updata(DebugCamera* camera)
 		if (EaseTime < 1.0f) {
 			EaseTime += 1.0f / 25.0f;
 		}
-		IcePos.y=Easing::EaseOut(EaseTime, EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition().y - 20.0f, EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition().y-5.0f);
 		bool nextPhase = IceExistence > 90;
 		if (nextPhase) {
 
@@ -260,7 +277,14 @@ void SmallSword::Blizzard::Updata(DebugCamera* camera)
 		///IceScl.y = min(IceScl.y, 5.0f);
 	}
 	else if (phase == DEST) {
-		EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->SetMoveStop(true);
+		if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
+			EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->SetMoveStop(true);
+		}
+		else if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
+			int index = TargetMarker::GetInstance()->GetNearIndex();
+
+			EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[index]->SetMoveStop(true);
+		}
 		TexScl.x += texSclupSpeed;
 		TexScl.y += texSclupSpeed;
 		DestTime += 0.2f;
@@ -294,11 +318,8 @@ void SmallSword::Blizzard::Updata(DebugCamera* camera)
 
 void SmallSword::Slash::Updata(DebugCamera* camera)
 {
-	
+	int index = TargetMarker::GetInstance()->GetNearIndex();
 	if (phase == NON) {
-	
-
-		
 		if(ActFlag){
 			for (int i = 0; i < TexNum; i++) {
 				int randAlpha = rand() % 2;
@@ -308,15 +329,23 @@ void SmallSword::Slash::Updata(DebugCamera* camera)
 				slashCount[i] = 0;
 				next = false;
 			}
-
-			EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->RecvDamage(40);
+			if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
+				EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[index]->RecvDamage(40);
+			}
+			if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
+				EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[index]->RecvDamage(40);
+			}
 			phase = ACTIVE;
 		}
 	}
 	
 	else if (phase == ACTIVE) {
-		EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->SetMoveStop(true);
-
+		if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
+			EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->SetMoveStop(true);
+		}
+		else if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
+			EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[index]->SetMoveStop(true);
+		}
 		for (int i = 1; i < TexNum; i++) {
 			if (slashCount[0] <= 3||Alpha[0]>0.0f) {
 				continue;
@@ -326,8 +355,13 @@ void SmallSword::Slash::Updata(DebugCamera* camera)
 			}
 		}
 		bool nextPhase;
-		XMFLOAT3 ePos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition();
-
+		XMFLOAT3 ePos;
+		if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
+			ePos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition();
+		}
+		else if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
+			ePos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[index]->GetPosition();
+		}
 		for (int i = 0; i<TexNum; i++) {
 			Alpha[i] -= 0.01f;
 			TexScale[i].x -= 0.02f;
@@ -350,7 +384,12 @@ void SmallSword::Slash::Updata(DebugCamera* camera)
 		
 	} else if (phase == DEST) {
 		next = false;
-		EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->SetMoveStop(false);
+		if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
+			EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[index]->SetMoveStop(false);
+		}
+		else if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
+			EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[index]->SetMoveStop(false);
+		}
 		phase = NON;
 		ActFlag = false;
 	}

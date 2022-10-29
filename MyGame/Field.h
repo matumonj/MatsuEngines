@@ -39,7 +39,7 @@ private:
 	Sprite* BossName;
 	//Model
 	DirectX::XMFLOAT3 ssp;
-
+	int EnemyIconSize;
 private:
 	float t;
 	float TexAlpha_BossName;

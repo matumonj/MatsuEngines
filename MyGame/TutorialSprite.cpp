@@ -26,24 +26,26 @@ void TutorialSprite::Initialize()
 	Sprite::LoadTexture(174, L"Resources/2d/tutorialstep/step4.png");
 	Sprite::LoadTexture(175, L"Resources/2d/tutorialstep/step5.png");
 	Sprite::LoadTexture(176, L"Resources/2d/tutorialstep/step6.png");
+	Sprite::LoadTexture(177, L"Resources/2d/tutorialstep/step7.png");
 	Sprite::LoadTexture(170, L"Resources/Tuto");
 
-	Sprite::LoadTexture(177, L"Resources/2d/tutorialstep/task_movechara.png");
-	Sprite::LoadTexture(178, L"Resources/2d/tutorialstep/task_movecamera.png");
-	Sprite::LoadTexture(179, L"Resources/2d/tutorialstep/task_attackenemy.png");
-	Sprite::LoadTexture(180, L"Resources/2d/tutorialstep/task_config.png");
+	Sprite::LoadTexture(178, L"Resources/2d/tutorialstep/task_movechara.png");
+	Sprite::LoadTexture(179, L"Resources/2d/tutorialstep/task_movecamera.png");
+	Sprite::LoadTexture(180, L"Resources/2d/tutorialstep/task_attackenemy.png");
+	Sprite::LoadTexture(181, L"Resources/2d/tutorialstep/task_config.png");
 
 	Task[HELLO] = Sprite::Create(171, { 10,10 });
 	Task[WALK] = Sprite::Create(172, { 10,10 });
 	Task[SETTING] = Sprite::Create(173, { 10,10 });
 	Task[ATTACK] = Sprite::Create(174, { 10,10 });
-	Task[GETKEY] = Sprite::Create(175, { 10,10 });
-	Task[CLEAR] = Sprite::Create(176, { 10,10 });
+	Task[ATTACK2] = Sprite::Create(175, { 10,10 });
+	Task[GETKEY] = Sprite::Create(176, { 10,10 });
+	Task[CLEAR] = Sprite::Create(177, { 10,10 });
 
-	notClearTask[MOVE_CHARA]= Sprite::Create(177, { 10,10 });
-	notClearTask[MOVE_CAMERA] = Sprite::Create(178, { 10,10 });
-	notClearTask[ENEMYDESTROY] = Sprite::Create(179, { 10,10 });
-	notClearTask[CONFIG] = Sprite::Create(180, { 10,10 });
+	notClearTask[MOVE_CHARA]= Sprite::Create(178, { 10,10 });
+	notClearTask[MOVE_CAMERA] = Sprite::Create(179, { 10,10 });
+	notClearTask[ENEMYDESTROY] = Sprite::Create(180, { 10,10 });
+	notClearTask[CONFIG] = Sprite::Create(181, { 10,10 });
 
 	for (int i = 0; i < TaskNum; i++) {
 		Task[i]->SetAnchorPoint({ 0,0 });
@@ -89,6 +91,23 @@ void TutorialSprite::CheckMove_Camera_Player()
 		notTaskXpos[MOVE_CAMERA] -= 30;
 	}
 }
+
+void TutorialSprite::CheckAttack()
+{
+	notTaskXpos[MOVE_CHARA] -= 30;
+	notTaskXpos[MOVE_CAMERA] -= 30;
+
+	if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr) {
+		ClearTaskJudg[ATTACK] = EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetHP() <= 0;
+	}
+	if (ClearTaskJudg[ATTACK]) {
+		notTaskXpos[ENEMYDESTROY] -= 30;
+	}
+	else {
+		notTaskXpos[ENEMYDESTROY] += 30;
+	}
+}
+
 void TutorialSprite::Update()
 {
 
@@ -124,31 +143,28 @@ void TutorialSprite::Update()
 		
 		Ease_SpriteSize_Up(SpriteSizeX[WALK], t[WALK], WALK);
 		break;
+	case TutorialSprite::TATTACK:
+		//攻撃
+		CheckAttack();
+		if (MassageCheck[ATTACK]) {
+			NextTask(t[ATTACK], TSETTING, ClearTaskJudg[ATTACK]);
+		}
+		if (SpriteSizeX[ATTACK] < 10) {
+			Ease_SpriteSize_Up(SpriteSizeX[ATTACK2], t[ATTACK2], ATTACK2);
+		}
+		Ease_SpriteSize_Up(SpriteSizeX[ATTACK], t[ATTACK], ATTACK);
+		break;
 
 	case TutorialSprite::TSETTING:
-		
+		notTaskXpos[ENEMYDESTROY] -= 30;
 		//セッティング
 		ClearTaskJudg[SETTING] = SistemConfig::GetInstance()->GetEndConfig();
-		
+
 		if (MassageCheck[SETTING]) {
-			NextTask(t[SETTING], TGETKEY,ClearTaskJudg[SETTING]);
+			NextTask(t[SETTING], TGETKEY, ClearTaskJudg[SETTING]);
 		}
 
 		Ease_SpriteSize_Up(SpriteSizeX[SETTING], t[SETTING], SETTING);
-		break;
-
-	case TutorialSprite::TATTACK:
-		notTaskXpos[MOVE_CHARA] -= 30;
-		notTaskXpos[MOVE_CAMERA] -= 30;
-		//攻撃
-		if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr) {
-			ClearTaskJudg[ATTACK]= EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetHP() <= 0;
-		}
-		if (MassageCheck[ATTACK]) {
-			NextTask(t[ATTACK], TGETKEY, ClearTaskJudg[ATTACK]);
-		}
-
-		Ease_SpriteSize_Up(SpriteSizeX[ATTACK], t[ATTACK], ATTACK);
 		break;
 
 	case TutorialSprite::TGETKEY:

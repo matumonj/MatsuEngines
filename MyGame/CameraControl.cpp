@@ -119,6 +119,12 @@ void CameraControl::Load(DebugCamera* camera)
 	this->camera->SetEye(pos[0]);
 	UpdateRange = 200;
 	startCount = GetTickCount64();
+	
+
+	dis.x = sinf(angle * (PI / 180)) * 30.0f;
+	dis.y = cosf(angle * (PI / 180)) * 30.0f;
+	distance.x = dis.x;
+	distance.y = dis.y;
 }
 
 

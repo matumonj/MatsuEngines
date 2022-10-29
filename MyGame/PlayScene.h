@@ -17,7 +17,7 @@
 #include"Enemy.h"
 #include"TargetMarker.h"
 #include"ControlBase.h"
-
+#include"MinimapSprite.h"
 #pragma comment(lib,"winmm.lib")
 class CollisionManager;
 class Player;
@@ -39,7 +39,7 @@ private: // エイリアス
 private:
 	bool playFeed;
 	bool PlayGame;
-	PostEffect* postEffect = nullptr;
+	MinimapSprite* postEffect = nullptr;
 
 public:
 	void MyGameDraw();
@@ -79,7 +79,7 @@ private:
 	float circleShadowFactorAngle[2] = { 1.0f, 3.0f };
 	float circleShadowFactorAngle2[2] = { 1.0f, 6.0f };
 	float fighterPos[3] = { 1, 0.0f, 0 };
-
+	DebugCamera* dc;
 	LightGroup* lightGroup;
 	std::vector<ControlBase*>AllObjectControl;
 };

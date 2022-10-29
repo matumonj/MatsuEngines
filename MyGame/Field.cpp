@@ -22,6 +22,7 @@ void Field::Finalize()
 	for (int i = 0; i < objNum; i++) {
 		Destroy_unique(m_object[i]);
 	}
+	Enemyicon.clear();
 }
 Field* Field::GetInstance()
 {
@@ -68,17 +69,22 @@ void Field::Initialize(DebugCamera* camera)
 	}
 	Texture::LoadTexture(37, L"Resources/2d/icon/enemyicon.png");
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
-		const int size = EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL).size();
-		Enemyicon.resize(size);
+		EnemyIconSize = EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL).size();
+
+	}
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
+		EnemyIconSize = EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE).size();
+	}
+		Enemyicon.resize(EnemyIconSize);
 		std::vector<Texture*>l_tex;
-		l_tex.resize(size);
-		for (int i = 0; i < size; i++) {
+		l_tex.resize(EnemyIconSize);
+		for (int i = 0; i < EnemyIconSize; i++) {
 			l_tex[i] = Texture::Create(37, {0.0f ,0.0f ,0.0f}, {100.0f ,100.0f ,1.0f}, {1.0f ,1.0f ,1.0f ,1.0f});
 			Enemyicon[i].reset(l_tex[i]);
 			Enemyicon[i]->CreateTexture();
 			Enemyicon[i]->SetAnchorPoint({ 0.5f,0.5f });
 		}
-	}
+	
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::MAPCREATE) {
 		FieldObject = TouchableObject::Create(ModelManager::GetIns()->GetModel(ModelManager::FIELD), camera);
 	}
@@ -117,8 +123,7 @@ void Field::Update_Tutorial(DebugCamera* camera)
 	playerpoint->SetBillboard(true);
 	playerpoint->SetColor({ 1.0f,1.0f,1.0f,1 });
 
-	const int size = EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL).size();
-	for (int i = 0; i < size; i++) {
+	for (int i = 0; i < EnemyIconSize; i++) {
 		if (Enemyicon[i] == nullptr||Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[i]->GetPosition())>30) {
 			continue;
 		}
@@ -145,6 +150,28 @@ void Field::Update_Play(DebugCamera* camera)
 	FieldObject->SetColor({ 0.2f,0.2f,0.2f,1.0f });
 	FieldObject->Update({ 0.2f,0.2f,0.2f,1.0f }, camera);
 
+	playerpoint->SetPosition({ PlayerControl::GetInstance()->GetPlayer()->GetPosition().x,150.0f,PlayerControl::GetInstance()->GetPlayer()->GetPosition().z });
+	playerpoint->Update(dc);
+	playerpoint->SetScale({ 4.0f,4.0f,4.0f });
+	playerpoint->SetBillboard(true);
+	playerpoint->SetColor({ 1.0f,1.0f,1.0f,1 });
+
+	for (int i = 0; i < EnemyIconSize; i++) {
+		if (Enemyicon[i] == nullptr || Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[i]->GetPosition()) > 30) {
+			continue;
+		}
+		Enemyicon[i]->SetPosition({ EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[i]->GetPosition().x,
+			EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[i]->GetPosition().y + 10.0f,
+			EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[i]->GetPosition().z });
+		Enemyicon[i]->Update(dc);
+		Enemyicon[i]->SetScale({ 4.0f,4.0f,4.0f });
+		Enemyicon[i]->SetBillboard(true);
+		Enemyicon[i]->SetColor({ 1.0f,1.0f,1.0f,1 });
+
+		if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[i]->GetHP() <= 0) {
+			Destroy_unique(Enemyicon[i]);
+		}
+	}
 }
 
 void Field::Update_Edit(DebugCamera* camera)
@@ -193,7 +220,10 @@ void Field::Update(DebugCamera* camera)
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
 		Update_Boss(camera);
 	}
-	SetFieldUpdate(MINI, dc, { 0.0f,-25.0f,0.0f }, { 1.0f,0.0f,1.0f });
+	if (m_object[MINI] != nullptr) {
+		m_object[MINI]->SetShadowF(FALSE);
+	}
+	SetFieldUpdate(MINI, dc, { 0.0f,-25.0f,0.0f }, { 1.0f,1.0f,1.0f });
 	t = min(t, 2.5f);
 	t = max(t, 0.0f);
 	TexAlpha_BossName = min(TexAlpha_BossName, 3.0f);
@@ -207,9 +237,8 @@ void Field::MiniFieldDraw()
 
 	Texture::PreDraw();
 	playerpoint->Draw();
-	const int size = EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL).size();
 
-	for (int i = 0; i < size; i++) {
+	for (int i = 0; i < EnemyIconSize; i++) {
 		if (Enemyicon[i] == nullptr || Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[i]->GetPosition()) > 30) {
 
 			continue;

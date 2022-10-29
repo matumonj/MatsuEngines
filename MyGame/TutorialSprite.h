@@ -7,7 +7,7 @@ public:
 	~TutorialSprite();
 	static TutorialSprite* GetInstance();
 private:
-	static const int TaskNum = 6;
+	static const int TaskNum = 7;
 	Sprite* Task[TaskNum];
 	Sprite* notClearTask[4];
 	enum CLEARTASK{
@@ -23,6 +23,7 @@ private:
 		TMOVE,
 		TSETTING,
 		TATTACK,
+		TATTACK2,
 		TGETKEY,
 		TEND
 	};
@@ -30,6 +31,7 @@ private:
 		HELLO,
 		WALK,
 		ATTACK,
+		ATTACK2,
 		SETTING,
 		GETKEY,
 		CLEAR,
@@ -50,6 +52,7 @@ private:
 	Input* input;
 
 	void CheckMove_Camera_Player();
+	void CheckAttack();
 public:
 	void Initialize();
 

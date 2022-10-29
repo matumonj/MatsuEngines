@@ -16,8 +16,6 @@ using namespace Microsoft::WRL;
 /// <summary>
 /// 静的メンバ変数の実体
 /// </summary>
-const float Object3d::radius = 5.0f;				// 底面の半径
-const float Object3d::prizmHeight = 8.0f;			// 柱の高さ
 ComPtr<ID3D12Device> Object3d::device = nullptr;
 ComPtr<ID3D12GraphicsCommandList> Object3d::cmdList = nullptr;
 ComPtr<ID3D12RootSignature> Object3d::rootsignature;
@@ -601,7 +599,7 @@ void Object3d::Update(XMFLOAT4 color, DebugCamera* camera)
 	constMap->viewproj = camera->GetViewProjectionMatrix();
 	constMap->world = matWorld;
 	constMap->cameraPos = FogCenter;
-	constMap->ks = 0;
+//constMap->shadowf = shadowf;
 	constMap->gsflag= gsf;
 	constMap->ks2 = { 0,0,0 };
 	constMap->f = setef;
@@ -611,6 +609,7 @@ void Object3d::Update(XMFLOAT4 color, DebugCamera* camera)
 	constMap->destF = DestF;
 	constMap->ks5 = { 0,0,0 };
 	constMap->destTime = DestTime;
+	constMap->shadowf = shadowf;
 	// 定数バッファへデータ転送
 	//ConstBufferDataB0* constMap = nullptr;
 	//result = constBuffB0->Map(0, nullptr, (void**)&constMap);
@@ -650,7 +649,7 @@ void Object3d::Update(XMMATRIX matworld, XMFLOAT4 color, DebugCamera* camera)
 	constMap->viewproj = camera->GetViewProjectionMatrix();
 	constMap->world = matWorld;
 	constMap->cameraPos = FogCenter;
-	constMap->ks = 0;
+	//	constMap->shadowf = shadowf;
 	constMap->gsflag = gsf;
 	constMap->ks2 = { 0,0,0 };
 	constMap->f = setef;
@@ -660,6 +659,7 @@ void Object3d::Update(XMMATRIX matworld, XMFLOAT4 color, DebugCamera* camera)
 	constMap->destF = DestF;
 	constMap->ks5 = { 0,0,0 };
 	constMap->destTime = DestTime;
+	constMap->shadowf = shadowf;
 	// 定数バッファへデータ転送
 	//ConstBufferDataB0* constMap = nullptr;
 	//result = constBuffB0->Map(0, nullptr, (void**)&constMap);
