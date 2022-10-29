@@ -38,7 +38,7 @@ void Field::Initialize(DebugCamera* camera)
 
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
 		FieldObject = TouchableObject::Create(ModelManager::GetIns()->GetModel(ModelManager::BOSSFIELD), camera);
-
+		//FieldObject->CreateGraphicsPipeline(L"Resources/Shader/Object3dVS.hlsl", L"Resources/Shader/Object3dPS.hlsl", L"Resources/Shader/BasicGS.hlsl");
 		//ミニマップ(ボスフィールド)
 		SetFieldModel(MINI ,ModelManager::GetIns()->GetModel(ModelManager::BOSSFIELD), camera);
 		//ダメージエリア

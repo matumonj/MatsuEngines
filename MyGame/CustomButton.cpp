@@ -112,13 +112,13 @@ void CustomButton::Update()
 		/*設定画面入った瞬間は番号割当なし(設定画面はいるのにAボタン押すけどジャンプボタンも瞬間的にAボタンに
 		切り替わるのを防ぐため)*/
 		if (SelectNum == NONE) {
-			if (input->TriggerCrossKey(input->Cross_Down) || input->TriggerCrossKey(input->Cross_Up)) {
+			if (input->TiltStick(input->L_DOWN) || input->TiltStick(input->L_UP)) {
 				SelectNum = JUMP;
 			}
 		} else {
-			if (input->TriggerCrossKey(input->Cross_Down)) {
+			if (input->TiltStick(input->L_DOWN)) {
 				SelectNum++;
-			} else if (input->TriggerCrossKey(input->Cross_Up)) {
+			} else if (input->TiltStick(input->L_UP)) {
 				SelectNum--;
 			}
 			SelectSprite->SetPosition(SelectSpritePosition[SelectNum]);
@@ -178,16 +178,16 @@ void CustomButton::Custom_Button(bool customflag, int index)
 {
 	if (customflag) {
 		//設定部分
-		if (input->TriggerButton(input->Button_A)) {
+		if (input->TriggerButton(input->A)) {
 			actionButton[index].selectButton_Before = SBUTTON_A;
 		}
-		if (input->TriggerButton(input->Button_B)) {
+		if (input->TriggerButton(input->B)) {
 			actionButton[index].selectButton_Before = SBUTTON_B;
 		}
-		if (input->TriggerButton(input->Button_X)) {
+		if (input->TriggerButton(input->X)) {
 			actionButton[index].selectButton_Before = SBUTTON_X;
 		}
-		if (input->TriggerButton(input->Button_Y)) {
+		if (input->TriggerButton(input->Y)) {
 			actionButton[index].selectButton_Before = SBUTTON_Y;
 		}
 	}
@@ -199,28 +199,28 @@ void CustomButton::ConsiderationButton(int index)
 	switch (actionButton[index].selectButton_Before)
 	{
 	case SBUTTON_A:
-		if (input->TriggerButton(input->Button_A)) {
+		if (input->TriggerButton(input->A)) {
 			actionButton[index].judg = true;
 		} else {
 			actionButton[index].judg = false;
 		}
 		break;
 	case SBUTTON_B:
-		if (input->TriggerButton(input->Button_B)) {
+		if (input->TriggerButton(input->B)) {
 			actionButton[index].judg = true;
 		} else {
 			actionButton[index].judg = false;
 		}
 		break;
 	case SBUTTON_X:
-		if (input->TriggerButton(input->Button_X)) {
+		if (input->TriggerButton(input->X)) {
 			actionButton[index].judg = true;
 		} else {
 			actionButton[index].judg = false;
 		}
 		break;
 	case SBUTTON_Y:
-		if (input->TriggerButton(input->Button_Y)) {
+		if (input->TriggerButton(input->Y)) {
 			actionButton[index].judg = true;
 		} else {
 			actionButton[index].judg = false;

@@ -25,5 +25,14 @@ public:
 	void Initialize(DebugCamera* camera);
 	void Update(DebugCamera* camera);
 	void Draw();
+
+public:
+	XMFLOAT3 GetRotation() {return FieldRot; }
+	XMFLOAT3 GetPosition() {return FieldPos; }
+	XMFLOAT3 GetScale() {return FieldScl ; }
+
+	void SetRotation(XMFLOAT3 rot) { FieldRot = rot; }
+	void SetPosition(XMFLOAT3 pos) { FieldPos = pos; }
+	void SetScale(XMFLOAT3 scl) { FieldScl = scl; }
 };
 

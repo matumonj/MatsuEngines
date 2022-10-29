@@ -24,10 +24,13 @@ void ModelManager::Initialize() {
 	LoadModel(SPHERE, "sphere");
 	LoadModel(NAIL, "Nail");
 	LoadModel(BACKGROUND, "BackGround");
+	LoadModel(BIGSWORD, "axe");
 	LoadModel(DAMAGEAREA, "BossFieldDamageArea");
 	LoadModel(BOX, "Box");
 	LoadModel(BEAM, "BeamObj");
 	LoadModel(SMALLSWORD, "Wand");
+	LoadModel(ICECRYSTAL, "crystal");
+	LoadModel(CELESTIALSPHERE, "skydome");
 	LoadModel(NORMALSWORD, "sword");
 	LoadModel(BIGROCK_A, "BigStone_A");
 	LoadModel(BIGROCK_B, "crystal");

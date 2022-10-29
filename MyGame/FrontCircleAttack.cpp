@@ -30,7 +30,7 @@ void FrontCircleAttack::ActionJudg()
 	DamageAreaTex->SetRotation({ 90,0,-45 });
 	DamageAreaTex->SetScale({ 8,8,3 });
 	
-	if (Input::GetInstance()->TriggerButton(Input::Button_X)) {
+	if (Input::GetInstance()->TriggerButton(Input::X)) {
 		fase = FASEONE;
 	}
 	

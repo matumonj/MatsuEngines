@@ -20,13 +20,18 @@ void TutorialSprite::Finalize()
 void TutorialSprite::Initialize()
 {
 	input = Input::GetInstance();
-	Sprite::LoadTexture(171, L"Resources/tutorial1.png");
-	Sprite::LoadTexture(172, L"Resources/tutorial2.png");
-	Sprite::LoadTexture(173, L"Resources/tutorial3.png");
-	Sprite::LoadTexture(174, L"Resources/tutorial4.png");
-	Sprite::LoadTexture(175, L"Resources/tutorial5.png");
-	Sprite::LoadTexture(176, L"Resources/tutorial6.png");
+	Sprite::LoadTexture(171, L"Resources/2d/tutorialstep/step1.png");
+	Sprite::LoadTexture(172, L"Resources/2d/tutorialstep/step2.png");
+	Sprite::LoadTexture(173, L"Resources/2d/tutorialstep/step3.png");
+	Sprite::LoadTexture(174, L"Resources/2d/tutorialstep/step4.png");
+	Sprite::LoadTexture(175, L"Resources/2d/tutorialstep/step5.png");
+	Sprite::LoadTexture(176, L"Resources/2d/tutorialstep/step6.png");
 	Sprite::LoadTexture(170, L"Resources/Tuto");
+
+	Sprite::LoadTexture(177, L"Resources/2d/tutorialstep/task_movechara.png");
+	Sprite::LoadTexture(178, L"Resources/2d/tutorialstep/task_movecamera.png");
+	Sprite::LoadTexture(179, L"Resources/2d/tutorialstep/task_attackenemy.png");
+	Sprite::LoadTexture(180, L"Resources/2d/tutorialstep/task_config.png");
 
 	Task[HELLO] = Sprite::Create(171, { 10,10 });
 	Task[WALK] = Sprite::Create(172, { 10,10 });
@@ -34,11 +39,21 @@ void TutorialSprite::Initialize()
 	Task[ATTACK] = Sprite::Create(174, { 10,10 });
 	Task[GETKEY] = Sprite::Create(175, { 10,10 });
 	Task[CLEAR] = Sprite::Create(176, { 10,10 });
+
+	notClearTask[MOVE_CHARA]= Sprite::Create(177, { 10,10 });
+	notClearTask[MOVE_CAMERA] = Sprite::Create(178, { 10,10 });
+	notClearTask[ENEMYDESTROY] = Sprite::Create(179, { 10,10 });
+	notClearTask[CONFIG] = Sprite::Create(180, { 10,10 });
+
 	for (int i = 0; i < TaskNum; i++) {
 		Task[i]->SetAnchorPoint({ 0,0 });
 		SpriteSizeX[i] = 0;
 		MassageCheck[i]=false;
 		ClearTaskJudg[i] = false;
+	}
+	for (int i = 0; i < 4; i++) {
+		notTaskXpos[i] = -1000;
+		notClearTask[i]->SetPosition({ -300.0f,0.0f });
 	}
 	AllTaskClear=false;
 	task = THELLO;
@@ -46,18 +61,44 @@ void TutorialSprite::Initialize()
 	Movement = 0;
 }
 
-void TutorialSprite::Update()
+void TutorialSprite::CheckMove_Camera_Player()
 {
 	//移動とジャンプ
-	if (input->LeftTiltStick(input->Down) || input->LeftTiltStick(input->Up) || input->LeftTiltStick(input->Left) || input->LeftTiltStick(input->Right)) {
+	if (input->TiltPushStick(Input::L_UP, 0.0f) ||
+		input->TiltPushStick(Input::L_DOWN, 0.0f) ||
+		input->TiltPushStick(Input::L_RIGHT, 0.0f) ||
+		input->TiltPushStick(Input::L_LEFT, 0.0f)) {
+
+		//	if (input->LeftTiltStick(input->Down) || input->LeftTiltStick(input->Up) || input->LeftTiltStick(input->Left) || input->LeftTiltStick(input->Right)) {
 		Movement++;
 	}
+	if (input->TiltPushStick(Input::R_UP, 0.0f) ||
+		input->TiltPushStick(Input::R_DOWN, 0.0f) ||
+		input->TiltPushStick(Input::R_RIGHT, 0.0f) ||
+		input->TiltPushStick(Input::R_LEFT, 0.0f)) {
+		Movement_Camera++;
+	}
+	if (Movement < 180) {
+		notTaskXpos[MOVE_CHARA] += 30;
+	} else {
+		notTaskXpos[MOVE_CHARA] -= 30;
+	}
+	if (Movement_Camera < 180) {
+		notTaskXpos[MOVE_CAMERA] += 30;
+	} else {
+		notTaskXpos[MOVE_CAMERA] -= 30;
+	}
+}
+void TutorialSprite::Update()
+{
+
 	if (CustomButton::GetInstance()->GetJumpAction() == true) {
 		Jump = true;
 	}
-
+	
 	//歩きとジャンプ
-	ClearTaskJudg[WALK]= Movement > 30 && Jump == true;
+	ClearTaskJudg[WALK]= Movement > 180&& Movement_Camera > 180;
+	
 	//オールコンプリート
 	AllTaskClear = ClearTaskJudg[WALK] && ClearTaskJudg[SETTING] && ClearTaskJudg[ATTACK]&& ClearTaskJudg[GETKEY];
 	//チュートリアルの宝箱
@@ -76,14 +117,17 @@ void TutorialSprite::Update()
 		break;
 
 	case TutorialSprite::TMOVE:
+		CheckMove_Camera_Player();
 		if (MassageCheck[WALK]) {
 			NextTask(t[WALK], TSETTING, ClearTaskJudg[WALK]);
 		}
-
+		
 		Ease_SpriteSize_Up(SpriteSizeX[WALK], t[WALK], WALK);
 		break;
 
 	case TutorialSprite::TSETTING:
+		notTaskXpos[MOVE_CHARA] -= 30;
+		notTaskXpos[MOVE_CAMERA] -= 30;
 		//セッティング
 		ClearTaskJudg[SETTING] = SistemConfig::GetInstance()->GetEndConfig();
 		
@@ -124,7 +168,13 @@ void TutorialSprite::Update()
 		break;
 	}
 	for (int i = 0; i < TaskNum; i++) {
-		Task[i]->SetSize({ SpriteSizeX[i],1600 });
+		Task[i]->SetSize({ SpriteSizeX[i],1000 });
+	}
+	for (int i = 0; i < 4; i++) {
+		notTaskXpos[i] = min(notTaskXpos[i], 0);
+		notTaskXpos[i] = max(notTaskXpos[i], -1000);
+		notClearTask[i]->SetPosition({ notTaskXpos[i],0});
+		notClearTask[i]->SetSize({ 1300,800 });
 	}
 }
 
@@ -134,22 +184,25 @@ void TutorialSprite::Draw()
 	for (int i = 0; i < TaskNum; i++) {
 		Task[i]->Draw();
 	}
+	for (int i = 0; i < 4; i++) {
+		notClearTask[i]->Draw();
+	}
 	Sprite::PostDraw();
 }
 
 void TutorialSprite::Ease_SpriteSize_Up(float& x, float& t, int index)
 {
 
-	if (input->TriggerButton(input->Button_A)) {
+	if (input->TriggerButton(input->A)) {
 		MassageCheck[index] = true;
 	}
 	if (MassageCheck[index]) {
-		x = Easing::EaseOut(t, 0, 1800);
+		x = Easing::EaseOut(t, 0, 1900);
 		if (t >= 0.0f) {
 			t -= 0.05f;
 		}
 	} else {
-		x = Easing::EaseOut(t, 0, 1800);
+		x = Easing::EaseOut(t, 0, 1900);
 		if (t <= 1.0f) {
 			t += 0.05f;
 		}

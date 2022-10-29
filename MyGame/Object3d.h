@@ -158,7 +158,7 @@ private:// 静的メンバ関数
 	/// テクスチャ読み込み
 	/// </summary>
 	/// <returns>成否</returns>
-
+	//	void CreateGraphicsPipeline(const wchar_t* vsShaderName, const wchar_t* psShaderName, const wchar_t* gsame, );
 	/// <summary>
 	/// モデル作成
 	/// </summary>

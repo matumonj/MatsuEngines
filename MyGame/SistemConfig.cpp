@@ -43,17 +43,17 @@ void SistemConfig::Update()
 	m_number = min(m_number, 2);
 	m_number = max(m_number, 0);
 
-	if (input->TriggerButton(input->Start)) {
+	if (input->TriggerButton(input->START)) {
 		m_ConfigFlag = true;
 	}
 
 	if (m_ConfigFlag) {
 		count++;
-		if (input->TriggerCrossKey(input->Cross_Down)) {
+		if (input->TiltStick(input->L_DOWN)) {
 			sAlpha = 0.0f;
 			m_number++;
 		}
-		else if (input->TriggerCrossKey(input->Cross_Up)) {
+		else if (input->TiltStick(input->L_UP)) {
 			sAlpha = 0.0f;
 			m_number--;
 		}
@@ -62,27 +62,27 @@ void SistemConfig::Update()
 
 		if (CustomButton::GetInstance()->GetCustomButtonJudg() == false) {
 			if (NowSelectButton() == HUDRAYOUT) {
-				if (input->TriggerButton(input->Button_B)) {
+				if (input->TriggerButton(input->B)) {
 					HUDLayOut::GetInstance()->SetLayOutMode(true);
 				}
 			}
 		}
 		if (NowSelectButton() == CUSTOMBUTTON) {
 			//HUDLayOut::GetInstance()->SetLayOutMode(false);
-			if (input->TriggerButton(input->Button_B)) {
+			if (input->TriggerButton(input->B)) {
 				CustomButton::GetInstance()->SetCustomButtonJudg(true);
 			}
 		}
 		if (CustomButton::GetInstance()->GetCustomButtonJudg() == false) {
 			if (NowSelectButton() == SWORDSELECT) {
 				//HUDLayOut::GetInstance()->SetLayOutMode(false);
-				if (input->TriggerButton(input->Button_B)) {
+				if (input->TriggerButton(input->B)) {
 					SelectSword::GetInstance()->SetSelectJudg(true);
 				}
 			}
 		}
 
-		if (count>5&&input->TriggerButton(input->Start)) {
+		if (count>5&&input->TriggerButton(input->START)) {
 			SelectSword::GetInstance()->SetSelectJudg(false);
 			HUDLayOut::GetInstance()->SetLayOutMode(false);
 			CustomButton::GetInstance()->SetCustomButtonJudg(false);

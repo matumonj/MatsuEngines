@@ -8,6 +8,7 @@
 #include"PlaceStone.h"
 #include"PlaceCameraPoints.h"
 #include"imgui.h"
+#include"PlaceGrassField.h"
 MapCreate::MapCreate()
 {
 
@@ -30,6 +31,7 @@ void MapCreate::ObjectInitialize(DebugCamera* camera)
 		placeobj.push_back(new PlaceChest());
 		placeobj.push_back(new PlaceStone());
 		placeobj.push_back(new PlaceCameraPoints());
+		placeobj.push_back(new PlaceGrassField());
 	}
 	for (int i = 0; i < placeobj.size(); i++) {
 		placeobj[i]->Initialize(camera);//モデル用意、初期化
@@ -67,6 +69,10 @@ void MapCreate::ImGuiDraw()
 	ImGui::Begin("SaveButton");
 	if (ImGui::Button("Save", ImVec2(90, 50))) {
 		savef = true;//オブジェクトのパラメータ保存フラグ
+	}
+	ImGui::Begin("LoadOldParamButton");
+	if (ImGui::Button("Load", ImVec2(90, 50))) {
+		//savef = true;//オブジェクトのパラメータ保存フラグ
 	}
 	ImGui::End();
 }

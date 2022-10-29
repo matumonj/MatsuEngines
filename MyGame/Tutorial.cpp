@@ -18,6 +18,7 @@
 #include"PlayScene.h"
 #include"DamageManager.h"
 #include"StoneControl.h"
+#include"GrassFieldControl.h"
 //シーンのコンストラクタ
 Tutorial::Tutorial(SceneManager* sceneManager)
 	:BaseScene(sceneManager)
@@ -56,6 +57,7 @@ void Tutorial::Initialize()
 		AllObjectControl.push_back(ChestControl::GetInstance());//Chest
 		AllObjectControl.push_back(WoodControl::GetInstance());//Wood
 		AllObjectControl.push_back(StoneControl::GetInstance());//Wood
+		AllObjectControl.push_back(GrassFieldControl::GetInstance());//Wood
 
 	for (int i = 0; i < AllObjectControl.size(); i++) {//初期化
 		AllObjectControl[i]->Initialize(CameraControl::GetInstance()->GetCamera());
@@ -161,9 +163,9 @@ void Tutorial::Update()
 	lightGroup->SetCircleShadowFactorAngle(1, XMFLOAT2(circleShadowFactorAngle));
 
 if (scenechange&& Feed::GetInstance()->GetAlpha() >= 1.0f) {//画面真っ白なったら
-		BaseScene* scene = new BossScene(sceneManager_);//次のシーンのインスタンス生成
+		BaseScene* scene = new PlayScene(sceneManager_);//次のシーンのインスタンス生成
 		Play = false;
-		SceneManager::GetInstance()->SetScene(SceneManager::BOSS);
+		SceneManager::GetInstance()->SetScene(SceneManager::PLAY);
 		sceneManager_->SetnextScene(scene);//シーンのセット
 	}
 	DamageManager::GetIns()->Upda();

@@ -54,6 +54,9 @@ private:
 
     TargetState Tstate;
     XMFLOAT3 CameraPosition;
+    XMFLOAT2 dis;
+    XMFLOAT2 distance;
+    float angle = 180.0f;
     float cameraAngle=-90.0f;
     float charaAngle;
     float CameraDis = 15.0f;

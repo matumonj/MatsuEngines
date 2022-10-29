@@ -1,18 +1,14 @@
 #include "MapCreateScene.h"
 #include"Input.h"
+#include"GrassObj.h"
 #include"DirectXCommon.h"
 #include"SceneManager.h"
 #include"MobEnemy.h"
 #include"BossEnemy.h"
-#include"MeshCollider.h"
-#include"TouchableObject.h"
-#include"CollisionManager.h"
-#include"SphereCollider.h"
 #include"MapCreate.h"
 #include"PlayScene.h"
 #include"TitleScene.h"
 #include"Field.h"
-#include"PlayerAttackState.h"
 #include"CameraControl.h"
 #include<fstream>
 #include<string>
@@ -39,6 +35,7 @@ void MapCreateScene::ModelCreate(DebugCamera* camera)
 	lightGroup = LightGroup::Create();
 	// 3Dオブエクトにライトをセット
 	Object3d::SetLightGroup(lightGroup);
+	GrassObj::SetLightGroup(lightGroup);
 	//パラメータの設定
 	//lightGroup->LightSetting();
 
@@ -71,7 +68,6 @@ void MapCreateScene::Initialize()
 	//グラフィックパイプライン生成
 	f_Object3d::CreateGraphicsPipeline();
 
-	collisionManager = CollisionManager::GetInstance();
 	//
 	c_postEffect = Default;
 

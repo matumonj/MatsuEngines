@@ -37,7 +37,7 @@ void MobEnemy::Initialize(DebugCamera* camera)
 
 	m_Object = std::make_unique<Object3d>();
 	m_Object->Initialize(camera);
-	
+	//m_Object->CreateGraphicsPipeline(L"Resources/Shader/Object3dVS.hlsl", L"Resources/Shader/Object3dPS.hlsl", L"Resources/Shader/BasicGS.hlsl");
 	EnemyHP = 200.0f;
 	MaxHP = 200.0f;
 	//パラメータのセット
@@ -100,7 +100,9 @@ void MobEnemy::Update(DebugCamera* camera)
 
 	CollisionField(camera);
 	
+	
 	m_fbxObject->SetHandBoneIndex(19);
+	Sword->Setf(FALSE);
 	Sword->SetRotation({-23,43,83});
 	Sword->Update(m_fbxObject->GetRot(), { 1.0f,1.0f,1.0f,1.0f }, camera);
 

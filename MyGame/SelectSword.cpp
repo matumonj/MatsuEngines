@@ -108,9 +108,9 @@ void SelectSword::Update()
 {
 
 	if (SelectJudg) {
-		if (input->TriggerCrossKey(input->Cross_Right)) {
+		if (input->TiltStick(input->L_RIGHT)) {
 			index++;
-		} else if (input->TriggerCrossKey(input->Cross_Left)) {
+		} else if (input->TiltStick(input->L_LEFT)) {
 			index--;
 		}
 
@@ -121,7 +121,7 @@ void SelectSword::Update()
 		} else if (index == SwordScale::BIG) {
 			NowSelectSword = BIG;
 		}
-		if (input->TriggerButton(input->Button_A)) {
+		if (input->TriggerButton(input->A)) {
 			SetSword(NowSelectSword);
 		}
 		Frame->SetPosition(Position[index]);

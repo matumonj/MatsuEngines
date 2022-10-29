@@ -16,7 +16,7 @@ PSOutPut main(GSOutput input) : SV_TARGET
 	float brightness = diffuse + 1.0f;
 	//フォグ部分
 	float4 nc = { 0.1,0.1,0.1,1 };//cameraPos付近の色
-	float4 c = { 0.4,0.4,0.4,1 };//
+	float4 c = { 0.3,0.3,0.4,1 };//
 	//cameraPosとあるが今は固定座標
 	float dist = length(cameraPos - input.worldpos);
 	float4 addcol = float4(lerp(nc.rgb, c.rgb, dist / 100),0.0);

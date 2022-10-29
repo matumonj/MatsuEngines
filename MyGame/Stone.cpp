@@ -33,6 +33,7 @@ void Stone_A::Initialize(DebugCamera* camera)
 
 	//フィールドにモデル割り当て
 	m_Object->Initialize(camera);
+
 	m_Object->SetModel(ModelManager::GetIns()->GetModel(ModelManager::BIGROCK_A));
 	Scale = { 3,3,3};
 	radius_adjustment = -5;
@@ -66,7 +67,7 @@ bool Stone_A::CollideStone()
 
 	//OBB 回転ベクトル
 	StoneOBB.SetOBBParam_Pos(m_Object->GetPosition());
-	StoneOBB.SetOBBParam_Scl({ 2,20,3 });
+	StoneOBB.SetOBBParam_Scl({Scale.x+2,Scale.y,Scale.z+20});
 	StoneOBB.SetOBBParam_Rot(m_Object->GetMatrot());
 
 	if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), Position) < 20) {

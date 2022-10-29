@@ -220,6 +220,7 @@
     <ClCompile Include="f_Object3d.cpp" />
     <ClCompile Include="GigaBossEnemy.cpp" />
     <ClCompile Include="GrassField.cpp" />
+    <ClCompile Include="GrassFieldControl.cpp" />
     <ClCompile Include="GrassObj.cpp" />
     <ClCompile Include="GuardianBlue.cpp" />
     <ClCompile Include="GuardianEnemy.cpp" />
@@ -253,6 +254,7 @@
     <ClCompile Include="PlaceChest.cpp" />
     <ClCompile Include="PlaceEnemy.cpp" />
     <ClCompile Include="PlaceFence.cpp" />
+    <ClCompile Include="PlaceGrassField.cpp" />
     <ClCompile Include="PlaceStone.cpp" />
     <ClCompile Include="PlaceWood.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -350,6 +352,7 @@
     <ClInclude Include="f_Object3d.h" />
     <ClInclude Include="GigaBossEnemy.h" />
     <ClInclude Include="GrassField.h" />
+    <ClInclude Include="GrassFieldControl.h" />
     <ClInclude Include="GrassObj.h" />
     <ClInclude Include="GuardianEnemy.h" />
     <ClInclude Include="HalfAttack.h" />
@@ -379,6 +382,7 @@
     <ClInclude Include="PlaceChest.h" />
     <ClInclude Include="PlaceEnemy.h" />
     <ClInclude Include="PlaceFence.h" />
+    <ClInclude Include="PlaceGrassField.h" />
     <ClInclude Include="PlaceStone.h" />
     <ClInclude Include="PlaceWood.h" />
     <ClInclude Include="Player.h" />

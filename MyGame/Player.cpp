@@ -41,6 +41,7 @@ void Player::Initialize(DebugCamera* camera)
 	StopFlag = false;
 	m_Object = std::make_unique<Object3d>();
 	m_Object->Initialize(camera);
+//	m_Object->CreateGraphicsPipeline(L"Resources/Shader/Object3dVS.hlsl", L"Resources/Shader/Object3dPS.hlsl", L"Resources/Shader/BasicGS.hlsl");
 	//m_fbxModel = FbxLoader::GetInstance()->LoadModelFromFile("monster_golem_demo");
 
 	m_fbxObject = std::make_unique<f_Object3d>();
@@ -57,7 +58,7 @@ void Player::Initialize(DebugCamera* camera)
 	SelectSword::GetInstance()->Initialize();
 	
 	HP = MaxHP;
-
+	vel /= 5.0f;
 	rotate = RotationPrm::FRONT;
 
 }
@@ -91,30 +92,60 @@ void Player::Move()
 {
 	RotationStatus();
 
-	//移動ベクトルをy軸周りの角度で回転
-	XMVECTOR move = { 0.0f,0.0f,0.1f,0.0f };
-	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(Rotation.y+63.0f));
-	move = XMVector3TransformNormal(move, matRot);
+	XMFLOAT3 pos =Position;
+	XMFLOAT3 rot = Rotation;
 
-	if (!StopFlag&&!evasionF) {
-		if (input->Pushkey(DIK_W) || input->Pushkey(DIK_A) || input->Pushkey(DIK_D) || input->Pushkey(DIK_S)
-			|| (input->LeftTiltStick(input->Left) || input->LeftTiltStick(input->Right) || input->LeftTiltStick(input->Up) || input->LeftTiltStick(input->Down))) {
-			Position.x += move.m128_f32[0] * movespeed;
-			Position.z += move.m128_f32[2] * movespeed;
-			if (f_time < AttackTime) {
-				attackMotion = RUN;
-			}
+	float StickX = input->GetLeftControllerX();
+	float StickY = input->GetLeftControllerY();
+	const float pi = 3.14159f;
+	const float STICK_MAX = 32768.0f;
+
+	
+	if (input->TiltPushStick(Input::L_UP, 0.0f) ||
+		input->TiltPushStick(Input::L_DOWN, 0.0f) ||
+		input->TiltPushStick(Input::L_RIGHT, 0.0f) ||
+		input->TiltPushStick(Input::L_LEFT, 0.0f)) {
+		if (input->TiltPushStick(Input::L_UP, 0.0f)) {
+			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{ 0,0,vel,0 }, angle);
 		}
-		else {
-			if (f_time <AttackTime) {
-				attackMotion = NON;
-			}
+		if (input->TiltPushStick(Input::L_DOWN, 0.0f)) {
+			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{ 0,0,-vel,0 }, angle);
 		}
+		if (input->TiltPushStick(Input::L_RIGHT, 0.0f)) {
+			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{ vel,0,0,0 }, angle);
+		}
+		if (input->TiltPushStick(Input::L_LEFT, 0.0f)) {
+			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{ -vel,0,0,0 }, angle);
+		}
+		const float rnd_vel = 0.1f;
+		XMFLOAT3 vel{};
+		vel.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+		vel.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+		vel.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+		rot.y = angle + atan2f(StickX, StickY) * (180.0f / pi);
+		Rotation = { rot.x,rot.y-63.0f,rot.z };
+		XMVECTOR move = { 0.0f,0.0f,0.1f,0.0f };
+		XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(Rotation.y+63.0f));
+		move = XMVector3TransformNormal(move, matRot);
+
+		Position.x += move.m128_f32[0] * movespeed;
+		Position.z += move.m128_f32[2] * movespeed;
+
+		
+		if (f_time < AttackTime) {
+			attackMotion = RUN;
+		}
+	}
+	else {
+		if (f_time < AttackTime) {
+			attackMotion = NON;
+		}
+	}
 		// ジャンプ操作
 		Jump();
-	}
-	Gmove = move;
-	if (input->TriggerButton(input->Button_RB)) {
+	
+	//Gmove = move;
+	if (input->TriggerButton(input->RB)) {
 		evasionF = true;
 	}
 	Evasion();
@@ -176,58 +207,7 @@ void Player::Update(DebugCamera* camera)
 
 void Player::RotationStatus()
 {
-	if (StopFlag||evasionF)return;
-	//左方向への移動
-	if (rotate != RotationPrm::LEFT && input->LeftTiltStick(input->Left)) {//今向いている方向が左じゃなくAキーが押され、
-		if (rotate == RotationPrm::FRONT) {//右以外を向いていたら
-			Rotation.y = Rotation.y - 90;
-		} else if (rotate == RotationPrm::BACK) {//右を向いていたら
-			Rotation.y = Rotation.y + 90;
-		} else if (rotate == RotationPrm::RIGHT) {
-			Rotation.y = Rotation.y - 180;
-		}
-		//向きの情報を左に
-		rotate = RotationPrm::LEFT;
-	}
-
-	//右方向への移動
-	else if (rotate != RotationPrm::RIGHT && input->LeftTiltStick(input->Right)) {//今向いている方向が右じゃなくＤキーが押され、
-		if (rotate == RotationPrm::FRONT) {//右以外を向いていたら
-			Rotation.y = Rotation.y + 90;
-		} else if (rotate == RotationPrm::BACK) {//右を向いていたら
-			Rotation.y = Rotation.y - 90;
-		} else if (rotate == RotationPrm::LEFT) {
-			Rotation.y = Rotation.y + 180;
-		}
-		//向きの情報を右に
-		rotate = RotationPrm::RIGHT;
-	}
-
-	//前方向への移動
-	if (rotate != RotationPrm::FRONT && input->LeftTiltStick(input->Up)) {//今向いている方向が右じゃなくＤキーが押され、
-		if (rotate == RotationPrm::RIGHT) {//もし右を向いてたら
-			Rotation.y = Rotation.y - 90;
-		} else if (rotate == RotationPrm::LEFT) {//もし左を向いてたら
-			Rotation.y = Rotation.y + 90;
-		} else if (rotate == RotationPrm::BACK) {
-			Rotation.y -= 180;
-		}
-		//向きの情報を前に
-		rotate = RotationPrm::FRONT;
-	}
-
-	//後ろ方向へ移動
-	if (rotate != RotationPrm::BACK && input->LeftTiltStick(input->Down)) {//今向いている方向が右じゃなくＤキーが押され、
-		if (rotate == RotationPrm::RIGHT) {//もし右を向いてたら
-			Rotation.y = Rotation.y + 90;
-		} else if (rotate == RotationPrm::LEFT) {//もし左を向いてたら
-			Rotation.y = Rotation.y - 90;
-		} else if (rotate == RotationPrm::FRONT) {
-			Rotation.y += 180;
-		}
-		//向きの情報を前に
-		rotate = RotationPrm::BACK;
-	}
+	
 }
 
 #include"imgui.h"
@@ -240,7 +220,7 @@ void Player::Draw()
 	ImGui::Begin("we");
 	ImGui::SliderFloat("rx", &Rotation.x,-360,360);
 	ImGui::SliderFloat("ry", &Rotation.y, -360, 360);
-	ImGui::SliderFloat("rz", &Rotation.z, -360, 360);
+	ImGui::SliderFloat("rz", &angle, -360, 360);
 
 	ImGui::SliderInt("HandBone", &hindex, 0, 30);
 	ImGui::SliderFloat("at", &sectime, 0, 20);
@@ -312,6 +292,13 @@ void Player::RecvDamage(int Damage)
 	if (HP >= 0) {
 		HP = HP - Damage;
 	}
+}
+
+XMFLOAT3 Player::MoveVECTOR(XMVECTOR v, float angle) {
+	rot2 = XMMatrixRotationY(XMConvertToRadians(angle));
+	v = XMVector3TransformNormal(v, rot2);
+	XMFLOAT3 pos = { v.m128_f32[0],v.m128_f32[1] ,v.m128_f32[2] };
+	return pos;
 }
 
 void Player::RecvDamage_Cool()

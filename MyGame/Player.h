@@ -102,6 +102,7 @@ private:
 	float movespeed = 9.0f;
 	XMVECTOR Gmove;
 public:
+	void Setangle(float angle) { this->angle = angle; }
 	void RotationStatus();
 	
 	void SetCharaRotation(float angle) { Rotation.y = angle; rotate = RotationPrm::FRONT; }

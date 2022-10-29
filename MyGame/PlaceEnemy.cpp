@@ -65,6 +65,7 @@ void PlaceEnemy::ArgMent(DebugCamera* camera)
 	}
 	for (std::unique_ptr<Enemy>& enemy : enemys) {
 		if (enemy != nullptr) {
+			enemy->SetMoveStop(true);
 			enemy->Update( camera);
 		}
 	}

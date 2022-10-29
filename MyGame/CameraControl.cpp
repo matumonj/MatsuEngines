@@ -159,18 +159,8 @@ void CameraControl::Update_Boss(DebugCamera* camera)
 /*------------------------*/
 void CameraControl::AngleRotation()
 {
-	if (input->Pushkey(DIK_RIGHT)) {
-		charaAngle += 0.5f;
-		cameraAngle -= 0.5f;
-		PlayerControl::GetInstance()->GetPlayer()->SetCharaRotation(charaAngle);
-	} else if (input->Pushkey(DIK_LEFT) || input->RightTiltStick(input->Left)) {
-		cameraAngle += 0.5f;
-		charaAngle -= 0.5f;
-		PlayerControl::GetInstance()->GetPlayer()->SetCharaRotation(charaAngle);
-	}
-	if (cameraAngle >= 360 + 90 || cameraAngle <= -360) {
-		cameraAngle = 0;
-	}
+
+
 }
 
 /*------------------------*/
@@ -191,13 +181,31 @@ void CameraControl::TargetPlayer()
 					AttackSceneF = false;
 				}
 			}
-			CameraPosition.x = PlayerControl::GetInstance()->GetPlayer()->GetPosition().x + cosf((float)(cameraAngle) * 3.14f / 180.0f) * 25;
-			CameraPosition.z = PlayerControl::GetInstance()->GetPlayer()->GetPosition().z + sinf((float)(cameraAngle) * 3.14f / 180.0f) * 25;
-			CameraPosition.y = PlayerControl::GetInstance()->GetPlayer()->GetPosition().y + CameraHeight;
+			
 			this->camera->SetTarget({ PlayerControl::GetInstance()->GetPlayer()->GetPosition() });
+			if (input->TiltPushStick(Input::R_RIGHT) || input->TiltPushStick(Input::R_LEFT)) {
+				if (input->TiltPushStick(Input::R_RIGHT)) {
+					angle += 1;
+					charaAngle += 1.0f;
+					PlayerControl::GetInstance()->GetPlayer()->Setangle(charaAngle);
+				
+			}
+				if (input->TiltPushStick(Input::R_LEFT)) {
+					angle -= 1;
+					charaAngle -= 1.0f;
+					PlayerControl::GetInstance()->GetPlayer()->Setangle(charaAngle);
+				}
+				dis.x = sinf(angle * (PI / 180)) * 30.0f;
+				dis.y = cosf(angle * (PI / 180)) * 30.0f;
+				distance.x = dis.x;
+				distance.y = dis.y;
 
-			this->camera->SetEye(CameraPosition);
-			if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
+			}
+			XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+			//	camera->SetTarget(player_shadow->GetCameraPos(angle));
+			camera->SetEye(XMFLOAT3{ ppos.x + distance.x,ppos.y + 10.0f,ppos.z + distance.y });
+
+				if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
 				if (ChestControl::GetInstance()->ChestCount() >= 5) {
 					Tstate = MOVEBOSSAREA;
 				}
@@ -305,6 +313,9 @@ XMFLOAT3 CameraControl::SplinePosition(const std::vector<XMFLOAT3>& points, size
 
 void CameraControl::Draw()
 {
+	ImGui::Begin("charaangle");
+	ImGui::SliderFloat("x", &angle, 0, 360);
+	ImGui::End();
 }
 
 /*------------------------*/

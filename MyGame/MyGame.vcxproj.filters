@@ -8,10 +8,6 @@
     <Filter Include="Editor">
       <UniqueIdentifier>{fc7a5df8-2857-43db-89dd-fb1a86e32698}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
     <Filter Include="Editor\配置管理">
       <UniqueIdentifier>{827fe566-6788-49a5-a4b4-41e4680b1b18}</UniqueIdentifier>
     </Filter>
@@ -204,6 +200,10 @@
     </Filter>
     <Filter Include="Game\gameobject\オブジェクト種類\Enemy\派生クラス\宝箱用のガーディアン\NewFilter1">
       <UniqueIdentifier>{ce8001df-cc52-4bd4-b479-06f126ac2aaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -535,7 +535,7 @@
       <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン\後半フェーズ\行動遷移</Filter>
     </ClCompile>
     <ClCompile Include="MinimapSprite.cpp">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Game\ヘッダー ファイル</Filter>
     </ClCompile>
     <ClCompile Include="EncountGuardianSprite.cpp">
       <Filter>Game\UI\HUD</Filter>
@@ -556,18 +556,24 @@
       <Filter>Game\gameobject\オブジェクト種類\Enemy\派生クラス\宝箱用のガーディアン\NewFilter1</Filter>
     </ClCompile>
     <ClCompile Include="Stone.cpp">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Game\ヘッダー ファイル</Filter>
     </ClCompile>
     <ClCompile Include="PlaceStone.cpp">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Game\ヘッダー ファイル</Filter>
     </ClCompile>
     <ClCompile Include="StoneControl.cpp">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Game\ヘッダー ファイル</Filter>
     </ClCompile>
     <ClCompile Include="GrassObj.cpp">
       <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="GrassField.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="GrassFieldControl.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="PlaceGrassField.cpp">
       <Filter>Game</Filter>
     </ClCompile>
   </ItemGroup>
@@ -702,7 +708,7 @@
       <Filter>Game\collision</Filter>
     </ClInclude>
     <ClInclude Include="mHelper.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Game\ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="EnemyAlpha.h">
       <Filter>Game\gameobject\オブジェクト種類\Enemy\派生クラス\alpha</Filter>
@@ -795,7 +801,7 @@
       <Filter>Editor\配置管理\カメラ移動</Filter>
     </ClInclude>
     <ClInclude Include="Feed.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Game\ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="SwordBase.h">
       <Filter>Game\gameobject\オブジェクト種類\Sword\基底</Filter>
@@ -900,10 +906,10 @@
       <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン\後半フェーズ\行動内容</Filter>
     </ClInclude>
     <ClInclude Include="DamageManager.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Game\ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="ImageManager.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Game\ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="EnemyRespawnState.h">
       <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\雑魚</Filter>
@@ -918,10 +924,10 @@
       <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン\後半フェーズ\行動遷移</Filter>
     </ClInclude>
     <ClInclude Include="MinimapSprite.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Game\ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="FieldControl.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Game\ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="EncountGuardianSprite.h">
       <Filter>Game\UI\HUD</Filter>
@@ -939,19 +945,25 @@
       <Filter>Game\gameobject\light</Filter>
     </ClInclude>
     <ClInclude Include="StoneControl.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Game\ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Stone.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Game\ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="PlaceStone.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Game\ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="GrassObj.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Game\ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="GrassField.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Game\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="GrassFieldControl.h">
+      <Filter>Game\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="PlaceGrassField.h">
+      <Filter>Game\ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

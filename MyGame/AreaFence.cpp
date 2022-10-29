@@ -10,7 +10,7 @@ AreaFence::~AreaFence()
 void AreaFence::Initialize(DebugCamera* camera)
 {
 	m_Object = std::make_unique<Object3d>();
-
+	//m_Object->CreateGraphicsPipeline(L"Resources/Shader/Object3dVS.hlsl", L"Resources/Shader/Object3dPS.hlsl", L"Resources/Shader/BasicGS.hlsl");
 	//m_Model = ModelManager::GetIns()->GetModel(ModelManager::FENCE);
 
 	//フィールドにモデル割り当て

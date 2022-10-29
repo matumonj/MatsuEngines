@@ -30,6 +30,10 @@ PlayScene::PlayScene(SceneManager* sceneManager)
 /*-----------------------*/
 void PlayScene::Initialize()
 {
+	// ライト生成
+	lightGroup = LightGroup::Create();
+	Object3d::SetLightGroup(lightGroup);
+
 	if (AllObjectControl.size() == 0) {
 		//カメラ一番上に　他のControlがカメラを引数にしてるから
 		AllObjectControl.push_back(CameraControl::GetInstance());
@@ -82,6 +86,8 @@ void PlayScene::objUpdate(DebugCamera* camera)
 /*-----------------------*/
 void PlayScene::Update()
 {
+	lightGroup->Update();
+
 	SistemConfig::GetInstance()->Update();
 
 	if (!Load && !PlayGame) {
@@ -100,6 +106,29 @@ void PlayScene::Update()
 	} else {
 		c_postEffect = Default;
 	}
+
+
+	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+
+	lightGroup->SetCircleShadowDir(3, XMVECTOR({ circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0 }));
+	//for (int i = 0; i < 3; i++) {
+	lightGroup->SetCircleShadowCasterPos(3, { ppos});
+	//}
+	//lightGroup->SetCircleShadowCasterPos(1, XMFLOAT3(PlayerControl::GetInstance()->GetPlayer()->GetPosition()));
+	lightGroup->SetCircleShadowAtten(3, XMFLOAT3(circleShadowAtten));
+	lightGroup->SetCircleShadowFactorAngle(3, XMFLOAT2(circleShadowFactorAngle2));
+
+	for (int i = 0; i < EnemyControl::GetInstance()->GetQuentity(); i++) {
+		lightGroup->SetCircleShadowDir(i+4, XMVECTOR({ circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0 }));
+		//for (int i = 0; i < 3; i++) {
+		lightGroup->SetCircleShadowCasterPos(i+4, {EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetPosition()});
+		//}
+		//lightGroup->SetCircleShadowCasterPos(1, XMFLOAT3(PlayerControl::GetInstance()->GetPlayer()->GetPosition()));
+		lightGroup->SetCircleShadowAtten(i+4, XMFLOAT3(circleShadowAtten));
+		lightGroup->SetCircleShadowFactorAngle(i+4, XMFLOAT2(circleShadowFactorAngle));
+
+	}
+
 	if (CameraControl::GetInstance()->GetMoveBosAreaCam() == CameraControl::TARGETPLAYER) {
 		if (Feed::GetInstance()->GetAlpha() >= 1.0f) {//画面真っ白なったら
 			BaseScene* scene = new BossScene(sceneManager_);//次のシーンのインスタンス生成
@@ -172,6 +201,11 @@ void PlayScene::LoadParam(DebugCamera* camera)
 	if (Load) {
 		for (int i = 0; i < AllObjectControl.size(); i++) {
 			AllObjectControl[i]->Load((CameraControl::GetInstance()->GetCamera()));
+			for (int i = 3; i < EnemyControl::GetInstance()->GetQuentity()+4; i++) {
+				lightGroup->SetDirLightActive(i, true);
+				lightGroup->SetPointLightActive(i, false);
+				lightGroup->SetCircleShadowActive(i, true);
+			}
 		}
 		hudload = true;
 		Load = false;

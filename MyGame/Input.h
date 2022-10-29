@@ -7,9 +7,37 @@
 #pragma comment(lib,"dxguid.lib")
 using namespace Microsoft::WRL;
 
+#define DIRECTINPUT_VERSION 0x0800
+
+#include <Xinput.h>
 
 class Input
 {
+public:
+	enum XBOX {
+		UP = XINPUT_GAMEPAD_DPAD_UP,
+		DOWN = XINPUT_GAMEPAD_DPAD_DOWN,
+		LEFT = XINPUT_GAMEPAD_DPAD_LEFT,
+		RIGHT = XINPUT_GAMEPAD_DPAD_RIGHT,
+		B = XINPUT_GAMEPAD_B,
+		A = XINPUT_GAMEPAD_A,
+		X = XINPUT_GAMEPAD_X,
+		Y = XINPUT_GAMEPAD_Y,
+		START = XINPUT_GAMEPAD_START,
+		BACK = XINPUT_GAMEPAD_BACK,
+		LB = XINPUT_GAMEPAD_LEFT_SHOULDER,
+		RB = XINPUT_GAMEPAD_RIGHT_SHOULDER,
+		LT, RT
+	};
+	//スティック
+	enum STICK {
+		L_UP, L_DOWN, L_LEFT, L_RIGHT,
+		R_UP, R_DOWN, R_LEFT, R_RIGHT, XBOX_STICK_NUM
+	};
+	bool TriggerButton(XBOX Button);
+
+
+	bool CheckTrigger(XBOX Button);
 private:
 
 	ComPtr<IDirectInputDevice8> devkeyboard;
@@ -103,12 +131,11 @@ public:
 
 public:
 	//ゲームパッド
-	bool LeftTiltStick(int stick);
 	bool LeftTriggerStick(int stick);
 	bool RightTiltStick(int stick);
 	bool RightTriggerStick(int stick);
 	bool PushButton(int Button);
-	bool TriggerButton(int Button);
+	//bool TriggerButton(int Button);
 	bool PushCrossKey(int CrossKey);
 	bool TriggerCrossKey(int CrossKey);
 public:
@@ -116,7 +143,13 @@ public:
 	const LONG& GetPositionY() { return  gamePadState2.lY; }
 	const float& GetPosX() { return posX; }
 	const float& GetPosY() { return posY; }
-
+	const float& GetRPosX() { return (float)xinputState.Gamepad.sThumbLX; }
+	const float& GetRPosY() { return (float)xinputState.Gamepad.sThumbLY; }
+	//プッシュ
+	bool TiltStick(STICK Stick);
+	bool TiltPushStick(STICK Stick, float DeadZone = 0.3f);
+	const float& GetLeftControllerX() { return LeftControllerX; }
+	const float& GetLeftControllerY() { return LeftControllerY; }
 	private:
 		//ゲームパッドデバイス
 		ComPtr<IDirectInputDevice8> devGamePad;
@@ -124,12 +157,23 @@ public:
 		DIJOYSTATE2 oldGamePadState = {};
 		DIJOYSTATE2 gamePadState2 = {};
 		DIJOYSTATE2 oldGamePadState2 = {};
+		XINPUT_STATE xinputState;
+		XINPUT_STATE oldXinputState;
+
 		bool is_push[32] = {};
 		//スティックの無反応範囲
 		LONG unresponsive_range = 200;
 		LONG unresponsive_range2 = 200;
 		float posX = 0;
 		float posY = 0;
+		float LeftControllerX = 0;
+		float LeftControllerY = 0;
+
+		struct StickPos {
+		float x;
+		float y;
+	};
+		bool StickInDeadZone(StickPos& Thumb);
 
 };
 

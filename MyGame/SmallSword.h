@@ -13,6 +13,8 @@ public:
     void Update(DebugCamera* camera)override;
     void Draw()override;
 
+    bool GetCameraTargetEnemy() { return CameraTargetEnemy; }
+    void SetCameraTargetEnemy(bool f) { CameraTargetEnemy = f; }
 private:
     enum AttackMotion {
         NON,
@@ -25,6 +27,7 @@ private:
     ParticleManager* pMan;
     void MagicAttack();
     DirectX::XMFLOAT3 Correction;
+    bool CameraTargetEnemy;
     /*------------*/
     /*    –‚–@•X   */
     /*------------*/

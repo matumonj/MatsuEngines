@@ -42,11 +42,12 @@ void Framework::Initialize()
 /// </summary>
 void Framework::Update()
 {
+
+	input->update();
 	if (winapp->Processmassage()) {
 		winRequest = true;
 		return;
 	}
-	input->update();
 	sceneManger->Update();
 }
 

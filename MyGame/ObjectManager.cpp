@@ -155,3 +155,17 @@ void ObjectManager::Draw_Fbx()
 {
 	m_fbxObject->Draw();
 }
+
+
+void ObjectManager::ChangeShader(int DrawNumber) {
+	//if (ShaderCreateF) {
+
+	//	if (DrawNumber == 0) {
+
+	//		m_Object->CreateGraphicsPipeline(L"Resources/Shader/Object3dVS.hlsl", L"Resources/Shader/Object3dPS.hlsl", L"Resources/Shader/BasicGS.hlsl");
+	//	} else if (DrawNumber == 1) {
+	//		m_Object->CreateGraphicsPipeline(L"Resources/Shader/GrassVS.hlsl", L"Resources/Shader/GrassPS.hlsl", L"Resources/Shader/GrassGS.hlsl");
+	//	} 
+	//	ShaderCreateF = false;
+	//}
+}

@@ -31,7 +31,8 @@ private:
 		FENCE=1,
 		ENEMY=2,
 		CHEST=3,
-		STONE=4
+		STONE=4,
+		GRASS=5
 	};
 	//設置オブジェクト
 	std::vector<CreateObjManager*> placeobj;

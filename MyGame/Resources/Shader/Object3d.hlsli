@@ -60,7 +60,7 @@ struct SpotLight
 };
 
 // ä€âeÇÃêî
-static const int CIRCLESHADOW_NUM = 3;
+static const int CIRCLESHADOW_NUM = 30;
 
 struct CircleShadow
 {

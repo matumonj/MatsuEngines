@@ -9,6 +9,14 @@ public:
 private:
 	static const int TaskNum = 6;
 	Sprite* Task[TaskNum];
+	Sprite* notClearTask[4];
+	enum CLEARTASK{
+		MOVE_CHARA,
+		MOVE_CAMERA,
+		ENEMYDESTROY,
+		CONFIG
+	};
+	float notTaskXpos[4];
 	enum TaskMenu {//‰º‚Ì”z—ñ—p—ñ‹“Œ^‚Æ‚©‚Ô‚ç‚È‚¢‚æ‚¤‚É
 		TNONE,
 		THELLO,
@@ -32,6 +40,7 @@ private:
 	float t[TaskNum];
 	TaskMenu task = THELLO;
 	float Movement = 0;
+	int Movement_Camera = 0;
 	bool Jump;
 
 	bool AllTaskClear;
@@ -39,6 +48,8 @@ private:
 	bool ClearTaskJudg[TaskNum];
 	bool MassageCheck[TaskNum];
 	Input* input;
+
+	void CheckMove_Camera_Player();
 public:
 	void Initialize();
 

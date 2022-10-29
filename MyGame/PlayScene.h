@@ -62,6 +62,25 @@ private:
 	bool hudload;
 	bool Load;
 private:
+	float ambientColor0[3] = { 1,1,1 };
+	// Œõü•ûŒü‰Šú’l
+	float lightDir0[3] = { 0,0,1 };
+	float lightColor0[3] = { 1,0,0 };
+
+	float lightDir1[3] = { 0,1,0 };
+	float lightColor1[3] = { 0,1,0 };
+
+	float lightDir2[3] = { 1,0,0 };
+	float lightColor2[3] = { 0,0,1 };
+
+	float circleShadowDir[3] = { 0,-1,0 };
+	float circleShadowPos[3] = { 1,2,0 };
+	float circleShadowAtten[3] = { 0.2f,0.0f,0.0f };
+	float circleShadowFactorAngle[2] = { 1.0f, 3.0f };
+	float circleShadowFactorAngle2[2] = { 1.0f, 6.0f };
+	float fighterPos[3] = { 1, 0.0f, 0 };
+
+	LightGroup* lightGroup;
 	std::vector<ControlBase*>AllObjectControl;
 };
 
