@@ -119,26 +119,27 @@ void TutorialSprite::Update()
 	case TutorialSprite::TMOVE:
 		CheckMove_Camera_Player();
 		if (MassageCheck[WALK]) {
-			NextTask(t[WALK], TSETTING, ClearTaskJudg[WALK]);
+			NextTask(t[WALK], TATTACK, ClearTaskJudg[WALK]);
 		}
 		
 		Ease_SpriteSize_Up(SpriteSizeX[WALK], t[WALK], WALK);
 		break;
 
 	case TutorialSprite::TSETTING:
-		notTaskXpos[MOVE_CHARA] -= 30;
-		notTaskXpos[MOVE_CAMERA] -= 30;
+		
 		//セッティング
 		ClearTaskJudg[SETTING] = SistemConfig::GetInstance()->GetEndConfig();
 		
 		if (MassageCheck[SETTING]) {
-			NextTask(t[SETTING], TATTACK,ClearTaskJudg[SETTING]);
+			NextTask(t[SETTING], TGETKEY,ClearTaskJudg[SETTING]);
 		}
 
 		Ease_SpriteSize_Up(SpriteSizeX[SETTING], t[SETTING], SETTING);
 		break;
 
 	case TutorialSprite::TATTACK:
+		notTaskXpos[MOVE_CHARA] -= 30;
+		notTaskXpos[MOVE_CAMERA] -= 30;
 		//攻撃
 		if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr) {
 			ClearTaskJudg[ATTACK]= EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetHP() <= 0;
@@ -181,12 +182,13 @@ void TutorialSprite::Update()
 void TutorialSprite::Draw()
 {
 	Sprite::PreDraw();
-	for (int i = 0; i < TaskNum; i++) {
-		Task[i]->Draw();
-	}
 	for (int i = 0; i < 4; i++) {
 		notClearTask[i]->Draw();
 	}
+	for (int i = 0; i < TaskNum; i++) {
+		Task[i]->Draw();
+	}
+	
 	Sprite::PostDraw();
 }
 

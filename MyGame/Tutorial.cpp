@@ -221,6 +221,7 @@ void Tutorial::Draw()
 		MyGameDraw();
 		postEffect->Draw();
 		DamageManager::GetIns()->Draw();
+		PlayerControl::GetInstance()->DamageTexDraw();
 		UI::GetInstance()->HUDDraw();
 		Feed::GetInstance()->Draw();
 		SistemConfig::GetInstance()->Draw();

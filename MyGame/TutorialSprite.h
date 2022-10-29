@@ -62,6 +62,6 @@ public:
 	void Ease_SpriteSize_Up(float& x,float& t,int index);
 	void NextTask(float t,TaskMenu nexttask,bool nextjudg);
 
-	bool GetClearSetting() { return ClearTaskJudg[SETTING]; }
+	bool GetClearSetting() { return ClearTaskJudg[WALK]; }
 };
 

@@ -46,7 +46,10 @@ void PlayerControl::Load(DebugCamera* camera)
 void PlayerControl::Initialize(DebugCamera* camera)
 {
 	Texture::LoadTexture(93, L"Resources/ParticleTex/slash.png");
+	Sprite::LoadTexture(190, L"Resources/2d/damage/playerdamage.png");
 
+	DamageTex = Sprite::Create(190, { 0,0 });
+	DamageTex->SetSize({ 1900,1000 });
 	player = std::make_unique<Player>();
 	player->Initialize(camera);
 	//各シーンの初期座標設定
@@ -56,11 +59,21 @@ void PlayerControl::Initialize(DebugCamera* camera)
 /*------------------------*/
 /*--------更新処理---------*/
 /*------------------------*/
+#include"HUD.h"
+#include"CameraControl.h"
 //playerの中にある移動処理とかは後でこっち持ってくる
 void PlayerControl::Update_Tutorial(DebugCamera* camera)//チュートリアル時
 {
 	player->Update(camera);
+	if (HUD::GetInstance()->GetRecvDamageFlag()) {
+		dalpha = 1.0f;
+		
+	}
+	
+	dalpha -= 0.02f;
+	DamageTex->setcolor({ 1,1,1,dalpha });
 	PlayerAttackState::GetInstance()->Update();
+	dalpha = max(dalpha, 0.0f);
 }
 
 void PlayerControl::Update_Play(DebugCamera* camera)//プレイシーン時
@@ -81,4 +94,11 @@ void PlayerControl::Draw()
 {
 	if (player == nullptr)return;
 		player->Draw();	
+}
+
+void PlayerControl::DamageTexDraw()
+{
+	Sprite::PreDraw();
+	DamageTex->Draw();
+	Sprite::PostDraw();
 }

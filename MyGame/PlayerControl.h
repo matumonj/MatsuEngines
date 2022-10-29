@@ -12,7 +12,8 @@ private:
 	Input* input;
 	XMFLOAT3 StartPos;
 	XMFLOAT3 Player_OldPos;
-
+	Sprite* DamageTex;
+	float dalpha=0.0f;
 private:
 	enum {
 		TYUTORIAL,
@@ -31,7 +32,7 @@ public:
 
 	void ImGuiDraw();
 
-
+	void DamageTexDraw();
 	Player* GetPlayer() { return player.get(); }
 
 private:

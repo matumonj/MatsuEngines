@@ -44,6 +44,7 @@ private:
 	bool evasionF;
 	float evaTime;
 	XMFLOAT3 EvaPos;
+	bool recvdamage;
 	void Evasion();
 public:
 	//OBBの当たり判定に使うプレイヤーの回転行列取得
@@ -57,6 +58,8 @@ public:
 		Position.x = oldpos.x; Position.z = oldpos.z;
 	}
 	void SetStopFlag(bool f) { StopFlag = f; }
+	bool GetrecvDamage() { return recvdamage; }
+	void SetRecvDamageF(bool f) {  recvdamage=f; }
 private:
 	//プレイヤーが持つ剣
 	SwordBase* sword;

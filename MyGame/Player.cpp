@@ -292,6 +292,7 @@ void Player::RecvDamage(int Damage)
 	if (HP >= 0) {
 		HP = HP - Damage;
 	}
+	recvdamage=true;
 }
 
 XMFLOAT3 Player::MoveVECTOR(XMVECTOR v, float angle) {

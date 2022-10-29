@@ -203,7 +203,8 @@ void CameraControl::TargetPlayer()
 			}
 			XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 			//	camera->SetTarget(player_shadow->GetCameraPos(angle));
-			camera->SetEye(XMFLOAT3{ ppos.x + distance.x,ppos.y + 10.0f,ppos.z + distance.y });
+			CameraPosition = { ppos.x + distance.x,ppos.y + 10.0f,ppos.z + distance.y };
+			camera->SetEye(CameraPosition);
 
 				if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
 				if (ChestControl::GetInstance()->ChestCount() >= 5) {
@@ -211,8 +212,6 @@ void CameraControl::TargetPlayer()
 				}
 			}
 		//}
-
-	
 }
 
 /*------------------------*/
