@@ -28,6 +28,11 @@ private:
     void MagicAttack();
     DirectX::XMFLOAT3 Correction;
     bool CameraTargetEnemy;
+    XMFLOAT3 OldCameraTargetPos;
+    XMFLOAT3 OldTargetEnemyPos;
+    XMFLOAT3 CameraPos;
+    float EaseTime_CT;
+    bool ReturnMoveCameraTarget;
     /*------------*/
     /*    –‚–@•X   */
     /*------------*/
@@ -50,16 +55,19 @@ private:
         void Init(DebugCamera* camera);
         void Updata(DebugCamera* camera);
         void Draw();
-
         void SetActFlag(bool f) { ActFlag = f; }
-    private:
+    public:
         enum Phase
         {
             NON,
             SHOTMAGICSPHERE,
             ACTIVE,
             DEST
-        }phase=NON;
+        };
+        Phase Getphase() { return phase; }
+    private:
+        Phase phase=NON;
+
         void DestParamReset();
     };
 
@@ -96,14 +104,17 @@ private:
         void Draw();
 
         void SetActFlag(bool f) { ActFlag = f; }
-    private:
+    public:
         enum Phase
         {
             NON,
             SHOTMAGICSPHERE,
             ACTIVE,
             DEST
-        }phase = NON;
+        };
+        Phase Getphase() { return phase; }
+    private:
+       Phase phase = NON;
     };
 
 

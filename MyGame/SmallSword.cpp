@@ -1,6 +1,12 @@
 #include "SmallSword.h"
 #include"PlayerControl.h"
 #include"TargetMarker.h"
+
+
+#include"EnemyControl.h"
+#include"PlayerControl.h"
+#include"mHelper.h"
+#include"CustomButton.h"
 SmallSword::~SmallSword()
 {
 	//delete  m_Model;
@@ -36,14 +42,49 @@ void SmallSword::Update(DebugCamera* camera)
 
 	Damage = Damage_Value;
 	CoolTime = CoolTime_Value;
-	
+
+	TargetMarker::GetInstance()->Update_Tutorial(camera);
+
 	m_Object->SetRotation(Rotation);
 	m_Object->Update(PlayerControl::GetInstance()->GetPlayer()->GetHanMat(), { 1.0f,1.0f,1.0f,1.0f }, camera);
 	MagicAttack();
 	Bliz->Updata(camera);
 	SlashArea->Updata(camera);
 
-	TargetMarker::GetInstance()->Update(camera);
+	//if (CameraTargetEnemy) {
+	//	if (!ReturnMoveCameraTarget) {
+	//		if (EaseTime_CT <= 1.0f) {
+	//			EaseTime_CT += 0.02f;
+	//		}
+	//		CameraPos.x = Easing::EaseOut(EaseTime_CT, OldCameraTargetPos.x, OldTargetEnemyPos.x);
+	//		CameraPos.z = Easing::EaseOut(EaseTime_CT, OldCameraTargetPos.z, OldTargetEnemyPos.z);
+	//		CameraPos.y = OldCameraTargetPos.y;
+	//		if (Bliz->Getphase() == Bliz->DEST || SlashArea->Getphase() == SlashArea->DEST) {
+	//	PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(true);	
+	// 	ReturnMoveCameraTarget = true;
+	//		}
+	//		camera->SetTarget(CameraPos);
+	//	}
+	//	else {
+
+	//		if (EaseTime_CT >= 0.0f) {
+	//			EaseTime_CT -= 0.02f;
+	//		}
+	//		else {
+	//			CameraTargetEnemy = false;
+	//		}
+	//		CameraPos.x = Easing::EaseOut(EaseTime_CT, OldCameraTargetPos.x, OldTargetEnemyPos.x);
+	//		CameraPos.z = Easing::EaseOut(EaseTime_CT, OldCameraTargetPos.z, OldTargetEnemyPos.z);
+	//		CameraPos.y = OldCameraTargetPos.y;
+	//		camera->SetTarget(CameraPos);
+	//	}
+	//}
+	//else {
+	//	ReturnMoveCameraTarget = false;
+	//	OldTargetEnemyPos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition();
+	//	OldCameraTargetPos = camera->GetTarget();
+	//}
+	//
 }
 
 void SmallSword::Draw()
@@ -62,19 +103,26 @@ void SmallSword::Draw()
 		
 	ImGui::End();
 }
-
-#include"EnemyControl.h"
-#include"PlayerControl.h"
-#include"mHelper.h"
-#include"CustomButton.h"
 void SmallSword::MagicAttack()
 {
+	int index = TargetMarker::GetInstance()->GetNearIndex();
+
 	if(CustomButton::GetInstance()->Get2AttackAction()){
+		//CameraTargetEnemy = true;
+		//ReturnMoveCameraTarget = false;
+		PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(true);
 		attackMotion = FIRESPHERE;
 	}
 	if (CustomButton::GetInstance()->GetAttackAction()) {
+		//CameraTargetEnemy = true;
+		PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(true);
+		//ReturnMoveCameraTarget = false;
 		attackMotion = BLIZZARD;
 	}
+	if (Bliz->Getphase() == Bliz->DEST || SlashArea->Getphase() == SlashArea->DEST) {
+		PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(false);	
+		// 	ReturnMoveCameraTarget = true;
+		}
 	DirectX::XMFLOAT3 pPos= PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 	if (attackMotion == NON) {
 		EaseTime = { 0.0f,0.0f,0.0f };
@@ -88,9 +136,9 @@ void SmallSword::MagicAttack()
 			EaseTime.y += 0.02f;
 			EaseTime.z += 0.02f;
 		}
-		magicSpherePos.x = Easing::EaseOut(EaseTime.x, pPos.x, EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition().x);
-		magicSpherePos.y = Easing::EaseOut(EaseTime.y, pPos.y, EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition().y);
-		magicSpherePos.z = Easing::EaseOut(EaseTime.z, pPos.z, EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition().z);
+		magicSpherePos.x = Easing::EaseOut(EaseTime.x, pPos.x, EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[index]->GetPosition().x);
+		magicSpherePos.y = Easing::EaseOut(EaseTime.y, pPos.y, EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[index]->GetPosition().y);
+		magicSpherePos.z = Easing::EaseOut(EaseTime.z, pPos.z, EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[index]->GetPosition().z);
 	}
 	float len = Collision::GetLength(magicSpherePos, EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition());
 
@@ -128,9 +176,9 @@ void SmallSword::MagicAttack()
 		pMan->SetColor({ 0.8,0.8,0.8f,0.6f });
 	}
 
-	pMan->Update( pMan->NORMAL);
 	}
-	
+
+	pMan->Update(pMan->NORMAL);
 }
 
 void SmallSword::Blizzard::Init(DebugCamera* camera)

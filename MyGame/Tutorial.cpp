@@ -64,8 +64,7 @@ void Tutorial::Initialize()
 		}
 	}
 	//Field
-	Field::GetInstance()->Initialize(CameraControl::GetInstance()->GetCamera());
-
+	
 	//カメラをセット
 	f_Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
 	//グラフィックパイプライン生成
@@ -247,6 +246,7 @@ bool Tutorial::LoadParam(DebugCamera* camera)
 		for (int i = 0; i < AllObjectControl.size(); i++) {
 			AllObjectControl[i]->Load(CameraControl::GetInstance()->GetCamera());
 		}
+		Field::GetInstance()->Initialize(CameraControl::GetInstance()->GetCamera());
 
 		grassfield = std::make_unique<GrassField>();
 		grassfield->Initialize(CameraControl::GetInstance()->GetCamera());

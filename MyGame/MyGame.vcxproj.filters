@@ -1024,9 +1024,6 @@
     <FxCompile Include="Resources\Shader\MiniMapVS.hlsl">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\Shader\TextureVS.hlsl">
-      <Filter>リソース ファイル</Filter>
-    </FxCompile>
     <FxCompile Include="Resources\Shader\GrassGS.hlsl">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
@@ -1035,6 +1032,9 @@
     </FxCompile>
     <FxCompile Include="Resources\Shader\GrassVS.hlsl">
       <Filter>リソース ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shader\TextureVS.hlsl">
+      <Filter>リソース ファイル\Tex</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

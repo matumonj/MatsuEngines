@@ -90,6 +90,7 @@ void Player::ReturnGround()
 
 void Player::Move()
 {
+	if (StopFlag || evasionF)return;
 	RotationStatus();
 
 	XMFLOAT3 pos =Position;
@@ -130,7 +131,7 @@ void Player::Move()
 
 		Position.x += move.m128_f32[0] * movespeed;
 		Position.z += move.m128_f32[2] * movespeed;
-
+		Gmove = move;
 		
 		if (f_time < AttackTime) {
 			attackMotion = RUN;
@@ -144,11 +145,6 @@ void Player::Move()
 		// ジャンプ操作
 		Jump();
 	
-	//Gmove = move;
-	if (input->TriggerButton(input->RB)) {
-		evasionF = true;
-	}
-	Evasion();
 }
 
 #include"mHelper.h"
@@ -186,7 +182,11 @@ void Player::Update(DebugCamera* camera)
 	RecvDamage_Cool();
 	
 	Move();
-
+	//Gmove = move;
+	if (input->TriggerButton(input->RB)) {
+		evasionF = true;
+	}
+	Evasion();
 	m_fbxObject->SetHandBoneIndex(hindex);
 	//3d_fbx更新
 	FbxAnimationControl();

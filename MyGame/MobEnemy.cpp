@@ -113,15 +113,24 @@ void MobEnemy::Update(DebugCamera* camera)
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
 		HandSiteOBB.SetOBBParam_Pos(Sword->GetMatWorld());
 		HandSiteOBB.SetOBBParam_Rot(Sword->GetMatWorld());
-		HandSiteOBB.SetOBBParam_Scl({ 14.0f,15.0f,12.0f });
+		HandSiteOBB.SetOBBParam_Scl({ 3.0f,15.0f,3.0f });
 
 		playerOBB.SetOBBParam_Pos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
 		playerOBB.SetOBBParam_Rot(PlayerControl::GetInstance()->GetPlayer()->GetMatrot());
 		playerOBB.SetOBBParam_Scl({ 1.0f,1.0f,1.0f });
 
-		if (f_time >= 1.9f) {
-			if (Collision::CheckOBBCollision(playerOBB, HandSiteOBB) == true) {
-				PlayerControl::GetInstance()->GetPlayer()->RecvDamage(10);
+		if (atcktype == SIDEAWAY) {
+			if (f_time >= AttackTime + 1.0f) {
+				if (Collision::CheckOBBCollision(playerOBB, HandSiteOBB) == true) {
+					PlayerControl::GetInstance()->GetPlayer()->RecvDamage(10);
+				}
+			}
+		}
+		if (atcktype ==VERTICAL) {
+			if (f_time >= 4.5f&& f_time <= 5.5f) {
+				if (Collision::CheckOBBCollision(playerOBB, HandSiteOBB) == true) {
+					PlayerControl::GetInstance()->GetPlayer()->RecvDamage(15);
+				}
 			}
 		}
 	}
@@ -182,7 +191,16 @@ void MobEnemy::FbxAnimationControl()
 		f_time += 0.01f;
 	//}
 			if (f_AttackFlag) {
-				f_time = AttackTime;
+				rand_Attackindex = rand() % 100;
+				if (rand_Attackindex <= 50) {
+					atcktype = SIDEAWAY;
+					f_time = AttackTime;
+				}
+				else {
+					atcktype = VERTICAL;
+					f_time = 3.7f;
+				}
+				
 				nowAttack = true;
 				f_AttackFlag = false;
 				
@@ -202,9 +220,16 @@ void MobEnemy::FbxAnimationControl()
 				DeathFlag = false;
 				
 			} 
-	if (f_time > DeathTime) {
-		nowAttack = false;
-	}
+			if (atcktype == SIDEAWAY) {
+				if (f_time >3.7f) {
+					nowAttack = false;
+				}
+			}
+			else if (atcktype == VERTICAL) {
+				if (f_time > DeathTime) {
+					nowAttack = false;
+				}
+			}
 	
 	m_fbxObject->SetFbxTime(f_time);
 }

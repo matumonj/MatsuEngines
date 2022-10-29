@@ -73,7 +73,7 @@ int TargetMarker::NearEnemySearch(std::vector<std::unique_ptr<Enemy>>& enemy, Pl
 	this->nearindex = nearindex;
 	return nearindex;
 }
-void TargetMarker::Update(DebugCamera* camera)
+void TargetMarker::Update_Tutorial(DebugCamera* camera)
 {
 	int tindex;
 	float ex, ey, ez;
@@ -85,17 +85,34 @@ void TargetMarker::Update(DebugCamera* camera)
 	MarkerPosition = { ex,ey+1,ez };
 	nowTarget = MarkerPosition;
 
-	if (Input::GetInstance()->Pushkey(DIK_L)) {
-		MarkerPosition.y += 0.2f;
-	}
-	if (Input::GetInstance()->Pushkey(DIK_K)) {
-		MarkerPosition.y -= 0.2f;
-	}
 	TargetMakerTexture->SetDisplayRadius(100);
 	TargetMakerTexture->SetBillboard(FALSE);
 	TargetMakerTexture->Update(camera);
 	if (tindex != -1) {
 		TargetMakerTexture->SetRotation({ 90,EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[tindex]->GetRotation().y ,0
+			});
+	}
+	TargetMakerTexture->SetScale({ 3,3,3 });
+	TargetMakerTexture->SetPosition(MarkerPosition);
+
+}
+void TargetMarker::Update_PlayScene(DebugCamera* camera)
+{
+	int tindex;
+	float ex, ey, ez;
+	tindex = NearEnemySearch(EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE), PlayerControl::GetInstance()->GetPlayer());
+	if (tindex != -1) {
+		GetEnemyPosition(EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE), tindex, &ex, &ey, &ez);//{ enemy[0]->GetPosition().x ,0, enemy[0]->GetPosition().z };
+	}
+	//マーカー位置をnowTargetに合わせる
+	MarkerPosition = { ex,ey + 1,ez };
+	nowTarget = MarkerPosition;
+
+	TargetMakerTexture->SetDisplayRadius(100);
+	TargetMakerTexture->SetBillboard(FALSE);
+	TargetMakerTexture->Update(camera);
+	if (tindex != -1) {
+		TargetMakerTexture->SetRotation({ 90,EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[tindex]->GetRotation().y ,0
 			});
 	}
 	TargetMakerTexture->SetScale({ 3,3,3 });

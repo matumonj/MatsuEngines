@@ -7,6 +7,7 @@
 #include"Destroy.h"
 #include"CollisionPrimitive.h"
 #include"PlayerControl.h"
+#include"EnemyControl.h"
 #include"ChestControl.h"
 Field::~Field()
 {
@@ -65,6 +66,19 @@ void Field::Initialize(DebugCamera* camera)
 		playerpoint->CreateTexture();
 		playerpoint->SetAnchorPoint({ 0.5f,0.5f });
 	}
+	Texture::LoadTexture(37, L"Resources/2d/icon/enemyicon.png");
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
+		const int size = EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL).size();
+		Enemyicon.resize(size);
+		std::vector<Texture*>l_tex;
+		l_tex.resize(size);
+		for (int i = 0; i < size; i++) {
+			l_tex[i] = Texture::Create(37, {0.0f ,0.0f ,0.0f}, {100.0f ,100.0f ,1.0f}, {1.0f ,1.0f ,1.0f ,1.0f});
+			Enemyicon[i].reset(l_tex[i]);
+			Enemyicon[i]->CreateTexture();
+			Enemyicon[i]->SetAnchorPoint({ 0.5f,0.5f });
+		}
+	}
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::MAPCREATE) {
 		FieldObject = TouchableObject::Create(ModelManager::GetIns()->GetModel(ModelManager::FIELD), camera);
 	}
@@ -89,6 +103,7 @@ void Field::Initialize(DebugCamera* camera)
 
 void Field::Update_Tutorial(DebugCamera* camera)
 {
+	if (FieldObject == nullptr)return;
 	FieldObject->SetPosition({ 0.0f,-25.0f,0.0f });
 	FieldObject->SetFogCenter({ 125.0f, -25.0f, -680.0f });
 	FieldObject->setFog(TRUE);
@@ -102,10 +117,29 @@ void Field::Update_Tutorial(DebugCamera* camera)
 	playerpoint->SetBillboard(true);
 	playerpoint->SetColor({ 1.0f,1.0f,1.0f,1 });
 
+	const int size = EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL).size();
+	for (int i = 0; i < size; i++) {
+		if (Enemyicon[i] == nullptr||Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[i]->GetPosition())>30) {
+			continue;
+		}
+		Enemyicon[i]->SetPosition({ EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[i]->GetPosition().x,
+			EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[i]->GetPosition().y+10.0f,
+			EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[i]->GetPosition().z});
+		Enemyicon[i]->Update(dc);
+		Enemyicon[i]->SetScale({ 4.0f,4.0f,4.0f });
+		Enemyicon[i]->SetBillboard(true);
+		Enemyicon[i]->SetColor({ 1.0f,1.0f,1.0f,1 });
+
+		if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[i]->GetHP() <= 0) {
+			Destroy_unique(Enemyicon[i]);
+		}
+	}
+
 }
 
 void Field::Update_Play(DebugCamera* camera)
 {
+	if (FieldObject == nullptr)return;
 	FieldObject->SetPosition({ 0.0f,-25.0f,0.0f });
 	FieldObject->SetFogCenter({ 0.0f, -20.0f, 0.0f });
 	FieldObject->SetColor({ 0.2f,0.2f,0.2f,1.0f });
@@ -173,11 +207,21 @@ void Field::MiniFieldDraw()
 
 	Texture::PreDraw();
 	playerpoint->Draw();
+	const int size = EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL).size();
+
+	for (int i = 0; i < size; i++) {
+		if (Enemyicon[i] == nullptr || Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[i]->GetPosition()) > 30) {
+
+			continue;
+		}
+		Enemyicon[i]->Draw();
+	}
 	Texture::PostDraw();
 }
 #include"imgui.h"
 void Field::Draw()
 {
+	if (FieldObject == nullptr)return;
 	Object3d::PreDraw();
 	if (SceneManager::GetInstance()->GetScene() != SceneManager::MAPCREATE) {
 		m_object[ObjType::CELESTIALSPHERE]->Draw();

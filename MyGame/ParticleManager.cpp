@@ -473,12 +473,13 @@ void ParticleManager::Update(ParticleType type , XMFLOAT3 position , int lifejud
 		}
 		vertBuff->Unmap(0, nullptr);
 	}
+	const XMMATRIX& matBillboard = CameraControl::GetInstance()->GetCamera()->GetBillboardMatrix();
 
 	// 定数バッファへデータ転送
 	ConstBufferData* constMap = nullptr;
 	result = constBuff->Map(0, nullptr, (void**)&constMap);
 	constMap->color = color;
-	constMap->mat = CameraControl::GetInstance()->GetCamera()->GetViewMatrix() * CameraControl::GetInstance()->GetCamera()->GetProjectionMatrix();// 行列の合成
+	constMap->mat =CameraControl::GetInstance()->GetCamera()->GetViewMatrix() * CameraControl::GetInstance()->GetCamera()->GetProjectionMatrix();// 行列の合成
 
 	constMap->matBillboard = matBillboard;	// 行列の合成
 

@@ -28,6 +28,7 @@ private:
 	const static int objNum=4;
 
 	Texture* playerpoint;
+	std::vector<std::unique_ptr<Texture>>Enemyicon;
 	std::unique_ptr<Object3d>m_object[objNum];
 	std::unique_ptr <Object3d> CelestialSphereObject;
 	std::unique_ptr <Object3d> BackObject;
