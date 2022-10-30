@@ -145,14 +145,15 @@ void Tutorial::Update()
 	}
 	//postEffect->SetSize({ 10,10 });
 	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
-	lightGroup->SetCircleShadowDir(0, XMVECTOR({ circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0 }));
-	//for (int i = 0; i < 3; i++) {
-		lightGroup->SetCircleShadowCasterPos(0, {EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition()});
-	//}
-	//lightGroup->SetCircleShadowCasterPos(1, XMFLOAT3(PlayerControl::GetInstance()->GetPlayer()->GetPosition()));
-	lightGroup->SetCircleShadowAtten(0, XMFLOAT3(circleShadowAtten));
-	lightGroup->SetCircleShadowFactorAngle(0, XMFLOAT2(circleShadowFactorAngle2));
-
+	if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr) {
+		lightGroup->SetCircleShadowDir(0, XMVECTOR({ circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0 }));
+		//for (int i = 0; i < 3; i++) {
+		lightGroup->SetCircleShadowCasterPos(0, { EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition() });
+		//}
+		//lightGroup->SetCircleShadowCasterPos(1, XMFLOAT3(PlayerControl::GetInstance()->GetPlayer()->GetPosition()));
+		lightGroup->SetCircleShadowAtten(0, XMFLOAT3(circleShadowAtten));
+		lightGroup->SetCircleShadowFactorAngle(0, XMFLOAT2(circleShadowFactorAngle2));
+	}
 	lightGroup->SetCircleShadowDir(1, XMVECTOR({ circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0 }));
 	//for (int i = 0; i < 3; i++) {
 	lightGroup->SetCircleShadowCasterPos(1, { ppos });

@@ -50,8 +50,8 @@ void AttackCollision::GetCol(int damage)
 			Hit_colf = false;
 		}
 		for (int i = 0; i < EnemyOBB.size(); i++) {
-			if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition()) > 10.0f) {
-				//continue;
+			if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]==nullptr|| Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition()) > 10.0f) {
+				continue;
 			}
 			if (PlayerControl::GetInstance()->GetPlayer()->GetAttackType() != PlayerControl::GetInstance()->GetPlayer()->NON && PlayerControl::GetInstance()->GetPlayer()->GetAttackType() != PlayerControl::GetInstance()->GetPlayer()->RUN) {
 				if (Collision::CheckOBBCollision(HandObb, EnemyOBB[0]) == true && !Hit_colf) {
@@ -97,10 +97,12 @@ void AttackCollision::ColOBB(ColType Enemytype)
 	switch (Enemytype)
 	{
 	case AttackCollision::TYTORIAL:
-		EnemyOBB.resize(1);
-		EnemyOBB[0].SetOBBParam_Pos(EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition());
-		EnemyOBB[0].SetOBBParam_Rot(EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetMatrot());
-		EnemyOBB[0].SetOBBParam_Scl({ 4.0f,2.0f,4.0f });
+		if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr) {
+			EnemyOBB.resize(1);
+			EnemyOBB[0].SetOBBParam_Pos(EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition());
+			EnemyOBB[0].SetOBBParam_Rot(EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetMatrot());
+			EnemyOBB[0].SetOBBParam_Scl({ 4.0f,2.0f,4.0f });
+		}
 		break;
 	case AttackCollision::PLAY://‘å—Ê‚ÌOBB”»’è@Œy—Ê‰»•K—v‚©‚à
 	

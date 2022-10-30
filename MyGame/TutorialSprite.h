@@ -9,12 +9,13 @@ public:
 private:
 	static const int TaskNum = 7;
 	Sprite* Task[TaskNum];
-	Sprite* notClearTask[4];
+	Sprite* notClearTask[5];
 	enum CLEARTASK{
 		MOVE_CHARA,
 		MOVE_CAMERA,
 		ENEMYDESTROY,
-		CONFIG
+		CONFIG,
+		FRAME
 	};
 	float notTaskXpos[4];
 	enum TaskMenu {//‰º‚Ì”z—ñ—p—ñ‹“Œ^‚Æ‚©‚Ô‚ç‚È‚¢‚æ‚¤‚É

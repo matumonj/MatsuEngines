@@ -124,7 +124,7 @@ void SmallSword::MagicAttack()
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
 		len.resize(EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL).size());
 		for (int i = 0; i < len.size(); i++) {
-			len[i] = Collision::GetLength(magicSpherePos, EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[i]->GetPosition());
+			len[i] = Collision::GetLength(magicSpherePos, EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition());
 		}
 	}
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {

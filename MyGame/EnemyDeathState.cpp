@@ -8,6 +8,6 @@ void EnemyDeathState::Initialize(Enemy* enmey)
 void EnemyDeathState::Update(Enemy* enemy)
 {
 	enemy->Death();
-	enemy->ChangeState_Mob(new EnemyFollowState());
+	//enemy->ChangeState_Mob(new EnemyFollowState());
 	
 }

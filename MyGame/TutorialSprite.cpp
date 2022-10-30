@@ -33,7 +33,7 @@ void TutorialSprite::Initialize()
 	Sprite::LoadTexture(179, L"Resources/2d/tutorialstep/task_movecamera.png");
 	Sprite::LoadTexture(180, L"Resources/2d/tutorialstep/task_attackenemy.png");
 	Sprite::LoadTexture(181, L"Resources/2d/tutorialstep/task_config.png");
-
+	Sprite::LoadTexture(182, L"Resources/2d/tutorialstep/notCleartask.png");
 	Task[HELLO] = Sprite::Create(171, { 10,10 });
 	Task[WALK] = Sprite::Create(172, { 10,10 });
 	Task[SETTING] = Sprite::Create(173, { 10,10 });
@@ -46,7 +46,7 @@ void TutorialSprite::Initialize()
 	notClearTask[MOVE_CAMERA] = Sprite::Create(179, { 10,10 });
 	notClearTask[ENEMYDESTROY] = Sprite::Create(180, { 10,10 });
 	notClearTask[CONFIG] = Sprite::Create(181, { 10,10 });
-
+	notClearTask[FRAME] = Sprite::Create(182, { 10,10 });
 	for (int i = 0; i < TaskNum; i++) {
 		Task[i]->SetAnchorPoint({ 0,0 });
 		SpriteSizeX[i] = 0;
@@ -193,11 +193,14 @@ void TutorialSprite::Update()
 		notClearTask[i]->SetPosition({ notTaskXpos[i],0});
 		notClearTask[i]->SetSize({ 1300,800 });
 	}
+	notClearTask[FRAME]->SetSize({ 1500, 800 });
+
 }
 
 void TutorialSprite::Draw()
 {
 	Sprite::PreDraw();
+	notClearTask[FRAME]->Draw();
 	for (int i = 0; i < 4; i++) {
 		notClearTask[i]->Draw();
 	}

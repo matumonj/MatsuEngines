@@ -26,6 +26,7 @@ private:
 	float easetime;
 	float CoolTime_Time = 0;
 	float TimeSpeed;
+	bool iconchangeF;
 public:
 	float GetSpriteSize(int index) { return coolDownSprite[index]->GetSize().y; }
 	bool GetLayOutMode();
@@ -34,7 +35,12 @@ public:
 	Sprite* GetPlayerHP() { return PlayerHP; }
 	Sprite* GetEnemyHP() { return EnemyHP_Border; }
 	XMFLOAT2 GetSkillButtonPosition() { return CenterPosition; }
-
+	enum SkillIcon {
+		SWORD,
+		WAND,
+		AXE
+	}skillicon=SWORD;
+	void SetSkillIcon(SkillIcon icon);
 public:
 	void Initialize();
 	void Update();

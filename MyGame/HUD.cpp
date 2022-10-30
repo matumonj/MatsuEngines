@@ -72,9 +72,13 @@ void HUD::Initialize()
 
 	Sprite::LoadTexture(121, L"Resources/bosshp.png");
 	Sprite::LoadTexture(20, L"Resources/jump.png");
-	Sprite::LoadTexture(21, L"Resources/attack.png");
-	Sprite::LoadTexture(22, L"Resources/attack2.png");
+	Sprite::LoadTexture(21, L"Resources/2d/attackicon/magicattack1.png");
+	Sprite::LoadTexture(22, L"Resources/2d/attackicon/magicattack2.png");
 	Sprite::LoadTexture(23, L"Resources/attack3.png");
+
+	Sprite::LoadTexture(27, L"Resources/attack1.png");
+	Sprite::LoadTexture(25, L"Resources/attack2.png");
+	Sprite::LoadTexture(26, L"Resources/attack3.png");
 
 	PlayerHPSize=(float)PlayerControl::GetInstance()->GetPlayer()->GetMaxHP() * 7.0f;
 }
@@ -89,19 +93,30 @@ void HUD::EnemyHPGaugeInitialize()
 }
 void HUD::SkillButtonInitialize()
 {
-	FirstAttackSprite = Sprite::Create(20, { CenterPosition.x + 100,CenterPosition.y });
+	if (skillicon == WAND) {
+		FirstAttackSprite = Sprite::Create(20, { CenterPosition.x + 100,CenterPosition.y });
 
-	SecondAttackSprite = Sprite::Create(21, { CenterPosition.x,CenterPosition.y + 100 });
+		SecondAttackSprite = Sprite::Create(21, { CenterPosition.x,CenterPosition.y + 100 });
 
-	ThirdAttackSprite = Sprite::Create(22, { CenterPosition.x - 100,CenterPosition.y });
+		ThirdAttackSprite = Sprite::Create(22, { CenterPosition.x - 100,CenterPosition.y });
 
-	BuffSprite = Sprite::Create(23, { CenterPosition.x,CenterPosition.y - 100 });
+		BuffSprite = Sprite::Create(23, { CenterPosition.x,CenterPosition.y - 100 });
+	}
+	if (skillicon ==SWORD) {
+		FirstAttackSprite = Sprite::Create(20, { CenterPosition.x + 100,CenterPosition.y });
 
-	Sprite::LoadTexture(26, L"Resources/cool.png");
-	coolDownSprite[0] = Sprite::Create(26, { CenterPosition.x + 100 + 120,CenterPosition.y + 120 }, { 1,1,1,1 }, { 0.0,1 });
-	coolDownSprite[1] = Sprite::Create(26, { CenterPosition.x + 120,CenterPosition.y + 100 + 120 }, { 0,0,0,1 }, { 0.0,1 });
-	coolDownSprite[2] = Sprite::Create(26, { CenterPosition.x - 100 + 120,CenterPosition.y + 120 }, { 0,0,0,1 }, { 0.0,1 });
-	coolDownSprite[3] = Sprite::Create(26, { CenterPosition.x + 120,CenterPosition.y - 100 + 120 }, { 0,0,0,1 }, { 0.0,1 });
+		SecondAttackSprite = Sprite::Create(27, { CenterPosition.x,CenterPosition.y + 100 });
+
+		ThirdAttackSprite = Sprite::Create(25, { CenterPosition.x - 100,CenterPosition.y });
+
+		BuffSprite = Sprite::Create(26, { CenterPosition.x,CenterPosition.y - 100 });
+	}
+
+	Sprite::LoadTexture(28, L"Resources/cool.png");
+	coolDownSprite[0] = Sprite::Create(28, { CenterPosition.x + 100 + 120,CenterPosition.y + 120 }, { 1,1,1,1 }, { 0.0,1 });
+	coolDownSprite[1] = Sprite::Create(28, { CenterPosition.x + 120,CenterPosition.y + 100 + 120 }, { 0,0,0,1 }, { 0.0,1 });
+	coolDownSprite[2] = Sprite::Create(28, { CenterPosition.x - 100 + 120,CenterPosition.y + 120 }, { 0,0,0,1 }, { 0.0,1 });
+	coolDownSprite[3] = Sprite::Create(28, { CenterPosition.x + 120,CenterPosition.y - 100 + 120 }, { 0,0,0,1 }, { 0.0,1 });
 	for (int i = 0; i < 4; i++) {
 		coolDownSprite[i]->SetSize({ 100,0 });
 	}
@@ -113,7 +128,15 @@ void HUD::EnemyHPGaugeUpdate(std::vector<std::unique_ptr<Enemy>>& enemy)
 {
 
 }
-
+void HUD::SetSkillIcon(SkillIcon icon)
+{ 
+	skillicon = icon; 
+	iconchangeF = true;
+	if (iconchangeF) {
+		SkillButtonInitialize();
+		iconchangeF = false;
+	}
+}
 void HUD::SkillBottonUpdate()
 {
 	FirstAttackSprite->SetSize({ 120,120 });

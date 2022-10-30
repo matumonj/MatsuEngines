@@ -154,10 +154,13 @@ void EnemyControl::Load(DebugCamera* camera)
 /*------------------------*/
 void EnemyControl::Update_Tutorial(DebugCamera* camera)
 {
-	//if (enemys[EnemyType::TUTORIAL][0] == nullptr)return;
+	if (enemys[EnemyType::TUTORIAL][0] == nullptr)return;
 		if (TutorialSprite::GetInstance()->GetClearSetting()) {
 			//enemys[EnemyType::TUTORIAL][0]->SetMoveFlag(true);
 			enemys[EnemyType::TUTORIAL][0]->Update(camera);
+		}
+		if (enemys[EnemyType::TUTORIAL][0]->GetHP() < 0) {
+			Destroy_unique(enemys[EnemyType::TUTORIAL][0]);
 		}
 }
 void EnemyControl::Update_Play(DebugCamera* camera)

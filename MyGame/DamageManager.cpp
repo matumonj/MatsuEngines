@@ -12,7 +12,7 @@ void DamageManager::Upda()
 {
 		for (std::unique_ptr<DebugTxt>& dtex : DamageTex) {
 			if (dtex != nullptr) {
-
+				
 				dtex->Print(2);
 			}
 		}

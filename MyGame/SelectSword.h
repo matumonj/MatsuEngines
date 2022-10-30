@@ -24,9 +24,16 @@ public:
 private:
 	Input* input;
 	Sprite*SwordSample[3];
+	Sprite* WeponParamSprite[3];
 	Sprite* Frame;
 	float Alpha;
 	XMFLOAT2 Position[3] = { {200,400}, {600,400}, {1000,400} };
+	XMFLOAT2 WeponParamSpritePos[3];
+	float ypos_Up = 635.0f;
+	float ypos_Center = 730.0f;
+	float ypos_Bottom = 835.0f;
+	float WeponParamSpriteAlpha[3];
+	float WeponParamSpriteEaseT[3];
 	SwordScale NowSelectSword=NORMAL;
 	int index;
 	std::unique_ptr<SwordBase>Sword;
@@ -71,6 +78,9 @@ private:
 	void SpriteDraw();
 
 	void SwordRot();
+
+	void WeponParamInit();
+	void WeponParamUpdate();
 public:
 	void SetSelectJudg(bool f) { SelectJudg = f; }
 	bool GetSelectJudg() { return SelectJudg; }
