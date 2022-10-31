@@ -573,6 +573,9 @@
     <ClCompile Include="PlaceGrassField.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="ExpPointSystem.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sprite.h">
@@ -957,6 +960,9 @@
       <Filter>Game\ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="PlaceGrassField.h">
+      <Filter>Game\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="ExpPointSystem.h">
       <Filter>Game\ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

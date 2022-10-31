@@ -165,10 +165,11 @@ void MobEnemy::Draw()
 	ArrowDraw();
 }
 
-
+#include"ExpPointSystem.h"
 void MobEnemy::Death()
 {
 	if (!DeathFlag) {
+		ExpPointSystem::GetInstance()->ExpPoint_Get(10);
 		//f_time = DeathTime;
 		//if (f_time > DeathTime) {
 		DeathFlag = true;

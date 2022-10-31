@@ -209,6 +209,7 @@
     <ClCompile Include="EnemyStayState.cpp" />
     <ClCompile Include="EnemyWalkState.cpp" />
     <ClCompile Include="EnemyControl.cpp" />
+    <ClCompile Include="ExpPointSystem.cpp" />
     <ClCompile Include="FbxLoader.cpp" />
     <ClCompile Include="Feed.cpp" />
     <ClCompile Include="FenceControl.cpp" />
@@ -339,6 +340,7 @@
     <ClInclude Include="EnemyStayState.h" />
     <ClInclude Include="EnemyWalkState.h" />
     <ClInclude Include="EnemyControl.h" />
+    <ClInclude Include="ExpPointSystem.h" />
     <ClInclude Include="FbxLoader.h" />
     <ClInclude Include="Feed.h" />
     <ClInclude Include="FenceControl.h" />

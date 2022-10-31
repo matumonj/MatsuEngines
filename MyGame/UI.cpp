@@ -4,6 +4,7 @@
 #include"TutorialSprite.h"
 #include"BossSpell.h"
 #include"EncountGuardianSprite.h"
+#include"ExpPointSystem.h"
 UI* UI::GetInstance()
 {
 	static UI instance;
@@ -11,6 +12,7 @@ UI* UI::GetInstance()
 }
 void UI::Initialize()
 {
+	ExpPointSystem::GetInstance()->Init();
 	BossSpell::GetInstance()->Initialize();
 	HUD::GetInstance()->Initialize();
 	HUD::GetInstance()->EnemyHPGaugeInitialize();
@@ -41,6 +43,7 @@ void UI::HUDUpdate(bool&hudload, DebugCamera* camera)
 
 	EncountGuardianSprite::GetInstance()->Update();
 
+	ExpPointSystem::GetInstance()->Upda();
 }
 
 void UI::HUDDraw()
@@ -57,6 +60,7 @@ void UI::HUDDraw()
 	BossSpell::GetInstance()->Draw();
 
 	EncountGuardianSprite::GetInstance()->Draw();
+	ExpPointSystem::GetInstance()->Draw();
 }
 
 void UI::AreaNameDraw()
