@@ -55,7 +55,7 @@ void MobEnemy::Initialize(DebugCamera* camera)
 
 	//FBXØ‚è‘Ö‚í‚è‚Ìƒ^ƒCƒ€Žw’è
 	AttackTime = 0.9f;
-	DeathTime = 8.9f;
+	DeathTime = 5.9f;
 
 	nowAttack = false;
 	nowDeath = false;
@@ -83,7 +83,7 @@ void MobEnemy::Update(DebugCamera* camera)
 {
 	state_mob->Update(this);
 	
-	if (nowDeath) {
+	if (DeathFlag) {
 		alpha -= 0.005f;
 	}
 	
@@ -113,11 +113,11 @@ void MobEnemy::Update(DebugCamera* camera)
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
 		HandSiteOBB.SetOBBParam_Pos(Sword->GetMatWorld());
 		HandSiteOBB.SetOBBParam_Rot(Sword->GetMatWorld());
-		HandSiteOBB.SetOBBParam_Scl({ 3.0f,15.0f,3.0f });
+		HandSiteOBB.SetOBBParam_Scl({ 5.0f,20.0f,5.0f });
 
 		playerOBB.SetOBBParam_Pos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
 		playerOBB.SetOBBParam_Rot(PlayerControl::GetInstance()->GetPlayer()->GetMatrot());
-		playerOBB.SetOBBParam_Scl({ 1.0f,1.0f,1.0f });
+		playerOBB.SetOBBParam_Scl({ 1.0f,5.0f,1.0f });
 
 		if (atcktype == SIDEAWAY) {
 			if (f_time >= AttackTime + 1.0f) {
@@ -140,6 +140,7 @@ void MobEnemy::Update(DebugCamera* camera)
 //•`‰æˆ—
 void MobEnemy::Draw()
 {
+
 	if (alpha >= 0.0f) {
 		Draw_Fbx();
 
@@ -159,25 +160,23 @@ void MobEnemy::Draw()
 			SlashTex->Draw();
 		}
 		Texture::PostDraw();
-	}
-	ImGui::Begin("sw");
-	ImGui::SliderInt("x", &HandIndex, 0, 27);
-	ImGui::SliderFloat("y", &Rotation.y, -270, 270);
-	ImGui::SliderFloat("z", &Rotation.z, -270, 270);
-	ImGui::End();
-
+	};
+	
 	ArrowDraw();
 }
 
 
 void MobEnemy::Death()
 {
-	if (!DeathFlag&&f_time != DeathTime) {
+	if (!DeathFlag) {
 		//f_time = DeathTime;
 		//if (f_time > DeathTime) {
 		DeathFlag = true;
 		EnemyHP = MaxHP;
 	}
+	//if (f_time < DeathTime) {
+		//f_time = DeathTime;
+//	}
 	movestop = false;
 	
 	//}
@@ -205,21 +204,13 @@ void MobEnemy::FbxAnimationControl()
 				f_AttackFlag = false;
 				
 			} else {
-				if (nowDeath == false) {
+				if (DeathFlag == false) {
 					if (!nowAttack && f_time >= AttackTime) {
 						f_time = 0.0f;
 					}
 				}
 			}
 
-			if (DeathFlag&& f_time != DeathTime) {
-				nowDeath = true;
-				//f_time = DeathTime;
-				f_time = DeathTime;
-				f_time += 0.02f;
-				DeathFlag = false;
-				
-			} 
 			if (atcktype == SIDEAWAY) {
 				if (f_time >3.7f) {
 					nowAttack = false;

@@ -20,6 +20,9 @@ private:
 	Sprite* PlayerHP;
 	Sprite* PlayerHPFrame;
 	Sprite* PlayerHPFrame2;
+	Sprite* MiniMapFrame;
+	XMFLOAT2 MiniFrameSize;
+	XMFLOAT2 MiniframePos;
 	float PlayerHPSize;
 	float OldPlayerHPSize;
 	bool RecvDamageflag;

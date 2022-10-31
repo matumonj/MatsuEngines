@@ -137,6 +137,8 @@ public:
 	//
 	XMMATRIX GetHandMat() { return HandMat; }
 	OBB GetHandSiteMat() { return HandSiteOBB; }
+
+	float GetObjAlpha() { return alpha; }
 	/*セッター*/
 public:
 	void SetRecvDamage(bool f) { RecvDamagef = f; }

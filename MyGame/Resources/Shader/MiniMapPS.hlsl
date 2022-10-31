@@ -9,7 +9,7 @@ float4 coltex0 = tex.Sample(smp, input.uv);
 
 float4 addcol = { 1,0,0,1 };
 float4 col = coltex0 ;
-float radius = 200;
+float radius = 150;
 
 float v = pow(input.svpos.x -centerpos.x, 2) + pow(input.svpos.y - centerpos.y, 2) <= pow(radius, 2) ? 1 : -1;
 

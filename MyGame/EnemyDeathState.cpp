@@ -1,5 +1,5 @@
 #include "EnemyDeathState.h"
-#include"EnemyFollowState.h"
+#include"EnemyStayState.h"
 void EnemyDeathState::Initialize(Enemy* enmey)
 {
 
@@ -8,6 +8,5 @@ void EnemyDeathState::Initialize(Enemy* enmey)
 void EnemyDeathState::Update(Enemy* enemy)
 {
 	enemy->Death();
-	//enemy->ChangeState_Mob(new EnemyFollowState());
 	
 }

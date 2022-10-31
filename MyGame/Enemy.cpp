@@ -98,10 +98,10 @@ void Enemy::Action()
 #include"CameraControl.h"
 void Enemy::RecvDamage(int Damage) 
 {
-	if (EnemyHP <= 0)return;
-	float texZ= PlayerControl::GetInstance()->GetPlayer()->GetPosition().z- Position.z ;
-	float texX= PlayerControl::GetInstance()->GetPlayer()->GetPosition().x - Position.x;
-	DamageManager::GetIns()->DamageDisPlay(Damage, { 1,1,1,1 }, { Position.x,Position.y + 20, CameraControl::GetInstance()->GetCamera()->GetEye().z + 40.0f });
+	if (this==nullptr||EnemyHP <= 0)return;
+	float texZ= PlayerControl::GetInstance()->GetPlayer()->GetPosition().z- CameraControl::GetInstance()->GetCamera()->GetEye().z;
+	float texX= PlayerControl::GetInstance()->GetPlayer()->GetPosition().x - CameraControl::GetInstance()->GetCamera()->GetEye().x;
+	DamageManager::GetIns()->DamageDisPlay(Damage, { 1,1,1,1 }, { Position.x-texX/3.0f,Position.y + 10,Position.z-texZ/3.0f });
 
 	EnemyHP = EnemyHP - Damage;
 	DamageParticleCreateF = true;

@@ -26,6 +26,8 @@ private:
 	Sprite*SwordSample[3];
 	Sprite* WeponParamSprite[3];
 	Sprite* Frame;
+	Sprite* Equipment;
+	XMFLOAT2 EquipmentPos;
 	float Alpha;
 	XMFLOAT2 Position[3] = { {200,400}, {600,400}, {1000,400} };
 	XMFLOAT2 WeponParamSpritePos[3];
@@ -35,6 +37,7 @@ private:
 	float WeponParamSpriteAlpha[3];
 	float WeponParamSpriteEaseT[3];
 	SwordScale NowSelectSword=NORMAL;
+	SwordScale SkillSprite = SMALL;
 	int index;
 	std::unique_ptr<SwordBase>Sword;
 	bool SelectJudg;
@@ -81,6 +84,9 @@ private:
 
 	void WeponParamInit();
 	void WeponParamUpdate();
+	void ResetEaseTime() { WeponParamSpriteEaseT[0] = 0; WeponParamSpriteEaseT[1] = 0;
+	WeponParamSpriteEaseT[2] = 0;
+	}
 public:
 	void SetSelectJudg(bool f) { SelectJudg = f; }
 	bool GetSelectJudg() { return SelectJudg; }

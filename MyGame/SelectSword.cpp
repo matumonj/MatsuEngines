@@ -42,6 +42,8 @@ void SelectSword::SpriteSet()
 	Sprite::LoadTexture(238, L"Resources/2d/attackicon/config_swordattack2.png");
 	Sprite::LoadTexture(239, L"Resources/2d/attackicon/config_swordattack2.png");
 
+	Sprite::LoadTexture(240, L"Resources/2d/attackicon/SetCustom.png");
+
 	SwordSample[0] = Sprite::Create(230, { 1.0f,1.0f });
 	SwordSample[1] = Sprite::Create(231, { 1.0f,1.0f });
 	SwordSample[2] = Sprite::Create(232, { 1.0f,1.0f });
@@ -56,20 +58,24 @@ void SelectSword::SpriteSet()
 	Frame->SetSize({ 450.0f,450.0f });
 	Frame->SetPosition(Position[0]);
 	Frame->SetAnchorPoint({ 0.5f,0.5f });
+
+
+
+	WeponParamSprite[0] = Sprite::Create(237, { 1.0f,1.0f });
+	WeponParamSprite[1] = Sprite::Create(238, { 1.0f,1.0f });
+	WeponParamSprite[2] = Sprite::Create(239, { 1.0f,1.0f });
+
+	Equipment = Sprite::Create(240, { 1.0f,1.0f });
+	Equipment->SetSize({ 1000,600 });
+	EquipmentPos.x = -200.0f;
 }
 
 void SelectSword::WeponParamInit()
 {
-
-	WeponParamSprite[0] = Sprite::Create(237, { 1.0f,1.0f });
-		WeponParamSprite[1] = Sprite::Create(238, { 1.0f,1.0f });
-		WeponParamSprite[2] = Sprite::Create(239, { 1.0f,1.0f });
 		for (int i = 0; i < 3; i++) {
 			WeponParamSprite[i]->SetPosition(WeponParamSpritePos[i]);
 		}
-		WeponParamSpritePos[0].y = ypos_Up;
-		WeponParamSpritePos[1].y = ypos_Center;
-		WeponParamSpritePos[2].y = ypos_Bottom;
+		
 	for (int i = 0; i < 3; i++) {
 		WeponParamSprite[i]->SetSize({ 1000,800 });
 		WeponParamSprite[i]->SetAnchorPoint({ 0.5f,0.5f });
@@ -78,9 +84,9 @@ void SelectSword::WeponParamInit()
 void SelectSword::WeponParamUpdate()
 {
 
-	WeponParamSpriteEaseT[0] += 1.0f / 60;
-	WeponParamSpriteEaseT[1] += 1.0f / 80;
-	WeponParamSpriteEaseT[2] += 1.0f / 100;
+	WeponParamSpriteEaseT[0] += 1.0f / 60.0f;
+	WeponParamSpriteEaseT[1] += 1.0f / 80.0f;
+	WeponParamSpriteEaseT[2] += 1.0f / 100.0f;
 
 	WeponParamSpritePos[0].y= Easing::EaseOut(WeponParamSpriteEaseT[0], 600, ypos_Up);
 	WeponParamSpritePos[1].y =Easing::EaseOut(WeponParamSpriteEaseT[1], 600, ypos_Center);
@@ -88,9 +94,19 @@ void SelectSword::WeponParamUpdate()
 
 	int Oldindex = index;
 	if (index != Oldindex) {
+
 		WeponParamSpriteEaseT[0] = 0.0f;
 		WeponParamSpriteEaseT[1] = 0.0f;
 		WeponParamSpriteEaseT[2] = 0.0f;
+	}
+	if (NowSelectSword == SMALL) {
+		WeponParamSpritePos[0].x = 255.0f;
+		WeponParamSpritePos[1].x = 255.0f;
+		WeponParamSpritePos[2].x = 255.0f;
+	} else if (NowSelectSword == NORMAL) {
+		WeponParamSpritePos[0].x = 650.0f;
+		WeponParamSpritePos[1].x = 650.0f;
+		WeponParamSpritePos[2].x = 650.0f;
 	}
 	for (int i = 0; i < 3; i++) {
 		WeponParamSpriteEaseT[i] = min(WeponParamSpriteEaseT[i], 1.0f);
@@ -158,41 +174,62 @@ void SelectSword::Update()
 {
 
 	if (SelectJudg) {
+		WeponParamUpdate();
+		for (int i = 0; i < 3; i++) {
+			WeponParamSprite[i]->SetPosition(WeponParamSpritePos[i]);
+		}
 		if (input->TiltStick(input->L_RIGHT)) {
+			ResetEaseTime();
 			index++;
 		} else if (input->TiltStick(input->L_LEFT)) {
+			ResetEaseTime();
 			index--;
 		}
 
 		if (index == SwordScale::SMALL) {
+			if (SkillSprite != SwordScale::SMALL) {
+				WeponParamSprite[0] = Sprite::Create(237, { 1.0f,1.0f });
+				WeponParamSprite[1] = Sprite::Create(238, { 1.0f,1.0f });
+				WeponParamSprite[2] = Sprite::Create(239, { 1.0f,1.0f });
+				WeponParamInit();
+				SkillSprite = SwordScale::SMALL;
+			}
 			NowSelectSword = SMALL;
 		} else if (index == SwordScale::NORMAL) {
+			if (SkillSprite != SwordScale::NORMAL) {
+				WeponParamSprite[0] = Sprite::Create(234, { 1.0f,1.0f });
+				WeponParamSprite[1] = Sprite::Create(235, { 1.0f,1.0f });
+				WeponParamSprite[2] = Sprite::Create(236, { 1.0f,1.0f });
+				WeponParamInit();
+				SkillSprite = SwordScale::NORMAL;
+			}
 			NowSelectSword = NORMAL;
 		} else if (index == SwordScale::BIG) {
 			NowSelectSword = BIG;
 		}
 		if (input->TriggerButton(input->A)) {
 			if (NowSelectSword == SMALL) {
+				EquipmentPos.x = -200.0f;
 				HUD::GetInstance()->SetSkillIcon(HUD::WAND);
 			}
 			if (NowSelectSword == NORMAL) {
+				EquipmentPos.x = 200.0f;
 				HUD::GetInstance()->SetSkillIcon(HUD::SWORD);
 			}
 			SetSword(NowSelectSword);
 		}
 		Frame->SetPosition(Position[index]);
+		Equipment->SetPosition(EquipmentPos);
 	}
 
 
 	Sword->Update(CameraControl::GetInstance()->GetCamera());
 
 	PedestalUpdate();
-	WeponParamUpdate();
+	
 	index = min(index, 2);
 	index = max(index, 0);
-	for (int i = 0; i < 3; i++) {
-		WeponParamSprite[i]->SetPosition({ 255,WeponParamSpritePos[i].y });
-	}
+
 }
 
 void SelectSword::PedestalUpdate()
@@ -294,8 +331,8 @@ void SelectSword::Draw()
 void SelectSword::SpriteDraw()
 {
 	ImGui::Begin("pos");
-	ImGui::SliderFloat("x", &WeponParamSpritePos[0].x, 0, 1900);
-	ImGui::SliderFloat("y", &WeponParamSpritePos[0].y, 0, 1000);
+	ImGui::SliderFloat("x", &EquipmentPos.x, 0, 1900);
+	ImGui::SliderFloat("y", &EquipmentPos.y, 0, 1000);
 	ImGui::End();
 
 	if (SelectJudg) {
@@ -308,6 +345,7 @@ void SelectSword::SpriteDraw()
 		}
 
 		Frame->Draw();
+		Equipment->Draw();
 		Sprite::PostDraw();
 	}
 	

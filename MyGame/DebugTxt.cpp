@@ -33,7 +33,7 @@ void DebugTxt::Initialize(UINT texnumber)
 }
 void DebugTxt::TextBeha()
 {
-	Position.y -= 0.1f;
+	Position.y -= 0.01f;
 	color.w -= 0.005f;
 }
 
@@ -63,10 +63,10 @@ void DebugTxt::Print(float scale = 1.0f)
 		int fontIndexX = fontIndex % fontLineCount;
 
 		// À•WŒvŽZ
-		spriteDatas[spriteIndex]->SetPosition({ Position.x + fontWidth * 1* i/6, Position.y,Position.z });
+		spriteDatas[spriteIndex]->SetPosition({ Position.x + fontWidth * 1* i/15, Position.y,Position.z });
 		spriteDatas[spriteIndex]->SetColor(color);
 		spriteDatas[spriteIndex]->SetTextureRect({ (float)fontIndexX * fontWidth, (float)fontIndexY * fontHeight }, { (float)fontWidth, (float)fontHeight });
-		spriteDatas[spriteIndex]->SetScale({ fontWidth * scale/50, fontHeight * scale/50,1 });
+		spriteDatas[spriteIndex]->SetScale({ fontWidth * scale/100, fontHeight * scale/100,1 });
 		spriteDatas[spriteIndex]->SetRotation({ 180,0,0 });
 		spriteDatas[spriteIndex]->SetBillboard(true);
 		spriteDatas[spriteIndex]->SetUVMove(false);

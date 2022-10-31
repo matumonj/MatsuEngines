@@ -50,6 +50,9 @@ void HUD::Initialize()
 	Sprite::LoadTexture(146, L"Resources/HPTex/frame2.png");
 	Sprite::LoadTexture(147, L"Resources/chestCollect1.png");
 	Sprite::LoadTexture(148, L"Resources/chestColFrame.png");
+
+	Sprite::LoadTexture(149, L"Resources/2d/minimapframe.png");
+
 	TaskSprite = Sprite::Create(143, { 0.0f,-200.0f });
 	TaskSprite->SetPosition({ WinApp::window_width / 2,WinApp::window_height / 2 });
 	TaskSprite->SetAnchorPoint({ 0.5,0.5 });
@@ -81,6 +84,11 @@ void HUD::Initialize()
 	Sprite::LoadTexture(26, L"Resources/attack3.png");
 
 	PlayerHPSize=(float)PlayerControl::GetInstance()->GetPlayer()->GetMaxHP() * 7.0f;
+
+	MiniMapFrame= Sprite::Create(149, { 0.0f,-200.0f });
+	MiniMapFrame->SetAnchorPoint({ 0.5F,0.5F });
+	MiniFrameSize={ 480,500 };
+	MiniframePos={ 1600,200 };
 }
 
 void HUD::EnemyHPGaugeInitialize()
@@ -233,6 +241,9 @@ void HUD::SkillBottonUpdate()
 
 	PlayerHPFrame->SetPosition(PlayerHP->GetPosition());
 	PlayerHPFrame2->SetPosition(PlayerHP->GetPosition());
+
+	MiniMapFrame->SetSize({ MiniFrameSize });
+	MiniMapFrame->SetPosition(MiniframePos);
 }
 
 void HUD::TaskUpdate(DebugCamera* camera)
@@ -324,9 +335,18 @@ void HUD::EnemyHPGauge_MultiDraw()
 	}
 	Texture::PostDraw();
 }
+
 void HUD::SkillBottonDraw()
 {
+	ImGui::Begin("Miniframe");
+	ImGui::SliderFloat("SizeX", &MiniFrameSize.x, 0, 1000);
+	ImGui::SliderFloat("Sizey", &MiniFrameSize.y, 0, 1000);
+
+	ImGui::SliderFloat("posX", &MiniframePos.x, 0, 1900);
+	ImGui::SliderFloat("Posy", &MiniframePos.y, -200, 1000);
+	ImGui::End();
 	Sprite::PreDraw();
+	MiniMapFrame->Draw();
 	FirstAttackSprite->Draw();
 	ThirdAttackSprite->Draw();
 	BuffSprite->Draw();
