@@ -3,7 +3,7 @@ Output main(float4 pos : POSITION, float2 uv : TEXCOORD)
 {
 	Output output;
 
-	const float window_x = 1600.0f;
+	const float window_x = centerpos.x;
 	const float window_y = 1080.0f;
 
 	float addx=0.0f;

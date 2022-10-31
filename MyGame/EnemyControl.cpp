@@ -127,7 +127,7 @@ void EnemyControl::Load(DebugCamera* camera)
 		enemys[EnemyType::TUTORIAL].resize(1);
 		enemys[EnemyType::TUTORIAL][0] = std::make_unique<MobEnemy>();
 		enemys[EnemyType::TUTORIAL][0]->Initialize(camera);
-		tutorial_pos = { 89.137f,20.5045f,-707.987f };
+		tutorial_pos = { 100.137f,20.5045f,-650.987f };
 		enemys[EnemyType::TUTORIAL][0]->SetPosition(tutorial_pos);
 		enemys[EnemyType::TUTORIAL][0]->SetRespawnPos(tutorial_pos);
 	}

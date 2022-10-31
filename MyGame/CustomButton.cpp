@@ -1,5 +1,4 @@
 #include "CustomButton.h"
-#include"HUDLayOut.h"
 CustomButton* CustomButton::GetInstance()
 {
 	static CustomButton instance;

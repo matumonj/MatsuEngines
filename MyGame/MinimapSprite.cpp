@@ -355,7 +355,7 @@ void MinimapSprite::Draw()
 	MinimapConstBufferData* constMap = nullptr;
 	HRESULT result = this->constBuff->Map(0, nullptr, (void**)&constMap);
 	if (SUCCEEDED(result)) {
-		constMap->centerpos = { 1600,200 };
+		constMap->centerpos = centerpos;
 		//this->matWorld * matProjection;	// s—ñ‚Ì‡¬	
 		this->constBuff->Unmap(0, nullptr);
 	}

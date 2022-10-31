@@ -132,9 +132,7 @@ void BossScene::Draw()
 		DirectXCommon::GetInstance()->BeginDraw();
 		SistemConfig::GetInstance()->SwordPedestalDraw();
 		//UI
-		if (HUD::GetInstance()->GetLayOutMode()) {
 			UI::GetInstance()->HUDDraw();
-		}
 		//Ý’è‰æ–Ê
 		SistemConfig::GetInstance()->Draw();
 		

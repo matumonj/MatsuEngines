@@ -175,9 +175,7 @@ void PlayScene::Draw()
 
 		DirectXCommon::GetInstance()->BeginDraw();
 		postEffect->Draw();
-		if (HUD::GetInstance()->GetLayOutMode()) {
-			UI::GetInstance()->HUDDraw();
-		}
+		
 		SistemConfig::GetInstance()->Draw();
 		
 		DirectXCommon::GetInstance()->EndDraw();

@@ -1,6 +1,5 @@
 #include "SistemConfig.h"
 #include"ConfigSprite.h"
-#include"HUDLayOut.h"
 #include"CustomButton.h"
 #include"SelectSword.h"
 SistemConfig* SistemConfig::GetInstance()
@@ -61,21 +60,15 @@ void SistemConfig::Update()
 
 
 		if (CustomButton::GetInstance()->GetCustomButtonJudg() == false) {
-			if (NowSelectButton() == HUDRAYOUT) {
-				if (input->TriggerButton(input->B)) {
-					HUDLayOut::GetInstance()->SetLayOutMode(true);
-				}
-			}
+			
 		}
 		if (NowSelectButton() == CUSTOMBUTTON) {
-			//HUDLayOut::GetInstance()->SetLayOutMode(false);
 			if (input->TriggerButton(input->B)) {
 				CustomButton::GetInstance()->SetCustomButtonJudg(true);
 			}
 		}
 		if (CustomButton::GetInstance()->GetCustomButtonJudg() == false) {
 			if (NowSelectButton() == SWORDSELECT) {
-				//HUDLayOut::GetInstance()->SetLayOutMode(false);
 				if (input->TriggerButton(input->B)) {
 					SelectSword::GetInstance()->SetSelectJudg(true);
 				}
@@ -84,7 +77,6 @@ void SistemConfig::Update()
 
 		if (count>5&&input->TriggerButton(input->START)) {
 			SelectSword::GetInstance()->SetSelectJudg(false);
-			HUDLayOut::GetInstance()->SetLayOutMode(false);
 			CustomButton::GetInstance()->SetCustomButtonJudg(false);
 			count = 0;
 			EndConfigJudg = true;
@@ -124,7 +116,7 @@ SistemConfig::Config SistemConfig::NowSelectButton()
 void SistemConfig::Draw()
 {
 	Sprite::PreDraw();
-	if (m_ConfigFlag&&HUDLayOut::GetInstance()->GetLayOutMode()==false&&CustomButton::GetInstance()->GetCustomButtonJudg()==false&& SelectSword::GetInstance()->GetSelectJudg()==false) {
+	if (m_ConfigFlag&&CustomButton::GetInstance()->GetCustomButtonJudg()==false&& SelectSword::GetInstance()->GetSelectJudg()==false) {
 		configSprite->Draw();
 		SelectSprite->Draw();
 	}

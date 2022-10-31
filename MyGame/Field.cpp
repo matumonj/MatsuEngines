@@ -128,10 +128,10 @@ void Field::Update_Tutorial(DebugCamera* camera)
 			continue;
 		}
 		Enemyicon[i]->SetPosition({ EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[i]->GetPosition().x,
-			EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[i]->GetPosition().y+250.0f,
+			EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[i]->GetPosition().y+10.0f,
 			EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[i]->GetPosition().z});
 		Enemyicon[i]->Update(dc);
-		Enemyicon[i]->SetScale({ 1.0f,1.0f,1.0f });
+		Enemyicon[i]->SetScale({ 4.0f,4.0f,4.0f });
 		Enemyicon[i]->SetBillboard(true);
 		Enemyicon[i]->SetColor({ 1.0f,1.0f,1.0f,1 });
 
@@ -139,7 +139,7 @@ void Field::Update_Tutorial(DebugCamera* camera)
 			Destroy_unique(Enemyicon[i]);
 		}
 	}
-
+	
 }
 
 void Field::Update_Play(DebugCamera* camera)

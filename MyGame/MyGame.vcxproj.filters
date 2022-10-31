@@ -336,9 +336,6 @@
     <ClCompile Include="HUD.cpp">
       <Filter>Game\UI\HUD</Filter>
     </ClCompile>
-    <ClCompile Include="HUDLayOut.cpp">
-      <Filter>Game\UI\HUD</Filter>
-    </ClCompile>
     <ClCompile Include="MapCreate.cpp">
       <Filter>Editor</Filter>
     </ClCompile>
@@ -724,9 +721,6 @@
     </ClInclude>
     <ClInclude Include="QueryCallback.h">
       <Filter>Game\collision</Filter>
-    </ClInclude>
-    <ClInclude Include="HUDLayOut.h">
-      <Filter>Game\UI\HUD</Filter>
     </ClInclude>
     <ClInclude Include="HUD.h">
       <Filter>Game\UI\HUD</Filter>

@@ -34,11 +34,13 @@ private:
 private:
     //画面クリアカラー
     static const float clearColor[4];
+    XMFLOAT2 centerpos;
 public:
     struct MinimapConstBufferData
     {
         XMFLOAT2 centerpos;	// ３Ｄ変換行列
     };
+    void SetCenterpos(XMFLOAT2 pos) { centerpos = pos; }
 public:
     /// <summary>
     /// コンストラクタ

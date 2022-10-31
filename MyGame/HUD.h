@@ -68,6 +68,8 @@ public:
 	void SetCenterPosition(XMFLOAT2 pos) { CenterPosition = pos; }
 	Sprite* GetSkillButton() { return FirstAttackSprite; }
 	float GetCoolTime() { return CoolTime_Time; }
+	XMFLOAT2 GetMinimapFramePos() { return MiniframePos; };
+	Sprite* GetMinimapSprite() { return MiniMapFrame; }
 private:
 	XMFLOAT2 CenterPosition = {1050,500};
 	Sprite* coolDownSprite[4];

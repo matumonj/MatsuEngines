@@ -162,6 +162,7 @@ void Tutorial::Update()
 	lightGroup->SetCircleShadowAtten(1, XMFLOAT3(circleShadowAtten));
 	lightGroup->SetCircleShadowFactorAngle(1, XMFLOAT2(circleShadowFactorAngle));
 
+	postEffect->SetCenterpos(HUD::GetInstance()->GetMinimapSprite()->GetPosition());
 if (scenechange&& Feed::GetInstance()->GetAlpha() >= 1.0f) {//画面真っ白なったら
 		BaseScene* scene = new PlayScene(sceneManager_);//次のシーンのインスタンス生成
 		Play = false;
@@ -202,9 +203,7 @@ void Tutorial::Draw()
 
 		DirectXCommon::GetInstance()->BeginDraw();
 		SistemConfig::GetInstance()->SwordPedestalDraw();
-		if (HUD::GetInstance()->GetLayOutMode()) {
-			UI::GetInstance()->HUDDraw();
-		}
+		
 		SistemConfig::GetInstance()->Draw();
 		DirectXCommon::GetInstance()->EndDraw();
 

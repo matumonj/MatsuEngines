@@ -102,7 +102,7 @@ private:
 private:
 	int nogroundtime;
 	bool jumpflag;
-	float movespeed = 9.0f;
+	float movespeed = 4.0f;
 	XMVECTOR Gmove;
 public:
 	void Setangle(float angle) { this->angle = angle; }

@@ -132,4 +132,5 @@ public:
 	XMFLOAT2 GetSize() { return size; }
 	void ChangePosition_PlayerHP(XMFLOAT2 MousePosition);
 	void ChangePosition(XMFLOAT2 MousePosition,XMFLOAT2 &c);
+	void ChangePosition_Minimap(XMFLOAT2 MousePosition);
 };

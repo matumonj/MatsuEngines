@@ -570,38 +570,3 @@ void Sprite::TransferVertices()
 }
 #pragma endregion
 
-
-void Sprite::ChangePosition_PlayerHP(XMFLOAT2 MousePosition)
-{
-	float halfsize_x = size.x / 2;
-	float halfsize_y = size.y / 2;
-	
-	if (Input::GetInstance()->PushMouseLeft()&& Collision::CheckPoint2Rect({ MousePosition.x,MousePosition.y }, {position,size }) == true)
-	{
-		f = true;
-	}
-	if (f) {
-		position = { MousePosition.x - halfsize_x,MousePosition.y - halfsize_y };
-		if (Input::GetInstance()->PushMouseLeft()!=true) {
-			f = false;
-	}
-	}
-	//HUD::GetInstance()->SetAnchor_PlayerHP({ 0.0f, 0.0f });
-}
-
-void Sprite::ChangePosition(XMFLOAT2 MousePosition, XMFLOAT2& c)
-{
-	float halfsize_x =50;
-	float halfsize_y = 50;
-
-	if (Input::GetInstance()->PushMouseLeft() && Collision::CheckPoint2Rect({ MousePosition.x,MousePosition.y }, { {c.x,c.y},{100,100} }) == true)
-	{
-		f = true;
-	}
-	if (f) {
-		c = { MousePosition.x - halfsize_x,MousePosition.y - halfsize_y };
-		if (Input::GetInstance()->PushMouseLeft() != true) {
-			f = false;
-		}
-	}
-}

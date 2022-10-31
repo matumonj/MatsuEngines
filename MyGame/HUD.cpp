@@ -1,5 +1,4 @@
 #include "HUD.h"
-#include"HUDLayOut.h"
 #include"TargetMarker.h"
 #include"mHelper.h"
 #include"PlayerAttackState.h"
@@ -89,6 +88,8 @@ void HUD::Initialize()
 	MiniMapFrame->SetAnchorPoint({ 0.5F,0.5F });
 	MiniFrameSize={ 480,500 };
 	MiniframePos={ 1600,200 };
+	MiniMapFrame->SetSize({ MiniFrameSize });
+	MiniMapFrame->SetPosition(MiniframePos);
 }
 
 void HUD::EnemyHPGaugeInitialize()
@@ -99,6 +100,7 @@ void HUD::EnemyHPGaugeInitialize()
 	Sprite::LoadTexture(13, L"Resources/bosshp.png");
 
 }
+
 void HUD::SkillButtonInitialize()
 {
 	if (skillicon == WAND) {
@@ -145,6 +147,8 @@ void HUD::SetSkillIcon(SkillIcon icon)
 		iconchangeF = false;
 	}
 }
+
+
 void HUD::SkillBottonUpdate()
 {
 	FirstAttackSprite->SetSize({ 120,120 });
@@ -242,8 +246,7 @@ void HUD::SkillBottonUpdate()
 	PlayerHPFrame->SetPosition(PlayerHP->GetPosition());
 	PlayerHPFrame2->SetPosition(PlayerHP->GetPosition());
 
-	MiniMapFrame->SetSize({ MiniFrameSize });
-	MiniMapFrame->SetPosition(MiniframePos);
+	
 }
 
 void HUD::TaskUpdate(DebugCamera* camera)
@@ -389,7 +392,6 @@ void HUD::SkillBottonDraw()
 }
 void HUD::Update()
 {
-	HUDLayOut::GetInstance()->Update();
 	PlayerHP->setcolor({ 1.0f,1.0f,1.0f,1.0f });
 	for (int i = 0; i < 5; i++) {
 		ChestCollect[i]->setcolor({ 1.0f,1.0f,1.0f,1.0f });
@@ -398,29 +400,6 @@ void HUD::Update()
 
 void HUD::Draw()
 {
-}
-
-bool HUD::GetLayOutMode()
-{
-	return HUDLayOut::GetInstance()->GetLayOutMode();
-}
-
-
-void HUD::ChangePosition(XMFLOAT2 MousePosition, XMFLOAT2& c)
-{
-	float halfsize_x = 50;
-	float halfsize_y = 50;
-
-	if (Input::GetInstance()->PushMouseLeft() && Collision::CheckPoint2Rect({ MousePosition.x,MousePosition.y }, { {c.x,c.y},{100,100} }) == true)
-	{
-		f = true;
-	}
-	if (f) {
-		c = { MousePosition.x - halfsize_x,MousePosition.y - halfsize_y };
-		if (Input::GetInstance()->PushMouseLeft() != true) {
-			f = false;
-		}
-	}
 }
 
 void HUD::AreaName()
