@@ -45,7 +45,7 @@ private: // エイリアス
 private:
 	const float window_width = 1900;
 	const float window_height = 1020;
-	static const int debugTextTexNumber = 0;
+	static const int DebugTextSpriteTexNumber = 0;
 	
 	bool scenechange;
 	bool feedflag;

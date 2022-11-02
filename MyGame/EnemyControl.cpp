@@ -39,6 +39,7 @@ void EnemyControl::Finalize()
 void EnemyControl::Initialize(DebugCamera* camera)
 {
 	enemys.resize(EnemyType::BOSS + 1);
+	enemys[EnemyType::BOSS].resize(1);
 
 }
 
@@ -132,7 +133,6 @@ void EnemyControl::Load(DebugCamera* camera)
 		enemys[EnemyType::TUTORIAL][0]->SetRespawnPos(tutorial_pos);
 	}
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
-		enemys[EnemyType::BOSS].resize(1);
 		enemys[EnemyType::BOSS][0] = std::make_unique<BossEnemy>();
 		enemys[EnemyType::BOSS][0]->Initialize(camera);
 		boss_pos = { 0.0f,15.5045f,20.987f };
@@ -155,11 +155,11 @@ void EnemyControl::Load(DebugCamera* camera)
 void EnemyControl::Update_Tutorial(DebugCamera* camera)
 {
 	if (enemys[EnemyType::TUTORIAL][0] == nullptr)return;
-		if (TutorialSprite::GetInstance()->GetClearSetting()) {
+		if (TutorialSprite::GetInstance()->GetClearMove()) {
 			//enemys[EnemyType::TUTORIAL][0]->SetMoveFlag(true);
 			enemys[EnemyType::TUTORIAL][0]->Update(camera);
 		}
-		if (enemys[EnemyType::TUTORIAL][0]->GetObjAlpha() < 0) {
+		if (enemys[EnemyType::TUTORIAL][0]->GetObjAlpha() <= 0) {
 			Destroy_unique(enemys[EnemyType::TUTORIAL][0]);
 		}
 }
@@ -171,6 +171,9 @@ void EnemyControl::Update_Play(DebugCamera* camera)
 		if (enemys[EnemyType::PLAYSCENE][i] != nullptr) {
 			enemys[EnemyType::PLAYSCENE][i]->SetMoveFlag(true);
 			enemys[EnemyType::PLAYSCENE][i]->Update(camera);
+		}
+		if (enemys[EnemyType::PLAYSCENE][i]->GetObjAlpha() <= 0) {
+			Destroy_unique(enemys[EnemyType::PLAYSCENE][i]);
 		}
 	}
 	
@@ -219,16 +222,15 @@ void EnemyControl::Draw()
 	}
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
 		if (enemys[EnemyType::TUTORIAL][0] != nullptr) {
-			if (TutorialSprite::GetInstance()->GetClearSetting()) {
+			if (TutorialSprite::GetInstance()->GetClearMove()) {
 				enemys[EnemyType::TUTORIAL][0]->Draw();
 			}
 		}
 	}
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
-		if (enemys[EnemyType::BOSS][0] != nullptr) {
+		if (enemys[EnemyType::BOSS][0] == nullptr)return;
 			enemys[EnemyType::BOSS][0]->Draw();
 			gigaboss->Draw();
-		}
 		CircleAttack::GetInstance()->Draw();
 		HalfAttack::GetInstance()->Draw();
 		KnockAttack::GetInstance()->Draw();
@@ -246,19 +248,19 @@ void EnemyControl::GuardianSetPos()
 	}
 	enemys[GUARDIAN_RED][0] = std::make_unique<GuardianRed>();
 	enemys[GUARDIAN_RED][0]->Initialize(CameraControl::GetInstance()->GetCamera());
-	enemys[GUARDIAN_RED][0]->SetPosition(ChestControl::GetInstance()->GetChest(ChestControl::RED)->GetPosition());
+//	enemys[GUARDIAN_RED][0]->SetPosition(ChestControl::GetInstance()->GetChest(ChestControl::RED)->GetPosition());
 	
 	enemys[GUARDIAN_GREEN][0] = std::make_unique<GuardianGreen>();
 	enemys[GUARDIAN_GREEN][0]->Initialize(CameraControl::GetInstance()->GetCamera());
-	enemys[GUARDIAN_GREEN][0]->SetPosition(ChestControl::GetInstance()->GetChest(ChestControl::GREEN)->GetPosition());
+	//enemys[GUARDIAN_GREEN][0]->SetPosition(ChestControl::GetInstance()->GetChest(ChestControl::GREEN)->GetPosition());
 	
 	enemys[GUARDIAN_BLUE][0] = std::make_unique<GuardianBlue>();
 	enemys[GUARDIAN_BLUE][0]->Initialize(CameraControl::GetInstance()->GetCamera());
-	enemys[GUARDIAN_BLUE][0]->SetPosition(ChestControl::GetInstance()->GetChest(ChestControl::BLUE)->GetPosition());
+	//enemys[GUARDIAN_BLUE][0]->SetPosition(ChestControl::GetInstance()->GetChest(ChestControl::BLUE)->GetPosition());
 	
 	enemys[GUARDIAN_YELLOW][0] = std::make_unique<GuardianYellow>();
 	enemys[GUARDIAN_YELLOW][0]->Initialize(CameraControl::GetInstance()->GetCamera());
-	enemys[GUARDIAN_YELLOW][0]->SetPosition(ChestControl::GetInstance()->GetChest(ChestControl::YELLOW)->GetPosition());
+	//enemys[GUARDIAN_YELLOW][0]->SetPosition(ChestControl::GetInstance()->GetChest(ChestControl::YELLOW)->GetPosition());
 
 
 }

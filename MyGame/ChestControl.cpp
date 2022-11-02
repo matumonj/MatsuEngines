@@ -125,6 +125,10 @@ void ChestControl::Update_Tutorial(DebugCamera* camera)
 		Tutorial_chest[0]->SetpColor({ 1.0f,1.0f,1.0f,1.0f });
 		Tutorial_chest[0]->Update(camera);
 		GetChestEvent(Tutorial_chest[0].get(), TutorialPchest);
+
+		if (TutorialPchest.ChestEvent == END) {
+			GetTutorialChestJudg= true;
+		}
 	}
 }
 
@@ -137,6 +141,7 @@ void ChestControl::Update_Play(DebugCamera* camera)
 
 	for (int i = 0; i < 4; i++) {
 		if (chests[i] != nullptr) {
+			chests[i]->SetColor({ 1,1,1,1 });
 			chests[i]->Update(camera);
 			GetChestEvent(chests[i].get(), PlayPchest[i]);
 		}
@@ -174,11 +179,7 @@ void ChestControl::Draw()
 
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
 		for (int i = 0; i < 4; i++) {
-//			PlayPchest[i].particleMan->Draw();
-		}
-		for (int i = 0; i < 4; i++) {
 			if (chests[i] != nullptr) {
-				//	if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), chests[i]->GetPosition()) < UpdateRange) {
 				chests[i]->Draw();
 			}
 		}
@@ -235,7 +236,9 @@ void ChestControl::GetChestEvent(Chest* chest, ParticleParam& pParam)
 		}
 		Feed::GetInstance()->Update_Black(Feed::FEEDOUT);
 		PlayerControl::GetInstance()->GetPlayer()->SetPosition({ chest->GetPosition().x,Ppos.y,chest->GetPosition().z - 25.0f });
+		PlayerControl::GetInstance()->GetPlayer()->SetRotation({ -163.0f,-62.0f,103.0f });
 		PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(true);
+		PlayerControl::GetInstance()->GetPlayer()->SetnoAttack(true);
 		CameraControl::GetInstance()->GetCamera()->SetEye({ Ppos.x + 8.0f,Ppos.y + 10.0f,Ppos.z - 20.0f });
 		CameraControl::GetInstance()->GetCamera()->SetTarget(chest->GetPosition());
 	} else if (pParam.ChestEvent == GETCHEST) {
@@ -266,14 +269,13 @@ void ChestControl::GetChestEvent(Chest* chest, ParticleParam& pParam)
 			pParam.pCount = 0;
 			GetChestCount++;
 			PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(false);
-
+			PlayerControl::GetInstance()->GetPlayer()->SetnoAttack(false);
 			UI::GetInstance()->SetTurnoffUIDraw(false);
 			pParam.ChestEvent = END;
 		}
 	}
 	GetChestEffect(chest, pParam);
 }
-
 void ChestControl::GetChestEffect(Chest* chest, ParticleParam& pParam)
 {
 

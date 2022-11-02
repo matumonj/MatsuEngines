@@ -174,6 +174,7 @@ void SelectSword::Update()
 {
 
 	if (SelectJudg) {
+
 		WeponParamUpdate();
 		for (int i = 0; i < 3; i++) {
 			WeponParamSprite[i]->SetPosition(WeponParamSpritePos[i]);
@@ -235,19 +236,19 @@ void SelectSword::Update()
 void SelectSword::PedestalUpdate()
 {
 	//台座座標
-	const XMFLOAT3 PedestalPos = { CameraControl::GetInstance()->GetCamera()->GetEye().x+20.0f,
-	CameraControl::GetInstance()->GetCamera()->GetEye().y-20.0f ,
+	const XMFLOAT3 PedestalPos = { CameraControl::GetInstance()->GetCamera()->GetEye().x+18,
+	CameraControl::GetInstance()->GetCamera()->GetEye().y -10.0f,
 	CameraControl::GetInstance()->GetCamera()->GetEye().z + 30.0f };
 	//サンプル剣回転時の中心座標からの距離(半径)
-	const float Radius = 3.0f;
+	const float Radius = 6.0f;
 	const float Height = 3.0f;
 	//円回転するやつ
 	//右回転
-	if (input->TriggerCrossKey(input->Cross_Right)) {
+	if (input->TiltStick(input->L_RIGHT)) {
 		rotDir = RIGHT;
 	}
 	//左回転
-	if (input->TriggerCrossKey(input->Cross_Left)) {
+	if (input->TiltStick(input->L_LEFT)) {
 		rotDir = LEFT;
 	}
 	//イージングカウントリセット

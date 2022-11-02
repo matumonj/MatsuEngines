@@ -9,6 +9,7 @@
 #include"SceneManager.h"
 #include "FbxLoader.h"
 #include"GrassObj.h"
+#include"DebugTxt.h"
 class Framework
 {
 public:

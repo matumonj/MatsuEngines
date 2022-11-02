@@ -68,7 +68,23 @@ void AttackCollision::GetCol(int damage)
 		break;
 
 	case SceneManager::PLAY:
-		
+		ColOBB(PLAY);
+
+
+		if (PlayerControl::GetInstance()->GetPlayer()->GetFbxTime() < 0.48f) {
+			Hit_colf = false;
+		}
+		for (int i = 0; i < EnemyOBB.size(); i++) {
+			if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i] == nullptr || Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetPosition()) > 100.0f) {
+				continue;
+			}
+			if (PlayerControl::GetInstance()->GetPlayer()->GetAttackType() != PlayerControl::GetInstance()->GetPlayer()->NON && PlayerControl::GetInstance()->GetPlayer()->GetAttackType() != PlayerControl::GetInstance()->GetPlayer()->RUN) {
+				if (Collision::CheckOBBCollision(HandObb, EnemyOBB[i]) == true && !Hit_colf) {
+					EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i]->RecvDamage(damage);
+					Hit_colf = true;
+				}
+			}
+		}
 		break;
 
 	case SceneManager::BOSS:
@@ -105,9 +121,18 @@ void AttackCollision::ColOBB(ColType Enemytype)
 		}
 		break;
 	case AttackCollision::PLAY://大量のOBB判定　軽量化必要かも
-	
-		break;
-	case AttackCollision::BOSS:
+		EnemyOBB.resize(EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE).size());
+		for (int i = 0; i < EnemyOBB.size(); i++) {
+			if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i] == nullptr) {
+				continue;
+			}
+			EnemyOBB[i].SetOBBParam_Pos(EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetPosition());
+			EnemyOBB[i].SetOBBParam_Rot(EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetMatrot());
+			EnemyOBB[i].SetOBBParam_Scl({ 4.0f,15.0f,4.0f });
+		}
+			break;
+			case
+		 AttackCollision::BOSS:
 		BossEnemyOBB.resize(1);
 		//OBB 回転ベクトル
 		BossEnemyOBB[0].SetOBBParam_Pos(EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition());

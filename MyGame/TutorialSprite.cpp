@@ -57,6 +57,7 @@ void TutorialSprite::Initialize()
 		notTaskXpos[i] = -1000;
 		notClearTask[i]->SetPosition({ -300.0f,0.0f });
 	}
+	Task[CLEAR]->SetSize({ 1000, 1000 });
 	AllTaskClear=false;
 	task = THELLO;
 	Jump = false;
@@ -120,10 +121,8 @@ void TutorialSprite::Update()
 	
 	//オールコンプリート
 	AllTaskClear = ClearTaskJudg[WALK] && ClearTaskJudg[SETTING] && ClearTaskJudg[ATTACK]&& ClearTaskJudg[GETKEY];
-	//チュートリアルの宝箱
-	ClearTaskJudg[GETKEY]= ChestControl::GetInstance()->GetTutorialChest() == true;
 	
-	FenceControl::GetInstance()->SetTutorialFenceOpen(AllTaskClear);
+	FenceControl::GetInstance()->SetTutorialFenceOpen(ClearTaskJudg[SETTING]);
 	switch (task)
 	{
 	case TutorialSprite::THELLO:
@@ -156,6 +155,7 @@ void TutorialSprite::Update()
 		break;
 
 	case TutorialSprite::TSETTING:
+		NextTask(t[TSETTING], TGETKEY, ClearTaskJudg[SETTING]);
 		notTaskXpos[ENEMYDESTROY] -= 30;
 		//セッティング
 		ClearTaskJudg[SETTING] = SistemConfig::GetInstance()->GetEndConfig();
@@ -168,6 +168,10 @@ void TutorialSprite::Update()
 		break;
 
 	case TutorialSprite::TGETKEY:
+	//	n//otTaskXpos[ENEMYDESTROY] += 30;
+		//セッティング
+			ClearTaskJudg[GETKEY] = ChestControl::GetInstance()->GetTutorialChest() == true;
+
 		if (MassageCheck[GETKEY]) {
 			NextTask(t[GETKEY], TEND,ClearTaskJudg[GETKEY]);
 		}
@@ -187,6 +191,7 @@ void TutorialSprite::Update()
 	for (int i = 0; i < TaskNum; i++) {
 		Task[i]->SetSize({ SpriteSizeX[i],1000 });
 	}
+	
 	for (int i = 0; i < 4; i++) {
 		notTaskXpos[i] = min(notTaskXpos[i], 0);
 		notTaskXpos[i] = max(notTaskXpos[i], -1000);

@@ -2,6 +2,7 @@
 #include"ConfigSprite.h"
 #include"CustomButton.h"
 #include"SelectSword.h"
+#include"PlayerControl.h"
 SistemConfig* SistemConfig::GetInstance()
 {
 	static SistemConfig instance;
@@ -43,7 +44,9 @@ void SistemConfig::Update()
 	m_number = max(m_number, 0);
 
 	if (input->TriggerButton(input->START)) {
+		PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(true);
 		m_ConfigFlag = true;
+
 	}
 
 	if (m_ConfigFlag) {
@@ -78,6 +81,8 @@ void SistemConfig::Update()
 		if (count>5&&input->TriggerButton(input->START)) {
 			SelectSword::GetInstance()->SetSelectJudg(false);
 			CustomButton::GetInstance()->SetCustomButtonJudg(false);
+
+			PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(false);
 			count = 0;
 			EndConfigJudg = true;
 			m_ConfigFlag = false;

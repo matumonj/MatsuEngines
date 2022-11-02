@@ -24,11 +24,16 @@ void TitleScene::Initialize()
 	Sprite::LoadTexture(4, L"Resources/title2.png");
 	titlesprite2 = Sprite::Create(4, {  WinApp::window_width / 2,0.0f });
 	Feed::GetInstance()->initialize();
+
+	Sprite::LoadTexture(0, L"Resources/2d/LevelUp/font.png");
+	
+	DebugTextSprite::GetInstance()->Initialize(0);
 }
 
 /*------------------------*/
 /*-------XVˆ—--------*/
 /*-----------------------*/
+#include"mHelper.h"
 void TitleScene::Update()
 {
 
@@ -45,6 +50,9 @@ void TitleScene::Update()
 	//titlesprite2->SetRotation(180);
 	titlesprite->SetSize({ WinApp::window_width/2,WinApp::window_height });
 	titlesprite2->SetSize({ WinApp::window_width / 2,WinApp::window_height });
+
+//	DebugTextSprite::GetInstance()->Print("aa", 0, 0, 2);
+
 }
 
 /*------------------------*/
@@ -55,6 +63,8 @@ void TitleScene::SpriteDraw()
 	Sprite::PreDraw();
 	titlesprite2->Draw();
 	titlesprite->Draw();
+
+	DebugTextSprite::GetInstance()->DrawAll();
 	Sprite::PostDraw();
 }
 

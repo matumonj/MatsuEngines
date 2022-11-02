@@ -66,7 +66,6 @@ int u=0;
 	ParticleParam PlayPchest[4];
 	void GetChestEffect(Chest* chest, ParticleParam&pParam);
 	void GetChestEvent(Chest* chest, ParticleParam&pParam);
-
 private:
 	void Update_Tutorial(DebugCamera*camera)override;
 

@@ -19,6 +19,7 @@
 #include"DamageManager.h"
 #include"StoneControl.h"
 #include"GrassFieldControl.h"
+#include"SelectSword.h"
 //シーンのコンストラクタ
 Tutorial::Tutorial(SceneManager* sceneManager)
 	:BaseScene(sceneManager)
@@ -83,6 +84,7 @@ void Tutorial::Initialize()
 
 		//カメラの注視点をプレイヤーにセット
 		CameraControl::GetInstance()->SetCameraState(CameraControl::PLAYER);
+		SelectSword::GetInstance()->Initialize();
 
 }
 
@@ -198,10 +200,11 @@ void Tutorial::Draw()
 	{
 	case Blur://ぼかし　描画準違うだけ
 		postEffect->PreDrawScene();
-		SistemConfig::GetInstance()->SwordPedestalDraw();
+		MyGameDraw();
 		postEffect->PostDrawScene();
 
 		DirectXCommon::GetInstance()->BeginDraw();
+		//postEffect->Draw();
 		SistemConfig::GetInstance()->SwordPedestalDraw();
 		
 		SistemConfig::GetInstance()->Draw();

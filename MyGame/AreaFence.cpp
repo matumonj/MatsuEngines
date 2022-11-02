@@ -49,8 +49,8 @@ bool AreaFence::CollideAreaFence()
 		m_Object->GetMatScl().r[2].m128_f32[2] - 2 });
 
 	if (Collision::CheckOBBCollision(playerOBB,AreaFenceOBB)==true) {
-		//Collision::SetCollideOBB(true);
-		//PlayerControl::GetInstance()->GetPlayer()->isOldPos();
+		Collision::SetCollideOBB(true);
+		PlayerControl::GetInstance()->GetPlayer()->isOldPos();
 		return true;
 	}
 }

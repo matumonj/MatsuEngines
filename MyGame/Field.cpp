@@ -113,7 +113,6 @@ void Field::Update_Tutorial(DebugCamera* camera)
 	FieldObject->SetPosition({ 0.0f,-25.0f,0.0f });
 	FieldObject->SetFogCenter({ 125.0f, -25.0f, -680.0f });
 	FieldObject->setFog(TRUE);
-
 	SetFieldUpdate(CELESTIALSPHERE, camera, { 0.0f,30.0f,0.0f }, { 40.0f,40.0f,40.0f }, FALSE, TRUE);
 	FieldObject->SetColor({ 0.2f,0.2f,0.2f,1.0f });
 	FieldObject->Update({ 0.2f,0.2f,0.2f,1.0f }, camera);
@@ -144,10 +143,21 @@ void Field::Update_Tutorial(DebugCamera* camera)
 
 void Field::Update_Play(DebugCamera* camera)
 {
+	if (CameraControl::GetInstance()->GetCameraState_Spline() != CameraControl::PLAYCUTEND) {
+		FogCenterPos = camera->GetEye();
+	}
+	else {
+		FogCenterPos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	}
+	
 	if (FieldObject == nullptr)return;
+	CelestalRot += 0.1f;
+	m_object[CELESTIALSPHERE]->SetRotation({ 90,CelestalRot,180 });
+	SetFieldUpdate(CELESTIALSPHERE, camera, { 0.0f,2290.0f,0.0f }, { 40.0f,40.0f,40.0f }, FALSE, FALSE);
 	FieldObject->SetPosition({ 0.0f,-25.0f,0.0f });
-	FieldObject->SetFogCenter({ 0.0f, -20.0f, 0.0f });
+	FieldObject->SetFogCenter(FogCenterPos);
 	FieldObject->SetColor({ 0.2f,0.2f,0.2f,1.0f });
+	FieldObject->setFog(true);
 	FieldObject->Update({ 0.2f,0.2f,0.2f,1.0f }, camera);
 
 	playerpoint->SetPosition({ PlayerControl::GetInstance()->GetPlayer()->GetPosition().x,150.0f,PlayerControl::GetInstance()->GetPlayer()->GetPosition().z });
@@ -239,11 +249,13 @@ void Field::MiniFieldDraw()
 	playerpoint->Draw();
 
 	for (int i = 0; i < EnemyIconSize; i++) {
-		if (Enemyicon[i] == nullptr || Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[i]->GetPosition()) > 100) {
+		if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
+			if (Enemyicon[i] == nullptr || Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[i]->GetPosition()) > 100) {
 
-			continue;
+				continue;
+			}
+			Enemyicon[i]->Draw();
 		}
-		Enemyicon[i]->Draw();
 	}
 	Texture::PostDraw();
 }

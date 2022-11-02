@@ -15,7 +15,7 @@ ObjectManager::~ObjectManager()
 
 void ObjectManager::SetCollider()
 {
-	float radius = 1.0f;
+	float radius = 3.0f;
 	m_Object->SetCollider(new SphereCollider(XMVECTOR({ 0,radius,0,0 }), radius));
 	m_Object->collider->SetAttribute(COLLISION_ATTR_ALLIES);
 }
@@ -28,7 +28,7 @@ void ObjectManager::CollisionField(DebugCamera* camera)
 	if (!onGround) {
 		// 下向き加速度
 		const float fallAcc = -0.01f;
-		const float fallVYMin = -0.5f;
+		const float fallVYMin = -0.3f;
 		// 加速
 		fallV.m128_f32[1] = max(fallV.m128_f32[1] + fallAcc, fallVYMin);
 		// 移動
@@ -58,7 +58,7 @@ void ObjectManager::CollisionField(DebugCamera* camera)
 			float cos = XMVector3Dot(rejectDir, up).m128_f32[0];
 
 			// 地面判定しきい値
-			const float threshold = cosf(XMConvertToRadians(30.0f));
+			const float threshold = cosf(XMConvertToRadians(15.0f));
 
 			if (-threshold < cos && cos < threshold) {
 				sphere->center += info.reject;
@@ -94,7 +94,7 @@ void ObjectManager::CollisionField(DebugCamera* camera)
 	// 接地状態
 	if (onGround) {
 		// スムーズに坂を下る為の吸着距離
-		const float adsDistance = 5.0f;
+		const float adsDistance = 1.2f;
 		// 接地を維持
 		if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit, sphereCollider->GetRadius() * 2.5f + adsDistance)) {
 			onGround = true;

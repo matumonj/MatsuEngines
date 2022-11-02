@@ -322,7 +322,7 @@ bool GrassObj::Initialize(DebugCamera* camera)
 void GrassObj::Update(XMFLOAT4 color, DebugCamera* camera)
 {
 	//if (uvf) {
-	int randTime = rand() % 30 + 15;
+	int randTime = rand() % 60 + 15;
 		if (uvf) {
 			uvtime -= 0.05f;
 			if (uvtime < -(float)randTime) {

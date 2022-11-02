@@ -9,6 +9,7 @@
 #include"imgui.h"
 #include"mHelper.h"
 #include"UI.h"
+#include"Field.h"
 CameraControl* CameraControl::GetInstance()
 {
 	static CameraControl instance;
@@ -213,7 +214,7 @@ void CameraControl::TargetPlayer()
 			camera->SetEye(CameraPosition);
 
 				if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
-				if (ChestControl::GetInstance()->ChestCount() >= 5) {
+				if (ChestControl::GetInstance()->ChestCount() >= 2) {
 					Tstate = MOVEBOSSAREA;
 				}
 			}
@@ -396,7 +397,6 @@ void CameraControl::PlaySceneStart()
 		}
 		break;
 	case SPLINE:
-		
 		nowCount = GetTickCount64();
 		elapsedCount = nowCount - startCount;
 		 elapsedTime = static_cast<float>(elapsedCount) / 2000.0f;
@@ -416,9 +416,9 @@ void CameraControl::PlaySceneStart()
 		}
 
 		camera->SetEye(SplinePosition(points, startindex, timerate));
-
+	
 		//カメラが一定距離近づいたらフェード
-		if (Collision::GetLength(camera->GetEye(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 500) {
+		if (Collision::GetLength(camera->GetEye(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 15) {
 			Feed::GetInstance()->Update_Black(Feed::FEEDIN);
 		}
 		else {

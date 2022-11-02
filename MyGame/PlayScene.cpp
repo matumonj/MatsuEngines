@@ -18,6 +18,7 @@
 #include"PlayerControl.h"
 #include"BossScene.h"
 #include"SelectSword.h"
+#include"DamageManager.h"
 //シーンのコンストラクタ
 PlayScene::PlayScene(SceneManager* sceneManager)
 	:BaseScene(sceneManager)
@@ -37,9 +38,9 @@ void PlayScene::Initialize()
 	if (AllObjectControl.size() == 0) {
 		//カメラ一番上に　他のControlがカメラを引数にしてるから
 		AllObjectControl.push_back(CameraControl::GetInstance());
+		AllObjectControl.push_back(EnemyControl::GetInstance());
 		AllObjectControl.push_back(PlayerControl::GetInstance());
 		AllObjectControl.push_back(ChestControl::GetInstance());
-		AllObjectControl.push_back(EnemyControl::GetInstance());
 		AllObjectControl.push_back(WoodControl::GetInstance());
 		AllObjectControl.push_back(FenceControl::GetInstance());
 	}
@@ -117,7 +118,7 @@ void PlayScene::Update()
 	} else {
 		c_postEffect = Default;
 	}
-
+	
 
 	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 
@@ -128,7 +129,7 @@ void PlayScene::Update()
 	//lightGroup->SetCircleShadowCasterPos(1, XMFLOAT3(PlayerControl::GetInstance()->GetPlayer()->GetPosition()));
 	lightGroup->SetCircleShadowAtten(3, XMFLOAT3(circleShadowAtten));
 	lightGroup->SetCircleShadowFactorAngle(3, XMFLOAT2(circleShadowFactorAngle2));
-
+	postEffect->SetCenterpos(HUD::GetInstance()->GetMinimapSprite()->GetPosition());
 	for (int i = 0; i < EnemyControl::GetInstance()->GetQuentity(); i++) {
 		lightGroup->SetCircleShadowDir(i+4, XMVECTOR({ circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0 }));
 		//for (int i = 0; i < 3; i++) {
@@ -139,7 +140,7 @@ void PlayScene::Update()
 		lightGroup->SetCircleShadowFactorAngle(i+4, XMFLOAT2(circleShadowFactorAngle));
 
 	}
-
+	DamageManager::GetIns()->Upda();
 	if (CameraControl::GetInstance()->GetMoveBosAreaCam() == CameraControl::TARGETPLAYER) {
 		if (Feed::GetInstance()->GetAlpha() >= 1.0f) {//画面真っ白なったら
 			BaseScene* scene = new BossScene(sceneManager_);//次のシーンのインスタンス生成
@@ -170,7 +171,7 @@ void PlayScene::Draw()
 	{
 	case Blur://ぼかし　描画準違うだけ
 		postEffect->PreDrawScene();
-		MyGameDraw();
+		//MyGameDraw();
 		postEffect->PostDrawScene();
 
 		DirectXCommon::GetInstance()->BeginDraw();
@@ -188,7 +189,9 @@ void PlayScene::Draw()
 
 		DirectXCommon::GetInstance()->BeginDraw();
 		MyGameDraw();
+		DamageManager::GetIns()->Draw();
 		postEffect->Draw();
+		PlayerControl::GetInstance()->DamageTexDraw();
 
 		SistemConfig::GetInstance()->Draw();
 	

@@ -38,8 +38,8 @@ void MobEnemy::Initialize(DebugCamera* camera)
 	m_Object = std::make_unique<Object3d>();
 	m_Object->Initialize(camera);
 	//m_Object->CreateGraphicsPipeline(L"Resources/Shader/Object3dVS.hlsl", L"Resources/Shader/Object3dPS.hlsl", L"Resources/Shader/BasicGS.hlsl");
-	EnemyHP = 200.0f;
-	MaxHP = 200.0f;
+	EnemyHP = 20.0f;
+	MaxHP = 20.0f;
 	//パラメータのセット
 	Rotation = { -163.0f,71.0f,-16.0f };
 	Scale = { 0.04f, 0.04f, 0.04f };
@@ -110,7 +110,6 @@ void MobEnemy::Update(DebugCamera* camera)
 
 	HandMat = m_fbxObject->GetRot();
 
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
 		HandSiteOBB.SetOBBParam_Pos(Sword->GetMatWorld());
 		HandSiteOBB.SetOBBParam_Rot(Sword->GetMatWorld());
 		HandSiteOBB.SetOBBParam_Scl({ 5.0f,20.0f,5.0f });
@@ -133,7 +132,6 @@ void MobEnemy::Update(DebugCamera* camera)
 				}
 			}
 		}
-	}
 }
 
 

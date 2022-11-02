@@ -50,9 +50,12 @@ private:
 	const float feedSpeed_Explanation = 0.005f;
 
 	DirectX::XMFLOAT3 Ppos; 
+	float CelestalRot;
 	DebugCamera* dc;
 	float ypos;
+	XMFLOAT3 FogCenterPos;
 public:
+	void SetFogCenterPos(XMFLOAT3 pos) { FogCenterPos = pos; }
 	void SetCamera(DebugCamera* camera) { dc = camera; }
 	void Initialize(DebugCamera*camera)override;
 	void Update(DebugCamera* camera)override;

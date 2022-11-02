@@ -15,17 +15,27 @@ private:
 	std::unique_ptr<Sprite>m_ExpBarFrameSprite;
 private:
 	int m_ExpPoint;
+	int ol;
 	int m_OldExpPoint;
 	int m_Lvel;
 	int m_LevelUp_needExp;
 	bool m_LevelUpF;
 	bool m_BarSet;
-	float BarSclX_AddValue;
 
+	//Ç±Ç±Ç©ÇÁÇÃïœêîå„Ç≈ëSè¡Çµ
+	float BarSclX_AddValue;
+	float fontEaseT[6];
+	float fontSize[6];
+	bool m_ReturnEase[6];
+	bool TextDis;
+	int nun;
+	int nextl=10;
+	int old;
+	int oldGetExp;
 	XMFLOAT2 BarPos;
 	XMFLOAT2 OldBarScl;
 	XMFLOAT2 BarScl;
-
+	XMFLOAT2 LevelUpTexPos;
 	XMFLOAT2 BarFramePos;
 	XMFLOAT2 BarFrameScl;
 	float m_EaseTime;
@@ -35,6 +45,8 @@ public:
 	void Upda();
 	void Draw();
 private:
+	void LvelUpFont_Display();
+	void LvelUpFont_FeedOut();
 	void expBarUpda();
 public:
 	void ExpPoint_Get(int point);

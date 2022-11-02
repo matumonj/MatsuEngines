@@ -55,7 +55,6 @@ void Player::Initialize(DebugCamera* camera)
 	Position = { 0.0f,0.0f,0.0f };
 	Scale = { 0.02f, 0.02f, 0.02f };
 
-	SelectSword::GetInstance()->Initialize();
 	
 	HP = MaxHP;
 	vel /= 5.0f;
@@ -255,7 +254,7 @@ void Player::FbxAnimationControls(const AttackMotion& motiontype,const float att
 
 void Player::FbxAnimationControl()
 {
-	if (evasionF)return;
+	if (evasionF||noAttack)return;
 	const float timespeed = 0.02f;
 
 	if (CustomButton::GetInstance()->GetAttackAction() == true && PlayerAttackState::GetInstance()->GetCoolTime() == 0) {

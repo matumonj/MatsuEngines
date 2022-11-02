@@ -93,6 +93,7 @@ public:
         YPOSUP,
         TARGETPLAYER
     };
+    SplineCamera GetCameraState_Spline() { return sCamera; }
 private:
     BossCamera bCamera;
     SplineCamera sCamera;

@@ -100,9 +100,10 @@ private:
 	f_Object3d* object1 = nullptr;
 
 private:
+	bool noAttack;
 	int nogroundtime;
 	bool jumpflag;
-	float movespeed = 4.0f;
+	float movespeed = 14.0f;
 	XMVECTOR Gmove;
 public:
 	void Setangle(float angle) { this->angle = angle; }
@@ -125,6 +126,8 @@ public:
 	};
 	AttackMotion GetAttackType() { return attackMotion; }
 	void FbxAnimationControls(const AttackMotion& motiiontype,const float attacktime=0,const float nextAnimation=0);
+	void SetnoAttack(bool f) { noAttack = f; }
+	bool GetnoAttack() { return noAttack; }
 private:
 
 	AttackMotion attackMotion=NON;

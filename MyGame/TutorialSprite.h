@@ -19,7 +19,7 @@ private:
 	};
 	float notTaskXpos[4];
 	enum TaskMenu {//‰º‚Ì”z—ñ—p—ñ‹“Œ^‚Æ‚©‚Ô‚ç‚È‚¢‚æ‚¤‚É
-		TNONE,
+
 		THELLO,
 		TMOVE,
 		TSETTING,
@@ -66,6 +66,7 @@ public:
 	void Ease_SpriteSize_Up(float& x,float& t,int index);
 	void NextTask(float t,TaskMenu nexttask,bool nextjudg);
 
-	bool GetClearSetting() { return ClearTaskJudg[WALK]; }
+	bool GetClearMove() { return ClearTaskJudg[WALK]; }
+	bool GetClearSetting() { return ClearTaskJudg[SETTING]; }
 };
 

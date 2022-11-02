@@ -79,7 +79,15 @@ void PlayerControl::Update_Tutorial(DebugCamera* camera)//チュートリアル時
 void PlayerControl::Update_Play(DebugCamera* camera)//プレイシーン時
 {
 	player->Update(camera);
+	if (HUD::GetInstance()->GetRecvDamageFlag()) {
+		dalpha = 1.0f;
+
+	}
+
+	dalpha -= 0.02f;
+	DamageTex->setcolor({ 1,1,1,dalpha });
 	PlayerAttackState::GetInstance()->Update();
+	dalpha = max(dalpha, 0.0f);
 }
 void PlayerControl::Update_Boss(DebugCamera* camera)
 {

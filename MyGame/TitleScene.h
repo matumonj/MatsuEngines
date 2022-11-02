@@ -19,7 +19,7 @@ public:
 private:
 	
 	Sprite* titlesprite;
-
+	
 	Sprite* titlesprite2;
 	bool t, y;
 	//DirectXCommon* dxcomn;

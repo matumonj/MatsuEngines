@@ -49,18 +49,21 @@ void UI::HUDUpdate(bool&hudload, DebugCamera* camera)
 void UI::HUDDraw()
 {
 	if (TurnOffDrawUI)return;
+
+
+	HUD::GetInstance()->SkillBottonDraw();
+	ExpPointSystem::GetInstance()->Draw();
 	if (TutorialSprite::GetInstance()->GetClearSetting()) {
 		HUD::GetInstance()->EnemyHPGauge_MultiDraw();
 	}
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
 		TutorialSprite::GetInstance()->Draw();
 	}
-	
-	HUD::GetInstance()->SkillBottonDraw();
+
 	BossSpell::GetInstance()->Draw();
 
 	EncountGuardianSprite::GetInstance()->Draw();
-	ExpPointSystem::GetInstance()->Draw();
+
 }
 
 void UI::AreaNameDraw()

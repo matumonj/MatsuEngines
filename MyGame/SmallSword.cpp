@@ -52,11 +52,13 @@ void SmallSword::Update(DebugCamera* camera)
 	
 	m_Object->SetRotation(Rotation);
 	m_Object->Update(PlayerControl::GetInstance()->GetPlayer()->GetHanMat(), { 1.0f,1.0f,1.0f,1.0f }, camera);
-	MagicAttack();
-	Bliz->Updata(camera);
-	SlashArea->Updata(camera);
-
 	
+	if (PlayerControl::GetInstance()->GetPlayer()->GetnoAttack() == false) {
+		MagicAttack();
+		Bliz->Updata(camera);
+		SlashArea->Updata(camera);
+
+	}
 }
 
 void SmallSword::Draw()
@@ -237,16 +239,15 @@ void SmallSword::Blizzard::Updata(DebugCamera* camera)
 	const float texSclupSpeed = 0.2f;
 	if (phase == NON) {
 		if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
-
 			if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr) {
 				EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->SetMoveStop(false);
-			}
-			if (ActFlag) {
-				IcePos.x = EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition().x;
-				IcePos.z = EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition().z - 5;
+				if (ActFlag) {
+					IcePos.x = EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition().x;
+					IcePos.z = EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition().z - 5;
 
-				EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->RecvDamage(20);
-				phase = ACTIVE;
+					EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->RecvDamage(20);
+					phase = ACTIVE;
+				}
 			}
 		}
 		else if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
@@ -261,6 +262,7 @@ void SmallSword::Blizzard::Updata(DebugCamera* camera)
 				phase = ACTIVE;
 			}
 		}
+	
 		EaseTime = 0.0f;
 		IceExistence = 0;
 		DestAlpha = 1.0f;
@@ -269,7 +271,6 @@ void SmallSword::Blizzard::Updata(DebugCamera* camera)
 		IceCrystalObj->SetDestFlag(FALSE);
 		IceScl = { 5.0f,5.0f,5.0f };
 		TexScl = { 0.0f,0.0f,1.0f };
-	
 	}
 	else if (phase == ACTIVE) {
 

@@ -34,6 +34,7 @@ void Chest::Initialize(DebugCamera* camera)
 
 void Chest::Update(DebugCamera* camera)
 {
+	m_Object->SetColor({ 1,1,1,1 });
 	ParameterSet_Obj(camera);
 	//フィールド
 	//CollideWood();

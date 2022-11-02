@@ -7,7 +7,6 @@
 #pragma comment(lib,"dxguid.lib")
 using namespace Microsoft::WRL;
 
-#define DIRECTINPUT_VERSION 0x0800
 
 #include <Xinput.h>
 
