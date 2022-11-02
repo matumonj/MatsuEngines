@@ -19,9 +19,18 @@ public:
 private:
 	
 	Sprite* titlesprite;
-	
+	std::unique_ptr<Object3d>field;
+	std::unique_ptr<Object3d>celestal;
+	DebugCamera* camera;
+	float FieldRotY;
+	LightGroup* lightGroup = nullptr;
+	XMFLOAT2 CameraPos;
+	float Cangle;
 	Sprite* titlesprite2;
 	bool t, y;
+	XMFLOAT3 FogPos;
+	bool feedf;
+	bool BackCam;
 	//DirectXCommon* dxcomn;
 public:
 	void Initialize()override;

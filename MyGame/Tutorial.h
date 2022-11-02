@@ -64,6 +64,7 @@ public:
 	void Finalize()override;
 
 private:
+	bool feedout=true;
 	LightGroup* lightGroup = nullptr;
 	float ambientColor0[3] = { 1,1,1 };
 	// Œõü•ûŒü‰Šú’l

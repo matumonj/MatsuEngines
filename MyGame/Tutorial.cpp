@@ -72,7 +72,7 @@ void Tutorial::Initialize()
 	f_Object3d::CreateGraphicsPipeline();
 
 	//フェードとUIスプライト初期化
-	Feed::GetInstance()->initialize();
+	
 	UI::GetInstance()->Initialize();
 
 	postEffect = new MinimapSprite();
@@ -123,6 +123,12 @@ void Tutorial::objUpdate(DebugCamera* camera)
 
 void Tutorial::Update()
 {
+	if (feedout) {
+		Feed::GetInstance()->Update_White(Feed::FEEDOUT);//白くなります
+		if (Feed::GetInstance()->GetAlpha() <= 0.0f) {
+			feedout = false;
+		}
+	}
 	lightGroup->Update();
 
 	SistemConfig::GetInstance()->Update();
@@ -188,6 +194,7 @@ void Tutorial::MyGameDraw()
 		}
 		grassfield->Draw();
 	}	
+	
 }
 
 /*------------------------*/
