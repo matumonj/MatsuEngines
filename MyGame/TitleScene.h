@@ -21,6 +21,11 @@ private:
 	Sprite* titlesprite;
 	std::unique_ptr<Object3d>field;
 	std::unique_ptr<Object3d>celestal;
+	std::unique_ptr<Sprite>TitleMenu[2];
+	float menuAlpha[2] = { 1.0f,1.0f };
+	XMFLOAT2 MenuScale[2];
+	bool menujudg_Play;
+	bool menujudg_Edit;
 	DebugCamera* camera;
 	float FieldRotY;
 	LightGroup* lightGroup = nullptr;

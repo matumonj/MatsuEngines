@@ -28,6 +28,8 @@ void SelectSword::Finalize()
 
 void SelectSword::SpriteSet()
 {
+	Sprite::LoadTexture(229, L"Resources/2d/confignav/navselectsword.png");
+
 	Sprite::LoadTexture(230, L"Resources/SwordA.png");
 	Sprite::LoadTexture(231, L"Resources/swordB.png");
 	Sprite::LoadTexture(232, L"Resources/swordC.png");
@@ -43,7 +45,7 @@ void SelectSword::SpriteSet()
 	Sprite::LoadTexture(239, L"Resources/2d/attackicon/config_swordattack2.png");
 
 	Sprite::LoadTexture(240, L"Resources/2d/attackicon/SetCustom.png");
-
+	NavSprite = Sprite::Create(229, { 1.0f,1.0f });
 	SwordSample[0] = Sprite::Create(230, { 1.0f,1.0f });
 	SwordSample[1] = Sprite::Create(231, { 1.0f,1.0f });
 	SwordSample[2] = Sprite::Create(232, { 1.0f,1.0f });
@@ -68,6 +70,9 @@ void SelectSword::SpriteSet()
 	Equipment = Sprite::Create(240, { 1.0f,1.0f });
 	Equipment->SetSize({ 1000,600 });
 	EquipmentPos.x = -200.0f;
+
+	NavSprite->SetSize({ 1500,700 });
+	NavSprite->SetPosition({ 400,300 });
 }
 
 void SelectSword::WeponParamInit()
@@ -174,7 +179,7 @@ void SelectSword::Update()
 {
 
 	if (SelectJudg) {
-
+		
 		WeponParamUpdate();
 		for (int i = 0; i < 3; i++) {
 			WeponParamSprite[i]->SetPosition(WeponParamSpritePos[i]);
@@ -222,8 +227,12 @@ void SelectSword::Update()
 		}
 		Frame->SetPosition(Position[index]);
 		Equipment->SetPosition(EquipmentPos);
+		CameraControl::GetInstance()->GetCamera()->SetEye({ 0,0,-30 });
+		CameraControl::GetInstance()->GetCamera()->SetTarget({10 ,0,0 });
 	}
-
+	else {
+		oldcamerapos = CameraControl::GetInstance()->GetCamera()->GetEye();
+	}
 
 	Sword->Update(CameraControl::GetInstance()->GetCamera());
 
@@ -237,9 +246,7 @@ void SelectSword::Update()
 void SelectSword::PedestalUpdate()
 {
 	//台座座標
-	const XMFLOAT3 PedestalPos = { CameraControl::GetInstance()->GetCamera()->GetEye().x+18,
-	CameraControl::GetInstance()->GetCamera()->GetEye().y -10.0f,
-	CameraControl::GetInstance()->GetCamera()->GetEye().z + 30.0f };
+	const XMFLOAT3 PedestalPos = {40,0,0};
 	//サンプル剣回転時の中心座標からの距離(半径)
 	const float Radius = 6.0f;
 	const float Height = 3.0f;
@@ -333,7 +340,7 @@ void SelectSword::Draw()
 void SelectSword::SpriteDraw()
 {
 	ImGui::Begin("pos");
-	ImGui::SliderFloat("x", &EquipmentPos.x, 0, 1900);
+	ImGui::SliderFloat("x", &EquipmentPos.x, 0,30);
 	ImGui::SliderFloat("y", &EquipmentPos.y, 0, 1000);
 	ImGui::End();
 
@@ -348,6 +355,7 @@ void SelectSword::SpriteDraw()
 
 		Frame->Draw();
 		Equipment->Draw();
+		NavSprite->Draw();
 		Sprite::PostDraw();
 	}
 	

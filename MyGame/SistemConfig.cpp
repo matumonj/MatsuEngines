@@ -86,7 +86,7 @@ void SistemConfig::Update()
 			EndConfigJudg = true;
 			m_ConfigFlag = false;
 		}
-
+	}
 		CustomButton::GetInstance()->Update();
 		sAlpha += 0.05f;
 		sAlpha = min(sAlpha, 1.0f);
@@ -95,7 +95,7 @@ void SistemConfig::Update()
 		m_number = max(m_number, 0.0f);
 		SelectSprite->setcolor({ 1.0f,1.0f,1.0f,sAlpha });
 		configSprite->Update();
-	}
+	
 }
 
 SistemConfig::Config SistemConfig::NowSelectButton()

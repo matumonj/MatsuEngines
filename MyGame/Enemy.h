@@ -206,7 +206,5 @@ protected:
 protected:
 	EnemyState* state_mob;
 	BossEnemyState* state_boss;
-	ParticleManager* particleMan = nullptr;
-	ParticleManager* particleMan2 = nullptr;
 
 };

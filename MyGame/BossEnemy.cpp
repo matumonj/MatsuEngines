@@ -55,8 +55,8 @@ void BossEnemy::Initialize(DebugCamera* camera)
 	SlashTex->CreateTexture();
 	SlashTex->SetAnchorPoint({ 0.5f,0.5f });
 
-	particleMan = ParticleManager::Create(4, L"Resources/ParticleTex/Attack.png");
-	particleMan2 = ParticleManager::Create(6, L"Resources/ParticleTex/Attack.png");
+	//particleMan = ParticleManager::Create(4, L"Resources/ParticleTex/Attack.png");
+	//particleMan2 = ParticleManager::Create(6, L"Resources/ParticleTex/Attack.png");
 	
 	SlashPos = { Position.x,Position.y,Position.z };
 }
@@ -124,12 +124,12 @@ void BossEnemy::Draw()
 		GigaBossObj->Draw();
 	}
 	// 3Dオブジェクト描画前処理
-	ParticleManager::PreDraw();
+	//ParticleManager::PreDraw();
 	// 3Dオブクジェクトの描画
-	particleMan->Draw();
-	particleMan2->Draw();
+	//particleMan->Draw();
+	//particleMan2->Draw();
 	// 3Dオブジェクト描画後処理
-	ParticleManager::PostDraw();
+	//ParticleManager::PostDraw();
 	Texture::PreDraw();
 	if (SlashF2) {
 		SlashTex->Draw();
@@ -193,42 +193,42 @@ void BossEnemy::AttackCoolTime()
 
 void BossEnemy::DamageParticleSet()
 {
-	for (int i = 0; i < ParticleSize; i++) {
-		const float rnd_vel = 0.5f;
-		XMFLOAT3 vel{};
-		vel.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-		vel.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-		vel.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+	//for (int i = 0; i < ParticleSize; i++) {
+	//	const float rnd_vel = 0.5f;
+	//	XMFLOAT3 vel{};
+	//	vel.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+	//	vel.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+	//	vel.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
 
-		XMFLOAT3 acc{};
-		const float rnd_acc = 0.001f;
-		acc.y = -(float)rand() / RAND_MAX * rnd_acc;
+	//	XMFLOAT3 acc{};
+	//	const float rnd_acc = 0.001f;
+	//	acc.y = -(float)rand() / RAND_MAX * rnd_acc;
 
-		XMFLOAT3 vel2{};
-		vel2.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 3.0f;
-		vel2.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 3.0f;
-		vel2.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 3.0f;
+	//	XMFLOAT3 vel2{};
+	//	vel2.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 3.0f;
+	//	vel2.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 3.0f;
+	//	vel2.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 3.0f;
 
-		XMFLOAT3 acc2{};
-		const float rnd_acc2 = 0.01f;
-		acc2.y = -(float)rand() / RAND_MAX * rnd_acc2;
-		//	//追加
-		if (DamageParticleCreateF) {
-			sf = true;
-			particlePos = { Position.x,Position.y + 10,Position.z };
-			particleMan->Add(particleLife, particlePos, vel, acc, 3.0f, 0.0f);
+	//	XMFLOAT3 acc2{};
+	//	const float rnd_acc2 = 0.01f;
+	//	acc2.y = -(float)rand() / RAND_MAX * rnd_acc2;
+	//	//	//追加
+	//	if (DamageParticleCreateF) {
+	//		sf = true;
+	//		particlePos = { Position.x,Position.y + 10,Position.z };
+	//		//particleMan->Add(particleLife, particlePos, vel, acc, 3.0f, 0.0f);
 
-			particleMan2->Add(particleLife, { Position.x,Position.y + 10,Position.z }, vel2, acc2, 3.0f, 0.0f);
+	//		//particleMan2->Add(particleLife, { Position.x,Position.y + 10,Position.z }, vel2, acc2, 3.0f, 0.0f);
 
-			if (i == ParticleSize - 1) {
-				DamageParticleCreateF = false;
-			}
-		}
+	//		if (i == ParticleSize - 1) {
+	//			DamageParticleCreateF = false;
+	//		}
+	//	}
 
-	}
+	//}
 
-	particleMan2->SetColor({ 1.0f,1.0f,0.2f,0.7f });
-	particleMan2->Update(particleMan->NORMAL);
-	particleMan->SetColor({ 1.0f,0.2f,0.2f,0.7f });
-	particleMan->Update(particleMan->NORMAL);
+//	particleMan2->SetColor({ 1.0f,1.0f,0.2f,0.7f });
+	//particleMan2->Update(particleMan->NORMAL);
+	//particleMan->SetColor({ 1.0f,0.2f,0.2f,0.7f });
+	//particleMan->Update(particleMan->NORMAL);
 }

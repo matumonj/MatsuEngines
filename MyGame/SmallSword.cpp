@@ -113,8 +113,8 @@ void SmallSword::MagicAttack()
 			if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr) {
 				bool canUseAttack = Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition()) < 50.0f;
 				if (canUseAttack) {
-					magicSpherePos.x = Easing::EaseOut(EaseTime.x, pPos.x, EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[index]->GetPosition().x);
-					magicSpherePos.y = Easing::EaseOut(EaseTime.y, pPos.y, EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[index]->GetPosition().y);
+					magicSpherePos.x = Easing::EaseOut(EaseTime.x, pPos.x, EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition().x);
+					magicSpherePos.y = Easing::EaseOut(EaseTime.y, pPos.y, EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition().y);
 					magicSpherePos.z = Easing::EaseOut(EaseTime.z, pPos.z, EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[index]->GetPosition().z);
 				}
 			}

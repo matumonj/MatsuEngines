@@ -399,7 +399,7 @@ void CameraControl::PlaySceneStart()
 	case SPLINE:
 		nowCount = GetTickCount64();
 		elapsedCount = nowCount - startCount;
-		 elapsedTime = static_cast<float>(elapsedCount) / 2000.0f;
+		 elapsedTime = static_cast<float>(elapsedCount) / 1000.0f;
 
 		timerate = elapsedTime / maxtime;
 		if (timerate >= 1) {
@@ -418,7 +418,7 @@ void CameraControl::PlaySceneStart()
 		camera->SetEye(SplinePosition(points, startindex, timerate));
 	
 		//カメラが一定距離近づいたらフェード
-		if (Collision::GetLength(camera->GetEye(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 15) {
+		if (Collision::GetLength(camera->GetEye(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 30) {
 			Feed::GetInstance()->Update_Black(Feed::FEEDIN);
 		}
 		else {

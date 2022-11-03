@@ -28,9 +28,26 @@ void TitleScene::Initialize()
 
 	Sprite::LoadTexture(4, L"Resources/title2.png");
 	titlesprite2 = Sprite::Create(4, {  0,0.0f });
+
+	Sprite::LoadTexture(5, L"Resources/2d/title/gameplay.png");
+	Sprite::LoadTexture(6, L"Resources/2d/title/edit.png");
+	
+	Sprite*navGameSprite= Sprite::Create(5, { 0,0.0f });
+	Sprite*navEditSprite= Sprite::Create(6, { 0,0.0f });
+	
+	TitleMenu[0].reset(navGameSprite);
+
+	TitleMenu[1].reset(navEditSprite);
+	for (int i = 0; i < 2; i++) {
+		menuAlpha[i] = 1.0f;
+		MenuScale[i] = { 1900,1000 };
+		TitleMenu[i]->SetPosition({ 950,500 });
+		TitleMenu[i]->SetSize({ 1900,1000 });
+		TitleMenu[i]->SetAnchorPoint({ 0.5,0.5 });
+	}
 	Feed::GetInstance()->initialize();
 
-	Sprite::LoadTexture(0, L"Resources/2d/LevelUp/font.png");
+	Sprite::LoadTexture(0, L"Resources/2d/LevelUp/debugfont.png");
 	camera = new DebugCamera(WinApp::window_width, WinApp::window_height);
 
 	field = std::make_unique<Object3d>();
@@ -58,6 +75,7 @@ void TitleScene::Update()
 	celestal->SetRotation({ 0,0,0 });
 	celestal->SetScale({ 30.f,30.1f,30.1f });
 	if (Input::GetInstance()->TriggerButton(Input::B)) {//押されたら
+		menujudg_Play=true;
 		//押されたら
 	feedf = true;
 	}
@@ -76,6 +94,7 @@ if (CameraPos.y <= -40) {
 	Feed::GetInstance()->Update_White(Feed::FEEDIN);
 }
 	if (Input::GetInstance()->TriggerButton(Input::A)) {//押されたら
+		menujudg_Edit = true;
 	BaseScene* scene = new MapCreateScene(sceneManager_);//次のシーンのインスタンス生成
 	SceneManager::GetInstance()->SetScene(SceneManager::MAPCREATE);
 	sceneManager_->SetnextScene(scene);//シーンのセット
@@ -97,6 +116,26 @@ if (CameraPos.y <= -40) {
 	}
 	else {
 		CameraPos.y--;
+	}
+
+	TitleMenu[0]->SetSize(MenuScale[0]);
+	TitleMenu[1]->SetSize(MenuScale[1]);
+
+	TitleMenu[0]->setcolor({ 1,1,1,menuAlpha[0] });
+	TitleMenu[1]->setcolor({ 1,1,1,menuAlpha[1] });
+
+
+	if (menujudg_Play) {
+		MenuScale[0].x += 20;
+		MenuScale[0].y += 20;
+		menuAlpha[0] -= 0.02f;
+		menuAlpha[1] = 0.0f;
+	}
+	if (menujudg_Edit) {
+		MenuScale[1].x += 20;
+		MenuScale[1].y += 20;
+		menuAlpha[1] -= 0.02f;
+		menuAlpha[0] = 0.0f;
 	}
 	camera->SetEye({ CameraPos.x,2,CameraPos.y });
 	camera->SetTarget({ 0,0,0 });
@@ -133,7 +172,9 @@ void TitleScene::SpriteDraw()
 	Sprite::PreDraw();
 	titlesprite2->Draw();
 titlesprite->Draw();
-
+for (int i = 0; i < 2; i++) {
+	TitleMenu[i]->Draw();
+}
 	DebugTextSprite::GetInstance()->DrawAll();
 	Sprite::PostDraw();
 	Feed::GetInstance()->Draw();

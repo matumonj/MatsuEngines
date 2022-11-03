@@ -121,7 +121,6 @@ void EnemyControl::Load(DebugCamera* camera)
 			enemys[EnemyType::PLAYSCENE][i]->SetPosition(pos[i]);
 			enemys[EnemyType::PLAYSCENE][i]->SetRespawnPos(pos[i]);
 		}
-		GuardianSetPos();
 	}
 
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
@@ -169,28 +168,15 @@ void EnemyControl::Update_Play(DebugCamera* camera)
 
 	for (int i = 0; i < Quantity; i++) {
 		if (enemys[EnemyType::PLAYSCENE][i] != nullptr) {
-			enemys[EnemyType::PLAYSCENE][i]->SetMoveFlag(true);
-			enemys[EnemyType::PLAYSCENE][i]->Update(camera);
-		}
-		if (enemys[EnemyType::PLAYSCENE][i]->GetObjAlpha() <= 0) {
-			Destroy_unique(enemys[EnemyType::PLAYSCENE][i]);
+			if (Collision::GetLength(pPos, enemys[EnemyType::PLAYSCENE][i]->GetPosition()) < 200) {
+				enemys[EnemyType::PLAYSCENE][i]->SetMoveFlag(true);
+				enemys[EnemyType::PLAYSCENE][i]->Update(camera);
+			}
+			if (enemys[EnemyType::PLAYSCENE][i]->GetObjAlpha() <= 0) {
+				Destroy_unique(enemys[EnemyType::PLAYSCENE][i]);
+			}
 		}
 	}
-	
-	
-			for (int i = GUARDIAN_RED; i < GUARDIAN_GREEN + 1; i++) {
-				if (CameraControl::GetInstance()->GetEncountFlag() == FALSE) {
-					if (Collision::GetLength(pPos, enemys[i][0]->GetPosition()) < 50.0f) {
-						//index = i;
-						//if (CameraControl::GetInstance()->GetEncountFlag() == FALSE) {
-						encountEnemy=enemys[i][0].get();
-						CameraControl::GetInstance()->SetEncountGuardianFlag(TRUE);
-					}
-				}
-			}
-			for (int i = GUARDIAN_RED; i < GUARDIAN_GREEN + 1; i++) {
-				enemys[i][0]->Update(camera);
-			}
 	
 }
 void EnemyControl::Update_Boss(DebugCamera* camera)
@@ -206,14 +192,15 @@ void EnemyControl::Update_Boss(DebugCamera* camera)
 #include"imgui.h"
 void EnemyControl::Draw()
 {
+	XMFLOAT3 pPos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
 		for (int i = 0; i < Quantity; i++) {
 			if (enemys[EnemyType::PLAYSCENE][i] != nullptr) {
-				enemys[EnemyType::PLAYSCENE][i]->Draw();
+				if (Collision::GetLength(pPos, enemys[EnemyType::PLAYSCENE][i]->GetPosition()) < 200) {
+					enemys[EnemyType::PLAYSCENE][i]->Draw();
+				}
 			}
-		}
-		for (int i = GUARDIAN_RED; i < GUARDIAN_GREEN + 1; i++) {
-			enemys[i][0]->Draw();
 		}
 
 		ImGui::Begin("kuso");
@@ -240,30 +227,6 @@ void EnemyControl::Draw()
 	}
 }
 
-#include"GuardianEnemy.h"
-void EnemyControl::GuardianSetPos()
-{
-	for (int i = GUARDIAN_RED; i < GUARDIAN_GREEN+1; i++) {
-		enemys[i].resize(1);
-	}
-	enemys[GUARDIAN_RED][0] = std::make_unique<GuardianRed>();
-	enemys[GUARDIAN_RED][0]->Initialize(CameraControl::GetInstance()->GetCamera());
-//	enemys[GUARDIAN_RED][0]->SetPosition(ChestControl::GetInstance()->GetChest(ChestControl::RED)->GetPosition());
-	
-	enemys[GUARDIAN_GREEN][0] = std::make_unique<GuardianGreen>();
-	enemys[GUARDIAN_GREEN][0]->Initialize(CameraControl::GetInstance()->GetCamera());
-	//enemys[GUARDIAN_GREEN][0]->SetPosition(ChestControl::GetInstance()->GetChest(ChestControl::GREEN)->GetPosition());
-	
-	enemys[GUARDIAN_BLUE][0] = std::make_unique<GuardianBlue>();
-	enemys[GUARDIAN_BLUE][0]->Initialize(CameraControl::GetInstance()->GetCamera());
-	//enemys[GUARDIAN_BLUE][0]->SetPosition(ChestControl::GetInstance()->GetChest(ChestControl::BLUE)->GetPosition());
-	
-	enemys[GUARDIAN_YELLOW][0] = std::make_unique<GuardianYellow>();
-	enemys[GUARDIAN_YELLOW][0]->Initialize(CameraControl::GetInstance()->GetCamera());
-	//enemys[GUARDIAN_YELLOW][0]->SetPosition(ChestControl::GetInstance()->GetChest(ChestControl::YELLOW)->GetPosition());
-
-
-}
 std::vector<std::unique_ptr<Enemy>>&EnemyControl::GetEnemy(EnemyType type)
 {
 	switch (type)
@@ -273,18 +236,6 @@ std::vector<std::unique_ptr<Enemy>>&EnemyControl::GetEnemy(EnemyType type)
 		break;
 	case PLAYSCENE:
 		return enemys[EnemyType::PLAYSCENE];
-		break;
-	case GUARDIAN_RED:
-		return enemys[EnemyType::GUARDIAN_RED];
-		break;
-	case GUARDIAN_BLUE:
-		return enemys[EnemyType::GUARDIAN_BLUE];
-		break;
-	case GUARDIAN_YELLOW:
-		return enemys[EnemyType::GUARDIAN_YELLOW];
-		break;
-	case GUARDIAN_GREEN:
-		return enemys[EnemyType::GUARDIAN_GREEN];
 		break;
 	case BOSS:
 		return enemys[EnemyType::BOSS];

@@ -27,6 +27,8 @@ private:
 	Sprite* WeponParamSprite[3];
 	Sprite* Frame;
 	Sprite* Equipment;
+	Sprite* NavSprite;
+	XMFLOAT3 oldcamerapos;
 	XMFLOAT2 EquipmentPos;
 	float Alpha;
 	XMFLOAT2 Position[3] = { {200,400}, {600,400}, {1000,400} };

@@ -134,14 +134,17 @@ void WoodControl::Update_Tutorial(DebugCamera*camera)
 
 void WoodControl::Update_Play(DebugCamera* camera)
 {
+	XMFLOAT3 pPos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+
 	for (int i = 0; i < Quantity; i++) {
-		if (woods[i] != nullptr) {
-			//woods[i]->SetColor({ 0.0f,1.0f,0.0f,1.0f });
-			woods[i]->Update(camera);
-		}
-		if (woods[i]->CollideWood()==true) {
-			PlayerControl::GetInstance()->GetPlayer()->SetPosition(Player_OldPos);
-			break;
+		if (woods[i] == nullptr)continue;;
+			if (Collision::GetLength(pPos, woods[i]->GetPosition()) < 200) {
+				//woods[i]->SetColor({ 0.0f,1.0f,0.0f,1.0f });
+				woods[i]->Update(camera);
+			if (woods[i]->CollideWood() == true) {
+				PlayerControl::GetInstance()->GetPlayer()->SetPosition(Player_OldPos);
+				break;
+			}
 		}
 	}
 }
@@ -159,9 +162,14 @@ void WoodControl::Update_Boss(DebugCamera* camera)
 void WoodControl::Draw()
 {
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
+
+		XMFLOAT3 pPos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+
 		for (int i = 0; i < Quantity; i++) {
 			if (woods[i] != nullptr) {
-				woods[i]->Draw();
+				if (Collision::GetLength(pPos, woods[i]->GetPosition()) < 200) {
+					woods[i]->Draw();
+				}
 			}
 		}
 	}
