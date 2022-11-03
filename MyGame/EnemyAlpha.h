@@ -43,6 +43,7 @@ private:
     void DamageParticleSet();
 private:
     bool DeathFlag;
+    int hindex;
 private:
     bool nowAttack;
     float alpha = 1;
@@ -52,5 +53,7 @@ public:
     bool isendtime;
     int particleLife = 320;
     XMFLOAT3 particlePos;
+
+    std::unique_ptr<Object3d>Sword;
 };
 

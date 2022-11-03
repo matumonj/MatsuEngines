@@ -126,7 +126,7 @@ void EnemyControl::Load(DebugCamera* camera)
 
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
 		enemys[EnemyType::TUTORIAL].resize(1);
-		enemys[EnemyType::TUTORIAL][0] = std::make_unique<MobEnemy>();
+		enemys[EnemyType::TUTORIAL][0] = std::make_unique<EnemyAlpha>();
 		enemys[EnemyType::TUTORIAL][0]->Initialize(camera);
 		tutorial_pos = { 100.137f,20.5045f,-650.987f };
 		enemys[EnemyType::TUTORIAL][0]->SetPosition(tutorial_pos);

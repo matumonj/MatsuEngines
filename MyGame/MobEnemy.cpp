@@ -76,6 +76,8 @@ void MobEnemy::Initialize(DebugCamera* camera)
 	ParticleManager::LoadTexture(6, L"Resources/ParticleTex/Attack.png");
 	particleMan2 = ParticleManager::Create(6, L"Resources/ParticleTex/Attack.png");
 
+	addRotRadians = 110;
+	FollowRotAngleCorrect = 70;
 }
 #include"SceneManager.h"
 //XVˆ—
@@ -110,6 +112,7 @@ void MobEnemy::Update(DebugCamera* camera)
 
 	HandMat = m_fbxObject->GetRot();
 
+	if (SceneManager::GetInstance()->GetScene() != SceneManager::MAPCREATE) {
 		HandSiteOBB.SetOBBParam_Pos(Sword->GetMatWorld());
 		HandSiteOBB.SetOBBParam_Rot(Sword->GetMatWorld());
 		HandSiteOBB.SetOBBParam_Scl({ 5.0f,20.0f,5.0f });
@@ -125,13 +128,14 @@ void MobEnemy::Update(DebugCamera* camera)
 				}
 			}
 		}
-		if (atcktype ==VERTICAL) {
-			if (f_time >= 4.5f&& f_time <= 5.5f) {
+		if (atcktype == VERTICAL) {
+			if (f_time >= 4.5f && f_time <= 5.5f) {
 				if (Collision::CheckOBBCollision(playerOBB, HandSiteOBB) == true) {
 					PlayerControl::GetInstance()->GetPlayer()->RecvDamage(15);
 				}
 			}
 		}
+	}
 }
 
 

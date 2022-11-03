@@ -69,6 +69,7 @@ public:	//ƒƒ“ƒoŠÖ”
 	/// –ˆƒtƒŒ[ƒ€
 	/// </summary>
 	void Updata(bool animeloop);
+	void Updata();
 
 	/// <summary>
 	/// •`‰æ

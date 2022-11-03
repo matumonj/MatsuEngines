@@ -110,8 +110,11 @@ public:
 	void SetAnimeState(AnimationState state) { animeState = state; }
 protected:
 	AnimationState animeState;
+	float addRotRadians;
+	float FollowRotAngleCorrect;
 	/*ゲッター*/
 public:
+	float GetRotCorrect() { return FollowRotAngleCorrect; }
 	bool GetRecvAttack() { return RecvAttackHit;}
 	void SetRecvAttack(bool f) { RecvAttackHit = f; }
 	//攻撃受けた直後の判定用
@@ -141,6 +144,9 @@ public:
 	float GetObjAlpha() { return alpha; }
 	/*セッター*/
 public:
+	
+	void SetRotRadian(float roty) { addRotRadians = roty; }
+	float GetRotRadians() { return addRotRadians; }
 	void SetRecvDamage(bool f) { RecvDamagef = f; }
 	//
 	void SetMoveFlag(bool f) { MoveFlag = f; }

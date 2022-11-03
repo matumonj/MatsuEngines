@@ -36,12 +36,12 @@ void EnemyFollowState::Update(Enemy* enemy)
 	//ˆÚ“®ƒxƒNƒgƒ‹‚ðyŽ²Žü‚è‚ÌŠp“x‚Å‰ñ“]
 	XMVECTOR move = { 0,0,0.1f,0 };
 
-	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(enemy->GetRotation().y+110));
+	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(enemy->GetRotation().y + enemy->GetRotRadians()));
 
 	move = XMVector3TransformNormal(move, matRot);
 
 	enemy->SetRotation({ enemy->GetRotation().x,
-		 RotY * 60 +70,
+		 RotY * 60 +enemy->GetRotCorrect(),
 		enemy->GetRotation().z });
 
 	if (!enemy->GetMoveStop()) {

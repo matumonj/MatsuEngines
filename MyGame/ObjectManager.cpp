@@ -144,6 +144,20 @@ void ObjectManager::ParameterSet_Fbx(DebugCamera* camera)
 	
 }
 
+void ObjectManager::ParameterSet_Fbx2(DebugCamera* camera)
+{
+	m_fbxObject->SetPosition({ Position.x,Position.y ,Position.z });
+
+	m_fbxObject->SetRotation(Rotation);
+	m_fbxObject->SetScale(Scale);
+	if (m_Object != nullptr) {
+		m_Object->SetPosition(Position);
+	}
+	//m_fbxObject->SetColor({1,1,1,1});
+	m_fbxObject->Updata();
+
+}
+
 void ObjectManager::Draw_Obj()
 {
 	m_Object->PreDraw();

@@ -6,7 +6,10 @@
 #include"DebugCamera.h"
 #include"mHelper.h"
 #include"imgui.h"
+#include"ExpPointSystem.h"
 #include"Collision.h"
+#include"PlayerControl.h"
+#include"SceneManager.h"
 /// <summary>
 /// コンストラクタ
 /// </summary>
@@ -33,24 +36,25 @@ void EnemyAlpha::Initialize(DebugCamera* camera)
 	MaxHP = 150.00f;
 	//パラメータのセット
 
-	Rotation = { 0,180,0 };
-
+	Rotation = {-110,0,0 };
+	
 
 	m_fbxObject = std::make_unique<f_Object3d>();
 	m_fbxObject->Initialize();
-	m_fbxObject->SetModel(FbxLoader::GetInstance()->LoadModelFromFile("Eagle"));
+	m_fbxObject->SetModel(FbxLoader::GetInstance()->LoadModelFromFile("sniper_blender"));
 	m_fbxObject->PlayAnimation();
 	radius_adjustment = 0;
-	Scale = { 0.01f, 0.01f, 0.01f
+	Scale = { 0.05f, 0.05f, 0.05f
 	};
 	SetCollider();
 	AttackTime = 1.5f;
-	DeathTime = 4.9f;
+	DeathTime = 6.f;
 	nowAttack = false;
 	nowDeath = false;
 	m_fbxObject->SetColor({ 1,0,0,alpha });
 	state_mob->Initialize(this);
-
+	addRotRadians = -180;
+	FollowRotAngleCorrect = 0;
 	particleMan= ParticleManager::Create(1,L"Resources/ParticleTex/normal.png");
 	particleMan->CreateModel();
 }
@@ -63,11 +67,26 @@ void EnemyAlpha::Update(DebugCamera* camera)
 		alpha -= 0.005f;
 	}
 
+	if (SceneManager::GetInstance()->GetScene() != SceneManager::MAPCREATE) {
+		HandSiteOBB.SetOBBParam_Pos(m_fbxObject->GetWorld());
+		HandSiteOBB.SetOBBParam_Rot(m_fbxObject->GetWorld());
+		HandSiteOBB.SetOBBParam_Scl({ 25.0f,200.0f,250.0f });
+
+		playerOBB.SetOBBParam_Pos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
+		playerOBB.SetOBBParam_Rot(PlayerControl::GetInstance()->GetPlayer()->GetMatrot());
+		playerOBB.SetOBBParam_Scl({ 1.0f,5.0f,1.0f });
+
+		//if (f_time >= AttackTime + 1.0f) {
+				if (Collision::CheckOBBCollision(playerOBB, HandSiteOBB) == true) {
+					PlayerControl::GetInstance()->GetPlayer()->RecvDamage(10);
+				}
+		//}
+	}
 	FbxAnimationControl();
 	EnemyPop(150);
-
+	m_Object->SetUVf(true);
 	AttackCoolTime();
-	ParameterSet_Fbx(camera);
+	ParameterSet_Fbx2(camera);
 
 	CollisionField(camera);
 
@@ -78,11 +97,14 @@ void EnemyAlpha::Update(DebugCamera* camera)
 void EnemyAlpha::Draw()
 {
 	Draw_Fbx();
-
+	ImGui::Begin("x");
+	ImGui::SliderInt("ind", &hindex, 0, 39);
+	ImGui::End();
 }
 
 void EnemyAlpha::Death()
 {
+	ExpPointSystem::GetInstance()->ExpPoint_Get(10);
 	if (f_time < DeathTime) {
 		DeathFlag = true;
 	}

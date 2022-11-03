@@ -23,7 +23,7 @@ void EnemyWalkState::Update(Enemy* enemy)
 	//ˆÚ“®ƒxƒNƒgƒ‹‚ðyŽ²Žü‚è‚ÌŠp“x‚Å‰ñ“]
 	XMVECTOR move = { 0,0,0.1f,0 };
 	
-	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(enemy->GetRotation().y+110));
+	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(enemy->GetRotation().y+enemy->GetRotRadians()));
 
 	move = XMVector3TransformNormal(move, matRot);
 

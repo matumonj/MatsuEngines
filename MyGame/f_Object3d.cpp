@@ -276,6 +276,9 @@ void f_Object3d::Updata(bool animeloop)
 		//XMMATRIXに変換
 		FbxLoader::ConvertMatrixFromFbx(&matCurrentPose, fbxCurrentPose);
 		//合成してスキニング行列に
+		//auto& bindMatrix = model->GetModelTransform();
+		//auto inverseBindMatrix = XMMatrixInverse(nullptr, bindMatrix);
+		//constMapSkin->bones[i] = bindMatrix * bones[i].invInitialPose * matCurrentPose * inverseBindMatrix;
 		constMapSkin->bones[i] = bones[i].invInitialPose * matCurrentPose;
 			}
 
@@ -287,6 +290,79 @@ void f_Object3d::Updata(bool animeloop)
 	constBuffSkin->Unmap(0, nullptr);
 }
 
+
+void f_Object3d::Updata()
+{
+
+	//スケール、回転、平行移動行列の計算
+	matScale = XMMatrixScaling(scale.x, scale.y, scale.z);
+	matRot = XMMatrixIdentity();
+	matRot *= XMMatrixRotationZ(XMConvertToRadians(rotation.z));
+	matRot *= XMMatrixRotationX(XMConvertToRadians(rotation.x));
+	matRot *= XMMatrixRotationY(XMConvertToRadians(rotation.y));
+	matTrans = XMMatrixTranslation(position.x, position.y, position.z);
+
+	//ワールド行列の合成
+	matWorld = XMMatrixIdentity();	//変形をリセット
+	matWorld *= matScale;			//ワールド行列にスケーリングを反映
+	matWorld *= matRot;				//ワールド行列に回転を反映
+	matWorld *= matTrans;			//ワールド行列に平行移動を反映
+
+	//handa = modelTransform * matWorld;
+	//ビュープロジェクション行列
+	const XMMATRIX& matViewProjection = camera->GetViewProjectionMatrix();
+	//モデルのメッシュトランスフォーム
+	const XMMATRIX& modelTransform = model->GetModelTransform();
+	//カメラ座標
+	const XMFLOAT3& cameraPos = camera->GetEye();
+
+	//	handa = modelTransform * matWorld;
+	HRESULT result;
+	//定数バッファへのデータ転送
+	ConstBufferDataTransform* constMap = nullptr;
+	result = constBuffTransform->Map(0, nullptr, (void**)&constMap);
+	matWorld = modelTransform * matWorld;
+
+	if (SUCCEEDED(result)) {
+		constMap->color = this->color;
+		constMap->viewproj = matViewProjection;
+		constMap->world = matWorld;
+		constMap->cameraPos = cameraPos;
+		constBuffTransform->Unmap(0, nullptr);
+	}
+
+	//ボーン配列
+	std::vector<f_Model::Bone>& bones = model->GetBones();
+
+	start_time = startTime.GetSecondDouble();
+	end_time = endTime.GetSecondDouble();
+	//アニメーション
+
+	currentTime.SetSecondDouble(f_time);
+	//定数バッファへデータ転送
+	ConstBufferDataSkin* constMapSkin = nullptr;
+	result = constBuffSkin->Map(0, nullptr, (void**)&constMapSkin);
+	for (int i = 0; i < bones.size(); i++) {
+		//今の姿勢
+		XMMATRIX matCurrentPose;
+		//今の姿勢行列を取得
+		FbxAMatrix fbxCurrentPose = bones[i].fbxCluster->GetLink()->EvaluateGlobalTransform(currentTime);
+		//XMMATRIXに変換
+		FbxLoader::ConvertMatrixFromFbx(&matCurrentPose, fbxCurrentPose);
+		//合成してスキニング行列に
+		auto& bindMatrix = model->GetModelTransform();
+		auto inverseBindMatrix = XMMatrixInverse(nullptr, bindMatrix);
+		constMapSkin->bones[i] = bindMatrix * bones[i].invInitialPose * matCurrentPose * inverseBindMatrix;
+		//constMapSkin->bones[i] = bones[i].invInitialPose * matCurrentPose;
+	}
+
+	int num = bindexs;
+	FbxLoader::ConvertMatrixFromFbx(&hRot, bones[num].fbxCluster->GetLink()->EvaluateGlobalTransform(currentTime));
+
+	rot = hRot * matWorld;
+
+	constBuffSkin->Unmap(0, nullptr);
+}
 void f_Object3d::Draw()
 {
 	//モデルの割り当てがなければ描画しない

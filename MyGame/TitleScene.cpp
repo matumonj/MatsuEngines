@@ -153,6 +153,10 @@ void TitleScene::Draw()
 /*-----------------------*/
 void TitleScene::Finalize()
 {
+	field.release();
+	celestal.release();
 	//delete postEffect;
-	delete titlesprite;
+	delete lightGroup;
+	delete camera;
+	delete titlesprite, titlesprite2;
 }

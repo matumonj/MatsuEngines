@@ -61,9 +61,9 @@ void SelectSword::SpriteSet()
 
 
 
-	WeponParamSprite[0] = Sprite::Create(237, { 1.0f,1.0f });
-	WeponParamSprite[1] = Sprite::Create(238, { 1.0f,1.0f });
-	WeponParamSprite[2] = Sprite::Create(239, { 1.0f,1.0f });
+	WeponParamSprite[0] = Sprite::Create(234, { 1.0f,1.0f });
+	WeponParamSprite[1] = Sprite::Create(235, { 1.0f,1.0f });
+	WeponParamSprite[2] = Sprite::Create(236, { 1.0f,1.0f });
 
 	Equipment = Sprite::Create(240, { 1.0f,1.0f });
 	Equipment->SetSize({ 1000,600 });
@@ -189,18 +189,19 @@ void SelectSword::Update()
 
 		if (index == SwordScale::SMALL) {
 			if (SkillSprite != SwordScale::SMALL) {
-				WeponParamSprite[0] = Sprite::Create(237, { 1.0f,1.0f });
-				WeponParamSprite[1] = Sprite::Create(238, { 1.0f,1.0f });
-				WeponParamSprite[2] = Sprite::Create(239, { 1.0f,1.0f });
+				WeponParamSprite[0] = Sprite::Create(234, { 1.0f,1.0f });
+				WeponParamSprite[1] = Sprite::Create(235, { 1.0f,1.0f });
+				WeponParamSprite[2] = Sprite::Create(236, { 1.0f,1.0f });
+
 				WeponParamInit();
 				SkillSprite = SwordScale::SMALL;
 			}
 			NowSelectSword = SMALL;
 		} else if (index == SwordScale::NORMAL) {
 			if (SkillSprite != SwordScale::NORMAL) {
-				WeponParamSprite[0] = Sprite::Create(234, { 1.0f,1.0f });
-				WeponParamSprite[1] = Sprite::Create(235, { 1.0f,1.0f });
-				WeponParamSprite[2] = Sprite::Create(236, { 1.0f,1.0f });
+				WeponParamSprite[0] = Sprite::Create(237, { 1.0f,1.0f });
+				WeponParamSprite[1] = Sprite::Create(238, { 1.0f,1.0f });
+				WeponParamSprite[2] = Sprite::Create(239, { 1.0f,1.0f });
 				WeponParamInit();
 				SkillSprite = SwordScale::NORMAL;
 			}

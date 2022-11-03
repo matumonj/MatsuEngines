@@ -17,10 +17,8 @@ void ModelManager::Initialize() {
 	LoadModel(CHEST, "chest");
 	LoadModel(FENCE, "Fence");
 	LoadFBXModel(GOLEM, "monster_golem_demo");
-	LoadFBXModel(Enemy_B, "Eagle");
+	LoadFBXModel(Enemy_B, "sniper_blender");
 	LoadFBXModel(PLAYER, "playerGolem");
-	LoadModel(SPHERE, "sphere");
-	LoadModel(NAIL, "Nail");
 	LoadModel(SPHERE, "sphere");
 	LoadModel(NAIL, "Nail");
 	LoadModel(BACKGROUND, "BackGround");

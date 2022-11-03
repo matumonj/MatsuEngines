@@ -23,16 +23,17 @@ public:
 
 	virtual void Initialize(DebugCamera*camera) = 0;
 
-	virtual void ParameterSet_Obj(DebugCamera* camera);
-	virtual void ParameterSet_Fbx(DebugCamera* camera);
+	void ParameterSet_Obj(DebugCamera* camera);
+	void ParameterSet_Fbx(DebugCamera* camera);
+	void ParameterSet_Fbx2(DebugCamera* camera);
 
 	virtual void Update(DebugCamera*camera)=0;
 
-	virtual void Draw_Obj();
-	virtual void Draw_Fbx();
+	void Draw_Obj();
+	 void Draw_Fbx();
 
 	virtual void Draw() = 0;
-	virtual void CollisionField(DebugCamera* camera);
+	void CollisionField(DebugCamera* camera);
 
 	void ChangeShader(int Num);
 	void SetCreateShader(bool f) { ShaderCreateF = f; }

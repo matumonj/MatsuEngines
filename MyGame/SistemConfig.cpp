@@ -54,8 +54,7 @@ void SistemConfig::Update()
 		if (input->TiltStick(input->L_DOWN)) {
 			sAlpha = 0.0f;
 			m_number++;
-		}
-		else if (input->TiltStick(input->L_UP)) {
+		} else if (input->TiltStick(input->L_UP)) {
 			sAlpha = 0.0f;
 			m_number--;
 		}
@@ -63,7 +62,7 @@ void SistemConfig::Update()
 
 
 		if (CustomButton::GetInstance()->GetCustomButtonJudg() == false) {
-			
+
 		}
 		if (NowSelectButton() == CUSTOMBUTTON) {
 			if (input->TriggerButton(input->B)) {
@@ -78,7 +77,7 @@ void SistemConfig::Update()
 			}
 		}
 
-		if (count>5&&input->TriggerButton(input->START)) {
+		if (count > 5 && input->TriggerButton(input->START)) {
 			SelectSword::GetInstance()->SetSelectJudg(false);
 			CustomButton::GetInstance()->SetCustomButtonJudg(false);
 
@@ -87,16 +86,16 @@ void SistemConfig::Update()
 			EndConfigJudg = true;
 			m_ConfigFlag = false;
 		}
-	}
 
-	CustomButton::GetInstance()->Update();
-	sAlpha += 0.05f;
-	sAlpha = min(sAlpha, 1.0f);
-	sAlpha = max(sAlpha, 0.0f);
-	m_number = min(m_number, 2.0f);
-	m_number = max(m_number, 0.0f);
-	SelectSprite->setcolor({ 1.0f,1.0f,1.0f,sAlpha });
-	configSprite->Update();
+		CustomButton::GetInstance()->Update();
+		sAlpha += 0.05f;
+		sAlpha = min(sAlpha, 1.0f);
+		sAlpha = max(sAlpha, 0.0f);
+		m_number = min(m_number, 2.0f);
+		m_number = max(m_number, 0.0f);
+		SelectSprite->setcolor({ 1.0f,1.0f,1.0f,sAlpha });
+		configSprite->Update();
+	}
 }
 
 SistemConfig::Config SistemConfig::NowSelectButton()
