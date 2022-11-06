@@ -19,12 +19,80 @@ WoodControl::~WoodControl()
 
 void WoodControl::Init_Tutorial(DebugCamera* camera)
 {
+	Tutorialwoods.resize(3);
+	Tutorialwoods[0] = std::make_unique<Wood>();
+	Tutorialwoods[1] = std::make_unique<Wood>();
+	Tutorialwoods[2] = std::make_unique<Wood>();
+	for (int i = 0; i < Tutorialwoods.size(); i++) {
+		Tutorialwoods[i]->Initialize(camera);
+	}
+	Tutorialwoods[0]->SetPosition({ 92.0f,-15.0f,-689.0f });
+	Tutorialwoods[1]->SetPosition({ 70.0f,-15.0f,-700.0f });
+	Tutorialwoods[2]->SetPosition({ 110.0f,-15.0f,-720.0f });
 
 }
 
 void WoodControl::Init_Play(DebugCamera* camera)
 {
+	file.open("Param_CSV/wood.csv");
 
+	popcom << file.rdbuf();
+
+	file.close();
+
+	while (std::getline(popcom, line)) {
+		std::istringstream line_stream(line);
+		std::string word;
+		std::getline(line_stream, word, ',');
+
+		if (word.find("//") == 0) {
+			continue;
+		}
+		if (word.find("Wood_Quantity") == 0) {
+			std::getline(line_stream, word, ',');
+			int quantity = (int)std::atof(word.c_str());
+			Quantity = quantity;
+			break;
+		}
+	}
+	Num.resize(Quantity);
+	pos.resize(Quantity);
+	for (int i = 0; i < Quantity; i++) {
+		while (std::getline(popcom, line)) {
+			std::istringstream line_stream(line);
+			std::string word;
+			std::getline(line_stream, word, ',');
+
+			if (word.find("//") == 0) {
+				continue;
+			}
+			if (word.find("POP") == 0) {
+				std::getline(line_stream, word, ',');
+				float x = (float)std::atof(word.c_str());
+
+				std::getline(line_stream, word, ',');
+				float y = (float)std::atof(word.c_str());
+
+				std::getline(line_stream, word, ',');
+				float z = (float)std::atof(word.c_str());
+
+				pos[i] = { x,y,z };
+				break;
+			}
+		}
+	}
+	woods.resize(Quantity);
+
+	Load_WoodPosition.resize(Quantity);
+
+	for (int i = 0; i < Quantity; i++) {
+
+		woods[i] = std::make_unique<Wood>();
+
+		woods[i]->Initialize(camera);
+		woods[i]->SetPosition(pos[i]);
+	}
+	
 }
 void WoodControl::Init_Boss(DebugCamera* camera)
 {
@@ -46,85 +114,9 @@ void WoodControl::Finalize()
 /*---------csv-----------*/
 void WoodControl::Load(DebugCamera* camera)
 {
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
-		file.open("Param_CSV/wood.csv");
-
-		popcom << file.rdbuf();
-
-		file.close();
-
-		while (std::getline(popcom, line)) {
-			std::istringstream line_stream(line);
-			std::string word;
-			std::getline(line_stream, word, ',');
-
-			if (word.find("//") == 0) {
-				continue;
-			}
-			if (word.find("Wood_Quantity") == 0) {
-				std::getline(line_stream, word, ',');
-				int quantity = (int)std::atof(word.c_str());
-				Quantity = quantity;
-				break;
-			}
-		}
-		Num.resize(Quantity);
-		pos.resize(Quantity);
-		for (int i = 0; i < Quantity; i++) {
-			while (std::getline(popcom, line)) {
-				std::istringstream line_stream(line);
-				std::string word;
-				std::getline(line_stream, word, ',');
-
-				if (word.find("//") == 0) {
-					continue;
-				}
-				if (word.find("POP") == 0) {
-					std::getline(line_stream, word, ',');
-					float x = (float)std::atof(word.c_str());
-
-					std::getline(line_stream, word, ',');
-					float y = (float)std::atof(word.c_str());
-
-					std::getline(line_stream, word, ',');
-					float z = (float)std::atof(word.c_str());
-
-					pos[i] = { x,y,z };
-					break;
-				}
-			}
-		}
-		woods.resize(Quantity);
-
-		Load_WoodPosition.resize(Quantity);
-
-		for (int i = 0; i < Quantity; i++) {
-
-			woods[i] = std::make_unique<Wood>();
-
-			woods[i]->Initialize(camera);
-			woods[i]->SetPosition(pos[i]);
-		}
-	}
-		if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
-			Tutorialwoods.resize(3);
-			Tutorialwoods[0] = std::make_unique<Wood>();
-			Tutorialwoods[1] = std::make_unique<Wood>();
-			Tutorialwoods[2] = std::make_unique<Wood>();
-			for (int i = 0; i < Tutorialwoods.size(); i++) {
-				Tutorialwoods[i]->Initialize(camera);
-			}
-			Tutorialwoods[0]->SetPosition({92.0f,-15.0f,-689.0f});
-			Tutorialwoods[1]->SetPosition({ 70.0f,-15.0f,-700.0f });
-			Tutorialwoods[2]->SetPosition({ 110.0f,-15.0f,-720.0f });
-		}
 	UpdateRange = 200;
 }
 
-void WoodControl::Initialize(DebugCamera* camera)
-{
-
-}
 
 /*------------------------*/
 /*--------çXêVèàóù---------*/

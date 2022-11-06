@@ -8,10 +8,8 @@ class CameraControl :
 public:
     static CameraControl* GetInstance();
 	void Load(DebugCamera* camera)override;
-
-	void Initialize(DebugCamera* camera)override;
-
-    void Finalize()override;
+    void ParamSet();
+  void Finalize()override;
 
     DebugCamera* GetCamera() { return camera; }
     enum TargetState {

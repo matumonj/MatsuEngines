@@ -11,16 +11,32 @@ PlayerControl* PlayerControl::GetInstance()
 }
 void PlayerControl::Init_Tutorial(DebugCamera* camera)
 {
+	Sprite::LoadTexture(190, L"Resources/2d/damage/playerdamage.png");
 
+	DamageTex = Sprite::Create(190, { 0,0 });
+	DamageTex->SetSize({ 1900,1000 });
+	player = std::make_unique<Player>();
+	player->Initialize(camera);
+
+	StartPos = { 92.0f,-20.0f,-760.0f };
+
+	player->SetPosition(StartPos);
+	AttackCollision::GetInstance()->Init();
 }
 
 void PlayerControl::Init_Play(DebugCamera* camera)
 {
+	StartPos = { 110.0f,-12.0f,-379.0f };
 
+	player->SetPosition(StartPos);
+	AttackCollision::GetInstance()->Init();
 }
 void PlayerControl::Init_Boss(DebugCamera* camera)
 {
+	StartPos = { 0.0f,2.0f,-50.0f };
 
+	player->SetPosition(StartPos);
+	AttackCollision::GetInstance()->Init();
 }
 /*------------------------*/
 /*--------解放処理---------*/
@@ -28,7 +44,7 @@ void PlayerControl::Init_Boss(DebugCamera* camera)
 void PlayerControl::Finalize()
 {
 	AttackCollision::GetInstance()->Finalize();
-	Destroy_unique(player);
+	//Destroy_unique(player);
 }
 
 /*------------------------*/
@@ -55,19 +71,6 @@ void PlayerControl::Load(DebugCamera* camera)
 	AttackCollision::GetInstance()->Init();
 }
 
-void PlayerControl::Initialize(DebugCamera* camera)
-{
-	Texture::LoadTexture(93, L"Resources/ParticleTex/slash.png");
-	Sprite::LoadTexture(190, L"Resources/2d/damage/playerdamage.png");
-
-	DamageTex = Sprite::Create(190, { 0,0 });
-	DamageTex->SetSize({ 1900,1000 });
-	player = std::make_unique<Player>();
-	player->Initialize(camera);
-	//各シーンの初期座標設定
-
-}
-
 /*------------------------*/
 /*--------更新処理---------*/
 /*------------------------*/
@@ -76,11 +79,9 @@ void PlayerControl::Initialize(DebugCamera* camera)
 //playerの中にある移動処理とかは後でこっち持ってくる
 void PlayerControl::Update_Tutorial(DebugCamera* camera)//チュートリアル時
 {
+	if (player == nullptr)return;
 	player->Update(camera);
-	if (HUD::GetInstance()->GetRecvDamageFlag()) {
-		dalpha = 1.0f;
-		
-	}
+	
 	
 	dalpha -= 0.02f;
 	DamageTex->setcolor({ 1,1,1,dalpha });

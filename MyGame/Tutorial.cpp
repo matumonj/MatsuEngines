@@ -32,8 +32,6 @@ Tutorial::Tutorial(SceneManager* sceneManager)
 /*------------------------*/
 void Tutorial::Initialize()
 {
-
-
 	// ライト生成
 	lightGroup = LightGroup::Create();
 	//lightGroup2 = LightGroup::Create();
@@ -59,21 +57,7 @@ void Tutorial::Initialize()
 		AllObjectControl.push_back(WoodControl::GetInstance());//Wood
 		AllObjectControl.push_back(StoneControl::GetInstance());//Wood
 		AllObjectControl.push_back(GrassFieldControl::GetInstance());//Wood
-
-	for (int i = 0; i < AllObjectControl.size(); i++) {//初期化
-		AllObjectControl[i]->Initialize(CameraControl::GetInstance()->GetCamera());
-		}
 	}
-	//Field
-	
-	//カメラをセット
-	f_Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
-	//グラフィックパイプライン生成
-	f_Object3d::CreateGraphicsPipeline();
-
-	//フェードとUIスプライト初期化
-	
-	UI::GetInstance()->Initialize();
 
 	postEffect = new MinimapSprite();
 	postEffect->Initialize();
@@ -81,10 +65,8 @@ void Tutorial::Initialize()
 	dc = new DebugCamera(WinApp::window_width, WinApp::window_height);
 	//各種設定画面
 	SistemConfig::GetInstance()->Initialize();
-
-		//カメラの注視点をプレイヤーにセット
-		CameraControl::GetInstance()->SetCameraState(CameraControl::PLAYER);
-		SelectSword::GetInstance()->Initialize();
+	//カメラの注視点をプレイヤーにセット
+	SelectSword::GetInstance()->Initialize();
 
 }
 
@@ -97,23 +79,28 @@ void Tutorial::objUpdate(DebugCamera* camera)
 		Load = true;
 	}
 	if (Play) {//csvからの読み込み終わってから更新処理
-		AllObjectControl[1]->Update(CameraControl::GetInstance()->GetCamera());
-		AllObjectControl[0]->Update(CameraControl::GetInstance()->GetCamera());
+		if (AllObjectControl[1] != nullptr) {
+			AllObjectControl[1]->Update(CameraControl::GetInstance()->GetCamera());
+		}
+		if (AllObjectControl[0] != nullptr) {
+			AllObjectControl[0]->Update(CameraControl::GetInstance()->GetCamera());
+		}
 		for (int i = 2; i < AllObjectControl.size(); i++) {
 			if (AllObjectControl[i] != nullptr) {
 				AllObjectControl[i]->Update(CameraControl::GetInstance()->GetCamera());
 			}
 		}
-		grassfield->Update(CameraControl::GetInstance()->GetCamera());
 		UI::GetInstance()->HUDUpdate(hudload, CameraControl::GetInstance()->GetCamera());
 	}
 	//後で別ん所移す
-	dc->Update();
 
-	dc->SetTarget({ PlayerControl::GetInstance()->GetPlayer()->GetPosition() });
-	dc->SetEye({ PlayerControl::GetInstance()->GetPlayer()->GetPosition().x,
-		 PlayerControl::GetInstance()->GetPlayer()->GetPosition().y + 300.0f,
-		PlayerControl::GetInstance()->GetPlayer()->GetPosition().z - 1 });
+	dc->Update();
+	if (PlayerControl::GetInstance()->GetPlayer() != nullptr) {
+		dc->SetTarget({ PlayerControl::GetInstance()->GetPlayer()->GetPosition() });
+		dc->SetEye({ PlayerControl::GetInstance()->GetPlayer()->GetPosition().x,
+			 PlayerControl::GetInstance()->GetPlayer()->GetPosition().y + 300.0f,
+			PlayerControl::GetInstance()->GetPlayer()->GetPosition().z - 1 });
+	}
 	Field::GetInstance()->SetCamera(dc);
 
 	Field::GetInstance()->Update(CameraControl::GetInstance()->GetCamera());
@@ -151,24 +138,19 @@ void Tutorial::Update()
 	} else {
 		c_postEffect = Default;
 	}
-	//postEffect->SetSize({ 10,10 });
+	
 	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 	if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr) {
 		lightGroup->SetCircleShadowDir(0, XMVECTOR({ circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0 }));
-		//for (int i = 0; i < 3; i++) {
 		lightGroup->SetCircleShadowCasterPos(0, { EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition() });
-		//}
-		//lightGroup->SetCircleShadowCasterPos(1, XMFLOAT3(PlayerControl::GetInstance()->GetPlayer()->GetPosition()));
 		lightGroup->SetCircleShadowAtten(0, XMFLOAT3(circleShadowAtten));
 		lightGroup->SetCircleShadowFactorAngle(0, XMFLOAT2(circleShadowFactorAngle2));
 	}
 	lightGroup->SetCircleShadowDir(1, XMVECTOR({ circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0 }));
-	//for (int i = 0; i < 3; i++) {
 	lightGroup->SetCircleShadowCasterPos(1, { ppos });
-	//}
-	//lightGroup->SetCircleShadowCasterPos(1, XMFLOAT3(PlayerControl::GetInstance()->GetPlayer()->GetPosition()));
 	lightGroup->SetCircleShadowAtten(1, XMFLOAT3(circleShadowAtten));
 	lightGroup->SetCircleShadowFactorAngle(1, XMFLOAT2(circleShadowFactorAngle));
+
 
 	postEffect->SetCenterpos(HUD::GetInstance()->GetMinimapSprite()->GetPosition());
 if (scenechange&& Feed::GetInstance()->GetAlpha() >= 1.0f) {//画面真っ白なったら
@@ -192,7 +174,6 @@ void Tutorial::MyGameDraw()
 				AllObjectControl[i]->Draw();
 			}
 		}
-		grassfield->Draw();
 	}	
 	
 }
@@ -244,9 +225,18 @@ void Tutorial::Draw()
 bool Tutorial::LoadParam(DebugCamera* camera)
 {
 	if (Load) {
-		for (int i = 0; i < AllObjectControl.size(); i++) {
-			AllObjectControl[i]->Load(CameraControl::GetInstance()->GetCamera());
+		for (int i = 0; i < AllObjectControl.size(); i++) {//初期化
+			AllObjectControl[i]->Initialize(CameraControl::GetInstance()->GetCamera());
 		}
+		//カメラをセット
+		f_Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
+		//グラフィックパイプライン生成
+		f_Object3d::CreateGraphicsPipeline();
+
+		CameraControl::GetInstance()->SetCameraState(CameraControl::PLAYER);
+
+		UI::GetInstance()->Initialize();
+
 		Field::GetInstance()->Initialize(CameraControl::GetInstance()->GetCamera());
 
 		grassfield = std::make_unique<GrassField>();

@@ -189,7 +189,7 @@ void PlayerAttackState::HitStop()
 		if (HitStopTime > 30) {
 			HitStopJudg = false;
 		}
-		if (HitStopTime < 10) {
+		if (HitStopTime < 2) {
 			CameraControl::GetInstance()->ShakeCamera();
 		}
 	}

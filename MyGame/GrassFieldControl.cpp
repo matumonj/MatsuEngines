@@ -18,7 +18,103 @@ GrassFieldControl::~GrassFieldControl()
 }
 void GrassFieldControl::Init_Tutorial(DebugCamera* camera)
 {
+	file.open("Param_CSV/grass.csv");
 
+	popcom << file.rdbuf();
+
+	file.close();
+
+	while (std::getline(popcom, line)) {
+		std::istringstream line_stream(line);
+		std::string word;
+		std::getline(line_stream, word, ',');
+
+		if (word.find("//") == 0) {
+			continue;
+		}
+		if (word.find("Grass_Quantity") == 0) {
+			std::getline(line_stream, word, ',');
+			int quantity = (int)std::atof(word.c_str());
+			Quantity = quantity;
+			break;
+		}
+	}
+	Num.resize(Quantity);
+	pos.resize(Quantity);
+	rot.resize(Quantity);
+	scl.resize(Quantity);
+	for (int i = 0; i < Quantity; i++) {
+		while (std::getline(popcom, line)) {
+			std::istringstream line_stream(line);
+			std::string word;
+			std::getline(line_stream, word, ',');
+
+			if (word.find("//") == 0) {
+				continue;
+			}
+			if (word.find("Number") == 0) {
+				std::getline(line_stream, word, ',');
+				int number = (int)std::atof(word.c_str());
+				Num[i] = number;
+			}
+			if (word.find("POP") == 0) {
+				std::getline(line_stream, word, ',');
+				float x = (float)std::atof(word.c_str());
+
+				std::getline(line_stream, word, ',');
+				float y = (float)std::atof(word.c_str());
+
+				std::getline(line_stream, word, ',');
+				float z = (float)std::atof(word.c_str());
+
+				pos[i] = { x,y,z };
+
+			}
+			if (word.find("ROTATION") == 0) {
+				std::getline(line_stream, word, ',');
+				float x = (float)std::atof(word.c_str());
+
+				std::getline(line_stream, word, ',');
+				float y = (float)std::atof(word.c_str());
+
+				std::getline(line_stream, word, ',');
+				float z = (float)std::atof(word.c_str());
+
+				rot[i] = { x,y,z };
+				//break;
+			}
+			if (word.find("SCALE") == 0) {
+				std::getline(line_stream, word, ',');
+				float x = (float)std::atof(word.c_str());
+
+				std::getline(line_stream, word, ',');
+				float y = (float)std::atof(word.c_str());
+
+				std::getline(line_stream, word, ',');
+				float z = (float)std::atof(word.c_str());
+
+				scl[i] = { x,y,z };
+				break;
+			}
+
+		}
+	}
+	grassfields.resize(Quantity);
+
+	/*for (int i = 0; i < Quantity; i++) {
+		grassfields[i] = std::make_unique<GrassField>();
+		grassfields[i]->Initialize(camera);
+		grassfields[i]->SetPosition(pos[i]);
+	}*/
+	Tutorialgrassfields.resize(Quantity);
+
+	for (int i = 0; i < Tutorialgrassfields.size(); i++) {
+		Tutorialgrassfields[i] = std::make_unique<GrassField>();
+		Tutorialgrassfields[i]->Initialize(camera);
+		Tutorialgrassfields[i]->SetPosition(pos[i]);
+		Tutorialgrassfields[i]->SetRotation(rot[i]);
+		Tutorialgrassfields[i]->SetScale(scl[i]);
+	}
 }
 
 void GrassFieldControl::Init_Play(DebugCamera* camera)
@@ -45,126 +141,8 @@ void GrassFieldControl::Finalize()
 /*---------csv-----------*/
 void GrassFieldControl::Load(DebugCamera* camera)
 {
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
-		file.open("Param_CSV/grass.csv");
-
-		popcom << file.rdbuf();
-
-		file.close();
-
-		while (std::getline(popcom, line)) {
-			std::istringstream line_stream(line);
-			std::string word;
-			std::getline(line_stream, word, ',');
-
-			if (word.find("//") == 0) {
-				continue;
-			}
-			if (word.find("Grass_Quantity") == 0) {
-				std::getline(line_stream, word, ',');
-				int quantity = (int)std::atof(word.c_str());
-				Quantity = quantity;
-				break;
-			}
-		}
-		Num.resize(Quantity);
-		pos.resize(Quantity);
-		rot.resize(Quantity);
-		scl.resize(Quantity);
-		for (int i = 0; i < Quantity; i++) {
-			while (std::getline(popcom, line)) {
-				std::istringstream line_stream(line);
-				std::string word;
-				std::getline(line_stream, word, ',');
-
-				if (word.find("//") == 0) {
-					continue;
-				}
-				if (word.find("Number") == 0) {
-					std::getline(line_stream, word, ',');
-					int number = (int)std::atof(word.c_str());
-					Num[i] = number;
-				}
-				if (word.find("POP") == 0) {
-					std::getline(line_stream, word, ',');
-					float x = (float)std::atof(word.c_str());
-
-					std::getline(line_stream, word, ',');
-					float y = (float)std::atof(word.c_str());
-
-					std::getline(line_stream, word, ',');
-					float z = (float)std::atof(word.c_str());
-
-					pos[i] = { x,y,z };
-
-				}
-				if (word.find("ROTATION") == 0) {
-					std::getline(line_stream, word, ',');
-					float x = (float)std::atof(word.c_str());
-
-					std::getline(line_stream, word, ',');
-					float y = (float)std::atof(word.c_str());
-
-					std::getline(line_stream, word, ',');
-					float z = (float)std::atof(word.c_str());
-
-					rot[i] = { x,y,z };
-					//break;
-				}
-				if (word.find("SCALE") == 0) {
-					std::getline(line_stream, word, ',');
-					float x = (float)std::atof(word.c_str());
-
-					std::getline(line_stream, word, ',');
-					float y = (float)std::atof(word.c_str());
-
-					std::getline(line_stream, word, ',');
-					float z = (float)std::atof(word.c_str());
-
-					scl[i] = { x,y,z };
-					break;
-				}
-
-			}
-		}
-		grassfields.resize(Quantity);
-
-		for (int i = 0; i < Quantity; i++) {
-
-			grassfields[i] = std::make_unique<GrassField>();
-
-			grassfields[i]->Initialize(camera);
-			grassfields[i]->SetPosition(pos[i]);
-
-		}
-	}
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
-		Tutorialgrassfields.resize(Quantity);
-		for (int i = 0; i < Quantity; i++) {
-
-			//‰Šú‰»ˆ—
-
-
-			for (int i = 0; i < Tutorialgrassfields.size(); i++) {
-				//	if (Num[i] == StoneType::BIG_A) {
-				Tutorialgrassfields[i] = std::make_unique<GrassField>();
-				//}
-				//if (Num[i] == StoneType::BIG_B) {
-				//	Tutorialgrassfields[i] = std::make_unique<Stone_B>();
-			//	}
-				Tutorialgrassfields[i]->Initialize(camera);
-				Tutorialgrassfields[i]->SetPosition(pos[i]);
-				Tutorialgrassfields[i]->SetRotation(rot[i]);
-				Tutorialgrassfields[i]->SetScale(scl[i]);
-			}
-		}
-	}
+	
 	UpdateRange = 200;
-}
-
-void GrassFieldControl::Initialize(DebugCamera* camera)
-{
-
 }
 
 /*------------------------*/

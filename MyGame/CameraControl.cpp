@@ -32,7 +32,7 @@ void CameraControl::Finalize()
 /*------------------------*/
 /*--------“Çžˆ—---------*/
 /*----------csv-----------*/
-void CameraControl::Initialize(DebugCamera* camera)
+void CameraControl::ParamSet()
 {
 	startindex = 1.0f;
 	startCount = 0.0f;
@@ -56,23 +56,26 @@ void CameraControl::Initialize(DebugCamera* camera)
 
 	this->camera = new DebugCamera(WinApp::window_width, WinApp::window_height);//(/*input*/);
 	input = Input::GetInstance();
+
 }
 
 void CameraControl::Init_Tutorial(DebugCamera* camera)
 {
-
+	ParamSet();
+	
+	dis.x = sinf(angle * (PI / 180)) * 30.0f;
+	dis.y = cosf(angle * (PI / 180)) * 30.0f;
+	distance.x = dis.x;
+	distance.y = dis.y;
 }
 
 void CameraControl::Init_Play(DebugCamera* camera)
 {
+	ParamSet();
 
-}
-void CameraControl::Init_Boss(DebugCamera* camera)
-{
+	this->camera = new DebugCamera(WinApp::window_width, WinApp::window_height);//(/*input*/);
+	input = Input::GetInstance();
 
-}
-void CameraControl::Load(DebugCamera* camera)
-{
 	file.open("Param_CSV/CameraPoints.csv");
 
 	popcom << file.rdbuf();
@@ -133,12 +136,28 @@ void CameraControl::Load(DebugCamera* camera)
 	this->camera->SetEye(pos[0]);
 	UpdateRange = 200;
 	startCount = GetTickCount64();
-	
+
 
 	dis.x = sinf(angle * (PI / 180)) * 30.0f;
 	dis.y = cosf(angle * (PI / 180)) * 30.0f;
 	distance.x = dis.x;
 	distance.y = dis.y;
+}
+void CameraControl::Init_Boss(DebugCamera* camera)
+{
+	ParamSet();
+	this->camera = new DebugCamera(WinApp::window_width, WinApp::window_height);//(/*input*/);
+	input = Input::GetInstance();
+
+
+	dis.x = sinf(angle * (PI / 180)) * 30.0f;
+	dis.y = cosf(angle * (PI / 180)) * 30.0f;
+	distance.x = dis.x;
+	distance.y = dis.y;
+}
+void CameraControl::Load(DebugCamera* camera)
+{
+	
 }
 
 

@@ -22,8 +22,6 @@ public:
 
 	void Load(DebugCamera* camera)override;
 
-	void Initialize(DebugCamera* camera)override;
-
 	void Finalize()override;
 
 	void ImGuiDraw();

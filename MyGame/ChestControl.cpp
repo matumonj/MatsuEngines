@@ -28,20 +28,20 @@ void ChestControl::Finalize()
 /*----------csv-----------*/
 void ChestControl::Init_Tutorial(DebugCamera* camera)
 {
+	Tutorial_chest.resize(1);
+	Tutorial_chest[0] = std::make_unique<Chest>();
+	Tutorial_chest[0]->Initialize(camera);
+	Tutorial_chest[0]->SetPosition({ 115.0f,-24.0f,-576.0f });
+	Tutorial_chest[0]->SetRotation({ 0.0f,90.0f,0.0f });
+	
+	ParticleManager::LoadTexture(8, L"Resources/ParticleTex/normal.png");
+	TutorialPchest.particleMan = ParticleManager::Create(8, L"Resources/ParticleTex/normal.png");
+	TutorialPchest.ChestEvent = NON;//particleMan->CreateModel();
 
 }
 
 void ChestControl::Init_Play(DebugCamera* camera)
 {
-
-}
-void ChestControl::Init_Boss(DebugCamera* camera)
-{
-
-}
-void ChestControl::Load(DebugCamera* camera)
-{
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
 	//ChestMaxÇ‡í«â¡
 	file.open("Param_CSV/Chest.csv");
 
@@ -72,35 +72,26 @@ void ChestControl::Load(DebugCamera* camera)
 			std::string word;
 			std::getline(line_stream, word, ',');
 
-if (word.find("//") == 0) {
-	continue;
-}
-if (word.find("POP") == 0) {
-	std::getline(line_stream, word, ',');
-	float x = (float)std::atof(word.c_str());
+			if (word.find("//") == 0) {
+				continue;
+			}
+			if (word.find("POP") == 0) {
+				std::getline(line_stream, word, ',');
+				float x = (float)std::atof(word.c_str());
 
-	std::getline(line_stream, word, ',');
-	float y = (float)std::atof(word.c_str());
+				std::getline(line_stream, word, ',');
+				float y = (float)std::atof(word.c_str());
 
-	std::getline(line_stream, word, ',');
-	float z = (float)std::atof(word.c_str());
+				std::getline(line_stream, word, ',');
+				float z = (float)std::atof(word.c_str());
 
-	pos[i] = { x,y,z };
-	break;
-}
+				pos[i] = { x,y,z };
+				break;
+			}
 		}
 	}
 	Load_ChestPosition.resize(Quantity);
-}
-if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
-	Tutorial_chest.resize(1);
-	Tutorial_chest[0] = std::make_unique<Chest>();
-	Tutorial_chest[0]->Initialize(camera);
-	Tutorial_chest[0]->SetPosition({ 115.0f,-24.0f,-576.0f });
-	Tutorial_chest[0]->SetRotation({ 0.0f,90.0f,0.0f });
-}
 
-if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
 	for (int i = 0; i < 4; i++) {
 		chests[i] = std::make_unique<Chest>();
 		chests[i]->Initialize(camera);
@@ -117,17 +108,16 @@ if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
 		PlayPchest[i].ChestEvent = NON;
 	}
 }
-UpdateRange = 200;
-ParticleManager::LoadTexture(8, L"Resources/ParticleTex/normal.png");
-TutorialPchest.particleMan = ParticleManager::Create(8, L"Resources/ParticleTex/normal.png");
-TutorialPchest.ChestEvent = NON;//particleMan->CreateModel();
-
-}
-
-void ChestControl::Initialize(DebugCamera* camera)
+void ChestControl::Init_Boss(DebugCamera* camera)
 {
-	chests.resize(4);
+
 }
+void ChestControl::Load(DebugCamera* camera)
+{
+
+
+}
+
 
 /*------------------------*/
 /*--------çXêVèàóù---------*/
@@ -148,6 +138,8 @@ void ChestControl::Update_Tutorial(DebugCamera* camera)
 
 void ChestControl::Update_Play(DebugCamera* camera)
 {
+	chests.resize(4);
+
 	const XMFLOAT4 color_red = { 1.0f,0.1f,0.1f,0.7f };
 	const XMFLOAT4 color_green = { 0.1f,1.0f,0.1f,0.7f };
 	const XMFLOAT4 color_blue = { 0.1f,0.1f,1.0f,0.7f };

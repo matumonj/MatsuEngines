@@ -173,6 +173,7 @@ void Player::Evasion()
 
 void Player::Update(DebugCamera* camera)
 {
+	if (m_Object == nullptr || m_fbxObject == nullptr)return;
 	ReturnGround();
 
 	//１フレーム前の座標を保存
@@ -222,10 +223,8 @@ void Player::FbxAnimationControls(const AttackMotion& motiontype,const float att
 {
 	//if (evasionF)return;
 	if (attackMotion == motiontype) {
-		if (PlayerAttackState::GetInstance()->GetCoolTime() == 0) {
 		if (f_time <= attacktime) {
 			f_time = attacktime;
-		}
 		}
 		if (f_time >= nextAnimationtime) {
 			attackMotion = RUN;
@@ -249,11 +248,11 @@ void Player::FbxAnimationControl()
 	if (evasionF||noAttack)return;
 	float timespeed = 0.02f;
 
-	if (CustomButton::GetInstance()->GetAttackAction() == true && PlayerAttackState::GetInstance()->GetCoolTime() == 0) {
+	if (CustomButton::GetInstance()->GetAttackAction() == true ) {
 		AttackFlag = true;
 		attackMotion = FIRST;
 	}
-	if (CustomButton::GetInstance()->Get2AttackAction() == true && PlayerAttackState::GetInstance()->GetCoolTime() == 0) {
+	if (CustomButton::GetInstance()->Get2AttackAction() == true) {
 		SecAttack = true;
 		attackMotion = SECOND;
 	}

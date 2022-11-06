@@ -36,42 +36,51 @@ void EnemyControl::Finalize()
 /*------------------------*/
 /*--------読込処理---------*/
 /*----------csv-----------*/
-void EnemyControl::Initialize(DebugCamera* camera)
-{
-	enemys.resize(EnemyType::BOSS + 1);
-	enemys[EnemyType::BOSS].resize(1);
-
-}
 
 void EnemyControl::Init_Tutorial(DebugCamera* camera)
 {
+	enemys.resize(EnemyType::BOSS + 1);
 
+	enemys[EnemyType::TUTORIAL].resize(1);
+	enemys[EnemyType::TUTORIAL][0] = std::make_unique<MobEnemy>();
+	enemys[EnemyType::TUTORIAL][0]->Initialize(camera);
+	tutorial_pos = { 100.137f,20.5045f,-650.987f };
+	enemys[EnemyType::TUTORIAL][0]->SetPosition(tutorial_pos);
+	enemys[EnemyType::TUTORIAL][0]->SetRespawnPos(tutorial_pos);
 }
 
 void EnemyControl::Init_Play(DebugCamera* camera)
 {
+	enemys.resize(EnemyType::BOSS + 1);
+	file.open("Param_CSV/enemy.csv");
 
-}
-void EnemyControl::Init_Boss(DebugCamera* camera)
-{
+	popcom << file.rdbuf();
 
-}
+	file.close();
+	/*流れとしては
+	敵の数読み込み->
+	読み込んだ敵の数分エネミーのパラメータ配列の要素数増やす->
+	敵の数分作ったら配列の中身をロードしたものに->
+	敵の番号が1だったらα,2だったらβでインスタンス生成、初期化
+	*/
+	while (std::getline(popcom, line)) {
+		std::istringstream line_stream(line);
+		std::string word;
+		std::getline(line_stream, word, ',');
 
-void EnemyControl::Load(DebugCamera* camera)
-{
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
-
-		file.open("Param_CSV/enemy.csv");
-
-		popcom << file.rdbuf();
-
-		file.close();
-		/*流れとしては
-		敵の数読み込み->
-		読み込んだ敵の数分エネミーのパラメータ配列の要素数増やす->
-		敵の数分作ったら配列の中身をロードしたものに->
-		敵の番号が1だったらα,2だったらβでインスタンス生成、初期化
-		*/
+		if (word.find("//") == 0) {
+			continue;
+		}
+		if (word.find("Enemy_Quantity") == 0) {
+			std::getline(line_stream, word, ',');
+			int quantity = (int)std::atof(word.c_str());
+			Quantity = quantity;
+			break;
+		}
+	}
+	Num.resize(Quantity);
+	pos.resize(Quantity);
+	for (int i = 0; i < Quantity; i++) {
 		while (std::getline(popcom, line)) {
 			std::istringstream line_stream(line);
 			std::string word;
@@ -80,87 +89,69 @@ void EnemyControl::Load(DebugCamera* camera)
 			if (word.find("//") == 0) {
 				continue;
 			}
-			if (word.find("Enemy_Quantity") == 0) {
+			if (word.find("Number") == 0) {
 				std::getline(line_stream, word, ',');
-				int quantity = (int)std::atof(word.c_str());
-				Quantity = quantity;
+				int number = (int)std::atof(word.c_str());
+				Num[i] = number;
+			} else if (word.find("POP") == 0) {
+				std::getline(line_stream, word, ',');
+				float x = (float)std::atof(word.c_str());
+
+				std::getline(line_stream, word, ',');
+				float y = (float)std::atof(word.c_str());
+
+				std::getline(line_stream, word, ',');
+				float z = (float)std::atof(word.c_str());
+
+				pos[i] = { x,y,z };
 				break;
 			}
 		}
-		Num.resize(Quantity);
-		pos.resize(Quantity);
-		for (int i = 0; i < Quantity; i++) {
-			while (std::getline(popcom, line)) {
-				std::istringstream line_stream(line);
-				std::string word;
-				std::getline(line_stream, word, ',');
+	}
+	enemys[EnemyType::PLAYSCENE].resize(Quantity);
 
-				if (word.find("//") == 0) {
-					continue;
-				}
-				if (word.find("Number") == 0) {
-					std::getline(line_stream, word, ',');
-					int number = (int)std::atof(word.c_str());
-					Num[i] = number;
-				} else if (word.find("POP") == 0) {
-					std::getline(line_stream, word, ',');
-					float x = (float)std::atof(word.c_str());
+	Load_EnemyPosition.resize(Quantity);
 
-					std::getline(line_stream, word, ',');
-					float y = (float)std::atof(word.c_str());
-					   
-					std::getline(line_stream, word, ',');
-					float z = (float)std::atof(word.c_str());
+	for (int i = 0; i < Quantity; i++) {
 
-					pos[i] = { x,y,z };
-					break;
-				}
-			}
+		//初期化処理
+		if (Num[i] == ALPHAENEMY) {
+			enemys[EnemyType::PLAYSCENE][i] = std::make_unique<MobEnemy>();
 		}
-		enemys[EnemyType::PLAYSCENE].resize(Quantity);
-
-		Load_EnemyPosition.resize(Quantity);
-
-		for (int i = 0; i < Quantity; i++) {
-
-			//初期化処理
-			if (Num[i] == ALPHAENEMY) {
-				enemys[EnemyType::PLAYSCENE][i] = std::make_unique<MobEnemy>();
-			}
-			if (Num[i] == BETAENEMY) {
-				enemys[EnemyType::PLAYSCENE][i] = std::make_unique<EnemyAlpha>();
-			}
-			
-			enemys[EnemyType::PLAYSCENE][i]->Initialize(camera);
-			enemys[EnemyType::PLAYSCENE][i]->SetPosition(pos[i]);
-			enemys[EnemyType::PLAYSCENE][i]->SetRespawnPos(pos[i]);
+		if (Num[i] == BETAENEMY) {
+			enemys[EnemyType::PLAYSCENE][i] = std::make_unique<EnemyAlpha>();
 		}
+
+		enemys[EnemyType::PLAYSCENE][i]->Initialize(camera);
+		enemys[EnemyType::PLAYSCENE][i]->SetPosition(pos[i]);
+		enemys[EnemyType::PLAYSCENE][i]->SetRespawnPos(pos[i]);
 	}
+}
 
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
-		enemys[EnemyType::TUTORIAL].resize(1);
-		enemys[EnemyType::TUTORIAL][0] = std::make_unique<MobEnemy>();
-		enemys[EnemyType::TUTORIAL][0]->Initialize(camera);
-		tutorial_pos = { 100.137f,20.5045f,-650.987f };
-		enemys[EnemyType::TUTORIAL][0]->SetPosition(tutorial_pos);
-		enemys[EnemyType::TUTORIAL][0]->SetRespawnPos(tutorial_pos);
-	}
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
-		enemys[EnemyType::BOSS][0] = std::make_unique<BossEnemy>();
-		enemys[EnemyType::BOSS][0]->Initialize(camera);
-		boss_pos = { 0.0f,0.5045f,20.987f };
-		enemys[EnemyType::BOSS][0]->SetPosition(boss_pos);
 
-		gigaboss = std::make_unique<GigaBossEnemy>();
+void EnemyControl::Init_Boss(DebugCamera* camera)
+{
+	enemys[EnemyType::BOSS].resize(1);
 
-		gigaboss->Initialize(camera);
+	enemys[EnemyType::BOSS][0] = std::make_unique<BossEnemy>();
+	enemys[EnemyType::BOSS][0]->Initialize(camera);
+	boss_pos = { 0.0f,0.5045f,20.987f };
+	enemys[EnemyType::BOSS][0]->SetPosition(boss_pos);
 
-		KnockAttack::GetInstance()->Initialize();
-		CircleAttack::GetInstance()->Initialize();
-		HalfAttack::GetInstance()->Initialize();
-		AltAttack::GetInstance()->Initialize();
-		FrontCircleAttack::GetInstance()->Initialize();
-	}
+	gigaboss = std::make_unique<GigaBossEnemy>();
+
+	gigaboss->Initialize(camera);
+
+	KnockAttack::GetInstance()->Initialize();
+	CircleAttack::GetInstance()->Initialize();
+	HalfAttack::GetInstance()->Initialize();
+	AltAttack::GetInstance()->Initialize();
+	FrontCircleAttack::GetInstance()->Initialize();
+}
+
+void EnemyControl::Load(DebugCamera* camera)
+{
+	
 }
 /*------------------------*/
 /*--------更新処理---------*/
