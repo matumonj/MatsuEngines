@@ -76,7 +76,7 @@ void BossScene::Update()
 		}
 	dc->Update();
 
-	dc->SetTarget({ CameraControl::GetInstance()->GetCamera()->GetTarget() });
+	dc->SetTarget({ PlayerControl::GetInstance()->GetPlayer()->GetPosition() });
 	dc->SetEye({ PlayerControl::GetInstance()->GetPlayer()->GetPosition().x,
 		 PlayerControl::GetInstance()->GetPlayer()->GetPosition().y + 300.0f,
 		PlayerControl::GetInstance()->GetPlayer()->GetPosition().z - 1 });
@@ -84,6 +84,7 @@ void BossScene::Update()
 
 	Field::GetInstance()->Update(CameraControl::GetInstance()->GetCamera());
 	DamageManager::GetIns()->Upda();
+	postEffect->SetCenterpos(HUD::GetInstance()->GetMinimapSprite()->GetPosition());
 
 	//各オブジェクトの更新処理
 	//csv読み込み部分(Cameraの更新後にするのでobjUpdate()挟んでから)
@@ -130,9 +131,6 @@ void BossScene::Draw()
 		postEffect->PostDrawScene();
 
 		DirectXCommon::GetInstance()->BeginDraw();
-		SistemConfig::GetInstance()->SwordPedestalDraw();
-		//UI
-			UI::GetInstance()->HUDDraw();
 		//設定画面
 		SistemConfig::GetInstance()->Draw();
 		
@@ -146,8 +144,10 @@ void BossScene::Draw()
 
 		DirectXCommon::GetInstance()->BeginDraw();
 		MyGameDraw();
-		DamageManager::GetIns()->Draw();
 		postEffect->Draw();
+		DamageManager::GetIns()->Draw();
+		PlayerControl::GetInstance()->DamageTexDraw();
+
 		//UI
 		if (CameraControl::GetInstance()->GetCameraState() != CameraControl::BOSSCUTSCENE) {
 			UI::GetInstance()->HUDDraw();

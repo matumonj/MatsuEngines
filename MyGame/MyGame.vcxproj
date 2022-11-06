@@ -224,11 +224,6 @@
     <ClCompile Include="GrassField.cpp" />
     <ClCompile Include="GrassFieldControl.cpp" />
     <ClCompile Include="GrassObj.cpp" />
-    <ClCompile Include="GuardianBlue.cpp" />
-    <ClCompile Include="GuardianEnemy.cpp" />
-    <ClCompile Include="GuardianGreen.cpp" />
-    <ClCompile Include="GuardianYellow.cpp" />
-    <ClCompile Include="GurdianRed.cpp" />
     <ClCompile Include="HalfAttack.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="ImageManager.cpp" />
@@ -356,7 +351,6 @@
     <ClInclude Include="GrassField.h" />
     <ClInclude Include="GrassFieldControl.h" />
     <ClInclude Include="GrassObj.h" />
-    <ClInclude Include="GuardianEnemy.h" />
     <ClInclude Include="HalfAttack.h" />
     <ClInclude Include="HUD.h" />
     <ClInclude Include="ImageManager.h" />

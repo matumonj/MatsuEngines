@@ -22,7 +22,7 @@ void ConfigSprite::Initialize()
 	Sprite::LoadTexture(122, L"Resources/layout.png");
 	Sprite::LoadTexture(123, L"Resources/custom.png");
 	Sprite::LoadTexture(124, L"Resources/swordselect.png");
-
+	Sprite::LoadTexture(25, L"Resources/2d/confignav/navbase.png");
 	MenuSprite = Sprite::Create(121, { 1,1 });
 	RayOutSprite = Sprite::Create(122, { 1,1 });
 	EnemyHPSelectSprite = Sprite::Create(123, { 1,1 });
@@ -37,6 +37,8 @@ void ConfigSprite::Initialize()
 	RayOutSprite->SetSize({ 600,600 });
 	EnemyHPSelectSprite->SetSize({ 600,600 });
 	SwordSelectSprite->SetSize({ 600,600 });
+	NavBase= Sprite::Create(25, { 1,1 });
+	NavBase->SetSize({ 1900,1000 });
 }
 
 void ConfigSprite::Update()
@@ -51,5 +53,6 @@ void ConfigSprite::Draw()
 	RayOutSprite->Draw();
 	EnemyHPSelectSprite->Draw();
 	SwordSelectSprite->Draw();
+	NavBase->Draw();
 	//Sprite::PostDraw();
 }

@@ -17,7 +17,7 @@ CircleAttack*CircleAttack::GetInstance()
 }
 void CircleAttack::Initialize()
 {
-	Texture::LoadTexture(23, L"Resources/fissure.png");
+	Texture::LoadTexture(23, L"Resources/AOE.png");
 
 	for (int i = 0; i < 2; i++) {
 		ImpactAreaTex[i] = Texture::Create(23, { 0.0f ,0.0f ,0.0f }, { 100.0f ,100.0f ,1.0f }, { 1.0f ,1.0f ,1.0f ,1.0f });
@@ -55,12 +55,15 @@ void CircleAttack::ActionJudg()
 	default:
 		break;
 	}
-	
+	rotY += 1.0f;
+	if (rotY > 360.0f) {
+		rotY = 0.0f;
+	}
 	//ダメージエリアテクスチャの各種パラメータ
 	for (int i = 0; i < 2; i++) {
 		ImpactAreaTex[i]->Update(CameraControl::GetInstance()->GetCamera());
 		ImpactAreaTex[i]->SetScale({ CircleSize.x,CircleSize.y,3.0f });
-		ImpactAreaTex[i]->SetRotation({ 90.0f,0.0f,0.0f });
+		ImpactAreaTex[i]->SetRotation({ 90.0f,0.0f,rotY });
 		ImpactAreaTex[i]->SetColor({ 1.0f,1.0f,1.0f,TexAlpha});
 	}
 	ImpactAreaTex[0]->SetPosition({ Direction[Area1].x ,-18,Direction[Area1].z });
@@ -79,7 +82,7 @@ void CircleAttack::Draw()
 {
 	Texture::PreDraw();
 	for (int i = 0; i < 2; i++) {
-		ImpactAreaTex[i]->Draw();
+		//ImpactAreaTex[i]->Draw();
 	}
 	Texture::PostDraw();
 	for (int i = 0; i < NailObj.size(); i++) {

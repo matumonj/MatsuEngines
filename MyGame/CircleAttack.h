@@ -22,6 +22,7 @@ public:
 		WEST
 	};
 private:
+	float rotY;
 	static const int DirectionNum = 4;
 	XMFLOAT3 Direction[DirectionNum]; 
 	

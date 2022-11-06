@@ -190,7 +190,6 @@ void ExpPointSystem::Draw()
 	m_ExpBarSpite->Draw();
 	DebugTextSprite::GetInstance()->DrawAll();
 	Sprite::PostDraw();
-	ImGui::Begin("Bar_frame");
 	int num;
 	if (TextDis == true) {
 		num = 1;
@@ -198,8 +197,4 @@ void ExpPointSystem::Draw()
 	else {
 		num = 0;
 	}
-	ImGui::SliderFloat("lvel", &LevelUpTexPos.y, 0, 1000);
-	ImGui::SliderFloat("exp", &LevelUpTexPos.x, 0, 1900);
-	ImGui::SliderInt("exp", &oldGetExp, 0, 1900);
-	ImGui::SliderFloat("FrameBarSclY", &fontEaseT[0], 0, 1000);
 }

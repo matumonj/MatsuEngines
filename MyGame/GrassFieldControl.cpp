@@ -16,7 +16,19 @@ GrassFieldControl::~GrassFieldControl()
 	Num.clear();
 	pos.clear();
 }
+void GrassFieldControl::Init_Tutorial(DebugCamera* camera)
+{
 
+}
+
+void GrassFieldControl::Init_Play(DebugCamera* camera)
+{
+
+}
+void GrassFieldControl::Init_Boss(DebugCamera* camera)
+{
+
+}
 /*------------------------*/
 /*--------‰ð•úˆ—---------*/
 /*------------------------*/
@@ -189,20 +201,23 @@ void GrassFieldControl::Update_Boss(DebugCamera* camera)
 /*------------------------*/
 /*--------•`‰æˆ—---------*/
 /*------------------------*/
-void GrassFieldControl::Draw()
+void GrassFieldControl::Draw_Tutorial()
 {
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
-		for (int i = 0; i < Quantity; i++) {
-			if (grassfields[i] != nullptr) {
-				grassfields[i]->Draw();
-			}
+	for (int i = 0; i < Tutorialgrassfields.size(); i++) {
+		if (Tutorialgrassfields[i] != nullptr) {
+			Tutorialgrassfields[i]->Draw();
 		}
 	}
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
-		for (int i = 0; i < Tutorialgrassfields.size(); i++) {
-			if (Tutorialgrassfields[i] != nullptr) {
-				Tutorialgrassfields[i]->Draw();
-			}
+}
+void GrassFieldControl::Draw_Play()
+{
+	for (int i = 0; i < Quantity; i++) {
+		if (grassfields[i] != nullptr) {
+			grassfields[i]->Draw();
 		}
 	}
+}
+void GrassFieldControl::Draw_Boss()
+{
+
 }

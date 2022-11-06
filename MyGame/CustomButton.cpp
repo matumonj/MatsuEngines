@@ -40,6 +40,7 @@ void CustomButton::Initialize()
 	Sprite::LoadTexture(130, L"Resources/05 ƒ{ƒ^ƒ“/button.png");//˜g‰æ‘œ
 	Sprite::LoadTexture(131, L"Resources/jumpaction.png");//
 	Sprite::LoadTexture(132, L"Resources/attackaction.png");//
+	Sprite::LoadTexture(133, L"Resources/attackaction2.png");//
 	Sprite::LoadTexture(140, L"Resources/selectsprite.png");//
 	Sprite::LoadTexture(141, L"Resources/error.png");//
 	Sprite::LoadTexture(142, L"Resources/custommenu.png");//
@@ -73,7 +74,7 @@ void CustomButton::Initialize()
 	MenuSprite[ATTACK]->SetSize(MenuSpriteSize);
 	MenuSprite[ATTACK]->SetPosition(AttackSpritePosition);
 
-	MenuSprite[SATTACK] = Sprite::Create(131, { 0.0f,-200.0f });
+	MenuSprite[SATTACK] = Sprite::Create(133, { 0.0f,-200.0f });
 	MenuSprite[SATTACK]->SetSize(MenuSpriteSize);
 	MenuSprite[SATTACK]->SetPosition(SAttackSpritePosition);
 

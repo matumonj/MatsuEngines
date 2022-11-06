@@ -38,15 +38,17 @@ void SistemConfig::Initialize()
 	SelectSword::GetInstance()->Initialize();
 }
 
+#include"CameraControl.h"
 void SistemConfig::Update()
 {
 	m_number = min(m_number, 2);
 	m_number = max(m_number, 0);
 
-	if (input->TriggerButton(input->START)) {
-		PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(true);
-		m_ConfigFlag = true;
-
+	if(CameraControl::GetInstance()->GetCameraState()==CameraControl::PLAYER){
+		if (input->TriggerButton(input->START)) {
+			PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(true);
+			m_ConfigFlag = true;
+		}
 	}
 
 	if (m_ConfigFlag) {

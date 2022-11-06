@@ -23,7 +23,7 @@ void NormalSword::Initialize(DebugCamera* camera)
 
 void NormalSword::Update(DebugCamera* camera)
 {
-	const float Damage_Value = 5.0f;
+	const float Damage_Value = 10.0f;
 	const float CoolTime_Value = 180.0f;
 
 	Damage = Damage_Value;
@@ -36,14 +36,8 @@ void NormalSword::Update(DebugCamera* camera)
 
 }
 
-#include"imgui.h"
 void NormalSword::Draw()
 {
 	Draw_Obj();
-	ImGui::Begin("rot");
-	ImGui::SliderFloat("x", &Rotation.x, -180, 180);
-	ImGui::SliderFloat("y", &Rotation.y, -180, 180);
-	ImGui::SliderFloat("z", &Rotation.z, -180, 180);
-	ImGui::End();
-
+	
 }

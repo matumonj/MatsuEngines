@@ -41,7 +41,5 @@ void GrassField::Draw()
 	GrassObj::PreDraw();
 	grass->Draw();
 	GrassObj::PostDraw();
-	ImGui::Begin("FieldPos");
-	ImGui::SliderFloat("y", &FieldPos.y, 100, -100);
-	ImGui::End();
+	
 }

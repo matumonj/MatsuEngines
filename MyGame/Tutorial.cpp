@@ -207,13 +207,10 @@ void Tutorial::Draw()
 	{
 	case Blur://‚Ú‚©‚µ@•`‰æ€ˆá‚¤‚¾‚¯
 		postEffect->PreDrawScene();
-		MyGameDraw();
 		postEffect->PostDrawScene();
 
 		DirectXCommon::GetInstance()->BeginDraw();
-		//postEffect->Draw();
-		SistemConfig::GetInstance()->SwordPedestalDraw();
-		
+			
 		SistemConfig::GetInstance()->Draw();
 		DirectXCommon::GetInstance()->EndDraw();
 
@@ -234,13 +231,7 @@ void Tutorial::Draw()
 		UI::GetInstance()->HUDDraw();
 		Feed::GetInstance()->Draw();
 		SistemConfig::GetInstance()->Draw();
-		ImGui::Begin("WW");
-		ImGui::InputFloat3("circleShadowDir", circleShadowDir);
-		//ImGui::InputFloat3("circleShadowPos", circleShadowPos);
-		ImGui::InputFloat3("circleShadowAtten", circleShadowAtten, 8);
-		ImGui::InputFloat2("circleShadowFactorAngle", circleShadowFactorAngle);
-		ImGui::InputFloat3("fighterPos", fighterPos);
-		ImGui::End();
+		
 		DirectXCommon::GetInstance()->EndDraw();
 
 		break;

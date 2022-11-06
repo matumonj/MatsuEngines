@@ -9,7 +9,19 @@ PlayerControl* PlayerControl::GetInstance()
 	static PlayerControl instance;
 	return &instance;
 }
+void PlayerControl::Init_Tutorial(DebugCamera* camera)
+{
 
+}
+
+void PlayerControl::Init_Play(DebugCamera* camera)
+{
+
+}
+void PlayerControl::Init_Boss(DebugCamera* camera)
+{
+
+}
 /*------------------------*/
 /*--------解放処理---------*/
 /*------------------------*/
@@ -27,7 +39,7 @@ void PlayerControl::Load(DebugCamera* camera)
 	switch (SceneManager::GetInstance()->GetScene())
 	{
 	case SceneManager::TUTORIAL:
-		StartPos = { 92.0f,-12.0f,-760.0f };
+		StartPos = { 92.0f,-20.0f,-760.0f };
 		break;
 	case SceneManager::PLAY:
 		StartPos = { 110.0f,-12.0f,-379.0f };
@@ -92,16 +104,35 @@ void PlayerControl::Update_Play(DebugCamera* camera)//プレイシーン時
 void PlayerControl::Update_Boss(DebugCamera* camera)
 {
 	player->Update(camera);
-	PlayerAttackState::GetInstance()->Update();
+	if (HUD::GetInstance()->GetRecvDamageFlag()) {
+		dalpha = 1.0f;
 
+	}
+
+	dalpha -= 0.02f;
+	DamageTex->setcolor({ 1,1,1,dalpha });
+	PlayerAttackState::GetInstance()->Update();
+	dalpha = max(dalpha, 0.0f);
 }
 /*------------------------*/
 /*--------描画処理---------*/
 /*------------------------*/
-void PlayerControl::Draw()
+void PlayerControl::Draw_Play()
 {
 	if (player == nullptr)return;
 		player->Draw();	
+}
+
+void PlayerControl::Draw_Tutorial()
+{
+	if (player == nullptr)return;
+	player->Draw();
+}
+
+void PlayerControl::Draw_Boss()
+{
+	if (player == nullptr)return;
+	player->Draw();
 }
 
 void PlayerControl::DamageTexDraw()

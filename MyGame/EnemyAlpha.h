@@ -46,7 +46,6 @@ private:
     int hindex;
 private:
     bool nowAttack;
-    float alpha = 1;
     const int ParticleSize = 20;
 public:
     // bool GetFolatc() { return folatc; }

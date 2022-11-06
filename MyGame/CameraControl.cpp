@@ -58,6 +58,19 @@ void CameraControl::Initialize(DebugCamera* camera)
 	input = Input::GetInstance();
 }
 
+void CameraControl::Init_Tutorial(DebugCamera* camera)
+{
+
+}
+
+void CameraControl::Init_Play(DebugCamera* camera)
+{
+
+}
+void CameraControl::Init_Boss(DebugCamera* camera)
+{
+
+}
 void CameraControl::Load(DebugCamera* camera)
 {
 	file.open("Param_CSV/CameraPoints.csv");
@@ -214,7 +227,7 @@ void CameraControl::TargetPlayer()
 			camera->SetEye(CameraPosition);
 
 				if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
-				if (ChestControl::GetInstance()->ChestCount() >= 2) {
+				if (ChestControl::GetInstance()->ChestCount() >= 5) {
 					Tstate = MOVEBOSSAREA;
 				}
 			}
@@ -317,12 +330,7 @@ XMFLOAT3 CameraControl::SplinePosition(const std::vector<XMFLOAT3>& points, size
 	return position;
 }
 
-void CameraControl::Draw()
-{
-	ImGui::Begin("charaangle");
-	ImGui::SliderFloat("x", &angle, 0, 360);
-	ImGui::End();
-}
+
 
 /*------------------------*/
 /*--------ターゲット-------*/
@@ -453,7 +461,7 @@ void CameraControl::ShakeCamera()
 {
 	if (shaketime == 0) {
 
-		shaketime = 40;
+		shaketime = 10;
 	}
 	if (shaketime != 0) {
 		shake = rand() % 4 - 8;
@@ -613,3 +621,11 @@ void CameraControl::EncountGuardian_End()
 	PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(false);
 	Tstate = PLAYER;
 }
+
+
+/*更新処理*/
+void CameraControl::Draw_Tutorial(){}
+
+void CameraControl::Draw_Play() {}
+
+void CameraControl::Draw_Boss() {}

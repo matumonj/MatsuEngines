@@ -21,6 +21,11 @@ private:
         FIRESPHERE,
         BLIZZARD
     };
+    const float Damage_Value = 2.0f;
+    const float Damage_Value_S = 3.0f;
+    const float CoolTime_Value = 360.0f;
+    const float CoolTime_Value_S = 180.0f;
+
     AttackMotion attackMotion;
     DirectX::XMFLOAT3 EaseTime;
     DirectX::XMFLOAT3 magicSpherePos;
@@ -66,6 +71,7 @@ private:
         };
         Phase Getphase() { return phase; }
     private:
+      
         Phase phase=NON;
 
         void DestParamReset();

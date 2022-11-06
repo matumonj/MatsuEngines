@@ -21,6 +21,9 @@ private:
 	Sprite* PlayerHPFrame;
 	Sprite* PlayerHPFrame2;
 	Sprite* MiniMapFrame;
+	XMFLOAT2 framescl;
+	XMFLOAT2 framepos;
+	Sprite* ButtonFrame;
 	XMFLOAT2 MiniFrameSize;
 	XMFLOAT2 MiniframePos;
 	float PlayerHPSize;

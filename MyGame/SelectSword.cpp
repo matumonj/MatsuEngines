@@ -69,7 +69,7 @@ void SelectSword::SpriteSet()
 
 	Equipment = Sprite::Create(240, { 1.0f,1.0f });
 	Equipment->SetSize({ 1000,600 });
-	EquipmentPos.x = -200.0f;
+	EquipmentPos.x = 200.0f;
 
 	NavSprite->SetSize({ 1500,700 });
 	NavSprite->SetPosition({ 400,300 });
@@ -339,11 +339,7 @@ void SelectSword::Draw()
 }
 void SelectSword::SpriteDraw()
 {
-	ImGui::Begin("pos");
-	ImGui::SliderFloat("x", &EquipmentPos.x, 0,30);
-	ImGui::SliderFloat("y", &EquipmentPos.y, 0, 1000);
-	ImGui::End();
-
+	
 	if (SelectJudg) {
 		Sprite::PreDraw();
 		for (int i = 0; i < 3; i++) {

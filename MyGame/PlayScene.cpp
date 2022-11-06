@@ -131,6 +131,10 @@ void PlayScene::Update()
 	lightGroup->SetCircleShadowFactorAngle(3, XMFLOAT2(circleShadowFactorAngle2));
 	postEffect->SetCenterpos(HUD::GetInstance()->GetMinimapSprite()->GetPosition());
 	for (int i = 0; i < EnemyControl::GetInstance()->GetQuentity(); i++) {
+		if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i] == nullptr) { 
+			lightGroup->SetCircleShadowFactorAngle(i + 4, {0,0});
+			continue;
+		}
 		lightGroup->SetCircleShadowDir(i+4, XMVECTOR({ circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0 }));
 		//for (int i = 0; i < 3; i++) {
 		lightGroup->SetCircleShadowCasterPos(i+4, {EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetPosition()});

@@ -17,6 +17,19 @@ WoodControl::~WoodControl()
 	pos.clear();
 }
 
+void WoodControl::Init_Tutorial(DebugCamera* camera)
+{
+
+}
+
+void WoodControl::Init_Play(DebugCamera* camera)
+{
+
+}
+void WoodControl::Init_Boss(DebugCamera* camera)
+{
+
+}
 /*------------------------*/
 /*--------‰ð•úˆ—---------*/
 /*------------------------*/
@@ -159,25 +172,29 @@ void WoodControl::Update_Boss(DebugCamera* camera)
 /*------------------------*/
 /*--------•`‰æˆ—---------*/
 /*------------------------*/
-void WoodControl::Draw()
+void WoodControl::Draw_Tutorial()
 {
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
-
-		XMFLOAT3 pPos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
-
-		for (int i = 0; i < Quantity; i++) {
-			if (woods[i] != nullptr) {
-				if (Collision::GetLength(pPos, woods[i]->GetPosition()) < 200) {
-					woods[i]->Draw();
-				}
-			}
+	for (int i = 0; i < Tutorialwoods.size(); i++) {
+		if (Tutorialwoods[i] != nullptr) {
+			Tutorialwoods[i]->Draw();
 		}
 	}
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
-		for (int i = 0; i < Tutorialwoods.size(); i++) {
-			if (Tutorialwoods[i] != nullptr) {
-				Tutorialwoods[i]->Draw();
+}
+
+void WoodControl::Draw_Play()
+{
+	XMFLOAT3 pPos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	for (int i = 0; i < Quantity; i++) {
+		if (woods[i] != nullptr) {
+			if (Collision::GetLength(pPos, woods[i]->GetPosition()) < 200) {
+				woods[i]->Draw();
 			}
 		}
 	}
 }
+
+void WoodControl::Draw_Boss()
+{
+}
+
+

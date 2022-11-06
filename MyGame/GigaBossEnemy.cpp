@@ -13,15 +13,16 @@ void GigaBossEnemy::Initialize(DebugCamera* camera)
 	m_fbxObject->Initialize();
 	m_fbxObject->SetModel(FbxLoader::GetInstance()->LoadModelFromFile("gigagolem"));
 	m_fbxObject->PlayAnimation();
-
+	Texture::LoadTexture(93, L"Resources/fissure.png");
 	Position = { 0.0f,-56.0f,180.0f };
 	Scale = { 0.5f,0.4f,0.4f };
 	Rotation = { 0,180,0 };
-	Texture*subFissureTex= Texture::Create(23, { 0.0f ,0.0f ,0.0f }, { 100.0f ,100.0f ,1.0f }, { 1.0f ,1.0f ,1.0f ,1.0f });
+	Texture*subFissureTex= Texture::Create(93, { 0.0f ,0.0f ,0.0f }, { 100.0f ,100.0f ,1.0f }, { 1.0f ,1.0f ,1.0f ,1.0f });
 	FissureTex.reset(subFissureTex);
 	FissureTex->CreateTexture();
 	FissureTex->SetAnchorPoint({ 0.5f,0.5f });
 	fissureAlpha = 1.0f;
+	disrad = 0;
 }
 
 void GigaBossEnemy::Update(DebugCamera* camera)

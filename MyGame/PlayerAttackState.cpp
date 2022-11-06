@@ -34,13 +34,13 @@ void PlayerAttackState::Update()
 {
 	AttackCollision::GetInstance()->Update();
 
-	if (CustomButton::GetInstance()->GetAttackAction()==true ){ /*CoolDownTime == 0*/
+	if (CustomButton::GetInstance()->GetAttackAction()==true &&CoolDownTime==0){ /*CoolDownTime == 0*/
 			Skill = First;
 		}
-		if (CustomButton::GetInstance()->Get2AttackAction() == true) { /*CoolDownTime == 0*/
+		if (CustomButton::GetInstance()->Get2AttackAction() == true && CoolDownTime == 0) { /*CoolDownTime == 0*/
 			Skill = Second;
 		}
-		if (CustomButton::GetInstance()->Get3AttackAction() == true) { /*CoolDownTime == 0*/
+		if (CustomButton::GetInstance()->Get3AttackAction() == true && CoolDownTime == 0) { /*CoolDownTime == 0*/
 			Skill = Third;
 		}
 		
@@ -71,10 +71,10 @@ void PlayerAttackState::Update()
 			SecondAttack(EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL));
 		}
 		if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
-			FirstAttack(EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE));
+			SecondAttack(EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE));
 		}
 		if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
-			FirstAttack(EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS));
+			SecondAttack(EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS));
 		}
 		//SecondAttack(EnemyControl::GetInstance()->GetEnemyindex(1)
 		//);
@@ -95,7 +95,7 @@ void PlayerAttackState::Update()
 	}
 	//スキルクールダウン処理
 	SkillCoolDown(CoolDownTime);
-	
+	HitStop();
 	//if (PlayerControl::GetInstance()->GetPlayer()->GetFbxTime() >= 1.7f) {
 		AttackCollision::GetInstance()->GetCol(Damage);
 //	}
@@ -165,7 +165,7 @@ void PlayerAttackState::SkillCoolDown(int &cooltime)
 {
 	cooltime--;
 	cooltime= max(cooltime, 0);
-	cooltime = min(cooltime, 120);
+	cooltime = min(cooltime, SelectSword::GetInstance()->GetSword()->GetCoolTime());
 }
 
 void PlayerAttackState::DetailAttack(std::vector<std::unique_ptr<Enemy>>& enemy,int cooltime)
@@ -181,4 +181,20 @@ void PlayerAttackState::DetailAttack(std::vector<std::unique_ptr<Enemy>>& enemy,
 	Skill = None;
 }
 
-
+#include"CameraControl.h"
+void PlayerAttackState::HitStop()
+{
+	if (HitStopJudg) {
+		HitStopTime++;
+		if (HitStopTime > 30) {
+			HitStopJudg = false;
+		}
+		if (HitStopTime < 10) {
+			CameraControl::GetInstance()->ShakeCamera();
+		}
+	}
+	else {
+		HitStopTime = 0;
+	}
+	
+}

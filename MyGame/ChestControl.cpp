@@ -26,6 +26,19 @@ void ChestControl::Finalize()
 /*------------------------*/
 /*--------読込処理---------*/
 /*----------csv-----------*/
+void ChestControl::Init_Tutorial(DebugCamera* camera)
+{
+
+}
+
+void ChestControl::Init_Play(DebugCamera* camera)
+{
+
+}
+void ChestControl::Init_Boss(DebugCamera* camera)
+{
+
+}
 void ChestControl::Load(DebugCamera* camera)
 {
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
@@ -93,13 +106,14 @@ if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
 		chests[i]->Initialize(camera);
 		chests[i]->SetRotation({ 0.0f,90.0f,0.0f });
 	}
-	chests[Color::RED]->SetPosition({ 57,-20,-293 });
-	chests[Color::GREEN]->SetPosition({ 117,-20,-293 });
-	chests[Color::BLUE]->SetPosition({ 57,-20,-233 });
-	chests[Color::YELLOW]->SetPosition({ 117,-20,-233 });
+	chests[Color::RED]->SetPosition({ 14,-26,-261 });
+	chests[Color::GREEN]->SetPosition({ -48,-24,-17 });
+	chests[Color::BLUE]->SetPosition({ 269,-29,-43 });
+	chests[Color::YELLOW]->SetPosition({ 163,-30,-252 });
 
+	ParticleManager::LoadTexture(8, L"Resources/ParticleTex/normal.png");
 	for (int i = 0; i < 4; i++) {
-		PlayPchest[i].particleMan = ParticleManager::Create(4, L"Resources/ParticleTex/normal.png");
+		PlayPchest[i].particleMan = ParticleManager::Create(8, L"Resources/ParticleTex/normal.png");
 		PlayPchest[i].ChestEvent = NON;
 	}
 }
@@ -167,28 +181,41 @@ void ChestControl::Update_Boss(DebugCamera* camera)
 /*------------------------*/
 /*--------描画処理---------*/
 /*------------------------*/
-void ChestControl::Draw()
+void ChestControl::Draw_Tutorial()
 {
 	// 3Dオブジェクト描画前処理
 	ParticleManager::PreDraw();
 	// 3Dオブクジェクトの描画
 	TutorialPchest.particleMan->Draw();
-
 	// 3Dオブジェクト描画後処理
 	ParticleManager::PostDraw();
 
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
-		for (int i = 0; i < 4; i++) {
-			if (chests[i] != nullptr) {
-				chests[i]->Draw();
-			}
+	if (Tutorial_chest[0] != nullptr) {
+		Tutorial_chest[0]->Draw();
+	}
+}
+
+void ChestControl::Draw_Play()
+{
+	// 3Dオブジェクト描画前処理
+	ParticleManager::PreDraw();
+	for (int i = 0; i < 4; i++) {
+		if (chests[i] != nullptr) {
+			PlayPchest[i].particleMan->Draw();
 		}
 	}
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
-		if (Tutorial_chest[0] != nullptr) {
-			Tutorial_chest[0]->Draw();
+	// 3Dオブジェクト描画後処理
+	ParticleManager::PostDraw();
+
+	for (int i = 0; i < 4; i++) {
+		if (chests[i] != nullptr) {
+			chests[i]->Draw();
+
 		}
 	}
+}
+void ChestControl::Draw_Boss()
+{
 }
 
 

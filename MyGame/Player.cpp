@@ -43,7 +43,7 @@ void Player::Initialize(DebugCamera* camera)
 	m_Object->Initialize(camera);
 //	m_Object->CreateGraphicsPipeline(L"Resources/Shader/Object3dVS.hlsl", L"Resources/Shader/Object3dPS.hlsl", L"Resources/Shader/BasicGS.hlsl");
 	//m_fbxModel = FbxLoader::GetInstance()->LoadModelFromFile("monster_golem_demo");
-
+	
 	m_fbxObject = std::make_unique<f_Object3d>();
 	m_fbxObject->Initialize();
 	m_fbxObject->SetModel(FbxLoader::GetInstance()->LoadModelFromFile("playerGolem"));
@@ -67,7 +67,7 @@ void Player::Jump()
 	if (onGround) {
 		if (CustomButton::GetInstance()->GetJumpAction()) {
 			onGround = false;
-			const float jumpVYFist = 0.5f;
+			const float jumpVYFist = 0.3f;
 			fallV = { 0, jumpVYFist, 0, 0 };
 		}
 	}
@@ -187,6 +187,7 @@ void Player::Update(DebugCamera* camera)
 	}
 	Evasion();
 	m_fbxObject->SetHandBoneIndex(hindex);
+	m_fbxObject->SetFogPos(Position);
 	//3d_fbx更新
 	FbxAnimationControl();
 
@@ -209,31 +210,22 @@ void Player::RotationStatus()
 	
 }
 
-#include"imgui.h"
 void Player::Draw()
 {
+
 	Draw_Fbx();
 	SelectSword::GetInstance()->SwordDraw();
-
-
-	ImGui::Begin("we");
-	ImGui::SliderFloat("rx", &Rotation.x,-360,360);
-	ImGui::SliderFloat("ry", &Rotation.y, -360, 360);
-	ImGui::SliderFloat("rz", &angle, -360, 360);
-
-	ImGui::SliderInt("HandBone", &hindex, 0, 30);
-	ImGui::SliderFloat("at", &sectime, 0, 20);
-	ImGui::End();
 }
 
 
 void Player::FbxAnimationControls(const AttackMotion& motiontype,const float attacktime,const float nextAnimationtime)
 {
 	//if (evasionF)return;
-
 	if (attackMotion == motiontype) {
+		if (PlayerAttackState::GetInstance()->GetCoolTime() == 0) {
 		if (f_time <= attacktime) {
 			f_time = attacktime;
+		}
 		}
 		if (f_time >= nextAnimationtime) {
 			attackMotion = RUN;
@@ -255,7 +247,7 @@ void Player::FbxAnimationControls(const AttackMotion& motiontype,const float att
 void Player::FbxAnimationControl()
 {
 	if (evasionF||noAttack)return;
-	const float timespeed = 0.02f;
+	float timespeed = 0.02f;
 
 	if (CustomButton::GetInstance()->GetAttackAction() == true && PlayerAttackState::GetInstance()->GetCoolTime() == 0) {
 		AttackFlag = true;
@@ -265,10 +257,11 @@ void Player::FbxAnimationControl()
 		SecAttack = true;
 		attackMotion = SECOND;
 	}
-
+	if (PlayerAttackState::GetInstance()->GetHitStopJudg()) {
+		timespeed = 0.005f;
+	}
 	f_time += timespeed;
-
-	FbxAnimationControls(FIRST, AttackTime, sectime);
+	FbxAnimationControls(FIRST, AttackTime, sectime+0.3);
 	FbxAnimationControls(SECOND, sectime, m_fbxObject->GetEndTime());
 	
 }
@@ -280,11 +273,14 @@ XMMATRIX Player::GetMatrot()
 		return m_fbxObject->GetMatrot();
 	}
 }
-
+#include"CameraControl.h"
 void Player::RecvDamage(int Damage)
 {
+
 	//攻撃受けたあと2秒は無敵
 	if (CoolTime != 0||evasionF)return;
+	if (CameraControl::GetInstance()->GetCameraState() != CameraControl::PLAYER) return;
+
 	if (!HUD::GetInstance()->GetRecvDamageFlag()) {
 		HUD::GetInstance()->SetRecvDamageFlag(true);//プレイヤーHPのHUD用
 	}

@@ -31,8 +31,6 @@ public:
 	/// </summary>
 	virtual ~Enemy();
 
-	static Enemy* Create(Model* model, DebugCamera* camera);
-
 public:
 	//初期化
 	virtual void Initialize(DebugCamera* camera)override;
@@ -49,8 +47,6 @@ public:
 
 	virtual void DamageTexUpdate(DebugCamera* camera)=0;
 
-	void SearchPlayer(DebugCamera*camera);
-	void ArrowDraw();
 	void isRespawn();
 protected:
 	//体力周り
@@ -63,7 +59,6 @@ protected:
 	bool RecvDamagef;//
 	bool RecvAttackHit;
 	bool DamageParticleCreateF;//攻撃受けた直後パーティクル発生フラg
-
 private:
 	bool MoveFlag = false;
 	XMFLOAT3 OldPos;
@@ -191,20 +186,15 @@ public://state切り替え
 
 
 protected:
-	Texture* SlashTex;
-	std::unique_ptr<Texture>ArrowTex;
 	std::unique_ptr<DebugTxt>Damagetxt;
-	XMFLOAT3 SlashRot;
-	XMFLOAT3 SlashPos;
-	float SlashAlpha = 1.0f;
-	float ArrowRot;
-	float ArrowScl;
-	float ArrowAlpha;
+	
 	bool SearchF;
 	XMFLOAT3 EaseTime_Arrow;
-	XMFLOAT3 ArrowPos;
 protected:
 	EnemyState* state_mob;
 	BossEnemyState* state_boss;
+	ParticleManager* particleMan = nullptr;
+	ParticleManager* particleMan2 = nullptr;
+
 
 };

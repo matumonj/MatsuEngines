@@ -253,7 +253,7 @@ void f_Object3d::Updata(bool animeloop)
 		constMap->color = this->color;
 		constMap->viewproj = matViewProjection;
 		constMap->world = matWorld;
-		constMap->cameraPos = cameraPos;
+		constMap->cameraPos = fogpos;
 		constBuffTransform->Unmap(0, nullptr);
 	}
 
@@ -327,7 +327,7 @@ void f_Object3d::Updata()
 		constMap->color = this->color;
 		constMap->viewproj = matViewProjection;
 		constMap->world = matWorld;
-		constMap->cameraPos = cameraPos;
+		constMap->cameraPos = fogpos;
 		constBuffTransform->Unmap(0, nullptr);
 	}
 

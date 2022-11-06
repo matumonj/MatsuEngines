@@ -18,7 +18,7 @@ void FrontCircleAttack::Initialize()
 		DamageAreaTex->SetAnchorPoint({ 0.5f,0.5f });
 	
 	fase = FASENON;
-	TexAlpha = 1.0f;
+	TexAlpha = 0.0f;
 	
 }
 
@@ -38,6 +38,7 @@ void FrontCircleAttack::ActionJudg()
 	switch (fase)
 	{
 	case FASENON:
+		TexAlpha = 0;
 		break;
 	case FASEONE:
 		TexAlpha = 1.0f;

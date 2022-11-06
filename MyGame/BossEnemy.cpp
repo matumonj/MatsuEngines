@@ -50,15 +50,14 @@ void BossEnemy::Initialize(DebugCamera* camera)
 	f_time = 200 / 60;
 
 	state_boss->Initialize(this);
-	
-	SlashTex = Texture::Create(93, { 0.0f ,0.0f ,0.0f }, { 100.0f ,100.0f ,1.0f }, { 1.0f ,1.0f ,1.0f ,1.0f });
-	SlashTex->CreateTexture();
-	SlashTex->SetAnchorPoint({ 0.5f,0.5f });
+	Wand = std::make_unique<Object3d>();
+	Wand->Initialize(camera);
+	Wand->SetModel(Model::CreateFromOBJ("Wand"));
+	Wand->SetRotation({ 0,0 + 30,0 + 100 });
 
-	//particleMan = ParticleManager::Create(4, L"Resources/ParticleTex/Attack.png");
-	//particleMan2 = ParticleManager::Create(6, L"Resources/ParticleTex/Attack.png");
+	particleMan = ParticleManager::Create(4, L"Resources/ParticleTex/Attack.png");
+	particleMan2 = ParticleManager::Create(6, L"Resources/ParticleTex/Attack.png");
 	
-	SlashPos = { Position.x,Position.y,Position.z };
 }
 
 //更新処理
@@ -66,9 +65,29 @@ void BossEnemy::Update(DebugCamera* camera)
 {
 	//行動遷移
 	state_boss->Update(this);
+	m_fbxObject->SetHandBoneIndex(19);
+	Wand->Setf(FALSE);
+	Wand->SetRotation({ -23,43,83 });
+	Wand->Update(m_fbxObject->GetRot(), { 1.0f,1.0f,1.0f,1.0f }, camera);
 
+	if (DeathFlag) {
+		alpha -= 0.005f;
+	}
 	Action();
-	
+	HandSiteOBB.SetOBBParam_Pos(Wand->GetMatWorld());
+	HandSiteOBB.SetOBBParam_Rot(Wand->GetMatWorld());
+	HandSiteOBB.SetOBBParam_Scl({ 5.0f,20.0f,5.0f });
+
+	playerOBB.SetOBBParam_Pos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
+	playerOBB.SetOBBParam_Rot(PlayerControl::GetInstance()->GetPlayer()->GetMatrot());
+	playerOBB.SetOBBParam_Scl({ 1.0f,5.0f,1.0f });
+
+
+	if (f_time >= AttackTime + 1.0f) {
+		if (Collision::CheckOBBCollision(playerOBB, HandSiteOBB) == true) {
+			PlayerControl::GetInstance()->GetPlayer()->RecvDamage(10);
+		}
+	}
 	//fbxアニメーション制御
 	FbxAnimationControl();
 	//座標やスケールの反映
@@ -77,38 +96,8 @@ void BossEnemy::Update(DebugCamera* camera)
 	AttackCoolTime();
 	//地形当たり判定
 	CollisionField(camera);
-	SlashPos.z = Position.z;
-	if (!SlashF2 && !SlashF) {
-		SlashPos.x = Position.x + 5;
-		SlashPos.y = Position.y + 20;
-		SlashAlpha = 1.0f;
-		if (DamageParticleCreateF) {
-			SlashF = true;
-		}
-		//sf = false;
-	}
-	if (SlashF) {
-		if (PlayerControl::GetInstance()->GetPlayer()->GetFbxTime() >= 1.7f) {
-
-			SlashF2 = true;
-		}
-	}
-	if (SlashF2) {
-		SlashF = false;
-		SlashPos.x -= 0.5f;
-		SlashPos.y -= 0.5f;
-		if (Position.x+5 - SlashPos.x > 10) {
-			SlashF2 = false;
-		}
-	}
-	SlashTex->SetUVMove(false);
-	SlashTex->SetBillboard(false);
-
-	SlashTex->Update(camera);
-	SlashTex->SetPosition(SlashPos);
-	SlashTex->SetRotation({ 0,180,0 });
-	SlashTex->SetScale({ 2.0f ,2.0f ,3.0f });
-//攻撃受けたらパーティクル
+	
+	//攻撃受けたらパーティクル
 	DamageParticleSet();
 	
 }
@@ -119,28 +108,28 @@ void BossEnemy::DamageTexUpdate(DebugCamera* camera)
 //描画処理
 void BossEnemy::Draw()
 {
-	Draw_Fbx();
-	if (GigaBossObj != nullptr) {
-		GigaBossObj->Draw();
-	}
-	// 3Dオブジェクト描画前処理
-	//ParticleManager::PreDraw();
-	// 3Dオブクジェクトの描画
-	//particleMan->Draw();
-	//particleMan2->Draw();
-	// 3Dオブジェクト描画後処理
-	//ParticleManager::PostDraw();
-	Texture::PreDraw();
-	if (SlashF2) {
-		SlashTex->Draw();
-	}
-	Texture::PostDraw();
+	if (alpha < 0)return;
+		Object3d::PreDraw();
+		Wand->Draw();
+		Object3d::PostDraw();
+
+		Draw_Fbx();
+		if (GigaBossObj != nullptr) {
+			GigaBossObj->Draw();
+		}
+		// 3Dオブジェクト描画前処理
+		ParticleManager::PreDraw();
+		// 3Dオブクジェクトの描画
+		particleMan->Draw();
+		particleMan2->Draw();
+		// 3Dオブジェクト描画後処理
+		ParticleManager::PostDraw();
 
 }
 
 void BossEnemy::Death()
 {
-	if (f_time < DeathTime) {
+	if (!DeathFlag) {
 		DeathFlag = true;
 	}
 }
@@ -193,42 +182,27 @@ void BossEnemy::AttackCoolTime()
 
 void BossEnemy::DamageParticleSet()
 {
-	//for (int i = 0; i < ParticleSize; i++) {
-	//	const float rnd_vel = 0.5f;
-	//	XMFLOAT3 vel{};
-	//	vel.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-	//	vel.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-	//	vel.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+	for (int i = 0; i < ParticleSize; i++) {
+		const float rnd_vel = 0.5f;
+		XMFLOAT3 vel{};
+		vel.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+		vel.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+		vel.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
 
-	//	XMFLOAT3 acc{};
-	//	const float rnd_acc = 0.001f;
-	//	acc.y = -(float)rand() / RAND_MAX * rnd_acc;
+		XMFLOAT3 acc{};
+		const float rnd_acc = 0.001f;
+		acc.y = -(float)rand() / RAND_MAX * rnd_acc;
 
-	//	XMFLOAT3 vel2{};
-	//	vel2.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 3.0f;
-	//	vel2.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 3.0f;
-	//	vel2.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 3.0f;
 
-	//	XMFLOAT3 acc2{};
-	//	const float rnd_acc2 = 0.01f;
-	//	acc2.y = -(float)rand() / RAND_MAX * rnd_acc2;
-	//	//	//追加
-	//	if (DamageParticleCreateF) {
-	//		sf = true;
-	//		particlePos = { Position.x,Position.y + 10,Position.z };
-	//		//particleMan->Add(particleLife, particlePos, vel, acc, 3.0f, 0.0f);
+		if (DamageParticleCreateF) {
+			particlePos = { Position.x,Position.y + 10,Position.z };
+			particleMan->Add(particleLife, particlePos, vel, acc, 3.0f, 0.0f);
+			if (i == ParticleSize - 1) {
+				DamageParticleCreateF = false;
+			}
+		}
 
-	//		//particleMan2->Add(particleLife, { Position.x,Position.y + 10,Position.z }, vel2, acc2, 3.0f, 0.0f);
-
-	//		if (i == ParticleSize - 1) {
-	//			DamageParticleCreateF = false;
-	//		}
-	//	}
-
-	//}
-
-//	particleMan2->SetColor({ 1.0f,1.0f,0.2f,0.7f });
-	//particleMan2->Update(particleMan->NORMAL);
-	//particleMan->SetColor({ 1.0f,0.2f,0.2f,0.7f });
-	//particleMan->Update(particleMan->NORMAL);
+	}
+	particleMan->SetColor({ 1.0f,0.2f,0.2f,0.7f });
+	particleMan->Update(particleMan->NORMAL);
 }

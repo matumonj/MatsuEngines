@@ -43,6 +43,20 @@ void EnemyControl::Initialize(DebugCamera* camera)
 
 }
 
+void EnemyControl::Init_Tutorial(DebugCamera* camera)
+{
+
+}
+
+void EnemyControl::Init_Play(DebugCamera* camera)
+{
+
+}
+void EnemyControl::Init_Boss(DebugCamera* camera)
+{
+
+}
+
 void EnemyControl::Load(DebugCamera* camera)
 {
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
@@ -125,7 +139,7 @@ void EnemyControl::Load(DebugCamera* camera)
 
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
 		enemys[EnemyType::TUTORIAL].resize(1);
-		enemys[EnemyType::TUTORIAL][0] = std::make_unique<EnemyAlpha>();
+		enemys[EnemyType::TUTORIAL][0] = std::make_unique<MobEnemy>();
 		enemys[EnemyType::TUTORIAL][0]->Initialize(camera);
 		tutorial_pos = { 100.137f,20.5045f,-650.987f };
 		enemys[EnemyType::TUTORIAL][0]->SetPosition(tutorial_pos);
@@ -134,7 +148,7 @@ void EnemyControl::Load(DebugCamera* camera)
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
 		enemys[EnemyType::BOSS][0] = std::make_unique<BossEnemy>();
 		enemys[EnemyType::BOSS][0]->Initialize(camera);
-		boss_pos = { 0.0f,15.5045f,20.987f };
+		boss_pos = { 0.0f,0.5045f,20.987f };
 		enemys[EnemyType::BOSS][0]->SetPosition(boss_pos);
 
 		gigaboss = std::make_unique<GigaBossEnemy>();
@@ -167,7 +181,7 @@ void EnemyControl::Update_Play(DebugCamera* camera)
 	XMFLOAT3 pPos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 
 	for (int i = 0; i < Quantity; i++) {
-		if (enemys[EnemyType::PLAYSCENE][i] != nullptr) {
+		if (enemys[EnemyType::PLAYSCENE][i] == nullptr) continue;
 			if (Collision::GetLength(pPos, enemys[EnemyType::PLAYSCENE][i]->GetPosition()) < 200) {
 				enemys[EnemyType::PLAYSCENE][i]->SetMoveFlag(true);
 				enemys[EnemyType::PLAYSCENE][i]->Update(camera);
@@ -176,7 +190,6 @@ void EnemyControl::Update_Play(DebugCamera* camera)
 				Destroy_unique(enemys[EnemyType::PLAYSCENE][i]);
 			}
 		}
-	}
 	
 }
 void EnemyControl::Update_Boss(DebugCamera* camera)
@@ -184,29 +197,17 @@ void EnemyControl::Update_Boss(DebugCamera* camera)
 	if (enemys[EnemyType::BOSS][0] == nullptr) return;
 	enemys[EnemyType::BOSS][0]->Update(camera);
 		gigaboss->Update(camera);
+		if (enemys[EnemyType::BOSS][0]->GetObjAlpha() <= 0) {
+			Destroy_unique(enemys[EnemyType::BOSS][0]);
+		}
 }
 
 /*------------------------*/
 /*--------•`‰æˆ—---------*/
 /*------------------------*/
 #include"imgui.h"
-void EnemyControl::Draw()
+void EnemyControl::Draw_Tutorial()
 {
-	XMFLOAT3 pPos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
-
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
-		for (int i = 0; i < Quantity; i++) {
-			if (enemys[EnemyType::PLAYSCENE][i] != nullptr) {
-				if (Collision::GetLength(pPos, enemys[EnemyType::PLAYSCENE][i]->GetPosition()) < 200) {
-					enemys[EnemyType::PLAYSCENE][i]->Draw();
-				}
-			}
-		}
-
-		ImGui::Begin("kuso");
-		ImGui::Text("%d", index);
-		ImGui::End();
-	}
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
 		if (enemys[EnemyType::TUTORIAL][0] != nullptr) {
 			if (TutorialSprite::GetInstance()->GetClearMove()) {
@@ -214,18 +215,34 @@ void EnemyControl::Draw()
 			}
 		}
 	}
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
-		if (enemys[EnemyType::BOSS][0] == nullptr)return;
-			enemys[EnemyType::BOSS][0]->Draw();
-			gigaboss->Draw();
-		CircleAttack::GetInstance()->Draw();
-		HalfAttack::GetInstance()->Draw();
-		KnockAttack::GetInstance()->Draw();
-		AltAttack::GetInstance()->Draw();
-		FrontCircleAttack::GetInstance()->Draw();
+}
 
+void EnemyControl::Draw_Play()
+{
+	XMFLOAT3 pPos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	for (int i = 0; i < Quantity; i++) {
+		if (enemys[EnemyType::PLAYSCENE][i] != nullptr) {
+			if (Collision::GetLength(pPos, enemys[EnemyType::PLAYSCENE][i]->GetPosition()) < 200) {
+				enemys[EnemyType::PLAYSCENE][i]->Draw();
+			}
+		}
 	}
 }
+
+void EnemyControl::Draw_Boss()
+{
+	if (enemys[EnemyType::BOSS][0] == nullptr)return;
+	enemys[EnemyType::BOSS][0]->Draw();
+	gigaboss->Draw();
+	CircleAttack::GetInstance()->Draw();
+	HalfAttack::GetInstance()->Draw();
+	KnockAttack::GetInstance()->Draw();
+	AltAttack::GetInstance()->Draw();
+	FrontCircleAttack::GetInstance()->Draw();
+
+}
+
+
 
 std::vector<std::unique_ptr<Enemy>>&EnemyControl::GetEnemy(EnemyType type)
 {

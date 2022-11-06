@@ -32,8 +32,8 @@ void EnemyAlpha::Initialize(DebugCamera* camera)
 	m_Object->Initialize(camera);
 	//m_fbxModel = ModelManager::GetIns()->GetFBXModel(ModelManager::GOLEM);
 
-	EnemyHP = 10.00f;
-	MaxHP = 150.00f;
+	EnemyHP = 65.00f;
+	MaxHP = 65.00f;
 	//パラメータのセット
 
 	Rotation = {-110,0,0 };
@@ -55,8 +55,12 @@ void EnemyAlpha::Initialize(DebugCamera* camera)
 	state_mob->Initialize(this);
 	addRotRadians = -180;
 	FollowRotAngleCorrect = 0;
-	//particleMan= ParticleManager::Create(1,L"Resources/ParticleTex/normal.png");
-	//particleMan->CreateModel();
+	//パーティクルセット
+	ParticleManager::LoadTexture(4, L"Resources/ParticleTex/Normal.png");
+	particleMan = ParticleManager::Create(4, L"Resources/ParticleTex/Attack.png");
+	ParticleManager::LoadTexture(6, L"Resources/ParticleTex/Attack.png");
+	particleMan2 = ParticleManager::Create(6, L"Resources/ParticleTex/Attack.png");
+
 }
 
 //更新処理
@@ -68,7 +72,7 @@ void EnemyAlpha::Update(DebugCamera* camera)
 		alpha -= 0.005f;
 	}
 	m_fbxObject->SetColor({ 1,0,0,alpha });
-
+	m_fbxObject->SetFogPos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
 	if (!DeathFlag&& SceneManager::GetInstance()->GetScene() != SceneManager::MAPCREATE) {
 		HandSiteOBB.SetOBBParam_Pos(m_fbxObject->GetWorld());
 		HandSiteOBB.SetOBBParam_Rot(m_fbxObject->GetWorld());
@@ -86,7 +90,6 @@ void EnemyAlpha::Update(DebugCamera* camera)
 	}
 	FbxAnimationControl();
 	EnemyPop(150);
-	m_Object->SetUVf(true);
 	AttackCoolTime();
 	ParameterSet_Fbx2(camera);
 
@@ -101,9 +104,13 @@ void EnemyAlpha::Draw()
 	if (alpha > 0) {
 		Draw_Fbx();
 	}
-	ImGui::Begin("x");
-	ImGui::SliderInt("ind", &hindex, 0, 39);
-	ImGui::End();
+	ParticleManager::PreDraw();
+	// 3Dオブクジェクトの描画
+	particleMan->Draw();
+	particleMan2->Draw();
+	// 3Dオブジェクト描画後処理
+	ParticleManager::PostDraw();
+
 }
 
 void EnemyAlpha::Death()
@@ -167,29 +174,29 @@ void EnemyAlpha::AttackCoolTime()
 
 void EnemyAlpha::DamageParticleSet()
 {
+	for (int i = 0; i < ParticleSize; i++) {
+		const float rnd_vel = 0.5f;
+		XMFLOAT3 vel{};
+		vel.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+		vel.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+		vel.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
 
-	//for (int i = 0; i < ParticleSize; i++) {
-	//	const float rnd_vel = 0.5f;
-	//	XMFLOAT3 vel{};
-	//	vel.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-	//	vel.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-	//	vel.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+		XMFLOAT3 acc{};
+		const float rnd_acc = 0.001f;
+		acc.y = -(float)rand() / RAND_MAX * rnd_acc;
 
-	//	XMFLOAT3 acc{};
-	//	const float rnd_acc = 0.001f;
-	//	acc.y = -(float)rand() / RAND_MAX * rnd_acc;
 
-	//	//追加
-	//	if (DamageParticleCreateF) {
-	//		particlePos = { Position.x,Position.y + 10,Position.z };
-	//		particleMan->Add(particleLife, particlePos, vel, acc, 3.0f, 0.0f);
-	//		if (i == ParticleSize - 1) {
-	//			DamageParticleCreateF = false;
-	//		}
-	//	}
+		if (DamageParticleCreateF) {
+			particlePos = { Position.x,Position.y + 10,Position.z };
+			particleMan->Add(particleLife, particlePos, vel, acc, 3.0f, 0.0f);
+			if (i == ParticleSize - 1) {
+				DamageParticleCreateF = false;
+			}
+		}
 
-	//}
-	//particleMan->Update(particleMan->FOLLOW);
+	}
+	particleMan->SetColor({ 1.0f,0.2f,0.2f,0.7f });
+	particleMan->Update(particleMan->NORMAL);
 }
 
 void EnemyAlpha::DamageTexUpdate(DebugCamera* camera)

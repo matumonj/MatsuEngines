@@ -75,13 +75,16 @@ void HUD::Initialize()
 	Sprite::LoadTexture(121, L"Resources/bosshp.png");
 	Sprite::LoadTexture(20, L"Resources/jump.png");
 	Sprite::LoadTexture(31, L"Resources/2d/attackicon/magicattack1.png");
-	Sprite::LoadTexture(25, L"Resources/2d/attackicon/magicattack2.png");
+	Sprite::LoadTexture(210, L"Resources/2d/attackicon/magicattack2.png");
 	Sprite::LoadTexture(26, L"Resources/attack3.png");
 
 	Sprite::LoadTexture(21, L"Resources/attack.png");
 	Sprite::LoadTexture(22, L"Resources/attack2.png");
 	Sprite::LoadTexture(23, L"Resources/attack3.png");
 
+	Sprite::LoadTexture(29, L"Resources/2d/attackicon/buttonframe.png");
+
+	ButtonFrame=Sprite::Create(29, { 0.0f,-200.0f });
 	PlayerHPSize=(float)PlayerControl::GetInstance()->GetPlayer()->GetMaxHP() * 7.0f;
 
 	MiniMapFrame= Sprite::Create(149, { 0.0f,-200.0f });
@@ -108,7 +111,7 @@ void HUD::SkillButtonInitialize()
 
 		SecondAttackSprite = Sprite::Create(31, { CenterPosition.x,CenterPosition.y + 100 });
 
-		ThirdAttackSprite = Sprite::Create(25, { CenterPosition.x - 100,CenterPosition.y });
+		ThirdAttackSprite = Sprite::Create(210, { CenterPosition.x - 100,CenterPosition.y });
 
 		BuffSprite = Sprite::Create(26, { CenterPosition.x,CenterPosition.y - 100 });
 	}
@@ -342,15 +345,14 @@ void HUD::EnemyHPGauge_MultiDraw()
 
 void HUD::SkillBottonDraw()
 {
-	ImGui::Begin("Miniframe");
-	ImGui::SliderFloat("SizeX", &CenterPosition.x, 0, 1900);
-	ImGui::SliderFloat("Sizey", &CenterPosition.y, 0, 1000);
-
-	ImGui::SliderFloat("posX", &MiniframePos.x, 0, 1900);
-	ImGui::SliderFloat("Posy", &MiniframePos.y, -200, 1000);
-	ImGui::End();
+	
 	Sprite::PreDraw();
 	MiniMapFrame->Draw();
+	framescl = { 740,670 };
+	framepos = { 1210,265 };
+	ButtonFrame->SetSize(framescl);
+	ButtonFrame->SetPosition(framepos);
+	ButtonFrame->Draw();
 	FirstAttackSprite->Draw();
 	ThirdAttackSprite->Draw();
 	BuffSprite->Draw();
@@ -362,7 +364,7 @@ void HUD::SkillBottonDraw()
 	for (int i = 0; i < 4; i++) {
 		coolDownSprite[i]->Draw();
 	}
-
+	
 	ChestCollectFrame->Draw();
 	if (ChestControl::GetInstance()->ChestCount() == 1) {
 		ChestCollect[0]->Draw();

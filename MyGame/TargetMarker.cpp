@@ -88,10 +88,11 @@ void TargetMarker::Update_Tutorial(DebugCamera* camera)
 	TargetMakerTexture->SetDisplayRadius(100);
 	TargetMakerTexture->SetBillboard(FALSE);
 	TargetMakerTexture->Update(camera);
-	if (tindex != -1) {
-		TargetMakerTexture->SetRotation({ 90,EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[tindex]->GetRotation().y ,0
+	//if (tindex != -1) {
+		float rotY=EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetRotRadians();
+		TargetMakerTexture->SetRotation({ 90,EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetRotation().y+ rotY ,0
 			});
-	}
+	//}
 	TargetMakerTexture->SetScale({ 3,3,3 });
 	TargetMakerTexture->SetPosition(MarkerPosition);
 
@@ -102,6 +103,7 @@ void TargetMarker::Update_PlayScene(DebugCamera* camera)
 	float ex, ey, ez;
 	tindex = NearEnemySearch(EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE), PlayerControl::GetInstance()->GetPlayer());
 	if (tindex != -1) {
+	
 		GetEnemyPosition(EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE), tindex, &ex, &ey, &ez);//{ enemy[0]->GetPosition().x ,0, enemy[0]->GetPosition().z };
 	}
 	//マーカー位置をnowTargetに合わせる
@@ -112,7 +114,9 @@ void TargetMarker::Update_PlayScene(DebugCamera* camera)
 	TargetMakerTexture->SetBillboard(FALSE);
 	TargetMakerTexture->Update(camera);
 	if (tindex != -1) {
-		TargetMakerTexture->SetRotation({ 90,EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[tindex]->GetRotation().y ,0
+		float rotY = EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[tindex]->GetRotRadians();
+
+		TargetMakerTexture->SetRotation({ 90,EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[tindex]->GetRotation().y+rotY ,0
 			});
 	}
 	TargetMakerTexture->SetScale({ 3,3,3 });

@@ -38,8 +38,8 @@ void MobEnemy::Initialize(DebugCamera* camera)
 	m_Object = std::make_unique<Object3d>();
 	m_Object->Initialize(camera);
 	//m_Object->CreateGraphicsPipeline(L"Resources/Shader/Object3dVS.hlsl", L"Resources/Shader/Object3dPS.hlsl", L"Resources/Shader/BasicGS.hlsl");
-	EnemyHP = 20.0f;
-	MaxHP = 20.0f;
+	EnemyHP = 80.0f;
+	MaxHP = 80.0f;
 	//パラメータのセット
 	Rotation = { -163.0f,71.0f,-16.0f };
 	Scale = { 0.04f, 0.04f, 0.04f };
@@ -62,19 +62,12 @@ void MobEnemy::Initialize(DebugCamera* camera)
 
 	//state初期化
 	state_mob->Initialize(this);
-
-	//
-	Texture::LoadTexture(93, L"Resources/ParticleTex/slash.png");
-	SlashTex = Texture::Create(93, { 0.0f ,0.0f ,0.0f }, { 100.0f ,100.0f ,1.0f }, { 1.0f ,1.0f ,1.0f ,1.0f });
-	SlashTex->CreateTexture();
-	SlashTex->SetAnchorPoint({ 0.5f,0.5f });
-	SlashPos = { Position.x,Position.y,Position.z };
-
+	particleLife = 800;
 	//パーティクルセット
-	//ParticleManager::LoadTexture(4, L"Resources/ParticleTex/Normal.png");
-	//particleMan=ParticleManager::Create(4,L"Resources/ParticleTex/Attack.png");
-	//ParticleManager::LoadTexture(6, L"Resources/ParticleTex/Attack.png");
-	//particleMan2 = ParticleManager::Create(6, L"Resources/ParticleTex/Attack.png");
+	ParticleManager::LoadTexture(4, L"Resources/ParticleTex/Normal.png");
+	particleMan=ParticleManager::Create(4,L"Resources/ParticleTex/Attack.png");
+	ParticleManager::LoadTexture(6, L"Resources/ParticleTex/Attack.png");
+	particleMan2 = ParticleManager::Create(6, L"Resources/ParticleTex/Attack.png");
 
 	addRotRadians = 110;
 	FollowRotAngleCorrect = 70;
@@ -88,8 +81,8 @@ void MobEnemy::Update(DebugCamera* camera)
 	if (DeathFlag) {
 		alpha -= 0.005f;
 	}
-	
-	SearchPlayer(camera);
+	m_fbxObject->SetFogPos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
+
 	FbxAnimationControl();
 	
 	EnemyPop(150);
@@ -129,7 +122,7 @@ void MobEnemy::Update(DebugCamera* camera)
 			}
 		}
 		if (atcktype == VERTICAL) {
-			if (f_time >= 4.5f && f_time <= 5.5f) {
+			if (f_time >= 4.8f && f_time <= 5.5f) {
 				if (Collision::CheckOBBCollision(playerOBB, HandSiteOBB) == true) {
 					PlayerControl::GetInstance()->GetPlayer()->RecvDamage(15);
 				}
@@ -153,18 +146,12 @@ void MobEnemy::Draw()
 
 		ParticleManager::PreDraw();
 		// 3Dオブクジェクトの描画
-		//particleMan->Draw();
-		//particleMan2->Draw();
+		particleMan->Draw();
+		particleMan2->Draw();
 		// 3Dオブジェクト描画後処理
 		ParticleManager::PostDraw();
-		Texture::PreDraw();
-		if (SlashF2) {
-			SlashTex->Draw();
-		}
-		Texture::PostDraw();
 	};
 	
-	ArrowDraw();
 }
 
 #include"ExpPointSystem.h"
@@ -185,14 +172,16 @@ void MobEnemy::Death()
 	//}
 }
 
-
+#include"PlayerAttackState.h"
 void MobEnemy::FbxAnimationControl()
 {
+	float fbxanimationTime = 0.01f;
 	//1フレーム進める
-	//if (!movestop) {
-		f_time += 0.01f;
-	//}
-			if (f_AttackFlag) {
+	if (PlayerAttackState::GetInstance()->GetHitStopJudg()) {
+		fbxanimationTime = 0.005f;
+	}
+	f_time += fbxanimationTime;
+		if (f_AttackFlag) {
 				rand_Attackindex = rand() % 100;
 				if (rand_Attackindex <= 50) {
 					atcktype = SIDEAWAY;
@@ -248,30 +237,32 @@ void MobEnemy::AttackCoolTime()
 
 void MobEnemy::DamageParticleSet()
 {
+	float rnd_vel = 0.9f;
+	
+	for (int i = 0; i < ParticleSize; i++) {
+		
+		XMFLOAT3 vel{};
+		vel.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+		vel.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+		vel.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
 
-	//for (int i = 0; i < ParticleSize; i++) {
-	//	const float rnd_vel = 0.5f;
-	//	XMFLOAT3 vel{};
-	//	vel.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-	//	vel.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-	//	vel.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+		XMFLOAT3 acc{};
 
-	//	XMFLOAT3 acc{};
-	//	const float rnd_acc = 0.001f;
-	//	acc.y = -(float)rand() / RAND_MAX * rnd_acc;
+		const float rnd_acc = 0.001f;
+		acc.y = -(float)rand() / RAND_MAX * rnd_acc;
 
-		//	//追加
-		//if (DamageParticleCreateF) {
-		//	particlePos = { Position.x,Position.y + 10,Position.z };
-		//	particleMan->Add(particleLife, particlePos, vel, acc, 3.0f, 0.0f);
-			//if (i == ParticleSize - 1) {
-			//	DamageParticleCreateF = false;
-		//	}
-		//}
+			
+		if (DamageParticleCreateF) {
+			particlePos = { Position.x,Position.y + 10,Position.z };
+			particleMan->Add(particleLife, particlePos, vel, acc, 3.0f, 0.0f);
+			if (i == ParticleSize - 1) {
+				DamageParticleCreateF = false;
+			}
+		}
 
-	//}
-	//particleMan->SetColor({ 1.0f,0.2f,0.2f,0.7f });
-	//particleMan->Update(particleMan->NORMAL);
+	}
+	particleMan->SetColor({ 1.0f,0.2f,0.2f,0.7f });
+	particleMan->Update(particleMan->NORMAL);
 
 }
 

@@ -55,9 +55,9 @@ private:
 	enum DamageValue
 	{
 		FIRSTATTACKDAMAGE = 2,
-		SECONDATTACKDAMAGE = 500,
-		THIRDAttackDamage = 700,
-		COMBOBONUS = 10,
+		SECONDATTACKDAMAGE = 7,
+		THIRDAttackDamage = 7,
+		COMBOBONUS = 5,
 	};
 	bool AttackJudgeMent = false;
 	int FirstAttackDamage=100;
@@ -65,11 +65,10 @@ private:
 	int ThirdAttackDamage=20;
 	int ComboBonus = 10;
 	int CoolDownTime = 0;
-
+	int HitStopTime;
+	int HitStopJudg;
 	int BufCoolDownTime = 0;
-
 	int BuffTime=0;
-
 	bool BuffFlag;
 	const int BuffTimeMax = 1200;
 	std::vector<std::unique_ptr<Enemy>>enemys;
@@ -77,6 +76,8 @@ public:
 	static PlayerAttackState* GetInstance();
 	AttackSkill GetSkill() { return OldSkill; }
 	AttackSkill GetNowSkill() { return Skill; }
+	void SetHitStopJudg(bool f) { HitStopJudg = f; }
+	bool GetHitStopJudg() { return HitStopJudg; }
 	int GetCoolTime() { return CoolDownTime; };
-
+	void HitStop();
 };

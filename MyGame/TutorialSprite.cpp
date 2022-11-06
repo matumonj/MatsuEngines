@@ -81,12 +81,12 @@ void TutorialSprite::CheckMove_Camera_Player()
 		input->TiltPushStick(Input::R_LEFT, 0.0f)) {
 		Movement_Camera++;
 	}
-	if (Movement < 10) {
+	if (Movement < 180) {
 		notTaskXpos[MOVE_CHARA] += 30;
 	} else {
 		notTaskXpos[MOVE_CHARA] -= 30;
 	}
-	if (Movement_Camera < 10) {
+	if (Movement_Camera < 180) {
 		notTaskXpos[MOVE_CAMERA] += 30;
 	} else {
 		notTaskXpos[MOVE_CAMERA] -= 30;
@@ -117,7 +117,7 @@ void TutorialSprite::Update()
 	}
 	
 	//歩きとジャンプ
-	ClearTaskJudg[WALK]= Movement > 10&& Movement_Camera > 10;
+	ClearTaskJudg[WALK]= Movement > 180&& Movement_Camera > 180;
 	
 	//オールコンプリート
 	AllTaskClear = ClearTaskJudg[WALK] && ClearTaskJudg[SETTING] && ClearTaskJudg[ATTACK]&& ClearTaskJudg[GETKEY];

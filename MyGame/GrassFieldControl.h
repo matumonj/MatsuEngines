@@ -29,20 +29,28 @@ public:
 
 	void Initialize(DebugCamera* camera)override;
 
-
-	void Draw()override;
-
 	void Finalize()override;
 
 	void ImGuiDraw();
 
 	GrassField* GetGrassField(int index) { return Tutorialgrassfields[index].get(); }
 private:
+	void Init_Tutorial(DebugCamera* camera)override;
+
+	void Init_Play(DebugCamera* camera)override;
+
+	void Init_Boss(DebugCamera* camera)override;
+
 	void Update_Tutorial(DebugCamera* camera)override;
 
 	void Update_Play(DebugCamera* camera)override;
 
 	void Update_Boss(DebugCamera* camera)override;
 
+	void Draw_Tutorial()override;
+
+	void Draw_Play()override;
+
+	void Draw_Boss()override;
 };
 

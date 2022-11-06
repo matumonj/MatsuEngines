@@ -10,7 +10,19 @@ FenceControl* FenceControl::GetInstance()
 	return &instance;
 }
 
+void FenceControl::Init_Tutorial(DebugCamera* camera)
+{
 
+}
+
+void FenceControl::Init_Play(DebugCamera* camera)
+{
+
+}
+void FenceControl::Init_Boss(DebugCamera* camera)
+{
+
+}
 /*------------------------*/
 /*--------‰ð•úˆ—---------*/
 /*------------------------*/
@@ -166,19 +178,21 @@ void FenceControl::Update_Boss(DebugCamera* camera)
 /*------------------------*/
 /*--------•`‰æˆ—---------*/
 /*------------------------*/
-void FenceControl::Draw()
+void FenceControl::Draw_Play()
 {
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
-
-		for (int i = 0; i < Quantity; i++) {
-			if (fences[i] != nullptr) {
-				fences[i]->Draw();
-			}
-		}
-		}
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
-		if (Tutorialfence[0] != nullptr) {
-			Tutorialfence[0]->Draw();
+	for (int i = 0; i < Quantity; i++) {
+		if (fences[i] != nullptr) {
+			fences[i]->Draw();
 		}
 	}
+}
+
+void FenceControl::Draw_Tutorial()
+{
+	if (Tutorialfence[0] != nullptr) {
+		Tutorialfence[0]->Draw();
+	}
+}
+void FenceControl::Draw_Boss()
+{
 }

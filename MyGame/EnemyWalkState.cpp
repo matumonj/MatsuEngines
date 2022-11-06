@@ -4,6 +4,8 @@
 #include"EnemyFollowState.h"
 #include"Collision.h"
 #include"PlayerControl.h"
+#include"EnemyDeathState.h"
+
 void EnemyWalkState::Initialize(Enemy* enmey)
 {
 
@@ -14,7 +16,7 @@ void EnemyWalkState::Update(Enemy* enemy)
 	float RandMove = rand() % 90 + 20;
 	float RandMovement = rand() % 180 + 120;
 	//õ“G”ÍˆÍ
-	const float DetectionRange = 30.0f;
+	const float DetectionRange = 50.0f;
 
 	//ƒvƒŒƒCƒ„[‚ªõ“G”ÍˆÍ“ü‚Á‚½‚ç
 	if (PlayerControl::GetInstance()->GetPlayer() != nullptr) {
@@ -54,6 +56,9 @@ void EnemyWalkState::Update(Enemy* enemy)
 		//’ÇÕ
 		enemy->ChangeState_Mob(new EnemyFollowState());
 }
+	if (enemy->GetHP() <= 0.0f) {
+		enemy->ChangeState_Mob(new EnemyDeathState());
+	}
 }
 
 void EnemyWalkState::BacktoGround(Enemy*enemy)

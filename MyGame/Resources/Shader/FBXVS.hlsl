@@ -61,6 +61,8 @@ VSOutput main(VSInput input)
     output.normal = wnormal.xyz;
     //入力値をそのまま次のステージに渡す
     output.uv = input.uv;
+
+    output.worldpos = mul(world, input.pos);
    // output.depth = input.pos.z;
     return output;
 }

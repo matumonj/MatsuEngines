@@ -17,10 +17,9 @@ Enemy::Enemy()
 
 Enemy::~Enemy()
 {
-	//delete particleMan,particleMan2;
+	delete particleMan,particleMan2;
 	delete  state_mob;
 	delete state_boss;
-	delete SlashTex;
 }
 
 
@@ -34,75 +33,21 @@ void Enemy::Initialize(DebugCamera* camera)
 void Enemy::Update(DebugCamera* camera)
 {
 }
-#include"TargetMarker.h"
-#include"SceneManager.h"
-void Enemy::SearchPlayer(DebugCamera* camera)
-{
-	if (SceneManager::GetInstance()->GetScene() != SceneManager::MAPCREATE) {
-		if (ArrowTex == nullptr) {
-			ArrowAlpha = 1.0f;
-			Texture::LoadTexture(64, L"Resources/targetArrow.png");
-			Texture* l_tex = { Texture::Create(64, {0.0f ,0.0f ,0.0f}, {100.0f ,100.0f ,1.0f}, {1.0f ,1.0f ,1.0f ,1.0f}) };
-			ArrowTex.reset(l_tex);
-			ArrowTex->CreateTexture();
-			ArrowTex->SetAnchorPoint({ 0.5f,1.0f });
-		}
-		float len = Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), Position);
-		XMVECTOR pPos = { PlayerControl::GetInstance()->GetPlayer()->GetPosition().x, PlayerControl::GetInstance()->GetPlayer()->GetPosition().y, PlayerControl::GetInstance()->GetPlayer()->GetPosition().z };
-		XMVECTOR ePos = { Position.x,Position.y ,Position.z };
-		//プレイヤーと敵のベクトルの長さ(差)を求める
-		XMVECTOR SubVector = DirectX::XMVectorSubtract(ePos, pPos);// positionA - positionB;
-		ArrowTex->SetAnchorPoint({ 0.5f,1.0f });
-		//角度の取得 プレイヤーが敵の索敵位置に入ったら向きをプレイヤーの方に
-		ArrowRot = atan2f(SubVector.m128_f32[0], SubVector.m128_f32[2]);
-		if (len < 50) {
-			SearchF = true;
-		}
-		if (SearchF) {
-			EaseTime_Arrow.x += 1.0f / 120.0f;
-			EaseTime_Arrow.y += 1.0f / 120.0f;
-			EaseTime_Arrow.z += 1.0f / 120.0f;
 
-			ArrowPos.x = Easing::EaseOut(EaseTime_Arrow.x, Position.x, pPos.m128_f32[0]);
-			ArrowPos.y = Easing::EaseOut(EaseTime_Arrow.y, Position.y + 5.0f, pPos.m128_f32[1] + 5.0f);
-			ArrowPos.z = Easing::EaseOut(EaseTime_Arrow.z, Position.z, pPos.m128_f32[2]);
-
-			if (EaseTime_Arrow.x >= 1.0f) {
-				ArrowAlpha -= 0.02f;
-			}
-		}
-		ArrowTex->SetDisplayRadius(200);
-		ArrowTex->SetBillboard(FALSE);
-		ArrowTex->SetRotation({ 90,
-			 ArrowRot * 60 + 180,0 });
-		ArrowTex->SetScale({ 3.0f,7.0f,1.0f });
-		ArrowTex->SetPosition(ArrowPos);
-		ArrowTex->SetColor({ 1.0f,1.0f,1.0f,ArrowAlpha });
-		ArrowTex->Update(camera);
-	}
-}
-
-void Enemy::ArrowDraw()
-{
-	if (ArrowTex == nullptr)return;
-	Texture::PreDraw();
-	ArrowTex->Draw();
-	Texture::PostDraw();
-}
 void Enemy::Action()
 {
 	AttackCoolTime();
 }
 
-#include"AttackCollision.h"
+#include"PlayerAttackState.h"
 #include"CameraControl.h"
 void Enemy::RecvDamage(int Damage) 
 {
-	if (this==nullptr||EnemyHP <= 0)return;
+	if (this==nullptr||EnemyHP < 0)return;
 	float texZ= PlayerControl::GetInstance()->GetPlayer()->GetPosition().z- CameraControl::GetInstance()->GetCamera()->GetEye().z;
 	float texX= PlayerControl::GetInstance()->GetPlayer()->GetPosition().x - CameraControl::GetInstance()->GetCamera()->GetEye().x;
 	DamageManager::GetIns()->DamageDisPlay(Damage, { 1,1,1,1 }, { Position.x-texX/3.0f,Position.y + 10,Position.z-texZ/3.0f });
-
+	PlayerAttackState::GetInstance()->SetHitStopJudg(TRUE);
 	EnemyHP = EnemyHP - Damage;
 	DamageParticleCreateF = true;
 }

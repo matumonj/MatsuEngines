@@ -546,6 +546,7 @@ void ParticleManager::Absorption()
 		//it->colors =XMFLOAT4(0,0,0,1) ;
 	}
 }
+#include"PlayerAttackState.h"
 void ParticleManager::Normal()
 {
 	//全パーティクル更新
@@ -555,7 +556,12 @@ void ParticleManager::Normal()
 		it->frame++;
 		it->velocity = it->velocity + it->accel;
 		//速度による移動
-		it->position = it->position + it->velocity;
+		if (PlayerAttackState::GetInstance()->GetHitStopJudg()) {
+			it->position = it->position + it->velocity;
+		}
+		else {
+			it->position = {it->position.x+ it->velocity.x/2, it->position.y+ it->velocity.y / 2, it->position.z + it->velocity.z / 2};
+		}
 		float f = (float)it->num_frame / it->frame;
 		it->scale = (it->e_scale - it->s_scale) / f;
 		it->scale += it->s_scale;

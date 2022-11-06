@@ -21,7 +21,7 @@ public:
 
 private:
     std::unique_ptr<f_Object3d>GigaBossObj;
-
+    std::unique_ptr<Object3d>Wand;
     Enemy* mob;
     //オブジェクトのインスタンス
     Object3d* MobObject = nullptr;
@@ -63,7 +63,6 @@ private:
 private:
     bool SlashF;
     bool SlashF2;
-   float alpha = 1;
     const int ParticleSize = 20;
 public:
     // bool GetFolatc() { return folatc; }

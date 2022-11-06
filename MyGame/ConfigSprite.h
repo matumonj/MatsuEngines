@@ -26,6 +26,7 @@ private:
 	//Œ•
 	Sprite* SwordSelectSprite;
 	Sprite* MenuSprite;
+	Sprite* NavBase;
 	XMFLOAT2 SpritePosition[MaxSprite] = { {300,200},{300,350},{300,500} };
 public:
 	static ConfigSprite* GetInstance();

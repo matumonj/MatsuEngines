@@ -15,18 +15,29 @@ public:
 public:
 	virtual void Load(DebugCamera* camera)=0;
 
-	virtual void Initialize(DebugCamera* camera)=0;
-
+	virtual void Initialize(DebugCamera* camera);
 	virtual void Update(DebugCamera* camera);
+	virtual void Draw();
+
 
 	virtual void Update_Tutorial(DebugCamera*camera) = 0;
 	virtual void Update_Play(DebugCamera*camera) = 0; 
 	virtual void Update_Boss(DebugCamera*camera) = 0;
-	virtual void Draw()=0;
 
+	virtual void Init_Tutorial(DebugCamera* camera) = 0;
+	virtual void Init_Play(DebugCamera* camera) = 0;
+	virtual void Init_Boss(DebugCamera* camera) = 0;
+
+	virtual void Draw_Tutorial() = 0;
+	virtual void Draw_Play() = 0;
+	virtual void Draw_Boss() = 0;
+
+	
 	virtual void Finalize() = 0;
 private:
+	static void (ControlBase::* initTable[])(DebugCamera* camera);
 	static void (ControlBase::* updateTable[])(DebugCamera*camera);
+	static void (ControlBase::* drawTable[])();
 protected:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 	// DirectX::Çè»ó™

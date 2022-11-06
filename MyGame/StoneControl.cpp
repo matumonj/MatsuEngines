@@ -31,6 +31,20 @@ void StoneControl::Finalize()
 /*------------------------*/
 /*--------“Çžˆ—---------*/
 /*---------csv-----------*/
+
+void StoneControl::Init_Tutorial(DebugCamera* camera)
+{
+
+}
+
+void StoneControl::Init_Play(DebugCamera* camera)
+{
+
+}
+void StoneControl::Init_Boss(DebugCamera* camera)
+{
+
+}
 void StoneControl::Load(DebugCamera* camera)
 {
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
@@ -185,7 +199,7 @@ void StoneControl::Update_Play(DebugCamera* camera)
 		}
 		if (stones[i]->CollideStone() == true) {
 			PlayerControl::GetInstance()->GetPlayer()->SetPosition(Player_OldPos);
-			break;
+			//break;
 		}
 	}
 }
@@ -200,20 +214,24 @@ void StoneControl::Update_Boss(DebugCamera* camera)
 /*------------------------*/
 /*--------•`‰æˆ—---------*/
 /*------------------------*/
-void StoneControl::Draw()
+void StoneControl::Draw_Tutorial()
 {
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
-		for (int i = 0; i < Quantity; i++) {
-			if (stones[i] != nullptr) {
-				stones[i]->Draw();
-			}
+	for (int i = 0; i < Tutorialstones.size(); i++) {
+		if (Tutorialstones[i] != nullptr) {
+			Tutorialstones[i]->Draw();
 		}
 	}
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
-		for (int i = 0; i < Tutorialstones.size(); i++) {
-			if (Tutorialstones[i] != nullptr) {
-				Tutorialstones[i]->Draw();
-			}
+}
+
+void StoneControl::Draw_Play()
+{
+	for (int i = 0; i < Quantity; i++) {
+		if (stones[i] != nullptr) {
+			stones[i]->Draw();
 		}
 	}
+}
+
+void StoneControl::Draw_Boss()
+{
 }

@@ -67,10 +67,10 @@ bool Stone_A::CollideStone()
 
 	//OBB 回転ベクトル
 	StoneOBB.SetOBBParam_Pos(m_Object->GetPosition());
-	StoneOBB.SetOBBParam_Scl({Scale.x+2,Scale.y,Scale.z+20});
+	StoneOBB.SetOBBParam_Scl({Scale.x+10,Scale.y,Scale.z+10});
 	StoneOBB.SetOBBParam_Rot(m_Object->GetMatrot());
 
-	if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), Position) < 20) {
+	if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), Position) < 40) {
 		if (Collision::CheckOBBCollision(playerOBB, StoneOBB) == true) {
 			PlayerControl::GetInstance()->GetPlayer()->isOldPos();
 			return true;
@@ -121,10 +121,10 @@ bool Stone_B::CollideStone()
 
 	//OBB 回転ベクトル
 	StoneOBB.SetOBBParam_Pos(m_Object->GetPosition());
-	StoneOBB.SetOBBParam_Scl({ 2,20,3 });
+	StoneOBB.SetOBBParam_Scl({ 40,50,40 });
 	StoneOBB.SetOBBParam_Rot(m_Object->GetMatrot());
 
-	if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), Position) < 20) {
+	if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), Position) < 140) {
 		if (Collision::CheckOBBCollision(playerOBB, StoneOBB) == true) {
 			PlayerControl::GetInstance()->GetPlayer()->isOldPos();
 			return true;

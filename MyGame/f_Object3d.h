@@ -166,9 +166,10 @@ public:	//’è”
 	// ƒ‰ƒCƒg
 	//static LightGroup* lightGroup;
 	int bindexs=13;
-
+	void SetFogPos(XMFLOAT3 pos) { fogpos = pos; }
 	void SetHandBoneIndex(int bindex) { bindexs = bindex; }
 	private:
+		XMFLOAT3 fogpos;
 		bool nowAttack;
 		bool nowDeath;
 	public:

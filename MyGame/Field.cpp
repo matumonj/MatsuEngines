@@ -194,6 +194,7 @@ void Field::Update_Edit(DebugCamera* camera)
 }
 void Field::Update_Boss(DebugCamera* camera)
 {
+
 	SpriteFeed(TexAlpha_BossName, feed_BossName, feedSpeed_BossName, 1.5f);
 	if (CameraControl::GetInstance()->GetCameraState() == CameraControl::PLAYER) {
 		SpriteFeed(t, feed, feedSpeed_Explanation, 2.5f);
@@ -302,7 +303,7 @@ void Field::FieldDamageAreaCol()
 		player.y = Ppos.z * -1;
 
 		if (Collision::CheckPoint2Rect(player, damagearea) == false) {
-			//	PlayerControl::GetInstance()->GetPlayer()->RecvDamage(10);
+			PlayerControl::GetInstance()->GetPlayer()->RecvDamage(10);
 		}
 	}
 }

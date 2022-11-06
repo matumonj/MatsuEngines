@@ -93,12 +93,7 @@ else {
 if (CameraPos.y <= -40) {
 	Feed::GetInstance()->Update_White(Feed::FEEDIN);
 }
-	if (Input::GetInstance()->TriggerButton(Input::A)) {//押されたら
-		menujudg_Edit = true;
-	BaseScene* scene = new MapCreateScene(sceneManager_);//次のシーンのインスタンス生成
-	SceneManager::GetInstance()->SetScene(SceneManager::MAPCREATE);
-	sceneManager_->SetnextScene(scene);//シーンのセット
-}
+	
 
 	if (Feed::GetInstance()->GetAlpha() >= 1.0f) {
 	BaseScene* scene = new Tutorial(sceneManager_);//次のシーンのインスタンス生成
@@ -153,15 +148,7 @@ if (CameraPos.y <= -40) {
 /*-----------------------*/
 void TitleScene::SpriteDraw()
 {
-	ImGui::Begin("Fog");
-	ImGui::SliderFloat("FogX", &CameraPos.x, -100, 100);
-	ImGui::SliderFloat("FogY", &FogPos.y, -100, 100);
-	ImGui::SliderFloat("FogZ", &CameraPos.y, -500, 500);
-	ImGui::End();
-	ImGui::Begin("Angle");
-	ImGui::SliderFloat("CamAngle", &Cangle, 0, 360);
 	
-	ImGui::End();
 	Object3d::PreDraw();
 	celestal->Draw();
 	field->Draw();
@@ -172,9 +159,9 @@ void TitleScene::SpriteDraw()
 	Sprite::PreDraw();
 	titlesprite2->Draw();
 titlesprite->Draw();
-for (int i = 0; i < 2; i++) {
-	TitleMenu[i]->Draw();
-}
+//for (int i = 0; i < 2; i++) {
+	TitleMenu[0]->Draw();
+//}
 	DebugTextSprite::GetInstance()->DrawAll();
 	Sprite::PostDraw();
 	Feed::GetInstance()->Draw();

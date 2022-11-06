@@ -24,9 +24,6 @@ public:
 
 	void Initialize(DebugCamera* camera)override;
 
-	
-	void Draw()override;
-
 	void Finalize()override;
 
 	void ImGuiDraw();
@@ -39,5 +36,18 @@ private:
 
 	void Update_Boss(DebugCamera*camera)override;
 
+	/*更新処理*/
+	void Init_Tutorial(DebugCamera* camera)override;
+
+	void Init_Play(DebugCamera* camera)override;
+
+	void Init_Boss(DebugCamera* camera)override;
+
+	/*更新処理*/
+	void Draw_Tutorial()override;
+
+	void Draw_Play()override;
+
+	void Draw_Boss()override;
 };
 
