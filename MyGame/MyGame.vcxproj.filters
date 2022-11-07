@@ -199,6 +199,18 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
+    <Filter Include="Game\gameobject\オブジェクト種類\Stone">
+      <UniqueIdentifier>{4ffa4842-6cb3-4e18-84e5-da85fd72cacc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\オブジェクト種類\Grass">
+      <UniqueIdentifier>{40a6e167-6e5c-45ff-825e-33fd5b4c3d76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\配置管理\石">
+      <UniqueIdentifier>{35451e61-5380-4ef5-8d34-58a7d3a3707c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\配置管理\草">
+      <UniqueIdentifier>{2ae5194c-5ffd-4e08-a2b3-a242cc78f69e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -531,29 +543,32 @@
     <ClCompile Include="EncountGuardianSprite.cpp">
       <Filter>Game\UI\HUD</Filter>
     </ClCompile>
-    <ClCompile Include="Stone.cpp">
-      <Filter>Game\ヘッダー ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="PlaceStone.cpp">
-      <Filter>Game\ヘッダー ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="StoneControl.cpp">
       <Filter>Game\ヘッダー ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="GrassObj.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="GrassField.cpp">
-      <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="GrassFieldControl.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="PlaceGrassField.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
     <ClCompile Include="ExpPointSystem.cpp">
       <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="AttackEffect.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Stone.cpp">
+      <Filter>Game\gameobject\オブジェクト種類\Stone</Filter>
+    </ClCompile>
+    <ClCompile Include="GrassField.cpp">
+      <Filter>Game\gameobject\オブジェクト種類\Grass</Filter>
+    </ClCompile>
+    <ClCompile Include="GrassObj.cpp">
+      <Filter>Game\gameobject\オブジェクト種類\Grass</Filter>
+    </ClCompile>
+    <ClCompile Include="PlaceStone.cpp">
+      <Filter>Editor\配置管理\石</Filter>
+    </ClCompile>
+    <ClCompile Include="PlaceGrassField.cpp">
+      <Filter>Editor\配置管理\草</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -920,26 +935,29 @@
     <ClInclude Include="StoneControl.h">
       <Filter>Game\ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Stone.h">
-      <Filter>Game\ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="PlaceStone.h">
-      <Filter>Game\ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="GrassObj.h">
-      <Filter>Game\ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="GrassField.h">
-      <Filter>Game\ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="GrassFieldControl.h">
-      <Filter>Game\ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="PlaceGrassField.h">
       <Filter>Game\ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="ExpPointSystem.h">
       <Filter>Game\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="AttackEffect.h">
+      <Filter>Game\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Stone.h">
+      <Filter>Game\gameobject\オブジェクト種類\Stone</Filter>
+    </ClInclude>
+    <ClInclude Include="GrassObj.h">
+      <Filter>Game\gameobject\オブジェクト種類\Grass</Filter>
+    </ClInclude>
+    <ClInclude Include="GrassField.h">
+      <Filter>Game\gameobject\オブジェクト種類\Grass</Filter>
+    </ClInclude>
+    <ClInclude Include="PlaceStone.h">
+      <Filter>Editor\配置管理\石</Filter>
+    </ClInclude>
+    <ClInclude Include="PlaceGrassField.h">
+      <Filter>Editor\配置管理\草</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

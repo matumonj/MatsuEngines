@@ -21,5 +21,6 @@ public:
 	void AreaNameDraw();
 public:
 	void SetTurnoffUIDraw(bool f) {TurnOffDrawUI=f; }
+	bool GetTurnoffUIDraw() { return TurnOffDrawUI; }
 };
 

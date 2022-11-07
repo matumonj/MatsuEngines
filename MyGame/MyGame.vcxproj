@@ -163,6 +163,7 @@
     <ClCompile Include="AltAttack.cpp" />
     <ClCompile Include="AreaFence.cpp" />
     <ClCompile Include="AttackCollision.cpp" />
+    <ClCompile Include="AttackEffect.cpp" />
     <ClCompile Include="BigSword.cpp" />
     <ClCompile Include="BossEnemyAttack.cpp" />
     <ClCompile Include="BossEnemyAttackBeam.cpp" />
@@ -283,6 +284,7 @@
     <ClInclude Include="AltAttack.h" />
     <ClInclude Include="AreaFence.h" />
     <ClInclude Include="AttackCollision.h" />
+    <ClInclude Include="AttackEffect.h" />
     <ClInclude Include="BigSword.h" />
     <ClInclude Include="BossEnemyAttack.h" />
     <ClInclude Include="BossEnemyAttackBeam.h" />

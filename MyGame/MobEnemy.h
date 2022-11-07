@@ -52,7 +52,7 @@ private:
     bool SlashF;
     bool SlashF2;
     int HandIndex;
-    const int ParticleSize = 20;
+    const int ParticleSize = 2;
     //OBBCollision* colObb;
    
 public:

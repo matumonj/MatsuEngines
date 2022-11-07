@@ -41,13 +41,12 @@ void Player::Initialize(DebugCamera* camera)
 	StopFlag = false;
 	m_Object = std::make_unique<Object3d>();
 	m_Object->Initialize(camera);
-//	m_Object->CreateGraphicsPipeline(L"Resources/Shader/Object3dVS.hlsl", L"Resources/Shader/Object3dPS.hlsl", L"Resources/Shader/BasicGS.hlsl");
-	//m_fbxModel = FbxLoader::GetInstance()->LoadModelFromFile("monster_golem_demo");
-	
+
 	m_fbxObject = std::make_unique<f_Object3d>();
 	m_fbxObject->Initialize();
 	m_fbxObject->SetModel(FbxLoader::GetInstance()->LoadModelFromFile("playerGolem"));
 	m_fbxObject->PlayAnimation();
+
 
 	SetCollider();
 
@@ -60,6 +59,8 @@ void Player::Initialize(DebugCamera* camera)
 	vel /= 5.0f;
 	rotate = RotationPrm::FRONT;
 
+	//attackEffect = std::make_unique<AttackEffect>();
+	AttackEffect::GetIns()->Init();
 }
 //80,145
 void Player::Jump()
@@ -173,7 +174,7 @@ void Player::Evasion()
 
 void Player::Update(DebugCamera* camera)
 {
-	if (m_Object == nullptr || m_fbxObject == nullptr)return;
+	if(m_Object==nullptr||m_fbxObject==nullptr)return;
 	ReturnGround();
 
 	//１フレーム前の座標を保存
@@ -199,11 +200,12 @@ void Player::Update(DebugCamera* camera)
 	ParameterSet_Obj(camera);
 	ParameterSet_Fbx(camera);
 	
-	
-	//手のボーン取得
+		//手のボーン取得
 	HandMat = m_fbxObject->GetRot();
 
 	SelectSword::GetInstance()->Update();
+
+	AttackEffect::GetIns()->Upda();
 }
 
 void Player::RotationStatus()
@@ -213,9 +215,10 @@ void Player::RotationStatus()
 
 void Player::Draw()
 {
-
 	Draw_Fbx();
 	SelectSword::GetInstance()->SwordDraw();
+
+	AttackEffect::GetIns()->Draw();
 }
 
 
@@ -306,4 +309,11 @@ void Player::RecvDamage_Cool()
 
 	CoolTime = min(CoolTime, 120);
 	CoolTime = max(CoolTime, 0);
+}
+
+XMFLOAT3 Player::GetHandPos()
+{
+	XMFLOAT3 hPos;
+	hPos = { HandMat.r[3].m128_f32[0] ,HandMat.r[3].m128_f32[1] ,HandMat.r[3].m128_f32[2] };
+	return hPos;
 }

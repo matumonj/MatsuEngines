@@ -170,9 +170,8 @@ void Tutorial::MyGameDraw()
 {
 	if (Play) {
 		for (int i = 0; i < AllObjectControl.size(); i++) {
-			if (AllObjectControl[i] != nullptr) {
+			if (AllObjectControl[i] == nullptr) continue;
 				AllObjectControl[i]->Draw();
-			}
 		}
 	}	
 	
@@ -200,13 +199,13 @@ void Tutorial::Draw()
 	case Default://•’Ê‚Ì‚â‚Â“Á‚É‰½‚à‚©‚©‚Á‚Ä‚¢‚È‚¢
 		
 		postEffect->PreDrawScene();
-		Field::GetInstance()->MiniFieldDraw();
+		//Field::GetInstance()->MiniFieldDraw();
 		postEffect->PostDrawScene();
 
 		DirectXCommon::GetInstance()->BeginDraw();
 		Field::GetInstance()->Draw();
 		MyGameDraw();
-		postEffect->Draw();
+		//postEffect->Draw();
 		DamageManager::GetIns()->Draw();
 		PlayerControl::GetInstance()->DamageTexDraw();
 		UI::GetInstance()->HUDDraw();

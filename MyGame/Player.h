@@ -9,6 +9,7 @@
 #include"ObjectManager.h"
 #include"Input.h"
 #include"SwordBase.h"
+#include"AttackEffect.h"
 class Enemy;
 class TargetMarker;
 class Player :public ObjectManager
@@ -94,11 +95,10 @@ private:
 private:
 	float vel;
 	XMFLOAT3 MoveVECTOR(DirectX::XMVECTOR v, float angle);
-
 	Input* input = Input::GetInstance();
 	f_Model* fbxmodel = nullptr;
 	f_Object3d* object1 = nullptr;
-
+	Object3d* obj;
 private:
 	bool noAttack;
 	int nogroundtime;
@@ -106,6 +106,7 @@ private:
 	float movespeed = 7.0f;
 	XMVECTOR Gmove;
 public:
+	XMVECTOR GetPlayerMove() { return Gmove; }
 	void Setangle(float angle) { this->angle = angle; }
 	void RotationStatus();
 	
@@ -128,6 +129,7 @@ public:
 	void FbxAnimationControls(const AttackMotion& motiiontype,const float attacktime=0,const float nextAnimation=0);
 	void SetnoAttack(bool f) { noAttack = f; }
 	bool GetnoAttack() { return noAttack; }
+	XMFLOAT3 GetHandPos();
 private:
 
 	AttackMotion attackMotion=NON;

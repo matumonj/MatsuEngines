@@ -6,6 +6,7 @@
 #include"CustomButton.h"
 #include"SceneManager.h"
 #include"SelectSword.h"
+#include"AttackEffect.h"
 AttackCollision* AttackCollision::GetInstance()
 {
 	static AttackCollision instance;
@@ -38,28 +39,33 @@ void AttackCollision::GetCol(int damage)
 	HandObb.SetOBBParam_Rot(SelectSword::GetInstance()->GetSword()->GetMatrot());
 	HandObb.SetOBBParam_Scl({ 5.0f,10.0f,5.0f });
 
-	
+	bool attackcolJudgTime_First = PlayerControl::GetInstance()->GetPlayer()->GetFbxTime() > 1.2f&& PlayerControl::GetInstance()->GetPlayer()->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->FIRST;
+	bool attackcolJudgTime_Second = PlayerControl::GetInstance()->GetPlayer()->GetFbxTime() > 3.116f&& PlayerControl::GetInstance()->GetPlayer()->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->SECOND;
 	switch (SceneManager::GetInstance()->GetScene())
 	{
 	case SceneManager::TUTORIAL:
 		
 		ColOBB(TYTORIAL);
+		if (CustomButton::GetInstance()->GetAttackAction() || CustomButton::GetInstance()->Get2AttackAction()) {
+				Hit_colf = false;
+			}
 
-	
-		if (PlayerControl::GetInstance()->GetPlayer()->GetFbxTime() < 0.48f) {
-			Hit_colf = false;
-		}
 		for (int i = 0; i < EnemyOBB.size(); i++) {
 			if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]==nullptr|| Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition()) > 100.0f) {
 				continue;
 			}
 			if (PlayerControl::GetInstance()->GetPlayer()->GetAttackType() != PlayerControl::GetInstance()->GetPlayer()->NON && PlayerControl::GetInstance()->GetPlayer()->GetAttackType() != PlayerControl::GetInstance()->GetPlayer()->RUN) {
-				if (Collision::CheckOBBCollision(HandObb, EnemyOBB[0]) == true && !Hit_colf) {
-					EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->RecvDamage(damage);
-					Hit_colf = true;
+				if (attackcolJudgTime_First || attackcolJudgTime_Second) {
+					if (Collision::CheckOBBCollision(HandObb, EnemyOBB[0]) == true && !Hit_colf) {
+						AttackEffect::GetIns()->SetParticle(EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition());
+
+						EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->RecvDamage(damage);
+						Hit_colf = true;
+					}
 				}
 			}
 		}
+					
 		//}
 		//else {
 	//		Hit_colf = false;

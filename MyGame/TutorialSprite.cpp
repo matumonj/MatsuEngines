@@ -5,6 +5,8 @@
 #include"FenceControl.h"
 #include"ChestControl.h"
 #include"mHelper.h"
+
+#include"UI.h"
 TutorialSprite* TutorialSprite::GetInstance()
 {
 	static TutorialSprite instance;
@@ -205,9 +207,12 @@ void TutorialSprite::Update()
 void TutorialSprite::Draw()
 {
 	Sprite::PreDraw();
-	notClearTask[FRAME]->Draw();
-	for (int i = 0; i < 4; i++) {
-		notClearTask[i]->Draw();
+	if (!UI::GetInstance()->GetTurnoffUIDraw()) {
+		notClearTask[FRAME]->Draw();
+
+		for (int i = 0; i < 4; i++) {
+			notClearTask[i]->Draw();
+		}
 	}
 	for (int i = 0; i < TaskNum; i++) {
 		Task[i]->Draw();
@@ -215,7 +220,6 @@ void TutorialSprite::Draw()
 	
 	Sprite::PostDraw();
 }
-
 void TutorialSprite::Ease_SpriteSize_Up(float& x, float& t, int index)
 {
 
@@ -227,11 +231,13 @@ void TutorialSprite::Ease_SpriteSize_Up(float& x, float& t, int index)
 		if (t >= 0.0f) {
 			t -= 0.05f;
 		}
+		UI::GetInstance()->SetTurnoffUIDraw(FALSE);
 	} else {
 		x = Easing::EaseOut(t, 0, 1900);
 		if (t <= 1.0f) {
 			t += 0.05f;
 		}
+		UI::GetInstance()->SetTurnoffUIDraw(TRUE);
 	}
 }
 
