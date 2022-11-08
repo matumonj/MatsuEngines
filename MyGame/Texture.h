@@ -223,6 +223,7 @@ private: // メンバ変数
 	XMMATRIX matWorld;
 	// 親オブジェクト
 	//SoulpEffect* parent = nullptr;
+	
 private:
 	UINT texNumber = 0;
 	bool texNormalSize=true;

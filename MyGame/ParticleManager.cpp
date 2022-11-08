@@ -573,7 +573,7 @@ void ParticleManager::Follow(XMFLOAT3 position, int lifejudg)
 	for (std::forward_list<Particle>::iterator it = particles.begin();
 		it != particles.end(); it++) {
 		//経過フレーム数をカウント
-		float dis,trad;
+		float dis;
 		//追跡スピード
 		float centerSpeed = 0.2f;
 
@@ -611,7 +611,7 @@ void ParticleManager::Charge(XMFLOAT3 position)
 	for (std::forward_list<Particle>::iterator it = particles.begin();
 		it != particles.end(); it++) {
 		//経過フレーム数をカウント
-		float dis, trad;
+		float dis;
 		//追跡スピード
 		float centerSpeed = 0.2f;
 

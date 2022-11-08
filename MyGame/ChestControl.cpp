@@ -318,5 +318,5 @@ void ChestControl::GetChestEffect(Chest* chest, ParticleParam& pParam)
 	}
 
 	pParam.particleMan->SetColor({ 1.0f,0.8f,0.2f,0.8f });
-	pParam.particleMan->Update(pParam.particleMan->FOLLOW, PlayerControl::GetInstance()->GetPlayer()->GetPosition(), 120.0f);
+	pParam.particleMan->Update(pParam.particleMan->FOLLOW, PlayerControl::GetInstance()->GetPlayer()->GetPosition(), 120);
 }

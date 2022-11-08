@@ -126,12 +126,12 @@ void HUD::SkillButtonInitialize()
 	}
 
 	Sprite::LoadTexture(28, L"Resources/cool.png");
-	coolDownSprite[0] = Sprite::Create(28, { CenterPosition.x + 100 + 120,CenterPosition.y + 120 }, { 1,1,1,1 }, { 0.0,1 });
-	coolDownSprite[1] = Sprite::Create(28, { CenterPosition.x + 120,CenterPosition.y + 100 + 120 }, { 0,0,0,1 }, { 0.0,1 });
-	coolDownSprite[2] = Sprite::Create(28, { CenterPosition.x - 100 + 120,CenterPosition.y + 120 }, { 0,0,0,1 }, { 0.0,1 });
-	coolDownSprite[3] = Sprite::Create(28, { CenterPosition.x + 120,CenterPosition.y - 100 + 120 }, { 0,0,0,1 }, { 0.0,1 });
+	coolDownSprite[0] = Sprite::Create(28, { CenterPosition.x + 100.f + 120.f,CenterPosition.y + 120.0f }, { 1.f,1.f,1.f,1.f }, { 0.0f,1.0f });
+	coolDownSprite[1] = Sprite::Create(28, { CenterPosition.x + 120.f,CenterPosition.y + 100.f + 120.0f }, { 0.f,0.f,0.f,1.f }, { 0.0f,1.0f });
+	coolDownSprite[2] = Sprite::Create(28, { CenterPosition.x - 100.f + 120.f,CenterPosition.y + 120.0f }, { 0.f,0.f,0.f,1.f }, { 0.0f,1.0f });
+	coolDownSprite[3] = Sprite::Create(28, { CenterPosition.x + 120.f,CenterPosition.y - 100.f + 120.0f }, { 0.f,0.f,0.f,1.f }, { 0.0f,1.0f });
 	for (int i = 0; i < 4; i++) {
-		coolDownSprite[i]->SetSize({ 100,0 });
+		coolDownSprite[i]->SetSize({ 100.f,0.f });
 	}
 
 
@@ -154,57 +154,57 @@ void HUD::SetSkillIcon(SkillIcon icon)
 
 void HUD::SkillBottonUpdate()
 {
-	FirstAttackSprite->SetSize({ 70,70 });
-	SecondAttackSprite->SetSize({ 70,70 });
-	ThirdAttackSprite->SetSize({ 70,70 });
-	BuffSprite->SetSize({ 70,70 });
+	FirstAttackSprite->SetSize({ 70.f,70.f });
+	SecondAttackSprite->SetSize({ 70.f,70.f });
+	ThirdAttackSprite->SetSize({ 70.f,70.f });
+	BuffSprite->SetSize({ 70.f,70.f });
 
 	CenterPosition = { 1550.0f,560.0f };
 	if (CustomButton::GetInstance()->GetActionButton_JUMP() == CustomButton::BUTTON_B) {
-		FirstAttackSprite->SetPosition({ CenterPosition.x + 50,CenterPosition.y });
+		FirstAttackSprite->SetPosition({ CenterPosition.x + 50.f,CenterPosition.y });
 	} else if (CustomButton::GetInstance()->GetActionButton_JUMP() == CustomButton::BUTTON_A) {
-		FirstAttackSprite->SetPosition({ CenterPosition.x,CenterPosition.y + 50 });
+		FirstAttackSprite->SetPosition({ CenterPosition.x,CenterPosition.y + 50.f });
 	} else if (CustomButton::GetInstance()->GetActionButton_JUMP() == CustomButton::BUTTON_X) {
-		FirstAttackSprite->SetPosition({ CenterPosition.x ,CenterPosition.y - 50 });
+		FirstAttackSprite->SetPosition({ CenterPosition.x ,CenterPosition.y - 50.f });
 	} else if (CustomButton::GetInstance()->GetActionButton_JUMP() == CustomButton::BUTTON_Y) {
-		FirstAttackSprite->SetPosition({ CenterPosition.x - 50 ,CenterPosition.y });
+		FirstAttackSprite->SetPosition({ CenterPosition.x - 50.f ,CenterPosition.y });
 	}
 
 	if (CustomButton::GetInstance()->GetActionButton_ATTACK() == CustomButton::BUTTON_B) {
-		SecondAttackSprite->SetPosition({ CenterPosition.x + 50,CenterPosition.y });
+		SecondAttackSprite->SetPosition({ CenterPosition.x + 50.f,CenterPosition.y });
 	} else if (CustomButton::GetInstance()->GetActionButton_ATTACK() == CustomButton::BUTTON_A) {
-		SecondAttackSprite->SetPosition({ CenterPosition.x,CenterPosition.y + 50 });
+		SecondAttackSprite->SetPosition({ CenterPosition.x,CenterPosition.y + 50.f });
 	} else if (CustomButton::GetInstance()->GetActionButton_ATTACK() == CustomButton::BUTTON_X) {
-		SecondAttackSprite->SetPosition({ CenterPosition.x ,CenterPosition.y - 50 });
+		SecondAttackSprite->SetPosition({ CenterPosition.x ,CenterPosition.y - 50.f });
 	} else if (CustomButton::GetInstance()->GetActionButton_ATTACK() == CustomButton::BUTTON_Y) {
-		SecondAttackSprite->SetPosition({ CenterPosition.x - 50,CenterPosition.y });
+		SecondAttackSprite->SetPosition({ CenterPosition.x - 50.f,CenterPosition.y });
 	}
 
 	if (CustomButton::GetInstance()->GetActionButton_ATTACK2() == CustomButton::BUTTON_B) {
-		ThirdAttackSprite->SetPosition({ CenterPosition.x + 50,CenterPosition.y });
+		ThirdAttackSprite->SetPosition({ CenterPosition.x + 50.f,CenterPosition.y });
 	} else if (CustomButton::GetInstance()->GetActionButton_ATTACK2() == CustomButton::BUTTON_A) {
-		ThirdAttackSprite->SetPosition({ CenterPosition.x,CenterPosition.y + 50 });
+		ThirdAttackSprite->SetPosition({ CenterPosition.x,CenterPosition.y + 50.f });
 	} else if (CustomButton::GetInstance()->GetActionButton_ATTACK2() == CustomButton::BUTTON_X) {
-		ThirdAttackSprite->SetPosition({ CenterPosition.x ,CenterPosition.y - 50 });
+		ThirdAttackSprite->SetPosition({ CenterPosition.x ,CenterPosition.y - 50.f });
 	} else if (CustomButton::GetInstance()->GetActionButton_ATTACK2() == CustomButton::BUTTON_Y) {
-		ThirdAttackSprite->SetPosition({ CenterPosition.x - 50,CenterPosition.y });
+		ThirdAttackSprite->SetPosition({ CenterPosition.x - 50.f,CenterPosition.y });
 	}
 
 	if (CustomButton::GetInstance()->GetActionButton_ATTACK3() == CustomButton::BUTTON_B) {
-		BuffSprite->SetPosition({ CenterPosition.x + 50,CenterPosition.y });
+		BuffSprite->SetPosition({ CenterPosition.x + 50.f,CenterPosition.y });
 	} else if (CustomButton::GetInstance()->GetActionButton_ATTACK3() == CustomButton::BUTTON_A) {
-		BuffSprite->SetPosition({ CenterPosition.x,CenterPosition.y + 50 });
+		BuffSprite->SetPosition({ CenterPosition.x,CenterPosition.y + 50.f });
 	} else if (CustomButton::GetInstance()->GetActionButton_ATTACK3() == CustomButton::BUTTON_X) {
-		BuffSprite->SetPosition({ CenterPosition.x ,CenterPosition.y - 50 });
+		BuffSprite->SetPosition({ CenterPosition.x ,CenterPosition.y - 50.f });
 	} else if (CustomButton::GetInstance()->GetActionButton_ATTACK3() == CustomButton::BUTTON_Y) {
-		BuffSprite->SetPosition({ CenterPosition.x - 50,CenterPosition.y });
+		BuffSprite->SetPosition({ CenterPosition.x - 50.f,CenterPosition.y });
 	}
 	//SecondAttackSprite->SetPosition({ CenterPosition.x,CenterPosition.y + 50 });
 
-	coolDownSprite[0]->SetPosition({ CenterPosition.x + 50 + 70,CenterPosition.y + 70 });
-	coolDownSprite[1]->SetPosition({ CenterPosition.x + 70,CenterPosition.y + 50 + 70 });
-	coolDownSprite[2]->SetPosition({ CenterPosition.x - 50 + 70,CenterPosition.y + 70 });
-	coolDownSprite[3]->SetPosition({ CenterPosition.x + 70,CenterPosition.y - 50 + 70 });
+	coolDownSprite[0]->SetPosition({ CenterPosition.x + 50.f + 70.f,CenterPosition.y + 70.f });
+	coolDownSprite[1]->SetPosition({ CenterPosition.x + 70.f,CenterPosition.y + 50.f + 70.f });
+	coolDownSprite[2]->SetPosition({ CenterPosition.x - 50.f + 70.f,CenterPosition.y + 70.f });
+	coolDownSprite[3]->SetPosition({ CenterPosition.x + 70.f,CenterPosition.y - 50.f + 70.f });
 
 	//各剣のクールタイム参照
 	TimeSpeed = 1.0f / SelectSword::GetInstance()->GetSword()->GetCoolTime();
@@ -216,32 +216,32 @@ void HUD::SkillBottonUpdate()
 		CoolTime_Time += TimeSpeed;
 	}
 	for (int i = 0; i < 4; i++) {
-		CooltimeSize = { 70, 70 };
-		coolDownSprite[i]->SetSize({ CooltimeSize.x,Easing::EaseOut(CoolTime_Time,70,0) });
-		coolDownSprite[i]->SetAnchorPoint({ 1,1 });
+		CooltimeSize = { 70.f, 70.f };
+		coolDownSprite[i]->SetSize({ CooltimeSize.x,Easing::EaseOut(CoolTime_Time,70.f,0.f) });
+		coolDownSprite[i]->SetAnchorPoint({ 1.f,1.f });
 	}
 	if (PlayerAttackState::GetInstance()->GetSkill() != PlayerAttackState::GetInstance()->CoolDown) {
-		FirstAttackSprite->setcolor({ 0.5,0.5,0.5,1 });
-		SecondAttackSprite->setcolor({ 0.5,0.5,0.5,1 });
-		ThirdAttackSprite->setcolor({ 0.5,0.5,0.5,1 });
+		FirstAttackSprite->setcolor({ 0.5f,0.5f,0.5f,1.f });
+		SecondAttackSprite->setcolor({ 0.5f,0.5f,0.5f,1.f });
+		ThirdAttackSprite->setcolor({ 0.5f,0.5f,0.5f,1.f });
 	}
 	if (PlayerAttackState::GetInstance()->GetCoolTime() == 0) {
-		FirstAttackSprite->setcolor({ 1,1,1,1 });
-		SecondAttackSprite->setcolor({ 1,1,1,1 });
-		ThirdAttackSprite->setcolor({ 1,1,1,1 });
+		FirstAttackSprite->setcolor({ 1.f,1.f,1.f,1.f });
+		SecondAttackSprite->setcolor({ 1.f,1.f,1.f,1.f });
+		ThirdAttackSprite->setcolor({ 1.f,1.f,1.f,1.f });
 	}
 	if (RecvDamageflag) {
 		easetime += 1.0f / 60.f;
 		if (easetime >= 1.0f) {
 			RecvDamageflag = false;
 		} else {
-			PlayerHPSize = Easing::EaseOut(easetime, OldPlayerHPSize, PlayerControl::GetInstance()->GetPlayer()->GetHP()) * 7;
+			PlayerHPSize = Easing::EaseOut(easetime, OldPlayerHPSize, (float)PlayerControl::GetInstance()->GetPlayer()->GetHP()) * 7.0f;
 		}
 	} else {
 		easetime = 0.0f;
 		OldPlayerHPSize = PlayerControl::GetInstance()->GetPlayer()->GetHP();
 	}
-	PlayerHP->SetSize({ PlayerHPSize ,50 });
+	PlayerHP->SetSize({ PlayerHPSize ,50.0f });
 
 	PlayerHPFrame->SetSize({ (float)PlayerControl::GetInstance()->GetPlayer()->GetMaxHP() * 7.0f ,50.0f });
 
@@ -257,13 +257,13 @@ void HUD::TaskUpdate(DebugCamera* camera)
 {
 	XMFLOAT3 cPos = camera->GetEye();
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
-		if (Collision::GetLength(cPos, CameraControl::GetInstance()->CameraPosIndex(2)) < 10) {
+		if (Collision::GetLength(cPos, CameraControl::GetInstance()->CameraPosIndex(2)) < 10.0f) {
 			taskfeed = true;
 		}
 	}
 	if (taskfeed) {
-		if (taskSpriteSize.x < 800) {
-			taskSpriteSize.x += 20;
+		if (taskSpriteSize.x < 800.0f) {
+			taskSpriteSize.x += 20.0f;
 		}
 		taskAlpha += 0.02f;
 		if (taskAlpha >= 2.0f) {
@@ -272,10 +272,10 @@ void HUD::TaskUpdate(DebugCamera* camera)
 	} else {
 		taskAlpha -= 0.02f;
 	}
-	TaskSprite->SetSize({ taskSpriteSize.x,1000 });
-	TaskSprite->setcolor({ 1,1,1,taskAlpha });
-	taskAlpha = min(taskAlpha, 2);
-	taskAlpha = max(taskAlpha, 0);
+	TaskSprite->SetSize({ taskSpriteSize.x,1000.0f });
+	TaskSprite->setcolor({ 1.0f,1.0f,1.0f,taskAlpha });
+	taskAlpha = min(taskAlpha, 2.0f);
+	taskAlpha = max(taskAlpha, 0.0f);
 }
 
 void HUD::EnemyHPGauge_MultiUpdate(bool& loadf, DebugCamera* camera, std::vector<std::unique_ptr<Enemy>>& enemy)
@@ -291,13 +291,13 @@ void HUD::EnemyHPGauge_MultiUpdate(bool& loadf, DebugCamera* camera, std::vector
 			multi_Hpt.resize(enemy.size());
 			multi_sizel.resize(enemy.size());
 
-			EnemyHP_Inner_Multi[i] = Texture::Create(122, { 0.0f,-200.0f,1 }, { 1,1,1 }, { 1,1,1,1 });
-			EnemyHP_Border_Multi[i] = Texture::Create(123, { 0.0f,-200.0f,1 }, { 1,1,1 }, { 1,1,1,1 });
+			EnemyHP_Inner_Multi[i] = Texture::Create(122, { 0.0f,-200.0f,1 }, { 1.0f,1.0f,1.0f }, { 1.0f,1.0f,1.0f,1.0f });
+			EnemyHP_Border_Multi[i] = Texture::Create(123, { 0.0f,-200.0f,1 }, { 1.0f,1.0f,1.0f }, { 1.0f,1.0f,1.0f,1.0f });
 			//EnemyHP_Border_Multi[i]->SetPosition({ 80,860,1 });
 			EnemyHP_Inner_Multi[i]->CreateTexture();
 			EnemyHP_Border_Multi[i]->CreateTexture();
-			EnemyHP_Border_Multi[i]->SetAnchorPoint({ 0,0 });
-			EnemyHP_Inner_Multi[i]->SetAnchorPoint({ 0,0 });
+			EnemyHP_Border_Multi[i]->SetAnchorPoint({ 0.0f,0.0f });
+			EnemyHP_Inner_Multi[i]->SetAnchorPoint({ 0.0f,0.0f });
 
 		}
 		loadf = false;
@@ -310,7 +310,7 @@ void HUD::EnemyHPGauge_MultiUpdate(bool& loadf, DebugCamera* camera, std::vector
 			if (enemy[i]->GetRecvDamage() == true) {
 				multi_NowHP[i] = Percent::GetParcent(enemy[i]->GetMaxHP(), enemy[i]->GetHP()) / 20.00f;
 				multi_Hpt[i] += 0.001f;
-				multi_sizel[i] = { Easing::EaseOut(multi_Hpt[i] ,multi_OldHP[i] ,multi_NowHP[i]),1.5,1 };
+				multi_sizel[i] = { Easing::EaseOut(multi_Hpt[i] ,multi_OldHP[i] ,multi_NowHP[i]),1.5f,1.0f };
 				EnemyHP_Inner_Multi[i]->SetScale(multi_sizel[i]);
 				if (multi_Hpt[i] >= 1.0f) {
 					enemy[i]->SetRecvDamage(false);
@@ -324,8 +324,8 @@ void HUD::EnemyHPGauge_MultiUpdate(bool& loadf, DebugCamera* camera, std::vector
 
 			EnemyHP_Inner_Multi[i]->Update(camera);
 			EnemyHP_Border_Multi[i]->Update(camera);
-			EnemyHP_Border_Multi[i]->SetScale({ 2.5,1,1 });
-			EnemyHP_Border_Multi[i]->SetPosition({ enemy[i]->GetPosition().x - 10, enemy[i]->GetPosition().y + 20.0f, enemy[i]->GetPosition().z });
+			EnemyHP_Border_Multi[i]->SetScale({ 2.5f,1.0f,1.0f });
+			EnemyHP_Border_Multi[i]->SetPosition({ enemy[i]->GetPosition().x - 10.0f, enemy[i]->GetPosition().y + 20.0f, enemy[i]->GetPosition().z });
 
 			EnemyHP_Inner_Multi[i]->SetPosition({ EnemyHP_Border_Multi[i]->GetPosition().x,EnemyHP_Border_Multi[i]->GetPosition().y, EnemyHP_Border_Multi[i]->GetPosition().z });
 
@@ -348,8 +348,8 @@ void HUD::SkillBottonDraw()
 	
 	Sprite::PreDraw();
 	MiniMapFrame->Draw();
-	framescl = { 740,670 };
-	framepos = { 1210,265 };
+	framescl = { 740.0f,670.0f };
+	framepos = { 1210.0f,265.0f };
 	ButtonFrame->SetSize(framescl);
 	ButtonFrame->SetPosition(framepos);
 	ButtonFrame->Draw();

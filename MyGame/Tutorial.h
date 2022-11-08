@@ -43,20 +43,20 @@ private: // エイリアス
 	using XMVECTOR = DirectX::XMVECTOR;
 
 private:
-	const float window_width = 1900;
-	const float window_height = 1020;
-	static const int DebugTextSpriteTexNumber = 0;
+	const float window_width = 1900.0f;
+	const float window_height = 1020.0f;
+	static const int DebugTextSpriteTexNumber = 0.0f;
 	
-	bool scenechange;
-	bool feedflag;
+	bool scenechange=false;
+	bool feedflag=false;
 	MinimapSprite* postEffect = nullptr;
-	DebugCamera* dc;
+	DebugCamera* dc=nullptr;
 public:
 	void MyGameDraw();
 	void objUpdate(DebugCamera* camera);
 
 public:
-	XMFLOAT3 texpo = { 0,0,0 };
+	XMFLOAT3 texpo = { 0.0f,0.0f,0.0f };
 	void Initialize()override;
 	void Update()override;
 	void Draw()override;
@@ -66,25 +66,25 @@ public:
 private:
 	bool feedout=true;
 	LightGroup* lightGroup = nullptr;
-	float ambientColor0[3] = { 1,1,1 };
+	float ambientColor0[3] = { 1.0f,1.0f,1.0f };
 	// 光線方向初期値
-	float lightDir0[3] = { 0,0,1 };
-	float lightColor0[3] = { 1,0,0 };
+	float lightDir0[3] = { 0.0f,0.0f,1.0f };
+	float lightColor0[3] = { 1.0f,0.0f,0.0f };
 
-	float lightDir1[3] = { 0,1,0 };
-	float lightColor1[3] = { 0,1,0 };
+	float lightDir1[3] = { 0.0f,1.0f,0.0f };
+	float lightColor1[3] = { 0.0f,1.0f,0.0f };
 
-	float lightDir2[3] = { 1,0,0 };
-	float lightColor2[3] = { 0,0,1 };
+	float lightDir2[3] = { 1.0f,0.0f,0.0f };
+	float lightColor2[3] = { 0.0f,0.0f,1.0f };
 
-	float circleShadowDir[3] = { 0,-1,0 };
-	float circleShadowPos[3] = { 1,2,0 };
+	float circleShadowDir[3] = { 0.0f,-1.0f,0.0f };
+	float circleShadowPos[3] = { 1.0f,2.0f,0.0f };
 	float circleShadowAtten[3] = { 0.2f,0.0f,0.0f };
 	float circleShadowFactorAngle[2] = { 1.0f, 3.0f };
 	float circleShadowFactorAngle2[2] = { 1.0f, 6.0f };
-	float fighterPos[3] = { 1, 0.0f, 0 };
+	float fighterPos[3] = { 1.0f, 0.0f, 0.0f };
 public:
-	XMFLOAT3 efkposition = { -50,-10,90 };
+	XMFLOAT3 efkposition = { -50.0f,-10.0f,90.0f };
 	//エフェクト用(ただプログラムでつくれるものはプログラムで作る方がいい　多用はいくない)
 	int c_postEffect = Default;
 private:
@@ -92,9 +92,9 @@ private:
 		Blur,
 		Default,
 	};
-	bool Play;
-	bool hudload;
-	bool Load;
+	bool Play = false;
+	bool hudload=false;
+	bool Load=false;
 	std::vector<ControlBase*>AllObjectControl;
 	std::unique_ptr<GrassField>grassfield;
 };

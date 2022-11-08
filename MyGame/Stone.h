@@ -11,15 +11,13 @@ class Stone :public ObjectManager
 {
 
 public:
-	Stone() {};
+	Stone();
 	~Stone();
 
 protected:
-	OBB playerOBB;
-	OBB StoneOBB;// = nullptr;
-	bool f;
-	float t;
-	float alpha;
+	OBB playerOBB={};
+	OBB StoneOBB={};// = nullptr;
+	float alpha=0.0f;
 public:
 	virtual void Initialize(DebugCamera* camera)override;
 	virtual void Update(DebugCamera* camera)override;

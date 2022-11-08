@@ -11,6 +11,10 @@ Stone::~Stone()
 {
 
 }
+Stone::Stone()
+{
+
+}
 void Stone::Initialize(DebugCamera* camera)
 {
 

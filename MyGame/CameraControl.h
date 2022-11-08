@@ -7,13 +7,13 @@ class CameraControl :
 {
 public:
     static CameraControl* GetInstance();
-	void Load(DebugCamera* camera)override;
+    void Load(DebugCamera* camera)override;
     void ParamSet();
-  void Finalize()override;
+    void Finalize()override;
 
     DebugCamera* GetCamera() { return camera; }
     enum TargetState {
-        MAPCREATE,
+       MAPCREATE,
         PLAYER,
         TUTORIAL,
         ENCOUNTGUARDIAN,
@@ -22,41 +22,41 @@ public:
         BOSSCUTSCENE
     };
 private:
-    Input* input;
-    DebugCamera*camera;
+    Input* input = nullptr;
+    DebugCamera* camera = nullptr;
     int pointsindex = 6;
-    std::vector<XMFLOAT3>p;
-    float elapsedTime;
-    XMFLOAT3 pos1;
-    XMFLOAT3 pos2;
+    std::vector<XMFLOAT3>p = { {0.0f,0.0f,0.0f} };
+    float elapsedTime = 0.0f;
+    XMFLOAT3 pos1 = { 0.0f,0.0f,0.0f };
+    XMFLOAT3 pos2 = { 0.0f,0.0f,0.0f };;
     size_t startindex = 1;
-    std::vector<XMFLOAT3>points;// { start, start, p2, p3, end, end };
-    long long startCount = 0;
-    long long nowCount = 0;
-    long long elapsedCount = 0;
+    std::vector<XMFLOAT3>points = { };
+    float startCount = 0.0f;
+    float  nowCount = 0.0f;
+    float  elapsedCount = 0.0f;
 
     float maxtime = 6.0f;
-    float timerate;
+    float timerate = 0.0f;
 
-    long long time = 0.00000f;
-    long long j = time;
+    float  time = 0.00000f;
+    float  j = time;
 
 private:
-    bool splinef;
-    std::vector<std::unique_ptr<XMFLOAT3>>cpoints;
-    std::vector <XMFLOAT3>Load_CameraPoints;
+    bool splinef = false;
+    std::vector<std::unique_ptr<XMFLOAT3>>cpoints = {};
+    std::vector <XMFLOAT3>Load_CameraPoints = {};
 
     XMFLOAT3 SplinePosition(const std::vector<XMFLOAT3>& points, size_t startindex, float t);
 
     TargetState Tstate;
-    XMFLOAT3 CameraPosition;
-    XMFLOAT2 dis={0,0};
-    XMFLOAT2 distance={0,0};
+    XMFLOAT3 CameraPosition = { 0.0f,0.0f,0.0f };
+    XMFLOAT2 dis={0.0f,0.0f};
+    XMFLOAT2 distance={0.0f,0.0f};
     float angle = 180.0f;
     float cameraAngle=-90.0f;
-    float charaAngle;
+    float charaAngle=0.0f;
     float CameraDis = 15.0f;
-    float CameraHeight=10;
+    float CameraHeight=10.0f;
 public: 
 
     XMFLOAT3 CameraPosIndex(int index) { return points[index]; }
@@ -94,7 +94,6 @@ private:
     BossCamera bCamera;
     SplineCamera sCamera;
     MoveBossAreaCamera mCamera;
-    GuardianEnemyEncount encountGuardian;
 private:
     bool UpStage;
     int countAreaMove;
@@ -127,12 +126,6 @@ public:
 private:
     void BossSceneStart();
     void PlaySceneStart();
-    private:
-        void EncountGuardian_Start();
-        void EncountGuardian_Battle();
-        void EncountGuardian_End();
-    void GuardianBattleStart();
-    Enemy* GuardianEnemy();
   private:
       void AngleRotation();
 

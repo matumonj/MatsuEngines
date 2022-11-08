@@ -18,24 +18,28 @@ public:
 	TitleScene(SceneManager* sceneManager);
 private:
 	
-	Sprite* titlesprite;
-	std::unique_ptr<Object3d>field;
-	std::unique_ptr<Object3d>celestal;
-	std::unique_ptr<Sprite>TitleMenu[2];
-	float menuAlpha[2] = { 1.0f,1.0f };
-	XMFLOAT2 MenuScale[2];
-	bool menujudg_Play;
-	bool menujudg_Edit;
-	DebugCamera* camera;
-	float FieldRotY;
+	Sprite* titlesprite=nullptr;
+	std::unique_ptr<Object3d>field=nullptr;
+	std::unique_ptr<Object3d>celestal=nullptr;
+	std::unique_ptr<Sprite>TitleMenu[2]={nullptr};
+	DebugCamera* camera = nullptr;
+	Sprite* titlesprite2 = nullptr;
 	LightGroup* lightGroup = nullptr;
-	XMFLOAT2 CameraPos;
-	float Cangle;
-	Sprite* titlesprite2;
-	bool t, y;
-	XMFLOAT3 FogPos;
-	bool feedf;
-	bool BackCam;
+
+	bool menujudg_Play=false;
+	bool menujudg_Edit=false;
+	bool feedf = false;
+	bool BackCam = false;
+
+	float menuAlpha[2] = { 1.0f,1.0f };
+	float Cangle = 0.0f;
+	float FieldRotY=0.0f;
+	XMFLOAT2 MenuScale[2] = { {0.0f,0.0f} };
+	XMFLOAT2 CameraPos={0.0f,0.0f};
+	
+
+	XMFLOAT3 FogPos={0.0f,0.0f,0.0f};
+	
 	//DirectXCommon* dxcomn;
 public:
 	void Initialize()override;

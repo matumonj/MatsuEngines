@@ -21,41 +21,44 @@ private:
         FIRESPHERE,
         BLIZZARD
     };
-    const float Damage_Value = 2.0f;
-    const float Damage_Value_S = 3.0f;
-    const float CoolTime_Value = 360.0f;
-    const float CoolTime_Value_S = 180.0f;
+    const int Damage_Value = 2;
+    const int Damage_Value_S = 3;
+    const int CoolTime_Value = 360;
+    const int CoolTime_Value_S = 180;
 
-    AttackMotion attackMotion;
-    DirectX::XMFLOAT3 EaseTime;
-    DirectX::XMFLOAT3 magicSpherePos;
-    ParticleManager* pMan;
+    AttackMotion attackMotion = NON;
+    DirectX::XMFLOAT3 EaseTime = { 0.0f,0.0f,0.0f };
+    DirectX::XMFLOAT3 magicSpherePos = { 0.0f,0.0f,0.0f };
+    ParticleManager* pMan=nullptr;
+    
+    DirectX::XMFLOAT3 Correction = { 0.0f,0.0f,0.0f };
+    bool CameraTargetEnemy=false;
+    XMFLOAT3 OldCameraTargetPos = { 0.0f,0.0f,0.0f };
+    XMFLOAT3 OldTargetEnemyPos = { 0.0f,0.0f,0.0f };
+    XMFLOAT3 CameraPos = { 0.0f,0.0f,0.0f };
+    float EaseTime_CT = 0.0f;
+    bool ReturnMoveCameraTarget=false;
+
+private:
     void MagicAttack();
-    DirectX::XMFLOAT3 Correction;
-    bool CameraTargetEnemy;
-    XMFLOAT3 OldCameraTargetPos;
-    XMFLOAT3 OldTargetEnemyPos;
-    XMFLOAT3 CameraPos;
-    float EaseTime_CT;
-    bool ReturnMoveCameraTarget;
     /*------------*/
     /*    ñÇñ@ïX   */
     /*------------*/
     class Blizzard {
     private:
-        std::unique_ptr<Object3d>IceCrystalObj;
-        std::unique_ptr<Texture>IceMagicTex;
+        std::unique_ptr<Object3d>IceCrystalObj=nullptr;
+        std::unique_ptr<Texture>IceMagicTex=nullptr;
     private:
-        bool CollideEnemy;
-        bool ActFlag;
+        bool CollideEnemy=false;
+        bool ActFlag=false;
         int IceExistence = 0;
-        float DestTime;
+        float DestTime=0.0f;
         float DestAlpha=1.0f;
         float TexAlpha=1.0f;
-        float EaseTime;
-        XMFLOAT3 IcePos;
-        XMFLOAT3 IceScl;
-        XMFLOAT3 TexScl;
+        float EaseTime=0.0f;
+        XMFLOAT3 IcePos={0.0f,0.0f,0.0f};
+        XMFLOAT3 IceScl = { 0.0f,0.0f,0.0f };
+        XMFLOAT3 TexScl = { 0.0f,0.0f,0.0f };
     public:
         void Init(DebugCamera* camera);
         void Updata(DebugCamera* camera);
@@ -74,7 +77,6 @@ private:
       
         Phase phase=NON;
 
-        void DestParamReset();
     };
 
     /*----------------*/
@@ -84,26 +86,26 @@ private:
     class Slash {
     private:
         static const int TexNum = 15;
-        std::unique_ptr<Texture>InpactTex[TexNum];
-        std::unique_ptr<Object3d>HolyObj;
-        ParticleManager* pMan[2];
-        bool CollideEnemy;
-        bool ActFlag;
+        std::unique_ptr<Texture>InpactTex[TexNum] = { nullptr };
+        std::unique_ptr<Object3d>HolyObj = nullptr;
+        ParticleManager* pMan[2] = { nullptr };
+        bool CollideEnemy = false;
+        bool ActFlag = false;
         //int IceExistence = 0;
-        
-        float EaseTime;
-        XMFLOAT3 inpactTexPos;
-        XMFLOAT3 inpactTexScl;
-        XMFLOAT3 HolyScl;
-       
-        bool next;
+
+        float EaseTime = 0.0f;
+        XMFLOAT3 inpactTexPos = { 0.0f, 0.0f, 0.0f };
+        XMFLOAT3 inpactTexScl = { 0.0f,0.0f,0.0f };
+        XMFLOAT3 HolyScl = { 0.0f,0.0f,0.0f };
+
+        bool next = false;
         int rotCorrection_Value[TexNum];
         int posCorrection_Valuex[TexNum];
         int posCorrection_Valuey[TexNum];
         int posCorrection_Valuez[TexNum];
-        XMFLOAT3 TexScale[TexNum];
+        XMFLOAT3 TexScale[TexNum] = { { 0.0f,0.0f,0.0f } };
         float Alpha[TexNum] = { 1.0f };
-        int slashCount[TexNum] = {0};
+        int slashCount[TexNum] = { 0 };
     public:
         void Init(DebugCamera* camera);
         void Updata(DebugCamera* camera);
@@ -120,47 +122,10 @@ private:
         };
         Phase Getphase() { return phase; }
     private:
-       Phase phase = NON;
+        Phase phase = NON;
     };
-
-
- /*----------------*/
- /*  ÉrÅ[ÉÄ(íºê¸)  */
- /*----------------*/
-
-    class Beam {
     private:
-        std::unique_ptr<Object3d>HolyObj;
-        ParticleManager* pManBeam;
-
-        bool CollideEnemy;
-        bool ActFlag;
-        
-        float EaseTime;
-        XMFLOAT3 HolyScl;
-        XMFLOAT3 HolyRot;
-        float Alpha = { 1.0f };
-       
-        Point targetEnemyPoints;
-        Line2D BeamLine;
-    public:
-        void Init(DebugCamera* camera);
-        void Updata(DebugCamera* camera);
-        void Draw();
-
-        void SetActFlag(bool f) { ActFlag = f; }
-    private:
-        enum Phase
-        {
-            NON,
-            SHOTMAGICSPHERE,
-            ACTIVE,
-            DEST
-        }phase = NON;
+    std::unique_ptr<Slash>SlashArea=nullptr;
+    std::unique_ptr<Blizzard> Bliz=nullptr;
     };
-
-    std::unique_ptr<Beam>beam;
-    std::unique_ptr<Slash>SlashArea;
-    std::unique_ptr<Blizzard> Bliz;
-};
 

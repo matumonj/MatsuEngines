@@ -228,7 +228,7 @@ bool Texture::InitializeGraphicsPipeline()
 	descRangeSRV.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0); // t0 レジスタ
 
 	// ルートパラメータ
-	CD3DX12_ROOT_PARAMETER rootparams[2];
+	CD3DX12_ROOT_PARAMETER rootparams[2] = {};
 	rootparams[0].InitAsConstantBufferView(0, 0, D3D12_SHADER_VISIBILITY_ALL);
 	rootparams[1].InitAsDescriptorTable(1, &descRangeSRV, D3D12_SHADER_VISIBILITY_ALL);
 
@@ -245,7 +245,7 @@ bool Texture::InitializeGraphicsPipeline()
 	// ルートシグネチャの生成
 	result = device->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(), IID_PPV_ARGS(&rootsignature));
 	if (FAILED(result)) {
-		return result;
+		return false;
 	}
 
 	gpipeline.pRootSignature = rootsignature.Get();
@@ -254,7 +254,7 @@ bool Texture::InitializeGraphicsPipeline()
 	result = device->CreateGraphicsPipelineState(&gpipeline, IID_PPV_ARGS(&pipelinestate));
 
 	if (FAILED(result)) {
-		return result;
+		return false;
 	}
 
 	return true;
@@ -588,21 +588,18 @@ void Texture::TransferVertices()
 }
 Texture* Texture::Create(UINT texNumber, XMFLOAT3 position, XMFLOAT3 size, XMFLOAT4 color)
 {
-	// 仮サイズ
-	//size = { 10.0f, 10.0f,3 };
-	XMFLOAT3 ssize;// = { 100.0f, 100.0f,0 };
-	
+	XMFLOAT3 texsize={0.0f,0.0f,0.0f};
 	if (texbuff[texNumber])
 	{
 		// テクスチャ情報取得
 		D3D12_RESOURCE_DESC resDesc = texbuff[texNumber]->GetDesc();
 		// スプライトのサイズをテクスチャのサイズに設定
-		ssize = { (float)resDesc.Width, (float)resDesc.Height,0 };
+		texsize = { (float)resDesc.Width, (float)resDesc.Height,0 };
 
 	}
 
 	// Spriteのインスタンスを生成
-	Texture* texture = new Texture(texNumber, position, ssize, color);
+	Texture* texture = new Texture(texNumber, position, texsize, color);
 	if (texture == nullptr) {
 		return nullptr;
 	}

@@ -68,11 +68,11 @@ void TitleScene::Initialize()
 void TitleScene::Update()
 {
 	FieldRotY += 0.1f;
-	field->SetRotation({ 0,0,0 });
+	field->SetRotation({ 0.0f,0.0f,0.0f });
 	field->SetScale({ 0.15f,0.15f,0.15f });
 	field->SetFogCenter(FogPos);
 	field->setFog(TRUE);
-	celestal->SetRotation({ 0,0,0 });
+	celestal->SetRotation({ 0.0f,0.0f,0.0f });
 	celestal->SetScale({ 30.f,30.1f,30.1f });
 	if (Input::GetInstance()->TriggerButton(Input::B)) {//押されたら
 		menujudg_Play=true;
@@ -83,17 +83,17 @@ void TitleScene::Update()
 	feedf = true;
 	}
 if (feedf) {
-	Cangle += 0.5;
-	float cameratocenter_x = sqrtf((CameraPos.x - 16) * (CameraPos.x - 16));
-	if (cameratocenter_x < 1.0f&&CameraPos.y<-30) {
+	Cangle += 0.5f;
+	float cameratocenter_x = sqrtf((CameraPos.x - 16.0f) * (CameraPos.x - 16.0f));
+	if (cameratocenter_x < 1.0f&&CameraPos.y<-30.0f) {
 		BackCam = true;
 	}
 	
 }
 else {
-	Cangle += 0.1;
+	Cangle += 0.1f;
 }
-if (CameraPos.y <= -40) {
+if (CameraPos.y <= -40.0f) {
 	Feed::GetInstance()->Update_White(Feed::FEEDIN);
 }
 	
@@ -104,13 +104,13 @@ if (CameraPos.y <= -40) {
 		sceneManager_->SetnextScene(scene);//シーンのセット
 	}
 	//titlesprite2->SetRotation(180);165
-	if (Cangle >= 360) {
-		Cangle = 0;
+	if (Cangle >= 360.0f) {
+		Cangle = 0.0f;
 	}
 	
 	if (!BackCam) {
-		CameraPos.x = sinf(Cangle * (PI / 180)) * 40.0f;
-		CameraPos.y = cosf(Cangle * (PI / 180)) * 40.0f;
+		CameraPos.x = sinf(Cangle * (PI / 180.0f)) * 40.0f;
+		CameraPos.y = cosf(Cangle * (PI / 180.0f)) * 40.0f;
 	}
 	else {
 		CameraPos.y--;
@@ -119,29 +119,29 @@ if (CameraPos.y <= -40) {
 	TitleMenu[0]->SetSize(MenuScale[0]);
 	TitleMenu[1]->SetSize(MenuScale[1]);
 
-	TitleMenu[0]->setcolor({ 1,1,1,menuAlpha[0] });
-	TitleMenu[1]->setcolor({ 1,1,1,menuAlpha[1] });
+	TitleMenu[0]->setcolor({ 1.0f,1.0f,1.0f,menuAlpha[0] });
+	TitleMenu[1]->setcolor({ 1.0f,1.0f,1.0f,menuAlpha[1] });
 
 
 	if (menujudg_Play) {
-		MenuScale[0].x += 20;
-		MenuScale[0].y += 20;
+		MenuScale[0].x += 20.0f;
+		MenuScale[0].y += 20.0f;
 		menuAlpha[0] -= 0.02f;
 		menuAlpha[1] = 0.0f;
 	}
 	if (menujudg_Edit) {
-		MenuScale[1].x += 20;
-		MenuScale[1].y += 20;
+		MenuScale[1].x += 20.0f;
+		MenuScale[1].y += 20.0f;
 		menuAlpha[1] -= 0.02f;
 		menuAlpha[0] = 0.0f;
 	}
-	camera->SetEye({ CameraPos.x,2,CameraPos.y });
-	camera->SetTarget({ 0,0,0 });
+	camera->SetEye({ CameraPos.x,2.0f,CameraPos.y });
+	camera->SetTarget({ 0.0f,0.0f,0.0f });
 	camera->Update();
 	titlesprite->SetSize({ WinApp::window_width/2,WinApp::window_height });
 	titlesprite2->SetSize({ WinApp::window_width  ,WinApp::window_height });
-	field->Update({ 0.6,0.6,0.6,1 }, camera);
-	celestal->Update({ 0.6,0.6,0.6,1 }, camera);
+	field->Update({ 0.6f,0.6f,0.6f,1.0f }, camera);
+	celestal->Update({ 0.6f,0.6f,0.6f,1.0f }, camera);
 //	DebugTextSprite::GetInstance()->Print("aa", 0, 0, 2);
 
 }
@@ -157,14 +157,12 @@ void TitleScene::SpriteDraw()
 	field->Draw();
 	Object3d::PostDraw();
 
-	titlesprite->setcolor({ 1,1,1,0.5 });
-	titlesprite2->setcolor({ 1,1,1,0.5 });
+	titlesprite->setcolor({ 1.0f,1.0f,1.0f,0.5f });
+	titlesprite2->setcolor({ 1.0f,1.0f,1.0f,0.5f });
 	Sprite::PreDraw();
 	titlesprite2->Draw();
 titlesprite->Draw();
-//for (int i = 0; i < 2; i++) {
 	TitleMenu[0]->Draw();
-//}
 	DebugTextSprite::GetInstance()->DrawAll();
 	Sprite::PostDraw();
 	Feed::GetInstance()->Draw();

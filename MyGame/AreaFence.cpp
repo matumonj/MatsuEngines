@@ -3,6 +3,10 @@
 #include"PlayerControl.h"
 #include"SceneManager.h"
 #include"Collision.h"
+AreaFence::AreaFence()
+{
+
+}
 AreaFence::~AreaFence()
 {
 

@@ -176,12 +176,6 @@ void SmallSword::Slash::Init(DebugCamera* camera)
 
 }
 
-void SmallSword::Beam::Init(DebugCamera* camera)
-{
-	HolyObj = std::make_unique<Object3d>();
-	HolyObj->SetModel(ModelManager::GetIns()->GetModel(ModelManager::BEAM));
-}
-
 
 /*-------------*/
 /*    XV     */
@@ -354,8 +348,7 @@ void SmallSword::Slash::Updata(DebugCamera* camera)
 				next = true;
 			}
 		}
-		bool nextPhase;
-		XMFLOAT3 ePos;
+		XMFLOAT3 ePos={0.0f,0.0f,0.0f};
 		if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
 			ePos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition();
 		}
@@ -415,44 +408,6 @@ for (int i = 0; i<TexNum; i++) {
 
 }
 
-
-void SmallSword::Beam::Updata(DebugCamera* camera)
-{
-	const float texSclupSpeed = 0.2f;
-	if (phase == NON) {
-		EaseTime = 0.0f;
-		if (ActFlag) {
-			EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->RecvDamage(20);
-			phase = ACTIVE;
-		}
-	} else if (phase == ACTIVE) {
-		EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->SetMoveStop(true);
-		if (EaseTime < 1.0f) {
-			EaseTime += 1.0f / 25.0f;
-		}
-		bool nextPhase;
-		if (nextPhase) {
-
-			phase = DEST;
-		}
-		///IceScl.y = min(IceScl.y, 5.0f);
-	} else if (phase == DEST) {
-		EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->SetMoveStop(false);
-		bool EndDest;
-		if (EndDest) {
-			//IceCrystalObj->SetDestFlag(FALSE);
-			ActFlag = false;
-			phase = NON;
-		}
-	}
-	
-	HolyObj->SetPosition(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
-	HolyObj->SetScale(HolyScl);
-	HolyObj->SetRotation(HolyRot);
-	HolyObj->Update({ 1.0f,1.0f,1.0f,1.0f }, camera);
-}
-
-
 /*-------------*/
 /*     •`‰æ    */
 /*-------------*/
@@ -478,13 +433,4 @@ void SmallSword::Slash::Draw()
 	Texture::PostDraw();
 
 	
-}
-void SmallSword::Beam::Draw()
-{
-	if (!ActFlag)return;
-	Object3d::PreDraw();
-
-	HolyObj->Draw();
-	Object3d::PostDraw();
-
 }

@@ -69,11 +69,11 @@ void Field::Initialize(DebugCamera* camera)
 	}
 	Texture::LoadTexture(37, L"Resources/2d/icon/enemyicon.png");
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
-		EnemyIconSize = EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL).size();
+		EnemyIconSize = (int)EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL).size();
 
 	}
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
-		EnemyIconSize = EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE).size();
+		EnemyIconSize = (int)EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE).size();
 	}
 		Enemyicon.resize(EnemyIconSize);
 		std::vector<Texture*>l_tex;
@@ -152,7 +152,7 @@ void Field::Update_Play(DebugCamera* camera)
 	
 	if (FieldObject == nullptr)return;
 	CelestalRot += 0.1f;
-	m_object[CELESTIALSPHERE]->SetRotation({ 90,CelestalRot,180 });
+	m_object[CELESTIALSPHERE]->SetRotation({ 90.0f,CelestalRot,180.0f });
 	SetFieldUpdate(CELESTIALSPHERE, camera, { 0.0f,2290.0f,0.0f }, { 40.0f,40.0f,40.0f }, FALSE, FALSE);
 	FieldObject->SetPosition({ 0.0f,-25.0f,0.0f });
 	FieldObject->SetFogCenter(FogCenterPos);
@@ -164,7 +164,7 @@ void Field::Update_Play(DebugCamera* camera)
 	playerpoint->Update(dc);
 	playerpoint->SetScale({ 4.0f,4.0f,4.0f });
 	playerpoint->SetBillboard(true);
-	playerpoint->SetColor({ 1.0f,1.0f,1.0f,1 });
+	playerpoint->SetColor({ 1.0f,1.0f,1.0f,1.0f });
 
 	for (int i = 0; i < EnemyIconSize; i++) {
 		if (Enemyicon[i] == nullptr || Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[i]->GetPosition()) > 100) {

@@ -11,15 +11,15 @@ class Wood :public ObjectManager
 {
 
 public:
-	Wood() {};
+	Wood() ;
 	~Wood() ;
 
 private:
-	OBB playerOBB;
-	OBB woodOBB;// = nullptr;
-	bool f;
-	float t;
-	float alpha;
+	OBB playerOBB = {};
+	OBB woodOBB={};// = nullptr;
+	bool f=false;
+	float t=false;
+	float alpha=0.0f;
 public:
 	void Initialize(DebugCamera* camera)override;
 	void Update(DebugCamera* camera)override;

@@ -17,7 +17,7 @@ public:
 	void Setplay(DebugCamera* camera);
 private:
 	
-	TouchableObject* FieldObject;
+	TouchableObject* FieldObject=nullptr;
 	//Obj
 	enum ObjType {
 		CELESTIALSPHERE,
@@ -27,33 +27,33 @@ private:
 	};
 	const static int objNum=4;
 
-	Texture* playerpoint;
+	Texture* playerpoint=nullptr;
 	std::vector<std::unique_ptr<Texture>>Enemyicon;
-	std::unique_ptr<Object3d>m_object[objNum];
+	std::unique_ptr<Object3d>m_object[objNum]={nullptr};
 	std::unique_ptr <Object3d> CelestialSphereObject;
-	std::unique_ptr <Object3d> BackObject;
-	std::unique_ptr<Object3d>DamageAreaObj;
-	std::unique_ptr<Object3d>miniObj;
+	std::unique_ptr <Object3d> BackObject=nullptr;
+	std::unique_ptr<Object3d>DamageAreaObj=nullptr;
+	std::unique_ptr<Object3d>miniObj=nullptr;
 	//Sprite
-	Sprite* Explanation;
-	Sprite* BossName;
+	Sprite* Explanation=nullptr;
+	Sprite* BossName=nullptr;
 	//Model
-	DirectX::XMFLOAT3 ssp;
-	int EnemyIconSize;
+	DirectX::XMFLOAT3 ssp={0.0f,0.0f,0.0f};
+	int EnemyIconSize=0;
 private:
-	float t;
-	float TexAlpha_BossName;
+	float t=0.0f;
+	float TexAlpha_BossName=0.0f;
 	const float feedSpeed_BossName=0.005f;
 
-	bool feed;
-	bool feed_BossName;
+	bool feed=false;
+	bool feed_BossName=false;
 	const float feedSpeed_Explanation = 0.005f;
 
-	DirectX::XMFLOAT3 Ppos; 
-	float CelestalRot;
-	DebugCamera* dc;
-	float ypos;
-	XMFLOAT3 FogCenterPos;
+	DirectX::XMFLOAT3 Ppos = { 0.0f,0.0f,0.0f };
+	float CelestalRot=0.0f;
+	DebugCamera* dc=nullptr;
+	float ypos=0.0f;
+	XMFLOAT3 FogCenterPos = { 0.0f,0.0f,0.0f };
 public:
 	void SetFogCenterPos(XMFLOAT3 pos) { FogCenterPos = pos; }
 	void SetCamera(DebugCamera* camera) { dc = camera; }

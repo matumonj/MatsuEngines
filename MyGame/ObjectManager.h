@@ -38,22 +38,22 @@ public:
 	void ChangeShader(int Num);
 	void SetCreateShader(bool f) { ShaderCreateF = f; }
 protected:
-	bool ShaderCreateF;
-	std::unique_ptr<Object3d> m_Object;
-	Model* m_Model;
+	bool ShaderCreateF=false;
+	std::unique_ptr<Object3d> m_Object=nullptr;
+	Model* m_Model=nullptr;
 
-	std::unique_ptr<f_Object3d> m_fbxObject;
-	f_Model* m_fbxModel;
+	std::unique_ptr<f_Object3d> m_fbxObject=nullptr;
+	f_Model* m_fbxModel=nullptr;
 
-	XMFLOAT3 Position;
-	XMFLOAT3 Rotation;
-	XMFLOAT3 Scale;
-	XMFLOAT4 Color;
+	XMFLOAT3 Position={0.0f,0.0f,0.0f};
+	XMFLOAT3 Rotation = { 0.0f,0.0f,0.0f };
+	XMFLOAT3 Scale = { 0.0f,0.0f,0.0f };
+	XMFLOAT4 Color = { 0.0f,0.0f,0.0f,0.0f };
 	//接地フラグ
 	bool onGround = true;
 	//落下ベクトル
-	XMVECTOR fallV;
-	float radius_adjustment;
+	XMVECTOR fallV = {};
+	float radius_adjustment=0.0f;
 
 	float ObjAlpha=1.0f;
 public:

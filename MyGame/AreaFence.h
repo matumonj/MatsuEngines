@@ -4,12 +4,12 @@
 class AreaFence:public ObjectManager
 {
 public:
-	AreaFence() {};
+	AreaFence();
 	~AreaFence();
 
 private:
 	OBB playerOBB;
-	OBB AreaFenceOBB;// = nullptr;
+	OBB AreaFenceOBB;
 	
 	float FencePosY_Min;
 public:

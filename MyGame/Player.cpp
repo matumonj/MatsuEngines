@@ -16,7 +16,6 @@
 #include"SelectSword.h"
 #include"SceneManager.h"
 #include"HUD.h"
-#define PI 3.145265
 using namespace DirectX;
 
 Player::~Player()
@@ -263,7 +262,7 @@ void Player::FbxAnimationControl()
 		timespeed = 0.005f;
 	}
 	f_time += timespeed;
-	FbxAnimationControls(FIRST, AttackTime, sectime+0.3);
+	FbxAnimationControls(FIRST, AttackTime, sectime+0.3f);
 	FbxAnimationControls(SECOND, sectime, m_fbxObject->GetEndTime());
 	
 }

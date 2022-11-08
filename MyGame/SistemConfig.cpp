@@ -93,8 +93,8 @@ void SistemConfig::Update()
 		sAlpha += 0.05f;
 		sAlpha = min(sAlpha, 1.0f);
 		sAlpha = max(sAlpha, 0.0f);
-		m_number = min(m_number, 2.0f);
-		m_number = max(m_number, 0.0f);
+		m_number = min(m_number, 2);
+		m_number = max(m_number, 0);
 		SelectSprite->setcolor({ 1.0f,1.0f,1.0f,sAlpha });
 		configSprite->Update();
 	
