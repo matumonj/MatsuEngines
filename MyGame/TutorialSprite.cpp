@@ -119,7 +119,7 @@ void TutorialSprite::Update()
 	}
 	
 	//歩きとジャンプ
-	ClearTaskJudg[WALK]= Movement > 180&& Movement_Camera > 180;
+	ClearTaskJudg[WALK]= Movement > 18&& Movement_Camera > 18;
 	
 	//オールコンプリート
 	AllTaskClear = ClearTaskJudg[WALK] && ClearTaskJudg[SETTING] && ClearTaskJudg[ATTACK]&& ClearTaskJudg[GETKEY];
@@ -224,6 +224,7 @@ void TutorialSprite::Ease_SpriteSize_Up(float& x, float& t, int index)
 {
 
 	if (input->TriggerButton(input->A)) {
+		UI::GetInstance()->SetTurnoffUIDraw(FALSE);
 		MassageCheck[index] = true;
 	}
 	if (MassageCheck[index]) {
@@ -231,7 +232,7 @@ void TutorialSprite::Ease_SpriteSize_Up(float& x, float& t, int index)
 		if (t >= 0.0f) {
 			t -= 0.05f;
 		}
-		UI::GetInstance()->SetTurnoffUIDraw(FALSE);
+		
 	} else {
 		x = Easing::EaseOut(t, 0, 1900);
 		if (t <= 1.0f) {

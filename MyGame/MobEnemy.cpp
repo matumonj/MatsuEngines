@@ -62,13 +62,7 @@ void MobEnemy::Initialize(DebugCamera* camera)
 
 	//state初期化
 	state_mob->Initialize(this);
-	particleLife = 800;
-	//パーティクルセット
-	ParticleManager::LoadTexture(4, L"Resources/ParticleTex/Normal.png");
-	particleMan=ParticleManager::Create(4,L"Resources/ParticleTex/Attack.png");
-	ParticleManager::LoadTexture(6, L"Resources/ParticleTex/Attack.png");
-	particleMan2 = ParticleManager::Create(6, L"Resources/ParticleTex/Attack.png");
-
+	
 	addRotRadians = 110;
 	FollowRotAngleCorrect = 70;
 }
@@ -100,8 +94,6 @@ void MobEnemy::Update(DebugCamera* camera)
 	Sword->Setf(FALSE);
 	Sword->SetRotation({-23,43,83});
 	Sword->Update(m_fbxObject->GetRot(), { 1.0f,1.0f,1.0f,1.0f }, camera);
-
-	DamageParticleSet();
 
 	HandMat = m_fbxObject->GetRot();
 
@@ -144,12 +136,6 @@ void MobEnemy::Draw()
 		Sword->Draw();
 		Object3d::PostDraw();
 
-		ParticleManager::PreDraw();
-		// 3Dオブクジェクトの描画
-		particleMan->Draw();
-		particleMan2->Draw();
-		// 3Dオブジェクト描画後処理
-		ParticleManager::PostDraw();
 	};
 	
 }
@@ -178,7 +164,7 @@ void MobEnemy::FbxAnimationControl()
 	float fbxanimationTime = 0.01f;
 	//1フレーム進める
 	if (PlayerAttackState::GetInstance()->GetHitStopJudg()) {
-		fbxanimationTime = 0.005f;
+		fbxanimationTime = 0.000f;
 	}
 	f_time += fbxanimationTime;
 		if (f_AttackFlag) {
@@ -233,37 +219,6 @@ void MobEnemy::AttackCoolTime()
 		cooltime = 0;
 	}
 	
-}
-
-void MobEnemy::DamageParticleSet()
-{
-	float rnd_vel = 0.9f;
-	
-	for (int i = 0; i < ParticleSize; i++) {
-		
-		XMFLOAT3 vel{};
-		vel.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-		vel.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-		vel.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-
-		XMFLOAT3 acc{};
-
-		const float rnd_acc = 0.001f;
-		acc.y = -(float)rand() / RAND_MAX * rnd_acc;
-
-			
-		if (DamageParticleCreateF) {
-			particlePos = { Position.x,Position.y + 10,Position.z };
-			particleMan->Add(particleLife, particlePos, vel, acc, 3.0f, 0.0f);
-			if (i == ParticleSize - 1) {
-				DamageParticleCreateF = false;
-			}
-		}
-
-	}
-	particleMan->SetColor({ 1.0f,0.2f,0.2f,0.7f });
-	particleMan->Update(particleMan->NORMAL);
-
 }
 
 void MobEnemy::DamageTexUpdate(DebugCamera* camera)

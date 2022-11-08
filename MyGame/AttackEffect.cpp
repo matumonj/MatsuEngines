@@ -13,7 +13,7 @@ void AttackEffect::Init()
 	Texture::LoadTexture(12, L"Resources/2d/attackEffect/slash_first.png");
 	Texture::LoadTexture(13, L"Resources/2d/attackEffect/slash_second.png");
 	Texture::LoadTexture(14, L"Resources/2d/attackEffect/slash_third.png");
-	Texture::LoadTexture(15, L"Resources/2d/attackEffect/particle.png");
+	Texture::LoadTexture(15, L"Resources/2d/attackEffect/inpact.png");
 	
 	
 }
@@ -52,20 +52,28 @@ void AttackEffect::SetParticle(XMFLOAT3 pos)
 	ParPos.resize(ParticleSize::FIRST);
 	ParRot.resize(ParticleSize::FIRST);
 	ParScl.resize(ParticleSize::FIRST);
-
+	ParAlpha.resize(ParticleSize::FIRST);
 	AttackParticle.resize(ParticleSize::FIRST);
 
+	InpactTex.reset(Texture::Create(15, { 0.0f,-200.0f,1 }, { 1,1,1 }, { 1,1,1,1 }));
+	InpactTex->CreateTexture();
+	InpactTex->SetAnchorPoint({ 0.5f,0.5f });
+
+	InpactScl = { 3.0f,3.0f };
+	InpactAlpha = 1.0f;
 	for (int i = 0; i < ParticleSize::FIRST; i++) {
-		AttackParticle[i].reset(Texture::Create(15, { 0.0f,-200.0f,1 }, { 1,1,1 }, { 1,1,1,1 }));
+		AttackParticle[i].reset(Texture::Create(12, { 0.0f,-200.0f,1 }, { 1,1,1 }, { 1,1,1,1 }));
 		AttackParticle[i]->CreateTexture();
 		AttackParticle[i]->SetAnchorPoint({ 0.5f,0.5f });
 	}
-	ParCenterPos = pos;
+	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	ParCenterPos = { pos.x - (pos.x - ppos.x),pos.y,pos.z - (pos.z - ppos.z) };
 	
 		for (int i = 0; i < ParticleSize::FIRST; i++) {
 			ParPos[i] = ParCenterPos;
-			ParScl[i] = { 2,2,2 };
-			ParRot[i] = { 0,0,(float)i * 18 };
+			ParScl[i] = { 5,2,2 };
+			ParRot[i] = { 0,PlayerControl::GetInstance()->GetPlayer()->GetRotation().y + 62.0f,(float)(rand()%360) };
+			ParAlpha[i] = 0.5f;
 		}
 		eupda = UPDA;
 }
@@ -78,20 +86,36 @@ void AttackEffect::ParticleUpda()
 	move.resize(ParticleSize::FIRST);
 	matRot.resize(ParticleSize::FIRST);
 
+
 	for (int i = 0; i < AttackParticle.size(); i++) {
+		if (AttackParticle[i] == nullptr)continue;
 		move[i] = { 0.0f,0.1f,0.0f,0.0f };
 		matRot[i] = XMMatrixRotationZ(XMConvertToRadians(ParRot[i].z));
 		move[i] = XMVector3TransformNormal(move[i], matRot[i]);
 
 		ParPos[i].y += move[i].m128_f32[1] * 1;
 		ParPos[i].x += move[i].m128_f32[0] * 1;
-
+		ParAlpha[i]-=0.008f;
 		AttackParticle[i]->SetBillboard(TRUE);
 		AttackParticle[i]->SetPosition(ParPos[i]);
 		AttackParticle[i]->SetRotation(ParRot[i]);
 		AttackParticle[i]->SetScale(ParScl[i]);
+		AttackParticle[i]->SetColor({ 1.0f,1.0f,1.0f,ParAlpha[i] });
 		AttackParticle[i]->Update(CameraControl::GetInstance()->GetCamera());
+
+		if (ParAlpha[i] <= 0.0f) {
+			AttackParticle[i].reset();
+		}
 	}
+	InpactScl.x += 0.02f;
+	InpactScl.y += 0.02f;
+	InpactAlpha -= 0.02f;
+
+	InpactTex->SetBillboard(TRUE);
+	InpactTex->SetPosition({ ParCenterPos });
+	InpactTex->SetColor({ 1.0f,1.0f,1.0f,InpactAlpha });
+	InpactTex->SetScale({ InpactScl.x,InpactScl.y,2.0f });
+	InpactTex->Update(CameraControl::GetInstance()->GetCamera());
 }
 
 void AttackEffect::Upda()
@@ -147,18 +171,17 @@ void AttackEffect::Draw()
 	if (AttackTex != nullptr) {
 		AttackTex->Draw();
 	}
+	if (InpactTex != nullptr) {
+		InpactTex->Draw();
+	}
 	Texture::PostDraw();
 		
 
 	ImGui::Begin("slashpar");
 
-	if (ParRot.size() > 9) {
-	for (int i = 0; i < 10; i++) {
-			ImGui::Text("%f", ParRot[i].z);
-		}
-	}
-	ImGui::Text("ParSize %d", AttackParticle.size());
-	ImGui::Text("parPos.size %d", ParPos.size());
+
+	ImGui::Text("ParSize %f",InpactScl.x);
+	ImGui::Text("parPos.size %f", InpactAlpha);
 	ImGui::End();
 }
 

@@ -37,7 +37,7 @@ public:
 		CLEAREFFECT
 	};
 	enum ParticleSize {//パティクル数設定
-		FIRST = 10,
+		FIRST = 40,
 		SECOND = 20,
 		THIRD=15
 	};
@@ -58,8 +58,8 @@ private:
 	std::unique_ptr<Texture>AttackTex;
 	//攻撃時に出るパーティクル
 	std::vector<std::unique_ptr<Texture>>AttackParticle;
-
-	std::vector<Texture*> l_ptex;
+	//
+	std::unique_ptr<Texture>InpactTex;
 	//攻撃用テクスチャのパラメータ
 	XMFLOAT3 TexPos;
 	XMFLOAT3 TexRot;
@@ -71,6 +71,10 @@ private:
 	std::vector<XMFLOAT3> ParScl;
 	std::vector<XMFLOAT3> ParPos;
 	std::vector<XMFLOAT3> ParRot;
-
+	std::vector<float>ParAlpha;
+	bool CreateParFlag;
+	//
+	float InpactAlpha = 0;
+	XMFLOAT2 InpactScl = { 0.0f,0.0f};
 };
 
