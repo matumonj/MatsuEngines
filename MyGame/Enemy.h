@@ -50,18 +50,20 @@ public:
 	void isRespawn();
 protected:
 	//体力周り
-	float EnemyHP;//現在の体力
-	float MaxHP;//最大値(変動なし)
-	float OldHP;//前フレーム時の体力(HUDのイージング用)
+	float EnemyHP=0.0f;//現在の体力
+	float MaxHP=0.0f;//最大値(変動なし)
+	float OldHP=0.0f;//前フレーム時の体力(HUDのイージング用)
 protected:
 	float alpha = 1.0f;
-	XMFLOAT3 RespawnPos;
-	bool RecvDamagef;//
-	bool RecvAttackHit;
-	bool DamageParticleCreateF;//攻撃受けた直後パーティクル発生フラg
+	XMFLOAT3 RespawnPos={0.0f,0.0f,0.0f};
+	bool RecvDamagef=false;//
+	bool RecvAttackHit=false;
+	bool DamageParticleCreateF=false;//攻撃受けた直後パーティクル発生フラg
 private:
 	bool MoveFlag = false;
-	XMFLOAT3 OldPos;
+	XMFLOAT3 OldPos={0.0f,0.0f,0.0f};
+	int DamageSize = 0;
+	XMFLOAT3 DamageTexPos={};
 public:
 	//攻撃受けた直後の判定用
 	void RecvDamage(int Damage);
@@ -69,31 +71,33 @@ public:
 	virtual void AttackCoolTime() = 0;
 	void SetMoveStop(bool f) { movestop = f; }
 	bool GetMoveStop() { return movestop; }
+	void DamageTexDisplay();
 protected:
-	bool f_AttackFlag;
-	bool DeathFlag;
-	bool nowDeath;
-	bool nowAttack;
+	bool f_AttackFlag=false;
+	bool DeathFlag=false;
+	bool nowDeath=false;
+	bool nowAttack=false;
 	int cooltime = 0;
 
 	int onGroundTime = 0;
-	bool AfterAttack;
+	bool AfterAttack=false;
 
-	int PopCount;//リスポーンカウント
+	int PopCount=0;//リスポーンカウント
 
-	bool movestop;
+	bool movestop=false;
 protected:
 	//FBXTime周りの変数
-	float f_time;//現在のフレーム
-	float start_time;//初期フレーム(0)
-	float end_time;//最終フレーム
-	float DeathTime;//死亡時のモーション開始フレーム
-	float AttackTime = 0;
+	float f_time=0.0f;//現在のフレーム
+	float start_time=0.0f;//初期フレーム(0)
+	float end_time=0.0f;//最終フレーム
+	float DeathTime=0.0f;//死亡時のモーション開始フレーム
+	float AttackTime = 0.0f;
 
-	XMMATRIX HandMat;
-	OBB HandSiteOBB;
-	OBB playerOBB;
+	XMMATRIX HandMat={};
+	OBB HandSiteOBB={};
+	OBB playerOBB={};
 
+	bool damageDisF=false;
 public:
 	enum AnimationState {
 		NON,
@@ -143,7 +147,6 @@ public:
 	void SetRotRadian(float roty) { addRotRadians = roty; }
 	float GetRotRadians() { return addRotRadians; }
 	void SetRecvDamage(bool f) { RecvDamagef = f; }
-	//
 	void SetMoveFlag(bool f) { MoveFlag = f; }
 
 	void SetScale(XMFLOAT3 scale) { Scale = scale; }

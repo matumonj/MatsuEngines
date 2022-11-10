@@ -72,8 +72,10 @@ void EnemyAlpha::Update(DebugCamera* camera)
 		alpha -= 0.005f;
 	}
 	m_fbxObject->SetColor({ 1,0,0,alpha });
-	m_fbxObject->SetFogPos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
+
 	if (!DeathFlag&& SceneManager::GetInstance()->GetScene() != SceneManager::MAPCREATE) {
+		m_fbxObject->SetFogPos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
+
 		HandSiteOBB.SetOBBParam_Pos(m_fbxObject->GetWorld());
 		HandSiteOBB.SetOBBParam_Rot(m_fbxObject->GetWorld());
 		HandSiteOBB.SetOBBParam_Scl({ 25.0f,200.0f,250.0f });

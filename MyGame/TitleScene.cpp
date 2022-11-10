@@ -47,7 +47,6 @@ void TitleScene::Initialize()
 	}
 	Feed::GetInstance()->initialize();
 
-	Sprite::LoadTexture(0, L"Resources/2d/LevelUp/debugfont.png");
 	camera = new DebugCamera(WinApp::window_width, WinApp::window_height);
 
 	field = std::make_unique<Object3d>();
@@ -56,7 +55,7 @@ void TitleScene::Initialize()
 	celestal = std::make_unique<Object3d>();
 	celestal->SetModel(ModelManager::GetIns()->GetModel(ModelManager::CELESTIALSPHERE));
 	celestal->Initialize(camera);
-	DebugTextSprite::GetInstance()->Initialize(0);
+	
 	Feed::GetInstance()->initialize();
 }
 
@@ -81,6 +80,13 @@ void TitleScene::Update()
 		sceneManager_->SetnextScene(scene);//シーンのセット
 		//押されたら
 	feedf = true;
+	}
+	if (Input::GetInstance()->TriggerButton(Input::A)) {//押されたら
+		BaseScene* scene = new MapCreateScene(sceneManager_);//次のシーンのインスタンス生成
+		SceneManager::GetInstance()->SetScene(SceneManager::MAPCREATE);
+		sceneManager_->SetnextScene(scene);//シーンのセット
+		//押されたら
+	//	feedf = true;
 	}
 if (feedf) {
 	Cangle += 0.5f;

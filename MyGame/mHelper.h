@@ -13,9 +13,11 @@
 		inline float EaseOutIn(int& t);
 	}
 	namespace Percent {
-		inline float GetParcent(float amount,float num) {
+		inline float GetParcent(const float amount,const float num) {
 			return num / amount * 100.00f;
 		}
 	}
 
-
+	namespace MatCal {
+	
+	}

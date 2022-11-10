@@ -18,16 +18,16 @@ void main(
     //頂点の色
     float4 _TopColor = { 0.0, 1.0, 0.0, 1.0 };
     //根本の色
-    float4 _BottomColor = { 0.0, 0.0, 0.0, 1.0 };
+    float4 _BottomColor = { 0.0, 1.0, 0.0, 1.0 };
 
     //高さの基準値
     float _Height = 1;
     //幅の基準値
-    float _Width = 0.5f;
+    float _Width = 0.3f;
     //高さの比率@bottom, middle, high
     float4 _HeightRate = { 0.3, 0.4, 0.5, 0 };
     //幅の比率@bottom, middle, high
-    float4 _WidthRate = { 0.5, 0.4, 0.25, 0 };
+    float4 _WidthRate = { 0.3, 0.2, 0.15, 0 };
     //風の揺れ率@bottom, middle, high
     float4 _WindPowerRate = { 0.9, 1.5, 2.5, 0 };
     //風の強さ
@@ -53,7 +53,7 @@ void main(
     float width = (3) / 3.0f;
 
     //草の向き
-    float4 dir = float4(normalize(pos2 * rand(pos2) - pos0 * rand(pos1)).xyz * width, 1.0f);
+    float4 dir = float4(normalize(pos2 * rand(pos2) - pos0 * rand(pos1)).xyz * 1, 1.0f)*2;
 
     //風表現もどきGrassObjの方でuvtimeいじって調整
 
@@ -91,11 +91,11 @@ void main(
     o[6].pos = o[5].pos + centerNor * height * _Height * _HeightRate.z;
     o[6].col = _TopColor;
 
-    o[2].pos += wind * _WindPowerRate.x;
-    o[3].pos += wind * _WindPowerRate.x;
-    o[4].pos += wind * _WindPowerRate.y;
-    o[5].pos += wind * _WindPowerRate.y;
-    o[6].pos += wind * _WindPowerRate.z;
+   // o[2].pos += wind * _WindPowerRate.x;
+   // o[3].pos += wind * _WindPowerRate.x;
+   // o[4].pos += wind * _WindPowerRate.y;
+   // o[5].pos += wind * _WindPowerRate.y;
+   // o[6].pos += wind * _WindPowerRate.z;
     [unroll]
     for (int i = 0; i < 7; i++) {
         o[i].pos =  mul(viewproj,mul(world, float4(o[i].pos.xyz,1.0f)));

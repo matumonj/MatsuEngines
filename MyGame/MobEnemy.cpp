@@ -75,15 +75,16 @@ void MobEnemy::Update(DebugCamera* camera)
 	if (DeathFlag) {
 		alpha -= 0.005f;
 	}
-	m_fbxObject->SetFogPos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
-
+	if (SceneManager::GetInstance()->GetScene() != SceneManager::MAPCREATE) {
+		m_fbxObject->SetFogPos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
+	}
 	FbxAnimationControl();
 	
 	EnemyPop(150);
 	
 	AttackCoolTime();
-	
 
+	DamageTexDisplay();
 	m_fbxObject->SetColor({ 1,0,1,alpha });
 	ParameterSet_Fbx(camera);
 
@@ -161,15 +162,20 @@ void MobEnemy::Death()
 
 void MobEnemy::FbxAnimationControl()
 {
-	float fbxanimationTime = 0.02f;
+	float fbxanimationTime;
+	if (nowAttack) {
+		fbxanimationTime = 0.02f;
+	} else {
+		fbxanimationTime = 0.01f;
+	}
 	//1ƒtƒŒ[ƒ€i‚ß‚é
 	if (PlayerAttackState::GetInstance()->GetHitStopJudg()) {
 		fbxanimationTime = 0.000f;
 	}
 	f_time += fbxanimationTime;
 		if (f_AttackFlag) {
-				rand_Attackindex = (float)(rand() % 100);
-				if (rand_Attackindex <= 50) {
+				rand_Attacktype = (float)(rand() % 100);
+				if (rand_Attacktype <= 50) {
 					atcktype = SIDEAWAY;
 					f_time = AttackTime;
 				}
@@ -200,6 +206,8 @@ void MobEnemy::FbxAnimationControl()
 				}
 			}
 	
+
+		
 	m_fbxObject->SetFbxTime(f_time);
 }
 

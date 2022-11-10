@@ -40,13 +40,10 @@ void Tutorial::Initialize()
 	GrassObj::SetLightGroup(lightGroup);
 	lightGroup->SetDirLightActive(0, true);
 	lightGroup->SetDirLightActive(1, true);
-	lightGroup->SetDirLightActive(2, true);
 	lightGroup->SetPointLightActive(0, false);
 	lightGroup->SetPointLightActive(1, false);
-	lightGroup->SetPointLightActive(2, false);
 	lightGroup->SetCircleShadowActive(0, true);
 	lightGroup->SetCircleShadowActive(1, true);
-	lightGroup->SetCircleShadowActive(2, true);
 	Texture::LoadTexture(47, L"Resources/df.png");
 	{
 		AllObjectControl.push_back(CameraControl::GetInstance());//Camera
@@ -67,7 +64,9 @@ void Tutorial::Initialize()
 	SistemConfig::GetInstance()->Initialize();
 	//カメラの注視点をプレイヤーにセット
 	SelectSword::GetInstance()->Initialize();
+	Sprite::LoadTexture(0, L"Resources/2d/LevelUp/debugfont.png");
 
+	DebugTextSprite::GetInstance()->Initialize(0);
 }
 
 /*------------------------*/
@@ -206,6 +205,9 @@ void Tutorial::Draw()
 		Field::GetInstance()->Draw();
 		MyGameDraw();
 		//postEffect->Draw();
+		Sprite::PreDraw();
+		DebugTextSprite::GetInstance()->DrawAll();
+		Sprite::PostDraw();
 		DamageManager::GetIns()->Draw();
 		PlayerControl::GetInstance()->DamageTexDraw();
 		UI::GetInstance()->HUDDraw();

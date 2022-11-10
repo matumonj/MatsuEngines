@@ -33,7 +33,7 @@ void DebugTxt::Initialize(UINT texnumber)
 }
 void DebugTxt::TextBeha()
 {
-	Position.y -= 0.01f;
+	//Position.y -= 0.01f;
 	color.w -= 0.005f;
 }
 
@@ -158,8 +158,31 @@ void DebugTextSprite::Print(const std::string& text, float x, float y, float sca
 void DebugTextSprite::FeedTex()
 {
 	alpha -= 0.0005f;
+	if (SizeVariableF) {
+		alpha = 1.0f;
+		TexScale.x += 0.05f;
+		TexScale.y += 0.05f;
+	
+		if (TexScale.x >= 2.0f) {
+			VariableStopT++;
+			if (VariableStopT > 60) {
+				SizeVariableF =false;
+			}
+		}
+	}
+	else {
+		alpha -= 0.02f;
+		VariableStopT = 0;
+		if (alpha <= 0.0f) {
+			SizeVariableF = false;
+		}
+	}
 	
 	//alpha = max(alpha, 0);
+	TexScale.x = min(TexScale.x, 2.0f);
+	TexScale.y = min(TexScale.y, 2.0f);
+	TexScale.x = max(TexScale.x, 0.0f);
+	TexScale.y = max(TexScale.y, 0.0f);
 }
 // ‚Ü‚Æ‚ß‚Ä•`‰æ
 void DebugTextSprite::DrawAll()

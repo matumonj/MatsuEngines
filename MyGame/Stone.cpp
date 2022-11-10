@@ -136,5 +136,5 @@ bool Stone_B::CollideStone()
 			return false;
 		}
 	}
-
+	return false;
 }

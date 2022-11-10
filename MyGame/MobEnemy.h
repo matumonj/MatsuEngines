@@ -41,13 +41,15 @@ public:
  
     void FbxAnimeControl(const AnimationState& animestate,bool& Judg, const float nowanimeTime, const float nextanimetime);
     void DamageParticleSet();
+  
 private:
     enum AttackType {
         VERTICAL,
         SIDEAWAY
     };
     AttackType atcktype;
-    float rand_Attackindex;
+
+    float rand_Attacktype;
     bool atc;
     bool SlashF;
     bool SlashF2;

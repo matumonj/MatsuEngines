@@ -121,7 +121,7 @@ void ExpPointSystem::expBarUpda()
 		}
 	}
 	int Tex;
-	Tex=(int)Easing::EaseOut(m_EaseTime, oldGetExp, old);
+	Tex=(int)Easing::EaseOut(m_EaseTime, float(oldGetExp), float(old));
 	
 	str << std::fixed << std::setprecision(2)
 		<<Tex;
@@ -188,7 +188,6 @@ void ExpPointSystem::Draw()
 	Sprite::PreDraw();
 	m_ExpBarFrameSprite->Draw();
 	m_ExpBarSpite->Draw();
-	DebugTextSprite::GetInstance()->DrawAll();
 	Sprite::PostDraw();
 	int num;
 	if (TextDis == true) {

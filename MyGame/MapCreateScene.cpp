@@ -57,7 +57,7 @@ void MapCreateScene::objUpdate(DebugCamera* camera)
 #pragma region 初期化
 void MapCreateScene::Initialize()
 {
-	CameraControl::GetInstance()->Initialize(CameraControl::GetInstance()->GetCamera());
+	CameraControl::GetInstance()->ParamSet();
 
 	// 3Dオブジェクトにカメラをセット
 //	Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());

@@ -30,6 +30,7 @@ public:// 静的メンバ関数
 
 	void DrawAll();
 
+
 private:
 	bool isDestoy=false;
 	void TextBeha();
@@ -67,6 +68,12 @@ private:
 
 class DebugTextSprite
 {
+private:
+	// DirectX::を省略
+	using XMFLOAT2 = DirectX::XMFLOAT2;
+	using XMFLOAT3 = DirectX::XMFLOAT3;
+	using XMFLOAT4 = DirectX::XMFLOAT4;
+	using XMMATRIX = DirectX::XMMATRIX;
 public:
 	// デバッグテキスト用のテクスチャ番号を指定
 	static const int maxCharCount = 256;// 最大文字数
@@ -86,9 +93,13 @@ public:// 静的メンバ関数
 	void DrawAll();
 
 	void FeedTex();
-private:
 
-	float alpha=1;
+	void SetAlpha(float alpha) { this->alpha = alpha; }
+private:
+	bool SizeVariableF = false;
+	int VariableStopT=0;
+	XMFLOAT2 TexScale = { 0.f,0.f };
+	float alpha=1.f;
 	// スプライトデータの配列
 	Sprite* spriteDatas[maxCharCount] = {};
 	// スプライトデータ配列の添え字番号

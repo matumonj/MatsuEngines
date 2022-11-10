@@ -41,7 +41,7 @@ void AttackCollision::GetCol(int damage)
 
 	bool attackcolJudgTime_First = PlayerControl::GetInstance()->GetPlayer()->GetFbxTime() > 1.2f&& PlayerControl::GetInstance()->GetPlayer()->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->FIRST;
 	bool attackcolJudgTime_Second = PlayerControl::GetInstance()->GetPlayer()->GetFbxTime() > 3.116f&& PlayerControl::GetInstance()->GetPlayer()->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->THIRD;
-	bool attackcolJudgTime_Third = PlayerControl::GetInstance()->GetPlayer()->GetFbxTime() > 6.6f && PlayerControl::GetInstance()->GetPlayer()->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->SECOND;
+	bool attackcolJudgTime_Third = PlayerControl::GetInstance()->GetPlayer()->GetFbxTime() >7.2f && PlayerControl::GetInstance()->GetPlayer()->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->SECOND;
 	switch (SceneManager::GetInstance()->GetScene())
 	{
 	case SceneManager::TUTORIAL:

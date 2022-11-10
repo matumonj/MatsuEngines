@@ -137,7 +137,12 @@ public: // メンバ関数
 	/// <param name="move">移動量</param>
 	void MoveVector(const XMFLOAT3& move);
 	void MoveVector(const XMVECTOR& move);
-
+	/// <summary>
+	/// ビューポート
+	/// </summary>
+	inline XMMATRIX GetViewPort() {
+		return ViewPort;
+	}
 	public:
 		XMFLOAT3 Splinepos();
 protected: // メンバ変数
@@ -151,6 +156,8 @@ protected: // メンバ変数
 	XMMATRIX matProjection = DirectX::XMMatrixIdentity();
 	// ビュー射影行列
 	XMMATRIX matViewProjection = DirectX::XMMatrixIdentity();
+	//
+	XMMATRIX ViewPort = {};
 	// ビュー行列ダーティフラグ
 	bool viewDirty = false;
 	// 射影行列ダーティフラグ

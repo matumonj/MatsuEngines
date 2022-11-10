@@ -46,14 +46,23 @@ void Enemy::RecvDamage(int Damage)
 	if (this==nullptr||EnemyHP < 0)return;
 	float texZ= PlayerControl::GetInstance()->GetPlayer()->GetPosition().z- CameraControl::GetInstance()->GetCamera()->GetEye().z;
 	float texX= PlayerControl::GetInstance()->GetPlayer()->GetPosition().x - CameraControl::GetInstance()->GetCamera()->GetEye().x;
-	DamageManager::GetIns()->DamageDisPlay(Damage, { 1,1,1,1 }, { Position.x-texX/3.0f,Position.y + 10,Position.z-texZ/3.0f });
+	damageDisF = true;
+	DamageSize = Damage;
+	DamageTexPos = Position;
+	DamageManager::GetIns()->SetTexSize(0.0f);
+	DamageManager::GetIns()->SetAlpha(1.0f);
 	if (EnemyHP <= 10) {
 		
 	}
 	EnemyHP = EnemyHP - Damage;
 	DamageParticleCreateF = true;
 }
-
+void Enemy::DamageTexDisplay()
+{
+	if (damageDisF) {
+		DamageManager::GetIns()->DamageDisPlay(DamageSize, { 1.0f,1.0f,1.0f,1.0f }, DamageTexPos);
+	}
+}
 void Enemy::isRespawn()
 {
 	EnemyHP = MaxHP;
