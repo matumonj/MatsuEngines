@@ -76,8 +76,7 @@ void PlayerAttackState::Update()
 		if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
 			SecondAttack(EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS));
 		}
-		//SecondAttack(EnemyControl::GetInstance()->GetEnemyindex(1)
-		//);
+		
 		break;
 	case PlayerAttackState::Third:
 		if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
@@ -89,16 +88,13 @@ void PlayerAttackState::Update()
 		if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS) {
 			FirstAttack(EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS));
 		}
-		//ThirdAttack(EnemyControl::GetInstance()->GetEnemyindex(1)
-		//);
+		
 		break;
 	}
 	//スキルクールダウン処理
 	SkillCoolDown(CoolDownTime);
 	HitStop();
-	//if (PlayerControl::GetInstance()->GetPlayer()->GetFbxTime() >= 1.7f) {
-		AttackCollision::GetInstance()->GetCol(Damage);
-//	}
+	AttackCollision::GetInstance()->GetCol(Damage);
 
 }
 
@@ -196,5 +192,4 @@ void PlayerAttackState::HitStop()
 	else {
 		HitStopTime = 0;
 	}
-	//
 }

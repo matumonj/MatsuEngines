@@ -344,7 +344,6 @@
     <ClInclude Include="FenceControl.h" />
     <ClInclude Include="Field.h" />
     <ClInclude Include="FieldCollision.h" />
-    <ClInclude Include="FieldControl.h" />
     <ClInclude Include="Framework.h" />
     <ClInclude Include="FrontCircleAttack.h" />
     <ClInclude Include="f_Model.h" />

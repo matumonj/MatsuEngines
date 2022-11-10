@@ -49,7 +49,7 @@ void Enemy::RecvDamage(int Damage)
 	damageDisF = true;
 	DamageSize = Damage;
 	DamageTexPos = Position;
-	DamageManager::GetIns()->SetTexSize(0.0f);
+	DamageManager::GetIns()->SetTexSize(2.0f);
 	DamageManager::GetIns()->SetAlpha(1.0f);
 	if (EnemyHP <= 10) {
 		

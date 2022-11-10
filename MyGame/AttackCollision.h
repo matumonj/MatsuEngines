@@ -20,8 +20,8 @@ private:
 	bool setf;
 	bool boss_colf;
 	std::vector<bool>Play_colf;
-	bool Hit_colf;
-	bool Hit_colf2;
+	bool HitCol;
+	bool HitCol2;
 	OBB HandObb;
 	//OBBCollision* ColObb;
 	//OBBCollision* BossColObb;

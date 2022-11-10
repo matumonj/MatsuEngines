@@ -109,10 +109,7 @@ void PlayScene::Update()
 	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 
 	lightGroup->SetCircleShadowDir(3, XMVECTOR({ circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0 }));
-	//for (int i = 0; i < 3; i++) {
 	lightGroup->SetCircleShadowCasterPos(3, { ppos});
-	//}
-	//lightGroup->SetCircleShadowCasterPos(1, XMFLOAT3(PlayerControl::GetInstance()->GetPlayer()->GetPosition()));
 	lightGroup->SetCircleShadowAtten(3, XMFLOAT3(circleShadowAtten));
 	lightGroup->SetCircleShadowFactorAngle(3, XMFLOAT2(circleShadowFactorAngle2));
 	postEffect->SetCenterpos(HUD::GetInstance()->GetMinimapSprite()->GetPosition());
@@ -121,16 +118,12 @@ void PlayScene::Update()
 			lightGroup->SetCircleShadowFactorAngle(i + 4, {0,0});
 			continue;
 		}
-		lightGroup->SetCircleShadowDir(i+4, XMVECTOR({ circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0 }));
-		//for (int i = 0; i < 3; i++) {
-		lightGroup->SetCircleShadowCasterPos(i+4, {EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetPosition()});
-		//}
-		//lightGroup->SetCircleShadowCasterPos(1, XMFLOAT3(PlayerControl::GetInstance()->GetPlayer()->GetPosition()));
-		lightGroup->SetCircleShadowAtten(i+4, XMFLOAT3(circleShadowAtten));
-		lightGroup->SetCircleShadowFactorAngle(i+4, XMFLOAT2(circleShadowFactorAngle));
+	lightGroup->SetCircleShadowDir(i+4, XMVECTOR({ circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0 }));
+	lightGroup->SetCircleShadowCasterPos(i+4, {EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetPosition()});
+	lightGroup->SetCircleShadowAtten(i+4, XMFLOAT3(circleShadowAtten));
+	lightGroup->SetCircleShadowFactorAngle(i+4, XMFLOAT2(circleShadowFactorAngle));
 
 	}
-	DamageManager::GetIns()->Upda();
 	if (CameraControl::GetInstance()->GetMoveBosAreaCam() == CameraControl::TARGETPLAYER) {
 		if (Feed::GetInstance()->GetAlpha() >= 1.0f) {//画面真っ白なったら
 			BaseScene* scene = new BossScene(sceneManager_);//次のシーンのインスタンス生成
@@ -179,19 +172,16 @@ void PlayScene::Draw()
 
 		DirectXCommon::GetInstance()->BeginDraw();
 		MyGameDraw();
-		DamageManager::GetIns()->Draw();
 		postEffect->Draw();
 		PlayerControl::GetInstance()->DamageTexDraw();
 
 		SistemConfig::GetInstance()->Draw();
 	
 		Feed::GetInstance()->Draw();
-			if (Feed::GetInstance()->GetAlpha() <= 0.0f) {
-				UI::GetInstance()->HUDDraw();
-			}
-		
+		if (Feed::GetInstance()->GetAlpha() <= 0.0f) {
+			UI::GetInstance()->HUDDraw();
+		}
 		UI::GetInstance()->AreaNameDraw();
-		AttackCollision::GetInstance()->Draw();
 		DirectXCommon::GetInstance()->EndDraw();
 		break;
 	}

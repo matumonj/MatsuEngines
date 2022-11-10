@@ -18,8 +18,7 @@ Wood::Wood()
 void Wood::Initialize(DebugCamera* camera)
 {
 	m_Object = std::make_unique<Object3d>();
-	//m_Object->CreateGraphicsPipeline(L"Resources/Shader/GrassVS.hlsl", L"Resources/Shader/GrassPS.hlsl", L"Resources/Shader/GrassGS.hlsl");
-	//フィールドにモデル割り当て
+	//モデル割り当て
 	m_Object->Initialize(camera);
 	m_Object->SetModel(ModelManager::GetIns()->GetModel(ModelManager::WOOD));
 	Scale = { 2.0f,3.0f,3.0f };

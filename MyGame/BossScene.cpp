@@ -83,7 +83,6 @@ void BossScene::Update()
 	Field::GetInstance()->SetCamera(dc);
 
 	Field::GetInstance()->Update(CameraControl::GetInstance()->GetCamera());
-	DamageManager::GetIns()->Upda();
 	postEffect->SetCenterpos(HUD::GetInstance()->GetMinimapSprite()->GetPosition());
 
 	//各オブジェクトの更新処理
@@ -145,7 +144,6 @@ void BossScene::Draw()
 		DirectXCommon::GetInstance()->BeginDraw();
 		MyGameDraw();
 		postEffect->Draw();
-		DamageManager::GetIns()->Draw();
 		PlayerControl::GetInstance()->DamageTexDraw();
 
 		//UI

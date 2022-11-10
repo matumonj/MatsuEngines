@@ -158,8 +158,7 @@ if (scenechange&& Feed::GetInstance()->GetAlpha() >= 1.0f) {//画面真っ白なったら
 		SceneManager::GetInstance()->SetScene(SceneManager::PLAY);
 		sceneManager_->SetnextScene(scene);//シーンのセット
 	}
-	DamageManager::GetIns()->Upda();
-
+	
 }
 
 /*------------------------*/
@@ -208,7 +207,6 @@ void Tutorial::Draw()
 		Sprite::PreDraw();
 		DebugTextSprite::GetInstance()->DrawAll();
 		Sprite::PostDraw();
-		DamageManager::GetIns()->Draw();
 		PlayerControl::GetInstance()->DamageTexDraw();
 		UI::GetInstance()->HUDDraw();
 		Feed::GetInstance()->Draw();

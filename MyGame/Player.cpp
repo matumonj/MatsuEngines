@@ -53,12 +53,9 @@ void Player::Initialize(DebugCamera* camera)
 	Position = { 0.0f,0.0f,0.0f };
 	Scale = { 0.02f, 0.02f, 0.02f };
 
-	
 	HP = MaxHP;
 	vel /= 5.0f;
-	rotate = RotationPrm::FRONT;
 
-	//attackEffect = std::make_unique<AttackEffect>();
 	AttackEffect::GetIns()->Init();
 }
 //80,145
@@ -68,7 +65,7 @@ void Player::Jump()
 		if (CustomButton::GetInstance()->GetJumpAction()) {
 			onGround = false;
 			const float jumpVYFist = 0.3f;
-			fallV = { 0, jumpVYFist, 0, 0 };
+			fallV = { 0.0f, jumpVYFist, 0.0f, 0.0f };
 		}
 	}
 }
@@ -77,12 +74,12 @@ void Player::ReturnGround()
 {
 	if (onGround) {
 		onGroundPos = Position;
-		nogroundtime = 0;
+		FallGroundTime = 0;
 	} else {
-		nogroundtime++;
-		if (nogroundtime > 120) {
+		FallGroundTime++;
+		if (FallGroundTime > 120) {
 			Position = onGroundPos;
-			nogroundtime = 0;
+			FallGroundTime = 0;
 		}
 	}
 }
@@ -90,7 +87,6 @@ void Player::ReturnGround()
 void Player::Move()
 {
 	if (StopFlag || evasionF)return;
-	RotationStatus();
 
 	XMFLOAT3 pos =Position;
 	XMFLOAT3 rot = Rotation;
@@ -132,12 +128,12 @@ void Player::Move()
 		Position.z += move.m128_f32[2] * movespeed;
 		Gmove = move;
 		
-		if (f_time < AttackTime) {
+		if (f_time < AttackFirTime) {
 			attackMotion = RUN;
 		}
 	}
 	else {
-		if (f_time < AttackTime) {
+		if (f_time < AttackFirTime) {
 			attackMotion = NON;
 		}
 	}
@@ -156,7 +152,6 @@ void Player::Evasion()
 			Position.z += Gmove.m128_f32[2] * Easing::EaseOut(evaTime, 15.0f, 0.0f);
 
 		}
-		//m_fbxObject->SetColor({ 0,0,0,0 });
 		if (f_time <= EvaTime_Start) {
 			f_time = EvaTime_Start;
 		}
@@ -166,7 +161,7 @@ void Player::Evasion()
 		f_time += 0.02f;
 	}
 	else {
-		m_fbxObject->SetColor({ 1,1,1,1 });
+		m_fbxObject->SetColor({ 1.0f,1.0f,1.0f,1.0f });
 		evaTime = 0.0f;
 	}
 }
@@ -174,10 +169,10 @@ void Player::Evasion()
 void Player::Update(DebugCamera* camera)
 {
 	if(m_Object==nullptr||m_fbxObject==nullptr)return;
-	ReturnGround();
-
 	//１フレーム前の座標を保存
 	oldpos = Position;
+
+	ReturnGround();
 
 	RecvDamage_Cool();
 	
@@ -187,30 +182,24 @@ void Player::Update(DebugCamera* camera)
 		evasionF = true;
 	}
 	Evasion();
+	//手のボーン位置設定
 	m_fbxObject->SetHandBoneIndex(hindex);
 	m_fbxObject->SetFogPos(Position);
 	//3d_fbx更新
 	FbxAnimationControl();
-
+	//fbxのタイマー処理
 	m_fbxObject->SetFbxTime(f_time);
-	//3d更新
+	//当たり判定
 	CollisionField(camera);
 
 	ParameterSet_Obj(camera);
 	ParameterSet_Fbx(camera);
-	
-		//手のボーン取得
-	HandMat = m_fbxObject->GetRot();
-
+	//持つ武器の更新
 	SelectSword::GetInstance()->Update();
-
+	//攻撃エフェクトだの
 	AttackEffect::GetIns()->Upda();
 }
 
-void Player::RotationStatus()
-{
-	
-}
 
 void Player::Draw()
 {
@@ -227,6 +216,7 @@ void Player::Draw()
 
 void Player::FbxAnimationControls(const AttackMotion& motiontype,const float attacktime,const float nextAnimationtime)
 {
+	//複数アニメーション読み込んだらこれら消す
 	//if (evasionF)return;
 	if (attackMotion == motiontype) {
 		if (f_time <= attacktime) {
@@ -237,12 +227,12 @@ void Player::FbxAnimationControls(const AttackMotion& motiontype,const float att
 		}
 	}
 
-	/*歩きと待機モーションどうするかこっちで独自に作るのありかどうか*/
+	/*歩きと待機モーションどうするか*/
 	if (attackMotion == NON) {
 		f_time = 0;
 	}
 	if (attackMotion == RUN) {
-		if (f_time >= AttackTime) {
+		if (f_time >= AttackFirTime) {
 			f_time = 0;
 		}
 
@@ -255,7 +245,7 @@ void Player::FbxAnimationControl()
 	float timespeed = 0.02f;
 
 	if (attackMotion == FIRST) {
-		if (f_time >= sectime) {
+		if (f_time >= AttackThiTime) {
 			AnimationEndJudg_FirstAttack = true;
 		}
 	} else if (attackMotion == SECOND) {
@@ -296,8 +286,8 @@ void Player::FbxAnimationControl()
 		timespeed = 0.005f;
 	}
 	f_time += timespeed;
-	FbxAnimationControls(FIRST, AttackTime, sectime+0.3f);
-	FbxAnimationControls(THIRD, sectime, EvaTime_Start);
+	FbxAnimationControls(FIRST, AttackFirTime, AttackThiTime +0.3f);
+	FbxAnimationControls(THIRD, AttackThiTime, EvaTime_Start);
 	FbxAnimationControls(SECOND, AttackSecTime, m_fbxObject->GetEndTime());
 }
 
@@ -320,10 +310,10 @@ void Player::RecvDamage(int Damage)
 	if (HP >= 0) {
 		HP = HP - Damage;
 	}
-	recvdamage=true;
 }
 
 XMFLOAT3 Player::MoveVECTOR(XMVECTOR v, float angle) {
+	XMMATRIX rot2 = {};
 	rot2 = XMMatrixRotationY(XMConvertToRadians(angle));
 	v = XMVector3TransformNormal(v, rot2);
 	XMFLOAT3 pos = { v.m128_f32[0],v.m128_f32[1] ,v.m128_f32[2] };
@@ -340,11 +330,4 @@ void Player::RecvDamage_Cool()
 
 	CoolTime = min(CoolTime, 120);
 	CoolTime = max(CoolTime, 0);
-}
-
-XMFLOAT3 Player::GetHandPos()
-{
-	XMFLOAT3 hPos;
-	hPos = { HandMat.r[3].m128_f32[0] ,HandMat.r[3].m128_f32[1] ,HandMat.r[3].m128_f32[2] };
-	return hPos;
 }

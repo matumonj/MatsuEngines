@@ -10,7 +10,6 @@ void NormalSword::Initialize(DebugCamera* camera)
 	m_Object = std::make_unique<Object3d>();
 
 	m_Model = Model::CreateFromOBJ("sword");
-	//m_Object->CreateGraphicsPipeline(L"Resources/Shader/Object3dVS.hlsl", L"Resources/Shader/Object3dPS.hlsl", L"Resources/Shader/BasicGS.hlsl");
 	//ƒ‚ƒfƒ‹Š„‚è“–‚Ä
 	m_Object->Initialize(camera);
 	m_Object->SetModel(m_Model);

@@ -19,7 +19,6 @@ public:
 
 public:
 	static Player* Create(Model* model, DebugCamera* camera);
-	
 	static Player* GetInstance();
 
 public:
@@ -33,89 +32,80 @@ public:
 public:
 	//受攻撃
 	void RecvDamage(int Damage);
-	//
+	//受攻撃後再度攻撃食らうまで
 	void RecvDamage_Cool();
 	
 private:
+	Input* input = Input::GetInstance();
 	//fbxtime制御
 	void FbxAnimationControl();
+	//落下防止
 	void ReturnGround();
+	//ジャンプ
 	void Jump();
+	//移動処理まとめ
 	void Move();
-	bool evasionF;
-	float evaTime;
-	XMFLOAT3 EvaPos;
-	bool recvdamage;
+
+private:
+	//回避フラグ
+	bool evasionF=false;
+	//イージング用
+	float evaTime=0.0f;
+	//回避後の座標
+	XMFLOAT3 EvaPos={};
+	//回避処理
 	void Evasion();
 public:
 	//OBBの当たり判定に使うプレイヤーの回転行列取得
 	XMMATRIX GetMatrot();
-	XMMATRIX GetHandMatRot() { return m_fbxObject->GetRotmatrix(); }
-	XMFLOAT3 GetHandRotation_xyz() { return m_fbxObject->GetHandRotation(); }
 	//SelectSwordに使うプレイヤーの手のワールド行列
-	XMMATRIX GetHanMat() { return HandMat; };
+	XMMATRIX GetHanMat() { return  m_fbxObject->GetRot(); }
 	//座標の押し戻し
 	void isOldPos() {
 		Position.x = oldpos.x; Position.z = oldpos.z;
 	}
+	//プレーヤーの動き止める
 	void SetStopFlag(bool f) { StopFlag = f; }
-	bool GetrecvDamage() { return recvdamage; }
-	void SetRecvDamageF(bool f) {  recvdamage=f; }
 private:
 	//プレイヤーが持つ剣
-	SwordBase* sword;
-	XMFLOAT3 SwordPos;
-	XMFLOAT3 SwordRot;
-	//前座標
-	XMFLOAT3 oldpos;
+	std::unique_ptr<SwordBase> sword=nullptr;
+	XMFLOAT3 SwordPos={};
+	XMFLOAT3 SwordRot={};
 
-	XMFLOAT3 onGroundPos;
-	//手行列
-	XMMATRIX HandMat;
+private:
+	//前座標
+	XMFLOAT3 oldpos={};
+	//接地時間
+	XMFLOAT3 onGroundPos={};
 	//体力周り
-	int HP;
+	int HP=0;
+	//最大体力
 	const int MaxHP = 100;
 	//
-	int CoolTime;
-	//プレイヤーの回転用
-	enum class RotationPrm {
-		RIGHT,//右
-		LEFT,//左
-		FRONT,//前
-		BACK,//後ろ
-	};
+	int CoolTime=0;
+	//
 	float angle;
-	//カメラに合わせたキャラクターの回転
-	float CharaRotation = 0;
-	XMMATRIX rot2;
-	XMVECTOR v;
-
-	RotationPrm rotate;
+	//teisi
 	bool StopFlag;
+	//
+	int FallGroundTime = 0;
+public:
+	int GetHP() { return HP; }
+	int GetMaxHP() { return MaxHP; }
+
 private:
-	float vel;
+	float vel=0.0f;
+	bool jumpflag=false;
+	float movespeed = 7.0f;
 	XMFLOAT3 MoveVECTOR(DirectX::XMVECTOR v, float angle);
-	Input* input = Input::GetInstance();
-	f_Model* fbxmodel = nullptr;
-	f_Object3d* object1 = nullptr;
-	Object3d* obj;
 private:
 	bool noAttack;
-	int nogroundtime;
-	bool jumpflag;
-	float movespeed = 7.0f;
+
 	XMVECTOR Gmove;
 public:
 	XMVECTOR GetPlayerMove() { return Gmove; }
 	void Setangle(float angle) { this->angle = angle; }
-	void RotationStatus();
 	
-	void SetCharaRotation(float angle) { Rotation.y = angle; rotate = RotationPrm::FRONT; }
-	
-	int GetHP() { return HP; }
-	
-	int GetMaxHP() { return MaxHP; }
-
 	float GetFbxTime() { return f_time; }
 
 	bool GetNowAttack() { return nowattack; }
@@ -130,8 +120,8 @@ public:
 	void FbxAnimationControls(const AttackMotion& motiiontype,const float attacktime=0,const float nextAnimation=0);
 	void SetnoAttack(bool f) { noAttack = f; }
 	bool GetnoAttack() { return noAttack; }
-	XMFLOAT3 GetHandPos();
 private:
+	/*ここから後まとめて消す*/
 	AttackMotion OldattackMotion = NON;
 	AttackMotion attackMotion=NON;
 	bool AnimationEndJudg_FirstAttack=false;
@@ -141,16 +131,21 @@ private:
 	int ComboCoolT = 0;
 	bool SecAttack=false;
 	bool nowSecAttack=false;
-	float sectime=1.8f;
-	float f_time=0.0f;
-	float AttackTime = 0.571f;
-	float DeathTime =20.1f;
+	bool AttackFlag = false;
+	bool nowattack = false;
+	//各アニメーションのスタート時間
+	const float AttackThiTime =1.8f;
+	const float AttackSecTime = 6.476f;
+	const float AttackFirTime = 0.571f;
+	
 	const float EvaTime_Start = 5.5f;
 	const float EvaTime_End = 6.5f;
-	const float AttackSecTime = 6.476f;
-	bool AttackFlag;
-	bool nowattack;
 
+	const float DeathTime = 20.1f;
+
+	float f_time=0.0f;
+
+	//手のボーンインデックス
 	int hindex=29;
 };
 

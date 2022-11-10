@@ -35,10 +35,7 @@ public:
 	virtual void Draw() = 0;
 	void CollisionField(DebugCamera* camera);
 
-	void ChangeShader(int Num);
-	void SetCreateShader(bool f) { ShaderCreateF = f; }
 protected:
-	bool ShaderCreateF=false;
 	std::unique_ptr<Object3d> m_Object=nullptr;
 	Model* m_Model=nullptr;
 
