@@ -223,9 +223,9 @@ void DirectXCommon::BeginDraw()
 	cmdList->ClearDepthStencilView(dsvH, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 	//viewポート領域の設定
 	
-	cmdList->RSSetViewports(1, &CD3DX12_VIEWPORT(0.0f, 0.0f,wx,wy));
+	cmdList->RSSetViewports(1, &CD3DX12_VIEWPORT(0.0f, 0.0f, (FLOAT)wx, (FLOAT)wy));
 	//シザー短形の設定
-	cmdList->RSSetScissorRects(1, &CD3DX12_RECT(0.0f, 0.0f, wx, wy));
+	cmdList->RSSetScissorRects(1, &CD3DX12_RECT((LONG)0.0f, (LONG)0.0f, (LONG)wx, (LONG)wy));
 	ImguiDraw();
 }
 #pragma endregion

@@ -215,7 +215,7 @@ void TutorialSprite::Draw()
 		}
 	}
 	for (int i = 0; i < TaskNum; i++) {
-		Task[i]->Draw();
+		//Task[i]->Draw();
 	}
 	
 	Sprite::PostDraw();

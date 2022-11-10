@@ -34,7 +34,7 @@ void CameraControl::Finalize()
 /*----------csv-----------*/
 void CameraControl::ParamSet()
 {
-	startindex = 1.0f;
+	startindex = size_t(1.0f);
 	startCount = 0.0f;
 	nowCount = 0.0f;
 	elapsedCount = 0.0f;
@@ -135,7 +135,7 @@ void CameraControl::Init_Play(DebugCamera* camera)
 	//Load_ChestPosition.resize(Quantity);
 	this->camera->SetEye(pos[0]);
 	UpdateRange = 200.0f;
-	startCount = GetTickCount64();
+	startCount = float(GetTickCount64());
 
 
 	dis.x = sinf(angle * (PI / 180.0f)) * 30.0f;
@@ -423,7 +423,7 @@ void CameraControl::PlaySceneStart()
 		}
 		break;
 	case SPLINE:
-		nowCount = GetTickCount64();
+		nowCount = float(GetTickCount64());
 		elapsedCount = nowCount - startCount;
 		 elapsedTime = static_cast<float>(elapsedCount) / 1000.0f;
 
@@ -434,7 +434,7 @@ void CameraControl::PlaySceneStart()
 				startindex++;
 				timerate -= 1;
 
-				startCount = GetTickCount64();
+				startCount = float(GetTickCount64());
 			} else
 			{
 				timerate = 1;

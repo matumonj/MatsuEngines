@@ -35,12 +35,9 @@ public:
 	void Finalize()override;
 
 	enum EnemyType {
+		NON,
 		TUTORIAL,
 		PLAYSCENE,
-		GUARDIAN_RED,
-		GUARDIAN_BLUE,
-		GUARDIAN_YELLOW,
-		GUARDIAN_GREEN,
 		BOSS,
 	};
 	int index = 0;

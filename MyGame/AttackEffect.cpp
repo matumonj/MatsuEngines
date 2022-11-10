@@ -123,7 +123,7 @@ void AttackEffect::Upda()
 	XMFLOAT3 ppos = { SelectSword::GetInstance()->GetSword()->GetMatWorld().r[3].m128_f32[0],SelectSword::GetInstance()->GetSword()->GetMatWorld().r[3].m128_f32[1],SelectSword::GetInstance()->GetSword()->GetMatWorld().r[3].m128_f32[2] };
 	XMVECTOR pmove = PlayerControl::GetInstance()->GetPlayer()->GetPlayerMove();
 	float protY = PlayerControl::GetInstance()->GetPlayer()->GetRotation().y + 62.0f;
-	if (CustomButton::GetInstance()->GetAttackAction()) {
+	if (CustomButton::GetInstance()->GetAttackAction()&&PlayerControl::GetInstance()->GetPlayer()->GetAttackType()== PlayerControl::GetInstance()->GetPlayer()->FIRST) {
 		//攻撃の種類
 		etype = SLASH_FIRST;
 		//テクスチャ読み込み
@@ -133,7 +133,13 @@ void AttackEffect::Upda()
 		TexPos={ ppos.x + pmove.m128_f32[0] * 10.f,ppos.y+3.0f ,ppos.z + pmove.m128_f32[2] * 10.f };
 		TexRot={ 0.0f,protY, -135.0f };
 	}
-	
+	else if (CustomButton::GetInstance()->GetAttackAction() && PlayerControl::GetInstance()->GetPlayer()->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->SECOND) {
+		//攻撃の種類
+		etype = SLASH_FIRST;
+		TexScl = { 2,0,0 };
+		TexPos = { ppos.x + pmove.m128_f32[0] * 10.f,ppos.y + 3.0f ,ppos.z + pmove.m128_f32[2] * 10.f };
+		TexRot = { 0.0f,protY, 45.0f };
+	}
 
 	if (etype == SLASH_FIRST) {
 		TexScl.y += 0.1f;

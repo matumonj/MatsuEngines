@@ -214,6 +214,10 @@ void Player::RotationStatus()
 
 void Player::Draw()
 {
+	ImGui::Begin("fTime");
+	ImGui::SliderInt("t", &hindex, 0, 30);
+	ImGui::Text("%d", OldattackMotion);
+	ImGui::End();
 	Draw_Fbx();
 	SelectSword::GetInstance()->SwordDraw();
 
@@ -250,29 +254,57 @@ void Player::FbxAnimationControl()
 	if (evasionF||noAttack)return;
 	float timespeed = 0.02f;
 
-	if (CustomButton::GetInstance()->GetAttackAction() == true ) {
-		AttackFlag = true;
-		attackMotion = FIRST;
+	if (attackMotion == FIRST) {
+		if (f_time >= sectime) {
+			AnimationEndJudg_FirstAttack = true;
+		}
+	} else if (attackMotion == SECOND) {
+		if (f_time >= m_fbxObject->GetEndTime()-0.2f) {
+			AnimationEndJudg_SecondAttack = true;
+		}
 	}
-	if (CustomButton::GetInstance()->Get2AttackAction() == true) {
-		SecAttack = true;
-		attackMotion = SECOND;
+
+	if (OldattackMotion == NON) {
+		if (CustomButton::GetInstance()->GetAttackAction() == true) {
+			attackMotion = FIRST;
+			OldattackMotion = FIRST;
+		}
+	}
+	if (OldattackMotion == FIRST && AnimationEndJudg_FirstAttack) {
+		if (CustomButton::GetInstance()->GetAttackAction() == true) {
+			attackMotion = SECOND;
+			OldattackMotion = SECOND;
+		}
+	}
+
+	if (OldattackMotion == SECOND && AnimationEndJudg_SecondAttack) {
+		if (CustomButton::GetInstance()->GetAttackAction() == true) {
+			AnimationEndJudg_FirstAttack = false;
+			attackMotion = THIRD;
+			OldattackMotion = THIRD;
+		}
+	}
+
+	
+	if (OldattackMotion == THIRD) {
+		if (f_time >=EvaTime_Start-0.2f) {
+			AnimationEndJudg_SecondAttack = false;
+			OldattackMotion = NON;
+		}
 	}
 	if (PlayerAttackState::GetInstance()->GetHitStopJudg()) {
 		timespeed = 0.005f;
 	}
 	f_time += timespeed;
 	FbxAnimationControls(FIRST, AttackTime, sectime+0.3f);
-	FbxAnimationControls(SECOND, sectime, m_fbxObject->GetEndTime());
-	
+	FbxAnimationControls(THIRD, sectime, EvaTime_Start);
+	FbxAnimationControls(SECOND, AttackSecTime, m_fbxObject->GetEndTime());
 }
 
 
 XMMATRIX Player::GetMatrot()
 {
-	if (m_fbxObject != nullptr) {
-		return m_fbxObject->GetMatrot();
-	}
+	return m_fbxObject->GetMatrot();
 }
 #include"CameraControl.h"
 void Player::RecvDamage(int Damage)

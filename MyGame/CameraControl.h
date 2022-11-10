@@ -16,7 +16,6 @@ public:
        MAPCREATE,
         PLAYER,
         TUTORIAL,
-        ENCOUNTGUARDIAN,
         MOVEBOSSAREA,
         PLAYCUTSCENE,
         BOSSCUTSCENE

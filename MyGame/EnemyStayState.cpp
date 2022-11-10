@@ -10,7 +10,7 @@ void EnemyStayState::Initialize(Enemy* enemy)
 }
 void EnemyStayState::Update(Enemy* enemy)
 {
-	float RandMove = rand() % 90 + 40;
+	float RandMove = (float)(rand() % 90 + 40);
 	if (StayCount == 0) {
 		//イージング掛ける前の敵の向き
 		BeforeRot = enemy->GetRotation().y;

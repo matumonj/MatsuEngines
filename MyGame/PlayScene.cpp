@@ -45,16 +45,6 @@ void PlayScene::Initialize()
 		AllObjectControl.push_back(FenceControl::GetInstance());
 	}
 
-	//各オブジェクト初期化
-	Field::GetInstance()->Initialize((CameraControl::GetInstance()->GetCamera()));
-
-	for (int i = 0; i < AllObjectControl.size(); i++) {
-		AllObjectControl[i]->Initialize((CameraControl::GetInstance()->GetCamera()));
-	}
-	//カメラをセット
-	f_Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
-	//グラフィックパイプライン生成
-	f_Object3d::CreateGraphicsPipeline();
 	//ミニマップ用のカメラ　後で別のところに移す
 	dc = new DebugCamera(WinApp::window_width, WinApp::window_height);
 
@@ -62,9 +52,7 @@ void PlayScene::Initialize()
 	postEffect = new MinimapSprite();
 	postEffect->Initialize();
 
-	//カメラ挙動をプレイカットシーン
-	CameraControl::GetInstance()->SetCameraState(CameraControl::PLAYCUTSCENE);
-
+	
 }
 
 /*------------------------*/
@@ -73,10 +61,8 @@ void PlayScene::Initialize()
 void PlayScene::objUpdate(DebugCamera* camera)
 {
 	if (PlayGame) {
-		AllObjectControl[1]->Update(CameraControl::GetInstance()->GetCamera());
-		AllObjectControl[0]->Update(CameraControl::GetInstance()->GetCamera());
-
-		for (int i = 2; i < AllObjectControl.size(); i++) {
+		for (int i = 0; i < AllObjectControl.size(); i++) {
+			if (AllObjectControl[i] == nullptr)continue;
 			AllObjectControl[i]->Update((CameraControl::GetInstance()->GetCamera()));
 		}
 	}
@@ -87,12 +73,12 @@ void PlayScene::objUpdate(DebugCamera* camera)
 		 300.0f,
 		PlayerControl::GetInstance()->GetPlayer()->GetPosition().z - 1 });
 	Field::GetInstance()->SetCamera(dc);
-	
-	Field::GetInstance()->Update((CameraControl::GetInstance()->GetCamera()));
 
-	UI::GetInstance()->HUDUpdate(hudload, (CameraControl::GetInstance()->GetCamera()));
+	if (CameraControl::GetInstance()->GetCamera() != nullptr) {
+		Field::GetInstance()->Update((CameraControl::GetInstance()->GetCamera()));
+		UI::GetInstance()->HUDUpdate(hudload, (CameraControl::GetInstance()->GetCamera()));
+	}
 }
-
 /*------------------------*/
 /*--------更新処理--------*/
 /*-----------------------*/
@@ -218,13 +204,24 @@ void PlayScene::LoadParam(DebugCamera* camera)
 {
 	if (Load) {
 		for (int i = 0; i < AllObjectControl.size(); i++) {
-			AllObjectControl[i]->Load((CameraControl::GetInstance()->GetCamera()));
-			for (int i = 3; i < EnemyControl::GetInstance()->GetQuentity()+4; i++) {
-				lightGroup->SetDirLightActive(i, true);
-				lightGroup->SetPointLightActive(i, false);
-				lightGroup->SetCircleShadowActive(i, true);
-			}
+			AllObjectControl[i]->Initialize((CameraControl::GetInstance()->GetCamera()));
 		}
+		//カメラをセット
+		f_Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
+		//グラフィックパイプライン生成
+		f_Object3d::CreateGraphicsPipeline();
+
+		for (int i = 3; i < EnemyControl::GetInstance()->GetQuentity() + 4; i++) {
+			lightGroup->SetDirLightActive(i, true);
+			lightGroup->SetPointLightActive(i, false);
+			lightGroup->SetCircleShadowActive(i, true);
+		}
+		//各オブジェクト初期化
+		Field::GetInstance()->Initialize((CameraControl::GetInstance()->GetCamera()));
+		//カメラ挙動をプレイカットシーン
+		CameraControl::GetInstance()->SetCameraState(CameraControl::PLAYCUTSCENE);
+
+
 		hudload = true;
 		Load = false;
 		PlayGame = true;

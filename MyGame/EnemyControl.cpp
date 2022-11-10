@@ -151,7 +151,7 @@ void EnemyControl::Init_Boss(DebugCamera* camera)
 
 void EnemyControl::Load(DebugCamera* camera)
 {
-	
+
 }
 /*------------------------*/
 /*--------XVˆ—---------*/
@@ -159,13 +159,13 @@ void EnemyControl::Load(DebugCamera* camera)
 void EnemyControl::Update_Tutorial(DebugCamera* camera)
 {
 	if (enemys[EnemyType::TUTORIAL][0] == nullptr)return;
-		if (TutorialSprite::GetInstance()->GetClearMove()) {
-			//enemys[EnemyType::TUTORIAL][0]->SetMoveFlag(true);
-			enemys[EnemyType::TUTORIAL][0]->Update(camera);
-		}
-		if (enemys[EnemyType::TUTORIAL][0]->GetObjAlpha() <= 0) {
-			Destroy_unique(enemys[EnemyType::TUTORIAL][0]);
-		}
+	if (TutorialSprite::GetInstance()->GetClearMove()) {
+		//enemys[EnemyType::TUTORIAL][0]->SetMoveFlag(true);
+		enemys[EnemyType::TUTORIAL][0]->Update(camera);
+	}
+	if (enemys[EnemyType::TUTORIAL][0]->GetObjAlpha() <= 0) {
+		Destroy_unique(enemys[EnemyType::TUTORIAL][0]);
+	}
 }
 void EnemyControl::Update_Play(DebugCamera* camera)
 {
@@ -173,24 +173,24 @@ void EnemyControl::Update_Play(DebugCamera* camera)
 
 	for (int i = 0; i < Quantity; i++) {
 		if (enemys[EnemyType::PLAYSCENE][i] == nullptr) continue;
-			if (Collision::GetLength(pPos, enemys[EnemyType::PLAYSCENE][i]->GetPosition()) < 200) {
-				enemys[EnemyType::PLAYSCENE][i]->SetMoveFlag(true);
-				enemys[EnemyType::PLAYSCENE][i]->Update(camera);
-			}
-			if (enemys[EnemyType::PLAYSCENE][i]->GetObjAlpha() <= 0) {
-				Destroy_unique(enemys[EnemyType::PLAYSCENE][i]);
-			}
+		if (Collision::GetLength(pPos, enemys[EnemyType::PLAYSCENE][i]->GetPosition()) < 200) {
+			enemys[EnemyType::PLAYSCENE][i]->SetMoveFlag(true);
+			enemys[EnemyType::PLAYSCENE][i]->Update(camera);
 		}
-	
+		if (enemys[EnemyType::PLAYSCENE][i]->GetObjAlpha() <= 0) {
+			Destroy_unique(enemys[EnemyType::PLAYSCENE][i]);
+		}
+	}
+
 }
 void EnemyControl::Update_Boss(DebugCamera* camera)
 {
 	if (enemys[EnemyType::BOSS][0] == nullptr) return;
 	enemys[EnemyType::BOSS][0]->Update(camera);
-		gigaboss->Update(camera);
-		if (enemys[EnemyType::BOSS][0]->GetObjAlpha() <= 0) {
-			Destroy_unique(enemys[EnemyType::BOSS][0]);
-		}
+	gigaboss->Update(camera);
+	if (enemys[EnemyType::BOSS][0]->GetObjAlpha() <= 0) {
+		Destroy_unique(enemys[EnemyType::BOSS][0]);
+	}
 }
 
 /*------------------------*/
@@ -235,20 +235,18 @@ void EnemyControl::Draw_Boss()
 
 
 
-std::vector<std::unique_ptr<Enemy>>&EnemyControl::GetEnemy(EnemyType type)
+std::vector<std::unique_ptr<Enemy>>& EnemyControl::GetEnemy(EnemyType type)
 {
-	switch (type)
-	{
-	case TUTORIAL:
+	if (type == TUTORIAL) {
 		return enemys[EnemyType::TUTORIAL];
-		break;
-	case PLAYSCENE:
-		return enemys[EnemyType::PLAYSCENE];
-		break;
-	case BOSS:
-		return enemys[EnemyType::BOSS];
-		break;
-	default:
-		break;
 	}
+	if (type == PLAYSCENE) {
+		return enemys[EnemyType::PLAYSCENE];
+	}
+	if (type == BOSS) {
+		return enemys[EnemyType::BOSS];
+	}
+
+	return enemys[EnemyType::NON];
+	
 }

@@ -16,7 +16,7 @@ void main(
 	float3 center = { (input[0].svpos.xyz + input[1].svpos.xyz + input[2].svpos.xyz) / 3 };
 	float3 posworld = mul(viewproj, mul(world, float4(center, 1.0f)));
 	float3 dist = length(cameraPos - posworld);
-	float destruction = clamp(150 - dist, 0, 1);
+	float destruction = clamp(100 - dist, 0, 1);
 	float4 offset = float4(0, 0, 0, 0);
 
 	float3 vec1 = input[1].svpos.xyz - input[0].svpos.xyz;
@@ -32,7 +32,7 @@ void main(
 		element.svpos = input[i].svpos;
 
 		if (gsflag) {
-			element.svpos.xyz = center + (element.svpos.xyz - center) * (1 - destruction * 0.9);//mul(viewproj, element.svpos);
+			element.svpos.xyz = center + (element.svpos.xyz - center) * (1 - destruction * 1.0);//mul(viewproj, element.svpos);
 		}
 		if (destF) {
 			element.svpos.xyz+=input[i].normal* rand(center.xy) * ((0.5f +desttime)* 0.9);

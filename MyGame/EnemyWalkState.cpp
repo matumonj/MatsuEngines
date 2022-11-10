@@ -13,8 +13,8 @@ void EnemyWalkState::Initialize(Enemy* enmey)
 void EnemyWalkState::Update(Enemy* enemy)
 {
 
-	float RandMove = rand() % 90 + 20;
-	float RandMovement = rand() % 180 + 120;
+	float RandMove = float(rand() % 90 + 20);
+	float RandMovement = float(rand() % 180 + 120);
 	//õ“G”ÍˆÍ
 	const float DetectionRange = 50.0f;
 

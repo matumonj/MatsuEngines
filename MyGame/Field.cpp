@@ -144,7 +144,9 @@ void Field::Update_Tutorial(DebugCamera* camera)
 void Field::Update_Play(DebugCamera* camera)
 {
 	if (CameraControl::GetInstance()->GetCameraState_Spline() != CameraControl::PLAYCUTEND) {
-		FogCenterPos = camera->GetEye();
+		if (camera!= nullptr) {
+			FogCenterPos = camera->GetEye();
+		}
 	}
 	else {
 		FogCenterPos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
@@ -166,22 +168,7 @@ void Field::Update_Play(DebugCamera* camera)
 	playerpoint->SetBillboard(true);
 	playerpoint->SetColor({ 1.0f,1.0f,1.0f,1.0f });
 
-	for (int i = 0; i < EnemyIconSize; i++) {
-		if (Enemyicon[i] == nullptr || Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[i]->GetPosition()) > 100) {
-			continue;
-		}
-		Enemyicon[i]->SetPosition({ EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[i]->GetPosition().x,
-			EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[i]->GetPosition().y + 10.0f,
-			EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[i]->GetPosition().z });
-		Enemyicon[i]->Update(dc);
-		Enemyicon[i]->SetScale({ 4.0f,4.0f,4.0f });
-		Enemyicon[i]->SetBillboard(true);
-		Enemyicon[i]->SetColor({ 1.0f,1.0f,1.0f,1 });
-
-		if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[i]->GetHP() <= 0) {
-			Destroy_unique(Enemyicon[i]);
-		}
-	}
+	
 }
 
 void Field::Update_Edit(DebugCamera* camera)

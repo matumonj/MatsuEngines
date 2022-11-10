@@ -40,7 +40,8 @@ void AttackCollision::GetCol(int damage)
 	HandObb.SetOBBParam_Scl({ 5.0f,10.0f,5.0f });
 
 	bool attackcolJudgTime_First = PlayerControl::GetInstance()->GetPlayer()->GetFbxTime() > 1.2f&& PlayerControl::GetInstance()->GetPlayer()->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->FIRST;
-	bool attackcolJudgTime_Second = PlayerControl::GetInstance()->GetPlayer()->GetFbxTime() > 3.116f&& PlayerControl::GetInstance()->GetPlayer()->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->SECOND;
+	bool attackcolJudgTime_Second = PlayerControl::GetInstance()->GetPlayer()->GetFbxTime() > 3.116f&& PlayerControl::GetInstance()->GetPlayer()->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->THIRD;
+	bool attackcolJudgTime_Third = PlayerControl::GetInstance()->GetPlayer()->GetFbxTime() > 6.6f && PlayerControl::GetInstance()->GetPlayer()->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->SECOND;
 	switch (SceneManager::GetInstance()->GetScene())
 	{
 	case SceneManager::TUTORIAL:
@@ -55,7 +56,7 @@ void AttackCollision::GetCol(int damage)
 				continue;
 			}
 			if (PlayerControl::GetInstance()->GetPlayer()->GetAttackType() != PlayerControl::GetInstance()->GetPlayer()->NON && PlayerControl::GetInstance()->GetPlayer()->GetAttackType() != PlayerControl::GetInstance()->GetPlayer()->RUN) {
-				if (attackcolJudgTime_First || attackcolJudgTime_Second) {
+				if (attackcolJudgTime_First || attackcolJudgTime_Second|| attackcolJudgTime_Third) {
 					if (Collision::CheckOBBCollision(HandObb, EnemyOBB[0]) == true && !Hit_colf) {
 						AttackEffect::GetIns()->SetParticle(EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition());
 
@@ -76,8 +77,7 @@ void AttackCollision::GetCol(int damage)
 	case SceneManager::PLAY:
 		ColOBB(PLAY);
 
-
-		if (PlayerControl::GetInstance()->GetPlayer()->GetFbxTime() < 0.48f) {
+		if (CustomButton::GetInstance()->GetAttackAction() || CustomButton::GetInstance()->Get2AttackAction()) {
 			Hit_colf = false;
 		}
 		for (int i = 0; i < EnemyOBB.size(); i++) {
@@ -85,9 +85,12 @@ void AttackCollision::GetCol(int damage)
 				continue;
 			}
 			if (PlayerControl::GetInstance()->GetPlayer()->GetAttackType() != PlayerControl::GetInstance()->GetPlayer()->NON && PlayerControl::GetInstance()->GetPlayer()->GetAttackType() != PlayerControl::GetInstance()->GetPlayer()->RUN) {
-				if (Collision::CheckOBBCollision(HandObb, EnemyOBB[i]) == true && !Hit_colf) {
-					EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i]->RecvDamage(damage);
-					Hit_colf = true;
+				if (attackcolJudgTime_First || attackcolJudgTime_Second || attackcolJudgTime_Third) {
+					if (Collision::CheckOBBCollision(HandObb, EnemyOBB[i]) == true && !Hit_colf) {
+						AttackEffect::GetIns()->SetParticle(EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetPosition());
+						EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i]->RecvDamage(damage);
+						Hit_colf = true;
+					}
 				}
 			}
 		}

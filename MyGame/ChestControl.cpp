@@ -92,6 +92,7 @@ void ChestControl::Init_Play(DebugCamera* camera)
 	}
 	Load_ChestPosition.resize(Quantity);
 
+	chests.resize(4);
 	for (int i = 0; i < 4; i++) {
 		chests[i] = std::make_unique<Chest>();
 		chests[i]->Initialize(camera);

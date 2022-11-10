@@ -47,7 +47,9 @@ void Enemy::RecvDamage(int Damage)
 	float texZ= PlayerControl::GetInstance()->GetPlayer()->GetPosition().z- CameraControl::GetInstance()->GetCamera()->GetEye().z;
 	float texX= PlayerControl::GetInstance()->GetPlayer()->GetPosition().x - CameraControl::GetInstance()->GetCamera()->GetEye().x;
 	DamageManager::GetIns()->DamageDisPlay(Damage, { 1,1,1,1 }, { Position.x-texX/3.0f,Position.y + 10,Position.z-texZ/3.0f });
-	PlayerAttackState::GetInstance()->SetHitStopJudg(TRUE);
+	if (EnemyHP <= 10) {
+		
+	}
 	EnemyHP = EnemyHP - Damage;
 	DamageParticleCreateF = true;
 }

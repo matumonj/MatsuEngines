@@ -9,7 +9,7 @@
 #include"Collision.h"
 #include"PlayerControl.h"
 #include<iomanip>
-
+#include"PlayerAttackState.h"
 /// <summary>
 /// コンストラクタ
 /// </summary>
@@ -38,7 +38,7 @@ void MobEnemy::Initialize(DebugCamera* camera)
 	m_Object = std::make_unique<Object3d>();
 	m_Object->Initialize(camera);
 	//m_Object->CreateGraphicsPipeline(L"Resources/Shader/Object3dVS.hlsl", L"Resources/Shader/Object3dPS.hlsl", L"Resources/Shader/BasicGS.hlsl");
-	EnemyHP = 80.0f;
+	EnemyHP = 50.0f;
 	MaxHP = 80.0f;
 	//パラメータのセット
 	Rotation = { -163.0f,71.0f,-16.0f };
@@ -148,8 +148,9 @@ void MobEnemy::Death()
 		//f_time = DeathTime;
 		//if (f_time > DeathTime) {
 		DeathFlag = true;
-		EnemyHP = MaxHP;
+		//EnemyHP = MaxHP;
 	}
+	PlayerAttackState::GetInstance()->SetHitStopJudg(TRUE);
 	//if (f_time < DeathTime) {
 		//f_time = DeathTime;
 //	}
@@ -158,17 +159,16 @@ void MobEnemy::Death()
 	//}
 }
 
-#include"PlayerAttackState.h"
 void MobEnemy::FbxAnimationControl()
 {
-	float fbxanimationTime = 0.01f;
+	float fbxanimationTime = 0.02f;
 	//1フレーム進める
 	if (PlayerAttackState::GetInstance()->GetHitStopJudg()) {
 		fbxanimationTime = 0.000f;
 	}
 	f_time += fbxanimationTime;
 		if (f_AttackFlag) {
-				rand_Attackindex = rand() % 100;
+				rand_Attackindex = (float)(rand() % 100);
 				if (rand_Attackindex <= 50) {
 					atcktype = SIDEAWAY;
 					f_time = AttackTime;

@@ -123,7 +123,8 @@ public:
 		NON,
 		RUN,
 		FIRST,
-		SECOND
+		SECOND,
+		THIRD
 	};
 	AttackMotion GetAttackType() { return attackMotion; }
 	void FbxAnimationControls(const AttackMotion& motiiontype,const float attacktime=0,const float nextAnimation=0);
@@ -131,19 +132,25 @@ public:
 	bool GetnoAttack() { return noAttack; }
 	XMFLOAT3 GetHandPos();
 private:
-
+	AttackMotion OldattackMotion = NON;
 	AttackMotion attackMotion=NON;
-	bool SecAttack;
-	bool nowSecAttack;
+	bool AnimationEndJudg_FirstAttack=false;
+	bool AnimationEndJudg_SecondAttack=false;
+	bool AnimationEndJudg_ThirdAttack=false;
+
+	int ComboCoolT = 0;
+	bool SecAttack=false;
+	bool nowSecAttack=false;
 	float sectime=1.8f;
-	float f_time;
+	float f_time=0.0f;
 	float AttackTime = 0.571f;
 	float DeathTime =20.1f;
 	const float EvaTime_Start = 5.5f;
 	const float EvaTime_End = 6.5f;
+	const float AttackSecTime = 6.476f;
 	bool AttackFlag;
 	bool nowattack;
 
-	int hindex=25;
+	int hindex=29;
 };
 

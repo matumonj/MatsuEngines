@@ -100,7 +100,7 @@ void Nail::CircleAttack(int area1, int area2)
 			Nails[i]->SetPosition({ DirectionPos[area1].x + (float)CAttack.XN[i] ,MinY,DirectionPos[area1].z + (float)CAttack.ZN[i] });
 		}
 		//‚Q‚Â‚ß‚ÌAOE”ÍˆÍ•ª
-		for (int i = Nails.size() / 2; i < Nails.size(); i++) {
+		for (int i = int(Nails.size() / 2); i < Nails.size(); i++) {
 			CAttack.ZN[i] = rand() % (20 + 1 + 25) - 25;
 			CAttack.XN[i] = rand() % (20 + 1 + 25) - 25;
 			Nails[i]->SetPosition({ DirectionPos[area2].x + (float)CAttack.XN[i] ,MinY,DirectionPos[area2].z + (float)CAttack.ZN[i] });

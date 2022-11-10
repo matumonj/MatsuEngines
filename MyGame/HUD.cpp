@@ -239,7 +239,7 @@ void HUD::SkillBottonUpdate()
 		}
 	} else {
 		easetime = 0.0f;
-		OldPlayerHPSize = PlayerControl::GetInstance()->GetPlayer()->GetHP();
+		OldPlayerHPSize = float(PlayerControl::GetInstance()->GetPlayer()->GetHP());
 	}
 	PlayerHP->SetSize({ PlayerHPSize ,50.0f });
 
