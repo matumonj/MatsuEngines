@@ -41,7 +41,7 @@ void MobEnemy::Initialize(DebugCamera* camera)
 	EnemyHP = 50.0f;
 	MaxHP = 80.0f;
 	//パラメータのセット
-	Rotation = { -163.0f,71.0f,-16.0f };
+	Rotation = { 30.0f,118.0f,73.0f };
 	Scale = { 0.04f, 0.04f, 0.04f };
 
 	m_fbxObject = std::make_unique<f_Object3d>();
@@ -85,7 +85,6 @@ void MobEnemy::Update(DebugCamera* camera)
 	AttackCoolTime();
 
 	DamageTexDisplay();
-	m_fbxObject->SetColor({ 1,0,1,alpha });
 	ParameterSet_Fbx(camera);
 
 	CollisionField(camera);
@@ -128,7 +127,12 @@ void MobEnemy::Update(DebugCamera* camera)
 //描画処理
 void MobEnemy::Draw()
 {
-
+	ImGui::Begin("i");
+	ImGui::SliderFloat("t", &imt, 0, 20);
+	ImGui::SliderFloat("rx", &Rotation.x, -180, 180);
+	ImGui::SliderFloat("ry", &Rotation.y, -180, 180);
+	ImGui::SliderFloat("rz", &Rotation.z, -170, 180);
+	ImGui::End();
 	if (alpha >= 0.0f) {
 		Draw_Fbx();
 
@@ -146,18 +150,12 @@ void MobEnemy::Death()
 {
 	if (!DeathFlag) {
 		ExpPointSystem::GetInstance()->ExpPoint_Get(10);
-		//f_time = DeathTime;
-		//if (f_time > DeathTime) {
 		DeathFlag = true;
-		//EnemyHP = MaxHP;
-	}
+}
 	PlayerAttackState::GetInstance()->SetHitStopJudg(TRUE);
-	//if (f_time < DeathTime) {
-		//f_time = DeathTime;
-//	}
+
 	movestop = false;
 	
-	//}
 }
 
 void MobEnemy::FbxAnimationControl()
@@ -226,10 +224,5 @@ void MobEnemy::AttackCoolTime()
 	else {
 		cooltime = 0;
 	}
-	
-}
-
-void MobEnemy::DamageTexUpdate(DebugCamera* camera)
-{
 	
 }

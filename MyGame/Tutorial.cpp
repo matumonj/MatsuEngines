@@ -62,10 +62,9 @@ void Tutorial::Initialize()
 	dc = new DebugCamera(WinApp::window_width, WinApp::window_height);
 	//各種設定画面
 	SistemConfig::GetInstance()->Initialize();
-	//カメラの注視点をプレイヤーにセット
 	SelectSword::GetInstance()->Initialize();
-	Sprite::LoadTexture(0, L"Resources/2d/LevelUp/debugfont.png");
 
+	Sprite::LoadTexture(0, L"Resources/2d/LevelUp/debugfont.png");
 	DebugTextSprite::GetInstance()->Initialize(0);
 }
 

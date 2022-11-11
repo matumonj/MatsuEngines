@@ -229,11 +229,11 @@ void Player::FbxAnimationControls(const AttackMotion& motiontype,const float att
 
 	/*•à‚«‚Æ‘Ò‹@ƒ‚[ƒVƒ‡ƒ“‚Ç‚¤‚·‚é‚©*/
 	if (attackMotion == NON) {
-		f_time = 0;
+		f_time = 0.0f;
 	}
 	if (attackMotion == RUN) {
 		if (f_time >= AttackFirTime) {
-			f_time = 0;
+			f_time = 0.0f;
 		}
 
 	}
@@ -249,7 +249,7 @@ void Player::FbxAnimationControl()
 			AnimationEndJudg_FirstAttack = true;
 		}
 	} else if (attackMotion == SECOND) {
-		if (f_time >= m_fbxObject->GetEndTime()-0.2f) {
+		if (f_time >= m_fbxObject->GetEndTime()-0.9f) {
 			AnimationEndJudg_SecondAttack = true;
 		}
 	}

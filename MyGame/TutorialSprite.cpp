@@ -238,7 +238,7 @@ void TutorialSprite::Ease_SpriteSize_Up(float& x, float& t, int index)
 		if (t <= 1.0f) {
 			t += 0.05f;
 		}
-		UI::GetInstance()->SetTurnoffUIDraw(TRUE);
+		//UI::GetInstance()->SetTurnoffUIDraw(TRUE);
 	}
 }
 

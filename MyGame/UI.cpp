@@ -25,16 +25,9 @@ void UI::Initialize()
 
 void UI::HUDUpdate(bool&hudload, DebugCamera* camera)
 {
-	//if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
-	//	HUD::GetInstance()->EnemyHPGaugeUpdate(EnemyControl::GetInstance()->GetEnemyindex(0));
-	//	HUD::GetInstance()->EnemyHPGauge_MultiUpdate(hudload, camera, EnemyControl::GetInstance()->GetEnemyindex(0));
-	//}
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
-	//	
-	//	HUD::GetInstance()->EnemyHPGaugeUpdate(EnemyControl::GetInstance()->GetTutorialEnemyindex());
-		HUD::GetInstance()->EnemyHPGauge_MultiUpdate(hudload, camera, EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL));
+	HUD::GetInstance()->EnemyHPGauge_MultiUpdate(hudload, camera, EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL));
 	TutorialSprite::GetInstance()->Update();
-	//
 	}
 	BossSpell::GetInstance()->Update();
 	HUD::GetInstance()->SkillBottonUpdate();

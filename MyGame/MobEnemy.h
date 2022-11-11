@@ -48,7 +48,7 @@ private:
         SIDEAWAY
     };
     AttackType atcktype;
-
+    float imt;
     float rand_Attacktype;
     bool atc;
     bool SlashF;

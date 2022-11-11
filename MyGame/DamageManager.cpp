@@ -10,7 +10,7 @@ void DamageManager::DamageDisPlay(int damage, XMFLOAT4 color, XMFLOAT3 Position)
 	//テクスチャのアルファ値だのサイズだの
 	TexSize.x -= 0.04f;
 	TexSize.y -= 0.04f;
-	if (TexSize.x < 0.5f) {
+	if (TexSize.x < 0.9f) {
 		TexAlpha -= 0.01f;
 	}
 	//int->stringに
