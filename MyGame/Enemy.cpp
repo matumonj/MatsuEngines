@@ -57,6 +57,13 @@ void Enemy::RecvDamage(int Damage)
 	EnemyHP = EnemyHP - Damage;
 	DamageParticleCreateF = true;
 }
+void Enemy::DestroyJudg()
+{
+	if (f_time >= m_fbxObject->GetEndTime()) { 
+		alpha -= 0.05f;
+	}
+	
+}
 void Enemy::DamageTexDisplay()
 {
 	if (damageDisF) {

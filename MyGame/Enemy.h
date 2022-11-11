@@ -45,9 +45,9 @@ public:
 	//
 	virtual void Action();
 
-	virtual void DamageTexUpdate(DebugCamera* camera)=0;
-
 	void isRespawn();
+
+	void DestroyJudg();
 protected:
 	//‘Ì—Íü‚è
 	float EnemyHP=0.0f;//Œ»İ‚Ì‘Ì—Í

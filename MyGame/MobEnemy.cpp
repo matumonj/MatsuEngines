@@ -48,14 +48,13 @@ void MobEnemy::Initialize(DebugCamera* camera)
 	m_fbxObject->Initialize();
 	m_fbxObject->SetModel(FbxLoader::GetInstance()->LoadModelFromFile("monster_golem_demo"));
 	m_fbxObject->PlayAnimation();
-//	m_fbxObject->SetColor({ 1,0,0,alpha });
 	//コライダー周り
 	radius_adjustment = 0;
 	SetCollider();
 
 	//FBX切り替わりのタイム指定
 	AttackTime = 0.9f;
-	DeathTime = 5.9f;
+	DeathTime = 6.9f;
 
 	nowAttack = false;
 	nowDeath = false;
@@ -72,9 +71,6 @@ void MobEnemy::Update(DebugCamera* camera)
 {
 	state_mob->Update(this);
 	
-	if (DeathFlag) {
-		alpha -= 0.005f;
-	}
 	if (SceneManager::GetInstance()->GetScene() != SceneManager::MAPCREATE) {
 		m_fbxObject->SetFogPos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
 	}
@@ -89,7 +85,7 @@ void MobEnemy::Update(DebugCamera* camera)
 
 	CollisionField(camera);
 	
-	
+	m_fbxObject->SetColor({ 1.0f,1.0f,1.0f,alpha });
 	m_fbxObject->SetHandBoneIndex(19);
 	Sword->Setf(FALSE);
 	Sword->SetRotation({-23,43,83});
@@ -121,6 +117,8 @@ void MobEnemy::Update(DebugCamera* camera)
 			}
 		}
 	}
+	DestroyJudg();
+	m_fbxObject->SetFbxTime(f_time);
 }
 
 
@@ -128,7 +126,7 @@ void MobEnemy::Update(DebugCamera* camera)
 void MobEnemy::Draw()
 {
 	ImGui::Begin("i");
-	ImGui::SliderFloat("t", &imt, 0, 20);
+	ImGui::Text("t %f", m_fbxObject->GetEndTime());
 	ImGui::SliderFloat("rx", &Rotation.x, -180, 180);
 	ImGui::SliderFloat("ry", &Rotation.y, -180, 180);
 	ImGui::SliderFloat("rz", &Rotation.z, -170, 180);
@@ -151,7 +149,11 @@ void MobEnemy::Death()
 	if (!DeathFlag) {
 		ExpPointSystem::GetInstance()->ExpPoint_Get(10);
 		DeathFlag = true;
+		if (f_time < DeathTime) {
+			f_time = DeathTime;
+		}
 }
+	f_time += 0.01f;
 	PlayerAttackState::GetInstance()->SetHitStopJudg(TRUE);
 
 	movestop = false;
@@ -160,6 +162,7 @@ void MobEnemy::Death()
 
 void MobEnemy::FbxAnimationControl()
 {
+	if (DeathFlag)return;
 	float fbxanimationTime;
 	if (nowAttack) {
 		fbxanimationTime = 0.02f;
@@ -186,11 +189,9 @@ void MobEnemy::FbxAnimationControl()
 				f_AttackFlag = false;
 				
 			} else {
-				if (DeathFlag == false) {
 					if (!nowAttack && f_time >= AttackTime) {
 						f_time = 0.0f;
 					}
-				}
 			}
 
 			if (atcktype == SIDEAWAY) {
@@ -203,10 +204,7 @@ void MobEnemy::FbxAnimationControl()
 					nowAttack = false;
 				}
 			}
-	
-
 		
-	m_fbxObject->SetFbxTime(f_time);
 }
 
 

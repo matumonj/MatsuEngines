@@ -23,10 +23,6 @@ private:
     std::unique_ptr<f_Object3d>GigaBossObj;
     std::unique_ptr<Object3d>Wand;
     Enemy* mob;
-    //オブジェクトのインスタンス
-    Object3d* MobObject = nullptr;
-    //モデルのインスタンス
-    Model* MobModel = nullptr;
     //
     Texture* SearchPlayerTexture = nullptr;
 public:
@@ -50,7 +46,6 @@ public:
     void FbxAnimationControl()override;
     
     void Death()override;
-    void DamageTexUpdate(DebugCamera* camera)override;
     //bool GetArmonGround() { return ArmonGround; }
 private:
     bool sf;

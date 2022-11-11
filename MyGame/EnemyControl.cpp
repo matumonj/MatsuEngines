@@ -163,7 +163,7 @@ void EnemyControl::Update_Tutorial(DebugCamera* camera)
 		//enemys[EnemyType::TUTORIAL][0]->SetMoveFlag(true);
 		enemys[EnemyType::TUTORIAL][0]->Update(camera);
 	}
-	if (enemys[EnemyType::TUTORIAL][0]->GetObjAlpha() <= 0) {
+	if (enemys[EnemyType::TUTORIAL][0]->GetObjAlpha()<=0.0f) {
 		Destroy_unique(enemys[EnemyType::TUTORIAL][0]);
 	}
 }
@@ -177,7 +177,7 @@ void EnemyControl::Update_Play(DebugCamera* camera)
 			enemys[EnemyType::PLAYSCENE][i]->SetMoveFlag(true);
 			enemys[EnemyType::PLAYSCENE][i]->Update(camera);
 		}
-		if (enemys[EnemyType::PLAYSCENE][i]->GetObjAlpha() <= 0) {
+		if (enemys[EnemyType::PLAYSCENE][i]->GetObjAlpha() <= 0.0f) {
 			Destroy_unique(enemys[EnemyType::PLAYSCENE][i]);
 		}
 	}

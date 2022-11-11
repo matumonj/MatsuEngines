@@ -117,7 +117,7 @@ protected:	//ƒƒ“ƒo•Ï”
 	XMFLOAT4 color;
 	float f_time;
 	float start_time;
-	float end_time;
+	double end_time;
 
 	bool AttackFlag;
 	float AttackTime;
@@ -180,7 +180,7 @@ public:	//’è”
 	void SetAttackTime(float time) { AttackTime = time; }
 	void SetDeathFlag(bool flag) { DeathFlag = flag; }
 	void SetDeathTime(float time) { DeathTime = time; }
-	float GetEndTime() { return end_time; }
+	double GetEndTime() { return end_time; }
 	XMMATRIX GetWorld() { return matWorld; }
 
 	XMMATRIX ExtractPositionMat(XMMATRIX matworld);

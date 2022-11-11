@@ -176,32 +176,4 @@ void EnemyAlpha::AttackCoolTime()
 
 void EnemyAlpha::DamageParticleSet()
 {
-	for (int i = 0; i < ParticleSize; i++) {
-		const float rnd_vel = 0.5f;
-		XMFLOAT3 vel{};
-		vel.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-		vel.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-		vel.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-
-		XMFLOAT3 acc{};
-		const float rnd_acc = 0.001f;
-		acc.y = -(float)rand() / RAND_MAX * rnd_acc;
-
-
-		if (DamageParticleCreateF) {
-			particlePos = { Position.x,Position.y + 10,Position.z };
-			particleMan->Add(particleLife, particlePos, vel, acc, 3.0f, 0.0f);
-			if (i == ParticleSize - 1) {
-				DamageParticleCreateF = false;
-			}
-		}
-
-	}
-	particleMan->SetColor({ 1.0f,0.2f,0.2f,0.7f });
-	particleMan->Update(particleMan->NORMAL);
-}
-
-void EnemyAlpha::DamageTexUpdate(DebugCamera* camera)
-{
-	
 }

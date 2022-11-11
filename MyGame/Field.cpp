@@ -123,9 +123,9 @@ void Field::Update_Tutorial(DebugCamera* camera)
 	playerpoint->SetColor({ 1.0f,1.0f,1.0f,1 });
 
 	for (int i = 0; i < EnemyIconSize; i++) {
-		if (Enemyicon[i] == nullptr||Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[i]->GetPosition())>100) {
+		//if (Enemyicon[i] == nullptr||Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[i]->GetPosition())>100) {
 			continue;
-		}
+		//}
 		Enemyicon[i]->SetPosition({ EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[i]->GetPosition().x,
 			EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[i]->GetPosition().y+10.0f,
 			EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[i]->GetPosition().z});

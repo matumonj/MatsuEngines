@@ -21,7 +21,7 @@ BossEnemy::BossEnemy()
 /// </summary>
 BossEnemy::~BossEnemy()
 {
-	delete mob, MobModel;
+	delete mob;
 }
 
 //初期化処理
@@ -100,9 +100,6 @@ void BossEnemy::Update(DebugCamera* camera)
 	//攻撃受けたらパーティクル
 	DamageParticleSet();
 	
-}
-void BossEnemy::DamageTexUpdate(DebugCamera* camera)
-{
 }
 
 //描画処理

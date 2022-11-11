@@ -335,7 +335,7 @@ void f_Object3d::Updata()
 	std::vector<f_Model::Bone>& bones = model->GetBones();
 
 	start_time = float(startTime.GetSecondDouble());
-	end_time = float(endTime.GetSecondDouble());
+	end_time = endTime.GetSecondDouble();
 	//アニメーション
 
 	currentTime.SetSecondDouble(f_time);

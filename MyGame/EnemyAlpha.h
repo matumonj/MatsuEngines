@@ -38,7 +38,6 @@ public:
     //Fbxのアニメーション制御
     void FbxAnimationControl()override;
 
-    void DamageTexUpdate(DebugCamera* camera)override;
 private:
     void DamageParticleSet();
 private:
@@ -46,13 +45,8 @@ private:
     int hindex;
 private:
     bool nowAttack;
-    const int ParticleSize = 20;
 public:
-    // bool GetFolatc() { return folatc; }
     bool isendtime;
-    int particleLife = 320;
-    XMFLOAT3 particlePos;
-
     std::unique_ptr<Object3d>Sword;
 };
 
