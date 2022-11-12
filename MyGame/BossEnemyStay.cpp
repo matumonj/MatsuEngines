@@ -11,7 +11,9 @@ void BossEnemyStay::Update(Enemy* enemy)
 {
 
 	if (CameraControl::GetInstance()->GetAttackSceneF()) {
-		enemy->ChangeState_Boss(new BossEnemyAttack());
+		enemy->SetRoarMotion(true);
+			enemy->ChangeState_Boss(new BossEnemyFollow());
+		
 	}
 	if (enemy->GetRecvDamage()) {
 		enemy->ChangeState_Boss(new BossEnemyFollow());

@@ -31,12 +31,12 @@ void BossEnemyEvasion::Update(Enemy* enemy)
 	move = XMVector3TransformNormal(move, matRot);
 
 	enemy->SetPosition({
-					enemy->GetPosition().x + move.m128_f32[0] * 3 ,
-					enemy->GetPosition().y,
-					enemy->GetPosition().z + move.m128_f32[2] * 3 }
+				enemy->GetPosition().x + move.m128_f32[0] * 3 ,
+				enemy->GetPosition().y,
+				enemy->GetPosition().z + move.m128_f32[2] * 3 }
 	);
 
-	if (Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) > 30) {
+	if (Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) > 20) {
 		enemy->ChangeState_Boss(new BossEnemyFollow());
 	}
 }

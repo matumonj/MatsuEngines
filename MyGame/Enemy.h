@@ -116,9 +116,12 @@ protected:
 	float MagicAttackTime = 0.0f;
 	float FalterTime = 0.0f;
 	float FalterTime_End;
+	float RoarTime;
+	float RoarTime_End;
 	float EvaTime = 0.0f;
 	bool EvaMotionStart = false;
 	bool MagicMotionStart=false;
+	bool RoarMotionFlag=false;
 	/*ゲッター*/
 public:
 	float GetRotCorrect() { return FollowRotAngleCorrect; }
@@ -174,7 +177,9 @@ protected://攻撃の開始と終了判定用
 
 public:
 	void SetFalterMotion(bool f) { if (f_time < FalterTime) { FalterFlag = f; } }
+	void SetRoarMotion(bool f) { if (f_time < RoarTime) { RoarMotionFlag = f; } }
 	float GetFalterTime_End() { return FalterTime_End; }
+	float GetRoarTime_End() { return RoarTime_End; }
 	void SetMagicAttackTime(bool f){ if (f_time < MagicAttackTime) { MagicMotionStart = f; } }
 	void SetEvaMotionTime(bool f) { if (f_time <EvaTime) {EvaMotionStart = f; } }
 	bool GetAttack_Start(int Num) { return Attack[Num].start; }

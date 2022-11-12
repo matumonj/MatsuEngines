@@ -33,7 +33,7 @@ void BossEnemy::Initialize(DebugCamera* camera)
 	EnemyHP = MaxHP;
 
 	Scale = { 0.09f, 0.07f, 0.09f};
-	Rotation = {82.0f,0.0f,43.0f };
+	Rotation = {160.0f,160.0f,120.0f };
 
 	m_fbxObject = std::make_unique<f_Object3d>();
 	m_fbxObject->Initialize();
@@ -51,6 +51,8 @@ void BossEnemy::Initialize(DebugCamera* camera)
 	EvaTime_End = 422.000f / 60.000f;
 	FalterTime = 428.00f / 60.00f;
 	FalterTime_End = 524.00f / 60.00f;
+	RoarTime = 528.00f / 60.00f;
+	RoarTime_End = 698.00f / 60.00f;
 	DeathTime = 4.9f;
 	DeathFlag = false;
 	f_time = 200 / 60;
@@ -166,6 +168,11 @@ void BossEnemy::FbxAnimationControl()
 		f_time = FalterTime;
 		FalterFlag = false;
 	}
+	else if (RoarMotionFlag) {
+		nowMotion = NowAttackMotion::ROAR;
+		f_time = RoarTime;
+		RoarMotionFlag = false;
+	}
 
 
 
@@ -182,6 +189,10 @@ void BossEnemy::FbxAnimationControl()
 		nowMotion =NowAttackMotion::NON;
 	}
 	else if (nowMotion == NowAttackMotion::FALTER && f_time >= FalterTime_End-0.1f) {
+		AfterAttack = true;
+		nowMotion = NowAttackMotion::NON;
+	}
+	else if (nowMotion == NowAttackMotion::ROAR && f_time >= RoarTime_End - 0.1f) {
 		AfterAttack = true;
 		nowMotion = NowAttackMotion::NON;
 	}

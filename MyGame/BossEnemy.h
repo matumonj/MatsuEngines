@@ -62,6 +62,7 @@ private:
 public:
     enum NowAttackMotion {
         NON,
+        ROAR,
         NORMAL,
         MAGIC,
         EVASION,
