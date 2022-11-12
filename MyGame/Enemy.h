@@ -77,6 +77,7 @@ protected:
 	bool DeathFlag=false;
 	bool nowDeath=false;
 	bool nowAttack=false;
+	bool FalterFlag = false;
 	int cooltime = 0;
 
 	int onGroundTime = 0;
@@ -113,6 +114,8 @@ protected:
 	float addRotRadians;
 	float FollowRotAngleCorrect;
 	float MagicAttackTime = 0.0f;
+	float FalterTime = 0.0f;
+	float FalterTime_End;
 	float EvaTime = 0.0f;
 	bool EvaMotionStart = false;
 	bool MagicMotionStart=false;
@@ -170,6 +173,8 @@ protected://攻撃の開始と終了判定用
 	Attack_SE Attack[AtckNum];
 
 public:
+	void SetFalterMotion(bool f) { if (f_time < FalterTime) { FalterFlag = f; } }
+	float GetFalterTime_End() { return FalterTime_End; }
 	void SetMagicAttackTime(bool f){ if (f_time < MagicAttackTime) { MagicMotionStart = f; } }
 	void SetEvaMotionTime(bool f) { if (f_time <EvaTime) {EvaMotionStart = f; } }
 	bool GetAttack_Start(int Num) { return Attack[Num].start; }

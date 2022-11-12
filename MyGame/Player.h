@@ -59,7 +59,7 @@ public:
 	//OBBの当たり判定に使うプレイヤーの回転行列取得
 	XMMATRIX GetMatrot();
 	//SelectSwordに使うプレイヤーの手のワールド行列
-	XMMATRIX GetHanMat() { return  m_fbxObject->GetRot(); }
+	XMMATRIX GetHanMat() { return  m_fbxObject->GetHandBoneMatWorld(); }
 	//座標の押し戻し
 	void isOldPos() {
 		Position.x = oldpos.x; Position.z = oldpos.z;

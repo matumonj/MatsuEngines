@@ -16,6 +16,7 @@
 #include"BossEnemyAttackSlam.h"
 #include"BossEnemyAttackBeam.h"
 #include"BossEnemyEvasion.h"
+
 void BossEnemyFollow::Initialize(Enemy* enmey)
 {
 
@@ -76,9 +77,12 @@ void BossEnemyFollow::Update(Enemy* enemy)
 	}
 	if (CustomButton::GetInstance()->GetAttackAction()) {
 		Evaprobability = rand() % 100+1;
-		if (Evaprobability < 90) {
+		if (Evaprobability %2==0) {
 			enemy->ChangeState_Boss(new BossEnemyEvasion());
 	}
+		if (Evaprobability % 2 == 1) {
+			enemy->ChangeState_Boss(new BossEnemyFalter());
+		}
 	}
 
 

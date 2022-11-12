@@ -283,9 +283,9 @@ void f_Object3d::Updata(bool animeloop)
 			}
 
 	int num = bindexs;
-	FbxLoader::ConvertMatrixFromFbx(&hRot, bones[num].fbxCluster->GetLink()->EvaluateGlobalTransform(currentTime));
+	FbxLoader::ConvertMatrixFromFbx(&HandMatWorld, bones[num].fbxCluster->GetLink()->EvaluateGlobalTransform(currentTime));
 	
-	rot =  hRot* matWorld;
+	HandMatWorld = HandMatWorld * matWorld;
 	
 	constBuffSkin->Unmap(0, nullptr);
 }
@@ -357,9 +357,7 @@ void f_Object3d::Updata()
 	}
 
 	int num = bindexs;
-	FbxLoader::ConvertMatrixFromFbx(&hRot, bones[num].fbxCluster->GetLink()->EvaluateGlobalTransform(currentTime));
-
-	rot = hRot * matWorld;
+	FbxLoader::ConvertMatrixFromFbx(&HandMatWorld, bones[num].fbxCluster->GetLink()->EvaluateGlobalTransform(currentTime));
 
 	constBuffSkin->Unmap(0, nullptr);
 }

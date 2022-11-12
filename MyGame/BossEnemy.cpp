@@ -21,7 +21,6 @@ BossEnemy::BossEnemy()
 /// </summary>
 BossEnemy::~BossEnemy()
 {
-	delete mob;
 }
 
 //‰Šú‰»ˆ—
@@ -50,18 +49,15 @@ void BossEnemy::Initialize(DebugCamera* camera)
 	MagicAttackTime_End = 360.000f / 60.000f;
 	EvaTime = 370.000f / 60.000f;
 	EvaTime_End = 422.000f / 60.000f;
+	FalterTime = 428.00f / 60.00f;
+	FalterTime_End = 524.00f / 60.00f;
 	DeathTime = 4.9f;
 	DeathFlag = false;
 	f_time = 200 / 60;
 
 	
 	state_boss->Initialize(this);
-	Wand = std::make_unique<Object3d>();
-	Wand->Initialize(camera);
-	Wand->SetModel(Model::CreateFromOBJ("axe"));
-	WeaponRot = { 133.0f,203.0f,55.0f };
-	
-	Wand->SetScale({ 90,50,50 });
+
 	particleMan = ParticleManager::Create(4, L"Resources/ParticleTex/Attack.png");
 	particleMan2 = ParticleManager::Create(6, L"Resources/ParticleTex/Attack.png");
 	
@@ -74,18 +70,15 @@ void BossEnemy::Update(DebugCamera* camera)
 	//s“®‘JˆÚ
 	state_boss->Update(this);
 	m_fbxObject->SetHandBoneIndex(hand);
-	Wand->Setf(FALSE);
-	Wand->SetRotation(WeaponRot);
-	Wand->Update(m_fbxObject->GetRot(), { 1.0f,1.0f,1.0f,1.0f }, camera);
-
+	
 	DamageTexDisplay();
 	if (DeathFlag) {
 		alpha -= 0.005f;
 	}
 	Action();
-	HandSiteOBB.SetOBBParam_Pos(Wand->GetMatWorld());
-	HandSiteOBB.SetOBBParam_Rot(Wand->GetMatWorld());
-	HandSiteOBB.SetOBBParam_Scl({ 5.0f,20.0f,5.0f });
+	HandSiteOBB.SetOBBParam_Pos(m_fbxObject->ExtractPositionMat(m_fbxObject->GetHandBoneMatWorld()));
+	HandSiteOBB.SetOBBParam_Rot(m_fbxObject->ExtractRotationMat(m_fbxObject->GetHandBoneMatWorld()));
+	HandSiteOBB.SetOBBParam_Scl({ 5.0f,5.0f,5.0f });
 
 	playerOBB.SetOBBParam_Pos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
 	playerOBB.SetOBBParam_Rot(PlayerControl::GetInstance()->GetPlayer()->GetMatrot());
@@ -125,10 +118,6 @@ void BossEnemy::Draw()
 	ImGui::SliderFloat("rotadd", &addRotRadians, -180, 360);
 	ImGui::End();
 	if (alpha < 0)return;
-		Object3d::PreDraw();
-		Wand->Draw();
-		Object3d::PostDraw();
-
 		Draw_Fbx();
 		if (GigaBossObj != nullptr) {
 			GigaBossObj->Draw();
@@ -172,6 +161,11 @@ void BossEnemy::FbxAnimationControl()
 		f_time = EvaTime;
 		EvaMotionStart = false;
 	}
+	else if (FalterFlag) {
+		nowMotion = NowAttackMotion::FALTER;
+		f_time = FalterTime;
+		FalterFlag = false;
+	}
 
 
 
@@ -187,7 +181,10 @@ void BossEnemy::FbxAnimationControl()
 		AfterAttack = true;
 		nowMotion =NowAttackMotion::NON;
 	}
-
+	else if (nowMotion == NowAttackMotion::FALTER && f_time >= FalterTime_End-0.1f) {
+		AfterAttack = true;
+		nowMotion = NowAttackMotion::NON;
+	}
 	if (nowMotion == NowAttackMotion::NON && f_time > AttackTime) {
 		f_time = 0.0f;
 	}

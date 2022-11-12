@@ -21,8 +21,6 @@ public:
 
 private:
     std::unique_ptr<f_Object3d>GigaBossObj;
-    std::unique_ptr<Object3d>Wand;
-    Enemy* mob;
     //
     Texture* SearchPlayerTexture = nullptr;
 public:
@@ -66,7 +64,8 @@ public:
         NON,
         NORMAL,
         MAGIC,
-        EVASION
+        EVASION,
+        FALTER
     };
     NowAttackMotion nowMotion = NON;
 private:
@@ -76,6 +75,7 @@ private:
     float MagicAttackTime_Start;
     float MagicAttackTime_End;
     float EvaTime_End;
+   
     bool isendtime;
     int particleLife = 320;
     XMFLOAT3 particlePos;

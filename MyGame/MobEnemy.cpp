@@ -89,9 +89,9 @@ void MobEnemy::Update(DebugCamera* camera)
 	m_fbxObject->SetHandBoneIndex(19);
 	Sword->Setf(FALSE);
 	Sword->SetRotation({-23,43,83});
-	Sword->Update(m_fbxObject->GetRot(), { 1.0f,1.0f,1.0f,1.0f }, camera);
+	Sword->Update(m_fbxObject->GetHandBoneMatWorld(), { 1.0f,1.0f,1.0f,1.0f }, camera);
 
-	HandMat = m_fbxObject->GetRot();
+	HandMat = m_fbxObject->GetHandBoneMatWorld();
 
 	if (SceneManager::GetInstance()->GetScene() != SceneManager::MAPCREATE) {
 		HandSiteOBB.SetOBBParam_Pos(Sword->GetMatWorld());
