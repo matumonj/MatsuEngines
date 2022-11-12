@@ -94,11 +94,13 @@ void AttackCollision::GetCol(int damage)
 		}
 		if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0] != nullptr) {
 
-
 			if (PlayerControl::GetInstance()->GetPlayer()->GetAttackType() != PlayerControl::GetInstance()->GetPlayer()->NON && PlayerControl::GetInstance()->GetPlayer()->GetAttackType() != PlayerControl::GetInstance()->GetPlayer()->RUN) {
-				if (Collision::CheckOBBCollision(HandObb, BossEnemyOBB[0]) == true && !HitCol) {
-					EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->RecvDamage(damage);
-					HitCol = true;
+				if (attackcolJudgTime_First || attackcolJudgTime_Second || attackcolJudgTime_Third) {
+					if (Collision::CheckOBBCollision(HandObb, BossEnemyOBB[0]) == true && !HitCol) {
+						AttackEffect::GetIns()->SetParticle(EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition());
+						EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->RecvDamage(damage);
+						HitCol = true;
+					}
 				}
 			}
 		}

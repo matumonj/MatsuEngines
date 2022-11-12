@@ -31,24 +31,12 @@ void BossScene::Initialize()
 		AllObjectControl.push_back(PlayerControl::GetInstance());
 		AllObjectControl.push_back(EnemyControl::GetInstance());
 	}
-	for (int i = 0; i < AllObjectControl.size(); i++) {
-		AllObjectControl[i]->Initialize(CameraControl::GetInstance()->GetCamera());
-	}
-
-	Field::GetInstance()->Initialize(CameraControl::GetInstance()->GetCamera());
 	
 	//ボス攻撃用->できれば移す
 	Nail::GetInstance()->ModelSet();
 	
 	postEffect = new MinimapSprite();
 	postEffect->Initialize();
-	//カメラをセット
-	f_Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
-	//グラフィックパイプライン生成
-	f_Object3d::CreateGraphicsPipeline();
-
-	//カメラ挙動をボスカットシーン
-	CameraControl::GetInstance()->SetCameraState(CameraControl::BOSSCUTSCENE);
 	dc = new DebugCamera(WinApp::window_width, WinApp::window_height);
 
 }
@@ -66,10 +54,17 @@ void BossScene::Update()
 	SistemConfig::GetInstance()->Update();
 
 	if (Play) {//csvからの読み込み終わってから更新処理
-		AllObjectControl[1]->Update(CameraControl::GetInstance()->GetCamera());
-		AllObjectControl[0]->Update(CameraControl::GetInstance()->GetCamera());
+
+		if (AllObjectControl[1] != nullptr) {
+			AllObjectControl[1]->Update(CameraControl::GetInstance()->GetCamera());
+		}
+		if (AllObjectControl[0] != nullptr) {
+			AllObjectControl[0]->Update(CameraControl::GetInstance()->GetCamera());
+		}
 		for (int i = 2; i < AllObjectControl.size(); i++) {
-			AllObjectControl[i]->Update(CameraControl::GetInstance()->GetCamera());
+			if (AllObjectControl[i] != nullptr) {
+				AllObjectControl[i]->Update(CameraControl::GetInstance()->GetCamera());
+			}
 		}
 		Nail::GetInstance()->Update();
 		UI::GetInstance()->HUDUpdate(hudload, CameraControl::GetInstance()->GetCamera());
@@ -88,12 +83,7 @@ void BossScene::Update()
 	//各オブジェクトの更新処理
 	//csv読み込み部分(Cameraの更新後にするのでobjUpdate()挟んでから)
 	LoadParam(CameraControl::GetInstance()->GetCamera());
-	if (scenechange && Feed::GetInstance()->GetAlpha() >= 1.0f) {//画面真っ白なったら
-		BaseScene* scene = new BossScene(sceneManager_);//次のシーンのインスタンス生成
-		Play = false;
-		SceneManager::GetInstance()->SetScene(SceneManager::BOSS);
-		sceneManager_->SetnextScene(scene);//シーンのセット
-	}
+	
 	if (scenechange) {
 		Feed::GetInstance()->Update_White(Feed::FEEDIN);//白くなります
 	}
@@ -144,6 +134,9 @@ void BossScene::Draw()
 		DirectXCommon::GetInstance()->BeginDraw();
 		MyGameDraw();
 		postEffect->Draw();
+		Sprite::PreDraw();
+		DebugTextSprite::GetInstance()->DrawAll();
+		Sprite::PostDraw();
 		PlayerControl::GetInstance()->DamageTexDraw();
 
 		//UI
@@ -166,8 +159,19 @@ bool BossScene::LoadParam(DebugCamera* camera)
 {
 	if (LoadEnemy) {
 		for (int i = 0; i < AllObjectControl.size(); i++) {
-			AllObjectControl[i]->Load(CameraControl::GetInstance()->GetCamera());
+			AllObjectControl[i]->Initialize(CameraControl::GetInstance()->GetCamera());
 		}
+		
+		//カメラをセット
+		f_Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
+		//グラフィックパイプライン生成
+		f_Object3d::CreateGraphicsPipeline();
+
+		//カメラ挙動をボスカットシーン
+		CameraControl::GetInstance()->SetCameraState(CameraControl::BOSSCUTSCENE);
+
+		Field::GetInstance()->Initialize(CameraControl::GetInstance()->GetCamera());
+
 		hudload = true;
 		Play = true;
 		LoadEnemy = false;

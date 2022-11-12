@@ -14,8 +14,6 @@ void AttackEffect::Init()
 	Texture::LoadTexture(13, L"Resources/2d/attackEffect/normal.png");
 	Texture::LoadTexture(14, L"Resources/2d/attackEffect/slash_third.png");
 	Texture::LoadTexture(15, L"Resources/2d/attackEffect/inpact.png");
-	
-	
 }
 
 void AttackEffect::LoadTex()
@@ -104,9 +102,9 @@ void AttackEffect::ParticleUpda()
 			AttackParticle[i].reset();
 		}
 	}
-	InpactScl.x += 0.02f;
-	InpactScl.y += 0.02f;
-	InpactAlpha -= 0.02f;
+	InpactScl.x += 0.05f;
+	InpactScl.y += 0.05f;
+	InpactAlpha -= 0.01f;
 
 	InpactTex->SetBillboard(TRUE);
 	InpactTex->SetPosition({ ParCenterPos.x,ParCenterPos.y+10.0f,ParCenterPos.z });

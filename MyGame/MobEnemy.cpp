@@ -41,12 +41,12 @@ void MobEnemy::Initialize(DebugCamera* camera)
 	EnemyHP = 50.0f;
 	MaxHP = 80.0f;
 	//パラメータのセット
-	Rotation = { 30.0f,118.0f,73.0f };
-	Scale = { 0.04f, 0.04f, 0.04f };
+	Rotation = { 114.0f,118.0f,165.0f };
+	Scale = { 0.05f, 0.05f, 0.05f };
 
 	m_fbxObject = std::make_unique<f_Object3d>();
 	m_fbxObject->Initialize();
-	m_fbxObject->SetModel(FbxLoader::GetInstance()->LoadModelFromFile("monster_golem_demo"));
+	m_fbxObject->SetModel(FbxLoader::GetInstance()->LoadModelFromFile("BossGolem"));
 	m_fbxObject->PlayAnimation();
 	//コライダー周り
 	radius_adjustment = 0;
@@ -62,8 +62,8 @@ void MobEnemy::Initialize(DebugCamera* camera)
 	//state初期化
 	state_mob->Initialize(this);
 	
-	addRotRadians = 110;
-	FollowRotAngleCorrect = 70;
+	addRotRadians = 0;
+	FollowRotAngleCorrect = 180;
 }
 #include"SceneManager.h"
 //更新処理
@@ -118,7 +118,7 @@ void MobEnemy::Update(DebugCamera* camera)
 		}
 	}
 	DestroyJudg();
-	m_fbxObject->SetFbxTime(f_time);
+	m_fbxObject->SetFbxTime(imt);
 }
 
 
@@ -127,9 +127,11 @@ void MobEnemy::Draw()
 {
 	ImGui::Begin("i");
 	ImGui::Text("t %f", m_fbxObject->GetEndTime());
-	ImGui::SliderFloat("rx", &Rotation.x, -180, 180);
-	ImGui::SliderFloat("ry", &Rotation.y, -180, 180);
-	ImGui::SliderFloat("rz", &Rotation.z, -170, 180);
+	imt += 0.01f;
+	ImGui::SliderFloat("rx", &imt, -180, 360);
+	ImGui::SliderFloat("ry", &FollowRotAngleCorrect, -180, 180);
+	ImGui::SliderFloat("rotx", &Rotation.x, -170, 360);
+	ImGui::SliderFloat("rz", &Rotation.z, -170, 360);
 	ImGui::End();
 	if (alpha >= 0.0f) {
 		Draw_Fbx();

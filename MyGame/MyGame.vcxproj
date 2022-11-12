@@ -172,6 +172,7 @@
     <ClCompile Include="BossEnemyAttackKnock.cpp" />
     <ClCompile Include="BossEnemyAttackSlam.cpp" />
     <ClCompile Include="BossEnemyDeath.cpp" />
+    <ClCompile Include="BossEnemyEvasion.cpp" />
     <ClCompile Include="BossEnemyFollow.cpp" />
     <ClCompile Include="BossEnemyState.cpp" />
     <ClCompile Include="BossEnemyStay.cpp" />
@@ -293,6 +294,7 @@
     <ClInclude Include="BossEnemyAttackKnock.h" />
     <ClInclude Include="BossEnemyAttackSlam.h" />
     <ClInclude Include="BossEnemyDeath.h" />
+    <ClInclude Include="BossEnemyEvasion.h" />
     <ClInclude Include="BossEnemyFollow.h" />
     <ClInclude Include="BossEnemyState.h" />
     <ClInclude Include="BossEnemyStay.h" />

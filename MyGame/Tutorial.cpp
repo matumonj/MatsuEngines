@@ -152,12 +152,17 @@ void Tutorial::Update()
 
 	postEffect->SetCenterpos(HUD::GetInstance()->GetMinimapSprite()->GetPosition());
 if (scenechange&& Feed::GetInstance()->GetAlpha() >= 1.0f) {//画面真っ白なったら
-		BaseScene* scene = new PlayScene(sceneManager_);//次のシーンのインスタンス生成
+		BaseScene* scene = new BossScene(sceneManager_);//次のシーンのインスタンス生成
 		Play = false;
-		SceneManager::GetInstance()->SetScene(SceneManager::PLAY);
+		SceneManager::GetInstance()->SetScene(SceneManager::BOSS);
 		sceneManager_->SetnextScene(scene);//シーンのセット
 	}
-	
+if (Input::GetInstance()->TriggerButton(Input::A)) {
+	BaseScene* scene = new BossScene(sceneManager_);//次のシーンのインスタンス生成
+	Play = false;
+	SceneManager::GetInstance()->SetScene(SceneManager::BOSS);
+	sceneManager_->SetnextScene(scene);//シーンのセット
+	}
 }
 
 /*------------------------*/

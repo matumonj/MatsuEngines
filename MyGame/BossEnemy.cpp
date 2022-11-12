@@ -33,28 +33,35 @@ void BossEnemy::Initialize(DebugCamera* camera)
 	MaxHP = 200.0f;
 	EnemyHP = MaxHP;
 
-	Scale = { 0.04f, 0.04f, 0.04f};
-	Rotation = { -70.0f,180.0f,0.0f };
+	Scale = { 0.09f, 0.07f, 0.09f};
+	Rotation = {82.0f,0.0f,43.0f };
 
 	m_fbxObject = std::make_unique<f_Object3d>();
 	m_fbxObject->Initialize();
-	m_fbxObject->SetModel(FbxLoader::GetInstance()->LoadModelFromFile("monster_golem"));
+	m_fbxObject->SetModel(FbxLoader::GetInstance()->LoadModelFromFile("BossGolem"));
 	m_fbxObject->PlayAnimation();
 	radius_adjustment = 0;
 	
 	SetCollider();
 	cooltime = 0;
-	AttackTime = 1.5f;
+	AttackTime = 51.000f/60.000f;
+	NormalAttackTime_End =215.000f / 60.000f;
+	MagicAttackTime = 216.000f / 60.00f;
+	MagicAttackTime_End = 360.000f / 60.000f;
+	EvaTime = 370.000f / 60.000f;
+	EvaTime_End = 422.000f / 60.000f;
 	DeathTime = 4.9f;
 	DeathFlag = false;
 	f_time = 200 / 60;
 
+	
 	state_boss->Initialize(this);
 	Wand = std::make_unique<Object3d>();
 	Wand->Initialize(camera);
-	Wand->SetModel(Model::CreateFromOBJ("Wand"));
-	Wand->SetRotation({ 0,0 + 30,0 + 100 });
-
+	Wand->SetModel(Model::CreateFromOBJ("axe"));
+	WeaponRot = { 133.0f,203.0f,55.0f };
+	
+	Wand->SetScale({ 90,50,50 });
 	particleMan = ParticleManager::Create(4, L"Resources/ParticleTex/Attack.png");
 	particleMan2 = ParticleManager::Create(6, L"Resources/ParticleTex/Attack.png");
 	
@@ -63,13 +70,15 @@ void BossEnemy::Initialize(DebugCamera* camera)
 //çXêVèàóù
 void BossEnemy::Update(DebugCamera* camera)
 {
+	et += 0.01f;
 	//çsìÆëJà⁄
 	state_boss->Update(this);
-	m_fbxObject->SetHandBoneIndex(19);
+	m_fbxObject->SetHandBoneIndex(hand);
 	Wand->Setf(FALSE);
-	Wand->SetRotation({ -23,43,83 });
+	Wand->SetRotation(WeaponRot);
 	Wand->Update(m_fbxObject->GetRot(), { 1.0f,1.0f,1.0f,1.0f }, camera);
 
+	DamageTexDisplay();
 	if (DeathFlag) {
 		alpha -= 0.005f;
 	}
@@ -105,6 +114,16 @@ void BossEnemy::Update(DebugCamera* camera)
 //ï`âÊèàóù
 void BossEnemy::Draw()
 {
+	ImGui::Begin("rotx");
+	ImGui::SliderInt("rx", &cooltime, 0,100);
+	ImGui::SliderFloat("roty", &Rotation.x, -180, 360);
+	ImGui::SliderFloat("rotz", &Rotation.z, -180, 360);
+	ImGui::End();
+	ImGui::Begin("we");
+	ImGui::Text("%d", nowMotion);
+	ImGui::SliderFloat("rotfolow", &FollowRotAngleCorrect, -180, 360);
+	ImGui::SliderFloat("rotadd", &addRotRadians, -180, 360);
+	ImGui::End();
 	if (alpha < 0)return;
 		Object3d::PreDraw();
 		Wand->Draw();
@@ -126,6 +145,7 @@ void BossEnemy::Draw()
 
 void BossEnemy::Death()
 {
+	
 	if (!DeathFlag) {
 		DeathFlag = true;
 	}
@@ -134,18 +154,42 @@ void BossEnemy::Death()
 
 void BossEnemy::FbxAnimationControl()
 {
-	f_time += 0.02f;
+	f_time += 0.015f;
 
 	if (f_AttackFlag) {
+		nowMotion = NowAttackMotion::NORMAL;
 		f_time = AttackTime;
 		f_AttackFlag = false;
-		nowAttack = true;
-	} else {
-		if (nowDeath == false) {
-			if (!nowAttack && f_time >= AttackTime) {
-				f_time = 0.0f;
-			}
-		}
+	}
+	
+	else if (MagicMotionStart) {
+		nowMotion = NowAttackMotion::MAGIC;
+		f_time =MagicAttackTime;
+		MagicMotionStart = false;
+	}
+	else if (EvaMotionStart) {
+		nowMotion = NowAttackMotion::EVASION;
+		f_time = EvaTime;
+		EvaMotionStart = false;
+	}
+
+
+
+	if (nowMotion== NowAttackMotion::NORMAL&& f_time >= NormalAttackTime_End) {
+		AfterAttack = true;
+		nowMotion =NowAttackMotion::NON;
+	}
+	else if (nowMotion == NowAttackMotion::MAGIC && f_time >= MagicAttackTime_End) {
+		AfterAttack = true;
+		nowMotion = NowAttackMotion::NON;
+	}
+	else if (nowMotion == NowAttackMotion::EVASION && f_time >= EvaTime_End) {
+		AfterAttack = true;
+		nowMotion =NowAttackMotion::NON;
+	}
+
+	if (nowMotion == NowAttackMotion::NON && f_time > AttackTime) {
+		f_time = 0.0f;
 	}
 
 	if (DeathFlag) {
@@ -163,13 +207,10 @@ void BossEnemy::FbxAnimationControl()
 void BossEnemy::AttackCoolTime()
 {
 
-	if (f_time >= DeathTime - 1) {
-		AfterAttack = true;
-	}
 	if (AfterAttack) {
 
 		cooltime++;
-		if (cooltime > 240) {
+		if (cooltime > 250) {
 			AfterAttack = false;
 		}
 	} else {

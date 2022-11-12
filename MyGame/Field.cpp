@@ -181,7 +181,7 @@ void Field::Update_Edit(DebugCamera* camera)
 }
 void Field::Update_Boss(DebugCamera* camera)
 {
-
+	if (FieldObject == nullptr)return;
 	SpriteFeed(TexAlpha_BossName, feed_BossName, feedSpeed_BossName, 1.5f);
 	if (CameraControl::GetInstance()->GetCameraState() == CameraControl::PLAYER) {
 		SpriteFeed(t, feed, feedSpeed_Explanation, 2.5f);

@@ -87,6 +87,7 @@ protected:
 	bool movestop=false;
 protected:
 	//FBXTime周りの変数
+	int fTime=0;
 	float f_time=0.0f;//現在のフレーム
 	float start_time=0.0f;//初期フレーム(0)
 	float end_time=0.0f;//最終フレーム
@@ -111,6 +112,10 @@ protected:
 	AnimationState animeState;
 	float addRotRadians;
 	float FollowRotAngleCorrect;
+	float MagicAttackTime = 0.0f;
+	float EvaTime = 0.0f;
+	bool EvaMotionStart = false;
+	bool MagicMotionStart=false;
 	/*ゲッター*/
 public:
 	float GetRotCorrect() { return FollowRotAngleCorrect; }
@@ -165,6 +170,8 @@ protected://攻撃の開始と終了判定用
 	Attack_SE Attack[AtckNum];
 
 public:
+	void SetMagicAttackTime(bool f){ if (f_time < MagicAttackTime) { MagicMotionStart = f; } }
+	void SetEvaMotionTime(bool f) { if (f_time <EvaTime) {EvaMotionStart = f; } }
 	bool GetAttack_Start(int Num) { return Attack[Num].start; }
 	bool GetAttack_End(int Num) { return Attack[Num].end; }
 

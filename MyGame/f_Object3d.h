@@ -116,6 +116,7 @@ protected:	//ƒƒ“ƒo•Ï”
 	XMMATRIX matScale, matRot, matTrans;
 	XMFLOAT4 color;
 	float f_time;
+	int fbxTime = 0;
 	float start_time;
 	double end_time;
 
@@ -176,6 +177,7 @@ public:	//’è”
 		bool isendtime;
 		
 		void SetFbxTime(float time) { f_time = time; }
+		void SetFTime(int time) { fbxTime = time; }
 		void SetAttackFlag(bool flag) { AttackFlag = flag; }
 	void SetAttackTime(float time) { AttackTime = time; }
 	void SetDeathFlag(bool flag) { DeathFlag = flag; }

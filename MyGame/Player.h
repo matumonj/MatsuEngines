@@ -96,7 +96,7 @@ public:
 private:
 	float vel=0.0f;
 	bool jumpflag=false;
-	float movespeed = 7.0f;
+	float movespeed = 17.0f;
 	XMFLOAT3 MoveVECTOR(DirectX::XMVECTOR v, float angle);
 private:
 	bool noAttack;
@@ -134,12 +134,12 @@ private:
 	bool AttackFlag = false;
 	bool nowattack = false;
 	//各アニメーションのスタート時間
-	const float AttackThiTime =1.8f;
-	const float AttackSecTime = 6.476f;
-	const float AttackFirTime = 0.571f;
+	const float AttackThiTime =238.00f/60.00f;
+	const float AttackSecTime = 138.00f/60.00f;
+	const float AttackFirTime =35.00f/60.00f;
 	
-	const float EvaTime_Start = 5.5f;
-	const float EvaTime_End = 6.5f;
+	const float EvaTime_Start = 428.00f/60.00f;
+	const float EvaTime_End =496.00f/60.00f;
 
 	const float DeathTime = 20.1f;
 

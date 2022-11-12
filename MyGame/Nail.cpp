@@ -89,7 +89,7 @@ void Nail::CircleAttack(int area1, int area2)
 	{
 	case FASE_ONE:
 		//ここで出す釘の数設定
-		NailAmountSet(30);
+		NailAmountSet(15);
 		//座標ずらしの要素数を釘の配列サイズ分
 		CAttack.ZN.resize(Nails.size());
 		CAttack.XN.resize(Nails.size());

@@ -58,11 +58,27 @@ private:
 private:
     bool SlashF;
     bool SlashF2;
+    int hand=21;
+    float et;
     const int ParticleSize = 20;
 public:
+    enum NowAttackMotion {
+        NON,
+        NORMAL,
+        MAGIC,
+        EVASION
+    };
+    NowAttackMotion nowMotion = NON;
+private:
     // bool GetFolatc() { return folatc; }
+    float NormalAttackTime_Start;
+    float NormalAttackTime_End;
+    float MagicAttackTime_Start;
+    float MagicAttackTime_End;
+    float EvaTime_End;
     bool isendtime;
     int particleLife = 320;
     XMFLOAT3 particlePos;
+    XMFLOAT3 WeaponRot;
 };
 

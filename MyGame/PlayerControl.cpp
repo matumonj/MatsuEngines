@@ -18,7 +18,7 @@ void PlayerControl::Init_Tutorial(DebugCamera* camera)
 	player = std::make_unique<Player>();
 	player->Initialize(camera);
 
-	StartPos = { 92.0f,-20.0f,-760.0f };
+	StartPos = { 92.0f,-23.0f,-760.0f };
 
 	player->SetPosition(StartPos);
 	AttackCollision::GetInstance()->Init();
@@ -33,7 +33,7 @@ void PlayerControl::Init_Play(DebugCamera* camera)
 }
 void PlayerControl::Init_Boss(DebugCamera* camera)
 {
-	StartPos = { 0.0f,2.0f,-50.0f };
+	StartPos = { 0.0f,-20.0f,0.0f };
 
 	player->SetPosition(StartPos);
 	AttackCollision::GetInstance()->Init();

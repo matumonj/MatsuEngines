@@ -142,12 +142,12 @@ void HalfAttack::TurnCenter()
 
 		EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->SetRotation({
 			EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetRotation().x,
-			RotY * 60.0f + 180.0f ,
+			RotY * 60.0f + 110.0f ,
 			EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetRotation().z });
 		//ˆÚ“®ƒxƒNƒgƒ‹‚ðyŽ²Žü‚è‚ÌŠp“x‚Å‰ñ“]
 		XMVECTOR move = { 0.0f ,0.0f ,0.1f,0.0f };
 
-		XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetRotation().y));
+		XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetRotation().y+67.0f));
 
 		move = XMVector3TransformNormal(move, matRot);
 

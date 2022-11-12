@@ -15,11 +15,12 @@
 #include"KnockAttack.h"
 #include"BossEnemyAttackSlam.h"
 #include"BossEnemyAttackBeam.h"
+#include"BossEnemyEvasion.h"
 void BossEnemyFollow::Initialize(Enemy* enmey)
 {
 
 }
-
+#include"CustomButton.h"
 void BossEnemyFollow::Update(Enemy* enemy)
 {
 	//’ÇÕˆ—•”•ª//////////
@@ -51,28 +52,35 @@ void BossEnemyFollow::Update(Enemy* enemy)
 	//ˆÚ“®ƒxƒNƒgƒ‹‚ðyŽ²Žü‚è‚ÌŠp“x‚Å‰ñ“]
 	XMVECTOR move = { 0.0f,0.0f,0.1f,0.0f };
 
-	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(enemy->GetRotation().y));
+	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(enemy->GetRotation().y+110.0f));
 
 	move = XMVector3TransformNormal(move, matRot);
 
 	enemy->SetRotation({ enemy->GetRotation().x,
-		 RotY * 60.0f + 180.0f,
+		 RotY * 60.0f+67.0f,
 		enemy->GetRotation().z });
 	if (Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) > 10) {
 		enemy->SetPosition({
-					enemy->GetPosition().x + move.m128_f32[0] ,
+					enemy->GetPosition().x + move.m128_f32[0]*3 ,
 					enemy->GetPosition().y,
-					enemy->GetPosition().z + move.m128_f32[2] }
+					enemy->GetPosition().z + move.m128_f32[2]*3 }
 		);
 	}
 	//////////////////////////////////////////////////////////////
 
 	//•’Ê‚ÌUŒ‚
-	if ( Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 20) {
+	if ( Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 15) {
 		if (enemy->GetCoolTime() == 0) {
 			enemy->ChangeState_Boss(new BossEnemyAttack());
 		}
 	}
+	if (CustomButton::GetInstance()->GetAttackAction()) {
+		Evaprobability = rand() % 100+1;
+		if (Evaprobability < 90) {
+			enemy->ChangeState_Boss(new BossEnemyEvasion());
+	}
+	}
+
 
 	/*2ˆø”F‘Ì—ÍÝ’è(Ý’è’lˆÈ‰º‚È‚Á‚½‚ç‚Rˆø”‚ÌUŒ‚‚Ö)*/
 	AttackSelect(enemy, Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) <= 60.0f, enemy->HALF_1);

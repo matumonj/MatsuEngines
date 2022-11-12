@@ -205,6 +205,7 @@ void Player::Draw()
 {
 	ImGui::Begin("fTime");
 	ImGui::SliderInt("t", &hindex, 0, 30);
+	ImGui::Text("%d", attackMotion);
 	ImGui::Text("%d", OldattackMotion);
 	ImGui::End();
 	Draw_Fbx();
@@ -245,14 +246,19 @@ void Player::FbxAnimationControl()
 	float timespeed = 0.02f;
 
 	if (attackMotion == FIRST) {
-		if (f_time >= AttackThiTime) {
+		if (f_time >= AttackSecTime-0.2f) {
 			AnimationEndJudg_FirstAttack = true;
 		}
 	} else if (attackMotion == SECOND) {
-		if (f_time >= m_fbxObject->GetEndTime()-0.9f) {
+		if (f_time >= AttackThiTime-0.2f) {
 			AnimationEndJudg_SecondAttack = true;
 		}
+	} else if (attackMotion == THIRD) {
+		if (f_time >=EvaTime_Start-0.2f) {
+			AnimationEndJudg_ThirdAttack = true;
+		}
 	}
+
 
 	if (OldattackMotion == NON) {
 		if (CustomButton::GetInstance()->GetAttackAction() == true) {
@@ -262,6 +268,7 @@ void Player::FbxAnimationControl()
 	}
 	if (OldattackMotion == FIRST && AnimationEndJudg_FirstAttack) {
 		if (CustomButton::GetInstance()->GetAttackAction() == true) {
+			AnimationEndJudg_FirstAttack = false;
 			attackMotion = SECOND;
 			OldattackMotion = SECOND;
 		}
@@ -269,16 +276,17 @@ void Player::FbxAnimationControl()
 
 	if (OldattackMotion == SECOND && AnimationEndJudg_SecondAttack) {
 		if (CustomButton::GetInstance()->GetAttackAction() == true) {
-			AnimationEndJudg_FirstAttack = false;
+			AnimationEndJudg_SecondAttack = false;
 			attackMotion = THIRD;
 			OldattackMotion = THIRD;
 		}
 	}
 
 	
-	if (OldattackMotion == THIRD) {
-		if (f_time >=EvaTime_Start-0.2f) {
-			AnimationEndJudg_SecondAttack = false;
+	if (OldattackMotion == THIRD && AnimationEndJudg_ThirdAttack) {
+		if (CustomButton::GetInstance()->GetAttackAction() == true) {
+			AnimationEndJudg_ThirdAttack = false;
+		attackMotion = NON;
 			OldattackMotion = NON;
 		}
 	}
@@ -286,9 +294,9 @@ void Player::FbxAnimationControl()
 		timespeed = 0.005f;
 	}
 	f_time += timespeed;
-	FbxAnimationControls(FIRST, AttackFirTime, AttackThiTime +0.3f);
+	FbxAnimationControls(FIRST, AttackFirTime, AttackSecTime);
 	FbxAnimationControls(THIRD, AttackThiTime, EvaTime_Start);
-	FbxAnimationControls(SECOND, AttackSecTime, m_fbxObject->GetEndTime());
+	FbxAnimationControls(SECOND, AttackSecTime, AttackThiTime);
 }
 
 

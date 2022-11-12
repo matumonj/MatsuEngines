@@ -570,6 +570,9 @@
     <ClCompile Include="ExpPointSystem.cpp">
       <Filter>Game\UI\HUD</Filter>
     </ClCompile>
+    <ClCompile Include="BossEnemyEvasion.cpp">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sprite.h">
@@ -955,6 +958,9 @@
     </ClInclude>
     <ClInclude Include="AttackEffect.h">
       <Filter>Game\UI\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="BossEnemyEvasion.h">
+      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

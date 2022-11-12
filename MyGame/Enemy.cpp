@@ -60,7 +60,7 @@ void Enemy::RecvDamage(int Damage)
 void Enemy::DestroyJudg()
 {
 	if (f_time >= m_fbxObject->GetEndTime()) { 
-		alpha -= 0.05f;
+		//alpha -= 0.05f;
 	}
 	
 }

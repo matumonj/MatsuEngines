@@ -82,7 +82,7 @@ void CircleAttack::Draw()
 {
 	Texture::PreDraw();
 	for (int i = 0; i < 2; i++) {
-		//ImpactAreaTex[i]->Draw();
+		ImpactAreaTex[i]->Draw();
 	}
 	Texture::PostDraw();
 	for (int i = 0; i < NailObj.size(); i++) {
