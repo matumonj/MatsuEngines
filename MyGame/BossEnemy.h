@@ -53,13 +53,14 @@ private:
     bool DeathFlag;
 private:
     void DamageParticleSet();
+
 private:
     bool SlashF;
     bool SlashF2;
     int hand=21;
     float et;
     const int ParticleSize = 20;
-public:
+private:
     enum NowAttackMotion {
         NON,
         ROAR,
@@ -69,6 +70,7 @@ public:
         FALTER
     };
     NowAttackMotion nowMotion = NON;
+    void SetMotion(bool &motionStartJudg, NowAttackMotion motion, float actionStartTime, float actionEndTime);
 private:
     // bool GetFolatc() { return folatc; }
     float NormalAttackTime_Start;

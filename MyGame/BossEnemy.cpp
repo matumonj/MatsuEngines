@@ -147,55 +147,12 @@ void BossEnemy::FbxAnimationControl()
 {
 	f_time += 0.015f;
 
-	if (f_AttackFlag) {
-		nowMotion = NowAttackMotion::NORMAL;
-		f_time = AttackTime;
-		f_AttackFlag = false;
-	}
-	
-	else if (MagicMotionStart) {
-		nowMotion = NowAttackMotion::MAGIC;
-		f_time =MagicAttackTime;
-		MagicMotionStart = false;
-	}
-	else if (EvaMotionStart) {
-		nowMotion = NowAttackMotion::EVASION;
-		f_time = EvaTime;
-		EvaMotionStart = false;
-	}
-	else if (FalterFlag) {
-		nowMotion = NowAttackMotion::FALTER;
-		f_time = FalterTime;
-		FalterFlag = false;
-	}
-	else if (RoarMotionFlag) {
-		nowMotion = NowAttackMotion::ROAR;
-		f_time = RoarTime;
-		RoarMotionFlag = false;
-	}
+	SetMotion(f_AttackFlag, NORMAL, AttackTime, NormalAttackTime_End);
+	SetMotion(MagicMotionStart, MAGIC, MagicAttackTime, MagicAttackTime_End);
+	SetMotion(EvaMotionStart, EVASION, EvaTime, EvaTime_End);
+	SetMotion(FalterFlag, FALTER, FalterTime, FalterTime_End);
+	SetMotion(RoarMotionFlag,ROAR, RoarTime, RoarTime_End);
 
-
-
-	if (nowMotion== NowAttackMotion::NORMAL&& f_time >= NormalAttackTime_End) {
-		AfterAttack = true;
-		nowMotion =NowAttackMotion::NON;
-	}
-	else if (nowMotion == NowAttackMotion::MAGIC && f_time >= MagicAttackTime_End) {
-		AfterAttack = true;
-		nowMotion = NowAttackMotion::NON;
-	}
-	else if (nowMotion == NowAttackMotion::EVASION && f_time >= EvaTime_End) {
-		AfterAttack = true;
-		nowMotion =NowAttackMotion::NON;
-	}
-	else if (nowMotion == NowAttackMotion::FALTER && f_time >= FalterTime_End-0.1f) {
-		AfterAttack = true;
-		nowMotion = NowAttackMotion::NON;
-	}
-	else if (nowMotion == NowAttackMotion::ROAR && f_time >= RoarTime_End - 0.1f) {
-		AfterAttack = true;
-		nowMotion = NowAttackMotion::NON;
-	}
 	if (nowMotion == NowAttackMotion::NON && f_time > AttackTime) {
 		f_time = 0.0f;
 	}
@@ -211,6 +168,19 @@ void BossEnemy::FbxAnimationControl()
 	}
 
 	m_fbxObject->SetFbxTime(f_time);
+}
+void BossEnemy::SetMotion(bool &motionStartJudg, NowAttackMotion motion, float actionStartTime,float actionEndTime)
+{
+	if (motionStartJudg) {
+		nowMotion =motion;
+		f_time =actionStartTime;
+		motionStartJudg= false;
+	}
+
+	if (nowMotion == motion && f_time >= actionEndTime) {
+		AfterAttack = true;
+		nowMotion = NowAttackMotion::NON;
+	}
 }
 void BossEnemy::AttackCoolTime()
 {
