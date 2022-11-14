@@ -1,6 +1,7 @@
 #pragma once
 #include"Texture.h"
 #include"Input.h"
+
 class KnockAttack
 {
 public:
@@ -26,17 +27,18 @@ public:
 	void ActionJudg();
 
 public:
-	enum Fase {
+	enum Fase
+	{
 		FASENON,
 		FASEONE,
 		FASETWO,
 		FASETHREE,
 		FASEFOUR
 	};
+
 	Fase GetFase() { return fase; }
 	void SetAttackFase(bool f) { if (f && fase != FASEONE) { fase = FASEONE; } }
 
 private:
 	Fase fase;
 };
-

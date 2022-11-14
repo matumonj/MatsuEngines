@@ -41,11 +41,10 @@ class MyGame : public Framework
 {
 public:
 	void TitleInitialize();
-	void Initialize()override;
-	void Update()override;
-	void Draw()override;
-	void Finalize()override;
+	void Initialize() override;
+	void Update() override;
+	void Draw() override;
+	void Finalize() override;
 private:
 	bool t = false, y = false;
 };
-

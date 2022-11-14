@@ -8,21 +8,22 @@
 
 #include"DebugCamera.h"
 #include"Collision.h"
+
 class ControlBase
 {
 public:
 	virtual ~ControlBase();
 public:
-	virtual void Load(DebugCamera* camera)=0;
+	virtual void Load(DebugCamera* camera) =0;
 
 	virtual void Initialize(DebugCamera* camera);
 	virtual void Update(DebugCamera* camera);
 	virtual void Draw();
 
 
-	virtual void Update_Tutorial(DebugCamera*camera) = 0;
-	virtual void Update_Play(DebugCamera*camera) = 0; 
-	virtual void Update_Boss(DebugCamera*camera) = 0;
+	virtual void Update_Tutorial(DebugCamera* camera) = 0;
+	virtual void Update_Play(DebugCamera* camera) = 0;
+	virtual void Update_Boss(DebugCamera* camera) = 0;
 
 	virtual void Init_Tutorial(DebugCamera* camera) = 0;
 	virtual void Init_Play(DebugCamera* camera) = 0;
@@ -32,20 +33,21 @@ public:
 	virtual void Draw_Play() = 0;
 	virtual void Draw_Boss() = 0;
 
-	
+
 	virtual void Finalize() = 0;
 private:
 	static void (ControlBase::* initTable[])(DebugCamera* camera);
-	static void (ControlBase::* updateTable[])(DebugCamera*camera);
+	static void (ControlBase::* updateTable[])(DebugCamera* camera);
 	static void (ControlBase::* drawTable[])();
 protected:
-	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+	template <class T>
+	using ComPtr = ComPtr<T>;
 	// DirectX::を省略
-	using XMFLOAT2 = DirectX::XMFLOAT2;
-	using XMFLOAT3 = DirectX::XMFLOAT3;
-	using XMFLOAT4 = DirectX::XMFLOAT4;
-	using XMMATRIX = DirectX::XMMATRIX;
-	using XMVECTOR = DirectX::XMVECTOR;
+	using XMFLOAT2 = XMFLOAT2;
+	using XMFLOAT3 = XMFLOAT3;
+	using XMFLOAT4 = XMFLOAT4;
+	using XMMATRIX = XMMATRIX;
+	using XMVECTOR = XMVECTOR;
 
 protected:
 	//エディタの読み込みに必要な変数
@@ -61,7 +63,4 @@ protected:
 	float UpdateRange;
 public:
 	int GetQuentity() { return Quantity; }
-
-
 };
-

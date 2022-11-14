@@ -7,19 +7,19 @@ static const uint vnum = 4;
 //センターからのオフセット
 static const float4 offset_array[vnum] =
 {
-	float4(-0.5f,-0.5f,0,0),
-	float4(-0.5f,+0.5f,0,0),
-	float4(+0.5f,-0.5f,0,0),
-	float4(+0.5f,+0.5f,0,0)
+	float4(-0.5f, -0.5f, 0, 0),
+	float4(-0.5f, +0.5f, 0, 0),
+	float4(+0.5f, -0.5f, 0, 0),
+	float4(+0.5f, +0.5f, 0, 0)
 };
 
 //左上が０，０　右下が1，1
 static const float2 uv_array[vnum] =
 {
-	float2(0,1),
-	float2(0,0),
-	float2(1,1),
-	float2(1,0)
+	float2(0, 1),
+	float2(0, 0),
+	float2(1, 1),
+	float2(1, 0)
 };
 
 
@@ -27,7 +27,7 @@ static const float2 uv_array[vnum] =
 void main(
 	point VSOutput input[1] : SV_POSITION,
 	//点ストリーム
-	inout TriangleStream< GSOutput > output
+	inout TriangleStream<GSOutput> output
 )
 {
 	GSOutput element;
@@ -49,8 +49,6 @@ void main(
 		//element.uv=float2(0.5f,0.5f);
 		element.uv = uv_array[i];
 		element.color = input[0].colors;
-		output.Append(element);//頂点を一つ出力
+		output.Append(element); //頂点を一つ出力
 	}
-	
 }
-

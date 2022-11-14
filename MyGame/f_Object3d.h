@@ -16,27 +16,28 @@ class BaseCollider;
 
 class f_Object3d
 {
-protected:	//エイリアス
+protected: //エイリアス
 	//Microosoft::WRL::を省略
-	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+	template <class T>
+	using ComPtr = Microsoft::WRL::ComPtr<T>;
 	//DirectX::を省略
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
 	using XMVECTOR = DirectX::XMVECTOR;
-public:	//静的メンバ関数
+public: //静的メンバ関数
 	//setter
 	static void SetDevice(ID3D12Device* device) { f_Object3d::device = device; }
 	static void SetCamera(Camera* camera) { f_Object3d::camera = camera; }
-	
+
 
 	/// <summary>
 	///グラフィックパイプラインの生成
 	/// </summary>
 	static void CreateGraphicsPipeline();
 
-private:	//静的メンバ変数
+private: //静的メンバ変数
 	//デバイス
 	static ComPtr<ID3D12Device> device;
 	static ComPtr<ID3D12GraphicsCommandList> cmdList;
@@ -47,17 +48,17 @@ private:	//静的メンバ変数
 	//パイプラインステートオブジェクト
 	static ComPtr<ID3D12PipelineState> pipelinestate;
 
-public:	//サブクラス
+public: //サブクラス
 	//定数バッファ用データ構造体（座標変換行列）
 	struct ConstBufferDataTransform
 	{
 		XMFLOAT4 color;
-		XMMATRIX viewproj;	//ビュープロジェクション行列
-		XMMATRIX world;		//ワールド行列
-		XMFLOAT3 cameraPos;	//カメラ行列（ワールド座標）
+		XMMATRIX viewproj; //ビュープロジェクション行列
+		XMMATRIX world; //ワールド行列
+		XMFLOAT3 cameraPos; //カメラ行列（ワールド座標）
 	};
 
-public:	//メンバ関数
+public: //メンバ関数
 	void SetCollider(BaseCollider* collider);
 
 	/// <summary>
@@ -88,15 +89,15 @@ public:	//メンバ関数
 	/// </summary>
 	void PlayAnimation();
 
-protected:	//メンバ変数
+protected: //メンバ変数
 	//定数バッファ
 	ComPtr<ID3D12Resource> constBuffTransform;
 	//ローカルスケール
-	XMFLOAT3 scale = { 0.1f, 0.1f, 0.1f };
+	XMFLOAT3 scale = {0.1f, 0.1f, 0.1f};
 	//X,Y,Z軸回りのローカル回転角
-	XMFLOAT3 rotation = { 0.0f, 0.0f, 0.0f };
+	XMFLOAT3 rotation = {0.0f, 0.0f, 0.0f};
 	//ローカル座標
-	XMFLOAT3 position = { 0.0f, 0.0f, 0.0f };
+	XMFLOAT3 position = {0.0f, 0.0f, 0.0f};
 	//ローカルワールド変換行列
 	XMMATRIX matWorld;
 	//モデル
@@ -125,7 +126,7 @@ protected:	//メンバ変数
 	bool DeathFlag;
 	float DeathTime;
 
-public:	//定数
+public: //定数
 	void SetColor(XMFLOAT4 color) { this->color = color; }
 	void SetPosition(XMFLOAT3 pos) { position = pos; }
 	void SetRotation(XMFLOAT3 rot) { rotation = rot; }
@@ -135,15 +136,17 @@ public:	//定数
 
 	XMMATRIX GetMatTrans() { return matTrans; }
 
-	XMMATRIX GetMatScale () { return matScale; }
-		//ボーンの最大数
+	XMMATRIX GetMatScale() { return matScale; }
+	//ボーンの最大数
 	static const int MAX_BONES = 88;
 	XMFLOAT3 GetPosition() { return position; }
+
 	//定数バッファ用データ構造体（スキニング）
 	struct ConstBufferDataSkin
 	{
 		XMMATRIX bones[MAX_BONES];
 	};
+
 	bool stopFlag;
 	void SeteCurrent(bool f) { stopFlag = f; }
 	XMMATRIX HandMatWorld;
@@ -151,24 +154,24 @@ public:	//定数
 	XMFLOAT3 pos;
 	XMMATRIX GetPos() { return Posmat; }
 	XMMATRIX GetMatrot() { return matRot; }
-	XMMATRIX GetHandBoneMatWorld(){return HandMatWorld;}
+	XMMATRIX GetHandBoneMatWorld() { return HandMatWorld; }
 	FbxTime SetCurrent() { return currentTime = startTime; }
 	// ライト
 	//static LightGroup* lightGroup;
-	int bindexs=13;
+	int bindexs = 13;
 	void SetFogPos(XMFLOAT3 pos) { fogpos = pos; }
 	void SetHandBoneIndex(int bindex) { bindexs = bindex; }
 
-	private:
-		XMFLOAT3 fogpos;
-		bool nowAttack;
-		bool nowDeath;
-	public:
-		bool isendtime;
-		
-		void SetFbxTime(float time) { f_time = time; }
-		void SetFTime(int time) { fbxTime = time; }
-		void SetAttackFlag(bool flag) { AttackFlag = flag; }
+private:
+	XMFLOAT3 fogpos;
+	bool nowAttack;
+	bool nowDeath;
+public:
+	bool isendtime;
+
+	void SetFbxTime(float time) { f_time = time; }
+	void SetFTime(int time) { fbxTime = time; }
+	void SetAttackFlag(bool flag) { AttackFlag = flag; }
 	void SetAttackTime(float time) { AttackTime = time; }
 	void SetDeathFlag(bool flag) { DeathFlag = flag; }
 	void SetDeathTime(float time) { DeathTime = time; }

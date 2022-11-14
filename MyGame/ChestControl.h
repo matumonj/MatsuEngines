@@ -2,15 +2,16 @@
 #include"ControlBase.h"
 #include"Chest.h"
 #include"ParticleManager.h"
-class ChestControl :public ControlBase
+
+class ChestControl : public ControlBase
 {
 public:
 	static ChestControl* GetInstance();
 
-	void Load(DebugCamera* camera)override;
+	void Load(DebugCamera* camera) override;
 
 
-	void Finalize()override;
+	void Finalize() override;
 
 public:
 	void GetChestAction();
@@ -21,15 +22,18 @@ public:
 
 	int ChestCount() { return GetChestCount; }
 
-	enum Color {
+	enum Color
+	{
 		RED,
 		BLUE,
 		GREEN,
 		YELLOW
 	};
+
 	Chest* GetChest(Color col) { return chests[col].get(); }
 private:
-	enum Event {
+	enum Event
+	{
 		FEEDIN,
 		FEEDOUT,
 		GETCHEST,
@@ -38,50 +42,51 @@ private:
 		END,
 		NON
 	};
-	
+
 private:
-	std::vector<std::unique_ptr<Chest>>chests;
-	std::vector <XMFLOAT3>Load_ChestPosition;
-	std::vector<std::unique_ptr<Chest>>Tutorial_chest;
+	std::vector<std::unique_ptr<Chest>> chests;
+	std::vector<XMFLOAT3> Load_ChestPosition;
+	std::vector<std::unique_ptr<Chest>> Tutorial_chest;
 	int GetChestCount = 0;
 	bool GetTutorialChestJudg;
 	int ChestMax;
 private:
-struct ParticleParam {
+	struct ParticleParam
+	{
 		ParticleManager* particleMan = nullptr;
-		bool ParticleCreateF=false;
+		bool ParticleCreateF = false;
 		XMFLOAT3 particlePos;
 		int ParticleLife = 420;
-		int pCount=0;
+		int pCount = 0;
 		XMFLOAT3 vel{};
 		XMFLOAT3 acc{};
 
 		Event ChestEvent = NON;
-};
-int u=0;
+	};
+
+	int u = 0;
 	ParticleParam TutorialPchest;
 	ParticleParam PlayPchest[4];
-	void GetChestEffect(Chest* chest, ParticleParam&pParam);
-	void GetChestEvent(Chest* chest, ParticleParam&pParam);
+	void GetChestEffect(Chest* chest, ParticleParam& pParam);
+	void GetChestEvent(Chest* chest, ParticleParam& pParam);
 private:
-	void Init_Tutorial(DebugCamera*camera)override;
+	void Init_Tutorial(DebugCamera* camera) override;
 
-	void Init_Play(DebugCamera*camera)override;
+	void Init_Play(DebugCamera* camera) override;
 
-	void Init_Boss(DebugCamera*camera)override;
-
-	/*更新処理*/
-	void Update_Tutorial(DebugCamera* camera)override;
-
-	void Update_Play(DebugCamera* camera)override;
-
-	void Update_Boss(DebugCamera* camera)override;
+	void Init_Boss(DebugCamera* camera) override;
 
 	/*更新処理*/
-	void Draw_Tutorial()override;
+	void Update_Tutorial(DebugCamera* camera) override;
 
-	void Draw_Play()override;
+	void Update_Play(DebugCamera* camera) override;
 
-	void Draw_Boss()override;
+	void Update_Boss(DebugCamera* camera) override;
+
+	/*更新処理*/
+	void Draw_Tutorial() override;
+
+	void Draw_Play() override;
+
+	void Draw_Boss() override;
 };
-

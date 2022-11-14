@@ -14,9 +14,11 @@
 /// コンストラクタ
 /// </summary>
 using namespace DirectX;
+
 EnemyAlpha::EnemyAlpha()
 {
 }
+
 /// <summary>
 /// デストラクタ
 /// </summary>
@@ -36,22 +38,23 @@ void EnemyAlpha::Initialize(DebugCamera* camera)
 	MaxHP = 65.00f;
 	//パラメータのセット
 
-	Rotation = {-110,0,0 };
-	
+	Rotation = {-110, 0, 0};
+
 
 	m_fbxObject = std::make_unique<f_Object3d>();
 	m_fbxObject->Initialize();
 	m_fbxObject->SetModel(FbxLoader::GetInstance()->LoadModelFromFile("sniper_blender"));
 	m_fbxObject->PlayAnimation();
 	radius_adjustment = 0;
-	Scale = { 0.05f, 0.05f, 0.05f
+	Scale = {
+		0.05f, 0.05f, 0.05f
 	};
 	SetCollider();
 	AttackTime = 1.5f;
 	DeathTime = 6.f;
 	nowAttack = false;
 	nowDeath = false;
-	m_fbxObject->SetColor({ 1,0,0,alpha });
+	m_fbxObject->SetColor({1, 0, 0, alpha});
 	state_mob->Initialize(this);
 	addRotRadians = -180;
 	FollowRotAngleCorrect = 0;
@@ -60,7 +63,6 @@ void EnemyAlpha::Initialize(DebugCamera* camera)
 	particleMan = ParticleManager::Create(4, L"Resources/ParticleTex/Attack.png");
 	ParticleManager::LoadTexture(6, L"Resources/ParticleTex/Attack.png");
 	particleMan2 = ParticleManager::Create(6, L"Resources/ParticleTex/Attack.png");
-
 }
 
 //更新処理
@@ -68,26 +70,29 @@ void EnemyAlpha::Update(DebugCamera* camera)
 {
 	state_mob->Update(this);
 
-	if (DeathFlag&&alpha>-1) {
+	if (DeathFlag && alpha > -1)
+	{
 		alpha -= 0.005f;
 	}
-	m_fbxObject->SetColor({ 1,0,0,alpha });
+	m_fbxObject->SetColor({1, 0, 0, alpha});
 
-	if (!DeathFlag&& SceneManager::GetInstance()->GetScene() != SceneManager::MAPCREATE) {
+	if (!DeathFlag && SceneManager::GetInstance()->GetScene() != SceneManager::MAPCREATE)
+	{
 		m_fbxObject->SetFogPos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
 
 		HandSiteOBB.SetOBBParam_Pos(m_fbxObject->GetWorld());
 		HandSiteOBB.SetOBBParam_Rot(m_fbxObject->GetWorld());
-		HandSiteOBB.SetOBBParam_Scl({ 25.0f,200.0f,250.0f });
+		HandSiteOBB.SetOBBParam_Scl({25.0f, 200.0f, 250.0f});
 
 		playerOBB.SetOBBParam_Pos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
 		playerOBB.SetOBBParam_Rot(PlayerControl::GetInstance()->GetPlayer()->GetMatrot());
-		playerOBB.SetOBBParam_Scl({ 1.0f,5.0f,1.0f });
+		playerOBB.SetOBBParam_Scl({1.0f, 5.0f, 1.0f});
 
 		//if (f_time >= AttackTime + 1.0f) {
-				if (Collision::CheckOBBCollision(playerOBB, HandSiteOBB) == true) {
-					PlayerControl::GetInstance()->GetPlayer()->RecvDamage(10);
-				}
+		if (Collision::CheckOBBCollision(playerOBB, HandSiteOBB) == true)
+		{
+			PlayerControl::GetInstance()->GetPlayer()->RecvDamage(10);
+		}
 		//}
 	}
 	FbxAnimationControl();
@@ -103,7 +108,8 @@ void EnemyAlpha::Update(DebugCamera* camera)
 //描画処理
 void EnemyAlpha::Draw()
 {
-	if (alpha > 0) {
+	if (alpha > 0)
+	{
 		Draw_Fbx();
 	}
 	ParticleManager::PreDraw();
@@ -112,12 +118,12 @@ void EnemyAlpha::Draw()
 	particleMan2->Draw();
 	// 3Dオブジェクト描画後処理
 	ParticleManager::PostDraw();
-
 }
 
 void EnemyAlpha::Death()
 {
-	if (!DeathFlag) {
+	if (!DeathFlag)
+	{
 		ExpPointSystem::GetInstance()->ExpPoint_Get(10);
 		//f_time = DeathTime;
 		//if (f_time > DeathTime) {
@@ -125,8 +131,8 @@ void EnemyAlpha::Death()
 		EnemyHP = MaxHP;
 	}
 	//if (f_time < DeathTime) {
-		//f_time = DeathTime;
-//	}
+	//f_time = DeathTime;
+	//	}
 	movestop = false;
 }
 
@@ -136,20 +142,26 @@ void EnemyAlpha::FbxAnimationControl()
 	//1フレーム進める
 	f_time += 0.02f;
 
-	if (f_AttackFlag) {
+	if (f_AttackFlag)
+	{
 		f_time = AttackTime;
 		f_AttackFlag = false;
 		nowAttack = true;
-	} else {
-		if (DeathFlag == false) {
-			if (!nowAttack && f_time >= AttackTime) {
+	}
+	else
+	{
+		if (DeathFlag == false)
+		{
+			if (!nowAttack && f_time >= AttackTime)
+			{
 				f_time = 0.0f;
 			}
 		}
 	}
 
-	
-	if (f_time > DeathTime) {
+
+	if (f_time > DeathTime)
+	{
 		nowAttack = false;
 	}
 
@@ -159,19 +171,22 @@ void EnemyAlpha::FbxAnimationControl()
 
 void EnemyAlpha::AttackCoolTime()
 {
-	if (f_time >= DeathTime - 1) {
+	if (f_time >= DeathTime - 1)
+	{
 		AfterAttack = true;
 	}
-	if (AfterAttack) {
-
+	if (AfterAttack)
+	{
 		cooltime++;
-		if (cooltime > 480) {
+		if (cooltime > 480)
+		{
 			AfterAttack = false;
 		}
-	} else {
+	}
+	else
+	{
 		cooltime = 0;
 	}
-
 }
 
 void EnemyAlpha::DamageParticleSet()

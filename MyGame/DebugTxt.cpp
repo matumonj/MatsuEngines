@@ -1,12 +1,14 @@
 #include "DebugTxt.h"
 #include"CameraControl.h"
+
 DebugTxt::DebugTxt()
 {
 }
 
 DebugTxt::~DebugTxt()
 {
-	for (int i = 0; i < _countof(spriteDatas); i++) {
+	for (int i = 0; i < _countof(spriteDatas); i++)
+	{
 		delete spriteDatas[i];
 	}
 }
@@ -23,14 +25,14 @@ void DebugTxt::Initialize(UINT texnumber)
 	for (int i = 0; i < _countof(spriteDatas); i++)
 	{
 		// スプライトを生成する
-		spriteDatas[i] = Texture::Create(texnumber, { 0,0,0 }, { 4,4,4 }, { 0,0,1,1 });
+		spriteDatas[i] = Texture::Create(texnumber, {0, 0, 0}, {4, 4, 4}, {0, 0, 1, 1});
 		spriteDatas[i]->CreateTexture();
-		spriteDatas[i]->SetAnchorPoint({ 0.5f,0.5f });
-
+		spriteDatas[i]->SetAnchorPoint({0.5f, 0.5f});
 	}
-	color = { 1.0f,1.0f,1.0f,1.0f };
+	color = {1.0f, 1.0f, 1.0f, 1.0f};
 	isDestoy = false;
 }
+
 void DebugTxt::TextBeha()
 {
 	//Position.y -= 0.01f;
@@ -40,14 +42,14 @@ void DebugTxt::TextBeha()
 // 1文字列追加
 void DebugTxt::Print(float scale = 1.0f)
 {
-
 	TextBeha();
 
 	// 全ての文字について
 	for (int i = 0; i < text.size(); i++)
 	{
 		// 最大文字数超過
-		if (spriteIndex >= maxCharCount) {
+		if (spriteIndex >= maxCharCount)
+		{
 			break;
 		}
 
@@ -55,7 +57,8 @@ void DebugTxt::Print(float scale = 1.0f)
 		const unsigned char& character = text[i];
 
 		int fontIndex = character - 32;
-		if (character >= 0x7f) {
+		if (character >= 0x7f)
+		{
 			fontIndex = 0;
 		}
 
@@ -63,11 +66,14 @@ void DebugTxt::Print(float scale = 1.0f)
 		int fontIndexX = fontIndex % fontLineCount;
 
 		// 座標計算
-		spriteDatas[spriteIndex]->SetPosition({ Position.x + fontWidth * 1* i/15, Position.y,Position.z });
+		spriteDatas[spriteIndex]->SetPosition({Position.x + fontWidth * 1 * i / 15, Position.y, Position.z});
 		spriteDatas[spriteIndex]->SetColor(color);
-		spriteDatas[spriteIndex]->SetTextureRect({ (float)fontIndexX * fontWidth, (float)fontIndexY * fontHeight }, { (float)fontWidth, (float)fontHeight });
-		spriteDatas[spriteIndex]->SetScale({ fontWidth * scale/100, fontHeight * scale/100,1 });
-		spriteDatas[spriteIndex]->SetRotation({ 180,0,0 });
+		spriteDatas[spriteIndex]->SetTextureRect(
+			{static_cast<float>(fontIndexX) * fontWidth, static_cast<float>(fontIndexY) * fontHeight}, {
+				static_cast<float>(fontWidth), static_cast<float>(fontHeight)
+			});
+		spriteDatas[spriteIndex]->SetScale({fontWidth * scale / 100, fontHeight * scale / 100, 1});
+		spriteDatas[spriteIndex]->SetRotation({180, 0, 0});
 		spriteDatas[spriteIndex]->SetBillboard(true);
 		spriteDatas[spriteIndex]->SetUVMove(false);
 		spriteDatas[spriteIndex]->SetDisplayRadius(100);
@@ -76,7 +82,8 @@ void DebugTxt::Print(float scale = 1.0f)
 		spriteIndex++;
 	}
 
-	if (color.w <= 0.0f) {
+	if (color.w <= 0.0f)
+	{
 		isDestoy = true;
 	}
 }
@@ -101,7 +108,8 @@ DebugTextSprite::DebugTextSprite()
 
 DebugTextSprite::~DebugTextSprite()
 {
-	for (int i = 0; i < _countof(spriteDatas); i++) {
+	for (int i = 0; i < _countof(spriteDatas); i++)
+	{
 		delete spriteDatas[i];
 	}
 }
@@ -118,8 +126,8 @@ void DebugTextSprite::Initialize(UINT texnumber)
 	for (int i = 0; i < _countof(spriteDatas); i++)
 	{
 		// スプライトを生成する
-		spriteDatas[i] = Sprite::Create(texnumber, { 0,0 });
-		spriteDatas[i]->SetAnchorPoint({ 0.5f,0.5f });
+		spriteDatas[i] = Sprite::Create(texnumber, {0, 0});
+		spriteDatas[i]->SetAnchorPoint({0.5f, 0.5f});
 	}
 }
 
@@ -130,7 +138,8 @@ void DebugTextSprite::Print(const std::string& text, float x, float y, float sca
 	for (int i = 0; i < text.size(); i++)
 	{
 		// 最大文字数超過
-		if (spriteIndex >= maxCharCount) {
+		if (spriteIndex >= maxCharCount)
+		{
 			break;
 		}
 
@@ -138,7 +147,8 @@ void DebugTextSprite::Print(const std::string& text, float x, float y, float sca
 		const unsigned char& character = text[i];
 
 		int fontIndex = character - 32;
-		if (character >= 0x7f) {
+		if (character >= 0x7f)
+		{
 			fontIndex = 0;
 		}
 
@@ -146,9 +156,12 @@ void DebugTextSprite::Print(const std::string& text, float x, float y, float sca
 		int fontIndexX = fontIndex % fontLineCount;
 
 		// 座標計算
-		spriteDatas[spriteIndex]->SetPosition({ x + fontWidth * scale * i, y });
-		spriteDatas[spriteIndex]->SetTextureRect({ (float)fontIndexX * fontWidth, (float)fontIndexY * fontHeight }, { (float)fontWidth, (float)fontHeight });
-		spriteDatas[spriteIndex]->SetSize({ fontWidth * scale, fontHeight * scale });
+		spriteDatas[spriteIndex]->SetPosition({x + fontWidth * scale * i, y});
+		spriteDatas[spriteIndex]->SetTextureRect(
+			{static_cast<float>(fontIndexX) * fontWidth, static_cast<float>(fontIndexY) * fontHeight}, {
+				static_cast<float>(fontWidth), static_cast<float>(fontHeight)
+			});
+		spriteDatas[spriteIndex]->SetSize({fontWidth * scale, fontHeight * scale});
 
 		// 文字を１つ進める
 		spriteIndex++;
@@ -158,39 +171,45 @@ void DebugTextSprite::Print(const std::string& text, float x, float y, float sca
 void DebugTextSprite::FeedTex()
 {
 	alpha -= 0.0005f;
-	if (SizeVariableF) {
+	if (SizeVariableF)
+	{
 		alpha = 1.0f;
 		TexScale.x += 0.05f;
 		TexScale.y += 0.05f;
-	
-		if (TexScale.x >= 2.0f) {
+
+		if (TexScale.x >= 2.0f)
+		{
 			VariableStopT++;
-			if (VariableStopT > 60) {
-				SizeVariableF =false;
+			if (VariableStopT > 60)
+			{
+				SizeVariableF = false;
 			}
 		}
 	}
-	else {
+	else
+	{
 		alpha -= 0.02f;
 		VariableStopT = 0;
-		if (alpha <= 0.0f) {
+		if (alpha <= 0.0f)
+		{
 			SizeVariableF = false;
 		}
 	}
-	
+
 	//alpha = max(alpha, 0);
 	TexScale.x = min(TexScale.x, 2.0f);
 	TexScale.y = min(TexScale.y, 2.0f);
 	TexScale.x = max(TexScale.x, 0.0f);
 	TexScale.y = max(TexScale.y, 0.0f);
 }
+
 // まとめて描画
 void DebugTextSprite::DrawAll()
 {
 	// 全ての文字のスプライトについて
 	for (int i = 0; i < spriteIndex; i++)
 	{
-		spriteDatas[i]->setcolor({ 1,1,1,alpha });
+		spriteDatas[i]->setcolor({1, 1, 1, alpha});
 		// スプライト描画
 		spriteDatas[i]->Draw();
 	}

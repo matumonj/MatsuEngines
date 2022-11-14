@@ -1,5 +1,6 @@
 #pragma once
 #include"Sprite.h"
+
 class BossSpell
 {
 public:
@@ -12,15 +13,18 @@ public:
 	void Draw();
 	void Finalize();
 private:
-	struct Spells {
+	struct Spells
+	{
 		Sprite* SpellFrame;
 		Sprite* SpellGauge;
-		float Time;//イージング用
-		bool StartJudg;//詠唱開始
-		bool EndJudg;//詠唱終了
+		float Time; //イージング用
+		bool StartJudg; //詠唱開始
+		bool EndJudg; //詠唱終了
 	};
+
 public:
-	enum AttackType {
+	enum AttackType
+	{
 		HALF_LEFT,
 		HALF_RIGHT,
 		CIRCLE,
@@ -35,7 +39,7 @@ private:
 
 private:
 	void SpellsInit(Spells& spell, int TexNum_G, int TexNum_F);
-	void SpellAction(Spells& spell,float spellCount);
+	void SpellAction(Spells& spell, float spellCount);
 	void SpellsDraw(const Spells& spells);
 
 public:
@@ -43,7 +47,4 @@ public:
 
 	bool GetEndSpell(const AttackType& index) { return Attack[index].EndJudg; }
 	void SetEndSpell(const AttackType& index, bool f) { Attack[index].EndJudg = f; }
-
-	
 };
-

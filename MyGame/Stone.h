@@ -1,4 +1,3 @@
-
 #pragma once
 #include"Object3d.h"
 #include"Model.h"
@@ -7,39 +6,38 @@
 #include"Player.h"
 #include<memory>
 #include"CollisionPrimitive.h"
-class Stone :public ObjectManager
-{
 
+class Stone : public ObjectManager
+{
 public:
 	Stone();
-	~Stone();
+	~Stone() override;
 
 protected:
-	OBB playerOBB={};
-	OBB StoneOBB={};// = nullptr;
-	float alpha=0.0f;
+	OBB playerOBB = {};
+	OBB StoneOBB = {}; // = nullptr;
+	float alpha = 0.0f;
 public:
-	virtual void Initialize(DebugCamera* camera)override;
-	virtual void Update(DebugCamera* camera)override;
-	virtual void Draw()override;
+	void Initialize(DebugCamera* camera) override;
+	void Update(DebugCamera* camera) override;
+	void Draw() override;
 	virtual bool CollideStone();
 };
 
-class Stone_A :public Stone
+class Stone_A : public Stone
 {
 public:
-	void Initialize(DebugCamera* camera)override;
-	void Update(DebugCamera* camera)override;
-	void Draw()override;
-	bool CollideStone()override;
+	void Initialize(DebugCamera* camera) override;
+	void Update(DebugCamera* camera) override;
+	void Draw() override;
+	bool CollideStone() override;
 };
 
-class Stone_B :public Stone
+class Stone_B : public Stone
 {
 public:
-	void Initialize(DebugCamera* camera)override;
-	void Update(DebugCamera* camera)override;
-	void Draw()override;
-	bool CollideStone()override;
+	void Initialize(DebugCamera* camera) override;
+	void Update(DebugCamera* camera) override;
+	void Draw() override;
+	bool CollideStone() override;
 };
-

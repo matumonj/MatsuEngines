@@ -9,10 +9,11 @@
 
 #include <wrl.h>
 using namespace Microsoft::WRL;
+
 class FbxLoader
 {
-private:	//エイリアス
-//std::を省略
+private: //エイリアス
+	//std::を省略
 	using string = std::string;
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
@@ -39,7 +40,7 @@ public:
 	/// ファイルからFBXモデル読み込み
 	/// </summary>
 	/// <param name="modelName"></param>
-	f_Model* LoadModelFromFile(const string modelName);
+	f_Model* LoadModelFromFile(string modelName);
 
 	/// <summary>
 	/// 再帰的にノード構成を解析
@@ -94,15 +95,18 @@ private:
 	//FBXインポータ
 	FbxImporter* fbxImporter = nullptr;
 	Node HandNode;
-	FbxDouble3 hrotation;// = fbxNode->LclRotation.Get();
-	FbxDouble3 hscaling;// = fbxNode->LclScaling.Get();
-	FbxDouble3 htranslation;// = fbxNode->LclTranslation.Get();
+	FbxDouble3 hrotation; // = fbxNode->LclRotation.Get();
+	FbxDouble3 hscaling; // = fbxNode->LclScaling.Get();
+	FbxDouble3 htranslation; // = fbxNode->LclTranslation.Get();
 
-public:	//定数
+public: //定数
 	XMMATRIX Hand;
-	XMMATRIX GetHand() {
+
+	XMMATRIX GetHand()
+	{
 		return Hand;
 	}
+
 	XMFLOAT3 Getahand();
 	XMMATRIX GetNode() { return nodes; }
 	//モデル格納ルートパス

@@ -4,9 +4,7 @@
 class WinApp
 {
 public:
-	
 private:
-
 	WNDCLASSEX w{};
 	HWND hwnd = nullptr;
 public:
@@ -24,11 +22,10 @@ public:
 
 	//メンバ関数
 	static LRESULT WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
-	void Createwindow();//初期化
+	void Createwindow(); //初期化
 	//メッセージ処理
 	bool Processmassage();
 	void Deletewindow();
 	void Finalize();
-	static int CreateErrorWindow(bool errorjudg,LPCTSTR text);
+	static int CreateErrorWindow(bool errorjudg, LPCTSTR text);
 };
-

@@ -8,7 +8,8 @@ class Sprite
 {
 private:
 	// Microsoft::WRL::を省略
-	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+	template <class T>
+	using ComPtr = Microsoft::WRL::ComPtr<T>;
 	// DirectX::を省略
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
@@ -24,21 +25,23 @@ public:
 		XMFLOAT3 pos;
 		XMFLOAT2 uv;
 	};
+
 	//定数バッファ用
 	struct ConstBufferData
 	{
-		XMFLOAT4 color;	// 色 (RGBA)
-		XMMATRIX mat;	// ３Ｄ変換行列
+		XMFLOAT4 color; // 色 (RGBA)
+		XMMATRIX mat; // ３Ｄ変換行列
 		bool UvScflag;
 		XMFLOAT3 sub;
 		float uv_time;
 	};
-	
+
 	static bool StaticInitialize(int window_width, int window_height);
 	static bool LoadTexture(UINT texnumber, const wchar_t* filename);
 	static void PreDraw();
 	static void PostDraw();
-	static Sprite* Create(UINT texNumber, XMFLOAT2 position, XMFLOAT4 color = { 1, 1, 1, 1 }, XMFLOAT2 anchorpoint = { 0.0f, 0.0f });
+	static Sprite* Create(UINT texNumber, XMFLOAT2 position, XMFLOAT4 color = {1, 1, 1, 1},
+	                      XMFLOAT2 anchorpoint = {0.0f, 0.0f});
 protected:
 	// テクスチャの最大枚数
 	static const int srvCount = 512;
@@ -105,32 +108,32 @@ protected:
 	// 座標
 	XMFLOAT2 position{};
 	// スプライト幅、高さ
-	XMFLOAT2 size = { 100.0f, 100.0f };
+	XMFLOAT2 size = {100.0f, 100.0f};
 	// アンカーポイント
-	XMFLOAT2 anchorpoint = { 0, 0 };
+	XMFLOAT2 anchorpoint = {0, 0};
 	// ワールド行列
 	XMMATRIX matWorld{};
 	// 色
 	XMFLOAT4 color;
 	// テクスチャ始点
-	XMFLOAT2 texBase = { 0, 0 };
+	XMFLOAT2 texBase = {0, 0};
 	// テクスチャ幅、高さ
-	XMFLOAT2 texSize = { 100.0f, 100.0f };
-bool f;
-bool uvscrollf=false;
-float uv_time;
-float uv_addTime;
+	XMFLOAT2 texSize = {100.0f, 100.0f};
+	bool f;
+	bool uvscrollf = false;
+	float uv_time;
+	float uv_addTime;
 public:
 	void SetUvscroll(bool f) { uvscrollf = f; }
 	void SetUv_time(float t) { uv_addTime = t; }
 	void SetHUDLayOutFlag(bool flag) { f = flag; }
 	bool GetHUDLayOutFlag() { return f; }
 	void Setfeed(int set) { this->setf = set; }
-	void setcolor(XMFLOAT4 color){ this->color = color; }
+	void setcolor(XMFLOAT4 color) { this->color = color; }
 
 	void TransferVertices();
 	XMFLOAT2 GetSize() { return size; }
 	void ChangePosition_PlayerHP(XMFLOAT2 MousePosition);
-	void ChangePosition(XMFLOAT2 MousePosition,XMFLOAT2 &c);
+	void ChangePosition(XMFLOAT2 MousePosition, XMFLOAT2& c);
 	void ChangePosition_Minimap(XMFLOAT2 MousePosition);
 };

@@ -1,11 +1,10 @@
-
 #include"Enemy.h"
 #include"TargetMarker.h"
 #include"Input.h"
+
 class PlayerAttackState
 {
 public:
-
 	void Update();
 
 	void Finalize();
@@ -42,15 +41,14 @@ public:
 	void ComboAttackLast();
 	int GetDamage() { return Damage; }
 	void ComboAction();
-	void SkillCoolDown(int &cooltime);
+	void SkillCoolDown(int& cooltime);
 
-	void DetailAttack(std::vector<std::unique_ptr<Enemy>>& enemy,int cooltime);
+	void DetailAttack(std::vector<std::unique_ptr<Enemy>>& enemy, int cooltime);
 private:
-	
 	bool ComboFirst;
 	bool ComboLast;
 
-	int Damage;//コンボで威力変わるためconstはナシ
+	int Damage; //コンボで威力変わるためconstはナシ
 
 	enum DamageValue
 	{
@@ -59,19 +57,20 @@ private:
 		THIRDAttackDamage = 7,
 		COMBOBONUS = 5,
 	};
+
 	bool AttackJudgeMent = false;
-	int FirstAttackDamage=100;
-	int SecondAttackDamage=15;
-	int ThirdAttackDamage=20;
+	int FirstAttackDamage = 100;
+	int SecondAttackDamage = 15;
+	int ThirdAttackDamage = 20;
 	int ComboBonus = 10;
 	int CoolDownTime = 0;
 	int HitStopTime;
 	int HitStopJudg;
 	int BufCoolDownTime = 0;
-	int BuffTime=0;
+	int BuffTime = 0;
 	bool BuffFlag;
 	const int BuffTimeMax = 1200;
-	std::vector<std::unique_ptr<Enemy>>enemys;
+	std::vector<std::unique_ptr<Enemy>> enemys;
 public:
 	static PlayerAttackState* GetInstance();
 	AttackSkill GetSkill() { return OldSkill; }

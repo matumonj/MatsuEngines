@@ -4,19 +4,22 @@
 
 #pragma comment(lib,"xaudio2.lib")
 
-bool Audio::Initialize() {
+bool Audio::Initialize()
+{
 	HRESULT result;
 
 	// XAudioエンジンのインスタンスを生成
 	result = XAudio2Create(&xAudio2, 0, XAUDIO2_DEFAULT_PROCESSOR);
-	if FAILED(result) {
+	if FAILED(result)
+	{
 		assert(0);
 		return false;
 	}
 
 	// マスターボイスを生成
 	result = xAudio2->CreateMasteringVoice(&masterVoice);
-	if FAILED(result) {
+	if FAILED(result)
+	{
 		assert(0);
 		return false;
 	}
@@ -24,14 +27,16 @@ bool Audio::Initialize() {
 	return true;
 }
 
-void Audio::PlayWave(const char* filename, const float Volume) {
+void Audio::PlayWave(const char* filename, const float Volume)
+{
 	HRESULT result;
 	// ファイルストリーム
 	std::ifstream file;
 	// Waveファイルを開く
 	file.open(filename, std::ios_base::binary);
 	// ファイルオープン失敗をチェック
-	if (file.fail()) {
+	if (file.fail())
+	{
 		assert(0);
 	}
 
@@ -39,7 +44,8 @@ void Audio::PlayWave(const char* filename, const float Volume) {
 	RiffHeader riff;
 	file.read((char*)&riff, sizeof(riff));
 	// ファイルがRIFFかチェック
-	if (strncmp(riff.chunk.id, "RIFF", 4) != 0) {
+	if (strncmp(riff.chunk.id, "RIFF", 4) != 0)
+	{
 		assert(0);
 	}
 
@@ -52,7 +58,7 @@ void Audio::PlayWave(const char* filename, const float Volume) {
 	file.read((char*)&data, sizeof(data));
 
 	// Dataチャンクのデータ部（波形データ）の読み込み
-	char* pBuffer = new char[data.size];
+	auto pBuffer = new char[data.size];
 	file.read(pBuffer, data.size);
 
 	// Waveファイルを閉じる
@@ -66,7 +72,8 @@ void Audio::PlayWave(const char* filename, const float Volume) {
 	// 波形フォーマットを元にSourceVoiceの生成
 	IXAudio2SourceVoice* pSourceVoice = nullptr;
 	result = xAudio2->CreateSourceVoice(&pSourceVoice, &wfex, 0, 2.0f, &voiceCallback);
-	if FAILED(result) {
+	if FAILED(result)
+	{
 		delete[] pBuffer;
 		assert(0);
 		return;
@@ -81,7 +88,8 @@ void Audio::PlayWave(const char* filename, const float Volume) {
 	pSourceVoice->SetVolume(Volume);
 	// 波形データの再生
 	result = pSourceVoice->SubmitSourceBuffer(&buf);
-	if FAILED(result) {
+	if FAILED(result)
+	{
 		delete[] pBuffer;
 		assert(0);
 		return;
@@ -89,20 +97,23 @@ void Audio::PlayWave(const char* filename, const float Volume) {
 	XAUDIO2_VOICE_STATE xaudio2state;
 	pSourceVoice->GetState(&xaudio2state);
 	result = pSourceVoice->Start(0);
-	if FAILED(result) {
+	if FAILED(result)
+	{
 		delete[] pBuffer;
 		assert(0);
-		return;
 	}
 }
-void Audio::LoopWave(const char* filename, float Volume) {
+
+void Audio::LoopWave(const char* filename, float Volume)
+{
 	HRESULT result;
 	// ファイルストリーム
 	std::ifstream file;
 	// Waveファイルを開く
 	file.open(filename, std::ios_base::binary);
 	// ファイルオープン失敗をチェック
-	if (file.fail()) {
+	if (file.fail())
+	{
 		assert(0);
 	}
 
@@ -110,7 +121,8 @@ void Audio::LoopWave(const char* filename, float Volume) {
 	RiffHeader riff;
 	file.read((char*)&riff, sizeof(riff));
 	// ファイルがRIFFかチェック
-	if (strncmp(riff.chunk.id, "RIFF", 4) != 0) {
+	if (strncmp(riff.chunk.id, "RIFF", 4) != 0)
+	{
 		assert(0);
 	}
 
@@ -123,7 +135,7 @@ void Audio::LoopWave(const char* filename, float Volume) {
 	file.read((char*)&data, sizeof(data));
 
 	// Dataチャンクのデータ部（波形データ）の読み込み
-	char* pBuffer = new char[data.size];
+	auto pBuffer = new char[data.size];
 	file.read(pBuffer, data.size);
 
 	// Waveファイルを閉じる
@@ -137,7 +149,8 @@ void Audio::LoopWave(const char* filename, float Volume) {
 	// 波形フォーマットを元にSourceVoiceの生成
 	IXAudio2SourceVoice* pSourceVoice = nullptr;
 	result = xAudio2->CreateSourceVoice(&pSourceVoice, &wfex, 0, 2.0f, &voiceCallback);
-	if FAILED(result) {
+	if FAILED(result)
+	{
 		delete[] pBuffer;
 		assert(0);
 		return;
@@ -153,17 +166,17 @@ void Audio::LoopWave(const char* filename, float Volume) {
 	pSourceVoice->SetVolume(Volume);
 	// 波形データの再生
 	result = pSourceVoice->SubmitSourceBuffer(&buf);
-	if FAILED(result) {
+	if FAILED(result)
+	{
 		delete[] pBuffer;
 		assert(0);
 		return;
 	}
 
 	result = pSourceVoice->Start(0);
-	if FAILED(result) {
+	if FAILED(result)
+	{
 		delete[] pBuffer;
 		assert(0);
-		return;
 	}
 }
-

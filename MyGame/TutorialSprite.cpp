@@ -7,14 +7,17 @@
 #include"mHelper.h"
 
 #include"UI.h"
+
 TutorialSprite* TutorialSprite::GetInstance()
 {
 	static TutorialSprite instance;
 	return &instance;
 }
+
 void TutorialSprite::Finalize()
 {
-	for (int i = 0; i < TaskNum; i++) {
+	for (int i = 0; i < TaskNum; i++)
+	{
 		delete Task[i];
 	}
 }
@@ -36,31 +39,33 @@ void TutorialSprite::Initialize()
 	Sprite::LoadTexture(180, L"Resources/2d/tutorialstep/task_attackenemy.png");
 	Sprite::LoadTexture(181, L"Resources/2d/tutorialstep/task_config.png");
 	Sprite::LoadTexture(182, L"Resources/2d/tutorialstep/notCleartask.png");
-	Task[HELLO] = Sprite::Create(171, { 10,10 });
-	Task[WALK] = Sprite::Create(172, { 10,10 });
-	Task[SETTING] = Sprite::Create(173, { 10,10 });
-	Task[ATTACK] = Sprite::Create(174, { 10,10 });
-	Task[ATTACK2] = Sprite::Create(175, { 10,10 });
-	Task[GETKEY] = Sprite::Create(176, { 10,10 });
-	Task[CLEAR] = Sprite::Create(177, { 10,10 });
+	Task[HELLO] = Sprite::Create(171, {10, 10});
+	Task[WALK] = Sprite::Create(172, {10, 10});
+	Task[SETTING] = Sprite::Create(173, {10, 10});
+	Task[ATTACK] = Sprite::Create(174, {10, 10});
+	Task[ATTACK2] = Sprite::Create(175, {10, 10});
+	Task[GETKEY] = Sprite::Create(176, {10, 10});
+	Task[CLEAR] = Sprite::Create(177, {10, 10});
 
-	notClearTask[MOVE_CHARA]= Sprite::Create(178, { 10,10 });
-	notClearTask[MOVE_CAMERA] = Sprite::Create(179, { 10,10 });
-	notClearTask[ENEMYDESTROY] = Sprite::Create(180, { 10,10 });
-	notClearTask[CONFIG] = Sprite::Create(181, { 10,10 });
-	notClearTask[FRAME] = Sprite::Create(182, { 10,10 });
-	for (int i = 0; i < TaskNum; i++) {
-		Task[i]->SetAnchorPoint({ 0,0 });
+	notClearTask[MOVE_CHARA] = Sprite::Create(178, {10, 10});
+	notClearTask[MOVE_CAMERA] = Sprite::Create(179, {10, 10});
+	notClearTask[ENEMYDESTROY] = Sprite::Create(180, {10, 10});
+	notClearTask[CONFIG] = Sprite::Create(181, {10, 10});
+	notClearTask[FRAME] = Sprite::Create(182, {10, 10});
+	for (int i = 0; i < TaskNum; i++)
+	{
+		Task[i]->SetAnchorPoint({0, 0});
 		SpriteSizeX[i] = 0;
-		MassageCheck[i]=false;
+		MassageCheck[i] = false;
 		ClearTaskJudg[i] = false;
 	}
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < 4; i++)
+	{
 		notTaskXpos[i] = -1000;
-		notClearTask[i]->SetPosition({ -300.0f,0.0f });
+		notClearTask[i]->SetPosition({-300.0f, 0.0f});
 	}
-	Task[CLEAR]->SetSize({ 1000, 1000 });
-	AllTaskClear=false;
+	Task[CLEAR]->SetSize({1000, 1000});
+	AllTaskClear = false;
 	task = THELLO;
 	Jump = false;
 	Movement = 0;
@@ -72,25 +77,32 @@ void TutorialSprite::CheckMove_Camera_Player()
 	if (input->TiltPushStick(Input::L_UP, 0.0f) ||
 		input->TiltPushStick(Input::L_DOWN, 0.0f) ||
 		input->TiltPushStick(Input::L_RIGHT, 0.0f) ||
-		input->TiltPushStick(Input::L_LEFT, 0.0f)) {
-
+		input->TiltPushStick(Input::L_LEFT, 0.0f))
+	{
 		//	if (input->LeftTiltStick(input->Down) || input->LeftTiltStick(input->Up) || input->LeftTiltStick(input->Left) || input->LeftTiltStick(input->Right)) {
 		Movement++;
 	}
 	if (input->TiltPushStick(Input::R_UP, 0.0f) ||
 		input->TiltPushStick(Input::R_DOWN, 0.0f) ||
 		input->TiltPushStick(Input::R_RIGHT, 0.0f) ||
-		input->TiltPushStick(Input::R_LEFT, 0.0f)) {
+		input->TiltPushStick(Input::R_LEFT, 0.0f))
+	{
 		Movement_Camera++;
 	}
-	if (Movement < 180) {
+	if (Movement < 180)
+	{
 		notTaskXpos[MOVE_CHARA] += 30;
-	} else {
+	}
+	else
+	{
 		notTaskXpos[MOVE_CHARA] -= 30;
 	}
-	if (Movement_Camera < 180) {
+	if (Movement_Camera < 180)
+	{
 		notTaskXpos[MOVE_CAMERA] += 30;
-	} else {
+	}
+	else
+	{
 		notTaskXpos[MOVE_CAMERA] -= 30;
 	}
 }
@@ -100,89 +112,99 @@ void TutorialSprite::CheckAttack()
 	notTaskXpos[MOVE_CHARA] -= 30;
 	notTaskXpos[MOVE_CAMERA] -= 30;
 
-	if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr) {
+	if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr)
+	{
 		ClearTaskJudg[ATTACK] = EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetHP() <= 0;
 	}
-	if (ClearTaskJudg[ATTACK]) {
+	if (ClearTaskJudg[ATTACK])
+	{
 		notTaskXpos[ENEMYDESTROY] -= 30;
 	}
-	else {
+	else
+	{
 		notTaskXpos[ENEMYDESTROY] += 30;
 	}
 }
 
 void TutorialSprite::Update()
 {
-
-	if (CustomButton::GetInstance()->GetJumpAction() == true) {
+	if (CustomButton::GetInstance()->GetJumpAction() == true)
+	{
 		Jump = true;
 	}
-	
+
 	//歩きとジャンプ
-	ClearTaskJudg[WALK]= Movement > 18&& Movement_Camera > 18;
-	
+	ClearTaskJudg[WALK] = Movement > 18 && Movement_Camera > 18;
+
 	//オールコンプリート
-	AllTaskClear = ClearTaskJudg[WALK] && ClearTaskJudg[SETTING] && ClearTaskJudg[ATTACK]&& ClearTaskJudg[GETKEY];
-	
+	AllTaskClear = ClearTaskJudg[WALK] && ClearTaskJudg[SETTING] && ClearTaskJudg[ATTACK] && ClearTaskJudg[GETKEY];
+
 	FenceControl::GetInstance()->SetTutorialFenceOpen(ClearTaskJudg[SETTING]);
 	switch (task)
 	{
-	case TutorialSprite::THELLO:
-		if (MassageCheck[HELLO]) {
+	case THELLO:
+		if (MassageCheck[HELLO])
+		{
 			//次のタスクへの条件(３引数)
 			NextTask(t[HELLO], TMOVE, true);
 		}
-		//説明スプライトの拡縮
+	//説明スプライトの拡縮
 		Ease_SpriteSize_Up(SpriteSizeX[HELLO], t[HELLO], HELLO);
 		break;
 
-	case TutorialSprite::TMOVE:
+	case TMOVE:
 		CheckMove_Camera_Player();
-		if (MassageCheck[WALK]) {
+		if (MassageCheck[WALK])
+		{
 			NextTask(t[WALK], TATTACK, ClearTaskJudg[WALK]);
 		}
-		
+
 		Ease_SpriteSize_Up(SpriteSizeX[WALK], t[WALK], WALK);
 		break;
-	case TutorialSprite::TATTACK:
+	case TATTACK:
 		//攻撃
 		CheckAttack();
-		if (MassageCheck[ATTACK]) {
+		if (MassageCheck[ATTACK])
+		{
 			NextTask(t[ATTACK], TSETTING, ClearTaskJudg[ATTACK]);
 		}
-		if (SpriteSizeX[ATTACK] < 10) {
+		if (SpriteSizeX[ATTACK] < 10)
+		{
 			Ease_SpriteSize_Up(SpriteSizeX[ATTACK2], t[ATTACK2], ATTACK2);
 		}
 		Ease_SpriteSize_Up(SpriteSizeX[ATTACK], t[ATTACK], ATTACK);
 		break;
 
-	case TutorialSprite::TSETTING:
+	case TSETTING:
 		NextTask(t[TSETTING], TGETKEY, ClearTaskJudg[SETTING]);
 		notTaskXpos[ENEMYDESTROY] -= 30;
-		//セッティング
+	//セッティング
 		ClearTaskJudg[SETTING] = SistemConfig::GetInstance()->GetEndConfig();
 
-		if (MassageCheck[SETTING]) {
+		if (MassageCheck[SETTING])
+		{
 			NextTask(t[SETTING], TGETKEY, ClearTaskJudg[SETTING]);
 		}
 
 		Ease_SpriteSize_Up(SpriteSizeX[SETTING], t[SETTING], SETTING);
 		break;
 
-	case TutorialSprite::TGETKEY:
-	//	n//otTaskXpos[ENEMYDESTROY] += 30;
+	case TGETKEY:
+		//	n//otTaskXpos[ENEMYDESTROY] += 30;
 		//セッティング
-			ClearTaskJudg[GETKEY] = ChestControl::GetInstance()->GetTutorialChest() == true;
+		ClearTaskJudg[GETKEY] = ChestControl::GetInstance()->GetTutorialChest() == true;
 
-		if (MassageCheck[GETKEY]) {
-			NextTask(t[GETKEY], TEND,ClearTaskJudg[GETKEY]);
+		if (MassageCheck[GETKEY])
+		{
+			NextTask(t[GETKEY], TEND, ClearTaskJudg[GETKEY]);
 		}
 
 		Ease_SpriteSize_Up(SpriteSizeX[GETKEY], t[GETKEY], GETKEY);
 		break;
-	case TutorialSprite::TEND:
-		if (MassageCheck[CLEAR]) {
-			NextTask(t[CLEAR],THELLO,false);
+	case TEND:
+		if (MassageCheck[CLEAR])
+		{
+			NextTask(t[CLEAR], THELLO, false);
 		}
 
 		Ease_SpriteSize_Up(SpriteSizeX[CLEAR], t[CLEAR], CLEAR);
@@ -190,52 +212,61 @@ void TutorialSprite::Update()
 	default:
 		break;
 	}
-	for (int i = 0; i < TaskNum; i++) {
-		Task[i]->SetSize({ SpriteSizeX[i],1000 });
+	for (int i = 0; i < TaskNum; i++)
+	{
+		Task[i]->SetSize({SpriteSizeX[i], 1000});
 	}
-	
-	for (int i = 0; i < 4; i++) {
+
+	for (int i = 0; i < 4; i++)
+	{
 		notTaskXpos[i] = min(notTaskXpos[i], 0);
 		notTaskXpos[i] = max(notTaskXpos[i], -1000);
-		notClearTask[i]->SetPosition({ notTaskXpos[i],0});
-		notClearTask[i]->SetSize({ 1300,800 });
+		notClearTask[i]->SetPosition({notTaskXpos[i], 0});
+		notClearTask[i]->SetSize({1300, 800});
 	}
-	notClearTask[FRAME]->SetSize({ 1500, 800 });
-
+	notClearTask[FRAME]->SetSize({1500, 800});
 }
 
 void TutorialSprite::Draw()
 {
 	Sprite::PreDraw();
-	if (!UI::GetInstance()->GetTurnoffUIDraw()) {
+	if (!UI::GetInstance()->GetTurnoffUIDraw())
+	{
 		notClearTask[FRAME]->Draw();
 
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 4; i++)
+		{
 			notClearTask[i]->Draw();
 		}
 	}
-	for (int i = 0; i < TaskNum; i++) {
+	for (int i = 0; i < TaskNum; i++)
+	{
 		//Task[i]->Draw();
 	}
-	
+
 	Sprite::PostDraw();
 }
+
 void TutorialSprite::Ease_SpriteSize_Up(float& x, float& t, int index)
 {
-
-	if (input->TriggerButton(input->A)) {
+	if (input->TriggerButton(input->A))
+	{
 		UI::GetInstance()->SetTurnoffUIDraw(FALSE);
 		MassageCheck[index] = true;
 	}
-	if (MassageCheck[index]) {
+	if (MassageCheck[index])
+	{
 		x = Easing::EaseOut(t, 0, 1900);
-		if (t >= 0.0f) {
+		if (t >= 0.0f)
+		{
 			t -= 0.05f;
 		}
-		
-	} else {
+	}
+	else
+	{
 		x = Easing::EaseOut(t, 0, 1900);
-		if (t <= 1.0f) {
+		if (t <= 1.0f)
+		{
 			t += 0.05f;
 		}
 		//UI::GetInstance()->SetTurnoffUIDraw(TRUE);
@@ -244,8 +275,10 @@ void TutorialSprite::Ease_SpriteSize_Up(float& x, float& t, int index)
 
 void TutorialSprite::NextTask(float t, TaskMenu nexttask, bool nextjudg)
 {
-	if (t <= 0.0f) {
-		if (nextjudg) {
+	if (t <= 0.0f)
+	{
+		if (nextjudg)
+		{
 			task = nexttask;
 		}
 	}
@@ -253,8 +286,8 @@ void TutorialSprite::NextTask(float t, TaskMenu nexttask, bool nextjudg)
 
 TutorialSprite::~TutorialSprite()
 {
-	for (int i = 0; i < TaskNum; i++) {
+	for (int i = 0; i < TaskNum; i++)
+	{
 		delete Task[i];
 	}
-	
 }

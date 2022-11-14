@@ -11,8 +11,9 @@ class BaseCollider;
 class Object3d
 {
 private: // エイリアス
-// Microsoft::WRL::を省略
-	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+	// Microsoft::WRL::を省略
+	template <class T>
+	using ComPtr = ComPtr<T>;
 	// DirectX::を省略
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
@@ -21,7 +22,7 @@ private: // エイリアス
 
 	Model* model = nullptr;
 
-	 Camera* camera;
+	Camera* camera;
 public: // サブクラス
 	void SetModel(Model* model) { this->model = model; }
 
@@ -31,7 +32,7 @@ public: // サブクラス
 		XMFLOAT4 color;
 		//XMMATRIX mat;
 		// 定数バッファ用データ構造体B0
-		XMMATRIX viewproj;    // ビュープロジェクション行列
+		XMMATRIX viewproj; // ビュープロジェクション行列
 		XMMATRIX world; // ワールド行列
 		XMFLOAT3 cameraPos; // カメラ座標（ワールド座標）
 		//bool shadowf;
@@ -120,7 +121,6 @@ private: // 静的メンバ変数
 	static ComPtr<ID3D12PipelineState> pipelinestate;
 
 
-
 	// ビュー行列
 	static XMMATRIX matView;
 	// 射影行列
@@ -136,7 +136,7 @@ private: // 静的メンバ変数
 
 	//static unsigned short indices[planeCount * 3];
 
-private:// 静的メンバ関数
+private: // 静的メンバ関数
 
 	/// <summary>
 	/// カメラ初期化
@@ -174,7 +174,7 @@ public: // メンバ関数
 
 	virtual ~Object3d();
 
-	virtual bool Initialize( DebugCamera* camera);
+	virtual bool Initialize(DebugCamera* camera);
 	//void CreateModel();
 	/// <summary>
 	/// 毎フレーム処理
@@ -210,24 +210,27 @@ public: // メンバ関数
 	void SetRotation(XMFLOAT3 rotation) { this->rotation = rotation; }
 	void SetScale(XMFLOAT3 scale) { this->scale = scale; }
 
-	void SetCamera(Camera* cameras) {
+	void SetCamera(Camera* cameras)
+	{
 		camera = cameras;
 	}
 
-	static void SetLightGroup(LightGroup* lightGroup) {
+	static void SetLightGroup(LightGroup* lightGroup)
+	{
 		Object3d::lightGroup = lightGroup;
 	}
+
 protected: // メンバ変数
 	ComPtr<ID3D12Resource> constBuffB0; // 定数バッファ
 
 	// 色
-	XMFLOAT4 color = { 1,1,1,1 };
+	XMFLOAT4 color = {1, 1, 1, 1};
 	// ローカルスケール
-	XMFLOAT3 scale = { 1,1,1 };
+	XMFLOAT3 scale = {1, 1, 1};
 	// X,Y,Z軸回りのローカル回転角
-	XMFLOAT3 rotation = { 0,0,0 };
+	XMFLOAT3 rotation = {0, 0, 0};
 	// ローカル座標
-	XMFLOAT3 position = { 0,0,0 };
+	XMFLOAT3 position = {0, 0, 0};
 
 	// ローカルワールド変換行列
 	XMMATRIX matWorld;
@@ -235,9 +238,9 @@ protected: // メンバ変数
 	Object3d* parent = nullptr;
 	bool rf;
 	bool gsf = false;;
-	XMMATRIX rm,rt,rr,rs;
-	bool setef=false;
-	bool uvf=false;
+	XMMATRIX rm, rt, rr, rs;
+	bool setef = false;
+	bool uvf = false;
 	float uvtime;
 
 	bool DestF = false;
@@ -249,19 +252,23 @@ public:
 	void setFog(bool f) { setef = f; }
 	void SetUVf(bool f) { uvf = f; }
 	void setr(bool f) { rf = f; }
-	XMMATRIX GetMatrot() {return matRot; }
+	XMMATRIX GetMatrot() { return matRot; }
 	XMMATRIX GetMatScl() { return matScale; }
 	void SetRotS(XMMATRIX matrot) { matRot *= matrot; }
 	void Setf(bool flag);
 	XMMATRIX GetMatTrans() { return matTrans; }
 	void SetMatrot(XMMATRIX rot) { rm = rot; }
-	void SetMatRot(XMMATRIX rot) {matRot = rot; }
+	void SetMatRot(XMMATRIX rot) { matRot = rot; }
 	void SetMatTrans(XMMATRIX rot) { rt = rot; }
 	void SetMatScale(XMMATRIX rot) { rs = rot; }
 	void UpdateWorldMatrix();
 	void UpdateWorldMatrix(XMMATRIX mat);
 	void SetCollider(BaseCollider* collider);
-	virtual void OnCollision(const CollisionInfo& info) {}
+
+	virtual void OnCollision(const CollisionInfo& info)
+	{
+	}
+
 	void SetParent(XMMATRIX matworld) { this->matWorld *= matworld; }
 	void SetColor(XMFLOAT4 color) { this->color = color; }
 	void SetShadowF(bool f) { shadowf = f; }
@@ -272,19 +279,15 @@ public:
 	XMMATRIX ExtractPositionMat(XMMATRIX matworld);
 protected:
 	const char* name = nullptr;
-	public:
-
+public:
 	BaseCollider* collider = nullptr;
-	private:
-		XMMATRIX matScale, matRot, matTrans;
-		XMFLOAT2 time;
+private:
+	XMMATRIX matScale, matRot, matTrans;
+	XMFLOAT2 time;
 public:
 	/// <summary>
 	/// モデルを取得
 	/// </summary>
 	/// <param name="material">マテリアル</param>
-	inline Model* GetModel() { return model; }
+	Model* GetModel() { return model; }
 };
-
-
-

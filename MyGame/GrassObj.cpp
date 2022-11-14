@@ -21,22 +21,21 @@ ComPtr<ID3D12PipelineState> GrassObj::pipelinestate;
 
 XMMATRIX GrassObj::matView{};
 XMMATRIX GrassObj::matProjection{};
-XMFLOAT3 GrassObj::eye = { 0, 0, -50.0f };
-XMFLOAT3 GrassObj::target = { 0, 0, 0 };
-XMFLOAT3 GrassObj::up = { 0, 1, 0 };
+XMFLOAT3 GrassObj::eye = {0, 0, -50.0f};
+XMFLOAT3 GrassObj::target = {0, 0, 0};
+XMFLOAT3 GrassObj::up = {0, 1, 0};
 LightGroup* GrassObj::lightGroup = nullptr;
 
 GrassObj::~GrassObj()
 {
-	
 }
+
 bool GrassObj::StaticInitialize(int window_width, int window_height, Camera* camera)
 {
-
-	GrassObj::device = DirectXCommon::GetInstance()->GetDev();
-	GrassObj::cmdList = DirectXCommon::GetInstance()->GetCmdList();
+	device = DirectXCommon::GetInstance()->GetDev();
+	cmdList = DirectXCommon::GetInstance()->GetCmdList();
 	//Model::SetDevice(device);
-//	GrassObj::camera = camera;
+	//	GrassObj::camera = camera;
 	// デスクリプタヒープの初期化	// ビュー行列の生成
 	matView = XMMatrixLookAtLH(
 		XMLoadFloat3(&eye),
@@ -45,7 +44,7 @@ bool GrassObj::StaticInitialize(int window_width, int window_height, Camera* cam
 	// 透視投影による射影行列の生成
 	matProjection = XMMatrixPerspectiveFovLH(
 		XMConvertToRadians(60.0f),
-		(float)window_width / window_height,
+		static_cast<float>(window_width) / window_height,
 		0.1f, 1000.0f
 	);
 	// パイプライン初期化
@@ -80,31 +79,32 @@ void GrassObj::PostDraw()
 GrassObj* GrassObj::Create(DebugCamera* camera)
 {
 	// 3Dオブジェクトのインスタンスを生成
-	GrassObj* object3d = new GrassObj();
-	if (object3d == nullptr) {
+	auto object3d = new GrassObj();
+	if (object3d == nullptr)
+	{
 		return nullptr;
 	}
 
 	// 初期化
-	if (!object3d->Initialize(camera)) {
+	if (!object3d->Initialize(camera))
+	{
 		delete object3d;
 		assert(0);
 		return nullptr;
 	}
 	float scale_val = 1;
-	object3d->scale = { scale_val , scale_val , scale_val };
+	object3d->scale = {scale_val, scale_val, scale_val};
 
 	return object3d;
 }
-
 
 
 bool GrassObj::InitializeGraphicsPipeline()
 {
 	HRESULT result = S_FALSE;
 	ComPtr<ID3DBlob> vsBlob; // 頂点シェーダオブジェクト
-	ComPtr<ID3DBlob> psBlob;	// ピクセルシェーダオブジェクト
-	ComPtr<ID3DBlob> gsBlob;	// ピクセルシェーダオブジェクト
+	ComPtr<ID3DBlob> psBlob; // ピクセルシェーダオブジェクト
+	ComPtr<ID3DBlob> gsBlob; // ピクセルシェーダオブジェクト
 
 	ComPtr<ID3DBlob> errorBlob; // エラーオブジェクト
 
@@ -114,18 +114,19 @@ bool GrassObj::InitializeGraphicsPipeline()
 		L"Resources/Shader/GrassVS.hlsl",
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
-		"main", "vs_5_0",	// エントリーポイント名、シェーダーモデル指定
+		"main", "vs_5_0", // エントリーポイント名、シェーダーモデル指定
 		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // デバッグ用設定
 		0,
 		&vsBlob, &errorBlob);
-	if (FAILED(result)) {
+	if (FAILED(result))
+	{
 		// errorBlobからエラー内容をstring型にコピー
 		std::string errstr;
 		errstr.resize(errorBlob->GetBufferSize());
 
-		std::copy_n((char*)errorBlob->GetBufferPointer(),
-			errorBlob->GetBufferSize(),
-			errstr.begin());
+		std::copy_n(static_cast<char*>(errorBlob->GetBufferPointer()),
+		            errorBlob->GetBufferSize(),
+		            errstr.begin());
 		errstr += "\n";
 		// エラー内容を出力ウィンドウに表示
 		OutputDebugStringA(errstr.c_str());
@@ -138,18 +139,19 @@ bool GrassObj::InitializeGraphicsPipeline()
 		L"Resources/Shader/GrassPS.hlsl",
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
-		"main", "ps_5_0",	// エントリーポイント名、シェーダーモデル指定
+		"main", "ps_5_0", // エントリーポイント名、シェーダーモデル指定
 		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // デバッグ用設定
 		0,
 		&psBlob, &errorBlob);
-	if (FAILED(result)) {
+	if (FAILED(result))
+	{
 		// errorBlobからエラー内容をstring型にコピー
 		std::string errstr;
 		errstr.resize(errorBlob->GetBufferSize());
 
-		std::copy_n((char*)errorBlob->GetBufferPointer(),
-			errorBlob->GetBufferSize(),
-			errstr.begin());
+		std::copy_n(static_cast<char*>(errorBlob->GetBufferPointer()),
+		            errorBlob->GetBufferSize(),
+		            errstr.begin());
 		errstr += "\n";
 		// エラー内容を出力ウィンドウに表示
 		OutputDebugStringA(errstr.c_str());
@@ -162,18 +164,19 @@ bool GrassObj::InitializeGraphicsPipeline()
 		L"Resources/Shader/GrassGS.hlsl",
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
-		"main", "gs_5_0",	// エントリーポイント名、シェーダーモデル指定
+		"main", "gs_5_0", // エントリーポイント名、シェーダーモデル指定
 		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // デバッグ用設定
 		0,
 		&gsBlob, &errorBlob);
-	if (FAILED(result)) {
+	if (FAILED(result))
+	{
 		// errorBlobからエラー内容をstring型にコピー
 		std::string errstr;
 		errstr.resize(errorBlob->GetBufferSize());
 
-		std::copy_n((char*)errorBlob->GetBufferPointer(),
-			errorBlob->GetBufferSize(),
-			errstr.begin());
+		std::copy_n(static_cast<char*>(errorBlob->GetBufferPointer()),
+		            errorBlob->GetBufferSize(),
+		            errstr.begin());
 		errstr += "\n";
 		// エラー内容を出力ウィンドウに表示
 		OutputDebugStringA(errstr.c_str());
@@ -181,17 +184,20 @@ bool GrassObj::InitializeGraphicsPipeline()
 	}
 	// 頂点レイアウト
 	D3D12_INPUT_ELEMENT_DESC inputLayout[] = {
-		{ // xy座標(1行で書いたほうが見やすい)
+		{
+			// xy座標(1行で書いたほうが見やすい)
 			"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
 			D3D12_APPEND_ALIGNED_ELEMENT,
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
 		},
-		{ // 法線ベクトル(1行で書いたほうが見やすい)
+		{
+			// 法線ベクトル(1行で書いたほうが見やすい)
 			"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
 			D3D12_APPEND_ALIGNED_ELEMENT,
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
 		},
-		{ // uv座標(1行で書いたほうが見やすい)
+		{
+			// uv座標(1行で書いたほうが見やすい)
 			"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0,
 			D3D12_APPEND_ALIGNED_ELEMENT,
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
@@ -213,9 +219,9 @@ bool GrassObj::InitializeGraphicsPipeline()
 	// デプスステンシルステート
 	gpipeline.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
 	//	gpipeline.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_ALWAYS;
-		// レンダーターゲットのブレンド設定
+	// レンダーターゲットのブレンド設定
 	D3D12_RENDER_TARGET_BLEND_DESC blenddesc{};
-	blenddesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;	// RBGA全てのチャンネルを描画
+	blenddesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL; // RBGA全てのチャンネルを描画
 	blenddesc.BlendEnable = true;
 	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;
 	blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;
@@ -239,7 +245,7 @@ bool GrassObj::InitializeGraphicsPipeline()
 	// 図形の形状設定（三角形）
 	gpipeline.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 
-	gpipeline.NumRenderTargets = 2;	// 描画対象は1つ
+	gpipeline.NumRenderTargets = 2; // 描画対象は1つ
 	gpipeline.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM; // 0～255指定のRGBA
 	gpipeline.RTVFormats[1] = DXGI_FORMAT_R8G8B8A8_UNORM; // 0～255指定のRGBA
 
@@ -260,18 +266,22 @@ bool GrassObj::InitializeGraphicsPipeline()
 	rootparams[3].InitAsConstantBufferView(2, 0, D3D12_SHADER_VISIBILITY_ALL);
 
 	// スタティックサンプラー
-	CD3DX12_STATIC_SAMPLER_DESC samplerDesc = CD3DX12_STATIC_SAMPLER_DESC(0);
+	auto samplerDesc = CD3DX12_STATIC_SAMPLER_DESC(0);
 
 	// ルートシグネチャの設定
 	CD3DX12_VERSIONED_ROOT_SIGNATURE_DESC rootSignatureDesc;
-	rootSignatureDesc.Init_1_0(_countof(rootparams), rootparams, 1, &samplerDesc, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
+	rootSignatureDesc.Init_1_0(_countof(rootparams), rootparams, 1, &samplerDesc,
+	                           D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
 
 	ComPtr<ID3DBlob> rootSigBlob;
 	// バージョン自動判定のシリアライズ
-	result = D3DX12SerializeVersionedRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1_0, &rootSigBlob, &errorBlob);
+	result = D3DX12SerializeVersionedRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1_0, &rootSigBlob,
+	                                               &errorBlob);
 	// ルートシグネチャの生成
-	result = device->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(), IID_PPV_ARGS(&rootsignature));
-	if (FAILED(result)) {
+	result = device->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(),
+	                                     IID_PPV_ARGS(&rootsignature));
+	if (FAILED(result))
+	{
 		return result;
 	}
 
@@ -280,14 +290,13 @@ bool GrassObj::InitializeGraphicsPipeline()
 	// グラフィックスパイプラインの生成
 	result = device->CreateGraphicsPipelineState(&gpipeline, IID_PPV_ARGS(&pipelinestate));
 
-	if (FAILED(result)) {
+	if (FAILED(result))
+	{
 		return result;
 	}
 
 	return true;
 }
-
-
 
 
 void GrassObj::UpdateViewMatrix()
@@ -309,7 +318,7 @@ bool GrassObj::Initialize(DebugCamera* camera)
 
 	// 定数バッファの生成B0
 	result = device->CreateCommittedResource(
-		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD), 	// アップロード可能
+		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD), // アップロード可能
 		D3D12_HEAP_FLAG_NONE,
 		&CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferDataB0) + 0xff) & ~0xff),
 		D3D12_RESOURCE_STATE_GENERIC_READ,
@@ -323,18 +332,22 @@ void GrassObj::Update(XMFLOAT4 color, DebugCamera* camera)
 {
 	//if (uvf) {
 	int randTime = rand() % 60 + 15;
-		if (uvf) {
-			uvtime -= 0.05f;
-			if (uvtime < -(float)randTime) {
-				uvf =false;
-			}
+	if (uvf)
+	{
+		uvtime -= 0.05f;
+		if (uvtime < -static_cast<float>(randTime))
+		{
+			uvf = false;
 		}
-		else {
-			uvtime += 0.05f;
-			if (uvtime > (float)randTime) {
-				uvf = true;
-			}
+	}
+	else
+	{
+		uvtime += 0.05f;
+		if (uvtime > static_cast<float>(randTime))
+		{
+			uvf = true;
 		}
+	}
 	//}
 	HRESULT result;
 
@@ -352,11 +365,10 @@ void GrassObj::Update(XMFLOAT4 color, DebugCamera* camera)
 	constMap->color = this->color;
 	constMap->viewproj = camera->GetViewProjectionMatrix();
 	constMap->world = matWorld;
-constMap->time = uvtime;
+	constMap->time = uvtime;
 	// 定数バッファへデータ転送
-	
-	constBuffB0->Unmap(0, nullptr);
 
+	constBuffB0->Unmap(0, nullptr);
 }
 
 void GrassObj::Draw()
@@ -371,7 +383,6 @@ void GrassObj::Draw()
 	lightGroup->Draw(cmdList.Get(), 3);
 
 	model->Draw();
-
 }
 
 
@@ -391,8 +402,6 @@ void GrassObj::UpdateWorldMatrix()
 	matWorld *= matScale; // ワールド行列にスケーリングを反映
 	matWorld *= matRot; // ワールド行列に回転を反映
 	matWorld *= matTrans; // ワールド行列に平行移動を反映
-
-
 }
 
 
@@ -400,4 +409,3 @@ void GrassObj::Setf(bool flag)
 {
 	gsf = flag;
 }
-

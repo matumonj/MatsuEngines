@@ -16,7 +16,8 @@ class Mesh
 {
 private: // エイリアス
 	// Microsoft::WRL::を省略
-	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+	template <class T>
+	using ComPtr = Microsoft::WRL::ComPtr<T>;
 	// DirectX::を省略
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
@@ -29,7 +30,7 @@ public: // サブクラス
 	{
 		XMFLOAT3 pos; // xyz座標
 		XMFLOAT3 normal; // 法線ベクトル
-		XMFLOAT2 uv;  // uv座標
+		XMFLOAT2 uv; // uv座標
 	};
 
 public: // 静的メンバ関数
@@ -75,7 +76,7 @@ public: // メンバ関数
 	/// 頂点データの数を取得
 	/// </summary>
 	/// <returns>頂点データの数</returns>
-	inline size_t GetVertexCount() { return vertices.size(); }
+	size_t GetVertexCount() { return vertices.size(); }
 
 	/// <summary>
 	/// エッジ平滑化データの追加
@@ -149,14 +150,11 @@ public:
 	/// 頂点配列を取得
 	/// </summary>
 	/// <param name="material">マテリアル</param>
-	inline const std::vector<VertexPosNormalUv>& GetVertices() { return vertices; }
+	const std::vector<VertexPosNormalUv>& GetVertices() { return vertices; }
 
 	/// <summary>
 	/// インデックス配列を取得
 	/// </summary>
 	/// <param name="material">マテリアル</param>
-	inline const std::vector<unsigned short>& GetIndices() { return indices; }
+	const std::vector<unsigned short>& GetIndices() { return indices; }
 };
-
-
-

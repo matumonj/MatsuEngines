@@ -1,14 +1,17 @@
 #include "Framework.h"
+
 void Framework::Run()
 {
 	Initialize();
 
-	while (true) {
+	while (true)
+	{
 		//ウィンドウメッセージ処理
 		Update();
 
 		//終了リクエストが来たら抜ける
-		if (IsEndRequst()) {
+		if (IsEndRequst())
+		{
 			break;
 		}
 
@@ -16,6 +19,7 @@ void Framework::Run()
 	}
 	//Finalize();
 }
+
 /// <summary>
 /// 初期化
 /// </summary>
@@ -34,7 +38,6 @@ void Framework::Initialize()
 	GrassObj::StaticInitialize(WinApp::window_width, WinApp::window_height);
 	//MyGame* MyGame = new MyGame();
 	sceneManger = new SceneManager();
-	
 }
 
 /// <summary>
@@ -42,9 +45,9 @@ void Framework::Initialize()
 /// </summary>
 void Framework::Update()
 {
-
 	input->update();
-	if (winapp->Processmassage()) {
+	if (winapp->Processmassage())
+	{
 		winRequest = true;
 		return;
 	}

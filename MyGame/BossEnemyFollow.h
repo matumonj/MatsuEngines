@@ -1,18 +1,19 @@
 #pragma once
 #include"BossEnemyState.h"
 #include"Enemy.h"
-class BossEnemyFollow :public BossEnemyState
+
+class BossEnemyFollow : public BossEnemyState
 {
 private:
 	// DirectX::Çè»ó™
 	using XMVECTOR = DirectX::XMVECTOR;
 
 public:
-	void Initialize(Enemy* enemy)override;
+	void Initialize(Enemy* enemy) override;
 
-	void Update(Enemy* enemy)override;
+	void Update(Enemy* enemy) override;
 
-	void AttackSelect(Enemy* enemy,bool judg, int index);
+	void AttackSelect(Enemy* enemy, bool judg, int index);
 
 	void AttackType(Enemy* enemy, int num);
 
@@ -20,6 +21,5 @@ public:
 private:
 	bool ActionCount = true, ActionCount2 = true;
 	int Evaprobability;
-	float RotY=0;
+	float RotY = 0;
 };
-

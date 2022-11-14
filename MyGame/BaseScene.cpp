@@ -1,7 +1,6 @@
 #include"BaseScene.h"
 //コンストラクタ
 BaseScene::BaseScene(SceneManager* sceneManager)
-	:sceneManager_(sceneManager)
+	: sceneManager_(sceneManager)
 {
-
 }

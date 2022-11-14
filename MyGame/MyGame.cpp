@@ -3,19 +3,19 @@
 #include"imgui.h"
 #include"ParticleManager.h"
 #include "ModelManager.h"
+
 void MyGame::Initialize()
 {
 	Framework::Initialize();
-	Sprite::StaticInitialize( WinApp::window_width, WinApp::window_height);
+	Sprite::StaticInitialize(WinApp::window_width, WinApp::window_height);
 	LightGroup::StaticInitialize();
 	FbxLoader::GetInstance()->Initialize();
 	Texture::StaticInitialize(WinApp::window_width, WinApp::window_height);
-	ParticleManager::StaticInitialize( WinApp::window_width, WinApp::window_height);
+	ParticleManager::StaticInitialize(WinApp::window_width, WinApp::window_height);
 	//‰ŠúƒV[ƒ“
 	BaseScene* scene_ = new TitleScene(sceneManger);
 	sceneManger->SetnextScene(scene_);
 	ModelManager::GetIns()->Initialize();
-	
 }
 
 void MyGame::Update()

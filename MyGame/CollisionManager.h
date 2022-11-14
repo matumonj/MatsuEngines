@@ -10,15 +10,16 @@ class BaseCollider;
 
 class CollisionManager
 {
-public:// 静的メンバ関数
+public: // 静的メンバ関数
 	static CollisionManager* GetInstance();
 
-public:// メンバ関数
+public: // メンバ関数
 	/// <summary>
 	/// コライダーの追加
 	/// </summary>
 	/// <param name="collider">コライダー</param>
-	inline void AddCollider(BaseCollider* collider) {
+	void AddCollider(BaseCollider* collider)
+	{
 		colliders.push_front(collider);
 	}
 
@@ -26,7 +27,8 @@ public:// メンバ関数
 	/// コライダーの削除
 	/// </summary>
 	/// <param name="collider">コライダー</param>
-	inline void RemoveCollider(BaseCollider* collider) {
+	void RemoveCollider(BaseCollider* collider)
+	{
 		colliders.remove(collider);
 	}
 
@@ -45,14 +47,15 @@ public:// メンバ関数
 	/// <param name="maxDistance">最大距離</param>
 	/// <returns>レイが任意のコライダーと交わる場合はtrue、それ以外はfalse</returns>
 	bool Raycast(const Ray& ray, unsigned short attribute,
-		RaycastHit* hitInfo = nullptr, float maxDistance = D3D12_FLOAT32_MAX);
+	             RaycastHit* hitInfo = nullptr, float maxDistance = D3D12_FLOAT32_MAX);
 	/// <summary>
 	/// 球による衝突全検索
 	/// </summary>
 	/// <param name="sphere">球</param>
 	/// <param name="callback">衝突時コールバック</param>
 	/// <param name="attribute">対象の衝突属性</param>
-	void QuerySphere(const Sphere& sphere, QueryCallback* callback, unsigned short attribute = (unsigned short)0xffffffff);
+	void QuerySphere(const Sphere& sphere, QueryCallback* callback,
+	                 unsigned short attribute = static_cast<unsigned short>(0xffffffff));
 private:
 	CollisionManager() = default;
 	CollisionManager(const CollisionManager&) = delete;
@@ -62,4 +65,3 @@ private:
 	// コライダーのリスト
 	std::forward_list<BaseCollider*> colliders;
 };
-

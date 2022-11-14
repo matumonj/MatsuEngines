@@ -12,13 +12,18 @@ class BaseCollider
 public:
 	friend class CollisionManager;
 
-	inline void SetAttribute(unsigned short attribute) {
+	void SetAttribute(unsigned short attribute)
+	{
 		this->attribute = attribute;
 	}
-	inline void AddAttribute(unsigned short attribute) {
+
+	void AddAttribute(unsigned short attribute)
+	{
 		this->attribute |= attribute;
 	}
-	inline void RemoveAttribute(unsigned short attribute) {
+
+	void RemoveAttribute(unsigned short attribute)
+	{
 		this->attribute &= !attribute;
 	}
 
@@ -30,11 +35,13 @@ public:
 	BaseCollider() = default;
 	virtual ~BaseCollider() = default;
 
-	inline void SetObject(Object3d* object) {
+	void SetObject(Object3d* object)
+	{
 		this->object3d = object;
 	}
 
-	inline Object3d* GetObject3d() {
+	Object3d* GetObject3d()
+	{
 		return object3d;
 	}
 
@@ -43,13 +50,14 @@ public:
 	/// </summary>
 	virtual void Update() = 0;
 
-	inline CollisionShapeType GetShapeType() { return shapeType; }
+	CollisionShapeType GetShapeType() { return shapeType; }
 
 	/// <summary>
 	/// 衝突時コールバック関数
 	/// </summary>
 	/// <param name="info">衝突情報</param>
-	inline void OnCollision(const CollisionInfo& info) {
+	void OnCollision(const CollisionInfo& info)
+	{
 		object3d->OnCollision(info);
 	}
 
@@ -58,4 +66,3 @@ protected:
 	// 形状タイプ
 	CollisionShapeType shapeType = SHAPE_UNKNOWN;
 };
-

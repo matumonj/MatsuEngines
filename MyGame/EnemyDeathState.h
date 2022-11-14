@@ -1,16 +1,14 @@
 #pragma once
 #include "EnemyState.h"
 #include"Enemy.h"
+
 class EnemyDeathState :
-    public EnemyState
+	public EnemyState
 {
 public:
+	void Initialize(Enemy* enemy) override;
 
-	void Initialize(Enemy* enemy);
-
-	void Update(Enemy* enemy);
+	void Update(Enemy* enemy) override;
 private:
-
 	int RespawnCount = 0;
 };
-

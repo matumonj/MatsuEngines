@@ -1,12 +1,14 @@
 #pragma once
 #include<memory>
 #include"Sprite.h"
+
 class ConfigSprite
 {
 public:
 	~ConfigSprite();
 private:
-	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+	template <class T>
+	using ComPtr = Microsoft::WRL::ComPtr<T>;
 	// DirectX::を省略
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
@@ -20,14 +22,14 @@ private:
 	//各スプライト間の間隔
 	const float Space = 200.0f;
 	//HUDレイアウト
-	Sprite*RayOutSprite;
+	Sprite* RayOutSprite;
 	//敵の体力表示
-	Sprite*EnemyHPSelectSprite;
+	Sprite* EnemyHPSelectSprite;
 	//剣
 	Sprite* SwordSelectSprite;
 	Sprite* MenuSprite;
 	Sprite* NavBase;
-	XMFLOAT2 SpritePosition[MaxSprite] = { {300,200},{300,350},{300,500} };
+	XMFLOAT2 SpritePosition[MaxSprite] = {{300, 200}, {300, 350}, {300, 500}};
 public:
 	static ConfigSprite* GetInstance();
 
@@ -40,4 +42,3 @@ public:
 
 	void Finalize();
 };
-

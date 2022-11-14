@@ -1,6 +1,7 @@
 #pragma once
 #include"Sprite.h"
 #include"Input.h"
+
 class TutorialSprite
 {
 public:
@@ -10,15 +11,21 @@ private:
 	static const int TaskNum = 7;
 	Sprite* Task[TaskNum];
 	Sprite* notClearTask[5];
-	enum CLEARTASK{
+
+	enum CLEARTASK
+	{
 		MOVE_CHARA,
 		MOVE_CAMERA,
 		ENEMYDESTROY,
 		CONFIG,
 		FRAME
 	};
+
 	float notTaskXpos[4];
-	enum TaskMenu {//‰º‚Ì”z—ñ—p—ñ‹“Œ^‚Æ‚©‚Ô‚ç‚È‚¢‚æ‚¤‚É
+
+	enum TaskMenu
+	{
+		//‰º‚Ì”z—ñ—p—ñ‹“Œ^‚Æ‚©‚Ô‚ç‚È‚¢‚æ‚¤‚É
 
 		THELLO,
 		TMOVE,
@@ -28,7 +35,9 @@ private:
 		TGETKEY,
 		TEND
 	};
-	enum {
+
+	enum
+	{
 		HELLO,
 		WALK,
 		ATTACK,
@@ -37,8 +46,8 @@ private:
 		GETKEY,
 		CLEAR,
 	};
-	
-	float SpriteSizeX[TaskNum] = { 0 };
+
+	float SpriteSizeX[TaskNum] = {0};
 	float SpriteAlpha[TaskNum];
 	float t[TaskNum];
 	TaskMenu task = THELLO;
@@ -63,10 +72,9 @@ public:
 
 	void Finalize();
 
-	void Ease_SpriteSize_Up(float& x,float& t,int index);
-	void NextTask(float t,TaskMenu nexttask,bool nextjudg);
+	void Ease_SpriteSize_Up(float& x, float& t, int index);
+	void NextTask(float t, TaskMenu nexttask, bool nextjudg);
 
 	bool GetClearMove() { return ClearTaskJudg[WALK]; }
 	bool GetClearSetting() { return ClearTaskJudg[SETTING]; }
 };
-

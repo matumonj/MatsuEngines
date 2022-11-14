@@ -18,7 +18,8 @@ class LightGroup
 {
 private: // エイリアス
 	// Microsoft::WRL::を省略
-	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+	template <class T>
+	using ComPtr = Microsoft::WRL::ComPtr<T>;
 	// DirectX::を省略
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
@@ -241,7 +242,7 @@ private: // メンバ変数
 	ComPtr<ID3D12Resource> constBuff;
 
 	// 環境光の色
-	XMFLOAT3 ambientColor = { 1,1,1 };
+	XMFLOAT3 ambientColor = {1, 1, 1};
 
 	// 平行光源の配列
 	DirectionalLight dirLights[DirLightNum];
@@ -258,4 +259,3 @@ private: // メンバ変数
 	// ダーティフラグ
 	bool dirty = false;
 };
-

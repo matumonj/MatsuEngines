@@ -11,7 +11,8 @@ class BaseCollider;
 struct CollisionInfo
 {
 public:
-	CollisionInfo(Object3d* object, BaseCollider* collider, const DirectX::XMVECTOR& inter) {
+	CollisionInfo(Object3d* object, BaseCollider* collider, const DirectX::XMVECTOR& inter)
+	{
 		this->object = object;
 		this->collider = collider;
 		this->inter = inter;
@@ -24,4 +25,3 @@ public:
 	// �Փ˓_
 	DirectX::XMVECTOR inter;
 };
-

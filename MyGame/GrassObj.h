@@ -10,7 +10,8 @@ class GrassObj
 {
 private: // エイリアス
 	// Microsoft::WRL::を省略
-	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+	template <class T>
+	using ComPtr = ComPtr<T>;
 	// DirectX::を省略
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
@@ -29,10 +30,9 @@ public: // サブクラス
 		XMFLOAT4 color;
 		//XMMATRIX mat;
 		// 定数バッファ用データ構造体B0
-		XMMATRIX viewproj;    // ビュープロジェクション行列
+		XMMATRIX viewproj; // ビュープロジェクション行列
 		XMMATRIX world; // ワールド行列
 		float time;
-	
 	};
 
 private: // 定数
@@ -107,7 +107,6 @@ private: // 静的メンバ変数
 	static ComPtr<ID3D12PipelineState> pipelinestate;
 
 
-
 	// ビュー行列
 	static XMMATRIX matView;
 	// 射影行列
@@ -123,7 +122,7 @@ private: // 静的メンバ変数
 
 	//static unsigned short indices[planeCount * 3];
 
-private:// 静的メンバ関数
+private: // 静的メンバ関数
 
 	/// <summary>
 	/// グラフィックパイプライン生成
@@ -186,28 +185,31 @@ public: // メンバ関数
 	void SetRotation(XMFLOAT3 rotation) { this->rotation = rotation; }
 	void SetScale(XMFLOAT3 scale) { this->scale = scale; }
 
-	void SetCamera(Camera* cameras) {
+	void SetCamera(Camera* cameras)
+	{
 		camera = cameras;
 	}
 
-	static void SetLightGroup(LightGroup* lightGroup) {
+	static void SetLightGroup(LightGroup* lightGroup)
+	{
 		GrassObj::lightGroup = lightGroup;
 	}
+
 protected: // メンバ変数
 	ComPtr<ID3D12Resource> constBuffB0; // 定数バッファ
 
 	// 色
-	XMFLOAT4 color = { 1,1,1,1 };
+	XMFLOAT4 color = {1, 1, 1, 1};
 	// ローカルスケール
-	XMFLOAT3 scale = { 1,1,1 };
+	XMFLOAT3 scale = {1, 1, 1};
 	// X,Y,Z軸回りのローカル回転角
-	XMFLOAT3 rotation = { 0,0,0 };
+	XMFLOAT3 rotation = {0, 0, 0};
 	// ローカル座標
-	XMFLOAT3 position = { 0,0,0 };
+	XMFLOAT3 position = {0, 0, 0};
 
 	// ローカルワールド変換行列
 	XMMATRIX matWorld;
-	
+
 	bool rf;
 	bool gsf = false;;
 	XMMATRIX rm, rt, rr, rs;
@@ -251,8 +253,5 @@ public:
 	/// モデルを取得
 	/// </summary>
 	/// <param name="material">マテリアル</param>
-	inline Model* GetModel() { return model; }
+	Model* GetModel() { return model; }
 };
-
-
-

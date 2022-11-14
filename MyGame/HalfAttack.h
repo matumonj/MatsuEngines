@@ -1,6 +1,7 @@
 #pragma once
 #include"Texture.h"
 #include"Input.h"
+
 class HalfAttack
 {
 public:
@@ -12,37 +13,42 @@ private:
 	using XMMATRIX = DirectX::XMMATRIX;
 	using XMVECTOR = DirectX::XMVECTOR;
 private:
-	enum AttackArea {
+	enum AttackArea
+	{
 		LEFT,
 		RIGHT
 	};
+
 	AttackArea Area;
 
 	Texture* HalfAreaTex;
 	float RotY;
-	bool fase1, fase2,fase3,fase4;
+	bool fase1, fase2, fase3, fase4;
 	int AttackCount;
 	float TexAlpha = 1.0f;
 	float AfterPositionZ;
 	float BeforePositionZ;
 	float KnockTime = 0.0f;
 
-	 XMFLOAT3 CenterPos;
+	XMFLOAT3 CenterPos;
 	//fase1　カウントダウンと中央に戻る処理
 	XMFLOAT3 PlayerPos;
 	XMFLOAT3 BossEnemyPos;
 
 	void DamageJudg_Left();
 	void DamageJudg_Right();
-public:enum Fase {
-	FASENON,
-	FASEONE,
-	FASETWO,
-	FASETHREE,
-	FASEFOUR
-};
+public:
+	enum Fase
+	{
+		FASENON,
+		FASEONE,
+		FASETWO,
+		FASETHREE,
+		FASEFOUR
+	};
+
 private:
-	  Fase fase;
+	Fase fase;
 public:
 	static HalfAttack* GetInstance();
 	XMFLOAT3 MoveCenterPos();
@@ -51,7 +57,6 @@ public:
 	void ActionJudg();
 	void TurnCenter();
 
-	void SetAttackFase(bool f) { if (f && fase!=FASEONE) { fase = FASEONE; } }
+	void SetAttackFase(bool f) { if (f && fase != FASEONE) { fase = FASEONE; } }
 	Fase GetFaseEnd() { return fase; }
 };
-

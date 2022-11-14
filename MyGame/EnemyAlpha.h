@@ -7,46 +7,45 @@
 #include"Sprite.h"
 
 class EnemyAlpha :
-    public Enemy
+	public Enemy
 {
 public:
-    /// <summary>
-    /// コンストラクタ
-    /// </summary>
-    EnemyAlpha();
-    /// <summary>
-    /// デストラクタ
-    /// </summary> 
-    ~EnemyAlpha();
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	EnemyAlpha();
+	/// <summary>
+	/// デストラクタ
+	/// </summary> 
+	~EnemyAlpha() override;
 
 public:
-    //初期化
-    void Initialize(DebugCamera* camera)override;
+	//初期化
+	void Initialize(DebugCamera* camera) override;
 
-    //更新処理
-    void Update(DebugCamera* camera)override;
+	//更新処理
+	void Update(DebugCamera* camera) override;
 
-    //描画処理
-    void Draw()override;
+	//描画処理
+	void Draw() override;
 
-    //死亡処理
-    void Death()override;
+	//死亡処理
+	void Death() override;
 
-    //攻撃後のクールタイム挙動
-    void AttackCoolTime()override;
+	//攻撃後のクールタイム挙動
+	void AttackCoolTime() override;
 
-    //Fbxのアニメーション制御
-    void FbxAnimationControl()override;
+	//Fbxのアニメーション制御
+	void FbxAnimationControl() override;
 
 private:
-    void DamageParticleSet();
+	void DamageParticleSet();
 private:
-    bool DeathFlag;
-    int hindex;
+	bool DeathFlag;
+	int hindex;
 private:
-    bool nowAttack;
+	bool nowAttack;
 public:
-    bool isendtime;
-    std::unique_ptr<Object3d>Sword;
+	bool isendtime;
+	std::unique_ptr<Object3d> Sword;
 };
-

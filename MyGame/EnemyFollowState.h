@@ -2,17 +2,18 @@
 #include"EnemyState.h"
 #include"Enemy.h"
 
-class EnemyFollowState :public EnemyState
+class EnemyFollowState : public EnemyState
 {
 private:
-	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+	template <class T>
+	using ComPtr = ComPtr<T>;
 	// DirectX::Çè»ó™
 	using XMVECTOR = DirectX::XMVECTOR;
 
 public:
-	void Initialize(Enemy* enemy)override;
+	void Initialize(Enemy* enemy) override;
 
-	void Update(Enemy* enemy)override;
+	void Update(Enemy* enemy) override;
 
 private:
 	float RotY;

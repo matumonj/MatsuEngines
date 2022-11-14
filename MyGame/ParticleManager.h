@@ -6,6 +6,7 @@
 #include <DirectXMath.h>
 #include <d3dx12.h>
 #include<forward_list>
+
 /// <summary>
 /// 3Dオブジェクト
 /// </summary>
@@ -13,7 +14,8 @@ class ParticleManager
 {
 private: // エイリアス
 	// Microsoft::WRL::を省略
-	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+	template <class T>
+	using ComPtr = Microsoft::WRL::ComPtr<T>;
 	// DirectX::を省略
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
@@ -31,11 +33,13 @@ public: // サブクラス
 	// 定数バッファ用データ構造体
 	struct ConstBufferData
 	{
-		XMFLOAT4 color;	// 色 (RGBA)
-		XMMATRIX mat;	// ３Ｄ変換行列]
-		XMMATRIX matBillboard;//ビルボード行列
+		XMFLOAT4 color; // 色 (RGBA)
+		XMMATRIX mat; // ３Ｄ変換行列]
+		XMMATRIX matBillboard; //ビルボード行列
 	};
-	XMFLOAT4 color = { 1,1,1,1 };
+
+	XMFLOAT4 color = {1, 1, 1, 1};
+
 	struct Particle
 	{
 		using XMFLOAT3 = DirectX::XMFLOAT3;
@@ -54,10 +58,11 @@ public: // サブクラス
 		float s_scale = 1.0f;
 		float e_scale = 0.0f;
 		XMFLOAT4 color;
-		XMFLOAT4 e_color= { 1,0,0,1 };
-		XMFLOAT4 s_color= { 1,0,0,1 };
-		XMFLOAT3 rot={0,0,0};
+		XMFLOAT4 e_color = {1, 0, 0, 1};
+		XMFLOAT4 s_color = {1, 0, 0, 1};
+		XMFLOAT3 rot = {0, 0, 0};
 	};
+
 private: // 定数
 
 public: // 静的メンバ関数
@@ -85,7 +90,7 @@ public: // 静的メンバ関数
 	/// 3Dオブジェクト生成
 	/// </summary>
 	/// <returns></returns>
-	
+
 private: // 静的メンバ変数
 	// デバイス
 	static ID3D12Device* device;
@@ -110,7 +115,7 @@ private: // 静的メンバ変数
 	// シェーダリソースビューのハンドル(CPU)
 	static CD3DX12_GPU_DESCRIPTOR_HANDLE gpuDescHandleSRV;
 	// ビュー行列
-	UINT texNumber=0;
+	UINT texNumber = 0;
 	static XMMATRIX matView;
 	// 射影行列
 	static XMMATRIX matProjection;
@@ -125,7 +130,7 @@ private: // 静的メンバ変数
 	//ビルボード行列
 	static XMMATRIX matBillboard;
 	static XMMATRIX matBillboardY;
-private:// 静的メンバ関数
+private: // 静的メンバ関数
 	/// <summary>
 	/// デスクリプタヒープの初期化
 	/// </summary>
@@ -149,7 +154,7 @@ private:// 静的メンバ関数
 	/// テクスチャ読み込み
 	/// </summary>
 	/// <returns>成否</returns>
-	
+
 	/// <summary>
 	/// モデル作成
 	/// </summary>
@@ -159,41 +164,43 @@ private:// 静的メンバ関数
 	/// </summary>
 	static void UpdateViewMatrix();
 
-	public:
-		static bool LoadTexture(UINT texnum, const wchar_t* filename);
-		void CreateModel();
-		void SetColor(XMFLOAT4 color) { this->color = color; }
+public:
+	static bool LoadTexture(UINT texnum, const wchar_t* filename);
+	void CreateModel();
+	void SetColor(XMFLOAT4 color) { this->color = color; }
 private: // メンバ変数
 	ComPtr<ID3D12Resource> constBuff; // 定数バッファ
 	// 色
 	//XMFLOAT4 colors;// = colors;
 	// ローカルスケール
-	XMFLOAT3 scale = { 1,1,1 };
-	
-//パーティクル配列
-	std::forward_list<Particle>particles;
+	XMFLOAT3 scale = {1, 1, 1};
 
-	public:
-		enum ParticleType {
-			NORMAL,
-			ABSORPTION,
-			FOLLOW,
-			CHARGE
-		};
-		//普通の拡散エフェクト
-		void Normal();
-		//一定距離行ったらパーティクルが元の位置にもどってくる
-		void Absorption();
-		//一定距離行ったらposition方向に戻ってくる
-		void Follow(XMFLOAT3 position,int lifejudg);
-		//チャージもどき
-		void Charge(XMFLOAT3 position);
+	//パーティクル配列
+	std::forward_list<Particle> particles;
+
+public:
+	enum ParticleType
+	{
+		NORMAL,
+		ABSORPTION,
+		FOLLOW,
+		CHARGE
+	};
+
+	//普通の拡散エフェクト
+	void Normal();
+	//一定距離行ったらパーティクルが元の位置にもどってくる
+	void Absorption();
+	//一定距離行ったらposition方向に戻ってくる
+	void Follow(XMFLOAT3 position, int lifejudg);
+	//チャージもどき
+	void Charge(XMFLOAT3 position);
 public: // メンバ関数
 	bool Initialize(UINT texnum);
 	/// <summary>
 	/// 毎フレーム処理
 	/// </summary>
-	void Update(ParticleType type, XMFLOAT3 position = { 0,0,0 }, int lifejudg=false);
+	void Update(ParticleType type, XMFLOAT3 position = {0, 0, 0}, int lifejudg = false);
 
 	/// <summary>
 	/// 描画
@@ -202,7 +209,4 @@ public: // メンバ関数
 	//パーティクルの追加
 	void Add(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel, float start_scale, float end_scale);
 	static ParticleManager* Create(UINT texnum, const wchar_t* filename);
-
 };
-
-

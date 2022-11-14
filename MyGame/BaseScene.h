@@ -19,6 +19,7 @@
 #pragma comment(lib,"dinput8.lib")
 #pragma comment(lib,"dxguid.lib")
 class SceneManager;
+
 class BaseScene
 {
 public:
@@ -32,4 +33,3 @@ public:
 protected:
 	SceneManager* sceneManager_ = nullptr;
 };
-

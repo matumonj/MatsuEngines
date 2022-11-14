@@ -1,4 +1,3 @@
-
 #include "Texture.h"
 
 #include <d3dcompiler.h>
@@ -12,8 +11,8 @@ using namespace Microsoft::WRL;
 /// <summary>
 /// 静的メンバ変数の実体
 /// </summary>
-const float Texture::radius = 5.0f;				// 底面の半径
-const float Texture::prizmHeight = 8.0f;// 柱の高さ
+const float Texture::radius = 5.0f; // 底面の半径
+const float Texture::prizmHeight = 8.0f; // 柱の高さ
 ComPtr<ID3D12Device> Texture::device = nullptr;
 UINT Texture::descriptorHandleIncrementSize = 0;
 ComPtr<ID3D12GraphicsCommandList> Texture::cmdList = nullptr;
@@ -27,15 +26,14 @@ CD3DX12_CPU_DESCRIPTOR_HANDLE Texture::cpuDescHandleSRV;
 CD3DX12_GPU_DESCRIPTOR_HANDLE Texture::gpuDescHandleSRV;
 XMMATRIX Texture::matView{};
 XMMATRIX Texture::matProjection{};
-XMFLOAT3 Texture::eye = { 0, 0, -50.0f };
-XMFLOAT3 Texture::target = { 0, 0, 0 };
-XMFLOAT3 Texture::up = { 0, 1, 0 };
+XMFLOAT3 Texture::eye = {0, 0, -50.0f};
+XMFLOAT3 Texture::target = {0, 0, 0};
+XMFLOAT3 Texture::up = {0, 1, 0};
 Texture::VertexPosNormalUv Texture::vertices[vertexCount];
 unsigned short Texture::indices[indexCount];
 
 Texture::Texture(UINT texNumber, XMFLOAT3 position, XMFLOAT3 size, XMFLOAT4 color)
 {
-
 	this->position = position;
 	this->scale = size;
 	//this->anchorpoint = anchorpoint;//
@@ -47,9 +45,8 @@ Texture::Texture(UINT texNumber, XMFLOAT3 position, XMFLOAT3 size, XMFLOAT4 colo
 
 bool Texture::StaticInitialize(int window_width, int window_height)
 {
-
-	Texture::device = DirectXCommon::GetInstance()->GetDev();
-	Texture::cmdList = DirectXCommon::GetInstance()->GetCmdList();
+	device = DirectXCommon::GetInstance()->GetDev();
+	cmdList = DirectXCommon::GetInstance()->GetCmdList();
 
 	// デスクリプタヒープの初期化
 	InitializeDescriptorHeap();
@@ -65,9 +62,8 @@ bool Texture::StaticInitialize(int window_width, int window_height)
 
 void Texture::PreDraw()
 {
-	
 	// コマンドリストをセット
-	Texture::cmdList = DirectXCommon::GetInstance()->GetCmdList();
+	cmdList = DirectXCommon::GetInstance()->GetCmdList();
 
 	// パイプラインステートの設定
 	cmdList->SetPipelineState(pipelinestate.Get());
@@ -80,7 +76,7 @@ void Texture::PreDraw()
 void Texture::PostDraw()
 {
 	// コマンドリストを解除
-	Texture::cmdList = nullptr;
+	cmdList = nullptr;
 }
 
 bool Texture::InitializeDescriptorHeap()
@@ -90,10 +86,11 @@ bool Texture::InitializeDescriptorHeap()
 	// デスクリプタヒープを生成	
 	D3D12_DESCRIPTOR_HEAP_DESC descHeapDesc = {};
 	descHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
-	descHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;//シェーダから見えるように
+	descHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE; //シェーダから見えるように
 	descHeapDesc.NumDescriptors = srvCount; // シェーダーリソースビュー1つ
-	result = device->CreateDescriptorHeap(&descHeapDesc, IID_PPV_ARGS(&descHeap));//生成
-	if (FAILED(result)) {
+	result = device->CreateDescriptorHeap(&descHeapDesc, IID_PPV_ARGS(&descHeap)); //生成
+	if (FAILED(result))
+	{
 		assert(0);
 		return false;
 	}
@@ -108,26 +105,27 @@ bool Texture::InitializeGraphicsPipeline()
 {
 	HRESULT result = S_FALSE;
 	ComPtr<ID3DBlob> vsBlob; // 頂点シェーダオブジェクト
-	ComPtr<ID3DBlob> psBlob;	// ピクセルシェーダオブジェクト
+	ComPtr<ID3DBlob> psBlob; // ピクセルシェーダオブジェクト
 	ComPtr<ID3DBlob> errorBlob; // エラーオブジェクト
 
 	// 頂点シェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"Resources/Shader/TextureVS.hlsl",	// シェーダファイル名
+		L"Resources/Shader/TextureVS.hlsl", // シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
-		"main", "vs_5_0",	// エントリーポイント名、シェーダーモデル指定
+		"main", "vs_5_0", // エントリーポイント名、シェーダーモデル指定
 		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // デバッグ用設定
 		0,
 		&vsBlob, &errorBlob);
-	if (FAILED(result)) {
+	if (FAILED(result))
+	{
 		// errorBlobからエラー内容をstring型にコピー
 		std::string errstr;
 		errstr.resize(errorBlob->GetBufferSize());
 
-		std::copy_n((char*)errorBlob->GetBufferPointer(),
-			errorBlob->GetBufferSize(),
-			errstr.begin());
+		std::copy_n(static_cast<char*>(errorBlob->GetBufferPointer()),
+		            errorBlob->GetBufferSize(),
+		            errstr.begin());
 		errstr += "\n";
 		// エラー内容を出力ウィンドウに表示
 		OutputDebugStringA(errstr.c_str());
@@ -136,21 +134,22 @@ bool Texture::InitializeGraphicsPipeline()
 
 	// ピクセルシェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"Resources/Shader/TexturePS.hlsl",	// シェーダファイル名
+		L"Resources/Shader/TexturePS.hlsl", // シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
-		"main", "ps_5_0",	// エントリーポイント名、シェーダーモデル指定
+		"main", "ps_5_0", // エントリーポイント名、シェーダーモデル指定
 		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // デバッグ用設定
 		0,
 		&psBlob, &errorBlob);
-	if (FAILED(result)) {
+	if (FAILED(result))
+	{
 		// errorBlobからエラー内容をstring型にコピー
 		std::string errstr;
 		errstr.resize(errorBlob->GetBufferSize());
 
-		std::copy_n((char*)errorBlob->GetBufferPointer(),
-			errorBlob->GetBufferSize(),
-			errstr.begin());
+		std::copy_n(static_cast<char*>(errorBlob->GetBufferPointer()),
+		            errorBlob->GetBufferSize(),
+		            errstr.begin());
 		errstr += "\n";
 		// エラー内容を出力ウィンドウに表示
 		OutputDebugStringA(errstr.c_str());
@@ -159,17 +158,20 @@ bool Texture::InitializeGraphicsPipeline()
 
 	// 頂点レイアウト
 	D3D12_INPUT_ELEMENT_DESC inputLayout[] = {
-		{ // xy座標(1行で書いたほうが見やすい)
+		{
+			// xy座標(1行で書いたほうが見やすい)
 			"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
 			D3D12_APPEND_ALIGNED_ELEMENT,
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
 		},
-		{ // 法線ベクトル(1行で書いたほうが見やすい)
+		{
+			// 法線ベクトル(1行で書いたほうが見やすい)
 			"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
 			D3D12_APPEND_ALIGNED_ELEMENT,
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
 		},
-		{ // uv座標(1行で書いたほうが見やすい)
+		{
+			// uv座標(1行で書いたほうが見やすい)
 			"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0,
 			D3D12_APPEND_ALIGNED_ELEMENT,
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
@@ -192,7 +194,7 @@ bool Texture::InitializeGraphicsPipeline()
 	gpipeline.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
 	// レンダーターゲットのブレンド設定
 	D3D12_RENDER_TARGET_BLEND_DESC blenddesc{};
-	blenddesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;	// RBGA全てのチャンネルを描画
+	blenddesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL; // RBGA全てのチャンネルを描画
 	blenddesc.BlendEnable = true;
 	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;
 	blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;
@@ -219,7 +221,7 @@ bool Texture::InitializeGraphicsPipeline()
 	// 図形の形状設定（三角形）
 	gpipeline.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 
-	gpipeline.NumRenderTargets = 1;	// 描画対象は1つ
+	gpipeline.NumRenderTargets = 1; // 描画対象は1つ
 	gpipeline.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM; // 0～255指定のRGBA
 	gpipeline.SampleDesc.Count = 1; // 1ピクセルにつき1回サンプリング
 
@@ -233,18 +235,22 @@ bool Texture::InitializeGraphicsPipeline()
 	rootparams[1].InitAsDescriptorTable(1, &descRangeSRV, D3D12_SHADER_VISIBILITY_ALL);
 
 	// スタティックサンプラー
-	CD3DX12_STATIC_SAMPLER_DESC samplerDesc = CD3DX12_STATIC_SAMPLER_DESC(0, D3D12_FILTER_MIN_MAG_MIP_POINT);
+	auto samplerDesc = CD3DX12_STATIC_SAMPLER_DESC(0, D3D12_FILTER_MIN_MAG_MIP_POINT);
 
 	// ルートシグネチャの設定
 	CD3DX12_VERSIONED_ROOT_SIGNATURE_DESC rootSignatureDesc;
-	rootSignatureDesc.Init_1_0(_countof(rootparams), rootparams, 1, &samplerDesc, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
+	rootSignatureDesc.Init_1_0(_countof(rootparams), rootparams, 1, &samplerDesc,
+	                           D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
 
 	ComPtr<ID3DBlob> rootSigBlob;
 	// バージョン自動判定のシリアライズ
-	result = D3DX12SerializeVersionedRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1_0, &rootSigBlob, &errorBlob);
+	result = D3DX12SerializeVersionedRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1_0, &rootSigBlob,
+	                                               &errorBlob);
 	// ルートシグネチャの生成
-	result = device->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(), IID_PPV_ARGS(&rootsignature));
-	if (FAILED(result)) {
+	result = device->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(),
+	                                     IID_PPV_ARGS(&rootsignature));
+	if (FAILED(result))
+	{
 		return false;
 	}
 
@@ -253,7 +259,8 @@ bool Texture::InitializeGraphicsPipeline()
 	// グラフィックスパイプラインの生成
 	result = device->CreateGraphicsPipelineState(&gpipeline, IID_PPV_ARGS(&pipelinestate));
 
-	if (FAILED(result)) {
+	if (FAILED(result))
+	{
 		return false;
 	}
 
@@ -273,7 +280,8 @@ bool Texture::LoadTexture(UINT texnumber, const wchar_t* filename)
 	result = LoadFromWICFile(
 		filename, WIC_FLAGS_NONE,
 		&metadata, scratchImg);
-	if (FAILED(result)) {
+	if (FAILED(result))
+	{
 		assert(0);
 		return false;
 	}
@@ -284,9 +292,9 @@ bool Texture::LoadTexture(UINT texnumber, const wchar_t* filename)
 	CD3DX12_RESOURCE_DESC texresDesc = CD3DX12_RESOURCE_DESC::Tex2D(
 		metadata.format,
 		metadata.width,
-		(UINT)metadata.height,
-		(UINT16)metadata.arraySize,
-		(UINT16)metadata.mipLevels
+		static_cast<UINT>(metadata.height),
+		static_cast<UINT16>(metadata.arraySize),
+		static_cast<UINT16>(metadata.mipLevels)
 	);
 
 	// テクスチャ用バッファの生成
@@ -297,7 +305,8 @@ bool Texture::LoadTexture(UINT texnumber, const wchar_t* filename)
 		D3D12_RESOURCE_STATE_GENERIC_READ, // テクスチャ用指定
 		nullptr,
 		IID_PPV_ARGS(&texbuff[texnumber]));
-	if (FAILED(result)) {
+	if (FAILED(result))
+	{
 		assert(0);
 		return false;
 	}
@@ -306,16 +315,18 @@ bool Texture::LoadTexture(UINT texnumber, const wchar_t* filename)
 	result = texbuff[texnumber]->WriteToSubresource(
 		0,
 		nullptr, // 全領域へコピー
-		img->pixels,    // 元データアドレス
-		(UINT)img->rowPitch,  // 1ラインサイズ
-		(UINT)img->slicePitch // 1枚サイズ
+		img->pixels, // 元データアドレス
+		static_cast<UINT>(img->rowPitch), // 1ラインサイズ
+		static_cast<UINT>(img->slicePitch // 1枚サイズ
+		) // 1枚サイズ
 	);
-	if (FAILED(result)) {
+	if (FAILED(result))
+	{
 		assert(0);
 		return false;
 	}
 	// シェーダリソースビュー作成
-//	cpuDescHandleSRV = CD3DX12_CPU_DESCRIPTOR_HANDLE(descHeap->GetCPUDescriptorHandleForHeapStart(), 0, descriptorHandleIncrementSize);
+	//	cpuDescHandleSRV = CD3DX12_CPU_DESCRIPTOR_HANDLE(descHeap->GetCPUDescriptorHandleForHeapStart(), 0, descriptorHandleIncrementSize);
 	//gpuDescHandleSRV = CD3DX12_GPU_DESCRIPTOR_HANDLE(descHeap->GetGPUDescriptorHandleForHeapStart(), 0, descriptorHandleIncrementSize);
 
 	// シェーダリソースビュー作成
@@ -324,12 +335,13 @@ bool Texture::LoadTexture(UINT texnumber, const wchar_t* filename)
 
 	srvDesc.Format = resDesc.Format;
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;//2Dテクスチャ
+	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D; //2Dテクスチャ
 	srvDesc.Texture2D.MipLevels = 1;
 
 	device->CreateShaderResourceView(texbuff[texnumber].Get(), //ビューと関連付けるバッファ
-		&srvDesc, //テクスチャ設定情報
-		CD3DX12_CPU_DESCRIPTOR_HANDLE(descHeap->GetCPUDescriptorHandleForHeapStart(), texnumber, descriptorHandleIncrementSize)
+	                                 &srvDesc, //テクスチャ設定情報
+	                                 CD3DX12_CPU_DESCRIPTOR_HANDLE(descHeap->GetCPUDescriptorHandleForHeapStart(),
+	                                                               texnumber, descriptorHandleIncrementSize)
 	);
 
 	return true;
@@ -356,16 +368,16 @@ void Texture::CreateTexture()
 		D3D12_RESOURCE_DESC resDesc = texbuff[texNumber]->GetDesc();
 
 		VertexPosNormalUv verticesSquare[] = {
-			{{-5.0f,-5.0f,0.0f}, { 0,0,1}, {0,1}},
-			{{-5.0f,+5.0f,0.0f}, { 0,0,1}, {0,0}},
-			{{+5.0f,-5.0f,0.0f}, { 0,0,1}, {1,1}},
-			{{+5.0f,+5.0f,0.0f}, { 0,0,1}, {1,0}},
+			{{-5.0f, -5.0f, 0.0f}, {0, 0, 1}, {0, 1}},
+			{{-5.0f, +5.0f, 0.0f}, {0, 0, 1}, {0, 0}},
+			{{+5.0f, -5.0f, 0.0f}, {0, 0, 1}, {1, 1}},
+			{{+5.0f, +5.0f, 0.0f}, {0, 0, 1}, {1, 0}},
 		};
 		std::copy(std::begin(verticesSquare), std::end(verticesSquare), vertices);
 
 		unsigned short indicesSquare[] = {
-			0,1,2,
-			2,1,3,
+			0, 1, 2,
+			2, 1, 3,
 		};
 		std::copy(std::begin(indicesSquare), std::end(indicesSquare), indices);
 	}
@@ -377,7 +389,8 @@ void Texture::CreateTexture()
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
 		IID_PPV_ARGS(&vertBuff));
-	if (FAILED(result)) {
+	if (FAILED(result))
+	{
 		assert(0);
 		return;
 	}
@@ -390,7 +403,8 @@ void Texture::CreateTexture()
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
 		IID_PPV_ARGS(&indexBuff));
-	if (FAILED(result)) {
+	if (FAILED(result))
+	{
 		assert(0);
 		return;
 	}
@@ -398,7 +412,8 @@ void Texture::CreateTexture()
 	// 頂点バッファへのデータ転送
 	VertexPosNormalUv* vertMap = nullptr;
 	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
-	if (SUCCEEDED(result)) {
+	if (SUCCEEDED(result))
+	{
 		memcpy(vertMap, vertices, sizeof(vertices));
 		vertBuff->Unmap(0, nullptr);
 	}
@@ -406,12 +421,12 @@ void Texture::CreateTexture()
 	// インデックスバッファへのデータ転送
 	unsigned short* indexMap = nullptr;
 	result = indexBuff->Map(0, nullptr, (void**)&indexMap);
-	if (SUCCEEDED(result)) {
-
+	if (SUCCEEDED(result))
+	{
 		// 全インデックスに対して
 		for (int i = 0; i < _countof(indices); i++)
 		{
-			indexMap[i] = indices[i];	// インデックスをコピー
+			indexMap[i] = indices[i]; // インデックスをコピー
 		}
 
 		indexBuff->Unmap(0, nullptr);
@@ -437,7 +452,7 @@ bool Texture::Initialize()
 	HRESULT result;
 	// 定数バッファの生成
 	result = device->CreateCommittedResource(
-		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD), 	// アップロード可能
+		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD), // アップロード可能
 		D3D12_HEAP_FLAG_NONE,
 		&CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferData) + 0xff) & ~0xff),
 		D3D12_RESOURCE_STATE_GENERIC_READ,
@@ -462,41 +477,43 @@ void Texture::Update(DebugCamera* camera)
 	matTrans = XMMatrixTranslation(position.x, position.y, position.z);
 
 	//if (isBillboard) {
-		const XMMATRIX& matBillboard = camera->GetBillboardMatrix();
+	const XMMATRIX& matBillboard = camera->GetBillboardMatrix();
 
-		matWorld = XMMatrixIdentity();
-		matWorld *= matScale; // ワールド行列にスケーリングを反映
-		matWorld *= matRot; // ワールド行列に回転を反映
-		if (BillBordflag) {
-			matWorld *= matBillboard;
-		}
-		matWorld *= matTrans; // ワールド行列に平行移動を反映
+	matWorld = XMMatrixIdentity();
+	matWorld *= matScale; // ワールド行列にスケーリングを反映
+	matWorld *= matRot; // ワールド行列に回転を反映
+	if (BillBordflag)
+	{
+		matWorld *= matBillboard;
+	}
+	matWorld *= matTrans; // ワールド行列に平行移動を反映
 	//}
 	// ワールド行列の合成
-	
+
 	// 定数バッファへデータ転送
 	ConstBufferData* constMap = nullptr;
 	result = constBuff->Map(0, nullptr, (void**)&constMap);
 	constMap->color = color;
 	constMap->matbillbord = camera->GetBillboardMatrix();
 	constMap->world = matWorld;
-	constMap->mat = matWorld * camera->GetViewMatrix() * camera->GetProjectionMatrix();	// 行列の合成
+	constMap->mat = matWorld * camera->GetViewMatrix() * camera->GetProjectionMatrix(); // 行列の合成
 	constMap->uvmove = uvf;
 	constMap->time = uvtime;
 	constMap->dispos = position;
-	constMap->radius =  DisplayRadius;
+	constMap->radius = DisplayRadius;
 	constBuff->Unmap(0, nullptr);
 	//TransferVertices();
 }
+
 void Texture::SetPosition(XMFLOAT3 position)
 {
-	this->position = position; 
+	this->position = position;
 	TransferVertices();
 }
 
 void Texture::SetScale(XMFLOAT3 scale)
 {
-	this->scale = scale; 
+	this->scale = scale;
 	TransferVertices();
 }
 
@@ -508,10 +525,12 @@ void Texture::SetAnchorPoint(XMFLOAT2 anchorpoint)
 	// 頂点バッファへのデータ転送
 	TransferVertices();
 }
+
 void Texture::Draw()
 {
 	uvtime += 0.01f;
-	if (uvtime > 1.0f) {
+	if (uvtime > 1.0f)
+	{
 		uvtime = 0.0f;
 	}
 
@@ -526,22 +545,24 @@ void Texture::Draw()
 	cmdList->IASetIndexBuffer(&ibView);
 
 	// デスクリプタヒープの配列
-	ID3D12DescriptorHeap* ppHeaps[] = { descHeap.Get() };
+	ID3D12DescriptorHeap* ppHeaps[] = {descHeap.Get()};
 	cmdList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
 
 	// 定数バッファビューをセット
 	cmdList->SetGraphicsRootConstantBufferView(0, constBuff->GetGPUVirtualAddress());
 	// シェーダリソースビューをセット
-	cmdList->SetGraphicsRootDescriptorTable(1, CD3DX12_GPU_DESCRIPTOR_HANDLE(descHeap->GetGPUDescriptorHandleForHeapStart(), this->texNumber, descriptorHandleIncrementSize));
+	cmdList->SetGraphicsRootDescriptorTable(1, CD3DX12_GPU_DESCRIPTOR_HANDLE(
+		                                        descHeap->GetGPUDescriptorHandleForHeapStart(), this->texNumber,
+		                                        descriptorHandleIncrementSize));
 
 	//cmdList->SetGraphicsRootDescriptorTable(1, gpuDescHandleSRV);
 	// 描画コマンド
 	cmdList->DrawIndexedInstanced(_countof(indices), 1, 0, 0, 0);
 }
+
 void Texture::TransferVertices()
 {
-	
-	size = { scale.x,scale.y };
+	size = {scale.x, scale.y};
 	HRESULT result = S_FALSE;
 
 	// 左下、左上、右下、右上
@@ -555,57 +576,61 @@ void Texture::TransferVertices()
 	// 頂点データ
 	VertexPosNormalUv vertices[vertNum];
 
-	vertices[LB].pos = { left,	bottom,	0.0f }; // 左下
-	vertices[LT].pos = { left,	top,	0.0f }; // 左上
-	vertices[RB].pos = { right,	bottom,	0.0f }; // 右下
-	vertices[RT].pos = { right,	top,	0.0f }; // 右上
+	vertices[LB].pos = {left, bottom, 0.0f}; // 左下
+	vertices[LT].pos = {left, top, 0.0f}; // 左上
+	vertices[RB].pos = {right, bottom, 0.0f}; // 右下
+	vertices[RT].pos = {right, top, 0.0f}; // 右上
 
 	// テクスチャ情報取得
 	if (texbuff[texNumber])
 	{
 		D3D12_RESOURCE_DESC resDesc = texbuff[texNumber]->GetDesc();
-		if (texNormalSize) {
-			texSize = { (float)resDesc.Width, (float)resDesc.Height };
+		if (texNormalSize)
+		{
+			texSize = {static_cast<float>(resDesc.Width), static_cast<float>(resDesc.Height)};
 		}
 		float tex_left = texBase.x / resDesc.Width;
 		float tex_right = (texBase.x + texSize.x) / resDesc.Width;
 		float tex_top = texBase.y / resDesc.Height;
 		float tex_bottom = (texBase.y + texSize.y) / resDesc.Height;
 
-		vertices[LB].uv = { tex_left,	tex_bottom }; // 左下
-		vertices[LT].uv = { tex_left,	tex_top }; // 左上
-		vertices[RB].uv = { tex_right,	tex_bottom }; // 右下
-		vertices[RT].uv = { tex_right,	tex_top }; // 右上
+		vertices[LB].uv = {tex_left, tex_bottom}; // 左下
+		vertices[LT].uv = {tex_left, tex_top}; // 左上
+		vertices[RB].uv = {tex_right, tex_bottom}; // 右下
+		vertices[RT].uv = {tex_right, tex_top}; // 右上
 	}
 
 	// 頂点バッファへのデータ転送
 	VertexPosNormalUv* vertMap = nullptr;
 	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
-	if (SUCCEEDED(result)) {
+	if (SUCCEEDED(result))
+	{
 		memcpy(vertMap, vertices, sizeof(vertices));
 		vertBuff->Unmap(0, nullptr);
 	}
 }
+
 Texture* Texture::Create(UINT texNumber, XMFLOAT3 position, XMFLOAT3 size, XMFLOAT4 color)
 {
-	XMFLOAT3 texsize={0.0f,0.0f,0.0f};
+	XMFLOAT3 texsize = {0.0f, 0.0f, 0.0f};
 	if (texbuff[texNumber])
 	{
 		// テクスチャ情報取得
 		D3D12_RESOURCE_DESC resDesc = texbuff[texNumber]->GetDesc();
 		// スプライトのサイズをテクスチャのサイズに設定
-		texsize = { (float)resDesc.Width, (float)resDesc.Height,0 };
-
+		texsize = {static_cast<float>(resDesc.Width), static_cast<float>(resDesc.Height), 0};
 	}
 
 	// Spriteのインスタンスを生成
-	Texture* texture = new Texture(texNumber, position, texsize, color);
-	if (texture == nullptr) {
+	auto texture = new Texture(texNumber, position, texsize, color);
+	if (texture == nullptr)
+	{
 		return nullptr;
 	}
 
 	// 初期化
-	if (!texture->Initialize()) {
+	if (!texture->Initialize())
+	{
 		delete texture;
 		assert(0);
 		return nullptr;
@@ -614,10 +639,8 @@ Texture* Texture::Create(UINT texNumber, XMFLOAT3 position, XMFLOAT3 size, XMFLO
 	return texture;
 }
 
-void Texture::SetRotation(XMFLOAT3 rotation) 
+void Texture::SetRotation(XMFLOAT3 rotation)
 {
-	this->rotation = rotation; 
+	this->rotation = rotation;
 	TransferVertices();
 }
-
-

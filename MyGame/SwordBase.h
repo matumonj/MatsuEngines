@@ -1,23 +1,23 @@
 #pragma once
 #include"CollisionPrimitive.h"
 #include "ObjectManager.h"
+
 class SwordBase :
-    public ObjectManager
+	public ObjectManager
 {
 public:
-     SwordBase();
-    virtual ~SwordBase();
+	SwordBase();
+	~SwordBase() override;
 public:
-    virtual void Initialize(DebugCamera* camera)override;
-    virtual void Update(DebugCamera* camera)override;
-    virtual void Draw()override;
-    XMMATRIX GetMatrot() {return m_Object->ExtractRotationMat(); }
-    XMMATRIX GetMatWorld() { return m_Object->GetMatWorld(); }
+	void Initialize(DebugCamera* camera) override;
+	void Update(DebugCamera* camera) override;
+	void Draw() override;
+	XMMATRIX GetMatrot() { return m_Object->ExtractRotationMat(); }
+	XMMATRIX GetMatWorld() { return m_Object->GetMatWorld(); }
 protected:
-    int Damage;
-    int CoolTime;
+	int Damage;
+	int CoolTime;
 public:
-    int GetDamage() { return Damage; }
-    int GetCoolTime() { return CoolTime; }
+	int GetDamage() { return Damage; }
+	int GetCoolTime() { return CoolTime; }
 };
-

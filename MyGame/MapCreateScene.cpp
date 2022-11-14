@@ -17,9 +17,8 @@
 #include <iostream>
 //シーンのコンストラクタ
 MapCreateScene::MapCreateScene(SceneManager* sceneManager)
-	:BaseScene(sceneManager)
+	: BaseScene(sceneManager)
 {
-
 }
 
 
@@ -28,7 +27,7 @@ void MapCreateScene::ModelCreate(DebugCamera* camera)
 {
 	postEffect = new PostEffect();
 	postEffect->Initialize();
-	
+
 	Field::GetInstance()->Initialize(camera);
 
 	// ライト生成
@@ -40,7 +39,6 @@ void MapCreateScene::ModelCreate(DebugCamera* camera)
 	//lightGroup->LightSetting();
 
 	MapCreate::GetInstance()->ObjectInitialize(CameraControl::GetInstance()->GetCamera());
-
 }
 #pragma endregion
 
@@ -60,8 +58,8 @@ void MapCreateScene::Initialize()
 	CameraControl::GetInstance()->ParamSet();
 
 	// 3Dオブジェクトにカメラをセット
-//	Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
-	ModelCreate(CameraControl::GetInstance()->GetCamera());//
+	//	Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
+	ModelCreate(CameraControl::GetInstance()->GetCamera()); //
 
 	//カメラをセット
 	f_Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
@@ -85,25 +83,28 @@ void MapCreateScene::Update()
 
 	Input::MouseMove mouseMove = Input::GetInstance()->GetMouseMove();
 	//マウスの入力状態取得
-	
+
 	//カメラ関係の処理
 	CameraControl::GetInstance()->GetCamera()->SetEye(CameraPosition);
-	CameraControl::GetInstance()->GetCamera()->SetTarget({ CameraPosition.x,CameraPosition.y - 15,CameraPosition.z + 20 });
-	
+	CameraControl::GetInstance()->GetCamera()->SetTarget({
+		CameraPosition.x, CameraPosition.y - 15, CameraPosition.z + 20
+	});
+
 	CameraControl::GetInstance()->GetCamera()->Update();
 
-	objUpdate(CameraControl::GetInstance()->GetCamera());//オブジェクトの更新処理
+	objUpdate(CameraControl::GetInstance()->GetCamera()); //オブジェクトの更新処理
 	//Player::GetInstance()->Update({ 1,1,1,1 }, camera);
 	MapCreate::GetInstance()->ObjectArgment(CameraControl::GetInstance()->GetCamera());
 	//シーンチェンジ
 
-	if (Input::GetInstance()->TriggerKey(DIK_R)) {//押されたら
+	if (Input::GetInstance()->TriggerKey(DIK_R))
+	{
+		//押されたら
 		//BaseScene* scene = new PlayScene(sceneManager_);//次のシーンのインスタンス生成
 		//sceneManager_->SetnextScene(scene);//シーンのセット
 	}
-
 }
-#pragma endregion 
+#pragma endregion
 
 
 //sプライと以外の描画
@@ -120,27 +121,29 @@ void MapCreateScene::Draw()
 	//ポストエフェクトの場合わけ(Bでぼかし Dがデフォルト)
 	switch (c_postEffect)
 	{
-	case Blur://ぼかし　描画準違うだけ
+	case Blur: //ぼかし　描画準違うだけ
 		postEffect->PreDrawScene();
 		MyGameDraw();
 		postEffect->PostDrawScene();
 
 		DirectXCommon::GetInstance()->BeginDraw();
 		postEffect->Draw();
-		if (DirectXCommon::GetInstance()->GetFullScreen() == false) {
+		if (DirectXCommon::GetInstance()->GetFullScreen() == false)
+		{
 			ImGuiDraw();
 		}
 		DirectXCommon::GetInstance()->EndDraw();
 		break;
 
-	case Default://普通のやつ特に何もかかっていない
+	case Default: //普通のやつ特に何もかかっていない
 		postEffect->PreDrawScene();
 		postEffect->Draw();
 		postEffect->PostDrawScene();
 
 		DirectXCommon::GetInstance()->BeginDraw();
 		MyGameDraw();
-		if (DirectXCommon::GetInstance()->GetFullScreen() == false) {
+		if (DirectXCommon::GetInstance()->GetFullScreen() == false)
+		{
 			ImGuiDraw();
 		}
 		DirectXCommon::GetInstance()->EndDraw();
@@ -157,13 +160,15 @@ void MapCreateScene::ImGuiDraw()
 	ImGui::SetWindowPos(ImVec2(600, 800));
 	ImGui::SetWindowSize(ImVec2(200, 250));
 
-	if (ImGui::RadioButton("Scene_Create", t)) {
-		BaseScene* scene = new PlayScene(sceneManager_);//次のシーンのインスタンス生成
-		sceneManager_->SetnextScene(scene);//シーンのセット
+	if (ImGui::RadioButton("Scene_Create", t))
+	{
+		BaseScene* scene = new PlayScene(sceneManager_); //次のシーンのインスタンス生成
+		sceneManager_->SetnextScene(scene); //シーンのセット
 	}
-	if (ImGui::RadioButton("Scene_Tittle", t)) {
-		BaseScene* scene = new TitleScene(sceneManager_);//次のシーンのインスタンス生成
-		sceneManager_->SetnextScene(scene);//シーンのセット
+	if (ImGui::RadioButton("Scene_Tittle", t))
+	{
+		BaseScene* scene = new TitleScene(sceneManager_); //次のシーンのインスタンス生成
+		sceneManager_->SetnextScene(scene); //シーンのセット
 	}
 	ImGui::End();
 

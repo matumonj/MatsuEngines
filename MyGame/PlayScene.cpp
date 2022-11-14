@@ -21,9 +21,8 @@
 #include"DamageManager.h"
 //シーンのコンストラクタ
 PlayScene::PlayScene(SceneManager* sceneManager)
-	:BaseScene(sceneManager)
+	: BaseScene(sceneManager)
 {
-
 }
 
 /*------------------------*/
@@ -35,7 +34,8 @@ void PlayScene::Initialize()
 	lightGroup = LightGroup::Create();
 	Object3d::SetLightGroup(lightGroup);
 
-	if (AllObjectControl.size() == 0) {
+	if (AllObjectControl.size() == 0)
+	{
 		//カメラ一番上に　他のControlがカメラを引数にしてるから
 		AllObjectControl.push_back(CameraControl::GetInstance());
 		AllObjectControl.push_back(EnemyControl::GetInstance());
@@ -51,8 +51,6 @@ void PlayScene::Initialize()
 	//ポストエフェクト初期化
 	postEffect = new MinimapSprite();
 	postEffect->Initialize();
-
-	
 }
 
 /*------------------------*/
@@ -60,25 +58,31 @@ void PlayScene::Initialize()
 /*-----------------------*/
 void PlayScene::objUpdate(DebugCamera* camera)
 {
-	if (PlayGame) {
-		for (int i = 0; i < AllObjectControl.size(); i++) {
+	if (PlayGame)
+	{
+		for (int i = 0; i < AllObjectControl.size(); i++)
+		{
 			if (AllObjectControl[i] == nullptr)continue;
 			AllObjectControl[i]->Update((CameraControl::GetInstance()->GetCamera()));
 		}
 	}
 	dc->Update();
 
-	dc->SetTarget({ PlayerControl::GetInstance()->GetPlayer()->GetPosition() });
-	dc->SetEye({ PlayerControl::GetInstance()->GetPlayer()->GetPosition().x,
-		 300.0f,
-		PlayerControl::GetInstance()->GetPlayer()->GetPosition().z - 1 });
+	dc->SetTarget({PlayerControl::GetInstance()->GetPlayer()->GetPosition()});
+	dc->SetEye({
+		PlayerControl::GetInstance()->GetPlayer()->GetPosition().x,
+		300.0f,
+		PlayerControl::GetInstance()->GetPlayer()->GetPosition().z - 1
+	});
 	Field::GetInstance()->SetCamera(dc);
 
-	if (CameraControl::GetInstance()->GetCamera() != nullptr) {
+	if (CameraControl::GetInstance()->GetCamera() != nullptr)
+	{
 		Field::GetInstance()->Update((CameraControl::GetInstance()->GetCamera()));
 		UI::GetInstance()->HUDUpdate(hudload, (CameraControl::GetInstance()->GetCamera()));
 	}
 }
+
 /*------------------------*/
 /*--------更新処理--------*/
 /*-----------------------*/
@@ -88,10 +92,11 @@ void PlayScene::Update()
 
 	SistemConfig::GetInstance()->Update();
 
-	if (!Load && !PlayGame) {
+	if (!Load && !PlayGame)
+	{
 		Load = true;
 	}
-	
+
 	//オブジェクトの更新処理
 	objUpdate((CameraControl::GetInstance()->GetCamera()));
 
@@ -99,36 +104,48 @@ void PlayScene::Update()
 	LoadParam((CameraControl::GetInstance()->GetCamera()));
 
 	//設定画面中ポストエフェクト（今は色反転のみ）
-	if (SistemConfig::GetInstance()->GetConfigJudgMent()) {
+	if (SistemConfig::GetInstance()->GetConfigJudgMent())
+	{
 		c_postEffect = Blur;
-	} else {
+	}
+	else
+	{
 		c_postEffect = Default;
 	}
-	
+
 
 	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 
-	lightGroup->SetCircleShadowDir(3, XMVECTOR({ circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0 }));
-	lightGroup->SetCircleShadowCasterPos(3, { ppos});
+	lightGroup->SetCircleShadowDir(3, XMVECTOR({circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0}));
+	lightGroup->SetCircleShadowCasterPos(3, {ppos});
 	lightGroup->SetCircleShadowAtten(3, XMFLOAT3(circleShadowAtten));
 	lightGroup->SetCircleShadowFactorAngle(3, XMFLOAT2(circleShadowFactorAngle2));
 	postEffect->SetCenterpos(HUD::GetInstance()->GetMinimapSprite()->GetPosition());
-	for (int i = 0; i < EnemyControl::GetInstance()->GetQuentity(); i++) {
-		if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i] == nullptr) { 
-			lightGroup->SetCircleShadowFactorAngle(i + 4, {0,0});
+	for (int i = 0; i < EnemyControl::GetInstance()->GetQuentity(); i++)
+	{
+		if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i] == nullptr)
+		{
+			lightGroup->SetCircleShadowFactorAngle(i + 4, {0, 0});
 			continue;
 		}
-	lightGroup->SetCircleShadowDir(i+4, XMVECTOR({ circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0 }));
-	lightGroup->SetCircleShadowCasterPos(i+4, {EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetPosition()});
-	lightGroup->SetCircleShadowAtten(i+4, XMFLOAT3(circleShadowAtten));
-	lightGroup->SetCircleShadowFactorAngle(i+4, XMFLOAT2(circleShadowFactorAngle));
-
+		lightGroup->SetCircleShadowDir(i + 4, XMVECTOR({
+			                               circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0
+		                               }));
+		lightGroup->SetCircleShadowCasterPos(i + 4, {
+			                                     EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i]->
+			                                     GetPosition()
+		                                     });
+		lightGroup->SetCircleShadowAtten(i + 4, XMFLOAT3(circleShadowAtten));
+		lightGroup->SetCircleShadowFactorAngle(i + 4, XMFLOAT2(circleShadowFactorAngle));
 	}
-	if (CameraControl::GetInstance()->GetMoveBosAreaCam() == CameraControl::TARGETPLAYER) {
-		if (Feed::GetInstance()->GetAlpha() >= 1.0f) {//画面真っ白なったら
-			BaseScene* scene = new BossScene(sceneManager_);//次のシーンのインスタンス生成
+	if (CameraControl::GetInstance()->GetMoveBosAreaCam() == CameraControl::TARGETPLAYER)
+	{
+		if (Feed::GetInstance()->GetAlpha() >= 1.0f)
+		{
+			//画面真っ白なったら
+			BaseScene* scene = new BossScene(sceneManager_); //次のシーンのインスタンス生成
 			SceneManager::GetInstance()->SetScene(SceneManager::BOSS);
-			sceneManager_->SetnextScene(scene);//シーンのセット
+			sceneManager_->SetnextScene(scene); //シーンのセット
 		}
 	}
 }
@@ -139,7 +156,8 @@ void PlayScene::Update()
 void PlayScene::MyGameDraw()
 {
 	Field::GetInstance()->Draw();
-	for (int i = 0; i < AllObjectControl.size(); i++) {
+	for (int i = 0; i < AllObjectControl.size(); i++)
+	{
 		AllObjectControl[i]->Draw();
 	}
 }
@@ -152,20 +170,20 @@ void PlayScene::Draw()
 	//ポストエフェクトの場合わけ(Bでぼかし Dがデフォルト)
 	switch (c_postEffect)
 	{
-	case Blur://ぼかし　描画準違うだけ
+	case Blur: //ぼかし　描画準違うだけ
 		postEffect->PreDrawScene();
-		//MyGameDraw();
+	//MyGameDraw();
 		postEffect->PostDrawScene();
 
 		DirectXCommon::GetInstance()->BeginDraw();
 		postEffect->Draw();
-		
+
 		SistemConfig::GetInstance()->Draw();
-		
+
 		DirectXCommon::GetInstance()->EndDraw();
 		break;
 
-	case Default://普通のやつ特に何もかかっていない
+	case Default: //普通のやつ特に何もかかっていない
 		postEffect->PreDrawScene();
 		Field::GetInstance()->MiniFieldDraw();
 		postEffect->PostDrawScene();
@@ -176,9 +194,10 @@ void PlayScene::Draw()
 		PlayerControl::GetInstance()->DamageTexDraw();
 
 		SistemConfig::GetInstance()->Draw();
-	
+
 		Feed::GetInstance()->Draw();
-		if (Feed::GetInstance()->GetAlpha() <= 0.0f) {
+		if (Feed::GetInstance()->GetAlpha() <= 0.0f)
+		{
 			UI::GetInstance()->HUDDraw();
 		}
 		UI::GetInstance()->AreaNameDraw();
@@ -192,8 +211,10 @@ void PlayScene::Draw()
 /*-----------------------*/
 void PlayScene::LoadParam(DebugCamera* camera)
 {
-	if (Load) {
-		for (int i = 0; i < AllObjectControl.size(); i++) {
+	if (Load)
+	{
+		for (int i = 0; i < AllObjectControl.size(); i++)
+		{
 			AllObjectControl[i]->Initialize((CameraControl::GetInstance()->GetCamera()));
 		}
 		//カメラをセット
@@ -201,7 +222,8 @@ void PlayScene::LoadParam(DebugCamera* camera)
 		//グラフィックパイプライン生成
 		f_Object3d::CreateGraphicsPipeline();
 
-		for (int i = 3; i < EnemyControl::GetInstance()->GetQuentity() + 4; i++) {
+		for (int i = 3; i < EnemyControl::GetInstance()->GetQuentity() + 4; i++)
+		{
 			lightGroup->SetDirLightActive(i, true);
 			lightGroup->SetPointLightActive(i, false);
 			lightGroup->SetCircleShadowActive(i, true);
@@ -223,7 +245,8 @@ void PlayScene::LoadParam(DebugCamera* camera)
 /*-----------------------*/
 void PlayScene::Finalize()
 {
-	for (int i = 0; i < AllObjectControl.size(); i++) {
+	for (int i = 0; i < AllObjectControl.size(); i++)
+	{
 		AllObjectControl[i]->Finalize();
 	}
 	Field::GetInstance()->Finalize();

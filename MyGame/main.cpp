@@ -1,5 +1,5 @@
-
 #include"MyGame.h"
+
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
 	Framework* Mygame = new MyGame();
@@ -10,4 +10,3 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	return 0;
 }
-

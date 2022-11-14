@@ -26,28 +26,30 @@
 #pragma comment(lib,"winmm.lib")
 class CollisionManager;
 class Player;
+
 class BossScene :
-    public BaseScene
+	public BaseScene
 {
 public:
 	BossScene(SceneManager* sceneManager);
 private: // エイリアス
-// Microsoft::WRL::を省略
-	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+	// Microsoft::WRL::を省略
+	template <class T>
+	using ComPtr = ComPtr<T>;
 	// DirectX::を省略
-	using XMFLOAT2 = DirectX::XMFLOAT2;
-	using XMFLOAT3 = DirectX::XMFLOAT3;
-	using XMFLOAT4 = DirectX::XMFLOAT4;
-	using XMMATRIX = DirectX::XMMATRIX;
-	using XMVECTOR = DirectX::XMVECTOR;
+	using XMFLOAT2 = XMFLOAT2;
+	using XMFLOAT3 = XMFLOAT3;
+	using XMFLOAT4 = XMFLOAT4;
+	using XMMATRIX = XMMATRIX;
+	using XMVECTOR = XMVECTOR;
 
 public:
 	Input* input;
-	
+
 	bool scenechange;
 	bool feedflag;
-	XMFLOAT4 feedcolor = { 0,0,0,1 };
-	std::unique_ptr<MinimapSprite>minimap;
+	XMFLOAT4 feedcolor = {0, 0, 0, 1};
+	std::unique_ptr<MinimapSprite> minimap;
 	DebugCamera* dc;
 public:
 	//エフェクト用(ただプログラムでつくれるものはプログラムで作る方がいい　多用はいくない)
@@ -56,21 +58,22 @@ public:
 	bool Play;
 	bool hudload;
 private:
-	enum {
+	enum
+	{
 		Blur,
 		Default,
 	};
+
 public:
 	void MyGameDraw();
 
-	void Initialize()override;
-	void Update()override;
-	void Draw()override;
+	void Initialize() override;
+	void Update() override;
+	void Draw() override;
 	bool LoadParam(DebugCamera* camera);
-	void Finalize()override;
+	void Finalize() override;
 
 private:
 	bool LoadEnemy;
-	std::vector<ControlBase*>AllObjectControl;
+	std::vector<ControlBase*> AllObjectControl;
 };
-

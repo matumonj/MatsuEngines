@@ -26,76 +26,79 @@
 #include"GrassObj.h"
 class CollisionManager;
 class Player;
-class Tutorial :public BaseScene
+
+class Tutorial : public BaseScene
 {
 public:
 	//シーンのコンストラクタ
 	Tutorial(SceneManager* sceneManager);
 	//~Tutorial();
 private: // エイリアス
-// Microsoft::WRL::を省略
-	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+	// Microsoft::WRL::を省略
+	template <class T>
+	using ComPtr = ComPtr<T>;
 	// DirectX::を省略
-	using XMFLOAT2 = DirectX::XMFLOAT2;
-	using XMFLOAT3 = DirectX::XMFLOAT3;
-	using XMFLOAT4 = DirectX::XMFLOAT4;
-	using XMMATRIX = DirectX::XMMATRIX;
-	using XMVECTOR = DirectX::XMVECTOR;
+	using XMFLOAT2 = XMFLOAT2;
+	using XMFLOAT3 = XMFLOAT3;
+	using XMFLOAT4 = XMFLOAT4;
+	using XMMATRIX = XMMATRIX;
+	using XMVECTOR = XMVECTOR;
 
 private:
 	const float window_width = 1900.0f;
 	const float window_height = 1020.0f;
 	static const int DebugTextSpriteTexNumber = 0;
-	
-	bool scenechange=false;
-	bool feedflag=false;
+
+	bool scenechange = false;
+	bool feedflag = false;
 	MinimapSprite* postEffect = nullptr;
-	DebugCamera* dc=nullptr;
+	DebugCamera* dc = nullptr;
 public:
 	void MyGameDraw();
 	void objUpdate(DebugCamera* camera);
 
 public:
-	XMFLOAT3 texpo = { 0.0f,0.0f,0.0f };
-	void Initialize()override;
-	void Update()override;
-	void Draw()override;
+	XMFLOAT3 texpo = {0.0f, 0.0f, 0.0f};
+	void Initialize() override;
+	void Update() override;
+	void Draw() override;
 	bool LoadParam(DebugCamera* camera);
-	void Finalize()override;
+	void Finalize() override;
 
 private:
-	bool feedout=true;
+	bool feedout = true;
 	LightGroup* lightGroup = nullptr;
-	float ambientColor0[3] = { 1.0f,1.0f,1.0f };
+	float ambientColor0[3] = {1.0f, 1.0f, 1.0f};
 	// 光線方向初期値
-	float lightDir0[3] = { 0.0f,0.0f,1.0f };
-	float lightColor0[3] = { 1.0f,0.0f,0.0f };
+	float lightDir0[3] = {0.0f, 0.0f, 1.0f};
+	float lightColor0[3] = {1.0f, 0.0f, 0.0f};
 
-	float lightDir1[3] = { 0.0f,1.0f,0.0f };
-	float lightColor1[3] = { 0.0f,1.0f,0.0f };
+	float lightDir1[3] = {0.0f, 1.0f, 0.0f};
+	float lightColor1[3] = {0.0f, 1.0f, 0.0f};
 
-	float lightDir2[3] = { 1.0f,0.0f,0.0f };
-	float lightColor2[3] = { 0.0f,0.0f,1.0f };
+	float lightDir2[3] = {1.0f, 0.0f, 0.0f};
+	float lightColor2[3] = {0.0f, 0.0f, 1.0f};
 
-	float circleShadowDir[3] = { 0.0f,-1.0f,0.0f };
-	float circleShadowPos[3] = { 1.0f,2.0f,0.0f };
-	float circleShadowAtten[3] = { 0.2f,0.0f,0.0f };
-	float circleShadowFactorAngle[2] = { 1.0f, 3.0f };
-	float circleShadowFactorAngle2[2] = { 1.0f, 6.0f };
-	float fighterPos[3] = { 1.0f, 0.0f, 0.0f };
+	float circleShadowDir[3] = {0.0f, -1.0f, 0.0f};
+	float circleShadowPos[3] = {1.0f, 2.0f, 0.0f};
+	float circleShadowAtten[3] = {0.2f, 0.0f, 0.0f};
+	float circleShadowFactorAngle[2] = {1.0f, 3.0f};
+	float circleShadowFactorAngle2[2] = {1.0f, 6.0f};
+	float fighterPos[3] = {1.0f, 0.0f, 0.0f};
 public:
-	XMFLOAT3 efkposition = { -50.0f,-10.0f,90.0f };
+	XMFLOAT3 efkposition = {-50.0f, -10.0f, 90.0f};
 	//エフェクト用(ただプログラムでつくれるものはプログラムで作る方がいい　多用はいくない)
 	int c_postEffect = Default;
 private:
-	enum {
+	enum
+	{
 		Blur,
 		Default,
 	};
-	bool Play = false;
-	bool hudload=false;
-	bool Load=false;
-	std::vector<ControlBase*>AllObjectControl;
-	std::unique_ptr<GrassField>grassfield;
-};
 
+	bool Play = false;
+	bool hudload = false;
+	bool Load = false;
+	std::vector<ControlBase*> AllObjectControl;
+	std::unique_ptr<GrassField> grassfield;
+};

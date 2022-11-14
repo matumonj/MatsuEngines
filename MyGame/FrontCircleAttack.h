@@ -4,9 +4,9 @@
 #include"Model.h"
 #include<memory>
 #include"CollisionPrimitive.h"
+
 class FrontCircleAttack
 {
-
 private:
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
@@ -22,13 +22,15 @@ public:
 	void Finalize();
 
 public:
-	enum Fase {
+	enum Fase
+	{
 		FASENON,
 		FASEONE,
 		FASETWO,
 		FASETHREE,
 		FASEFOUR
 	};
+
 private:
 	bool SlamAttackF;
 	Texture* FissureTex;
@@ -39,6 +41,4 @@ private:
 public:
 	void SetAttackFase(bool f) { if (f && fase != FASEONE) { fase = FASEONE; } }
 	Fase GetFaseEnd() { return fase; }
-
 };
-

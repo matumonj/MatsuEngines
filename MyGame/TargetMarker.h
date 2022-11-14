@@ -9,11 +9,13 @@
 #include"Texture.h"
 #include"DirectXCommon.h"
 #include"DebugCamera.h"
+
 class TargetMarker
 {
 public:
 private:
-	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+	template <class T>
+	using ComPtr = ComPtr<T>;
 	// DirectX::Çè»ó™
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
@@ -43,7 +45,7 @@ private:
 	int nearindex = -1;
 	int nearindex2 = -1;
 	float nearresult2;
-	std::vector<Enemy*> enemy = { nullptr };
+	std::vector<Enemy*> enemy = {nullptr};
 	Texture* TargetMakerTexture = nullptr;
 	bool EnemyTargetDrawFlag;
 
@@ -57,4 +59,3 @@ public:
 	XMFLOAT3 Getpos() { return MarkerPosition; }
 	void Setpos(float y) { MarkerPosition.y = y; }
 };
-

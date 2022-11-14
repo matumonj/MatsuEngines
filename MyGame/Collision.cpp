@@ -4,7 +4,7 @@ bool Collision::ColFlag;
 void Collision::SetCollideOBB(bool f) { ColFlag = f; }
 bool Collision::GetCollideOBB() { return ColFlag; }
 
-bool Collision::Collision::CheckBox2Box(const Box& box1, const Box& box2)
+bool Collision::CheckBox2Box(const Box& box1, const Box& box2)
 {
 	/*bool judg1 = box1.LUposition.x < box2.RBposition.x;
 	bool judg2 = box2.LUposition.x < box1.RBposition.x;
@@ -20,28 +20,30 @@ bool Collision::Collision::CheckBox2Box(const Box& box1, const Box& box2)
 
 	return false;
 }
+
 float Collision::GetLength(XMFLOAT3 position, XMFLOAT3 position2)
 {
-
 	float len;
-	len = sqrtf((position.x - position2.x) * (position.x - position2.x) + (position.y - position2.y) * (position.y - position2.y)+ (position.z - position2.z) * (position.z - position2.z));
+	len = sqrtf(
+		(position.x - position2.x) * (position.x - position2.x) + (position.y - position2.y) * (position.y - position2.
+			y) + (position.z - position2.z) * (position.z - position2.z));
 	return len;
 }
+
 bool Collision::CheckPoint2Rect(const Point& point, const Box& rect)
 {
 	if (point.x >= rect.position.x && point.x <= (rect.position.x + rect.scale.x) &&
-		point.y >= rect.position.y  && point.y <= (rect.position.y+ rect.scale.y))
+		point.y >= rect.position.y && point.y <= (rect.position.y + rect.scale.y))
 	{
 		return true;
 	}
-	else {
-		return false;
-	}
+	return false;
 }
+
 float Collision::CollsionPoint2Line2D(const Point& point, const Line2D& lineseg)
 {
 	float lenY = lineseg.start.y - lineseg.end.y;
-	float lenX= lineseg.end.x- lineseg.start.x;
+	float lenX = lineseg.end.x - lineseg.start.x;
 
 	float lenXY = (-lenX * lineseg.start.y) + (-lenY * lineseg.start.x);
 
@@ -49,14 +51,15 @@ float Collision::CollsionPoint2Line2D(const Point& point, const Line2D& lineseg)
 
 	float len = ((lenY * point.x) + (lenX * point.y) + lenXY) / root;
 
-	if (len < 0.0f) {
+	if (len < 0.0f)
+	{
 		len = -len;
 	}
 
 	return len;
 }
 
-void Collision::ClosestPtPoint2Triangle(const DirectX::XMVECTOR& point, const Triangle& triangle, DirectX::XMVECTOR* closest)
+void Collision::ClosestPtPoint2Triangle(const XMVECTOR& point, const Triangle& triangle, XMVECTOR* closest)
 {
 	// pointがp0の外側の頂点領域の中にあるかどうかチェック
 	XMVECTOR p0_p1 = triangle.p1 - triangle.p0;
@@ -130,7 +133,8 @@ void Collision::ClosestPtPoint2Triangle(const DirectX::XMVECTOR& point, const Tr
 	float w = vc * denom;
 	*closest = triangle.p0 + p0_p1 * v + p0_p2 * w;
 }
-bool Collision::CheckSphere2Sphere(const Sphere& sphereA, const Sphere& sphereB, DirectX::XMVECTOR* inter, DirectX::XMVECTOR* reject)
+
+bool Collision::CheckSphere2Sphere(const Sphere& sphereA, const Sphere& sphereB, XMVECTOR* inter, XMVECTOR* reject)
 {
 	// 中心点の距離の２乗 <= 半径の和の２乗　なら交差
 	float dist = XMVector3LengthSq(sphereA.center - sphereB.center).m128_f32[0];
@@ -138,14 +142,17 @@ bool Collision::CheckSphere2Sphere(const Sphere& sphereA, const Sphere& sphereB,
 	float radius2 = sphereA.radius + sphereB.radius;
 	radius2 *= radius2;
 
-	if (dist <= radius2) {
-		if (inter) {
+	if (dist <= radius2)
+	{
+		if (inter)
+		{
 			// Aの半径が0の時座標はBの中心　Bの半径が0の時座標はAの中心　となるよう補完
 			float t = sphereB.radius / (sphereA.radius + sphereB.radius);
 			*inter = XMVectorLerp(sphereA.center, sphereB.center, t);
 		}
 		// 押し出すベクトルを計算
-		if (reject) {
+		if (reject)
+		{
 			float rejectLen = sphereA.radius + sphereB.radius - sqrtf(dist);
 			*reject = XMVector3Normalize(sphereA.center - sphereB.center);
 			*reject *= rejectLen;
@@ -156,7 +163,7 @@ bool Collision::CheckSphere2Sphere(const Sphere& sphereA, const Sphere& sphereB,
 	return false;
 }
 
-bool Collision::CheckSphere2Triangle(const Sphere& sphere, const Triangle& triangle, DirectX::XMVECTOR* inter, DirectX::XMVECTOR* reject)
+bool Collision::CheckSphere2Triangle(const Sphere& sphere, const Triangle& triangle, XMVECTOR* inter, XMVECTOR* reject)
 {
 	XMVECTOR p;
 	// 球の中心に対する最近接点である三角形上にある点pを見つける
@@ -167,14 +174,16 @@ bool Collision::CheckSphere2Triangle(const Sphere& sphere, const Triangle& trian
 	//（同じベクトル同士の内積は三平方の定理のルート内部の式と一致する）
 	float distanceSquare = XMVector3Dot(v, v).m128_f32[0];
 	// 球と三角形の距離が半径以下なら当たっていない
-	if (distanceSquare > sphere.radius * sphere.radius)	return false;
+	if (distanceSquare > sphere.radius * sphere.radius) return false;
 	// 擬似交点を計算
-	if (inter) {
+	if (inter)
+	{
 		// 三角形上の最近接点pを疑似交点とする
 		*inter = p;
 	}
 	// 押し出すベクトルを計算
-	if (reject) {
+	if (reject)
+	{
 		float ds = XMVector3Dot(sphere.center, triangle.normal).m128_f32[0];
 		float dt = XMVector3Dot(triangle.p0, triangle.normal).m128_f32[0];
 		float rejectLen = dt - ds + sphere.radius;
@@ -182,13 +191,15 @@ bool Collision::CheckSphere2Triangle(const Sphere& sphere, const Triangle& trian
 	}
 	return true;
 }
-bool Collision::CheckRay2Plane(const Ray& lay, const Plane& plane, float* distance, DirectX::XMVECTOR* inter)
+
+bool Collision::CheckRay2Plane(const Ray& lay, const Plane& plane, float* distance, XMVECTOR* inter)
 {
-	const float epsilon = 1.0e-5f;	// 誤差吸収用の微小な値
+	const float epsilon = 1.0e-5f; // 誤差吸収用の微小な値
 
 	float d1 = XMVector3Dot(plane.normal, lay.dir).m128_f32[0];
 	// 裏面には当たらない
-	if (d1 > -epsilon) {
+	if (d1 > -epsilon)
+	{
 		return false;
 	}
 
@@ -198,19 +209,21 @@ bool Collision::CheckRay2Plane(const Ray& lay, const Plane& plane, float* distan
 	if (t < 0) return false;
 
 	// 距離を書き込む
-	if (distance) {
+	if (distance)
+	{
 		*distance = t;
 	}
 
 	// 交点を計算
-	if (inter) {
+	if (inter)
+	{
 		*inter = lay.start + t * lay.dir;
 	}
 
 	return true;
 }
 
-bool Collision::CheckRay2Triangle(const Ray& lay, const Triangle& triangle, float* distance, DirectX::XMVECTOR* inter)
+bool Collision::CheckRay2Triangle(const Ray& lay, const Triangle& triangle, float* distance, XMVECTOR* inter)
 {
 	// 三角形が乗っている平面を算出
 	Plane plane;
@@ -218,20 +231,22 @@ bool Collision::CheckRay2Triangle(const Ray& lay, const Triangle& triangle, floa
 	plane.normal = triangle.normal;
 	plane.distance = XMVector3Dot(triangle.normal, triangle.p0).m128_f32[0];
 	// レイと平面が当たっていなければ、当たっていない	
-	if (!CheckRay2Plane(lay, plane, distance, &interPlane)) {
+	if (!CheckRay2Plane(lay, plane, distance, &interPlane))
+	{
 		return false;
 	}
 	// レイと平面が当たっていたので、距離と交点が書き込まれた
 
 	// レイと平面の交点が三角形の内側にあるか判定
-	const float epsilon = 1.0e-5f;	// 誤差吸収用の微小な値
+	const float epsilon = 1.0e-5f; // 誤差吸収用の微小な値
 	XMVECTOR m;
 	// 辺p0_p1について
 	XMVECTOR pt_p0 = triangle.p0 - interPlane;
 	XMVECTOR p0_p1 = triangle.p1 - triangle.p0;
 	m = XMVector3Cross(pt_p0, p0_p1);
 	// 辺の外側
-	if (XMVector3Dot(m, triangle.normal).m128_f32[0] < -epsilon) {
+	if (XMVector3Dot(m, triangle.normal).m128_f32[0] < -epsilon)
+	{
 		return false;
 	}
 
@@ -240,7 +255,8 @@ bool Collision::CheckRay2Triangle(const Ray& lay, const Triangle& triangle, floa
 	XMVECTOR p1_p2 = triangle.p2 - triangle.p1;
 	m = XMVector3Cross(pt_p1, p1_p2);
 	// 辺の外側
-	if (XMVector3Dot(m, triangle.normal).m128_f32[0] < -epsilon) {
+	if (XMVector3Dot(m, triangle.normal).m128_f32[0] < -epsilon)
+	{
 		return false;
 	}
 
@@ -249,11 +265,13 @@ bool Collision::CheckRay2Triangle(const Ray& lay, const Triangle& triangle, floa
 	XMVECTOR p2_p0 = triangle.p0 - triangle.p2;
 	m = XMVector3Cross(pt_p2, p2_p0);
 	// 辺の外側
-	if (XMVector3Dot(m, triangle.normal).m128_f32[0] < -epsilon) {
+	if (XMVector3Dot(m, triangle.normal).m128_f32[0] < -epsilon)
+	{
 		return false;
 	}
 
-	if (inter) {
+	if (inter)
+	{
 		*inter = interPlane;
 	}
 
@@ -261,20 +279,22 @@ bool Collision::CheckRay2Triangle(const Ray& lay, const Triangle& triangle, floa
 	return true;
 }
 
-bool Collision::CheckRay2Sphere(const Ray& lay, const Sphere& sphere, float* distance, DirectX::XMVECTOR* inter)
+bool Collision::CheckRay2Sphere(const Ray& lay, const Sphere& sphere, float* distance, XMVECTOR* inter)
 {
 	XMVECTOR m = lay.start - sphere.center;
 	float b = XMVector3Dot(m, lay.dir).m128_f32[0];
 	float c = XMVector3Dot(m, m).m128_f32[0] - sphere.radius * sphere.radius;
 	// layの始点がsphereの外側にあり(c > 0)、layがsphereから離れていく方向を
 	// 差している場合(b > 0)、当たらない
-	if (c > 0.0f && b > 0.0f) {
+	if (c > 0.0f && b > 0.0f)
+	{
 		return false;
 	}
 
 	float discr = b * b - c;
 	// 負の判別式はレイが球を外れていることに一致
-	if (discr < 0.0f) {
+	if (discr < 0.0f)
+	{
 		return false;
 	}
 
@@ -284,11 +304,13 @@ bool Collision::CheckRay2Sphere(const Ray& lay, const Sphere& sphere, float* dis
 	// tが負である場合、レイは球の内側から開始しているのでtをゼロにクランプ
 	if (t < 0) t = 0.0f;
 
-	if (distance) {
+	if (distance)
+	{
 		*distance = t;
 	}
 
-	if (inter) {
+	if (inter)
+	{
 		*inter = lay.start + t * lay.dir;
 	}
 
@@ -299,56 +321,104 @@ bool Collision::CheckOBBCollision(OBB& obb1, OBB& obb2)
 {
 	// 各方向ベクトルの確保
 	// （N***:標準化方向ベクトル）
-	XMVECTOR NAe1 = obb1.GetDirect(0), Ae1 = { NAe1.m128_f32[0] * obb1.GetLen_W(0),NAe1.m128_f32[1] * obb1.GetLen_W(0),NAe1.m128_f32[2] * obb1.GetLen_W(0) };
-	XMVECTOR NAe2 = obb1.GetDirect(1), Ae2 = { NAe2.m128_f32[0] * obb1.GetLen_W(1), NAe2.m128_f32[1] * obb1.GetLen_W(1), NAe2.m128_f32[2] * obb1.GetLen_W(1) };
-	XMVECTOR NAe3 = obb1.GetDirect(2), Ae3 = { NAe3.m128_f32[0] * obb1.GetLen_W(2), NAe3.m128_f32[1] * obb1.GetLen_W(2), NAe3.m128_f32[2] * obb1.GetLen_W(2) };
-	XMVECTOR NBe1 = obb2.GetDirect(0), Be1 = { NBe1.m128_f32[0] * obb2.GetLen_W(0),NBe1.m128_f32[1] * obb2.GetLen_W(0),NBe1.m128_f32[2] * obb2.GetLen_W(0) };
-	XMVECTOR NBe2 = obb2.GetDirect(1), Be2 = { NBe2.m128_f32[0] * obb2.GetLen_W(1),NBe2.m128_f32[1] * obb2.GetLen_W(1),NBe2.m128_f32[2] * obb2.GetLen_W(1) };
-	XMVECTOR NBe3 = obb2.GetDirect(2), Be3 = { NBe3.m128_f32[0] * obb2.GetLen_W(2),NBe3.m128_f32[1] * obb2.GetLen_W(2),NBe3.m128_f32[2] * obb2.GetLen_W(2) };
+	XMVECTOR NAe1 = obb1.GetDirect(0), Ae1 = {
+		         NAe1.m128_f32[0] * obb1.GetLen_W(0), NAe1.m128_f32[1] * obb1.GetLen_W(0),
+		         NAe1.m128_f32[2] * obb1.GetLen_W(0)
+	         };
+	XMVECTOR NAe2 = obb1.GetDirect(1), Ae2 = {
+		         NAe2.m128_f32[0] * obb1.GetLen_W(1), NAe2.m128_f32[1] * obb1.GetLen_W(1),
+		         NAe2.m128_f32[2] * obb1.GetLen_W(1)
+	         };
+	XMVECTOR NAe3 = obb1.GetDirect(2), Ae3 = {
+		         NAe3.m128_f32[0] * obb1.GetLen_W(2), NAe3.m128_f32[1] * obb1.GetLen_W(2),
+		         NAe3.m128_f32[2] * obb1.GetLen_W(2)
+	         };
+	XMVECTOR NBe1 = obb2.GetDirect(0), Be1 = {
+		         NBe1.m128_f32[0] * obb2.GetLen_W(0), NBe1.m128_f32[1] * obb2.GetLen_W(0),
+		         NBe1.m128_f32[2] * obb2.GetLen_W(0)
+	         };
+	XMVECTOR NBe2 = obb2.GetDirect(1), Be2 = {
+		         NBe2.m128_f32[0] * obb2.GetLen_W(1), NBe2.m128_f32[1] * obb2.GetLen_W(1),
+		         NBe2.m128_f32[2] * obb2.GetLen_W(1)
+	         };
+	XMVECTOR NBe3 = obb2.GetDirect(2), Be3 = {
+		         NBe3.m128_f32[0] * obb2.GetLen_W(2), NBe3.m128_f32[1] * obb2.GetLen_W(2),
+		         NBe3.m128_f32[2] * obb2.GetLen_W(2)
+	         };
 	XMVECTOR Interval = obb1.GetPos_W() - obb2.GetPos_W();
 
 	// 分離軸 : Ae1
-	double rA = sqrt((Ae1.m128_f32[0] * Ae1.m128_f32[0]) + (Ae1.m128_f32[1] * Ae1.m128_f32[1]) + (Ae1.m128_f32[2] * Ae1.m128_f32[2]));
+	double rA = sqrt(
+		(Ae1.m128_f32[0] * Ae1.m128_f32[0]) + (Ae1.m128_f32[1] * Ae1.m128_f32[1]) + (Ae1.m128_f32[2] * Ae1.m128_f32[
+			2]));
 	double rB = LenSegOnSeparateAxis(&NAe1, &Be1, &Be2, &Be3);
-	double fL = fabs((Interval.m128_f32[0] * NAe1.m128_f32[0]) + (Interval.m128_f32[1] * NAe1.m128_f32[1]) + (Interval.m128_f32[2] * NAe1.m128_f32[2]));
-	if (fL > rA + rB) {
+	double fL = fabs(
+		(Interval.m128_f32[0] * NAe1.m128_f32[0]) + (Interval.m128_f32[1] * NAe1.m128_f32[1]) + (Interval.m128_f32[2] *
+			NAe1.m128_f32[2]));
+	if (fL > rA + rB)
+	{
 		return false;
 	}
 	// 分離軸 : Ae2
-	rA = sqrt((Ae2.m128_f32[0] * Ae2.m128_f32[0]) + (Ae2.m128_f32[1] * Ae2.m128_f32[1]) + (Ae2.m128_f32[2] * Ae2.m128_f32[2]));
+	rA = sqrt(
+		(Ae2.m128_f32[0] * Ae2.m128_f32[0]) + (Ae2.m128_f32[1] * Ae2.m128_f32[1]) + (Ae2.m128_f32[2] * Ae2.m128_f32[
+			2]));
 	rB = LenSegOnSeparateAxis(&NAe2, &Be1, &Be2, &Be3);
-	fL = fabs((Interval.m128_f32[0] * NAe2.m128_f32[0]) + (Interval.m128_f32[1] * NAe2.m128_f32[1]) + (Interval.m128_f32[2] * NAe2.m128_f32[2]));
+	fL = fabs(
+		(Interval.m128_f32[0] * NAe2.m128_f32[0]) + (Interval.m128_f32[1] * NAe2.m128_f32[1]) + (Interval.m128_f32[2] *
+			NAe2.m128_f32[2]));
 
-	if (fL > rA + rB) {
+	if (fL > rA + rB)
+	{
 		return false;
 	}
-	rA = sqrt((Ae3.m128_f32[0] * Ae3.m128_f32[0]) + (Ae3.m128_f32[1] * Ae3.m128_f32[1]) + (Ae3.m128_f32[2] * Ae3.m128_f32[2]));
+	rA = sqrt(
+		(Ae3.m128_f32[0] * Ae3.m128_f32[0]) + (Ae3.m128_f32[1] * Ae3.m128_f32[1]) + (Ae3.m128_f32[2] * Ae3.m128_f32[
+			2]));
 	rB = LenSegOnSeparateAxis(&NAe3, &Be1, &Be2, &Be3);
-	fL = fabs((Interval.m128_f32[0] * NAe3.m128_f32[0]) + (Interval.m128_f32[1] * NAe3.m128_f32[1]) + (Interval.m128_f32[2] * NAe3.m128_f32[2]));
+	fL = fabs(
+		(Interval.m128_f32[0] * NAe3.m128_f32[0]) + (Interval.m128_f32[1] * NAe3.m128_f32[1]) + (Interval.m128_f32[2] *
+			NAe3.m128_f32[2]));
 
 	// 分離軸 : Ae3
-	if (fL > rA + rB) {
+	if (fL > rA + rB)
+	{
 		return false;
 	}
 	// 分離軸 : Be1
 	rA = LenSegOnSeparateAxis(&NBe1, &Ae1, &Ae2, &Ae3);
-	rB = sqrt((Be1.m128_f32[0] * Be1.m128_f32[0]) + (Be1.m128_f32[1] * Be1.m128_f32[1]) + (Be1.m128_f32[2] * Be1.m128_f32[2]));
-	fL = fabs((Interval.m128_f32[0] * NBe1.m128_f32[0]) + (Interval.m128_f32[1] * NBe1.m128_f32[1]) + (Interval.m128_f32[2] * NBe1.m128_f32[2]));
-	if (fL > rA + rB) {
+	rB = sqrt(
+		(Be1.m128_f32[0] * Be1.m128_f32[0]) + (Be1.m128_f32[1] * Be1.m128_f32[1]) + (Be1.m128_f32[2] * Be1.m128_f32[
+			2]));
+	fL = fabs(
+		(Interval.m128_f32[0] * NBe1.m128_f32[0]) + (Interval.m128_f32[1] * NBe1.m128_f32[1]) + (Interval.m128_f32[2] *
+			NBe1.m128_f32[2]));
+	if (fL > rA + rB)
+	{
 		return false;
 	}
 	// 分離軸 : Be2
 	rA = LenSegOnSeparateAxis(&NBe2, &Ae1, &Ae2, &Ae3);
-	rB = sqrt((Be2.m128_f32[0] * Be2.m128_f32[0]) + (Be2.m128_f32[1] * Be2.m128_f32[1]) + (Be2.m128_f32[2] * Be2.m128_f32[2]));
-	fL = fabs((Interval.m128_f32[0] * NBe2.m128_f32[0]) + (Interval.m128_f32[1] * NBe2.m128_f32[1]) + (Interval.m128_f32[2] * NBe2.m128_f32[2]));
-	if (fL > rA + rB) {
+	rB = sqrt(
+		(Be2.m128_f32[0] * Be2.m128_f32[0]) + (Be2.m128_f32[1] * Be2.m128_f32[1]) + (Be2.m128_f32[2] * Be2.m128_f32[
+			2]));
+	fL = fabs(
+		(Interval.m128_f32[0] * NBe2.m128_f32[0]) + (Interval.m128_f32[1] * NBe2.m128_f32[1]) + (Interval.m128_f32[2] *
+			NBe2.m128_f32[2]));
+	if (fL > rA + rB)
+	{
 		return false;
 	}
 	// 分離軸 : Be3
 	rA = LenSegOnSeparateAxis(&NBe3, &Ae1, &Ae2, &Ae3);
-	rB = sqrt((Be3.m128_f32[0] * Be3.m128_f32[0]) + (Be3.m128_f32[1] * Be3.m128_f32[1]) + (Be3.m128_f32[2] * Be3.m128_f32[2]));
-	fL = fabs((Interval.m128_f32[0] * NBe3.m128_f32[0]) + (Interval.m128_f32[1] * NBe3.m128_f32[1]) + (Interval.m128_f32[2] * NBe3.m128_f32[2]));
-	if (fL > rA + rB) {
+	rB = sqrt(
+		(Be3.m128_f32[0] * Be3.m128_f32[0]) + (Be3.m128_f32[1] * Be3.m128_f32[1]) + (Be3.m128_f32[2] * Be3.m128_f32[
+			2]));
+	fL = fabs(
+		(Interval.m128_f32[0] * NBe3.m128_f32[0]) + (Interval.m128_f32[1] * NBe3.m128_f32[1]) + (Interval.m128_f32[2] *
+			NBe3.m128_f32[2]));
+	if (fL > rA + rB)
+	{
 		return false;
 	}
 	// 分離軸 : C11
@@ -356,60 +426,81 @@ bool Collision::CheckOBBCollision(OBB& obb1, OBB& obb2)
 	Cross = XMVector3Cross(NAe1, NBe1);
 	rA = LenSegOnSeparateAxis(&Cross, &Ae2, &Ae3);
 	rB = LenSegOnSeparateAxis(&Cross, &Be2, &Be3);
-	fL = fabs((Interval.m128_f32[0] * Cross.m128_f32[0]) + (Interval.m128_f32[1] * Cross.m128_f32[1]) + (Interval.m128_f32[2] * Cross.m128_f32[2]));
-	if (fL > rA + rB) {
+	fL = fabs(
+		(Interval.m128_f32[0] * Cross.m128_f32[0]) + (Interval.m128_f32[1] * Cross.m128_f32[1]) + (Interval.m128_f32[2]
+			* Cross.m128_f32[2]));
+	if (fL > rA + rB)
+	{
 		return false;
 	}
 	// 分離軸 : C12
 	Cross = XMVector3Cross(NAe1, NBe2);
 	rA = LenSegOnSeparateAxis(&Cross, &Ae2, &Ae3);
 	rB = LenSegOnSeparateAxis(&Cross, &Be1, &Be3);
-	fL = fabs((Interval.m128_f32[0] * Cross.m128_f32[0]) + (Interval.m128_f32[1] * Cross.m128_f32[1]) + (Interval.m128_f32[2] * Cross.m128_f32[2]));
+	fL = fabs(
+		(Interval.m128_f32[0] * Cross.m128_f32[0]) + (Interval.m128_f32[1] * Cross.m128_f32[1]) + (Interval.m128_f32[2]
+			* Cross.m128_f32[2]));
 
-	if (fL > rA + rB) {
+	if (fL > rA + rB)
+	{
 		return false;
 	}
 	// 分離軸 : C13
 	Cross = XMVector3Cross(NAe1, NBe3);
 	rA = LenSegOnSeparateAxis(&Cross, &Ae2, &Ae3);
 	rB = LenSegOnSeparateAxis(&Cross, &Be1, &Be2);
-	fL = fabs((Interval.m128_f32[0] * Cross.m128_f32[0]) + (Interval.m128_f32[1] * Cross.m128_f32[1]) + (Interval.m128_f32[2] * Cross.m128_f32[2]));
-	if (fL > rA + rB) {
+	fL = fabs(
+		(Interval.m128_f32[0] * Cross.m128_f32[0]) + (Interval.m128_f32[1] * Cross.m128_f32[1]) + (Interval.m128_f32[2]
+			* Cross.m128_f32[2]));
+	if (fL > rA + rB)
+	{
 		return false;
 	}
 	// 分離軸 : C21
 	Cross = XMVector3Cross(NAe2, NBe1);
 	rA = LenSegOnSeparateAxis(&Cross, &Ae1, &Ae3);
 	rB = LenSegOnSeparateAxis(&Cross, &Be2, &Be3);
-	fL = fabs((Interval.m128_f32[0] * Cross.m128_f32[0]) + (Interval.m128_f32[1] * Cross.m128_f32[1]) + (Interval.m128_f32[2] * Cross.m128_f32[2]));
+	fL = fabs(
+		(Interval.m128_f32[0] * Cross.m128_f32[0]) + (Interval.m128_f32[1] * Cross.m128_f32[1]) + (Interval.m128_f32[2]
+			* Cross.m128_f32[2]));
 
-	if (fL > rA + rB) {
+	if (fL > rA + rB)
+	{
 		return false;
 	}
 	// 分離軸 : C22
 	Cross = XMVector3Cross(NAe2, NBe2);
 	rA = LenSegOnSeparateAxis(&Cross, &Ae1, &Ae3);
 	rB = LenSegOnSeparateAxis(&Cross, &Be1, &Be3);
-	fL = fabs((Interval.m128_f32[0] * Cross.m128_f32[0]) + (Interval.m128_f32[1] * Cross.m128_f32[1]) + (Interval.m128_f32[2] * Cross.m128_f32[2]));
-	if (fL > rA + rB) {
+	fL = fabs(
+		(Interval.m128_f32[0] * Cross.m128_f32[0]) + (Interval.m128_f32[1] * Cross.m128_f32[1]) + (Interval.m128_f32[2]
+			* Cross.m128_f32[2]));
+	if (fL > rA + rB)
+	{
 		return false;
 	}
 	// 分離軸 : C23
 	Cross = XMVector3Cross(NAe2, NBe3);
 	rA = LenSegOnSeparateAxis(&Cross, &Ae1, &Ae3);
 	rB = LenSegOnSeparateAxis(&Cross, &Be1, &Be2);
-	fL = fabs((Interval.m128_f32[0] * Cross.m128_f32[0]) + (Interval.m128_f32[1] * Cross.m128_f32[1]) + (Interval.m128_f32[2] * Cross.m128_f32[2]));
+	fL = fabs(
+		(Interval.m128_f32[0] * Cross.m128_f32[0]) + (Interval.m128_f32[1] * Cross.m128_f32[1]) + (Interval.m128_f32[2]
+			* Cross.m128_f32[2]));
 
-	if (fL > rA + rB) {
+	if (fL > rA + rB)
+	{
 		return false;
 	}
 	// 分離軸 : C31
 	Cross = XMVector3Cross(NAe3, NBe1);
 	rA = LenSegOnSeparateAxis(&Cross, &Ae1, &Ae2);
 	rB = LenSegOnSeparateAxis(&Cross, &Be2, &Be3);
-	fL = fabs((Interval.m128_f32[0] * Cross.m128_f32[0]) + (Interval.m128_f32[1] * Cross.m128_f32[1]) + (Interval.m128_f32[2] * Cross.m128_f32[2]));
+	fL = fabs(
+		(Interval.m128_f32[0] * Cross.m128_f32[0]) + (Interval.m128_f32[1] * Cross.m128_f32[1]) + (Interval.m128_f32[2]
+			* Cross.m128_f32[2]));
 
-	if (fL > rA + rB) {
+	if (fL > rA + rB)
+	{
 		return false;
 	}
 	// 分離軸 : C32
@@ -417,9 +508,12 @@ bool Collision::CheckOBBCollision(OBB& obb1, OBB& obb2)
 	rA = LenSegOnSeparateAxis(&Cross, &Ae1, &Ae2);
 	rB = LenSegOnSeparateAxis(&Cross, &Be1, &Be3);
 	//L = XMVector3Dot(Interval, Cross);
-	fL = fabs((Interval.m128_f32[0] * Cross.m128_f32[0]) + (Interval.m128_f32[1] * Cross.m128_f32[1]) + (Interval.m128_f32[2] * Cross.m128_f32[2]));
+	fL = fabs(
+		(Interval.m128_f32[0] * Cross.m128_f32[0]) + (Interval.m128_f32[1] * Cross.m128_f32[1]) + (Interval.m128_f32[2]
+			* Cross.m128_f32[2]));
 
-	if (fL > rA + rB) {
+	if (fL > rA + rB)
+	{
 		return false;
 	}
 	// 分離軸 : C33
@@ -428,9 +522,12 @@ bool Collision::CheckOBBCollision(OBB& obb1, OBB& obb2)
 	rA = LenSegOnSeparateAxis(&Cross, &Ae1, &Ae2);
 	rB = LenSegOnSeparateAxis(&Cross, &Be1, &Be2);
 	//L = XMVector3Dot(Interval, Cross);
-	fL = fabs((Interval.m128_f32[0] * Cross.m128_f32[0]) + (Interval.m128_f32[1] * Cross.m128_f32[1]) + (Interval.m128_f32[2] * Cross.m128_f32[2]));
+	fL = fabs(
+		(Interval.m128_f32[0] * Cross.m128_f32[0]) + (Interval.m128_f32[1] * Cross.m128_f32[1]) + (Interval.m128_f32[2]
+			* Cross.m128_f32[2]));
 
-	if (fL > rA + rB) {
+	if (fL > rA + rB)
+	{
 		return false;
 	}
 
@@ -445,10 +542,18 @@ double Collision::LenSegOnSeparateAxis(XMVECTOR* Sep, XMVECTOR* e1, XMVECTOR* e2
 	// 3つの内積の絶対値の和で投影線分長を計算
 	// 分離軸Sepは標準化されていること
 	//XMVECTOR r1 = XMVector3Dot(Sep, e1);
-	double fr1 = fabs((Sep->m128_f32[0] * e1->m128_f32[0]) + (Sep->m128_f32[1] * e1->m128_f32[1]) + (Sep->m128_f32[2] * e1->m128_f32[2]));
+	double fr1 = fabs(
+		(Sep->m128_f32[0] * e1->m128_f32[0]) + (Sep->m128_f32[1] * e1->m128_f32[1]) + (Sep->m128_f32[2] * e1->m128_f32[
+			2]));
 	// FLOAT r2 = fabs(D3DXVec3Dot(Sep, e2));
-	double fr2 = fabs((Sep->m128_f32[0] * e2->m128_f32[0]) + (Sep->m128_f32[1] * e2->m128_f32[1]) + (Sep->m128_f32[2] * e2->m128_f32[2]));
+	double fr2 = fabs(
+		(Sep->m128_f32[0] * e2->m128_f32[0]) + (Sep->m128_f32[1] * e2->m128_f32[1]) + (Sep->m128_f32[2] * e2->m128_f32[
+			2]));
 	// FLOAT r3 = e3 ? (fabs(D3DXVec3Dot(Sep, e3))) : 0;
-	double fr3 = e3 ? (fabs((Sep->m128_f32[0] * e3->m128_f32[0]) + (Sep->m128_f32[1] * e3->m128_f32[1]) + (Sep->m128_f32[2] * e3->m128_f32[2]))) : 0;
+	double fr3 = e3
+		             ? (fabs(
+			             (Sep->m128_f32[0] * e3->m128_f32[0]) + (Sep->m128_f32[1] * e3->m128_f32[1]) + (Sep->m128_f32[2]
+				             * e3->m128_f32[2])))
+		             : 0;
 	return fr1 + fr2 + fr3;
 }

@@ -19,4 +19,3 @@ struct RaycastHit
 	// Õ“Ë“_‚Ü‚Å‚Ì‹——£
 	float distance = 0.0f;
 };
-

@@ -1,13 +1,13 @@
 #pragma once
 #include"Enemy.h"
 #include"EnemyState.h"
-class EnemyStayState :public EnemyState
+
+class EnemyStayState : public EnemyState
 {
 public:
+	void Initialize(Enemy* enemy) override;
 
-	void Initialize(Enemy* enemy);
-
-	void Update(Enemy* enemy);
+	void Update(Enemy* enemy) override;
 
 private:
 	//Œü‚«•Ï‚¦‚é‘O‚ÌŒü‚«
@@ -16,4 +16,3 @@ private:
 	float RotTime = 0;
 	int StayCount = 0;
 };
-

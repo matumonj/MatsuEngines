@@ -1,8 +1,8 @@
 #include "BossEnemyDeath.h"
 #include"BossEnemyFollow.h"
+
 void BossEnemyDeath::Initialize(Enemy* enmey)
 {
-
 }
 
 void BossEnemyDeath::Update(Enemy* enemy)

@@ -3,6 +3,7 @@
 
 class Object3d;
 class BaseCollider;
+
 /// <summary>
 /// クエリーによる情報を得る為の構造体
 /// </summary>
@@ -34,4 +35,3 @@ public:
 	/// <returns>クエリーを続けるならtrue、打ち切るならfalseを返す</returns>
 	virtual bool OnQueryHit(const QueryHit& info) = 0;
 };
-

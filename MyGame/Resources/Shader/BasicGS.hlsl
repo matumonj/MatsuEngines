@@ -2,18 +2,21 @@
 
 // 四角形の頂点数
 static const uint vnum = 3;
-float rand(float2 seed) {
+
+float rand(float2 seed)
+{
 	return frac(sin(dot(seed.xy, float2(12.9808, 78.233))) * 43758.5453);
 }
+
 // 点の入力から、四角形を出力
 [maxvertexcount(vnum)]
 void main(
 	triangle VSOutput input[3]:SV_POSITION,
 	//point VSOutput input[1] : SV_POSITION,
-	inout TriangleStream< GSOutput > output
+	inout TriangleStream<GSOutput> output
 )
 {
-	float3 center = { (input[0].svpos.xyz + input[1].svpos.xyz + input[2].svpos.xyz) / 3 };
+	float3 center = {(input[0].svpos.xyz + input[1].svpos.xyz + input[2].svpos.xyz) / 3};
 	float3 posworld = mul(viewproj, mul(world, float4(center, 1.0f)));
 	float3 dist = length(cameraPos - posworld);
 	float destruction = clamp(100 - dist, 0, 1);
@@ -25,19 +28,23 @@ void main(
 	float random = rand(center.xy);
 	float randms = random.xxx;
 	[unroll]
-	for (uint i = 0; i < vnum; i++) {
-
+	for (uint i = 0; i < vnum; i++)
+	{
 		GSOutput element;
 		element.worldpos = input[i].worldpos;
 		element.svpos = input[i].svpos;
 
-		if (gsflag) {
-			element.svpos.xyz = center + (element.svpos.xyz - center) * (1 - destruction * 1.0);//mul(viewproj, element.svpos);
+		if (gsflag)
+		{
+			element.svpos.xyz = center + (element.svpos.xyz - center) * (1 - destruction * 1.0);
+			//mul(viewproj, element.svpos);
 		}
-		if (destF) {
-			element.svpos.xyz+=input[i].normal* rand(center.xy) * ((0.5f +desttime)* 0.9);
+		if (destF)
+		{
+			element.svpos.xyz += input[i].normal * rand(center.xy) * ((0.5f + desttime) * 0.9);
 		}
-		else if(!destF&&!gsflag) {
+		else if (!destF && !gsflag)
+		{
 			element.svpos = input[i].svpos;
 		}
 		element.normal = input[i].normal;

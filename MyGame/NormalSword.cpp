@@ -1,10 +1,12 @@
 #include "NormalSword.h"
 #include"PlayerControl.h"
 #include"imgui.h"
+
 NormalSword::~NormalSword()
 {
 	//delete  m_Model;
 }
+
 void NormalSword::Initialize(DebugCamera* camera)
 {
 	m_Object = std::make_unique<Object3d>();
@@ -14,10 +16,9 @@ void NormalSword::Initialize(DebugCamera* camera)
 	m_Object->Initialize(camera);
 	m_Object->SetModel(m_Model);
 
-	Scale = { 1.0f,1.0f,1.0f };
+	Scale = {1.0f, 1.0f, 1.0f};
 
-	Rotation = { -18.0f, 18.0f,0.0f + 11.0f };
-	
+	Rotation = {-18.0f, 18.0f, 0.0f + 11.0f};
 }
 
 void NormalSword::Update(DebugCamera* camera)
@@ -31,12 +32,10 @@ void NormalSword::Update(DebugCamera* camera)
 	m_Object->SetDestFlag(FALSE);
 	m_Object->SetRotation(Rotation);
 
-	m_Object->Update(PlayerControl::GetInstance()->GetPlayer()->GetHanMat(), { 1.0f,1.0f,1.0f,1.0f }, camera);
-
+	m_Object->Update(PlayerControl::GetInstance()->GetPlayer()->GetHanMat(), {1.0f, 1.0f, 1.0f, 1.0f}, camera);
 }
 
 void NormalSword::Draw()
 {
 	Draw_Obj();
-	
 }

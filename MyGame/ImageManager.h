@@ -3,16 +3,18 @@
 #include <string>
 #include "Sprite.h"
 #include "Texture.h"
-class ImageManager  final {
+
+class ImageManager final
+{
 private:
 	ImageManager() = default;
 	~ImageManager() = default;
 	ImageManager(const ImageManager& r) = default;
-	ImageManager& operator= (const ImageManager& r) = default;
+	ImageManager& operator=(const ImageManager& r) = default;
 
 public:
-
-	enum texName {
+	enum texName
+	{
 		//プレイヤー周り
 		PLAYERHP,
 		PLAYERHPFRAME_INNER,
@@ -49,23 +51,25 @@ public:
 		//
 		STITLE
 	};
-	enum tex2dName {
+
+	enum tex2dName
+	{
 		ENMEYHP_MULTI,
-		
+
 		PARTICLE,
 		SLASH,
-		
+
 		CELESFIELD,
 
 		BOSSATK_CIRCLE,
 		BOSSATK_HALF,
 		BOSSATK_KNOCK
 	};
+
 public:
-	static ImageManager* GetIns();		//取得用
+	static ImageManager* GetIns(); //取得用
 
 	void Load2D();
 	void LoadTex2D();
 	void Finalize();
 };
-

@@ -9,15 +9,16 @@ using namespace DirectX;
 /// <summary>
 /// 静的メンバ変数の実体
 /// </summary>
-ComPtr <ID3D12Device> Mesh::device = nullptr;
+ComPtr<ID3D12Device> Mesh::device = nullptr;
 ComPtr<ID3D12GraphicsCommandList> Mesh::cmdList = nullptr;
+
 void Mesh::StaticInitialize()
 {
 	// 再初期化チェック
 	assert(!Mesh::device);
 
-	Mesh::device = DirectXCommon::GetInstance()->GetDev();
-	Mesh::cmdList = DirectXCommon::GetInstance()->GetCmdList();
+	device = DirectXCommon::GetInstance()->GetDev();
+	cmdList = DirectXCommon::GetInstance()->GetCmdList();
 	// マテリアルの静的初期化
 	Material::StaticInitialize();
 }
@@ -45,18 +46,21 @@ void Mesh::AddSmoothData(unsigned short indexPosition, unsigned short indexVerte
 void Mesh::CalculateSmoothedVertexNormals()
 {
 	auto itr = smoothData.begin();
-	for (; itr != smoothData.end(); ++itr) {
+	for (; itr != smoothData.end(); ++itr)
+	{
 		// 各面用の共通頂点コレクション
 		std::vector<unsigned short>& v = itr->second;
 		// 全頂点の法線を平均する
 		XMVECTOR normal = {};
-		for (unsigned short index : v) {
+		for (unsigned short index : v)
+		{
 			normal += XMVectorSet(vertices[index].normal.x, vertices[index].normal.y, vertices[index].normal.z, 0);
 		}
-		normal = XMVector3Normalize(normal / (float)v.size());
+		normal = XMVector3Normalize(normal / static_cast<float>(v.size()));
 
-		for (unsigned short index : v) {
-			vertices[index].normal = { normal.m128_f32[0], normal.m128_f32[1], normal.m128_f32[2] };
+		for (unsigned short index : v)
+		{
+			vertices[index].normal = {normal.m128_f32[0], normal.m128_f32[1], normal.m128_f32[2]};
 		}
 	}
 }
@@ -83,7 +87,8 @@ void Mesh::CreateBuffers()
 	// 頂点バッファへのデータ転送
 	VertexPosNormalUv* vertMap = nullptr;
 	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
-	if (SUCCEEDED(result)) {
+	if (SUCCEEDED(result))
+	{
 		std::copy(vertices.begin(), vertices.end(), vertMap);
 		vertBuff->Unmap(0, nullptr);
 	}
@@ -93,7 +98,8 @@ void Mesh::CreateBuffers()
 	vbView.SizeInBytes = sizeVB;
 	vbView.StrideInBytes = sizeof(vertices[0]);
 
-	if (FAILED(result)) {
+	if (FAILED(result))
+	{
 		assert(0);
 		return;
 	}
@@ -107,7 +113,8 @@ void Mesh::CreateBuffers()
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
 		IID_PPV_ARGS(&indexBuff));
-	if (FAILED(result)) {
+	if (FAILED(result))
+	{
 		assert(0);
 		return;
 	}
@@ -115,7 +122,8 @@ void Mesh::CreateBuffers()
 	// インデックスバッファへのデータ転送
 	unsigned short* indexMap = nullptr;
 	result = indexBuff->Map(0, nullptr, (void**)&indexMap);
-	if (SUCCEEDED(result)) {
+	if (SUCCEEDED(result))
+	{
 		std::copy(indices.begin(), indices.end(), indexMap);
 		indexBuff->Unmap(0, nullptr);
 	}
@@ -140,5 +148,5 @@ void Mesh::Draw()
 	cmdList->SetGraphicsRootConstantBufferView(1, constBuff->GetGPUVirtualAddress());
 
 	// 描画コマンド
-	cmdList->DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0);
+	cmdList->DrawIndexedInstanced(static_cast<UINT>(indices.size()), 1, 0, 0, 0);
 }

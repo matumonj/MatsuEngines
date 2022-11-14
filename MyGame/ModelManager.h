@@ -4,16 +4,17 @@
 #include <map>
 #include <f_Model.h>
 
-class ModelManager final {
+class ModelManager final
+{
 private:
 	ModelManager() = default;
 	~ModelManager() = default;
 	ModelManager(const ModelManager& r) = default;
-	ModelManager& operator= (const ModelManager& r) = default;
+	ModelManager& operator=(const ModelManager& r) = default;
 
 public:
-
-	enum ModelName {
+	enum ModelName
+	{
 		FIELD,
 		MINI,
 		BOSSFIELD,
@@ -36,7 +37,9 @@ public:
 		BIGROCK_B,
 		GRASSFIELD
 	};
-	enum FBXName {
+
+	enum FBXName
+	{
 		PLAYER,
 		GOLEM,
 		GIGAGOLEM,
@@ -46,14 +49,14 @@ public:
 	};
 
 public:
-	static ModelManager* GetIns();		//取得用
+	static ModelManager* GetIns(); //取得用
 
 	void Initialize();
-	void LoadModel(const ModelName modelName, std::string fileName);
-	void LoadFBXModel(const FBXName modelName, std::string fileName);
+	void LoadModel(ModelName modelName, std::string fileName);
+	void LoadFBXModel(FBXName modelName, std::string fileName);
 	Model* GetModel(ModelName modelName) { return model[modelName]; }
 	f_Model* GetFBXModel(FBXName FBXName) { return fbxModel[FBXName]; }
 private:
-	static std::map<ModelName, Model*> model;	//モデル格納マップ
+	static std::map<ModelName, Model*> model; //モデル格納マップ
 	static std::map<FBXName, f_Model*> fbxModel;
 };

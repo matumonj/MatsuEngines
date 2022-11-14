@@ -13,10 +13,10 @@
 #include"Feed.h"
 #include"PlayerControl.h"
 #include"DamageManager.h"
-BossScene::BossScene(SceneManager* sceneManager)
-	:BaseScene(sceneManager)
-{
 
+BossScene::BossScene(SceneManager* sceneManager)
+	: BaseScene(sceneManager)
+{
 }
 
 /*------------------------*/
@@ -26,19 +26,20 @@ void BossScene::Initialize()
 {
 	DebugTxt::GetInstance()->Initialize(47);
 	//各オブジェクトの初期化
-	if (AllObjectControl.size() == 0) {//各オブジェクトインスタンスぶちこむ
+	if (AllObjectControl.size() == 0)
+	{
+		//各オブジェクトインスタンスぶちこむ
 		AllObjectControl.emplace_back(CameraControl::GetInstance());
 		AllObjectControl.emplace_back(PlayerControl::GetInstance());
 		AllObjectControl.emplace_back(EnemyControl::GetInstance());
 	}
-	
+
 	//ボス攻撃用->できれば移す
 	Nail::GetInstance()->ModelSet();
-	
+
 	postEffect = new MinimapSprite();
 	postEffect->Initialize();
 	dc = new DebugCamera(WinApp::window_width, WinApp::window_height);
-
 }
 
 /*------------------------*/
@@ -47,34 +48,43 @@ void BossScene::Initialize()
 void BossScene::Update()
 {
 	//読み込み
-	if (!LoadEnemy&&!Play) {
+	if (!LoadEnemy && !Play)
+	{
 		LoadEnemy = true;
 	}
 
 	SistemConfig::GetInstance()->Update();
 
-	if (Play) {//csvからの読み込み終わってから更新処理
+	if (Play)
+	{
+		//csvからの読み込み終わってから更新処理
 
-		if (AllObjectControl[1] != nullptr) {
+		if (AllObjectControl[1] != nullptr)
+		{
 			AllObjectControl[1]->Update(CameraControl::GetInstance()->GetCamera());
 		}
-		if (AllObjectControl[0] != nullptr) {
+		if (AllObjectControl[0] != nullptr)
+		{
 			AllObjectControl[0]->Update(CameraControl::GetInstance()->GetCamera());
 		}
-		for (int i = 2; i < AllObjectControl.size(); i++) {
-			if (AllObjectControl[i] != nullptr) {
+		for (int i = 2; i < AllObjectControl.size(); i++)
+		{
+			if (AllObjectControl[i] != nullptr)
+			{
 				AllObjectControl[i]->Update(CameraControl::GetInstance()->GetCamera());
 			}
 		}
 		Nail::GetInstance()->Update();
 		UI::GetInstance()->HUDUpdate(hudload, CameraControl::GetInstance()->GetCamera());
-		}
+	}
 	dc->Update();
 
-	dc->SetTarget({ PlayerControl::GetInstance()->GetPlayer()->GetPosition() });
-	dc->SetEye({ PlayerControl::GetInstance()->GetPlayer()->GetPosition().x,
-		 PlayerControl::GetInstance()->GetPlayer()->GetPosition().y + 300.0f,
-		PlayerControl::GetInstance()->GetPlayer()->GetPosition().z - 1 });
+	dc->SetTarget({PlayerControl::GetInstance()->GetPlayer()->GetPosition()});
+	dc->SetEye({
+		PlayerControl::GetInstance()->GetPlayer()->GetPosition().x,
+		PlayerControl::GetInstance()->GetPlayer()->GetPosition().y + 300.0f,
+		PlayerControl::GetInstance()->GetPlayer()->GetPosition().z - 1
+	});
 	Field::GetInstance()->SetCamera(dc);
 
 	Field::GetInstance()->Update(CameraControl::GetInstance()->GetCamera());
@@ -83,13 +93,17 @@ void BossScene::Update()
 	//各オブジェクトの更新処理
 	//csv読み込み部分(Cameraの更新後にするのでobjUpdate()挟んでから)
 	LoadParam(CameraControl::GetInstance()->GetCamera());
-	
-	if (scenechange) {
-		Feed::GetInstance()->Update_White(Feed::FEEDIN);//白くなります
+
+	if (scenechange)
+	{
+		Feed::GetInstance()->Update_White(Feed::FEEDIN); //白くなります
 	}
-	if (SistemConfig::GetInstance()->GetConfigJudgMent()) {
+	if (SistemConfig::GetInstance()->GetConfigJudgMent())
+	{
 		c_postEffect = Blur;
-	} else {
+	}
+	else
+	{
 		c_postEffect = Default;
 	}
 }
@@ -100,8 +114,10 @@ void BossScene::Update()
 void BossScene::MyGameDraw()
 {
 	Field::GetInstance()->Draw();
-	if (Play) {
-		for (int i = 0; i < AllObjectControl.size(); i++) {
+	if (Play)
+	{
+		for (int i = 0; i < AllObjectControl.size(); i++)
+		{
 			AllObjectControl[i]->Draw();
 		}
 	}
@@ -115,18 +131,18 @@ void BossScene::Draw()
 	//ポストエフェクトの場合わけ(Bでぼかし Dがデフォルト)
 	switch (c_postEffect)
 	{
-	case Blur://ぼかし　描画準違うだけ
+	case Blur: //ぼかし　描画準違うだけ
 		postEffect->PreDrawScene();
 		postEffect->PostDrawScene();
 
 		DirectXCommon::GetInstance()->BeginDraw();
-		//設定画面
+	//設定画面
 		SistemConfig::GetInstance()->Draw();
-		
+
 		DirectXCommon::GetInstance()->EndDraw();
 		break;
 
-	case Default://普通のやつ特に何もかかっていない
+	case Default: //普通のやつ特に何もかかっていない
 		postEffect->PreDrawScene();
 		Field::GetInstance()->MiniFieldDraw();
 		postEffect->PostDrawScene();
@@ -139,8 +155,9 @@ void BossScene::Draw()
 		Sprite::PostDraw();
 		PlayerControl::GetInstance()->DamageTexDraw();
 
-		//UI
-		if (CameraControl::GetInstance()->GetCameraState() != CameraControl::BOSSCUTSCENE) {
+	//UI
+		if (CameraControl::GetInstance()->GetCameraState() != CameraControl::BOSSCUTSCENE)
+		{
 			UI::GetInstance()->HUDDraw();
 		}
 		Feed::GetInstance()->Draw();
@@ -157,11 +174,13 @@ void BossScene::Draw()
 /*-----------------------*/
 bool BossScene::LoadParam(DebugCamera* camera)
 {
-	if (LoadEnemy) {
-		for (int i = 0; i < AllObjectControl.size(); i++) {
+	if (LoadEnemy)
+	{
+		for (int i = 0; i < AllObjectControl.size(); i++)
+		{
 			AllObjectControl[i]->Initialize(CameraControl::GetInstance()->GetCamera());
 		}
-		
+
 		//カメラをセット
 		f_Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
 		//グラフィックパイプライン生成

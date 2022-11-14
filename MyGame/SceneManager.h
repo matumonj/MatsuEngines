@@ -14,21 +14,21 @@ public:
 	void SetnextScene(BaseScene* nextScene_) { nextScene = nextScene_; }
 
 	void Finalize();
-	
-	enum NowScene{
+
+	enum NowScene
+	{
 		TITLE,
 		TUTORIAL,
 		PLAY,
 		BOSS,
 		MAPCREATE
 	};
+
 	NowScene GetScene() { return scene; }
-	void SetScene(NowScene scene) { this->scene=scene; }
+	void SetScene(NowScene scene) { this->scene = scene; }
 private:
-	
 	NowScene scene = TITLE;
 	std::thread t;
 	BaseScene* Scene;
 	BaseScene* nextScene = nullptr;
 };
-

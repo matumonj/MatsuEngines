@@ -15,24 +15,25 @@ void EncountGuardianSprite::Init()
 	Sprite::LoadTexture(370, L"Resources/GuardianAppearrance/EnemyForm.png");
 
 	//上のフレーム画像
-	Sprite*up = Sprite::Create(350, { 0.0f,-200.0f });
-	AppearranceSprite[Site::UP].reset(up);
+	Sprite* up = Sprite::Create(350, {0.0f, -200.0f});
+	AppearranceSprite[UP].reset(up);
 	//下のフレーム画像
-	Sprite* bottom = Sprite::Create(360, { 0.0f,-200.0f });
-	AppearranceSprite[Site::BOTTOM].reset(bottom);
+	Sprite* bottom = Sprite::Create(360, {0.0f, -200.0f});
+	AppearranceSprite[BOTTOM].reset(bottom);
 	//ガーディアンの姿絵
-	Sprite*form = Sprite::Create(370, { 0.0f,-200.0f });
-	AppearranceSprite[Site::FORM].reset(form);
+	Sprite* form = Sprite::Create(370, {0.0f, -200.0f});
+	AppearranceSprite[FORM].reset(form);
 	//座標位置設定
-	AppearranceSprite[Site::UP]->SetPosition({0.0f,100.0f });
-	AppearranceSprite[Site::BOTTOM]->SetPosition({ 0.0f,700.0f });
-	AppearranceSprite[Site::FORM]->SetPosition({ 0.0f,250.0f });
+	AppearranceSprite[UP]->SetPosition({0.0f, 100.0f});
+	AppearranceSprite[BOTTOM]->SetPosition({0.0f, 700.0f});
+	AppearranceSprite[FORM]->SetPosition({0.0f, 250.0f});
 	//サイズ設定
-	AppearranceSprite[Site::UP]->SetSize({ WinApp::window_width,150 });
-	AppearranceSprite[Site::BOTTOM]->SetSize({ WinApp::window_width,150 });
-	AppearranceSprite[Site::FORM]->SetSize({ WinApp::window_width,350});
-	for (int i = 0; i < 3; i++) {
-		AppearranceSprite[i]->SetAnchorPoint({0.0,0.0});
+	AppearranceSprite[UP]->SetSize({WinApp::window_width, 150});
+	AppearranceSprite[BOTTOM]->SetSize({WinApp::window_width, 150});
+	AppearranceSprite[FORM]->SetSize({WinApp::window_width, 350});
+	for (int i = 0; i < 3; i++)
+	{
+		AppearranceSprite[i]->SetAnchorPoint({0.0, 0.0});
 	}
 
 	SpriteAlpha = 0.0f;
@@ -41,20 +42,23 @@ void EncountGuardianSprite::Init()
 void EncountGuardianSprite::Update()
 {
 	//ガーディアンとのエンカウント条件満たしたらアルファ値１に
-	if (CameraControl::GetInstance()->GetEncountFlag()) {
+	if (CameraControl::GetInstance()->GetEncountFlag())
+	{
 		SpriteAlpha = 1.0f;
 	}
-	else {
+	else
+	{
 		SpriteAlpha -= 0.02f;
 	}
-	for (int i = 0; i < 3; i++) {
-		AppearranceSprite[i]->setcolor({ 1.0f,1.0f,1.0f,SpriteAlpha });
+	for (int i = 0; i < 3; i++)
+	{
+		AppearranceSprite[i]->setcolor({1.0f, 1.0f, 1.0f, SpriteAlpha});
 	}
 	//UVスクロール
-	AppearranceSprite[Site::UP]->SetUvscroll(TRUE);
-	AppearranceSprite[Site::UP]->SetUv_time(+0.01f);
-	AppearranceSprite[Site::BOTTOM]->SetUvscroll(TRUE);
-	AppearranceSprite[Site::BOTTOM]->SetUv_time(-0.01f);
+	AppearranceSprite[UP]->SetUvscroll(TRUE);
+	AppearranceSprite[UP]->SetUv_time(+0.01f);
+	AppearranceSprite[BOTTOM]->SetUvscroll(TRUE);
+	AppearranceSprite[BOTTOM]->SetUv_time(-0.01f);
 
 	SpriteAlpha = min(SpriteAlpha, 1.0f);
 	SpriteAlpha = max(SpriteAlpha, 0.0f);
@@ -64,16 +68,19 @@ void EncountGuardianSprite::Update()
 void EncountGuardianSprite::Draw()
 {
 	Sprite::PreDraw();
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < 3; i++)
+	{
 		AppearranceSprite[i]->Draw();
 	}
 	Sprite::PostDraw();
 }
 
 #include"mHelper.h"
+
 void EncountGuardianSprite::Finalize()
 {
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < 3; i++)
+	{
 		Destroy_unique(AppearranceSprite[i]);
 	}
 }

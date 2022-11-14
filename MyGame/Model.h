@@ -12,7 +12,8 @@ class Model
 {
 private: // エイリアス
 	// Microsoft::WRL::を省略
-	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+	template <class T>
+	using ComPtr = Microsoft::WRL::ComPtr<T>;
 	// DirectX::を省略
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
@@ -109,7 +110,6 @@ public:
 	/// メッシュコンテナを取得
 	/// </summary>
 	/// <param name="material">マテリアル</param>
-	inline const std::vector<Mesh*>& GetMeshes() { return meshes; }
+	const std::vector<Mesh*>& GetMeshes() { return meshes; }
 	//static void SetDevice(ID3D12Device* dev) { device = dev; }
 };
-

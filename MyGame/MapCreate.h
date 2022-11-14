@@ -18,6 +18,7 @@
 #include"PlaceWood.h"
 #include"PlaceEnemy.h"
 #include"CreateObjManager.h"
+
 class MapCreate
 {
 public:
@@ -26,7 +27,8 @@ public:
 	static void LoadEnemyParam();
 private:
 	//設置オブジェクト[木・柵・敵]
-	enum {
+	enum
+	{
 		WOOD=0,
 		FENCE=1,
 		ENEMY=2,
@@ -34,6 +36,7 @@ private:
 		STONE=4,
 		GRASS=5
 	};
+
 	//設置オブジェクト
 	std::vector<CreateObjManager*> placeobj;
 public:
@@ -43,7 +46,7 @@ public:
 	//設置処理
 	void ObjectArgment(DebugCamera* camera);
 	//初期化
-	void ObjectInitialize(DebugCamera*camera);
+	void ObjectInitialize(DebugCamera* camera);
 	//更新処理
 	void ObjectUpdate(DebugCamera* camera);
 	//描画
@@ -54,6 +57,4 @@ public:
 	void Finalize();
 private:
 	bool savef;
-	
 };
-

@@ -1,4 +1,3 @@
-
 #pragma once
 #include "Camera.h"
 #include "Input.h"
@@ -22,8 +21,10 @@ public:
 	// XV
 	void Update() override;
 
-	void SetDistance(float distance) {
-		this->distance = distance; viewDirty = true;
+	void SetDistance(float distance)
+	{
+		this->distance = distance;
+		viewDirty = true;
 	}
 
 private:
@@ -37,4 +38,3 @@ private:
 	// ‰ñ“]s—ñ
 	XMMATRIX matRot = DirectX::XMMatrixIdentity();
 };
-

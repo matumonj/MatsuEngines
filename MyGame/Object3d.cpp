@@ -23,9 +23,9 @@ ComPtr<ID3D12PipelineState> Object3d::pipelinestate;
 
 XMMATRIX Object3d::matView{};
 XMMATRIX Object3d::matProjection{};
-XMFLOAT3 Object3d::eye = { 0, 0, -50.0f };
-XMFLOAT3 Object3d::target = { 0, 0, 0 };
-XMFLOAT3 Object3d::up = { 0, 1, 0 };
+XMFLOAT3 Object3d::eye = {0, 0, -50.0f};
+XMFLOAT3 Object3d::target = {0, 0, 0};
+XMFLOAT3 Object3d::up = {0, 1, 0};
 LightGroup* Object3d::lightGroup = nullptr;
 //Camera* Object3d::camera = nullptr;
 //Object3d::VertexPosNormalUv Object3d::vertices[vertexCount];
@@ -36,19 +36,20 @@ Object3d::~Object3d()
 	//delete model;
 	//delete camera;
 	delete parent;
-	if (collider) {
+	if (collider)
+	{
 		//当たり判定マネージャの登録解除
 		CollisionManager::GetInstance()->RemoveCollider(collider);
 		delete collider;
 	}
 }
+
 bool Object3d::StaticInitialize(int window_width, int window_height, Camera* camera)
 {
-
-	Object3d::device = DirectXCommon::GetInstance()->GetDev();
-	Object3d::cmdList = DirectXCommon::GetInstance()->GetCmdList();
+	device = DirectXCommon::GetInstance()->GetDev();
+	cmdList = DirectXCommon::GetInstance()->GetCmdList();
 	//Model::SetDevice(device);
-//	Object3d::camera = camera;
+	//	Object3d::camera = camera;
 	// デスクリプタヒープの初期化
 	// カメラ初期化
 	InitializeCamera(window_width, window_height);
@@ -88,22 +89,24 @@ void Object3d::PostDraw()
 	//Object3d::cmdList = nullptr;
 }
 
-Object3d* Object3d::Create( DebugCamera* camera)
+Object3d* Object3d::Create(DebugCamera* camera)
 {
 	// 3Dオブジェクトのインスタンスを生成
-	Object3d* object3d = new Object3d();
-	if (object3d == nullptr) {
+	auto object3d = new Object3d();
+	if (object3d == nullptr)
+	{
 		return nullptr;
 	}
 
 	// 初期化
-	if (!object3d->Initialize( camera)) {
+	if (!object3d->Initialize(camera))
+	{
 		delete object3d;
 		assert(0);
 		return nullptr;
 	}
 	float scale_val = 1;
-	object3d->scale = { scale_val , scale_val , scale_val };
+	object3d->scale = {scale_val, scale_val, scale_val};
 
 	return object3d;
 }
@@ -140,7 +143,6 @@ void Object3d::CameraMoveVector(XMFLOAT3 move)
 }
 
 
-
 void Object3d::InitializeCamera(int window_width, int window_height)
 {
 	// ビュー行列の生成
@@ -157,7 +159,7 @@ void Object3d::InitializeCamera(int window_width, int window_height)
 	// 透視投影による射影行列の生成
 	matProjection = XMMatrixPerspectiveFovLH(
 		XMConvertToRadians(60.0f),
-		(float)window_width / window_height,
+		static_cast<float>(window_width) / window_height,
 		0.1f, 1000.0f
 	);
 }
@@ -349,8 +351,8 @@ bool Object3d::InitializeGraphicsPipeline()
 {
 	HRESULT result = S_FALSE;
 	ComPtr<ID3DBlob> vsBlob; // 頂点シェーダオブジェクト
-	ComPtr<ID3DBlob> psBlob;	// ピクセルシェーダオブジェクト
-	ComPtr<ID3DBlob> gsBlob;	// ピクセルシェーダオブジェクト
+	ComPtr<ID3DBlob> psBlob; // ピクセルシェーダオブジェクト
+	ComPtr<ID3DBlob> gsBlob; // ピクセルシェーダオブジェクト
 
 	ComPtr<ID3DBlob> errorBlob; // エラーオブジェクト
 
@@ -360,18 +362,19 @@ bool Object3d::InitializeGraphicsPipeline()
 		L"Resources/Shader/Object3dVS.hlsl",
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
-		"main", "vs_5_0",	// エントリーポイント名、シェーダーモデル指定
+		"main", "vs_5_0", // エントリーポイント名、シェーダーモデル指定
 		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // デバッグ用設定
 		0,
 		&vsBlob, &errorBlob);
-	if (FAILED(result)) {
+	if (FAILED(result))
+	{
 		// errorBlobからエラー内容をstring型にコピー
 		std::string errstr;
 		errstr.resize(errorBlob->GetBufferSize());
 
-		std::copy_n((char*)errorBlob->GetBufferPointer(),
-			errorBlob->GetBufferSize(),
-			errstr.begin());
+		std::copy_n(static_cast<char*>(errorBlob->GetBufferPointer()),
+		            errorBlob->GetBufferSize(),
+		            errstr.begin());
 		errstr += "\n";
 		// エラー内容を出力ウィンドウに表示
 		OutputDebugStringA(errstr.c_str());
@@ -384,18 +387,19 @@ bool Object3d::InitializeGraphicsPipeline()
 		L"Resources/Shader/Object3dPS.hlsl",
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
-		"main", "ps_5_0",	// エントリーポイント名、シェーダーモデル指定
+		"main", "ps_5_0", // エントリーポイント名、シェーダーモデル指定
 		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // デバッグ用設定
 		0,
 		&psBlob, &errorBlob);
-	if (FAILED(result)) {
+	if (FAILED(result))
+	{
 		// errorBlobからエラー内容をstring型にコピー
 		std::string errstr;
 		errstr.resize(errorBlob->GetBufferSize());
 
-		std::copy_n((char*)errorBlob->GetBufferPointer(),
-			errorBlob->GetBufferSize(),
-			errstr.begin());
+		std::copy_n(static_cast<char*>(errorBlob->GetBufferPointer()),
+		            errorBlob->GetBufferSize(),
+		            errstr.begin());
 		errstr += "\n";
 		// エラー内容を出力ウィンドウに表示
 		OutputDebugStringA(errstr.c_str());
@@ -408,18 +412,19 @@ bool Object3d::InitializeGraphicsPipeline()
 		L"Resources/Shader/BasicGS.hlsl",
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
-		"main", "gs_5_0",	// エントリーポイント名、シェーダーモデル指定
+		"main", "gs_5_0", // エントリーポイント名、シェーダーモデル指定
 		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // デバッグ用設定
 		0,
 		&gsBlob, &errorBlob);
-	if (FAILED(result)) {
+	if (FAILED(result))
+	{
 		// errorBlobからエラー内容をstring型にコピー
 		std::string errstr;
 		errstr.resize(errorBlob->GetBufferSize());
 
-		std::copy_n((char*)errorBlob->GetBufferPointer(),
-			errorBlob->GetBufferSize(),
-			errstr.begin());
+		std::copy_n(static_cast<char*>(errorBlob->GetBufferPointer()),
+		            errorBlob->GetBufferSize(),
+		            errstr.begin());
 		errstr += "\n";
 		// エラー内容を出力ウィンドウに表示
 		OutputDebugStringA(errstr.c_str());
@@ -427,22 +432,25 @@ bool Object3d::InitializeGraphicsPipeline()
 	}
 	// 頂点レイアウト
 	D3D12_INPUT_ELEMENT_DESC inputLayout[] = {
-		{ // xy座標(1行で書いたほうが見やすい)
+		{
+			// xy座標(1行で書いたほうが見やすい)
 			"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
 			D3D12_APPEND_ALIGNED_ELEMENT,
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
 		},
-		{ // 法線ベクトル(1行で書いたほうが見やすい)
+		{
+			// 法線ベクトル(1行で書いたほうが見やすい)
 			"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
 			D3D12_APPEND_ALIGNED_ELEMENT,
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
 		},
-		{ // uv座標(1行で書いたほうが見やすい)
+		{
+			// uv座標(1行で書いたほうが見やすい)
 			"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0,
 			D3D12_APPEND_ALIGNED_ELEMENT,
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
 		},
-	
+
 	};
 
 	// グラフィックスパイプラインの流れを設定
@@ -458,10 +466,10 @@ bool Object3d::InitializeGraphicsPipeline()
 	//gpipeline.RasterizerState.FillMode = D3D12_FILL_MODE_WIREFRAME;
 	// デプスステンシルステート
 	gpipeline.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
-//	gpipeline.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_ALWAYS;
+	//	gpipeline.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_ALWAYS;
 	// レンダーターゲットのブレンド設定
 	D3D12_RENDER_TARGET_BLEND_DESC blenddesc{};
-	blenddesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;	// RBGA全てのチャンネルを描画
+	blenddesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL; // RBGA全てのチャンネルを描画
 	blenddesc.BlendEnable = true;
 	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;
 	blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;
@@ -485,7 +493,7 @@ bool Object3d::InitializeGraphicsPipeline()
 	// 図形の形状設定（三角形）
 	gpipeline.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 
-	gpipeline.NumRenderTargets = 2;	// 描画対象は1つ
+	gpipeline.NumRenderTargets = 2; // 描画対象は1つ
 	gpipeline.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM; // 0～255指定のRGBA
 	gpipeline.RTVFormats[1] = DXGI_FORMAT_R8G8B8A8_UNORM; // 0～255指定のRGBA
 
@@ -506,18 +514,22 @@ bool Object3d::InitializeGraphicsPipeline()
 	rootparams[3].InitAsConstantBufferView(2, 0, D3D12_SHADER_VISIBILITY_ALL);
 
 	// スタティックサンプラー
-	CD3DX12_STATIC_SAMPLER_DESC samplerDesc = CD3DX12_STATIC_SAMPLER_DESC(0);
+	auto samplerDesc = CD3DX12_STATIC_SAMPLER_DESC(0);
 
 	// ルートシグネチャの設定
 	CD3DX12_VERSIONED_ROOT_SIGNATURE_DESC rootSignatureDesc;
-	rootSignatureDesc.Init_1_0(_countof(rootparams), rootparams, 1, &samplerDesc, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
+	rootSignatureDesc.Init_1_0(_countof(rootparams), rootparams, 1, &samplerDesc,
+	                           D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
 
 	ComPtr<ID3DBlob> rootSigBlob;
 	// バージョン自動判定のシリアライズ
-	result = D3DX12SerializeVersionedRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1_0, &rootSigBlob, &errorBlob);
+	result = D3DX12SerializeVersionedRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1_0, &rootSigBlob,
+	                                               &errorBlob);
 	// ルートシグネチャの生成
-	result = device->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(), IID_PPV_ARGS(&rootsignature));
-	if (FAILED(result)) {
+	result = device->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(),
+	                                     IID_PPV_ARGS(&rootsignature));
+	if (FAILED(result))
+	{
 		return result;
 	}
 
@@ -526,14 +538,13 @@ bool Object3d::InitializeGraphicsPipeline()
 	// グラフィックスパイプラインの生成
 	result = device->CreateGraphicsPipelineState(&gpipeline, IID_PPV_ARGS(&pipelinestate));
 
-	if (FAILED(result)) {
+	if (FAILED(result))
+	{
 		return result;
 	}
 
 	return true;
 }
-
-
 
 
 void Object3d::UpdateViewMatrix()
@@ -564,7 +575,7 @@ bool Object3d::Initialize(DebugCamera* camera)
 
 	// 定数バッファの生成B0
 	result = device->CreateCommittedResource(
-		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD), 	// アップロード可能
+		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD), // アップロード可能
 		D3D12_HEAP_FLAG_NONE,
 		&CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferDataB0) + 0xff) & ~0xff),
 		D3D12_RESOURCE_STATE_GENERIC_READ,
@@ -576,9 +587,11 @@ bool Object3d::Initialize(DebugCamera* camera)
 
 void Object3d::Update(XMFLOAT4 color, DebugCamera* camera)
 {
-	if (uvf) {
+	if (uvf)
+	{
 		uvtime += 0.05f;
-		if (uvtime > 1.0f) {
+		if (uvtime > 1.0f)
+		{
 			uvtime = 0.0f;
 		}
 	}
@@ -587,7 +600,7 @@ void Object3d::Update(XMFLOAT4 color, DebugCamera* camera)
 	//rotation.y = 90;
 	//rotation.x = 50;
 	// 親オブジェクトがあれば
-	
+
 	const XMMATRIX& matViewProjection = camera->GetViewProjectionMatrix();
 	const XMFLOAT3& cameraPos = camera->GetEye();
 	UpdateWorldMatrix();
@@ -599,15 +612,15 @@ void Object3d::Update(XMFLOAT4 color, DebugCamera* camera)
 	constMap->viewproj = camera->GetViewProjectionMatrix();
 	constMap->world = matWorld;
 	constMap->cameraPos = FogCenter;
-//constMap->shadowf = shadowf;
-	constMap->gsflag= gsf;
-	constMap->ks2 = { 0,0,0 };
+	//constMap->shadowf = shadowf;
+	constMap->gsflag = gsf;
+	constMap->ks2 = {0, 0, 0};
 	constMap->f = setef;
-	constMap->ks3 = { 0,0,0 };
+	constMap->ks3 = {0, 0, 0};
 	constMap->time = uvtime;
-	constMap->ks4 = { 0,0,0 };
+	constMap->ks4 = {0, 0, 0};
 	constMap->destF = DestF;
-	constMap->ks5 = { 0,0,0 };
+	constMap->ks5 = {0, 0, 0};
 	constMap->destTime = DestTime;
 	constMap->shadowf = shadowf;
 	// 定数バッファへデータ転送
@@ -622,7 +635,8 @@ void Object3d::Update(XMFLOAT4 color, DebugCamera* camera)
 
 	constBuffB0->Unmap(0, nullptr);
 
-	if (collider) {
+	if (collider)
+	{
 		collider->Update();
 	}
 }
@@ -633,7 +647,8 @@ void Object3d::Update(XMMATRIX matworld, XMFLOAT4 color, DebugCamera* camera)
 	time.x += 0.01f;
 
 	time.y += 0.2f;
-	if (time.y > 1.0f) {
+	if (time.y > 1.0f)
+	{
 		time.y = 0.0f;
 	}
 	HRESULT result;
@@ -651,13 +666,13 @@ void Object3d::Update(XMMATRIX matworld, XMFLOAT4 color, DebugCamera* camera)
 	constMap->cameraPos = FogCenter;
 	//	constMap->shadowf = shadowf;
 	constMap->gsflag = gsf;
-	constMap->ks2 = { 0,0,0 };
+	constMap->ks2 = {0, 0, 0};
 	constMap->f = setef;
-	constMap->ks3 = { 0,0,0 };
+	constMap->ks3 = {0, 0, 0};
 	constMap->time = uvtime;
-	constMap->ks4 = { 0,0,0 };
+	constMap->ks4 = {0, 0, 0};
 	constMap->destF = DestF;
-	constMap->ks5 = { 0,0,0 };
+	constMap->ks5 = {0, 0, 0};
 	constMap->destTime = DestTime;
 	constMap->shadowf = shadowf;
 	// 定数バッファへデータ転送
@@ -671,7 +686,8 @@ void Object3d::Update(XMMATRIX matworld, XMFLOAT4 color, DebugCamera* camera)
 	constMap->cameraPos = FogCenter;
 	constBuffB0->Unmap(0, nullptr);
 
-	if (collider) {
+	if (collider)
+	{
 		collider->Update();
 	}
 }
@@ -689,7 +705,6 @@ void Object3d::Draw()
 	lightGroup->Draw(cmdList.Get(), 3);
 
 	model->Draw();
-
 }
 
 
@@ -707,7 +722,6 @@ void Object3d::SetCollider(BaseCollider* collider)
 
 void Object3d::UpdateWorldMatrix()
 {
-	
 	//XMMATRIX matScale, matRot, matTrans;
 
 	// スケール、回転、平行移動行列の計算
@@ -726,12 +740,14 @@ void Object3d::UpdateWorldMatrix()
 	matWorld *= matTrans; // ワールド行列に平行移動を反映
 
 
-// 親オブジェクトがあれば
-	if (parent != nullptr) {
+	// 親オブジェクトがあれば
+	if (parent != nullptr)
+	{
 		// 親オブジェクトのワールド行列を掛ける
 		matWorld *= parent->matWorld;
 	}
-	if (rf) {
+	if (rf)
+	{
 		matWorld *= rm;
 	}
 }
@@ -759,12 +775,12 @@ void Object3d::UpdateWorldMatrix(XMMATRIX mat)
 	matWorld *= matTrans; // ワールド行列に平行移動を反映
 
 
-// 親オブジェクトがあれば
-if (parent != nullptr) {
+	// 親オブジェクトがあれば
+	if (parent != nullptr)
+	{
 		// 親オブジェクトのワールド行列を掛ける
 		matWorld *= parent->matWorld;
 	}
-	
 }
 
 void Object3d::Setf(bool flag)
@@ -786,20 +802,24 @@ XMMATRIX Object3d::ExtractRotationMat()
 XMMATRIX Object3d::ExtractScaleMat()
 {
 	return XMMatrixScaling(
-		XMVector3Length(XMVECTOR{ matWorld.r[0].m128_f32[0],matWorld.r[0].m128_f32[1],matWorld.r[0].m128_f32[2] }).m128_f32[0],
-		XMVector3Length(XMVECTOR{ matWorld.r[1].m128_f32[0],matWorld.r[1].m128_f32[1],matWorld.r[1].m128_f32[2] }).m128_f32[0],
-		XMVector3Length(XMVECTOR{ matWorld.r[2].m128_f32[0],matWorld.r[2].m128_f32[1],matWorld.r[2].m128_f32[2] }).m128_f32[0]
+		XMVector3Length(XMVECTOR{
+			matWorld.r[0].m128_f32[0], matWorld.r[0].m128_f32[1], matWorld.r[0].m128_f32[2]
+		}).m128_f32[0],
+		XMVector3Length(XMVECTOR{
+			matWorld.r[1].m128_f32[0], matWorld.r[1].m128_f32[1], matWorld.r[1].m128_f32[2]
+		}).m128_f32[0],
+		XMVector3Length(XMVECTOR{
+			matWorld.r[2].m128_f32[0], matWorld.r[2].m128_f32[1], matWorld.r[2].m128_f32[2]
+		}).m128_f32[0]
 	);
 }
 
 XMMATRIX Object3d::ExtractPositionMat()
 {
 	return XMMatrixTranslation(matWorld.r[3].m128_f32[0], matWorld.r[3].m128_f32[1], matWorld.r[3].m128_f32[2]);
-
 }
 
 XMMATRIX Object3d::ExtractPositionMat(XMMATRIX matworld)
 {
 	return XMMatrixTranslation(matworld.r[3].m128_f32[0], matworld.r[3].m128_f32[1], matworld.r[3].m128_f32[2]);
-
 }

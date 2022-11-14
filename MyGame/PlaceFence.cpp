@@ -1,8 +1,9 @@
 #include "PlaceFence.h"
 #include"imgui.h"
+
 void PlaceFence::Initialize(DebugCamera* camera)
 {
-//	Model = Model::CreateFromOBJ("Fence");
+	//	Model = Model::CreateFromOBJ("Fence");
 	Obj = Object3d::Create(camera);
 	Obj->SetModel(ModelManager::GetIns()->GetModel(ModelManager::FENCE));
 }
@@ -15,10 +16,11 @@ void PlaceFence::FileWriting()
 
 	file.close();
 	///std::ofstream pofs("EnemyParam_CSV/position.csv");
-	std::ofstream ofs("Param_CSV/fence.csv");  // ファイルパスを指定する
+	std::ofstream ofs("Param_CSV/fence.csv"); // ファイルパスを指定する
 	ofs << "Fence_Quantity" << "," << fences.size() << std::endl;
 
-	for (int i = 0; i < fences.size(); i++) {
+	for (int i = 0; i < fences.size(); i++)
+	{
 		ofs << "POP" << "," << fences[i]->GetPosition().x
 			<< "," << fences[i]->GetPosition().y
 			<< "," << fences[i]->GetPosition().z << std::endl;
@@ -28,7 +30,6 @@ void PlaceFence::FileWriting()
 		ofs << "SCALE" << "," << fences[i]->GetScale().x
 			<< "," << fences[i]->GetScale().y
 			<< "," << fences[i]->GetScale().z << std::endl;
-
 	}
 }
 
@@ -36,41 +37,48 @@ bool PlaceFence::ErrorJudg()
 {
 	return false;
 }
+
 void PlaceFence::ArgMent(DebugCamera* camera)
 {
-	if (ArgmentFlag) {
-		std::unique_ptr<AreaFence>newFence;
-		if (ArgmentFlag) {
+	if (ArgmentFlag)
+	{
+		std::unique_ptr<AreaFence> newFence;
+		if (ArgmentFlag)
+		{
 			newFence = std::make_unique<AreaFence>();
 		}
 
 		newFence->Initialize(camera);
 		newFence->SetPosition(pos);
 		newFence->SetRotation(rot);
-		scl = { 3,3,1 };
+		scl = {3, 3, 1};
 		newFence->SetScale(scl);
-		
+
 		fences.push_back(std::move(newFence));
 		ArgmentFlag = false;
 	}
-	for (std::unique_ptr<AreaFence>& Fence : fences) {
-		if (Fence != nullptr) {
-			Fence->SetColor({ 1,1,1,1 });
+	for (std::unique_ptr<AreaFence>& Fence : fences)
+	{
+		if (Fence != nullptr)
+		{
+			Fence->SetColor({1, 1, 1, 1});
 			Fence->Update(camera);
 			Fence->CollisionField(camera);
 		}
 	}
-	if (DeleteFlag && fences.size() > 1) {
+	if (DeleteFlag && fences.size() > 1)
+	{
 		fences.pop_back();
 		DeleteFlag = false;
 	}
 }
+
 void PlaceFence::Update(DebugCamera* camera)
 {
 	Obj->SetPosition(pos);
 	Obj->SetRotation(rot);
 	Obj->SetScale(scl);
-	Obj->Update({ 1,0,0,0.5 }, camera);
+	Obj->Update({1, 0, 0, 0.5}, camera);
 }
 
 void PlaceFence::Draw()
@@ -78,8 +86,10 @@ void PlaceFence::Draw()
 	Obj->PreDraw();
 	Obj->Draw();
 	Obj->PostDraw();
-	for (std::unique_ptr<AreaFence>& fence : fences) {
-		if (fence != nullptr) {
+	for (std::unique_ptr<AreaFence>& fence : fences)
+	{
+		if (fence != nullptr)
+		{
 			fence->Draw();
 		}
 	}
@@ -91,13 +101,14 @@ void PlaceFence::ImGui_Draw()
 	ImGui::SetWindowPos(ImVec2(900, 500));
 	ImGui::SetWindowSize(ImVec2(300, 300));
 
-	if (ImGui::Button("Fence", ImVec2(90, 50))) {
+	if (ImGui::Button("Fence", ImVec2(90, 50)))
+	{
 		ArgmentFlag = true;
 	}
 	ImGui::SameLine();
-	
-	if (ImGui::Button("DeleteObj", ImVec2(90, 50))) {
 
+	if (ImGui::Button("DeleteObj", ImVec2(90, 50)))
+	{
 		DeleteFlag = true;
 	}
 
@@ -106,14 +117,12 @@ void PlaceFence::ImGui_Draw()
 		ImGui::SliderFloat("posX", &pos.x, -500, 500);
 		ImGui::SliderFloat("posY", &pos.y, -300, 300);
 		ImGui::SliderFloat("posZ", &pos.z, -800, 800);
-
 	}
 	{
 		ImGui::Text("Rotation");
 		ImGui::SliderFloat("rotX", &rot.x, 0, 360);
 		ImGui::SliderFloat("rotY", &rot.y, 0, 360);
 		ImGui::SliderFloat("rotZ", &rot.z, 0, 360);
-
 	}
 	{
 		ImGui::Text("Scale");

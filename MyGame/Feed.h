@@ -1,9 +1,11 @@
 #pragma once
 #include"Sprite.h"
+
 class Feed
 {
 private:
-	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+	template <class T>
+	using ComPtr = Microsoft::WRL::ComPtr<T>;
 	// DirectX::Çè»ó™
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
@@ -14,8 +16,8 @@ public:
 	static Feed* GetInstance();
 	~Feed();
 public:
-
-	enum feedtype {
+	enum feedtype
+	{
 		FEEDIN,
 		FEEDOUT
 	};
@@ -31,8 +33,7 @@ public:
 	float GetAlpha() { return feedalpha; }
 private:
 	Sprite* FeedSprite;
-	XMFLOAT3 rgbcolor = {1,1,1};
-	float feedalpha=0;
+	XMFLOAT3 rgbcolor = {1, 1, 1};
+	float feedalpha = 0;
 	feedtype type;
 };
-

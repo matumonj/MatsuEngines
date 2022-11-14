@@ -21,20 +21,22 @@
 #pragma comment(lib,"winmm.lib")
 class CollisionManager;
 class Player;
-class PlayScene :public BaseScene
+
+class PlayScene : public BaseScene
 {
 public:
 	//シーンのコンストラクタ
 	PlayScene(SceneManager* sceneManager);
 private: // エイリアス
 	//Microsoft::WRL::を省略
-	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+	template <class T>
+	using ComPtr = ComPtr<T>;
 	// DirectX::を省略
-	using XMFLOAT2 = DirectX::XMFLOAT2;
-	using XMFLOAT3 = DirectX::XMFLOAT3;
-	using XMFLOAT4 = DirectX::XMFLOAT4;
-	using XMMATRIX = DirectX::XMMATRIX;
-	using XMVECTOR = DirectX::XMVECTOR;
+	using XMFLOAT2 = XMFLOAT2;
+	using XMFLOAT3 = XMFLOAT3;
+	using XMFLOAT4 = XMFLOAT4;
+	using XMMATRIX = XMMATRIX;
+	using XMVECTOR = XMVECTOR;
 
 private:
 	bool playFeed;
@@ -43,44 +45,45 @@ private:
 
 public:
 	void MyGameDraw();
-	void objUpdate( DebugCamera* camera);
+	void objUpdate(DebugCamera* camera);
 
 public:
-	void Initialize()override;
-	void Update()override;
-	void Draw()override;
+	void Initialize() override;
+	void Update() override;
+	void Draw() override;
 	void LoadParam(DebugCamera* camera);
-	void Finalize()override;
+	void Finalize() override;
 public:
 	//エフェクト用(ただプログラムでつくれるものはプログラムで作る方がいい　多用はいくない)
-	int c_postEffect=Default;
+	int c_postEffect = Default;
 private:
-	enum {
+	enum
+	{
 		Blur,
 		Default,
 	};
+
 	bool hudload;
 	bool Load;
 private:
-	float ambientColor0[3] = { 1,1,1 };
+	float ambientColor0[3] = {1, 1, 1};
 	// 光線方向初期値
-	float lightDir0[3] = { 0,0,1 };
-	float lightColor0[3] = { 1,0,0 };
+	float lightDir0[3] = {0, 0, 1};
+	float lightColor0[3] = {1, 0, 0};
 
-	float lightDir1[3] = { 0,1,0 };
-	float lightColor1[3] = { 0,1,0 };
+	float lightDir1[3] = {0, 1, 0};
+	float lightColor1[3] = {0, 1, 0};
 
-	float lightDir2[3] = { 1,0,0 };
-	float lightColor2[3] = { 0,0,1 };
+	float lightDir2[3] = {1, 0, 0};
+	float lightColor2[3] = {0, 0, 1};
 
-	float circleShadowDir[3] = { 0,-1,0 };
-	float circleShadowPos[3] = { 1,2,0 };
-	float circleShadowAtten[3] = { 0.2f,0.0f,0.0f };
-	float circleShadowFactorAngle[2] = { 1.0f, 3.0f };
-	float circleShadowFactorAngle2[2] = { 1.0f, 6.0f };
-	float fighterPos[3] = { 1, 0.0f, 0 };
+	float circleShadowDir[3] = {0, -1, 0};
+	float circleShadowPos[3] = {1, 2, 0};
+	float circleShadowAtten[3] = {0.2f, 0.0f, 0.0f};
+	float circleShadowFactorAngle[2] = {1.0f, 3.0f};
+	float circleShadowFactorAngle2[2] = {1.0f, 6.0f};
+	float fighterPos[3] = {1, 0.0f, 0};
 	DebugCamera* dc;
 	LightGroup* lightGroup;
-	std::vector<ControlBase*>AllObjectControl;
+	std::vector<ControlBase*> AllObjectControl;
 };
-

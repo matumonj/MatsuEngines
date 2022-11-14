@@ -6,49 +6,51 @@
 #include"Player.h"
 #include"DebugCamera.h"
 #include<memory>
+
 class GrassFieldControl :
 	public ControlBase
 {
-	~GrassFieldControl();
+	~GrassFieldControl() override;
 private:
-	std::vector<std::unique_ptr<GrassField>>grassfields;
-	std::vector <XMFLOAT3>Load_GrassFieldPosition;
-	std::vector<XMFLOAT3>Rotation;
-	std::vector<std::unique_ptr<GrassField>>Tutorialgrassfields;
-	
-	enum SceneGrassField {
+	std::vector<std::unique_ptr<GrassField>> grassfields;
+	std::vector<XMFLOAT3> Load_GrassFieldPosition;
+	std::vector<XMFLOAT3> Rotation;
+	std::vector<std::unique_ptr<GrassField>> Tutorialgrassfields;
+
+	enum SceneGrassField
+	{
 		TUTORIAL,
 		PLAY,
 		BOSS,
 		MAPCREATE
 	};
+
 public:
 	static GrassFieldControl* GetInstance();
 
-	void Load(DebugCamera* camera)override;
+	void Load(DebugCamera* camera) override;
 
-	void Finalize()override;
+	void Finalize() override;
 
 	void ImGuiDraw();
 
 	GrassField* GetGrassField(int index) { return Tutorialgrassfields[index].get(); }
 private:
-	void Init_Tutorial(DebugCamera* camera)override;
+	void Init_Tutorial(DebugCamera* camera) override;
 
-	void Init_Play(DebugCamera* camera)override;
+	void Init_Play(DebugCamera* camera) override;
 
-	void Init_Boss(DebugCamera* camera)override;
+	void Init_Boss(DebugCamera* camera) override;
 
-	void Update_Tutorial(DebugCamera* camera)override;
+	void Update_Tutorial(DebugCamera* camera) override;
 
-	void Update_Play(DebugCamera* camera)override;
+	void Update_Play(DebugCamera* camera) override;
 
-	void Update_Boss(DebugCamera* camera)override;
+	void Update_Boss(DebugCamera* camera) override;
 
-	void Draw_Tutorial()override;
+	void Draw_Tutorial() override;
 
-	void Draw_Play()override;
+	void Draw_Play() override;
 
-	void Draw_Boss()override;
+	void Draw_Boss() override;
 };
-

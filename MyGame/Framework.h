@@ -10,6 +10,7 @@
 #include "FbxLoader.h"
 #include"GrassObj.h"
 #include"DebugTxt.h"
+
 class Framework
 {
 public:
@@ -30,4 +31,3 @@ protected:
 	SceneManager* sceneManger = nullptr;
 	//Sprite* sprite = nullptr;
 };
-

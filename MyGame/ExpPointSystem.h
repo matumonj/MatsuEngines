@@ -1,6 +1,7 @@
 #pragma once
 #include"Sprite.h"
 #include<memory>
+
 class ExpPointSystem
 {
 private:
@@ -11,8 +12,8 @@ private:
 	using XMMATRIX = DirectX::XMMATRIX;
 
 private:
-	std::unique_ptr<Sprite>m_ExpBarSpite;
-	std::unique_ptr<Sprite>m_ExpBarFrameSprite;
+	std::unique_ptr<Sprite> m_ExpBarSpite;
+	std::unique_ptr<Sprite> m_ExpBarFrameSprite;
 private:
 	int m_ExpPoint;
 	int ol;
@@ -29,7 +30,7 @@ private:
 	bool m_ReturnEase[6];
 	bool TextDis;
 	int nun;
-	int nextl=10;
+	int nextl = 10;
 	int old;
 	int oldGetExp;
 	XMFLOAT2 BarPos;
@@ -52,4 +53,3 @@ public:
 	void ExpPoint_Get(int point);
 	void ExpPoint_Los(int point);
 };
-

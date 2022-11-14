@@ -1,14 +1,14 @@
 cbuffer cbuff0:register(b0)
 {
-	float4 color;
-	matrix mat;
-	matrix world;
-	matrix matBillboard; // ビルボード行列
-	bool uvf;
-	float3 sub;
-	float time;
-	float3 DisplayCenterpos;
-	float radius;
+float4 color;
+matrix mat;
+matrix world;
+matrix matBillboard; // ビルボード行列
+bool uvf;
+float3 sub;
+float time;
+float3 DisplayCenterpos;
+float radius;
 };
 
 struct Output

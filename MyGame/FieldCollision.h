@@ -6,18 +6,19 @@
 #include"CollisionAttribute.h"
 using namespace DirectX;
 
-class FieldCollision:public Object3d
+class FieldCollision : public Object3d
 {
 private:
 private: // エイリアス
-// Microsoft::WRL::を省略
-	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+	// Microsoft::WRL::を省略
+	template <class T>
+	using ComPtr = Microsoft::WRL::ComPtr<T>;
 	// DirectX::を省略
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
-	using XMVECTOR = DirectX::XMVECTOR;
+	using XMVECTOR = XMVECTOR;
 
 private:
 	//生き死のフラグ
@@ -31,6 +32,4 @@ protected:
 	//落下ベクトル
 	XMVECTOR fallV;
 public:
-	
 };
-

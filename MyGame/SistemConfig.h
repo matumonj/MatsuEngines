@@ -3,12 +3,14 @@
 #include"Sprite.h"
 #include<memory>
 #include"ConfigSprite.h"
+
 class SistemConfig
 {
 public:
 	~SistemConfig();
 private:
-	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+	template <class T>
+	using ComPtr = ComPtr<T>;
 	// DirectX::を省略
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
@@ -17,7 +19,7 @@ private:
 	using XMVECTOR = DirectX::XMVECTOR;
 
 private:
-	Sprite*SelectSprite;
+	Sprite* SelectSprite;
 
 	//ConfigSpriteに用意してるスプライトの数
 	static const int MaxSprite = 2;
@@ -31,7 +33,7 @@ private:
 	int m_number = 0;
 	//画面がすぐ切り替わらないようにするためのカウンタ
 	int count = 0;
-	
+
 public:
 	static SistemConfig* GetInstance();
 
@@ -43,6 +45,7 @@ public:
 		SWORDSELECT,
 		END
 	};
+
 	Config GetNowSelect() { return config; }
 	Config config;
 	float sAlpha = 0;
@@ -63,4 +66,3 @@ public:
 	bool GetEndConfig() { return EndConfigJudg; }
 	bool GetConfigJudgMent() { return m_ConfigFlag; }
 };
-

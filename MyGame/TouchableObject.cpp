@@ -4,13 +4,15 @@
 TouchableObject* TouchableObject::Create(Model* model, DebugCamera* camera)
 {
 	// オブジェクトのインスタンスを生成
-	TouchableObject* instance = new TouchableObject();
-	if (instance == nullptr) {
+	auto instance = new TouchableObject();
+	if (instance == nullptr)
+	{
 		return nullptr;
 	}
 
 	// 初期化
-	if (!instance->Initialize(model, camera)) {
+	if (!instance->Initialize(model, camera))
+	{
 		delete instance;
 		assert(0);
 	}
@@ -18,7 +20,7 @@ TouchableObject* TouchableObject::Create(Model* model, DebugCamera* camera)
 	return instance;
 }
 
-bool TouchableObject::Initialize(Model* model,DebugCamera* camera)
+bool TouchableObject::Initialize(Model* model, DebugCamera* camera)
 {
 	if (!Object3d::Initialize(camera))
 	{
@@ -28,7 +30,7 @@ bool TouchableObject::Initialize(Model* model,DebugCamera* camera)
 	SetModel(model);
 
 	// コライダーの追加
-	MeshCollider* collider = new MeshCollider;
+	auto collider = new MeshCollider;
 	SetCollider(collider);
 	collider->ConstructTriangles(model);
 

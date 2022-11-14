@@ -9,6 +9,6 @@ void SphereCollider::Update()
 	const XMMATRIX& matWorld = object3d->GetMatWorld();
 
 	// ‹…‚Ìƒƒ“ƒo•Ï”‚ğXV
-	Sphere::center = matWorld.r[3] + offset;
+	center = matWorld.r[3] + offset;
 	Sphere::radius = radius;
 }

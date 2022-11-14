@@ -5,18 +5,20 @@
 #include <iomanip>
 #include <sstream>
 #define MAX_LEVEL 10
+
 ExpPointSystem* ExpPointSystem::GetInstance()
 {
 	static ExpPointSystem instance;
 	return &instance;
 }
+
 void ExpPointSystem::ExpPoint_Get(int point)
 {
 	m_ExpPoint += point;
 	old += point;
 	m_BarSet = true;
-
 }
+
 void ExpPointSystem::ExpPoint_Los(int point)
 {
 	m_ExpPoint -= point;
@@ -27,48 +29,55 @@ void ExpPointSystem::Init()
 	Sprite::LoadTexture(6, L"Resources/HPTex/frame3.png");
 	Sprite::LoadTexture(5, L"Resources/HPTex/yellow.png");
 
-	Sprite* l_Bar = Sprite::Create(5, { 0,0 });
-	Sprite* l_BarFrame = Sprite::Create(6, { 0,0 });
+	Sprite* l_Bar = Sprite::Create(5, {0, 0});
+	Sprite* l_BarFrame = Sprite::Create(6, {0, 0});
 
 	m_ExpBarSpite.reset(l_Bar);
 	m_ExpBarFrameSprite.reset(l_BarFrame);
 
-	m_ExpBarSpite->SetSize({ 0,20 });
-	m_ExpBarFrameSprite->SetSize({ 600,50 });
-	m_ExpBarSpite->SetAnchorPoint({ 0.0f,0.0f });
-	m_ExpBarFrameSprite->SetAnchorPoint({ 0.0f,0.5f });
+	m_ExpBarSpite->SetSize({0, 20});
+	m_ExpBarFrameSprite->SetSize({600, 50});
+	m_ExpBarSpite->SetAnchorPoint({0.0f, 0.0f});
+	m_ExpBarFrameSprite->SetAnchorPoint({0.0f, 0.5f});
 
-	BarPos = { 420.0f,830.0f };
-	BarFramePos = { 200.0f,830.0f };
-	BarScl = { 0.0f,30.0f };
-	BarFrameScl = { 1465.0f,57.0f };
+	BarPos = {420.0f, 830.0f};
+	BarFramePos = {200.0f, 830.0f};
+	BarScl = {0.0f, 30.0f};
+	BarFrameScl = {1465.0f, 57.0f};
 
 	m_ExpPoint = 0;
 	m_Lvel = 0;
 	m_LevelUp_needExp = 10;
-	LevelUpTexPos = { 720.0f,930.0f };
-
+	LevelUpTexPos = {720.0f, 930.0f};
 }
+
 void ExpPointSystem::Upda()
 {
-
 	m_LevelUp_needExp = m_Lvel + 10;
 	m_LevelUpF = m_ExpPoint >= ol + m_LevelUp_needExp;
 
-	
+
 	expBarUpda();
 }
+
 void ExpPointSystem::expBarUpda()
 {
-	BarSclX_AddValue = ((float)m_ExpPoint - (float)m_OldExpPoint) * ((BarFrameScl.x - 200) / (float)m_LevelUp_needExp);
-	if (m_BarSet) {
+	BarSclX_AddValue = (static_cast<float>(m_ExpPoint) - static_cast<float>(m_OldExpPoint)) * ((BarFrameScl.x - 200) /
+		static_cast<float>(m_LevelUp_needExp));
+	if (m_BarSet)
+	{
 		BarScl.x += 10.0f;
-		if (!m_LevelUpF) {
-			if (BarScl.x > OldBarScl.x + BarSclX_AddValue) {
+		if (!m_LevelUpF)
+		{
+			if (BarScl.x > OldBarScl.x + BarSclX_AddValue)
+			{
 				m_BarSet = false;
 			}
-		} else {
-			if (BarScl.x >= BarFrameScl.x - 200) {
+		}
+		else
+		{
+			if (BarScl.x >= BarFrameScl.x - 200)
+			{
 				old = 0;
 				m_EaseTime = 0;
 				oldGetExp = 0;
@@ -76,20 +85,22 @@ void ExpPointSystem::expBarUpda()
 				TextDis = true;
 				ol = m_ExpPoint;
 				BarScl.x = 0;
-			
+
 				m_BarSet = false;
 			}
 		}
-	} else {
+	}
+	else
+	{
 		m_OldExpPoint = m_ExpPoint;
 		OldBarScl = BarScl;
-	
 	}
-	if (TextDis) {
+	if (TextDis)
+	{
 		LvelUpFont_Display();
 	}
-	else{
-
+	else
+	{
 		LvelUpFont_FeedOut();
 	}
 	m_ExpBarSpite->SetPosition(BarPos);
@@ -108,57 +119,67 @@ void ExpPointSystem::expBarUpda()
 	std::ostringstream str2;
 	std::ostringstream str3;
 
-	if (!m_BarSet) {
-
+	if (!m_BarSet)
+	{
 		oldGetExp = old;
 	}
-	if(oldGetExp !=old) {
-		if (m_EaseTime <= 1.0f) {
+	if (oldGetExp != old)
+	{
+		if (m_EaseTime <= 1.0f)
+		{
 			m_EaseTime += 0.01f;
-		} else {
+		}
+		else
+		{
 			//	m_OldExpPoint = m_ExpPoint;
 			m_EaseTime = 0;
 		}
 	}
 	int Tex;
-	Tex=(int)Easing::EaseOut(m_EaseTime, float(oldGetExp), float(old));
-	
+	Tex = static_cast<int>(Easing::EaseOut(m_EaseTime, float(oldGetExp), float(old)));
+
 	str << std::fixed << std::setprecision(2)
-		<<Tex;
+		<< Tex;
 
 	str3 << std::fixed << std::setprecision(2)
 		<< m_Lvel;
-	DebugTextSprite::GetInstance()->Print("Lv", LevelUpTexPos.x-450, LevelUpTexPos.y-70, 0.5);
-	DebugTextSprite::GetInstance()->Print(str3.str(), LevelUpTexPos.x - 380, LevelUpTexPos.y-70, 0.8f);
+	DebugTextSprite::GetInstance()->Print("Lv", LevelUpTexPos.x - 450, LevelUpTexPos.y - 70, 0.5);
+	DebugTextSprite::GetInstance()->Print(str3.str(), LevelUpTexPos.x - 380, LevelUpTexPos.y - 70, 0.8f);
 	DebugTextSprite::GetInstance()->Print("exp", LevelUpTexPos.x, LevelUpTexPos.y, 0.5);
-	DebugTextSprite::GetInstance()->Print(str.str(), LevelUpTexPos.x+100,LevelUpTexPos.y,0.5);
-	DebugTextSprite::GetInstance()->Print("/", LevelUpTexPos.x+200, LevelUpTexPos.y, 0.5);
+	DebugTextSprite::GetInstance()->Print(str.str(), LevelUpTexPos.x + 100, LevelUpTexPos.y, 0.5);
+	DebugTextSprite::GetInstance()->Print("/", LevelUpTexPos.x + 200, LevelUpTexPos.y, 0.5);
 	str2 << std::fixed << std::setprecision(2)
 		<< m_LevelUp_needExp;
-	DebugTextSprite::GetInstance()->Print(str2.str(), LevelUpTexPos.x+250, LevelUpTexPos.y, 0.5);
-
+	DebugTextSprite::GetInstance()->Print(str2.str(), LevelUpTexPos.x + 250, LevelUpTexPos.y, 0.5);
 }
 
 
 void ExpPointSystem::LvelUpFont_Display()
 {
-	if (fontEaseT[0] < 1.0f) {
+	if (fontEaseT[0] < 1.0f)
+	{
 		fontEaseT[0] += 0.02f;
 	}
-	if (fontEaseT[5] >1.0f) {
+	if (fontEaseT[5] > 1.0f)
+	{
 		TextDis = false;
 	}
-	for (int i = 1; i < 6; i++) {
-		if (m_ReturnEase[i]) {
+	for (int i = 1; i < 6; i++)
+	{
+		if (m_ReturnEase[i])
+		{
 			continue;
 		}
-		if (fontEaseT[i - 1] > 0.5f) {
+		if (fontEaseT[i - 1] > 0.5f)
+		{
 			fontEaseT[i] += 0.05f;
 		}
 	}
 
-	for (int i = 0; i < 6; i++) {
-		if (fontEaseT[i] > 1.0f) {
+	for (int i = 0; i < 6; i++)
+	{
+		if (fontEaseT[i] > 1.0f)
+		{
 			m_ReturnEase[i] = true;
 		}
 		fontSize[i] = Easing::EaseOut(fontEaseT[i], 0, 2);
@@ -168,21 +189,22 @@ void ExpPointSystem::LvelUpFont_Display()
 
 void ExpPointSystem::LvelUpFont_FeedOut()
 {
-
-		for (int i = 0; i < 6; i++) {
-			if (m_ReturnEase[i]) {
-				fontEaseT[i] -= 0.05f;
-				if (fontEaseT[i] < 0.0f) {
-					m_ReturnEase[i] = false;
-
-				}
+	for (int i = 0; i < 6; i++)
+	{
+		if (m_ReturnEase[i])
+		{
+			fontEaseT[i] -= 0.05f;
+			if (fontEaseT[i] < 0.0f)
+			{
+				m_ReturnEase[i] = false;
 			}
-			
-			fontSize[i] = Easing::EaseOut(fontEaseT[i], 0, 2);
-			fontEaseT[i] = max(fontEaseT[i], 0.0f);
 		}
-		
+
+		fontSize[i] = Easing::EaseOut(fontEaseT[i], 0, 2);
+		fontEaseT[i] = max(fontEaseT[i], 0.0f);
+	}
 }
+
 void ExpPointSystem::Draw()
 {
 	Sprite::PreDraw();
@@ -190,10 +212,12 @@ void ExpPointSystem::Draw()
 	m_ExpBarSpite->Draw();
 	Sprite::PostDraw();
 	int num;
-	if (TextDis == true) {
+	if (TextDis == true)
+	{
 		num = 1;
 	}
-	else {
+	else
+	{
 		num = 0;
 	}
 }

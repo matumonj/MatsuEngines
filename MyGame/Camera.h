@@ -48,7 +48,8 @@ public: // メンバ関数
 	/// ビュー行列の取得
 	/// </summary>
 	/// <returns>ビュー行列</returns>
-	inline const XMMATRIX& GetViewMatrix() {
+	const XMMATRIX& GetViewMatrix()
+	{
 		return matView;
 	}
 
@@ -56,7 +57,8 @@ public: // メンバ関数
 	/// 射影行列の取得
 	/// </summary>
 	/// <returns>射影行列</returns>
-	inline const XMMATRIX& GetProjectionMatrix() {
+	const XMMATRIX& GetProjectionMatrix()
+	{
 		return matProjection;
 	}
 
@@ -64,7 +66,8 @@ public: // メンバ関数
 	/// ビュー射影行列の取得
 	/// </summary>
 	/// <returns>ビュー射影行列</returns>
-	inline const XMMATRIX& GetViewProjectionMatrix() {
+	const XMMATRIX& GetViewProjectionMatrix()
+	{
 		return matViewProjection;
 	}
 
@@ -72,7 +75,8 @@ public: // メンバ関数
 	/// ビルボード行列の取得
 	/// </summary>
 	/// <returns>ビルボード行列</returns>
-	inline const XMMATRIX& GetBillboardMatrix() {
+	const XMMATRIX& GetBillboardMatrix()
+	{
 		return matBillboard;
 	}
 
@@ -80,7 +84,8 @@ public: // メンバ関数
 	/// 視点座標の取得
 	/// </summary>
 	/// <returns>座標</returns>
-	inline const XMFLOAT3& GetEye() {
+	const XMFLOAT3& GetEye()
+	{
 		return eye;
 	}
 
@@ -88,15 +93,18 @@ public: // メンバ関数
 	/// 視点座標の設定
 	/// </summary>
 	/// <param name="eye">座標</param>
-	inline void SetEye(XMFLOAT3 eye) {
-		this->eye = eye; viewDirty = true;
+	void SetEye(XMFLOAT3 eye)
+	{
+		this->eye = eye;
+		viewDirty = true;
 	}
 
 	/// <summary>
 	/// 注視点座標の取得
 	/// </summary>
 	/// <returns>座標</returns>
-	inline const XMFLOAT3& GetTarget() {
+	const XMFLOAT3& GetTarget()
+	{
 		return target;
 	}
 
@@ -104,15 +112,18 @@ public: // メンバ関数
 	/// 注視点座標の設定
 	/// </summary>
 	/// <param name="target">座標</param>
-	inline void SetTarget(XMFLOAT3 target) {
-		this->target = target; viewDirty = true;
+	void SetTarget(XMFLOAT3 target)
+	{
+		this->target = target;
+		viewDirty = true;
 	}
 
 	/// <summary>
 	/// 上方向ベクトルの取得
 	/// </summary>
 	/// <returns>上方向ベクトル</returns>
-	inline const XMFLOAT3& GetUp() {
+	const XMFLOAT3& GetUp()
+	{
 		return up;
 	}
 
@@ -120,8 +131,10 @@ public: // メンバ関数
 	/// 上方向ベクトルの設定
 	/// </summary>
 	/// <param name="up">上方向ベクトル</param>
-	inline void SetUp(XMFLOAT3 up) {
-		this->up = up; viewDirty = true;
+	void SetUp(XMFLOAT3 up)
+	{
+		this->up = up;
+		viewDirty = true;
 	}
 
 	/// <summary>
@@ -140,11 +153,13 @@ public: // メンバ関数
 	/// <summary>
 	/// ビューポート
 	/// </summary>
-	inline XMMATRIX GetViewPort() {
+	XMMATRIX GetViewPort()
+	{
 		return ViewPort;
 	}
-	public:
-		XMFLOAT3 Splinepos();
+
+public:
+	XMFLOAT3 Splinepos();
 protected: // メンバ変数
 	// ビュー行列
 	XMMATRIX matView = DirectX::XMMatrixIdentity();
@@ -163,14 +178,11 @@ protected: // メンバ変数
 	// 射影行列ダーティフラグ
 	bool projectionDirty = false;
 	// 視点座標
-	XMFLOAT3 eye = { 0, 0, -20 };
+	XMFLOAT3 eye = {0, 0, -20};
 	// 注視点座標
-	XMFLOAT3 target = { 0, 0, 0 };
+	XMFLOAT3 target = {0, 0, 0};
 	// 上方向ベクトル
-	XMFLOAT3 up = { 0, 1, 0 };
+	XMFLOAT3 up = {0, 1, 0};
 	// アスペクト比
 	float aspectRatio = 1.0f;
-
-	
 };
-

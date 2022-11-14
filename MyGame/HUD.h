@@ -4,6 +4,7 @@
 #include"Player.h"
 #include<memory>
 #include<vector>
+
 class HUD
 {
 public:
@@ -17,22 +18,22 @@ private:
 	using XMMATRIX = DirectX::XMMATRIX;
 	using XMVECTOR = DirectX::XMVECTOR;
 
-	Sprite* PlayerHP=nullptr;
-	Sprite* PlayerHPFrame=nullptr;
-	Sprite* PlayerHPFrame2=nullptr;
-	Sprite* MiniMapFrame=nullptr;
-	XMFLOAT2 framescl={0.0f,0.0f};
-	XMFLOAT2 framepos={0.0f,0.0f};
-	Sprite* ButtonFrame=nullptr;
-	XMFLOAT2 MiniFrameSize={0.0f,0.0f};
-	XMFLOAT2 MiniframePos={0.0f,0.0f};
-	float PlayerHPSize=0.0f;
-	float OldPlayerHPSize=0.0f;
-	bool RecvDamageflag=false;
-	float easetime=0.0f;
+	Sprite* PlayerHP = nullptr;
+	Sprite* PlayerHPFrame = nullptr;
+	Sprite* PlayerHPFrame2 = nullptr;
+	Sprite* MiniMapFrame = nullptr;
+	XMFLOAT2 framescl = {0.0f, 0.0f};
+	XMFLOAT2 framepos = {0.0f, 0.0f};
+	Sprite* ButtonFrame = nullptr;
+	XMFLOAT2 MiniFrameSize = {0.0f, 0.0f};
+	XMFLOAT2 MiniframePos = {0.0f, 0.0f};
+	float PlayerHPSize = 0.0f;
+	float OldPlayerHPSize = 0.0f;
+	bool RecvDamageflag = false;
+	float easetime = 0.0f;
 	float CoolTime_Time = 0.0f;
-	float TimeSpeed=0.0f;
-	bool iconchangeF=false;
+	float TimeSpeed = 0.0f;
+	bool iconchangeF = false;
 public:
 	float GetSpriteSize(int index) { return coolDownSprite[index]->GetSize().y; }
 	bool GetLayOutMode();
@@ -41,11 +42,14 @@ public:
 	Sprite* GetPlayerHP() { return PlayerHP; }
 	Sprite* GetEnemyHP() { return EnemyHP_Border; }
 	XMFLOAT2 GetSkillButtonPosition() { return CenterPosition; }
-	enum SkillIcon {
+
+	enum SkillIcon
+	{
 		SWORD,
 		WAND,
 		AXE
-	}skillicon=SWORD;
+	} skillicon = SWORD;
+
 	void SetSkillIcon(SkillIcon icon);
 public:
 	void Initialize();
@@ -54,15 +58,15 @@ public:
 	void Finalize();
 	void EnemyHPGaugeInitialize();
 	void EnemyHPGaugeUpdate(std::vector<std::unique_ptr<Enemy>>& enemy);
-public://“G‘Ì—Í‚ÌHUD
-	Sprite* EnemyHP_Border=nullptr;
-	Sprite* EnemyHP_Inner=nullptr;
-	Sprite* TaskSprite=nullptr;
+public: //“G‘Ì—Í‚ÌHUD
+	Sprite* EnemyHP_Border = nullptr;
+	Sprite* EnemyHP_Inner = nullptr;
+	Sprite* TaskSprite = nullptr;
 	float taskAlpha = 0.0f;
-	XMFLOAT2 taskSpriteSize={0.0f,0.0f};
-	bool taskfeed=false;
-	std::vector<Texture*> EnemyHP_Border_Multi={};
-	std::vector<Texture*>EnemyHP_Inner_Multi={};
+	XMFLOAT2 taskSpriteSize = {0.0f, 0.0f};
+	bool taskfeed = false;
+	std::vector<Texture*> EnemyHP_Border_Multi = {};
+	std::vector<Texture*> EnemyHP_Inner_Multi = {};
 public:
 	void EnemyHPGauge_MultiInitialize();
 	void EnemyHPGauge_MultiUpdate(bool& loadf, DebugCamera* camera, std::vector<std::unique_ptr<Enemy>>& enemy);
@@ -74,15 +78,15 @@ public:
 	XMFLOAT2 GetMinimapFramePos() { return MiniframePos; };
 	Sprite* GetMinimapSprite() { return MiniMapFrame; }
 private:
-	XMFLOAT2 CenterPosition = {1050.0f,500.0f};
-	Sprite* coolDownSprite[4]={nullptr};
-	Sprite* FirstAttackSprite=nullptr;
-	Sprite* SecondAttackSprite=nullptr;
-	Sprite* ThirdAttackSprite=nullptr;
-	Sprite* BuffSprite=nullptr;
-	Sprite* ChestCollect[5]={nullptr};
-	Sprite* ChestCollectFrame=nullptr;
-	XMFLOAT2 CooltimeSize={0.0f,0.0f};
+	XMFLOAT2 CenterPosition = {1050.0f, 500.0f};
+	Sprite* coolDownSprite[4] = {nullptr};
+	Sprite* FirstAttackSprite = nullptr;
+	Sprite* SecondAttackSprite = nullptr;
+	Sprite* ThirdAttackSprite = nullptr;
+	Sprite* BuffSprite = nullptr;
+	Sprite* ChestCollect[5] = {nullptr};
+	Sprite* ChestCollectFrame = nullptr;
+	XMFLOAT2 CooltimeSize = {0.0f, 0.0f};
 public:
 	void SkillButtonInitialize();
 	void SkillBottonUpdate();
@@ -93,20 +97,17 @@ public:
 	void SetRecvDamageFlag(bool f) { RecvDamageflag = f; }
 	bool GetRecvDamageFlag() { return RecvDamageflag; }
 private:
-	bool f=false;
-	float nowhp=0.0f;
-	XMFLOAT2 sizel={0.0f,0.0f};
-	float oldhp=0.0f;
-	float Hpt=0.0f;
+	bool f = false;
+	float nowhp = 0.0f;
+	XMFLOAT2 sizel = {0.0f, 0.0f};
+	float oldhp = 0.0f;
+	float Hpt = 0.0f;
 
-	bool EnemyHPDrawFlag=false;
+	bool EnemyHPDrawFlag = false;
 	//bool load;
-	std::vector<float> multi_NowHP={};
-	std::vector <XMFLOAT3> multi_sizel={};
-	std::vector<float> multi_OldHP={};
-	std::vector<float> multi_Hpt={};
-	std::vector<float>Alpha={};
-
-
+	std::vector<float> multi_NowHP = {};
+	std::vector<XMFLOAT3> multi_sizel = {};
+	std::vector<float> multi_OldHP = {};
+	std::vector<float> multi_Hpt = {};
+	std::vector<float> Alpha = {};
 };
-

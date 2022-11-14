@@ -4,7 +4,7 @@ using namespace DirectX;
 
 Camera::Camera(int window_width, int window_height)
 {
-	aspectRatio = (float)window_width / window_height;
+	aspectRatio = static_cast<float>(window_width) / window_height;
 
 	//ビュー行列の計算
 	UpdateViewMatrix();
@@ -17,26 +17,29 @@ Camera::Camera(int window_width, int window_height)
 
 	//ビューポート行列の生成
 	ViewPort = XMMatrixIdentity();
-	ViewPort.r[0].m128_f32[0] = (float)window_width / 2.0f;
-	ViewPort.r[1].m128_f32[1] = -1.0f * (float)(window_height / 2.0f);
+	ViewPort.r[0].m128_f32[0] = static_cast<float>(window_width) / 2.0f;
+	ViewPort.r[1].m128_f32[1] = -1.0f * (window_height / 2.0f);
 	ViewPort.r[2].m128_f32[2] = 1.0f;
-	ViewPort.r[3].m128_f32[0] = (float)window_width / 2.0f;
-	ViewPort.r[3].m128_f32[1] = (float)window_height / 2.0f;
+	ViewPort.r[3].m128_f32[0] = static_cast<float>(window_width) / 2.0f;
+	ViewPort.r[3].m128_f32[1] = static_cast<float>(window_height) / 2.0f;
 	ViewPort.r[3].m128_f32[3] = 1.0f;
 }
 
 void Camera::Update()
 {
-	if (viewDirty || projectionDirty) {
+	if (viewDirty || projectionDirty)
+	{
 		// 再計算必要なら
-		if (viewDirty) {
+		if (viewDirty)
+		{
 			// ビュー行列更新
 			UpdateViewMatrix();
 			viewDirty = false;
 		}
 
 		// 再計算必要なら
-		if (projectionDirty) {
+		if (projectionDirty)
+		{
 			// ビュー行列更新
 			UpdateProjectionMatrix();
 			projectionDirty = false;
@@ -93,9 +96,9 @@ void Camera::UpdateViewMatrix()
 	// 視点座標に-1を掛けた座標
 	XMVECTOR reverseEyePosition = XMVectorNegate(eyePosition);
 	// カメラの位置からワールド原点へのベクトル（カメラ座標系）
-	XMVECTOR tX = XMVector3Dot(cameraAxisX, reverseEyePosition);	// X成分
-	XMVECTOR tY = XMVector3Dot(cameraAxisY, reverseEyePosition);	// Y成分
-	XMVECTOR tZ = XMVector3Dot(cameraAxisZ, reverseEyePosition);	// Z成分
+	XMVECTOR tX = XMVector3Dot(cameraAxisX, reverseEyePosition); // X成分
+	XMVECTOR tY = XMVector3Dot(cameraAxisY, reverseEyePosition); // Y成分
+	XMVECTOR tZ = XMVector3Dot(cameraAxisZ, reverseEyePosition); // Z成分
 	// 一つのベクトルにまとめる
 	XMVECTOR translation = XMVectorSet(tX.m128_f32[0], tY.m128_f32[1], tZ.m128_f32[2], 1.0f);
 	// ビュー行列に平行移動成分を設定
@@ -111,7 +114,7 @@ void Camera::UpdateViewMatrix()
 	matBillboard.r[3] = XMVectorSet(0, 0, 0, 1);
 #pragma region
 #pragma region Y軸回りビルボード行列の計算
-	
+
 #pragma endregion
 }
 

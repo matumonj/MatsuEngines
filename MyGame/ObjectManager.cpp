@@ -5,6 +5,7 @@
 #include"CollisionManager.h"
 #include"Collision.h"
 #include"Destroy.h"
+
 ObjectManager::~ObjectManager()
 {
 	Destroy_unique(m_Object);
@@ -16,16 +17,18 @@ ObjectManager::~ObjectManager()
 void ObjectManager::SetCollider()
 {
 	float radius = 1.0f;
-	m_Object->SetCollider(new SphereCollider(XMVECTOR({ 0,radius,0,0 }), radius));
+	m_Object->SetCollider(new SphereCollider(XMVECTOR({0, radius, 0, 0}), radius));
 	m_Object->collider->SetAttribute(COLLISION_ATTR_ALLIES);
 }
+
 void ObjectManager::CollisionField(DebugCamera* camera)
 {
 	// ワールド行列更新
 	m_Object->UpdateWorldMatrix();
 
 	// 落下処理
-	if (!onGround) {
+	if (!onGround)
+	{
 		// 下向き加速度
 		const float fallAcc = -0.01f;
 		const float fallVYMin = -0.3f;
@@ -34,12 +37,12 @@ void ObjectManager::CollisionField(DebugCamera* camera)
 		// 移動
 		Position.y += fallV.m128_f32[1];
 	}
-	
+
 	// ワールド行列更新
 	m_Object->UpdateWorldMatrix();
 	m_Object->collider->Update();
 
-	SphereCollider* sphereCollider = dynamic_cast<SphereCollider*>(m_Object->collider);
+	auto sphereCollider = dynamic_cast<SphereCollider*>(m_Object->collider);
 	assert(sphereCollider);
 
 
@@ -47,12 +50,14 @@ void ObjectManager::CollisionField(DebugCamera* camera)
 	class PlayerQueryCallback : public QueryCallback
 	{
 	public:
-		PlayerQueryCallback(Sphere* sphere) : sphere(sphere) {};
+		PlayerQueryCallback(Sphere* sphere) : sphere(sphere)
+		{
+		};
 
 		// 衝突時コールバック関数
-		bool OnQueryHit(const QueryHit& info) {
-
-			const XMVECTOR up = { 0,1,0,0 };
+		bool OnQueryHit(const QueryHit& info) override
+		{
+			const XMVECTOR up = {0, 1, 0, 0};
 
 			XMVECTOR rejectDir = XMVector3Normalize(info.reject);
 			float cos = XMVector3Dot(rejectDir, up).m128_f32[0];
@@ -60,7 +65,8 @@ void ObjectManager::CollisionField(DebugCamera* camera)
 			// 地面判定しきい値
 			const float threshold = cosf(XMConvertToRadians(15.0f));
 
-			if (-threshold < cos && cos < threshold) {
+			if (-threshold < cos && cos < threshold)
+			{
 				sphere->center += info.reject;
 				move += info.reject;
 			}
@@ -87,75 +93,81 @@ void ObjectManager::CollisionField(DebugCamera* camera)
 	// 球の上端から球の下端までのレイキャスト
 	Ray ray;
 	ray.start = sphereCollider->center;
-	ray.start.m128_f32[1] += sphereCollider->GetRadius() +radius_adjustment;
-	ray.dir = { 0,-1,0,0 };
+	ray.start.m128_f32[1] += sphereCollider->GetRadius() + radius_adjustment;
+	ray.dir = {0, -1, 0, 0};
 	RaycastHit raycastHit;
 
 	// 接地状態
-	if (onGround) {
+	if (onGround)
+	{
 		// スムーズに坂を下る為の吸着距離
 		const float adsDistance = 1.2f;
 		// 接地を維持
-		if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit, sphereCollider->GetRadius() * 2.5f + adsDistance)) {
+		if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit,
+		                                             sphereCollider->GetRadius() * 2.5f + adsDistance))
+		{
 			onGround = true;
 			Position.y -= (raycastHit.distance - sphereCollider->GetRadius() * 2.0f);
 		}
 		// 地面がないので落下
-		else {
+		else
+		{
 			onGround = false;
 			fallV = {};
 		}
 	}
 	// 落下状態
 
-	else if (fallV.m128_f32[1] <= 0.0f) {
-		if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit, sphereCollider->GetRadius() * 2.0f)) {
+	else if (fallV.m128_f32[1] <= 0.0f)
+	{
+		if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit,
+		                                             sphereCollider->GetRadius() * 2.0f))
+		{
 			// 着地
 			onGround = true;
 			Position.y -= (raycastHit.distance - sphereCollider->GetRadius() * 2.0f);
 		}
 	}
 	// 行列の更新など
-	m_Object->Update({ 1,1,1,1 }, camera);
-
+	m_Object->Update({1, 1, 1, 1}, camera);
 }
 
 void ObjectManager::ParameterSet_Obj(DebugCamera* camera)
 {
-	m_Object->SetPosition({ Position.x,Position.y-3,Position.z });
+	m_Object->SetPosition({Position.x, Position.y - 3, Position.z});
 	m_Object->SetRotation(Rotation);
 	m_Object->SetScale(Scale);
 	m_Object->SetColor(Color);
-	m_Object->Update({1,1,1,ObjAlpha},camera);
+	m_Object->Update({1, 1, 1, ObjAlpha}, camera);
 }
 
 
 void ObjectManager::ParameterSet_Fbx(DebugCamera* camera)
 {
-	m_fbxObject->SetPosition({ Position.x,Position.y ,Position.z });
+	m_fbxObject->SetPosition({Position.x, Position.y, Position.z});
 
 	m_fbxObject->SetRotation(Rotation);
 	m_fbxObject->SetScale(Scale);
-	if (m_Object != nullptr) {
+	if (m_Object != nullptr)
+	{
 		m_Object->SetPosition(Position);
 	}
 	//m_fbxObject->SetColor({1,1,1,1});
 	m_fbxObject->Updata(true);
-	
 }
 
 void ObjectManager::ParameterSet_Fbx2(DebugCamera* camera)
 {
-	m_fbxObject->SetPosition({ Position.x,Position.y ,Position.z });
+	m_fbxObject->SetPosition({Position.x, Position.y, Position.z});
 
 	m_fbxObject->SetRotation(Rotation);
 	m_fbxObject->SetScale(Scale);
-	if (m_Object != nullptr) {
+	if (m_Object != nullptr)
+	{
 		m_Object->SetPosition(Position);
 	}
 	//m_fbxObject->SetColor({1,1,1,1});
 	m_fbxObject->Updata();
-
 }
 
 void ObjectManager::Draw_Obj()

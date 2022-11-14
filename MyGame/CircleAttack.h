@@ -3,6 +3,7 @@
 #include"Object3d.h"
 #include"Model.h"
 #include<memory>
+
 class CircleAttack
 {
 public:
@@ -15,37 +16,41 @@ private:
 	using XMVECTOR = DirectX::XMVECTOR;
 
 public:
-	enum {
+	enum
+	{
 		NORTH,
 		SOUTH,
 		EAST,
 		WEST
 	};
+
 private:
 	float rotY;
 	static const int DirectionNum = 4;
-	XMFLOAT3 Direction[DirectionNum]; 
-	
-	std::vector<std::unique_ptr<Object3d>>NailObj;
+	XMFLOAT3 Direction[DirectionNum];
+
+	std::vector<std::unique_ptr<Object3d>> NailObj;
 	Model* NailModel;
 	Texture* ImpactAreaTex[2];
-	float TexAlpha=1;
-	bool fase1, fase2, fase3,fase4;
+	float TexAlpha = 1;
+	bool fase1, fase2, fase3, fase4;
 	int AttackCount;
 	float CircleAreaTime = 0;
-	XMFLOAT2 CircleSize = { 0,0 };
+	XMFLOAT2 CircleSize = {0, 0};
 
 	int Area1, Area2;
 	bool NailAttackFlag;
 public:
+public:
+	enum Fase
+	{
+		FASENON,
+		FASEONE,
+		FASETWO,
+		FASETHREE,
+		FASEFOUR
+	};
 
-public:enum Fase {
-	FASENON,
-	FASEONE,
-	FASETWO,
-	FASETHREE,
-	FASEFOUR
-};
 private:
 	Fase fase;
 public:
@@ -60,10 +65,14 @@ private:
 	void ProtrudeNail();
 	void EndAttackAction();
 public:
-
 	int GetDamageArea1() { return Area1; }
 	int GetDamageArea2() { return Area2; }
-	void SetDamageArea(int area1, int area2) { Area1 = area1; Area2 = area2; };
+
+	void SetDamageArea(int area1, int area2)
+	{
+		Area1 = area1;
+		Area2 = area2;
+	};
 
 	bool GetNailMove() { return NailAttackFlag; }
 
@@ -72,6 +81,4 @@ public:
 
 private:
 	void CollisonNailPlayer();
-
 };
-

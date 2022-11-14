@@ -4,6 +4,7 @@
 #include <Windows.h>
 #include <string>
 #include"Texture.h"
+
 class DebugTxt
 {
 private:
@@ -14,14 +15,14 @@ private:
 	using XMMATRIX = DirectX::XMMATRIX;
 public:
 	// デバッグテキスト用のテクスチャ番号を指定
-	static const int maxCharCount = 40;// 最大文字数
-	static const int fontWidth = 9*6;// フォント画像内1文字分の横幅
-	static const int fontHeight = 18*6;// フォント画像内1文字分の縦幅
-	static const int fontLineCount = 14;// フォント画像内1行分の文字数
+	static const int maxCharCount = 40; // 最大文字数
+	static const int fontWidth = 9 * 6; // フォント画像内1文字分の横幅
+	static const int fontHeight = 18 * 6; // フォント画像内1文字分の縦幅
+	static const int fontLineCount = 14; // フォント画像内1行分の文字数
 
 	DebugTxt();
 	~DebugTxt();
-public:// 静的メンバ関数
+public: // 静的メンバ関数
 	static DebugTxt* GetInstance();
 
 	void Initialize(UINT texnumber);
@@ -32,12 +33,15 @@ public:// 静的メンバ関数
 
 
 private:
-	bool isDestoy=false;
+	bool isDestoy = false;
 	void TextBeha();
-	enum Fase {
+
+	enum Fase
+	{
 		FASEONE,
 		FASETWO
 	};
+
 	Fase fase;
 public:
 	void SetPosition(XMFLOAT3 position) { Position = position; }
@@ -76,14 +80,14 @@ private:
 	using XMMATRIX = DirectX::XMMATRIX;
 public:
 	// デバッグテキスト用のテクスチャ番号を指定
-	static const int maxCharCount = 256;// 最大文字数
-	static const int fontWidth = 55;// フォント画像内1文字分の横幅
-	static const int fontHeight = 110;// フォント画像内1文字分の縦幅
-	static const int fontLineCount = 14;// フォント画像内1行分の文字数
+	static const int maxCharCount = 256; // 最大文字数
+	static const int fontWidth = 55; // フォント画像内1文字分の横幅
+	static const int fontHeight = 110; // フォント画像内1文字分の縦幅
+	static const int fontLineCount = 14; // フォント画像内1行分の文字数
 
 	DebugTextSprite();
 	~DebugTextSprite();
-public:// 静的メンバ関数
+public: // 静的メンバ関数
 	static DebugTextSprite* GetInstance();
 
 	void Initialize(UINT texnumber);
@@ -97,9 +101,9 @@ public:// 静的メンバ関数
 	void SetAlpha(float alpha) { this->alpha = alpha; }
 private:
 	bool SizeVariableF = false;
-	int VariableStopT=0;
-	XMFLOAT2 TexScale = { 0.f,0.f };
-	float alpha=1.f;
+	int VariableStopT = 0;
+	XMFLOAT2 TexScale = {0.f, 0.f};
+	float alpha = 1.f;
 	// スプライトデータの配列
 	Sprite* spriteDatas[maxCharCount] = {};
 	// スプライトデータ配列の添え字番号

@@ -3,12 +3,14 @@
 #include"Model.h"
 #include"Input.h"
 #include"CollisionPrimitive.h"
+
 class AttackCollision
 {
 public:
 	static AttackCollision* GetInstance();
 private:
-	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+	template <class T>
+	using ComPtr = ComPtr<T>;
 	// DirectX::Çè»ó™
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
@@ -19,7 +21,7 @@ private:
 	bool colf;
 	bool setf;
 	bool boss_colf;
-	std::vector<bool>Play_colf;
+	std::vector<bool> Play_colf;
 	bool HitCol;
 	bool HitCol2;
 	OBB HandObb;
@@ -39,14 +41,15 @@ public:
 
 	void Finalize();
 private:
-	enum ColType{
+	enum ColType
+	{
 		TYTORIAL,
 		PLAY,
 		BOSS
 	};
-	std::vector<OBB>EnemyOBB;
-	std::vector<OBB>PlayEnemyOBB;
-	std::vector<OBB>BossEnemyOBB;
+
+	std::vector<OBB> EnemyOBB;
+	std::vector<OBB> PlayEnemyOBB;
+	std::vector<OBB> BossEnemyOBB;
 	void ColOBB(ColType Enemytype);
 };
-

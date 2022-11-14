@@ -6,6 +6,7 @@
 #include <DirectXMath.h>
 #include <d3dx12.h>
 #include"DebugCamera.h"
+
 /// <summary>
 /// 3Dオブジェクト
 /// </summary>
@@ -13,7 +14,8 @@ class Texture
 {
 private: // エイリアス
 	// Microsoft::WRL::を省略
-	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+	template <class T>
+	using ComPtr = ComPtr<T>;
 	// DirectX::を省略
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
@@ -26,41 +28,43 @@ public: // サブクラス
 	{
 		XMFLOAT3 pos; // xyz座標
 		XMFLOAT3 normal; // 法線ベクトル
-		XMFLOAT2 uv;  // uv座標
+		XMFLOAT2 uv; // uv座標
 	};
+
 	// アンカーポイント
-	XMFLOAT2 anchorpoint = { 0, 0 };
+	XMFLOAT2 anchorpoint = {0, 0};
 	// スプライト幅、高さ
-	XMFLOAT2 size = { 100.0f, 100.0f };
+	XMFLOAT2 size = {100.0f, 100.0f};
 	// 頂点数
 	static const int vertNum = 4;
 	float uvtime;
 	bool BillBordflag = true;
 	// テクスチャ始点
-	XMFLOAT2 texBase = { 0, 0 };
+	XMFLOAT2 texBase = {0, 0};
 	// テクスチャ幅、高さ
-	XMFLOAT2 texSize = { 100.0f, 100.0f };
+	XMFLOAT2 texSize = {100.0f, 100.0f};
+
 	// 定数バッファ用データ構造体
 	struct ConstBufferData
 	{
-		XMFLOAT4 color;	// 色 (RGBA)
-		XMMATRIX mat;	// ３Ｄ変換行列
+		XMFLOAT4 color; // 色 (RGBA)
+		XMMATRIX mat; // ３Ｄ変換行列
 		XMMATRIX world;
-		XMMATRIX matbillbord;	// ３Ｄ変換行列
+		XMMATRIX matbillbord; // ３Ｄ変換行列
 		bool uvmove;
-		XMFLOAT3 sub = { 0,0,0 };
+		XMFLOAT3 sub = {0, 0, 0};
 		float time;
-		XMFLOAT3 dispos ;
+		XMFLOAT3 dispos;
 		float radius;
 	};
 
 private: // 定数
 	bool uvf;
-	static const int division = 50;					// 分割数
-	static const float radius;				// 底面の半径
-	static const float prizmHeight;			// 柱の高さ
-	static const int planeCount = division * 2 + division * 2;		// 面の数
-	static const int vertexCount = 4;		// 頂点数
+	static const int division = 50; // 分割数
+	static const float radius; // 底面の半径
+	static const float prizmHeight; // 柱の高さ
+	static const int planeCount = division * 2 + division * 2; // 面の数
+	static const int vertexCount = 4; // 頂点数
 	static const int indexCount = 3 * 2;
 public: // 静的メンバ関数
 	/// <summary>
@@ -126,7 +130,7 @@ private: // 静的メンバ変数
 	// デスクリプタサイズ
 	static UINT descriptorHandleIncrementSize;
 	// コマンドリスト
-	static ComPtr<ID3D12GraphicsCommandList>cmdList;
+	static ComPtr<ID3D12GraphicsCommandList> cmdList;
 	// ルートシグネチャ
 	static ComPtr<ID3D12RootSignature> rootsignature;
 	// パイプラインステートオブジェクト
@@ -134,7 +138,7 @@ private: // 静的メンバ変数
 	// デスクリプタヒープ
 	static ComPtr<ID3D12DescriptorHeap> descHeap;
 	// 頂点バッファ
-	 ComPtr<ID3D12Resource> vertBuff;
+	ComPtr<ID3D12Resource> vertBuff;
 	// インデックスバッファ
 	ComPtr<ID3D12Resource> indexBuff;
 	// テクスチャバッファ
@@ -156,13 +160,13 @@ private: // 静的メンバ変数
 	// 頂点バッファビュー
 	D3D12_VERTEX_BUFFER_VIEW vbView;
 	// インデックスバッファビュー
-	 D3D12_INDEX_BUFFER_VIEW ibView;
+	D3D12_INDEX_BUFFER_VIEW ibView;
 	// 頂点データ配列
 	static VertexPosNormalUv vertices[vertexCount];
 	// 頂点インデックス配列
 	static unsigned short indices[indexCount];
 
-private:// 静的メンバ関数
+private: // 静的メンバ関数
 	/// <summary>
 	/// デスクリプタヒープの初期化
 	/// </summary>
@@ -176,14 +180,14 @@ private:// 静的メンバ関数
 	static bool InitializeGraphicsPipeline();
 
 public: // メンバ関数
-//	ComPtr<ID3D12Resource>GetBuff() { return texbuff[]; }
+	//	ComPtr<ID3D12Resource>GetBuff() { return texbuff[]; }
 	void CreateTexture();
 
 	bool Initialize();
 	/// <summary>
 	/// 毎フレーム処理
 	/// </summary>
-	void Update(DebugCamera*camera);
+	void Update(DebugCamera* camera);
 
 	/// <summary>
 	/// 描画
@@ -204,9 +208,15 @@ public: // メンバ関数
 	/// <param name="position">座標</param>
 	void SetPosition(XMFLOAT3 position);
 	void SetColor(XMFLOAT4 color) { this->color = color; }
-	void SetRotation(XMFLOAT3 rotation);// { this->rotation = rotation; }
+	void SetRotation(XMFLOAT3 rotation); // { this->rotation = rotation; }
 	void SetScale(XMFLOAT3 scale);
-	void SetDisplayRadius(float rad) { texNormalSize = false; DisplayRadius = rad; }
+
+	void SetDisplayRadius(float rad)
+	{
+		texNormalSize = false;
+		DisplayRadius = rad;
+	}
+
 	const XMFLOAT3& GetScale() { return scale; }
 private: // メンバ変数
 	ComPtr<ID3D12Resource> constBuff; // 定数バッファ
@@ -214,19 +224,19 @@ private: // メンバ変数
 	// 色
 	XMFLOAT4 color;
 	// ローカルスケール
-	XMFLOAT3 scale = { 1,1,1 };
+	XMFLOAT3 scale = {1, 1, 1};
 	// X,Y,Z軸回りのローカル回転角
-	XMFLOAT3 rotation = { 0,0,0 };
+	XMFLOAT3 rotation = {0, 0, 0};
 	// ローカル座標
-	XMFLOAT3 position = { 0,0,0 };
+	XMFLOAT3 position = {0, 0, 0};
 	// ローカルワールド変換行列
 	XMMATRIX matWorld;
 	// 親オブジェクト
 	//SoulpEffect* parent = nullptr;
-	
+
 private:
 	UINT texNumber = 0;
-	bool texNormalSize=true;
+	bool texNormalSize = true;
 public:
 	//コンストラクタ
 	Texture(UINT texNumber, XMFLOAT3 position, XMFLOAT3 size, XMFLOAT4 color);
@@ -236,9 +246,4 @@ public:
 	void TransferVertices();
 	void SetAnchorPoint(XMFLOAT2 anchorpoint);
 	void SetTextureRect(XMFLOAT2 texBase, XMFLOAT2 texSize);
-
 };
-
-
-
-

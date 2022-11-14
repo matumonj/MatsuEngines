@@ -13,7 +13,8 @@ class Material
 {
 private: // エイリアス
 	// Microsoft::WRL::を省略
-	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+	template <class T>
+	using ComPtr = Microsoft::WRL::ComPtr<T>;
 	// DirectX::を省略
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
@@ -29,7 +30,7 @@ public: // サブクラス
 		XMFLOAT3 diffuse; // ディフューズ係数
 		float pad2; // パディング
 		XMFLOAT3 specular; // スペキュラー係数
-		float alpha;	// アルファ
+		float alpha; // アルファ
 	};
 
 public: // 静的メンバ関数
@@ -51,12 +52,12 @@ private: // 静的メンバ変数
 	static ComPtr<ID3D12Device> device;
 	static ComPtr<ID3D12GraphicsCommandList> cmdList;
 public:
-	std::string name;	// マテリアル名
-	XMFLOAT3 ambient;	// アンビエント影響度
-	XMFLOAT3 diffuse;	// ディフューズ影響度
-	XMFLOAT3 specular;	// スペキュラー影響度
-	float alpha;		// アルファ
-	std::string textureFilename;	// テクスチャファイル名
+	std::string name; // マテリアル名
+	XMFLOAT3 ambient; // アンビエント影響度
+	XMFLOAT3 diffuse; // ディフューズ影響度
+	XMFLOAT3 specular; // スペキュラー影響度
+	float alpha; // アルファ
+	std::string textureFilename; // テクスチャファイル名
 
 public:
 	/// <summary>
@@ -70,7 +71,8 @@ public:
 	/// <param name="directoryPath">読み込みディレクトリパス</param>
 	/// <param name="cpuHandle">CPUデスクリプタハンドル</param>
 	/// <param name="gpuHandle">GPUデスクリプタハンドル</param>
-	void LoadTexture(const std::string& directoryPath, CD3DX12_CPU_DESCRIPTOR_HANDLE cpuHandle, CD3DX12_GPU_DESCRIPTOR_HANDLE gpuHandle);
+	void LoadTexture(const std::string& directoryPath, CD3DX12_CPU_DESCRIPTOR_HANDLE cpuHandle,
+	                 CD3DX12_GPU_DESCRIPTOR_HANDLE gpuHandle);
 
 	/// <summary>
 	/// 更新
@@ -92,10 +94,11 @@ private:
 
 private:
 	// コンストラクタ
-	Material() {
-		ambient = { 0.3f, 0.3f, 0.3f };
-		diffuse = { 0.0f, 0.0f, 0.0f };
-		specular = { 0.0f, 0.0f, 0.0f };
+	Material()
+	{
+		ambient = {0.3f, 0.3f, 0.3f};
+		diffuse = {0.0f, 0.0f, 0.0f};
+		specular = {0.0f, 0.0f, 0.0f};
 		alpha = 1.0f;
 	}
 
@@ -109,4 +112,3 @@ private:
 	/// </summary>
 	void CreateConstantBuffer();
 };
-

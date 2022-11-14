@@ -5,6 +5,7 @@
 #include<memory>
 #include"CollisionPrimitive.h"
 #include"ParticleManager.h"
+
 class AltAttack
 {
 public:
@@ -16,10 +17,9 @@ private:
 	using XMVECTOR = DirectX::XMVECTOR;
 
 public:
-	
 private:
-	std::vector<Texture*>EnergieSphere;
-	std::unique_ptr<Object3d>BeamObj[2];
+	std::vector<Texture*> EnergieSphere;
+	std::unique_ptr<Object3d> BeamObj[2];
 	Model* BeamModel;
 	ParticleManager* BeamParticle;
 	Texture* DamageAreaTex[2];
@@ -28,15 +28,16 @@ private:
 	Line2D beamRay[2];
 	Point PlayerSpehre;
 public:
-
 public:
-	enum Fase {
-	FASENON,
-	FASEONE,
-	FASETWO,
-	FASETHREE,
-	FASEFOUR
-};
+	enum Fase
+	{
+		FASENON,
+		FASEONE,
+		FASETWO,
+		FASETHREE,
+		FASEFOUR
+	};
+
 private:
 	Fase fase;
 	float BeamEaseTime;
@@ -63,9 +64,6 @@ private:
 	void BeamObjSetParam();
 	void BeamObjDraw();
 public:
-
 	void SetAttackFase(bool f) { if (f && fase != FASEONE) { fase = FASEONE; } }
 	Fase GetFaseEnd() { return fase; }
-
 };
-

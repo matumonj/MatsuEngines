@@ -1,25 +1,27 @@
 #pragma once
 #include "ObjectManager.h"
 #include"ParticleManager.h"
+
 class Chest :
-    public ObjectManager
+	public ObjectManager
 {
 public:
-    Chest() {};
-    ~Chest();
+	Chest()
+	{
+	};
+	~Chest() override;
 
 public:
-    void Initialize(DebugCamera* camera)override;
-    void Update(DebugCamera* camera)override;
-    void Draw()override;
-   bool CollideChest();
+	void Initialize(DebugCamera* camera) override;
+	void Update(DebugCamera* camera) override;
+	void Draw() override;
+	bool CollideChest();
 
 public:
-   void SetChestLost(bool f) { ChestLost = f; }
-   void SetpColor(XMFLOAT4 color) { pColor = color; }
+	void SetChestLost(bool f) { ChestLost = f; }
+	void SetpColor(XMFLOAT4 color) { pColor = color; }
 private:
-    XMFLOAT4 pColor;
-    bool ChestLost;
-    ParticleManager* DefaultEffect;
+	XMFLOAT4 pColor;
+	bool ChestLost;
+	ParticleManager* DefaultEffect;
 };
-

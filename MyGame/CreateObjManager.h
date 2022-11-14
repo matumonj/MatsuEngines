@@ -9,11 +9,13 @@
 #include"DebugCamera.h"
 #include"Destroy.h"
 #include"ModelManager.h"
+
 class CreateObjManager
 {
 protected:
 	// Microsoft::WRL::を省略
-	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+	template <class T>
+	using ComPtr = ComPtr<T>;
 	// DirectX::を省略
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
@@ -23,24 +25,24 @@ protected:
 public:
 	virtual ~CreateObjManager();
 
-	virtual void Initialize(DebugCamera*camera)=0;
+	virtual void Initialize(DebugCamera* camera) =0;
 
-	virtual void ArgMent(DebugCamera* camera)=0;
+	virtual void ArgMent(DebugCamera* camera) =0;
 
-	virtual void Update(DebugCamera* camera)=0;
+	virtual void Update(DebugCamera* camera) =0;
 
-	virtual void FileWriting()=0;
+	virtual void FileWriting() =0;
 
-	virtual void ImGui_Draw()=0;
+	virtual void ImGui_Draw() =0;
 
-	virtual void Draw()=0;
+	virtual void Draw() =0;
 
-	virtual bool ErrorJudg()=0;
+	virtual bool ErrorJudg() =0;
 
 	virtual void Finalize() = 0;
-	
+
 protected:
-	std::vector<int>Number;
+	std::vector<int> Number;
 	std::ifstream file;
 	std::stringstream popcom;
 	//配置フラグ
@@ -52,13 +54,11 @@ protected:
 	Object3d* Obj;
 
 	//
-	std::vector<XMFLOAT3>Position;
-	std::vector<XMFLOAT3>Rotation;
-	std::vector<XMFLOAT3>Scale;
+	std::vector<XMFLOAT3> Position;
+	std::vector<XMFLOAT3> Rotation;
+	std::vector<XMFLOAT3> Scale;
 	//
 	XMFLOAT3 pos;
 	XMFLOAT3 rot;
 	XMFLOAT3 scl;
-
 };
-

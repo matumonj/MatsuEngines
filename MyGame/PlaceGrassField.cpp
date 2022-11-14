@@ -7,8 +7,9 @@ void PlaceGrassField::Initialize(DebugCamera* camera)
 	Obj = Object3d::Create(camera);
 	Obj->SetModel(ModelManager::GetIns()->GetModel(ModelManager::GRASSFIELD));
 
-	scl = { 2,3,2 };
+	scl = {2, 3, 2};
 }
+
 void PlaceGrassField::FileWriting()
 {
 	file.open("grass.csv");
@@ -16,10 +17,11 @@ void PlaceGrassField::FileWriting()
 
 	file.close();
 	//std::ofstream pofs("EnemyParam_CSV/position.csv");
-	std::ofstream ofs("Param_CSV/grass.csv");  // ファイルパスを指定する
+	std::ofstream ofs("Param_CSV/grass.csv"); // ファイルパスを指定する
 	ofs << "Grass_Quantity" << "," << grassfields.size() << std::endl;
 
-	for (int i = 0; i < grassfields.size(); i++) {
+	for (int i = 0; i < grassfields.size(); i++)
+	{
 		ofs << "Number" << "," << Number[i] << std::endl;
 		ofs << "POP" << "," << grassfields[i]->GetPosition().x
 			<< "," << grassfields[i]->GetPosition().y
@@ -30,7 +32,6 @@ void PlaceGrassField::FileWriting()
 		ofs << "SCALE" << "," << grassfields[i]->GetScale().x
 			<< "," << grassfields[i]->GetScale().y
 			<< "," << grassfields[i]->GetScale().z << std::endl;
-
 	}
 }
 
@@ -38,11 +39,14 @@ bool PlaceGrassField::ErrorJudg()
 {
 	return false;
 }
+
 void PlaceGrassField::ArgMent(DebugCamera* camera)
 {
-	if (ArgmentFlag) {
-		std::unique_ptr<GrassField>newStone;
-		if (ArgmentFlag) {
+	if (ArgmentFlag)
+	{
+		std::unique_ptr<GrassField> newStone;
+		if (ArgmentFlag)
+		{
 			newStone = std::make_unique<GrassField>();
 		}
 		newStone->Initialize(camera);
@@ -50,27 +54,32 @@ void PlaceGrassField::ArgMent(DebugCamera* camera)
 		newStone->SetRotation(rot);
 		newStone->SetScale(scl);
 		grassfields.push_back(std::move(newStone));
-		if (ArgmentFlag) {
+		if (ArgmentFlag)
+		{
 			Number.push_back(1);
 		}
-		if (SubRockF) {
+		if (SubRockF)
+		{
 			Number.push_back(2);
 		}
 		ArgmentFlag = false;
 		SubRockF = false;
-
 	}
-	for (std::unique_ptr<GrassField>& wood : grassfields) {
-		if (wood != nullptr) {
+	for (std::unique_ptr<GrassField>& wood : grassfields)
+	{
+		if (wood != nullptr)
+		{
 			wood->Update(camera);
 			//wood->CollisionField(camera);
 		}
 	}
-	if (DeleteFlag && grassfields.size() > 1) {
+	if (DeleteFlag && grassfields.size() > 1)
+	{
 		grassfields.pop_back();
 		DeleteFlag = false;
 	}
 }
+
 void PlaceGrassField::Update(DebugCamera* camera)
 {
 	Obj->SetPosition(pos);
@@ -78,13 +87,15 @@ void PlaceGrassField::Update(DebugCamera* camera)
 	Obj->SetScale(scl);
 	//	Obj->SetScale({ 2,3,2 });
 
-	Obj->Update({ 1,0,1,0.5 }, camera);
+	Obj->Update({1, 0, 1, 0.5}, camera);
 }
 
 void PlaceGrassField::Draw()
 {
-	for (std::unique_ptr<GrassField>& stone : grassfields) {
-		if (stone != nullptr) {
+	for (std::unique_ptr<GrassField>& stone : grassfields)
+	{
+		if (stone != nullptr)
+		{
 			//enemy->PreDraw();
 			stone->Draw();
 			//enemy->PostDraw();
@@ -93,28 +104,31 @@ void PlaceGrassField::Draw()
 	Obj->PreDraw();
 	Obj->Draw();
 	Obj->PostDraw();
-
 }
+
 #include"imgui.h"
+
 void PlaceGrassField::ImGui_Draw()
 {
 	ImGui::Begin("SelectGrass");
 	ImGui::SetWindowPos(ImVec2(1200, 500));
 	ImGui::SetWindowSize(ImVec2(300, 300));
 
-	if (ImGui::Button("StoneA", ImVec2(90, 50))) {
+	if (ImGui::Button("StoneA", ImVec2(90, 50)))
+	{
 		ArgmentFlag = true;
 	}
 	ImGui::SameLine();
-	if (ImGui::Button("StoneB", ImVec2(90, 50))) {
+	if (ImGui::Button("StoneB", ImVec2(90, 50)))
+	{
 		SubRockF = true;
 	}
 
 	ImGui::SameLine();
 
 
-	if (ImGui::Button("DeleteObj", ImVec2(90, 50))) {
-
+	if (ImGui::Button("DeleteObj", ImVec2(90, 50)))
+	{
 		DeleteFlag = true;
 	}
 
@@ -122,22 +136,21 @@ void PlaceGrassField::ImGui_Draw()
 		ImGui::SliderFloat("posX", &pos.x, -500, 500);
 		ImGui::SliderFloat("posY", &pos.y, -300, 300);
 		ImGui::SliderFloat("posZ", &pos.z, -800, 800);
-
 	}
 	{
 		ImGui::SliderFloat("rotX", &rot.x, 0, 360);
 		ImGui::SliderFloat("rotY", &rot.y, 0, 360);
 		ImGui::SliderFloat("rotZ", &rot.z, 0, 360);
-
 	}
-	
+
 	ImGui::End();
 }
 
 void PlaceGrassField::Finalize()
 {
 	Destroy(Obj);
-	for (int i = 0; i < grassfields.size(); i++) {
+	for (int i = 0; i < grassfields.size(); i++)
+	{
 		Destroy_unique(grassfields[i]);
 	}
 	grassfields.clear();

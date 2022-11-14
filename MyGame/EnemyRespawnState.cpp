@@ -1,8 +1,8 @@
 #include "EnemyRespawnState.h"
 #include"EnemyStayState.h"
+
 void EnemyRespawnState::Initialize(Enemy* enmey)
 {
-	
 }
 
 void EnemyRespawnState::Update(Enemy* enemy)

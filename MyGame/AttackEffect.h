@@ -1,6 +1,7 @@
 #pragma once
 #include"Texture.h"
 #include"Enemy.h"
+
 class AttackEffect
 {
 private:
@@ -28,7 +29,8 @@ private:
 	void Effect_Particle();
 	void Effect_Clear();
 public:
-	enum EffectType {
+	enum EffectType
+	{
 		NON,
 		SLASH_FIRST,
 		SLASH_SECOND,
@@ -36,16 +38,23 @@ public:
 		PARTICLE,
 		CLEAREFFECT
 	};
-	enum ParticleSize {//パティクル数設定
+
+	enum ParticleSize
+	{
+		//パティクル数設定
 		FIRST = 40,
 		SECOND = 20,
 		THIRD=15
 	};
-	enum EffectUpda {//関数内処理順
+
+	enum EffectUpda
+	{
+		//関数内処理順
 		LOAD,
 		UPDA,
 		CLEAR
 	};
+
 	EffectUpda eupda = LOAD;
 	EffectType etype = NON;
 
@@ -55,11 +64,11 @@ public:
 
 private:
 	//斬撃用テクスチャ
-	std::unique_ptr<Texture>AttackTex;
+	std::unique_ptr<Texture> AttackTex;
 	//攻撃時に出るパーティクル
-	std::vector<std::unique_ptr<Texture>>AttackParticle;
+	std::vector<std::unique_ptr<Texture>> AttackParticle;
 	//
-	std::unique_ptr<Texture>InpactTex;
+	std::unique_ptr<Texture> InpactTex;
 	//攻撃用テクスチャのパラメータ
 	XMFLOAT3 TexPos;
 	XMFLOAT3 TexRot;
@@ -71,10 +80,9 @@ private:
 	std::vector<XMFLOAT3> ParScl;
 	std::vector<XMFLOAT3> ParPos;
 	std::vector<XMFLOAT3> ParRot;
-	std::vector<float>ParAlpha;
+	std::vector<float> ParAlpha;
 	bool CreateParFlag;
 	//
 	float InpactAlpha = 0;
-	XMFLOAT2 InpactScl = { 0.0f,0.0f};
+	XMFLOAT2 InpactScl = {0.0f, 0.0f};
 };
-

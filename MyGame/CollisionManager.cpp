@@ -18,44 +18,52 @@ void CollisionManager::CheckAllCollisions()
 
 	// 全ての組み合わせについて総当りチェック
 	itA = colliders.begin();
-	for (; itA != colliders.end(); ++itA) {
+	for (; itA != colliders.end(); ++itA)
+	{
 		itB = itA;
 		++itB;
-		for (; itB != colliders.end(); ++itB) {
+		for (; itB != colliders.end(); ++itB)
+		{
 			BaseCollider* colA = *itA;
 			BaseCollider* colB = *itB;
 
 			// ともに球
 			if (colA->GetShapeType() == COLLISIONSHAPE_SPHERE &&
-				colB->GetShapeType() == COLLISIONSHAPE_SPHERE) {
-				Sphere* SphereA = dynamic_cast<Sphere*>(colA);
-				Sphere* SphereB = dynamic_cast<Sphere*>(colB);
-				DirectX::XMVECTOR inter;
-				if (Collision::CheckSphere2Sphere(*SphereA, *SphereB, &inter)) {
+				colB->GetShapeType() == COLLISIONSHAPE_SPHERE)
+			{
+				auto SphereA = dynamic_cast<Sphere*>(colA);
+				auto SphereB = dynamic_cast<Sphere*>(colB);
+				XMVECTOR inter;
+				if (Collision::CheckSphere2Sphere(*SphereA, *SphereB, &inter))
+				{
 					colA->OnCollision(CollisionInfo(colB->GetObject3d(), colB, inter));
 					colB->OnCollision(CollisionInfo(colA->GetObject3d(), colA, inter));
 				}
-			} else if (colA->GetShapeType() == COLLISIONSHAPE_MESH &&
-				colB->GetShapeType() == COLLISIONSHAPE_SPHERE) {
-				MeshCollider* meshCollider = dynamic_cast<MeshCollider*>(colA);
-				Sphere* sphere = dynamic_cast<Sphere*>(colB);
-				DirectX::XMVECTOR inter;
-				if (meshCollider->CheckCollisionSphere(*sphere, &inter)) {
+			}
+			else if (colA->GetShapeType() == COLLISIONSHAPE_MESH &&
+				colB->GetShapeType() == COLLISIONSHAPE_SPHERE)
+			{
+				auto meshCollider = dynamic_cast<MeshCollider*>(colA);
+				auto sphere = dynamic_cast<Sphere*>(colB);
+				XMVECTOR inter;
+				if (meshCollider->CheckCollisionSphere(*sphere, &inter))
+				{
 					colA->OnCollision(CollisionInfo(colB->GetObject3d(), colB, inter));
 					colB->OnCollision(CollisionInfo(colA->GetObject3d(), colA, inter));
-
 				}
-			} else if (colA->GetShapeType() == COLLISIONSHAPE_SPHERE &&
-				colB->GetShapeType() == COLLISIONSHAPE_MESH) {
-				MeshCollider* meshCollider = dynamic_cast<MeshCollider*>(colB);
-				Sphere* sphere = dynamic_cast<Sphere*>(colA);
-				DirectX::XMVECTOR inter;
-				if (meshCollider->CheckCollisionSphere(*sphere, &inter)) {
+			}
+			else if (colA->GetShapeType() == COLLISIONSHAPE_SPHERE &&
+				colB->GetShapeType() == COLLISIONSHAPE_MESH)
+			{
+				auto meshCollider = dynamic_cast<MeshCollider*>(colB);
+				auto sphere = dynamic_cast<Sphere*>(colA);
+				XMVECTOR inter;
+				if (meshCollider->CheckCollisionSphere(*sphere, &inter))
+				{
 					colA->OnCollision(CollisionInfo(colB->GetObject3d(), colB, inter));
 					colB->OnCollision(CollisionInfo(colA->GetObject3d(), colA, inter));
 					//f = 1;
 				}
-
 			}
 		}
 	}
@@ -76,16 +84,19 @@ bool CollisionManager::Raycast(const Ray& ray, unsigned short attribute, Raycast
 
 	// 全てのコライダーと総当りチェック
 	it = colliders.begin();
-	for (; it != colliders.end(); ++it) {
+	for (; it != colliders.end(); ++it)
+	{
 		BaseCollider* colA = *it;
 
 		// 属性が合わなければスキップ
-		if (!(colA->attribute & attribute)) {
+		if (!(colA->attribute & attribute))
+		{
 			continue;
 		}
 
-		if (colA->GetShapeType() == COLLISIONSHAPE_SPHERE) {
-			Sphere* sphere = dynamic_cast<Sphere*>(colA);
+		if (colA->GetShapeType() == COLLISIONSHAPE_SPHERE)
+		{
+			auto sphere = dynamic_cast<Sphere*>(colA);
 
 			float tempDistance;
 			XMVECTOR tempInter;
@@ -97,11 +108,13 @@ bool CollisionManager::Raycast(const Ray& ray, unsigned short attribute, Raycast
 			distance = tempDistance;
 			inter = tempInter;
 			it_hit = it;
-		} else if (colA->GetShapeType() == COLLISIONSHAPE_MESH) {
-			MeshCollider* meshCollider = dynamic_cast<MeshCollider*>(colA);
+		}
+		else if (colA->GetShapeType() == COLLISIONSHAPE_MESH)
+		{
+			auto meshCollider = dynamic_cast<MeshCollider*>(colA);
 
 			float tempDistance;
-			DirectX::XMVECTOR tempInter;
+			XMVECTOR tempInter;
 			if (!meshCollider->CheckCollisionRay(ray, &tempDistance, &tempInter)) continue;
 			if (tempDistance >= distance) continue;
 
@@ -112,7 +125,8 @@ bool CollisionManager::Raycast(const Ray& ray, unsigned short attribute, Raycast
 		}
 	}
 
-	if (result && hitInfo) {
+	if (result && hitInfo)
+	{
 		hitInfo->distance = distance;
 		hitInfo->inter = inter;
 		hitInfo->collider = *it_hit;
@@ -130,17 +144,20 @@ void CollisionManager::QuerySphere(const Sphere& sphere, QueryCallback* callback
 
 	// 全てのコライダーと総当りチェック
 	it = colliders.begin();
-	for (; it != colliders.end(); ++it) {
+	for (; it != colliders.end(); ++it)
+	{
 		BaseCollider* col = *it;
 
 		// 属性が合わなければスキップ
-		if (!(col->attribute & attribute)) {
+		if (!(col->attribute & attribute))
+		{
 			continue;
 		}
 
 		// 球
-		if (col->GetShapeType() == COLLISIONSHAPE_SPHERE) {
-			Sphere* sphereB = dynamic_cast<Sphere*>(col);
+		if (col->GetShapeType() == COLLISIONSHAPE_SPHERE)
+		{
+			auto sphereB = dynamic_cast<Sphere*>(col);
 
 			XMVECTOR tempInter;
 			XMVECTOR tempReject;
@@ -154,14 +171,16 @@ void CollisionManager::QuerySphere(const Sphere& sphere, QueryCallback* callback
 			info.reject = tempReject;
 
 			// クエリーコールバック呼び出し
-			if (!callback->OnQueryHit(info)) {
+			if (!callback->OnQueryHit(info))
+			{
 				// 戻り値がfalseの場合、継続せず終了
 				return;
 			}
 		}
 		// メッシュ
-		else if (col->GetShapeType() == COLLISIONSHAPE_MESH) {
-			MeshCollider* meshCollider = dynamic_cast<MeshCollider*>(col);
+		else if (col->GetShapeType() == COLLISIONSHAPE_MESH)
+		{
+			auto meshCollider = dynamic_cast<MeshCollider*>(col);
 
 			XMVECTOR tempInter;
 			XMVECTOR tempReject;
@@ -175,7 +194,8 @@ void CollisionManager::QuerySphere(const Sphere& sphere, QueryCallback* callback
 			info.reject = tempReject;
 
 			// クエリーコールバック呼び出し
-			if (!callback->OnQueryHit(info)) {
+			if (!callback->OnQueryHit(info))
+			{
 				// 戻り値がfalseの場合、継続せず終了
 				return;
 			}

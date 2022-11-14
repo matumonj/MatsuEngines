@@ -1,5 +1,6 @@
 #include "PlaceWood.h"
 #include"imgui.h"
+
 void PlaceWood::Initialize(DebugCamera* camera)
 {
 	//Model = Model::CreateFromOBJ("wood");
@@ -14,14 +15,14 @@ void PlaceWood::FileWriting()
 
 	file.close();
 	//std::ofstream pofs("EnemyParam_CSV/position.csv");
-	std::ofstream ofs("Param_CSV/wood.csv");  // ファイルパスを指定する
+	std::ofstream ofs("Param_CSV/wood.csv"); // ファイルパスを指定する
 	ofs << "Wood_Quantity" << "," << woods.size() << std::endl;
 
-	for (int i = 0; i < woods.size(); i++) {
+	for (int i = 0; i < woods.size(); i++)
+	{
 		ofs << "POP" << "," << woods[i]->GetPosition().x
 			<< "," << woods[i]->GetPosition().y
 			<< "," << woods[i]->GetPosition().z << std::endl;
-
 	}
 }
 
@@ -29,41 +30,49 @@ bool PlaceWood::ErrorJudg()
 {
 	return false;
 }
+
 void PlaceWood::ArgMent(DebugCamera* camera)
 {
-	if (ArgmentFlag) {
-		std::unique_ptr<Wood>newWood;
-			newWood = std::make_unique<Wood>();
-		
+	if (ArgmentFlag)
+	{
+		std::unique_ptr<Wood> newWood;
+		newWood = std::make_unique<Wood>();
+
 		newWood->Initialize(camera);
 		newWood->SetPosition(pos);
 		woods.push_back(std::move(newWood));
 		ArgmentFlag = false;
 	}
-	for (std::unique_ptr<Wood>& wood : woods) {
-		if (wood != nullptr) {
-			wood->SetColor({ 1,1,1,1 });
+	for (std::unique_ptr<Wood>& wood : woods)
+	{
+		if (wood != nullptr)
+		{
+			wood->SetColor({1, 1, 1, 1});
 			wood->Update(camera);
 			wood->CollisionField(camera);
 		}
 	}
-	if (DeleteFlag && woods.size() > 1) {
+	if (DeleteFlag && woods.size() > 1)
+	{
 		woods.pop_back();
 		DeleteFlag = false;
 	}
 }
+
 void PlaceWood::Update(DebugCamera* camera)
 {
 	Obj->SetPosition(pos);
-	Obj->SetScale({ 2,3,2 });
+	Obj->SetScale({2, 3, 2});
 
-	Obj->Update({ 1,0,1,0.5 }, camera);
+	Obj->Update({1, 0, 1, 0.5}, camera);
 }
 
 void PlaceWood::Draw()
 {
-	for (std::unique_ptr<Wood>& wood : woods) {
-		if (wood != nullptr) {
+	for (std::unique_ptr<Wood>& wood : woods)
+	{
+		if (wood != nullptr)
+		{
 			//enemy->PreDraw();
 			wood->Draw();
 			//enemy->PostDraw();
@@ -72,7 +81,6 @@ void PlaceWood::Draw()
 	Obj->PreDraw();
 	Obj->Draw();
 	Obj->PostDraw();
-
 }
 
 void PlaceWood::ImGui_Draw()
@@ -81,20 +89,22 @@ void PlaceWood::ImGui_Draw()
 	ImGui::SetWindowPos(ImVec2(300, 500));
 	ImGui::SetWindowSize(ImVec2(300, 300));
 
-	if (ImGui::Button("Wood", ImVec2(90, 50))) {
+	if (ImGui::Button("Wood", ImVec2(90, 50)))
+	{
 		ArgmentFlag = true;
 	}
 	ImGui::SameLine();
-	if (ImGui::Button("B", ImVec2(90, 50))) {
-
+	if (ImGui::Button("B", ImVec2(90, 50)))
+	{
 	}
-	if (ImGui::Button("C", ImVec2(90, 50))) {
+	if (ImGui::Button("C", ImVec2(90, 50)))
+	{
 	}
 	ImGui::SameLine();
 
 
-	if (ImGui::Button("DeleteObj", ImVec2(90, 50))) {
-
+	if (ImGui::Button("DeleteObj", ImVec2(90, 50)))
+	{
 		DeleteFlag = true;
 	}
 
@@ -102,7 +112,6 @@ void PlaceWood::ImGui_Draw()
 		ImGui::SliderFloat("posX", &pos.x, -500, 500);
 		ImGui::SliderFloat("posY", &pos.y, -300, 300);
 		ImGui::SliderFloat("posZ", &pos.z, -800, 800);
-
 	}
 	ImGui::End();
 }
@@ -110,7 +119,8 @@ void PlaceWood::ImGui_Draw()
 void PlaceWood::Finalize()
 {
 	Destroy(Obj);
-	for (int i = 0; i < woods.size(); i++) {
+	for (int i = 0; i < woods.size(); i++)
+	{
 		Destroy_unique(woods[i]);
 	}
 	woods.clear();

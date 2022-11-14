@@ -2,9 +2,9 @@
 #include"BossEnemyFollow.h"
 #include"CircleAttack.h"
 #include"mHelper.h"
+
 void BossEnemyAttackCircle::Initialize(Enemy* enmey)
 {
-
 }
 
 void BossEnemyAttackCircle::Update(Enemy* enemy)
@@ -12,12 +12,14 @@ void BossEnemyAttackCircle::Update(Enemy* enemy)
 	enemy->SetMagicAttackTime(true);
 	CircleAttack::GetInstance()->ActionJudg();
 
-	if (Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) < 50.0f) {
+	if (Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) < 50.0f)
+	{
 		CircleAttack::GetInstance()->SetDamageArea(CircleAttack::NORTH, CircleAttack::SOUTH);
-		enemy->SetAttack_End(enemy->CIRCLE_1,true);
+		enemy->SetAttack_End(enemy->CIRCLE_1, true);
 	}
 
-	if (CircleAttack::GetInstance()->GetFaseEnd() == CircleAttack::FASEFOUR) {
+	if (CircleAttack::GetInstance()->GetFaseEnd() == CircleAttack::FASEFOUR)
+	{
 		enemy->ChangeState_Boss(new BossEnemyFollow());
 	}
 }
