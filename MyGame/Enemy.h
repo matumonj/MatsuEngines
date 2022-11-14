@@ -106,7 +106,9 @@ public:
 		WALK,
 		ATTACK1,
 		ATTACK2,
-		DEATH
+		DEATH,
+		ROAR,
+		IDLE
 	};
 	void SetAnimeState(AnimationState state) { animeState = state; }
 protected:
@@ -118,10 +120,13 @@ protected:
 	float FalterTime_End;
 	float RoarTime;
 	float RoarTime_End;
+	float IdleTime;
+	float IdleTime_End;
 	float EvaTime = 0.0f;
 	bool EvaMotionStart = false;
 	bool MagicMotionStart=false;
 	bool RoarMotionFlag=false;
+	bool IdleMotionFlag = false;
 	/*ゲッター*/
 public:
 	float GetRotCorrect() { return FollowRotAngleCorrect; }
@@ -177,7 +182,8 @@ protected://攻撃の開始と終了判定用
 
 public:
 	void SetFalterMotion(bool f) { if (f_time < FalterTime) { FalterFlag = f; } }
-	void SetRoarMotion(bool f) { if (f_time < RoarTime) { RoarMotionFlag = f; } }
+	void SetRoarMotion(bool f) { if (((f_time-RoarTime)*(f_time - RoarTime))>0.02f) { RoarMotionFlag = f; } }
+	void SetIdleMotion(bool f) { if (f_time < IdleTime) { IdleMotionFlag = f; } }
 	float GetFalterTime_End() { return FalterTime_End; }
 	float GetRoarTime_End() { return RoarTime_End; }
 	void SetMagicAttackTime(bool f){ if (f_time < MagicAttackTime) { MagicMotionStart = f; } }

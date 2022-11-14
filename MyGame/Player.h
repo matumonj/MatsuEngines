@@ -146,6 +146,11 @@ private:
 	float f_time=0.0f;
 
 	//手のボーンインデックス
-	int hindex=29;
+	int hindex=35;
+
+public:
+	float GetFbxTime_FirstAtack() { return AttackFirTime; }
+	float GetFbxTime_SecondAtack() { return AttackSecTime; }
+	float GetFbxTime_ThirdAtack() { return AttackThiTime; }
 };
 

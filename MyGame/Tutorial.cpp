@@ -46,14 +46,14 @@ void Tutorial::Initialize()
 	lightGroup->SetCircleShadowActive(1, true);
 	Texture::LoadTexture(47, L"Resources/df.png");
 	{
-		AllObjectControl.push_back(CameraControl::GetInstance());//Camera
-		AllObjectControl.push_back(EnemyControl::GetInstance());//Enemy
-		AllObjectControl.push_back(PlayerControl::GetInstance());//Player
-		AllObjectControl.push_back(FenceControl::GetInstance());//Fence
-		AllObjectControl.push_back(ChestControl::GetInstance());//Chest
-		AllObjectControl.push_back(WoodControl::GetInstance());//Wood
-		AllObjectControl.push_back(StoneControl::GetInstance());//Wood
-		AllObjectControl.push_back(GrassFieldControl::GetInstance());//Wood
+		AllObjectControl.emplace_back(CameraControl::GetInstance());//Camera
+		AllObjectControl.emplace_back(EnemyControl::GetInstance());//Enemy
+		AllObjectControl.emplace_back(PlayerControl::GetInstance());//Player
+		AllObjectControl.emplace_back(FenceControl::GetInstance());//Fence
+		AllObjectControl.emplace_back(ChestControl::GetInstance());//Chest
+		AllObjectControl.emplace_back(WoodControl::GetInstance());//Wood
+		AllObjectControl.emplace_back(StoneControl::GetInstance());//Wood
+		AllObjectControl.emplace_back(GrassFieldControl::GetInstance());//Wood
 	}
 
 	postEffect = new MinimapSprite();

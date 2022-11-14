@@ -32,8 +32,8 @@ void BossEnemy::Initialize(DebugCamera* camera)
 	MaxHP = 200.0f;
 	EnemyHP = MaxHP;
 
-	Scale = { 0.09f, 0.07f, 0.09f};
-	Rotation = {160.0f,160.0f,120.0f };
+	Scale = { 0.15f, 0.1f, 0.15f};
+	Rotation = {66.0f,252.0f,20.0f };
 
 	m_fbxObject = std::make_unique<f_Object3d>();
 	m_fbxObject->Initialize();
@@ -53,11 +53,14 @@ void BossEnemy::Initialize(DebugCamera* camera)
 	FalterTime_End = 524.00f / 60.00f;
 	RoarTime = 528.00f / 60.00f;
 	RoarTime_End = 698.00f / 60.00f;
+	IdleTime =708.00f / 60.00f;
+	IdleTime_End = 1066.00f / 60.00f;
 	DeathTime = 4.9f;
 	DeathFlag = false;
 	f_time = 200 / 60;
 
-	
+	FollowRotAngleCorrect = 252.0f;
+	addRotRadians = 323.0f;
 	state_boss->Initialize(this);
 
 	particleMan = ParticleManager::Create(4, L"Resources/ParticleTex/Attack.png");
@@ -111,7 +114,7 @@ void BossEnemy::Draw()
 {
 	ImGui::Begin("rotx");
 	ImGui::SliderInt("rx", &cooltime, 0,100);
-	ImGui::SliderFloat("roty", &Rotation.x, -180, 360);
+	ImGui::SliderFloat("roty", &Rotation.y, -180, 360);
 	ImGui::SliderFloat("rotz", &Rotation.z, -180, 360);
 	ImGui::End();
 	ImGui::Begin("we");
@@ -151,7 +154,8 @@ void BossEnemy::FbxAnimationControl()
 	SetMotion(MagicMotionStart, MAGIC, MagicAttackTime, MagicAttackTime_End);
 	SetMotion(EvaMotionStart, EVASION, EvaTime, EvaTime_End);
 	SetMotion(FalterFlag, FALTER, FalterTime, FalterTime_End);
-	SetMotion(RoarMotionFlag,ROAR, RoarTime, RoarTime_End);
+	SetMotion(IdleMotionFlag, IDLE, IdleTime, IdleTime_End);
+	SetMotion(RoarMotionFlag, ROAR, RoarTime, RoarTime_End);
 
 	if (nowMotion == NowAttackMotion::NON && f_time > AttackTime) {
 		f_time = 0.0f;
@@ -177,7 +181,7 @@ void BossEnemy::SetMotion(bool &motionStartJudg, NowAttackMotion motion, float a
 		motionStartJudg= false;
 	}
 
-	if (nowMotion == motion && f_time >= actionEndTime) {
+	if (nowMotion == motion  && (f_time >= actionEndTime) ){
 		AfterAttack = true;
 		nowMotion = NowAttackMotion::NON;
 	}

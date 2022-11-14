@@ -27,9 +27,9 @@ void BossScene::Initialize()
 	DebugTxt::GetInstance()->Initialize(47);
 	//各オブジェクトの初期化
 	if (AllObjectControl.size() == 0) {//各オブジェクトインスタンスぶちこむ
-		AllObjectControl.push_back(CameraControl::GetInstance());
-		AllObjectControl.push_back(PlayerControl::GetInstance());
-		AllObjectControl.push_back(EnemyControl::GetInstance());
+		AllObjectControl.emplace_back(CameraControl::GetInstance());
+		AllObjectControl.emplace_back(PlayerControl::GetInstance());
+		AllObjectControl.emplace_back(EnemyControl::GetInstance());
 	}
 	
 	//ボス攻撃用->できれば移す

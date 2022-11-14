@@ -19,6 +19,7 @@ void BossEnemyFalter::Initialize(Enemy* enmey)
 }
 void BossEnemyEvasion::Update(Enemy* enemy)
 {
+	enemy->SetRecvDamage(false);
 	enemy->SetEvaMotionTime(true);
 	//õ“G”ÍˆÍ
 	const float DetectionRange = 10.0f;
@@ -26,7 +27,7 @@ void BossEnemyEvasion::Update(Enemy* enemy)
 	//ˆÚ“®ƒxƒNƒgƒ‹‚ðyŽ²Žü‚è‚ÌŠp“x‚Å‰ñ“]
 	XMVECTOR move = { 0.0f,0.0f,0.1f,0.0f };
 
-	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(enemy->GetRotation().y - 70));
+	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(enemy->GetRotation().y + (enemy->GetRotRadians()+180.0f)));
 
 	move = XMVector3TransformNormal(move, matRot);
 
@@ -41,10 +42,12 @@ void BossEnemyEvasion::Update(Enemy* enemy)
 	}
 }
 
-
+#include"PlayerAttackState.h"
 
 void BossEnemyFalter::Update(Enemy* enemy)
 {
+	enemy->SetRecvDamage(false);
+	PlayerAttackState::GetInstance()->SetHitStopJudg(true);
 	enemy->SetFalterMotion(true);
 	if (enemy->GetFbxTime() > enemy->GetFalterTime_End()-0.3f) {
 		enemy->ChangeState_Boss(new BossEnemyFollow());

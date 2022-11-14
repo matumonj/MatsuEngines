@@ -47,6 +47,7 @@ void Enemy::RecvDamage(int Damage)
 	float texZ= PlayerControl::GetInstance()->GetPlayer()->GetPosition().z- CameraControl::GetInstance()->GetCamera()->GetEye().z;
 	float texX= PlayerControl::GetInstance()->GetPlayer()->GetPosition().x - CameraControl::GetInstance()->GetCamera()->GetEye().x;
 	damageDisF = true;
+	RecvDamagef = true;
 	DamageSize = Damage;
 	DamageTexPos = Position;
 	DamageManager::GetIns()->SetTexSize(2.0f);

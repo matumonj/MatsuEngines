@@ -257,7 +257,7 @@ void HUD::TaskUpdate(DebugCamera* camera)
 {
 	XMFLOAT3 cPos = camera->GetEye();
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
-		if (Collision::GetLength(cPos, CameraControl::GetInstance()->CameraPosIndex(2)) < 10.0f) {
+		if (Collision::GetLength(cPos, { CameraControl::GetInstance()->CameraPointIndex(2) }) < 10.0f) {
 			taskfeed = true;
 		}
 	}

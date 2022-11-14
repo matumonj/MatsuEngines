@@ -67,7 +67,8 @@ private:
         NORMAL,
         MAGIC,
         EVASION,
-        FALTER
+        FALTER,
+        IDLE
     };
     NowAttackMotion nowMotion = NON;
     void SetMotion(bool &motionStartJudg, NowAttackMotion motion, float actionStartTime, float actionEndTime);

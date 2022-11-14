@@ -29,7 +29,7 @@ private:
     XMFLOAT3 pos1 = { 0.0f,0.0f,0.0f };
     XMFLOAT3 pos2 = { 0.0f,0.0f,0.0f };;
     size_t startindex = 1;
-    std::vector<XMFLOAT3>points = { };
+    std::vector<XMVECTOR>points = { };
     float startCount = 0.0f;
     float  nowCount = 0.0f;
     float  elapsedCount = 0.0f;
@@ -42,10 +42,9 @@ private:
 
 private:
     bool splinef = false;
-    std::vector<std::unique_ptr<XMFLOAT3>>cpoints = {};
-    std::vector <XMFLOAT3>Load_CameraPoints = {};
+    std::vector <XMVECTOR>Load_CameraPoints = {};
 
-    XMFLOAT3 SplinePosition(const std::vector<XMFLOAT3>& points, size_t startindex, float t);
+    XMVECTOR SplinePosition(const std::vector<XMVECTOR>& points, size_t startindex, float t);
 
     TargetState Tstate;
     XMFLOAT3 CameraPosition = { 0.0f,0.0f,0.0f };
@@ -57,8 +56,9 @@ private:
     float CameraDis = 15.0f;
     float CameraHeight=10.0f;
 public: 
+    std::vector<XMVECTOR>point;
 
-    XMFLOAT3 CameraPosIndex(int index) { return points[index]; }
+    XMFLOAT3 CameraPointIndex(int index) { return { points[index].m128_f32[0],points[index].m128_f32[1],points[index].m128_f32[2] }; }
     void SetCameraState(TargetState state) { Tstate = state; }
     TargetState GetCameraState() { return Tstate; }
    void ShakeCamera();
@@ -73,6 +73,7 @@ public:
     };
     enum BossCamera {//É{ÉXìoèÍéûÇÃÉJÉÅÉâãììÆ
         BOSSCUTSTART,
+        CAMERADOWN,
         ROLL,
         BOSSCUTEND,
     };
@@ -103,6 +104,7 @@ private:
     float BossCutAngle = 270.0f;
     bool AttackSceneF = false;
     float BCutCameraHeight = 5.0f;
+    float CameraEaseT;
 private:
     bool EncountFlag;
     XMFLOAT3 OldCameraPos;

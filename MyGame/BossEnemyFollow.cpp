@@ -53,12 +53,12 @@ void BossEnemyFollow::Update(Enemy* enemy)
 	//ˆÚ“®ƒxƒNƒgƒ‹‚ðyŽ²Žü‚è‚ÌŠp“x‚Å‰ñ“]
 	XMVECTOR move = { 0.0f,0.0f,0.1f,0.0f };
 
-	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(enemy->GetRotation().y+25.0f));
+	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(enemy->GetRotation().y+enemy->GetRotRadians()));
 
 	move = XMVector3TransformNormal(move, matRot);
 
 	enemy->SetRotation({ enemy->GetRotation().x,
-		 RotY * 60.0f+175.0f,
+		 RotY * 60.0f+enemy->GetRotCorrect(),
 		enemy->GetRotation().z });
 	if (Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) > 10) {
 		enemy->SetPosition({
@@ -75,7 +75,7 @@ void BossEnemyFollow::Update(Enemy* enemy)
 			enemy->ChangeState_Boss(new BossEnemyAttack());
 		}
 	}
-	if (CustomButton::GetInstance()->GetAttackAction()) {
+	if (enemy->GetRecvDamage() == true) {
 		Evaprobability = rand() % 100+1;
 		if (Evaprobability < 30) {
 			if (Evaprobability % 2 == 0) {

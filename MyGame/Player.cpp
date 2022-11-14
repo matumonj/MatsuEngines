@@ -204,7 +204,7 @@ void Player::Update(DebugCamera* camera)
 void Player::Draw()
 {
 	ImGui::Begin("fTime");
-	ImGui::SliderInt("t", &hindex, 0, 30);
+	ImGui::SliderInt("t", &hindex, 0, 36);
 	ImGui::Text("%d", attackMotion);
 	ImGui::Text("%d", OldattackMotion);
 	ImGui::End();

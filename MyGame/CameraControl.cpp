@@ -10,6 +10,7 @@
 #include"mHelper.h"
 #include"UI.h"
 #include"Field.h"
+#include<array>
 CameraControl* CameraControl::GetInstance()
 {
 	static CameraControl instance;
@@ -123,14 +124,14 @@ void CameraControl::Init_Play(DebugCamera* camera)
 			}
 		}
 	}
-	points.push_back(pos[0]);
-	points.push_back(pos[0]);
+	points.push_back({ pos[0].x,pos[0].y,pos[0].z });
+	points.push_back({ pos[0].x,pos[0].y,pos[0].z });
 	for (int i = 1; i < Quantity - 1; i++) {
-		points.push_back(pos[i]);
+		points.push_back({ pos[i].x,pos[i].y,pos[i].z });
 	}
 	int quantity_end = Quantity - 1;
-	points.push_back(pos[quantity_end]);
-	points.push_back(pos[quantity_end]);
+	points.push_back({ pos[quantity_end].x,pos[quantity_end].y,pos[quantity_end].z });
+	points.push_back({ pos[quantity_end].x,pos[quantity_end].y,pos[quantity_end].z });
 
 	//Load_ChestPosition.resize(Quantity);
 	this->camera->SetEye(pos[0]);
@@ -149,6 +150,7 @@ void CameraControl::Init_Boss(DebugCamera* camera)
 	this->camera = new DebugCamera(WinApp::window_width, WinApp::window_height);//(/*input*/);
 	input = Input::GetInstance();
 
+	startCount = float(GetTickCount64());
 
 	dis.x = sinf(angle * (PI / 180.0f)) * 30.0f;
 	dis.y = cosf(angle * (PI / 180.0f)) * 30.0f;
@@ -308,43 +310,23 @@ void (CameraControl::* CameraControl::targetTable[])() = {
 /*------------------------*/
 /*--------カメラ位置--------*/
 /*---------spline---------*/
-XMFLOAT3 CameraControl::SplinePosition(const std::vector<XMFLOAT3>& points, size_t startindex, float t)
+XMVECTOR CameraControl::SplinePosition(const std::vector<XMVECTOR>& points, size_t startindex, float t)
 {
 	size_t n = points.size() - 2;
 	if (startindex > n)return points[n];
 	if (startindex < 1)return points[1];
 
-	XMFLOAT3 p0 = points[startindex - 1];
-	XMFLOAT3 p1 = points[startindex];
-	XMFLOAT3 p2 = points[startindex + 1];
-	XMFLOAT3 p3 = points[startindex + 2];
+	XMVECTOR p0 = points[startindex - 1];
+	XMVECTOR p1 = points[startindex];
+	XMVECTOR p2 = points[startindex + 1];
+	XMVECTOR p3 = points[startindex + 2];
 
-	XMFLOAT3 a, b, c, d, e, f, g, h;
-	XMFLOAT3 a1, b1, c1, d1, b4;
-	float ext, ext2;
-	ext = (t * t);
-	ext2 = (t * t * t);
-	a = XMFLOAT3(p1.x * 2.0f, p1.y * 2.0f, p1.z * 2.0f);
-	b = XMFLOAT3((-p0.x + p2.x) * t, (-p0.y + p2.y) * t, (-p0.z + p2.z) * t);
-	c = XMFLOAT3(2.0f * p0.x, 2.0f * p0.y, 2.0f * p0.z);
-	d = XMFLOAT3(5.0f * p1.x, 5.0f * p1.y, 5.0f * p1.z);
-	e = XMFLOAT3(4.0f * p2.x, 4.0f * p2.y, 4.0f * p2.z);
-	f = XMFLOAT3(-p0.x, -p0.y, -p0.z);
-	g = XMFLOAT3(3.0f * p1.x, 3.0f * p1.y, 3.0f * p1.z);
-	h = XMFLOAT3(3.0f * p2.x, 3.0f * p2.y, 3.0f * p2.z);
-
-	//1ぎょうめ
-	a1 = { a.x + b.x,a.y + b.y,a.z + b.z };
-	//2
-	b1 = { c.x - d.x,c.y - d.y ,c.z - d.z };
-	c1 = { (b1.x + e.x - p3.x) * ext ,(b1.y + e.y - p3.y) * ext  ,(b1.z + e.z - p3.z) * ext };
-
-	d1 = { (f.x + g.x - h.x + p3.x) * ext2,(f.y + g.y - h.y + p3.y) * ext2,(f.z + g.z - h.z + p3.z) * ext2 };
-	b4 = { (a1.x + c1.x),(a1.y + c1.y)  ,(a1.z + c1.z) };
-	XMFLOAT3 ys;
-	ys = { b4.x + d1.x,b4.y + d1.y ,b4.z + d1.z };
-	XMFLOAT3 position = { 0.5f * ys.x,0.5f * ys.y ,0.5f * ys.z };
-
+	XMVECTOR position = {
+		2 * p1 + (-p0 + p2) * t +
+		(2 * p0 - 5 * p1 + 4 * p2 - p3) * (t * t) +
+		(-p0 + 3 * p1 - 3 * p2 + p3) * (t * t * t)
+	};
+	position *= 0.5f;
 	return position;
 }
 
@@ -355,7 +337,17 @@ XMFLOAT3 CameraControl::SplinePosition(const std::vector<XMFLOAT3>& points, size
 /*---------boss---------*/
 void CameraControl::BossSceneStart()
 {
+	const size_t size = 5;
 	XMFLOAT3 BossPos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
+	if (point.size()== 0) {
+		point.push_back({ BossPos.x - 10.0f, BossPos.y + 100.0f, BossPos.z });
+		point.push_back({ BossPos.x - 10.0f, BossPos.y + 100.0f, BossPos.z });
+		point.push_back({ BossPos.x - 10.0f,BossPos.y + 20.0f,BossPos.z });
+		point.push_back({ BossPos.x + 50.0f,BossPos.y + 30.0f,BossPos.z });
+		point.push_back({ BossPos.x - 10.0f,BossPos.y + 30.0f,BossPos.z + 10.0f });
+		point.push_back({ BossPos.x - 10.0f,BossPos.y + 100.0f,BossPos.z });
+		point.push_back({ BossPos.x - 10.0f,BossPos.y + 100.0f,BossPos.z });
+	}
 	switch (bCamera)
 	{
 	case BOSSCUTSTART:
@@ -365,9 +357,31 @@ void CameraControl::BossSceneStart()
 		
 		CutCount[0]++;
 		if (CutCount[0] > 190) {
-			bCamera = ROLL;
+			bCamera = CAMERADOWN;
 		}
-		
+		CameraPosition = { BossPos.x,BossPos.y +100.0f, BossPos.z-10.0f };
+		break;
+	case CAMERADOWN:
+		nowCount = float(GetTickCount64());
+		elapsedCount = nowCount - startCount;
+		elapsedTime = static_cast<float>(elapsedCount) / 1000.0f;
+
+		timerate = elapsedTime / maxtime;
+		if (timerate >= 1) {
+			if (startindex < points.size() - 3)
+			{
+				startindex++;
+				timerate -= 1;
+
+				startCount = float(GetTickCount64());
+			} else
+			{
+				timerate = 1;
+			}
+		}
+
+		CameraPosition={ SplinePosition(point, startindex, timerate).m128_f32[0],SplinePosition(point, startindex, timerate).m128_f32[1],SplinePosition(point, startindex, timerate).m128_f32[2] };
+
 		break;
 	case ROLL:
 		CutCount[0] = 0;
@@ -379,10 +393,15 @@ void CameraControl::BossSceneStart()
 			BCutCameraHeight += 0.01f;
 			BossCutAngle += XMConvertToRadians(45);
 		}
+		CameraPosition.x = BossPos.x + cosf((float)(BossCutAngle) * 3.14f / 180.0f) * 15.0f;
+		CameraPosition.y = BossPos.y+20.0f;
+
+		CameraPosition.z = BossPos.z + sinf((float)(BossCutAngle) * 3.14f / 180.0f) * CameraDis;
+
 		break;
 	case BOSSCUTEND:
 		AttackSceneF = true;
-		if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetFbxTime() > 2.0f) {
+		if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetFbxTime() > EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetRoarTime_End()-2.5f) {
 			CameraDis += 1.5f;
 		}
 		Feed::GetInstance()->Update_White(Feed::FEEDIN);
@@ -391,15 +410,16 @@ void CameraControl::BossSceneStart()
 
 			Tstate = PLAYER;
 		}
+		CameraPosition.x = BossPos.x + cosf((float)(BossCutAngle) * 3.14f / 180.0f) * 15.0f;
+		CameraPosition.y = BossPos.y + 20.0f;
+
+		CameraPosition.z = BossPos.z + sinf((float)(BossCutAngle) * 3.14f / 180.0f) * CameraDis;
 
 		break;
 	default:
 		break;
 	}
-	CameraPosition.x = BossPos.x + cosf((float)(BossCutAngle) * 3.14f / 180.0f) * 15.0f;
-	CameraPosition.y = BossPos.y + BCutCameraHeight;
 
-	CameraPosition.z = BossPos.z + sinf((float)(BossCutAngle) * 3.14f / 180.0f) * CameraDis;
 
 	camera->SetTarget({ BossPos.x, BossPos.y + BCutCameraHeight, BossPos.z });
 	camera->SetEye(CameraPosition);
@@ -441,7 +461,7 @@ void CameraControl::PlaySceneStart()
 			}
 		}
 
-		camera->SetEye(SplinePosition(points, startindex, timerate));
+		camera->SetEye({ SplinePosition(points, startindex, timerate).m128_f32[0],SplinePosition(points, startindex, timerate).m128_f32[1],SplinePosition(points, startindex, timerate).m128_f32[2] });
 	
 		//カメラが一定距離近づいたらフェード
 		if (Collision::GetLength(camera->GetEye(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 30.0f) {
@@ -504,4 +524,9 @@ void CameraControl::Draw_Tutorial(){}
 
 void CameraControl::Draw_Play() {}
 
-void CameraControl::Draw_Boss() {}
+void CameraControl::Draw_Boss() 
+{
+	ImGui::Begin("cam");
+	ImGui::Text("size %d", point.size());
+	ImGui::End();
+}
