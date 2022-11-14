@@ -35,6 +35,8 @@ public:
     /// </summary>
     void Update(DebugCamera* camera)override;
 
+    void AttackCollide();
+
     /// <summary>
     /// •`‰æˆ—
     /// </summary>

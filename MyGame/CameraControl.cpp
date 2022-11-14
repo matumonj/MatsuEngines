@@ -340,69 +340,35 @@ void CameraControl::BossSceneStart()
 	const size_t size = 5;
 	XMFLOAT3 BossPos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
 	if (point.size()== 0) {
-		point.push_back({ BossPos.x - 10.0f, BossPos.y + 100.0f, BossPos.z });
-		point.push_back({ BossPos.x - 10.0f, BossPos.y + 100.0f, BossPos.z });
-		point.push_back({ BossPos.x - 10.0f,BossPos.y + 20.0f,BossPos.z });
-		point.push_back({ BossPos.x + 50.0f,BossPos.y + 30.0f,BossPos.z });
-		point.push_back({ BossPos.x - 10.0f,BossPos.y + 30.0f,BossPos.z + 10.0f });
-		point.push_back({ BossPos.x - 10.0f,BossPos.y + 100.0f,BossPos.z });
-		point.push_back({ BossPos.x - 10.0f,BossPos.y + 100.0f,BossPos.z });
+		point.push_back({ BossPos.x, BossPos.y + 100.0f, BossPos.z - 10.0f });
+		point.push_back({ BossPos.x, BossPos.y + 100.0f, BossPos.z - 10.0f });//ã‚©‚ç
+		point.push_back({ BossPos.x, BossPos.y + 100.0f, BossPos.z - 50.0f });//‰º‚Ö
+		point.push_back({ BossPos.x, BossPos.y + 20.0f, BossPos.z - 10.0f });//‚©‚ç‰E
+		point.push_back({ BossPos.x+20.0f, BossPos.y + 20.0f, BossPos.z +10.0f });//Œã‚ë‰ñ‚Á‚Ä
+		point.push_back({ BossPos.x + 0.0f, BossPos.y + 20.0f, BossPos.z + 30.0f });//¶‚­‚é
+		point.push_back({ BossPos.x-20.0f , BossPos.y + 20.0f, BossPos.z + 10.0f });
+		point.push_back({ BossPos.x  , BossPos.y + 20.0f, BossPos.z - 10.0f });
 	}
 	switch (bCamera)
 	{
 	case BOSSCUTSTART:
-		PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(true);
-
-		Feed::GetInstance()->Update_White(Feed::FEEDOUT);
-		
-		CutCount[0]++;
-		if (CutCount[0] > 190) {
-			bCamera = CAMERADOWN;
-		}
-		CameraPosition = { BossPos.x,BossPos.y +100.0f, BossPos.z-10.0f };
+		BossCutScene_Start(BossPos);
 		break;
 	case CAMERADOWN:
-		nowCount = float(GetTickCount64());
-		elapsedCount = nowCount - startCount;
-		elapsedTime = static_cast<float>(elapsedCount) / 1000.0f;
+		BossCutScene_Spline();
+		if (startindex >= 6) {
 
-		timerate = elapsedTime / maxtime;
-		if (timerate >= 1) {
-			if (startindex < points.size() - 3)
-			{
-				startindex++;
-				timerate -= 1;
-
-				startCount = float(GetTickCount64());
-			} else
-			{
-				timerate = 1;
-			}
-		}
-
-		CameraPosition={ SplinePosition(point, startindex, timerate).m128_f32[0],SplinePosition(point, startindex, timerate).m128_f32[1],SplinePosition(point, startindex, timerate).m128_f32[2] };
-
-		break;
-	case ROLL:
-		CutCount[0] = 0;
-		
-		if (BossCutAngle >= 270.0f+360.0f) {
 			bCamera = BOSSCUTEND;
 		}
-		else {
-			BCutCameraHeight += 0.01f;
-			BossCutAngle += XMConvertToRadians(45);
-		}
-		CameraPosition.x = BossPos.x + cosf((float)(BossCutAngle) * 3.14f / 180.0f) * 15.0f;
-		CameraPosition.y = BossPos.y+20.0f;
-
-		CameraPosition.z = BossPos.z + sinf((float)(BossCutAngle) * 3.14f / 180.0f) * CameraDis;
-
 		break;
+	
 	case BOSSCUTEND:
-		AttackSceneF = true;
-		if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetFbxTime() > EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetRoarTime_End()-2.5f) {
-			CameraDis += 1.5f;
+		
+		if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetFbxTime() > EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetRoarTime_End() - 2.5f) {
+
+			AttackSceneF = true;
+			CameraPosition.z = 1.5f;
+
 		}
 		Feed::GetInstance()->Update_White(Feed::FEEDIN);
 		if (Feed::GetInstance()->GetAlpha() >= 0.9f) {
@@ -410,10 +376,6 @@ void CameraControl::BossSceneStart()
 
 			Tstate = PLAYER;
 		}
-		CameraPosition.x = BossPos.x + cosf((float)(BossCutAngle) * 3.14f / 180.0f) * 15.0f;
-		CameraPosition.y = BossPos.y + 20.0f;
-
-		CameraPosition.z = BossPos.z + sinf((float)(BossCutAngle) * 3.14f / 180.0f) * CameraDis;
 
 		break;
 	default:
@@ -423,6 +385,42 @@ void CameraControl::BossSceneStart()
 
 	camera->SetTarget({ BossPos.x, BossPos.y + BCutCameraHeight, BossPos.z });
 	camera->SetEye(CameraPosition);
+}
+
+void CameraControl::BossCutScene_Spline()
+{
+	nowCount = float(GetTickCount64());
+	elapsedCount = nowCount - startCount;
+	elapsedTime = static_cast<float>(elapsedCount) / 400.0f;
+
+	timerate = elapsedTime / maxtime;
+	if (timerate >= 1) {
+		if (startindex < points.size() - 3)
+		{
+			startindex++;
+			timerate -= 1;
+
+			startCount = float(GetTickCount64());
+		} else
+		{
+			timerate = 1;
+		}
+	}
+
+	CameraPosition = { SplinePosition(point, startindex, timerate).m128_f32[0],SplinePosition(point, startindex, timerate).m128_f32[1],SplinePosition(point, startindex, timerate).m128_f32[2] };
+}
+
+void CameraControl::BossCutScene_Start(XMFLOAT3 BossPos)
+{
+	PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(true);
+
+	Feed::GetInstance()->Update_White(Feed::FEEDOUT);
+
+	CutCount[0]++;
+	if (CutCount[0] > 190) {
+		bCamera = CAMERADOWN;
+	}
+	CameraPosition = { BossPos.x,BossPos.y + 100.0f, BossPos.z - 10.0f };
 }
 
 /*------------------------*/

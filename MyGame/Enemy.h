@@ -182,7 +182,7 @@ protected://攻撃の開始と終了判定用
 
 public:
 	void SetFalterMotion(bool f) { if (f_time < FalterTime) { FalterFlag = f; } }
-	void SetRoarMotion(bool f) { if (((f_time-RoarTime)*(f_time - RoarTime))>0.02f) { RoarMotionFlag = f; } }
+	void SetRoarMotion(bool f) { if (sqrtf((f_time-RoarTime)*(f_time - RoarTime))>4.44f) { RoarMotionFlag = f; } }
 	void SetIdleMotion(bool f) { if (f_time < IdleTime) { IdleMotionFlag = f; } }
 	float GetFalterTime_End() { return FalterTime_End; }
 	float GetRoarTime_End() { return RoarTime_End; }

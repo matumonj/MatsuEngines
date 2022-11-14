@@ -19,16 +19,18 @@
 
 void BossEnemyFollow::Initialize(Enemy* enmey)
 {
-
 }
+
 #include"CustomButton.h"
+
 void BossEnemyFollow::Update(Enemy* enemy)
 {
 	//追跡処理部分//////////
 	//索敵範囲
 	const float DetectionRange = 10.0f;
 	//プレイヤーが索敵範囲入ったら
-	bool SearchPlayer = Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < DetectionRange;
+	bool SearchPlayer = Collision::GetLength(enemy->GetPosition(),
+	                                         PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < DetectionRange;
 
 	float angleX, angleZ, dis;
 	//追跡スピード
@@ -38,52 +40,66 @@ void BossEnemyFollow::Update(Enemy* enemy)
 	angleZ = (PlayerControl::GetInstance()->GetPlayer()->GetPosition().z - enemy->GetPosition().z);
 
 	//敵とプレイヤーの距離求め
-	dis = sqrtf((enemy->GetPosition().x - PlayerControl::GetInstance()->GetPlayer()->GetPosition().x) * (enemy->GetPosition().x - PlayerControl::GetInstance()->GetPlayer()->GetPosition().x)
-		+ (enemy->GetPosition().z - PlayerControl::GetInstance()->GetPlayer()->GetPosition().z) * (enemy->GetPosition().z - PlayerControl::GetInstance()->GetPlayer()->GetPosition().z));
+	dis = sqrtf(
+		(enemy->GetPosition().x - PlayerControl::GetInstance()->GetPlayer()->GetPosition().x) * (enemy->GetPosition().x
+			- PlayerControl::GetInstance()->GetPlayer()->GetPosition().x)
+		+ (enemy->GetPosition().z - PlayerControl::GetInstance()->GetPlayer()->GetPosition().z) * (enemy->GetPosition().
+			z - PlayerControl::GetInstance()->GetPlayer()->GetPosition().z));
 
 
 	//敵がプエレイヤーの方向く処理
-	XMVECTOR positionA = { PlayerControl::GetInstance()->GetPlayer()->GetPosition().x,PlayerControl::GetInstance()->GetPlayer()->GetPosition().y, PlayerControl::GetInstance()->GetPlayer()->GetPosition().z };
-	XMVECTOR positionB = { enemy->GetPosition().x,enemy->GetPosition().y,enemy->GetPosition().z };
+	XMVECTOR positionA = {
+		PlayerControl::GetInstance()->GetPlayer()->GetPosition().x,
+		PlayerControl::GetInstance()->GetPlayer()->GetPosition().y,
+		PlayerControl::GetInstance()->GetPlayer()->GetPosition().z
+	};
+	XMVECTOR positionB = {enemy->GetPosition().x, enemy->GetPosition().y, enemy->GetPosition().z};
 	//プレイヤーと敵のベクトルの長さ(差)を求める
-	XMVECTOR SubVector = DirectX::XMVectorSubtract(positionB, positionA);// positionA - positionB;
+	XMVECTOR SubVector = XMVectorSubtract(positionB, positionA); // positionA - positionB;
 
 	//角度の取得 プレイヤーが敵の索敵位置に入ったら向きをプレイヤーの方に
 	RotY = atan2f(SubVector.m128_f32[0], SubVector.m128_f32[2]);
 	//移動ベクトルをy軸周りの角度で回転
-	XMVECTOR move = { 0.0f,0.0f,0.1f,0.0f };
+	XMVECTOR move = {0.0f, 0.0f, 0.1f, 0.0f};
 
-	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(enemy->GetRotation().y+enemy->GetRotRadians()));
+	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(enemy->GetRotation().y + enemy->GetRotRadians()));
 
 	move = XMVector3TransformNormal(move, matRot);
 
-	enemy->SetRotation({ enemy->GetRotation().x,
-		 RotY * 60.0f+enemy->GetRotCorrect(),
-		enemy->GetRotation().z });
-	if (Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) > 10) {
+	enemy->SetRotation({
+		enemy->GetRotation().x,
+		RotY * 60.0f + enemy->GetRotCorrect(),
+		enemy->GetRotation().z
+	});
+	if (Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) > 10)
+	{
 		enemy->SetPosition({
-					enemy->GetPosition().x + move.m128_f32[0] ,
-					enemy->GetPosition().y,
-					enemy->GetPosition().z + move.m128_f32[2] }
+				enemy->GetPosition().x + move.m128_f32[0],
+				enemy->GetPosition().y,
+				enemy->GetPosition().z + move.m128_f32[2]
+			}
 		);
 	}
 	//////////////////////////////////////////////////////////////
 
 	//普通の攻撃
-	if ( Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 15) {
-		if (enemy->GetCoolTime() == 0) {
+	if (Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 15)
+	{
+		if (enemy->GetCoolTime() == 0)
+		{
 			enemy->ChangeState_Boss(new BossEnemyAttack());
 		}
 	}
-	if (enemy->GetRecvDamage() == true) {
-		Evaprobability = rand() % 100+1;
-		if (Evaprobability < 30) {
-			if (Evaprobability % 2 == 0) {
-				enemy->ChangeState_Boss(new BossEnemyEvasion());
-			}
-			if (Evaprobability % 2 == 1) {
-				enemy->ChangeState_Boss(new BossEnemyFalter());
-			}
+	if (enemy->GetRecvDamage() == true)
+	{
+		Evaprobability = rand() % 100 + 1;
+		if (Evaprobability > 80)
+		{
+			enemy->ChangeState_Boss(new BossEnemyEvasion());
+		}
+		else
+		{
+			enemy->SetRecvDamage(false);
 		}
 	}
 
@@ -98,21 +114,27 @@ void BossEnemyFollow::Update(Enemy* enemy)
 	AttackSelect(enemy, Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) <= 70.0f, enemy->Beam);
 
 	//死亡
-	if (enemy->GetHP() <= 0.0f) {
+	if (enemy->GetHP() <= 0.0f)
+	{
 		enemy->ChangeState_Boss(new BossEnemyDeath());
 	}
 }
 
 void BossEnemyFollow::AttackSelect(Enemy* enemy, bool judg, int num)
 {
-	if (judg) {
+	if (judg)
+	{
 		AttackStart(enemy, num);
-		if (enemy->GetAttack_End(num) == false) {
+		if (enemy->GetAttack_End(num) == false)
+		{
 			enemy->SetAttack_Start(num, true);
-		} else {
+		}
+		else
+		{
 			enemy->SetAttack_Start(num, false);
 		}
-		if (enemy->GetAttack_Start(num)) {
+		if (enemy->GetAttack_Start(num))
+		{
 			AttackType(enemy, num);
 		}
 	}
@@ -153,45 +175,51 @@ void BossEnemyFollow::AttackType(Enemy* enemy, int num)
 	switch (num)
 	{
 	case enemy->CIRCLE_1:
-		if (CircleAttack::GetInstance()->GetFaseEnd() != CircleAttack::FASEFOUR) {
+		if (CircleAttack::GetInstance()->GetFaseEnd() != CircleAttack::FASEFOUR)
+		{
 			enemy->ChangeState_Boss(new BossEnemyAttackCircle());
 		}
 		break;
 	case enemy->CIRCLE_2:
-		if (CircleAttack::GetInstance()->GetFaseEnd() != CircleAttack::FASEFOUR) {
+		if (CircleAttack::GetInstance()->GetFaseEnd() != CircleAttack::FASEFOUR)
+		{
 			enemy->ChangeState_Boss(new BossEnemyAttackCircle());
 		}
 		break;
 	case enemy->KNOCK:
-		if (KnockAttack::GetInstance()->GetFase() != KnockAttack::FASETHREE) {
+		if (KnockAttack::GetInstance()->GetFase() != KnockAttack::FASETHREE)
+		{
 			enemy->ChangeState_Boss(new BossEnemyAttackKnock());
 		}
 		break;
 	case enemy->HALF_1:
-		if (HalfAttack::GetInstance()->GetFaseEnd() != HalfAttack::FASEFOUR) {
+		if (HalfAttack::GetInstance()->GetFaseEnd() != HalfAttack::FASEFOUR)
+		{
 			enemy->ChangeState_Boss(new BossEnemyAttackHalf());
 		}
 		break;
 
 	case enemy->HALF_2:
-		if (HalfAttack::GetInstance()->GetFaseEnd() != HalfAttack::FASEFOUR) {
+		if (HalfAttack::GetInstance()->GetFaseEnd() != HalfAttack::FASEFOUR)
+		{
 			enemy->ChangeState_Boss(new BossEnemyAttackHalf());
 		}
 		break;
 
 	case enemy->Beam:
-		if (AltAttack::GetInstance()->GetFaseEnd() !=AltAttack::FASEFOUR) {
+		if (AltAttack::GetInstance()->GetFaseEnd() != AltAttack::FASEFOUR)
+		{
 			enemy->ChangeState_Boss(new BossEnemyAttackBeam());
 		}
 		break;
 
 	case enemy->Slam:
-		if (FrontCircleAttack::GetInstance()->GetFaseEnd() != FrontCircleAttack::FASEFOUR) {
+		if (FrontCircleAttack::GetInstance()->GetFaseEnd() != FrontCircleAttack::FASEFOUR)
+		{
 			enemy->ChangeState_Boss(new BossEnemyAttackSlam());
 		}
 		break;
 	default:
 		break;
 	}
-
 }

@@ -29,7 +29,7 @@ void BossEnemy::Initialize(DebugCamera* camera)
 	m_Object = std::make_unique<Object3d>();
 	m_Object->Initialize(camera);
 	//m_Object->CreateGraphicsPipeline(L"Resources/Shader/Object3dVS.hlsl", L"Resources/Shader/Object3dPS.hlsl", L"Resources/Shader/BasicGS.hlsl");
-	MaxHP = 200.0f;
+	MaxHP = 2000.0f;
 	EnemyHP = MaxHP;
 
 	Scale = { 0.15f, 0.1f, 0.15f};
@@ -52,7 +52,7 @@ void BossEnemy::Initialize(DebugCamera* camera)
 	FalterTime = 428.00f / 60.00f;
 	FalterTime_End = 524.00f / 60.00f;
 	RoarTime = 528.00f / 60.00f;
-	RoarTime_End = 698.00f / 60.00f;
+	RoarTime_End = 700.00f / 60.00f;
 	IdleTime =708.00f / 60.00f;
 	IdleTime_End = 1066.00f / 60.00f;
 	DeathTime = 4.9f;
@@ -81,6 +81,24 @@ void BossEnemy::Update(DebugCamera* camera)
 		alpha -= 0.005f;
 	}
 	Action();
+
+	AttackCollide();
+	//fbxアニメーション制御
+	FbxAnimationControl();
+	//座標やスケールの反映
+	ParameterSet_Fbx(camera);
+	//攻撃後のクールタイム設定
+	AttackCoolTime();
+	//地形当たり判定
+	CollisionField(camera);
+	
+	//攻撃受けたらパーティクル
+	DamageParticleSet();
+	
+}
+
+void BossEnemy::AttackCollide()
+{
 	HandSiteOBB.SetOBBParam_Pos(m_fbxObject->ExtractPositionMat(m_fbxObject->GetHandBoneMatWorld()));
 	HandSiteOBB.SetOBBParam_Rot(m_fbxObject->ExtractRotationMat(m_fbxObject->GetHandBoneMatWorld()));
 	HandSiteOBB.SetOBBParam_Scl({ 5.0f,5.0f,5.0f });
@@ -95,18 +113,6 @@ void BossEnemy::Update(DebugCamera* camera)
 			PlayerControl::GetInstance()->GetPlayer()->RecvDamage(10);
 		}
 	}
-	//fbxアニメーション制御
-	FbxAnimationControl();
-	//座標やスケールの反映
-	ParameterSet_Fbx(camera);
-	//攻撃後のクールタイム設定
-	AttackCoolTime();
-	//地形当たり判定
-	CollisionField(camera);
-	
-	//攻撃受けたらパーティクル
-	DamageParticleSet();
-	
 }
 
 //描画処理
@@ -148,8 +154,12 @@ void BossEnemy::Death()
 
 void BossEnemy::FbxAnimationControl()
 {
-	f_time += 0.015f;
-
+	
+	if (nowMotion == NowAttackMotion::ROAR&&f_time<=RoarTime+0.2f) {
+		f_time += 0.006f;
+	} else {
+		f_time += 0.015f;
+	}
 	SetMotion(f_AttackFlag, NORMAL, AttackTime, NormalAttackTime_End);
 	SetMotion(MagicMotionStart, MAGIC, MagicAttackTime, MagicAttackTime_End);
 	SetMotion(EvaMotionStart, EVASION, EvaTime, EvaTime_End);

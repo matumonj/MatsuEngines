@@ -16,7 +16,5 @@ void BossEnemyStay::Update(Enemy* enemy)
 		enemy->SetRoarMotion(true);
 		enemy->ChangeState_Boss(new BossEnemyFollow());
 	}
-	if (enemy->GetRecvDamage()) {
-		enemy->ChangeState_Boss(new BossEnemyFollow());
-	}
+	
 }

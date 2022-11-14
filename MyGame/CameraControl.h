@@ -123,9 +123,12 @@ private:
     float shaketime = 0.0f;
 public:
     bool GetAttackSceneF() { return AttackSceneF; }
+    void SetAttackSceneF(bool f) {AttackSceneF=f; }
     int GetMoveBosAreaCam() { return mCamera; }
 private:
     void BossSceneStart();
+    void BossCutScene_Spline();
+    void BossCutScene_Start(XMFLOAT3 BossPos);
     void PlaySceneStart();
   private:
       void AngleRotation();
