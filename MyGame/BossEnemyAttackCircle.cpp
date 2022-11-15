@@ -1,5 +1,6 @@
 #include "BossEnemyAttackCircle.h"
 #include"BossEnemyFollow.h"
+#include "CameraControl.h"
 #include"CircleAttack.h"
 #include"mHelper.h"
 

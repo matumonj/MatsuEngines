@@ -176,7 +176,7 @@ bool Texture::InitializeGraphicsPipeline()
 			D3D12_APPEND_ALIGNED_ELEMENT,
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
 		},
-	};
+	}
 
 	// グラフィックスパイプラインの流れを設定
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC gpipeline{};

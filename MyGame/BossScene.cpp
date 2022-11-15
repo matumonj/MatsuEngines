@@ -74,6 +74,7 @@ void BossScene::Update()
 				AllObjectControl[i]->Update(CameraControl::GetInstance()->GetCamera());
 			}
 		}
+		bAttack->Upda();
 		Nail::GetInstance()->Update();
 		UI::GetInstance()->HUDUpdate(hudload, CameraControl::GetInstance()->GetCamera());
 	}
@@ -150,6 +151,8 @@ void BossScene::Draw()
 		DirectXCommon::GetInstance()->BeginDraw();
 		MyGameDraw();
 		postEffect->Draw();
+
+		bAttack->Draw();
 		Sprite::PreDraw();
 		DebugTextSprite::GetInstance()->DrawAll();
 		Sprite::PostDraw();
@@ -180,7 +183,8 @@ bool BossScene::LoadParam(DebugCamera* camera)
 		{
 			AllObjectControl[i]->Initialize(CameraControl::GetInstance()->GetCamera());
 		}
-
+		bAttack = std::make_unique<BomAttack>();
+		bAttack->Init();
 		//カメラをセット
 		f_Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
 		//グラフィックパイプライン生成

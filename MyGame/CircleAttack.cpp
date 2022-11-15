@@ -207,3 +207,85 @@ void CircleAttack::EndAttackAction()
 	CircleSize = {0.0f, 0.0f};
 	NailObj.clear();
 }
+
+
+
+void BomAttack::Init()
+{
+	Texture::LoadTexture(34, L"Resources/2d/BossAttackEffect/BomParticle.jpg");
+	Texture::LoadTexture(35, L"Resources/2d/BossAttackEffect/BomDamageArea.jpg");
+
+}	
+
+void BomAttack::Upda()
+{
+	for (int i = 0; i < BomParticleSize; i++)
+	{
+		bom_particle_[i].BomTex->SetBillboard(TRUE);
+		bom_particle_[i].BomTex->SetPosition({40.0f,0.0f,40.0f});
+		bom_particle_[i].BomTex->SetColor({ 1.0f, 1.0f, 1.0f, bom_particle_[i].TexAlpha });
+		bom_particle_[i].BomTex->SetScale({ 2.0f,2.0f,1.0f });
+		bom_particle_[i].BomTex->Update(CameraControl::GetInstance()->GetCamera());
+	}
+}
+
+void BomAttack::Setting_DamageArea()
+{
+	damageAreaPos={
+		{DamageArea::UP,{0.0f,0.0f,40.0f}},
+		{DamageArea::BOTTOM,{0.0f,0.0f,-40.0f}},
+		{DamageArea::LEFT,{-40.0f,0.0f,0.0f}},
+		{DamageArea::RIGHT,{40.0f,0.0f,0.0f}},
+	};
+
+	MeteoDamageAreaTex[DamageArea::UP]->SetPosition({ damageAreaPos.at(DamageArea::UP) });
+	MeteoDamageAreaTex[DamageArea::BOTTOM]->SetPosition({ damageAreaPos.at(DamageArea::BOTTOM) });
+	MeteoDamageAreaTex[DamageArea::LEFT]->SetPosition({ damageAreaPos.at(DamageArea::LEFT) });
+	MeteoDamageAreaTex[DamageArea::RIGHT]->SetPosition({ damageAreaPos.at(DamageArea::RIGHT) });
+}
+
+void BomAttack::Phase_One()
+{
+
+	Texture* l_bomtex[BomParticleSize]{};
+	Texture* l_damareatex[meteoSize]{};
+	for (int i = 0; i < BomParticleSize; i++)
+	{
+		l_bomtex[i] = Texture::Create(34, { 0,0,0 }, { 0,0,0 }, { 0,0,0,0 });
+		bom_particle_[i].BomTex.reset(l_bomtex[i]);
+		bom_particle_[i].BomTex->CreateTexture();
+		bom_particle_[i].BomTex->SetAnchorPoint({ 0.5f, 0.5f });
+		bom_particle_[i].TexAlpha = 1.0f;
+	}
+	for (int i = 0; i < meteoSize; i++)
+	{
+		MeteoRock[i] = std::make_unique<Object3d>();
+		MeteoRock[i]->Initialize(CameraControl::GetInstance()->GetCamera());
+		MeteoRock[i]->SetModel(ModelManager::GetIns()->GetModel(ModelManager::WOOD));
+		MeteoRock[i]->Initialize(CameraControl::GetInstance()->GetCamera());
+
+		MeteoDamageAreaTex[i].reset(l_damareatex[i]);
+		MeteoDamageAreaTex[i]->CreateTexture();
+		MeteoDamageAreaTex[i]->SetAnchorPoint({ 0.5f, 0.5f });
+		MeteoDamageAreaTex[i]->SetRotation({ 90.0f,0.0f,0.0f });
+	}
+
+	Setting_DamageArea();
+
+	_phase = Phase::PHASE_TWO;
+}
+
+void BomAttack::Phase_Two()
+{
+	
+}
+
+void BomAttack::Draw()
+{
+	Texture::PreDraw();
+	for (int i = 0; i < BomParticleSize; i++)
+	{
+		bom_particle_[i].BomTex->Draw();
+	}
+	Texture::PostDraw();
+}

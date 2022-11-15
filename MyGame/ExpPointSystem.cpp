@@ -136,7 +136,7 @@ void ExpPointSystem::expBarUpda()
 		}
 	}
 	int Tex;
-	Tex = static_cast<int>(Easing::EaseOut(m_EaseTime, float(oldGetExp), float(old)));
+	Tex = static_cast<int>(Easing::EaseOut(m_EaseTime, static_cast<float>(oldGetExp), static_cast<float>(old)));
 
 	str << std::fixed << std::setprecision(2)
 		<< Tex;

@@ -226,8 +226,9 @@ void Player::Draw()
 {
 	ImGui::Begin("fTime");
 	ImGui::SliderInt("t", &hindex, 0, 36);
-	ImGui::Text("%d", attackMotion);
-	ImGui::Text("%d", OldattackMotion);
+	ImGui::Text("%f",Position.x);
+	ImGui::Text("%f", Position.y);
+	ImGui::Text("%f", Position.z);
 	ImGui::End();
 	Draw_Fbx();
 	SelectSword::GetInstance()->SwordDraw();

@@ -5,7 +5,7 @@
 #include"Player.h"
 #include"Texture.h"
 #include"Sprite.h"
-
+#include<array>
 class BossEnemy :
 	public Enemy
 {
@@ -24,6 +24,8 @@ private:
 	std::unique_ptr<f_Object3d> GigaBossObj;
 	//
 	Texture* SearchPlayerTexture = nullptr;
+	
+	void BomTexUpda(DebugCamera* camera);
 public:
 	//  void Action(Player* player);
 	/// <summary>

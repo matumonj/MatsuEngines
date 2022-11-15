@@ -3,7 +3,8 @@
 #include"Object3d.h"
 #include"Model.h"
 #include<memory>
-
+#include"Sprite.h"
+#include<array>
 class CircleAttack
 {
 public:
@@ -81,4 +82,38 @@ public:
 
 private:
 	void CollisonNailPlayer();
+};
+
+class BomAttack
+{
+private:
+	struct BomParticle
+	{
+		std::unique_ptr<Texture>BomTex;
+		DirectX::XMFLOAT3 CenterPos;
+		DirectX::XMFLOAT3 VelSpeed;
+		float TexAlpha;
+		float Angle;
+	};
+	std::array<Object3d, 5>MeteoRock;
+	
+	//パーティクルサイズ
+	static constexpr int BomParticleSize = 15;
+	//
+	std::array<BomParticle, BomParticleSize> bom_particle_;
+public:
+	void Init();
+	void Upda();
+	void Draw();
+
+public:
+	enum Phase
+	{
+		NON,
+		SETATTACK,
+		WAIT,
+		BOM,
+		END
+	};
+	Phase _phase = NON;
 };

@@ -23,6 +23,7 @@
 #include"ControlBase.h"
 #include"Nail.h"
 #include"MinimapSprite.h"
+#include"CircleAttack.h"
 #pragma comment(lib,"winmm.lib")
 class CollisionManager;
 class Player;
@@ -51,6 +52,7 @@ public:
 	XMFLOAT4 feedcolor = {0, 0, 0, 1};
 	std::unique_ptr<MinimapSprite> minimap;
 	DebugCamera* dc;
+	std::unique_ptr<BomAttack>bAttack;
 public:
 	//エフェクト用(ただプログラムでつくれるものはプログラムで作る方がいい　多用はいくない)
 	int c_postEffect = Default;

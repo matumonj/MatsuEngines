@@ -1,4 +1,6 @@
 #include "BossEnemy.h"
+
+#include "CameraControl.h"
 #include"CustomButton.h"
 #include"SphereCollider.h"
 #include"CollisionManager.h"
@@ -66,8 +68,8 @@ void BossEnemy::Initialize(DebugCamera* camera)
 
 	particleMan = ParticleManager::Create(4, L"Resources/ParticleTex/Attack.png");
 	particleMan2 = ParticleManager::Create(6, L"Resources/ParticleTex/Attack.png");
-}
 
+}
 //更新処理
 void BossEnemy::Update(DebugCamera* camera)
 {
@@ -143,6 +145,8 @@ void BossEnemy::Draw()
 	particleMan2->Draw();
 	// 3Dオブジェクト描画後処理
 	ParticleManager::PostDraw();
+
+	
 }
 
 void BossEnemy::Death()
