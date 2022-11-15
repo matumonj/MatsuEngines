@@ -151,8 +151,9 @@ void BossScene::Draw()
 		DirectXCommon::GetInstance()->BeginDraw();
 		MyGameDraw();
 		postEffect->Draw();
-
-		bAttack->Draw();
+		if (bAttack!=nullptr) {
+			bAttack->Draw();
+		}
 		Sprite::PreDraw();
 		DebugTextSprite::GetInstance()->DrawAll();
 		Sprite::PostDraw();

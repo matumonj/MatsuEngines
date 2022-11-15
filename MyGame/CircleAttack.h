@@ -5,6 +5,7 @@
 #include<memory>
 #include"Sprite.h"
 #include<array>
+#include<map>
 class CircleAttack
 {
 public:
@@ -95,8 +96,6 @@ private:
 		float TexAlpha;
 		float Angle;
 	};
-	std::array<Object3d, 5>MeteoRock;
-	
 	//パーティクルサイズ
 	static constexpr int BomParticleSize = 15;
 	//
@@ -104,16 +103,49 @@ private:
 public:
 	void Init();
 	void Upda();
+	void Setting_DamageArea();
 	void Draw();
 
 public:
-	enum Phase
+	enum class Phase
 	{
 		NON,
-		SETATTACK,
-		WAIT,
-		BOM,
+		PHASE_ONE,
+		PHASE_TWO,
+		PHASE_THREE,
 		END
 	};
-	Phase _phase = NON;
+
+private:
+	//飛ばす岩石の数
+	static constexpr int meteoSize = 5;
+	Phase _phase = Phase::NON;
+	//岩石モデル
+	std::array<std::unique_ptr<Object3d>, meteoSize>MeteoRock;
+	//各岩石の座標
+	std::array<DirectX::XMFLOAT3, meteoSize>MeteoPos;
+	//ダメージエリアテクスチャ
+	std::array< std::unique_ptr<Texture>, meteoSize>MeteoDamageAreaTex;
+
+	std::array<float, meteoSize>MeteoRockAngles;
+
+	std::array<DirectX::XMFLOAT3, meteoSize>DAreaTexSize;
+
+	std::array<float, meteoSize>DAreaTexAlpha;
+	//岩石落下スピード イージング用
+	float MeteoFallT;
+
+	enum DamageArea
+	{
+		LEFT,
+		RIGHT,
+		UP,
+		BOTTOM
+	};
+
+	//各ダメージエリアの座標書き出し
+	std::map<DamageArea,DirectX::XMFLOAT3>damageAreaPos;
+	void Phase_One();
+	void Phase_Two();
+	void Phase_Three();
 };

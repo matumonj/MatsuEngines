@@ -214,7 +214,8 @@ void BomAttack::Init()
 {
 	Texture::LoadTexture(34, L"Resources/2d/BossAttackEffect/BomParticle.jpg");
 	Texture::LoadTexture(35, L"Resources/2d/BossAttackEffect/BomDamageArea.jpg");
-
+	_phase = Phase::PHASE_ONE;
+	Phase_One();
 }	
 
 void BomAttack::Upda()
@@ -226,6 +227,21 @@ void BomAttack::Upda()
 		bom_particle_[i].BomTex->SetColor({ 1.0f, 1.0f, 1.0f, bom_particle_[i].TexAlpha });
 		bom_particle_[i].BomTex->SetScale({ 2.0f,2.0f,1.0f });
 		bom_particle_[i].BomTex->Update(CameraControl::GetInstance()->GetCamera());
+	}
+
+	if(Input::GetInstance()->TriggerButton(Input::X))
+	{
+	
+	}
+	Phase_Two();
+	for(int i=0;i<meteoSize;i++)
+	{
+		MeteoRock[i]->SetScale({ 3.0f,3.0f,3.0f });
+		MeteoRock[i]->SetPosition(MeteoPos[i]);
+		MeteoRock[i]->Update({1,1,1,1},CameraControl::GetInstance()->GetCamera());
+
+		MeteoDamageAreaTex[i]->SetScale(DAreaTexSize[i]);
+		MeteoDamageAreaTex[i]->Update(CameraControl::GetInstance()->GetCamera());
 	}
 }
 
@@ -262,8 +278,8 @@ void BomAttack::Phase_One()
 		MeteoRock[i] = std::make_unique<Object3d>();
 		MeteoRock[i]->Initialize(CameraControl::GetInstance()->GetCamera());
 		MeteoRock[i]->SetModel(ModelManager::GetIns()->GetModel(ModelManager::WOOD));
-		MeteoRock[i]->Initialize(CameraControl::GetInstance()->GetCamera());
-
+		
+		l_damareatex[i] = Texture::Create(35, { 0,0,0 }, { 0,0,0 }, { 0,0,0,0 });
 		MeteoDamageAreaTex[i].reset(l_damareatex[i]);
 		MeteoDamageAreaTex[i]->CreateTexture();
 		MeteoDamageAreaTex[i]->SetAnchorPoint({ 0.5f, 0.5f });
@@ -277,15 +293,45 @@ void BomAttack::Phase_One()
 
 void BomAttack::Phase_Two()
 {
-	
+	constexpr  float MaxTexSize = 5.0f;
+	MeteoPos[DamageArea::UP].x = Easing::EaseOut(MeteoFallT, 0.0f, damageAreaPos.at(DamageArea::UP).x);
+	MeteoPos[DamageArea::BOTTOM].x = Easing::EaseOut(MeteoFallT, 0.0f, damageAreaPos.at(DamageArea::BOTTOM).x);
+	MeteoPos[DamageArea::LEFT].x = Easing::EaseOut(MeteoFallT, 0.0f, damageAreaPos.at(DamageArea::LEFT).x);
+	MeteoPos[DamageArea::RIGHT].x = Easing::EaseOut(MeteoFallT, 0.0f, damageAreaPos.at(DamageArea::RIGHT).x);
+
+	MeteoPos[DamageArea::UP].z = Easing::EaseOut(MeteoFallT, 0.0f, damageAreaPos.at(DamageArea::UP).z);
+	MeteoPos[DamageArea::BOTTOM].z = Easing::EaseOut(MeteoFallT, 0.0f, damageAreaPos.at(DamageArea::BOTTOM).z);
+	MeteoPos[DamageArea::LEFT].z = Easing::EaseOut(MeteoFallT, 0.0f, damageAreaPos.at(DamageArea::LEFT).z);
+	MeteoPos[DamageArea::RIGHT].z = Easing::EaseOut(MeteoFallT, 0.0f, damageAreaPos.at(DamageArea::RIGHT).z);
+
+	for(int i=0;i<meteoSize;i++)
+	{
+		if(DAreaTexSize[0].x >= MaxTexSize)
+		{
+			MeteoPos[i].y -= 1.5f;
+		}
+		//ÉGÉäÉAägëÂ
+		DAreaTexSize[i].x += 0.1f;
+		DAreaTexSize[i].y += 0.1f;
+
+		//è„å¿íl
+		DAreaTexSize[i].x = min(DAreaTexSize[i].x, MaxTexSize);
+		DAreaTexSize[i].y = min(DAreaTexSize[i].y, MaxTexSize);
+	}
+
 }
 
 void BomAttack::Draw()
 {
 	Texture::PreDraw();
+	for(int i=0;i<meteoSize;i++)
+	{
+		MeteoDamageAreaTex[i]->Draw();
+	}
 	for (int i = 0; i < BomParticleSize; i++)
 	{
 		bom_particle_[i].BomTex->Draw();
 	}
+
 	Texture::PostDraw();
 }
