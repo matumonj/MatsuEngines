@@ -20,7 +20,7 @@ public:
 	void Setplay(DebugCamera* camera);
 private:
 	TouchableObject* FieldObject = nullptr;
-
+	std::unique_ptr<Object3d>BossField;
 	//Obj
 	enum ObjType
 	{

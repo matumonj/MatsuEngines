@@ -40,7 +40,7 @@ void Field::Initialize(DebugCamera* camera)
 {
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
 	{
-		FieldObject = TouchableObject::Create(ModelManager::GetIns()->GetModel(ModelManager::BOSSFIELD), camera);
+	
 		//FieldObject->CreateGraphicsPipeline(L"Resources/Shader/Object3dVS.hlsl", L"Resources/Shader/Object3dPS.hlsl", L"Resources/Shader/BasicGS.hlsl");
 		//ミニマップ(ボスフィールド)
 		SetFieldModel(MINI, ModelManager::GetIns()->GetModel(ModelManager::BOSSFIELD), camera);
@@ -49,7 +49,7 @@ void Field::Initialize(DebugCamera* camera)
 		//天球
 		SetFieldModel(CELESTIALSPHERE, ModelManager::GetIns()->GetModel(ModelManager::CELESTIALSPHERE), camera);
 		//ボスの背景obj
-		SetFieldModel(BOSSBACK, ModelManager::GetIns()->GetModel(ModelManager::BACKGROUND), camera);
+		SetFieldModel(BOSSBACK, ModelManager::GetIns()->GetModel(ModelManager::BOSSFIELD), camera);
 
 		//Bossの名前表示用とフィールド外周のダメージエリア通知
 		Sprite::LoadTexture(40, L"Resources/BossName.png");
@@ -198,7 +198,6 @@ void Field::Update_Edit(DebugCamera* camera)
 
 void Field::Update_Boss(DebugCamera* camera)
 {
-	if (FieldObject == nullptr)return;
 	SpriteFeed(TexAlpha_BossName, feed_BossName, feedSpeed_BossName, 1.5f);
 	if (CameraControl::GetInstance()->GetCameraState() == CameraControl::PLAYER)
 	{
@@ -207,15 +206,11 @@ void Field::Update_Boss(DebugCamera* camera)
 
 	SetFieldUpdate(CELESTIALSPHERE, camera, {0.0f, 30.0f, 0.0f}, {40.0f, 40.0f, 40.0f}, FALSE, TRUE);
 	SetFieldUpdate(DAMAGEAREA, camera, {0.0f, -19.2f, 0.0f}, {1.0f, 1.0f, 1.0f}, TRUE, FALSE);
-	SetFieldUpdate(BOSSBACK, camera, {0.0f, -19.2f, 0.0f}, {0.5f, 0.5f, 0.5f}, FALSE, TRUE);
+	SetFieldUpdate(BOSSBACK, camera, {0.0f, -19.2f, 0.0f}, {1.0f, 1.0f, 1.0f}, FALSE, TRUE);
 
 	//フィールド外周とプレイヤーの当たり判定(現時点では矩形と点)
-	FieldDamageAreaCol();
-	//FieldObject->setFog(TRUE);
-	FieldObject->SetPosition({0.0f, -20.0f, 0.0f});
-	FieldObject->SetColor({0.2f, 0.2f, 0.2f, 1.0f});
-	FieldObject->Update({0.2f, 0.2f, 0.2f, 1.0f}, camera);
-
+	//FieldDamageAreaCol();
+	
 	//playerpoint->SetPosition({ PlayerControl::GetInstance()->GetPlayer()->GetPosition().x,PlayerControl::GetInstance()->GetPlayer()->GetPosition().y + 10,PlayerControl::GetInstance()->GetPlayer()->GetPosition().z });
 	//playerpoint->Update(dc);
 	//playerpoint->SetScale({ 4,4,4 });
@@ -278,19 +273,21 @@ void Field::MiniFieldDraw()
 
 void Field::Draw()
 {
-	if (FieldObject == nullptr)return;
+	
 	Object3d::PreDraw();
 	if (SceneManager::GetInstance()->GetScene() != SceneManager::MAPCREATE)
 	{
 		m_object[CELESTIALSPHERE]->Draw();
 	}
-	FieldObject->Draw();
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
+	
+	if (SceneManager::GetInstance()->GetScene() != SceneManager::BOSS)
 	{
+		FieldObject->Draw();
+	}
+	else {
 		ModelDraw_nullCheck(BOSSBACK);
 		ModelDraw_nullCheck(DAMAGEAREA);
 	}
-
 	Object3d::PostDraw();
 	Explanation->setcolor({1.0f, 1.0f, 1.0f, t});
 	BossName->setcolor({1.0f, 1.0f, 1.0f, TexAlpha_BossName});

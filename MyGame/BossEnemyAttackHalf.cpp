@@ -10,6 +10,7 @@ void BossEnemyAttackHalf::Initialize(Enemy* enmey)
 void BossEnemyAttackHalf::Update(Enemy* enemy)
 {
 	HalfAttack::GetInstance()->ActionJudg();
+	enemy->SetRoarMotion(true);
 	//80%ˆÈ‰ºŽž‚Ì”¼–ÊUŒ‚I—¹
 	if (Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) <= 60.0f)
 	{

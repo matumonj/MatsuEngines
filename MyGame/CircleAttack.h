@@ -92,14 +92,27 @@ private:
 	{
 		std::unique_ptr<Texture>BomTex;
 		DirectX::XMFLOAT3 CenterPos;
-		DirectX::XMFLOAT3 VelSpeed;
+		DirectX::XMFLOAT3 TexPos;
+		DirectX::XMFLOAT3 TexScl;
+		float Speed;
 		float TexAlpha;
 		float Angle;
 	};
+	enum bParticlePhase {
+		NON,
+		SETPOSITION,
+		UPDATE,
+		CLEAR
+	}_Bphase;
 	//パーティクルサイズ
 	static constexpr int BomParticleSize = 15;
+	static constexpr int meteoSize = 7;
 	//
-	std::array<BomParticle, BomParticleSize> bom_particle_;
+	float attackangle;
+	bool jf[meteoSize];
+	DirectX::XMFLOAT3 BossPos;
+	DirectX::XMFLOAT3 CenterPosi[meteoSize];
+std::array <std::array<BomParticle, BomParticleSize>,meteoSize> bom_particle_;
 public:
 	void Init();
 	void Upda();
@@ -117,24 +130,10 @@ public:
 	};
 
 private:
-	//飛ばす岩石の数
-	static constexpr int meteoSize = 5;
-	Phase _phase = Phase::NON;
-	//岩石モデル
-	std::array<std::unique_ptr<Object3d>, meteoSize>MeteoRock;
-	//各岩石の座標
-	std::array<DirectX::XMFLOAT3, meteoSize>MeteoPos;
-	//ダメージエリアテクスチャ
-	std::array< std::unique_ptr<Texture>, meteoSize>MeteoDamageAreaTex;
+	bool AttackJudg;
+	int NextPhase_WaitC = 0;
 
-	std::array<float, meteoSize>MeteoRockAngles;
-
-	std::array<DirectX::XMFLOAT3, meteoSize>DAreaTexSize;
-
-	std::array<float, meteoSize>DAreaTexAlpha;
-	//岩石落下スピード イージング用
-	float MeteoFallT;
-
+	static constexpr float FieldBottomPosY=10.0f;
 	enum DamageArea
 	{
 		LEFT,
@@ -142,10 +141,17 @@ private:
 		UP,
 		BOTTOM
 	};
-
+	float MteoObjAlpha;
 	//各ダメージエリアの座標書き出し
 	std::map<DamageArea,DirectX::XMFLOAT3>damageAreaPos;
 	void Phase_One();
 	void Phase_Two();
 	void Phase_Three();
+	void Phase_Four();
+	void Phase_End(int indexMeteo, int indexPar);
+	void MeteoRot(const DamageArea& area);
+	void BomParticleUpda();
+	void MeteoRockMove();
+
+	void ParamSet();
 };

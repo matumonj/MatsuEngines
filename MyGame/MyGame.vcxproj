@@ -199,12 +199,9 @@
     <ClCompile Include="DebugCamera.cpp" />
     <ClCompile Include="DebugTxt.cpp" />
     <ClCompile Include="DirectXCommon.cpp" />
-    <ClCompile Include="EncountGuardianSprite.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyAlpha.cpp" />
     <ClCompile Include="EnemyAttackState.cpp" />
-    <ClCompile Include="EnemyBeta.cpp" />
-    <ClCompile Include="EnemyCamma.cpp" />
     <ClCompile Include="EnemyDeathState.cpp" />
     <ClCompile Include="EnemyFollowState.cpp" />
     <ClCompile Include="EnemyRespawnState.cpp" />
@@ -327,12 +324,9 @@
     <ClInclude Include="DebugTxt.h" />
     <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="DirectXCommon.h" />
-    <ClInclude Include="EncountGuardianSprite.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyAlpha.h" />
     <ClInclude Include="EnemyAttackState.h" />
-    <ClInclude Include="EnemyBeta.h" />
-    <ClInclude Include="EnemyCamma.h" />
     <ClInclude Include="EnemyDeathState.h" />
     <ClInclude Include="EnemyFollowState.h" />
     <ClInclude Include="EnemyRespawnState.h" />

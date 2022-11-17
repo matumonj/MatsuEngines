@@ -122,12 +122,6 @@
     <Filter Include="Game\gameobject\オブジェクト種類\Enemy\派生クラス\alpha">
       <UniqueIdentifier>{f0dec463-be94-4bfc-b8b2-176a68a0c9a8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\gameobject\オブジェクト種類\Enemy\派生クラス\beta">
-      <UniqueIdentifier>{c0e73475-3619-4d59-a88e-9f7e90387ec6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\gameobject\オブジェクト種類\Enemy\派生クラス\cammma">
-      <UniqueIdentifier>{203e1d72-7537-4c8e-b44e-70a33f8619b5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン">
       <UniqueIdentifier>{c83847d2-65dc-444a-ac0b-10be1dc5ee3c}</UniqueIdentifier>
     </Filter>
@@ -321,12 +315,6 @@
     <ClCompile Include="EnemyAlpha.cpp">
       <Filter>Game\gameobject\オブジェクト種類\Enemy\派生クラス\alpha</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyBeta.cpp">
-      <Filter>Game\gameobject\オブジェクト種類\Enemy\派生クラス\beta</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyCamma.cpp">
-      <Filter>Game\gameobject\オブジェクト種類\Enemy\派生クラス\cammma</Filter>
-    </ClCompile>
     <ClCompile Include="ModelManager.cpp">
       <Filter>Game\3d %28Model  Obj  Fbx%29</Filter>
     </ClCompile>
@@ -516,9 +504,6 @@
     <ClCompile Include="BossEnemyAttackSlam.cpp">
       <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン\後半フェーズ\行動遷移</Filter>
     </ClCompile>
-    <ClCompile Include="EncountGuardianSprite.cpp">
-      <Filter>Game\UI\HUD</Filter>
-    </ClCompile>
     <ClCompile Include="Stone.cpp">
       <Filter>Game\gameobject\オブジェクト種類\Stone</Filter>
     </ClCompile>
@@ -706,12 +691,6 @@
     </ClInclude>
     <ClInclude Include="EnemyAlpha.h">
       <Filter>Game\gameobject\オブジェクト種類\Enemy\派生クラス\alpha</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyBeta.h">
-      <Filter>Game\gameobject\オブジェクト種類\Enemy\派生クラス\beta</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyCamma.h">
-      <Filter>Game\gameobject\オブジェクト種類\Enemy\派生クラス\cammma</Filter>
     </ClInclude>
     <ClInclude Include="ModelManager.h">
       <Filter>Game\3d %28Model  Obj  Fbx%29</Filter>
@@ -901,9 +880,6 @@
     </ClInclude>
     <ClInclude Include="BossEnemyAttackSlam.h">
       <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン\後半フェーズ\行動遷移</Filter>
-    </ClInclude>
-    <ClInclude Include="EncountGuardianSprite.h">
-      <Filter>Game\UI\HUD</Filter>
     </ClInclude>
     <ClInclude Include="PlayerControl.h">
       <Filter>Game\gameobject\Control</Filter>

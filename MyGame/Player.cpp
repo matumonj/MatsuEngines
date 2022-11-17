@@ -76,20 +76,6 @@ void Player::Jump()
 
 void Player::ReturnGround()
 {
-	if (onGround)
-	{
-		onGroundPos = Position;
-		FallGroundTime = 0;
-	}
-	else
-	{
-		FallGroundTime++;
-		if (FallGroundTime > 120)
-		{
-			Position = onGroundPos;
-			FallGroundTime = 0;
-		}
-	}
 }
 
 void Player::Move()
@@ -211,7 +197,7 @@ void Player::Update(DebugCamera* camera)
 	//fbxのタイマー処理
 	m_fbxObject->SetFbxTime(f_time);
 	//当たり判定
-	CollisionField(camera);
+	//CollisionField(camera);
 
 	ParameterSet_Obj(camera);
 	ParameterSet_Fbx(camera);
@@ -226,6 +212,9 @@ void Player::Draw()
 {
 	ImGui::Begin("fTime");
 	ImGui::SliderInt("t", &hindex, 0, 36);
+	ImGui::SliderFloat("posx", &Position.x, -100, 106);
+	ImGui::SliderFloat("tposy", &Position.y, -100, 106);
+	ImGui::SliderFloat("posz", &Position.z, -100, 106);
 	ImGui::Text("%f",Position.x);
 	ImGui::Text("%f", Position.y);
 	ImGui::Text("%f", Position.z);

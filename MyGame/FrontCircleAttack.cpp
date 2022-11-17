@@ -50,19 +50,17 @@ void FrontCircleAttack::ActionJudg()
 	//fase = FASETWO;
 		break;
 	case FASETWO:
-		EnemyControl::GetInstance()->GetGigaBossEnemy()->SetMotion(
-			EnemyControl::GetInstance()->GetGigaBossEnemy()->SLAM);
 		fase = FASETHREE;
 		break;
 	case FASETHREE:
-		if (EnemyControl::GetInstance()->GetGigaBossEnemy()->EndSlamMotion())
-		{
+		
+
 			TexAlpha -= 0.02f;
 			if (TexAlpha <= 0.0f)
 			{
 				fase = FASEFOUR;
 			}
-		}
+		
 		break;
 	case FASEFOUR:
 		BossSpell::GetInstance()->SetEndSpell(BossSpell::SLAM, false);

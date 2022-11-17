@@ -36,7 +36,7 @@ void PlayerControl::Init_Play(DebugCamera* camera)
 
 void PlayerControl::Init_Boss(DebugCamera* camera)
 {
-	StartPos = {0.0f, -20.0f, 0.0f};
+	StartPos = {-1.0f, 10.0f, -116.0f};
 
 	player->SetPosition(StartPos);
 	AttackCollision::GetInstance()->Init();

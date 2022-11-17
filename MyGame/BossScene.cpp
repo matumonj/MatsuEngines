@@ -37,9 +37,9 @@ void BossScene::Initialize()
 	//ボス攻撃用->できれば移す
 	Nail::GetInstance()->ModelSet();
 
-	postEffect = new MinimapSprite();
-	postEffect->Initialize();
-	dc = new DebugCamera(WinApp::window_width, WinApp::window_height);
+	//postEffect = new MinimapSprite();
+	//postEffect->Initialize();
+//	dc = new DebugCamera(WinApp::window_width, WinApp::window_height);
 }
 
 /*------------------------*/
@@ -78,18 +78,9 @@ void BossScene::Update()
 		Nail::GetInstance()->Update();
 		UI::GetInstance()->HUDUpdate(hudload, CameraControl::GetInstance()->GetCamera());
 	}
-	dc->Update();
-
-	dc->SetTarget({PlayerControl::GetInstance()->GetPlayer()->GetPosition()});
-	dc->SetEye({
-		PlayerControl::GetInstance()->GetPlayer()->GetPosition().x,
-		PlayerControl::GetInstance()->GetPlayer()->GetPosition().y + 300.0f,
-		PlayerControl::GetInstance()->GetPlayer()->GetPosition().z - 1
-	});
-	Field::GetInstance()->SetCamera(dc);
 
 	Field::GetInstance()->Update(CameraControl::GetInstance()->GetCamera());
-	postEffect->SetCenterpos(HUD::GetInstance()->GetMinimapSprite()->GetPosition());
+	//postEffect->SetCenterpos(HUD::GetInstance()->GetMinimapSprite()->GetPosition());
 
 	//各オブジェクトの更新処理
 	//csv読み込み部分(Cameraの更新後にするのでobjUpdate()挟んでから)
@@ -144,13 +135,9 @@ void BossScene::Draw()
 		break;
 
 	case Default: //普通のやつ特に何もかかっていない
-		postEffect->PreDrawScene();
-		Field::GetInstance()->MiniFieldDraw();
-		postEffect->PostDrawScene();
-
 		DirectXCommon::GetInstance()->BeginDraw();
 		MyGameDraw();
-		postEffect->Draw();
+		//postEffect->Draw();
 		if (bAttack!=nullptr) {
 			bAttack->Draw();
 		}

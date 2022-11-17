@@ -143,20 +143,15 @@ void EnemyControl::Init_Play(DebugCamera* camera)
 
 void EnemyControl::Init_Boss(DebugCamera* camera)
 {
-	enemys[BOSS].resize(1);
-
+	enemys[BOSS].push_back(std::make_unique<BossEnemy>());
 	enemys[BOSS][0] = std::make_unique<BossEnemy>();
 	enemys[BOSS][0]->Initialize(camera);
-	boss_pos = {0.0f, 0.5045f, 20.987f};
+	boss_pos = {-1.0f, 10.0f, 20.987f};
 	enemys[BOSS][0]->SetPosition(boss_pos);
 
-	gigaboss = std::make_unique<GigaBossEnemy>();
-
-	gigaboss->Initialize(camera);
 
 	KnockAttack::GetInstance()->Initialize();
 	CircleAttack::GetInstance()->Initialize();
-	HalfAttack::GetInstance()->Initialize();
 	AltAttack::GetInstance()->Initialize();
 	FrontCircleAttack::GetInstance()->Initialize();
 }
@@ -205,7 +200,6 @@ void EnemyControl::Update_Boss(DebugCamera* camera)
 {
 	if (enemys[BOSS][0] == nullptr) return;
 	enemys[BOSS][0]->Update(camera);
-	gigaboss->Update(camera);
 	if (enemys[BOSS][0]->GetObjAlpha() <= 0)
 	{
 		Destroy_unique(enemys[BOSS][0]);
@@ -250,7 +244,6 @@ void EnemyControl::Draw_Boss()
 {
 	if (enemys[BOSS][0] == nullptr)return;
 	enemys[BOSS][0]->Draw();
-	gigaboss->Draw();
 	CircleAttack::GetInstance()->Draw();
 	HalfAttack::GetInstance()->Draw();
 	KnockAttack::GetInstance()->Draw();

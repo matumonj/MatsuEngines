@@ -360,7 +360,8 @@ void CameraControl::BossSceneStart()
 		point.push_back({BossPos.x + 20.0f, BossPos.y + 20.0f, BossPos.z + 10.0f}); //Œã‚ë‰ñ‚Á‚Ä
 		point.push_back({BossPos.x + 0.0f, BossPos.y + 20.0f, BossPos.z + 30.0f}); //¶‚­‚é
 		point.push_back({BossPos.x - 20.0f, BossPos.y + 20.0f, BossPos.z + 10.0f});
-		point.push_back({BossPos.x, BossPos.y + 20.0f, BossPos.z - 10.0f});
+		point.push_back({ BossPos.x, BossPos.y + 20.0f, BossPos.z - 20.0f });
+		point.push_back({BossPos.x, BossPos.y + 20.0f, BossPos.z - 20.0f});
 	}
 	switch (bCamera)
 	{
@@ -369,7 +370,7 @@ void CameraControl::BossSceneStart()
 		break;
 	case CAMERADOWN:
 		BossCutScene_Spline();
-		if (startindex >= 6)
+		if (startindex >= 7)
 		{
 			bCamera = BOSSCUTEND;
 		}
@@ -381,7 +382,7 @@ void CameraControl::BossSceneStart()
 			GetEnemy(EnemyControl::BOSS)[0]->GetRoarTime_End() - 2.5f)
 		{
 			AttackSceneF = true;
-			CameraPosition.z = 1.5f;
+			CameraPosition.z -= 1.5f;
 		}
 		Feed::GetInstance()->Update_White(Feed::FEEDIN);
 		if (Feed::GetInstance()->GetAlpha() >= 0.9f)
@@ -405,7 +406,7 @@ void CameraControl::BossCutScene_Spline()
 {
 	nowCount = static_cast<float>(GetTickCount64());
 	elapsedCount = nowCount - startCount;
-	elapsedTime = elapsedCount / 400.0f;
+	elapsedTime = elapsedCount / 10.0f;
 
 	timerate = elapsedTime / maxtime;
 	if (timerate >= 1)

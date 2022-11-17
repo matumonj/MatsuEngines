@@ -100,7 +100,7 @@ public:
 private:
 	float vel = 0.0f;
 	bool jumpflag = false;
-	float movespeed = 17.0f;
+	float movespeed = 7.0f;
 	XMFLOAT3 MoveVECTOR(DirectX::XMVECTOR v, float angle);
 private:
 	bool noAttack;
