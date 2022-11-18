@@ -55,7 +55,7 @@ void MobEnemy::Initialize(DebugCamera* camera)
 	SetCollider();
 
 	//FBXØ‚è‘Ö‚í‚è‚Ìƒ^ƒCƒ€Žw’è
-	AttackTime = 0.9f;
+	NormalAttackTime = 0.9f;
 	DeathTime = 6.9f;
 
 	nowAttack = false;
@@ -109,7 +109,7 @@ void MobEnemy::Update(DebugCamera* camera)
 
 		if (atcktype == SIDEAWAY)
 		{
-			if (f_time >= AttackTime + 1.0f)
+			if (f_time >= NormalAttackTime + 1.0f)
 			{
 				if (Collision::CheckOBBCollision(playerOBB, HandSiteOBB) == true)
 				{
@@ -198,7 +198,7 @@ void MobEnemy::FbxAnimationControl()
 		if (rand_Attacktype <= 50)
 		{
 			atcktype = SIDEAWAY;
-			f_time = AttackTime;
+			f_time = NormalAttackTime;
 		}
 		else
 		{
@@ -211,7 +211,7 @@ void MobEnemy::FbxAnimationControl()
 	}
 	else
 	{
-		if (!nowAttack && f_time >= AttackTime)
+		if (!nowAttack && f_time >= NormalAttackTime)
 		{
 			f_time = 0.0f;
 		}

@@ -95,7 +95,7 @@ protected:
 	float start_time = 0.0f; //初期フレーム(0)
 	float end_time = 0.0f; //最終フレーム
 	float DeathTime = 0.0f; //死亡時のモーション開始フレーム
-	float AttackTime = 0.0f;
+	float NormalAttackTime = 0.0f;
 
 	XMMATRIX HandMat = {};
 	OBB HandSiteOBB = {};
@@ -130,6 +130,8 @@ protected:
 	float IdleTime;
 	float IdleTime_End;
 	float EvaTime = 0.0f;
+	float AttackTime;
+	float AttackTime_End;
 	bool EvaMotionStart = false;
 	bool MagicMotionStart = false;
 	bool RoarMotionFlag = false;
@@ -173,7 +175,7 @@ public:
 
 	void SetScale(XMFLOAT3 scale) { Scale = scale; }
 
-	void SetAttackTime(bool f) { if (f_time < AttackTime) { f_AttackFlag = f; } }
+	void SetAttackTime(bool f) { if (f_time < NormalAttackTime) { f_AttackFlag = f; } }
 
 	void SetRespawnPos(XMFLOAT3 position) { RespawnPos = position; }
 	/*ボス攻撃用 できれば移したいが、、*/
@@ -190,7 +192,7 @@ protected: //攻撃の開始と終了判定用
 
 public:
 	void SetSwingMotion(bool f) { if (f_time < SwingTime) { SwingFlag = f; } }
-
+	
 	void SetFalterMotion(bool f) { if (f_time < FalterTime) { FalterFlag = f; } }
 	void SetRoarMotion(bool f) { if (sqrtf((f_time - RoarTime) * (f_time - RoarTime)) > 4.44f) { RoarMotionFlag = f; } }
 	void SetIdleMotion(bool f) { if (f_time < IdleTime) { IdleMotionFlag = f; } }

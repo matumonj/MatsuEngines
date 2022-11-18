@@ -122,7 +122,7 @@ protected: //ÉÅÉìÉoïœêî
 	double end_time;
 
 	bool AttackFlag;
-	float AttackTime;
+	float NormalAttackTime;
 	bool DeathFlag;
 	float DeathTime;
 
@@ -172,7 +172,7 @@ public:
 	void SetFbxTime(float time) { f_time = time; }
 	void SetFTime(int time) { fbxTime = time; }
 	void SetAttackFlag(bool flag) { AttackFlag = flag; }
-	void SetAttackTime(float time) { AttackTime = time; }
+	void SetAttackTime(float time) { NormalAttackTime = time; }
 	void SetDeathFlag(bool flag) { DeathFlag = flag; }
 	void SetDeathTime(float time) { DeathTime = time; }
 	double GetEndTime() { return end_time; }

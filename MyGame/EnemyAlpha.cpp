@@ -50,7 +50,7 @@ void EnemyAlpha::Initialize(DebugCamera* camera)
 		0.05f, 0.05f, 0.05f
 	};
 	SetCollider();
-	AttackTime = 1.5f;
+	NormalAttackTime = 1.5f;
 	DeathTime = 6.f;
 	nowAttack = false;
 	nowDeath = false;
@@ -88,7 +88,7 @@ void EnemyAlpha::Update(DebugCamera* camera)
 		playerOBB.SetOBBParam_Rot(PlayerControl::GetInstance()->GetPlayer()->GetMatrot());
 		playerOBB.SetOBBParam_Scl({1.0f, 5.0f, 1.0f});
 
-		//if (f_time >= AttackTime + 1.0f) {
+		//if (f_time >= NormalAttackTime + 1.0f) {
 		if (Collision::CheckOBBCollision(playerOBB, HandSiteOBB) == true)
 		{
 			PlayerControl::GetInstance()->GetPlayer()->RecvDamage(10);
@@ -144,7 +144,7 @@ void EnemyAlpha::FbxAnimationControl()
 
 	if (f_AttackFlag)
 	{
-		f_time = AttackTime;
+		f_time = NormalAttackTime;
 		f_AttackFlag = false;
 		nowAttack = true;
 	}
@@ -152,7 +152,7 @@ void EnemyAlpha::FbxAnimationControl()
 	{
 		if (DeathFlag == false)
 		{
-			if (!nowAttack && f_time >= AttackTime)
+			if (!nowAttack && f_time >= NormalAttackTime)
 			{
 				f_time = 0.0f;
 			}

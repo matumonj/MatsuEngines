@@ -81,9 +81,6 @@ private:
 	NowAttackMotion nowMotion = NON;
 	void SetMotion(bool& motionStartJudg, NowAttackMotion motion, float actionStartTime, float actionEndTime);
 private:
-	// bool GetFolatc() { return folatc; }
-	float NormalAttackTime_Start;
-	float NormalAttackTime_End;
 	float MagicAttackTime_Start;
 	float MagicAttackTime_End;
 	float EvaTime_End;

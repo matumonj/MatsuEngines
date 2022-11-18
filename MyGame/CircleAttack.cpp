@@ -297,7 +297,7 @@ void BomAttack::ParamSet()
 		for (int j = 0; j < meteoSize; j++) {
 			bom_particle_[j][i].BomTex->SetBillboard(TRUE);
 			bom_particle_[j][i].BomTex->SetPosition(bom_particle_[j][i].TexPos);
-			bom_particle_[j][i].BomTex->SetColor({ 1.0f, 0.8f, 0.8f,bom_particle_[j][i].TexAlpha});
+			bom_particle_[j][i].BomTex->SetColor({ 0.2f, 0.2f, 0.2f,bom_particle_[j][i].TexAlpha});
 			bom_particle_[j][i].BomTex->SetScale(bom_particle_[j][i].TexScl);
 			bom_particle_[j][i].BomTex->Update(CameraControl::GetInstance()->GetCamera());
 		}

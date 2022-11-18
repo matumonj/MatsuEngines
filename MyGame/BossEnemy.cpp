@@ -43,10 +43,10 @@ void BossEnemy::Initialize(DebugCamera* camera)
 	m_fbxObject->SetModel(ModelManager::GetIns()->GetFBXModel(ModelManager::BOSS));
 	m_fbxObject->PlayAnimation();
 	radius_adjustment = 0;
-
-	cooltime = 0;
 	AttackTime = 51.000f / 60.000f;
-	NormalAttackTime_End = 215.000f / 60.000f;
+	cooltime = 0;
+	NormalAttackTime = 51.000f / 60.000f;
+	AttackTime_End = 215.000f / 60.000f;
 	MagicAttackTime = 216.000f / 60.00f;
 	MagicAttackTime_End = 360.000f / 60.000f;
 	EvaTime = 370.000f / 60.000f;
@@ -107,7 +107,7 @@ void BossEnemy::AttackCollide()
 	playerOBB.SetOBBParam_Scl({1.0f, 5.0f, 1.0f});
 
 
-	if (f_time >= AttackTime + 1.0f)
+	if (f_time >= NormalAttackTime + 1.0f)
 	{
 		if (Collision::CheckOBBCollision(playerOBB, HandSiteOBB) == true)
 		{
@@ -155,7 +155,7 @@ void BossEnemy::FbxAnimationControl()
 	{
 		f_time += 0.015f;
 	}
-	SetMotion(f_AttackFlag, NORMAL, AttackTime, NormalAttackTime_End);
+	SetMotion(f_AttackFlag, NORMAL, NormalAttackTime, AttackTime_End);
 	SetMotion(MagicMotionStart, MAGIC, MagicAttackTime, MagicAttackTime_End);
 	SetMotion(EvaMotionStart, EVASION, EvaTime, EvaTime_End);
 	SetMotion(FalterFlag, FALTER, FalterTime, FalterTime_End);
@@ -163,7 +163,7 @@ void BossEnemy::FbxAnimationControl()
 	SetMotion(RoarMotionFlag, ROAR, RoarTime, RoarTime_End);
 	SetMotion(SwingFlag, SWING, SwingTime, SwingTime_End);
 
-	if (nowMotion == NON && f_time > AttackTime)
+	if (nowMotion == NON && f_time > NormalAttackTime)
 	{
 		f_time = 0.0f;
 	}

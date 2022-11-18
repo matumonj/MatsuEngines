@@ -9,6 +9,7 @@
 #include"SceneManager.h"
 #include"HUD.h"
 
+/*Œã‚Åplayer‚ÉˆÚ‚µ‚ÄÁ‚·*/
 PlayerAttackState* PlayerAttackState::GetInstance()
 {
 	static PlayerAttackState instance;
