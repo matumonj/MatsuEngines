@@ -124,6 +124,7 @@ public:
 	};
 
 	AttackMotion GetAttackType() { return attackMotion; }
+	AttackMotion GetAttackTypeOld() { return OldattackMotion; }
 	void FbxAnimationControls(const AttackMotion& motiiontype, float attacktime = 0, float nextAnimation = 0);
 	void SetnoAttack(bool f) { noAttack = f; }
 	bool GetnoAttack() { return noAttack; }

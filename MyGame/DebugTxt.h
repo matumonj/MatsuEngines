@@ -15,7 +15,7 @@ private:
 	using XMMATRIX = DirectX::XMMATRIX;
 public:
 	// デバッグテキスト用のテクスチャ番号を指定
-	static const int maxCharCount = 40; // 最大文字数
+	static const int maxCharCount = 20; // 最大文字数
 	static const int fontWidth = 9 * 6; // フォント画像内1文字分の横幅
 	static const int fontHeight = 18 * 6; // フォント画像内1文字分の縦幅
 	static const int fontLineCount = 14; // フォント画像内1行分の文字数
@@ -80,7 +80,7 @@ private:
 	using XMMATRIX = DirectX::XMMATRIX;
 public:
 	// デバッグテキスト用のテクスチャ番号を指定
-	static const int maxCharCount = 256; // 最大文字数
+	static const int maxCharCount = 40; // 最大文字数
 	static const int fontWidth = 55; // フォント画像内1文字分の横幅
 	static const int fontHeight = 110; // フォント画像内1文字分の縦幅
 	static const int fontLineCount = 14; // フォント画像内1行分の文字数

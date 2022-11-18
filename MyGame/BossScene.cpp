@@ -142,6 +142,7 @@ void BossScene::Draw()
 		{
 			bAttack->Draw();
 		}
+		EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->DamageTexDisplay_Draw();
 		Sprite::PreDraw();
 		DebugTextSprite::GetInstance()->DrawAll();
 		Sprite::PostDraw();

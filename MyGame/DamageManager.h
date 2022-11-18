@@ -10,9 +10,10 @@
 
 class DamageManager
 {
+public:
+	DamageManager();
+	~DamageManager();
 private:
-	DamageManager() = default;
-	~DamageManager() = default;
 private:
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
@@ -29,6 +30,7 @@ public:
 	void DamageDisPlay(int damage, XMFLOAT4 color, XMFLOAT3 Position);
 	void SetTexSize(float size) { TexSize.x = size; }
 	void SetAlpha(float alpha) { TexAlpha = alpha; }
+	float GetAlpha() { return TexAlpha; }
 private:
 	void TextBeha();
 	XMVECTOR WDivi(const DirectX::XMVECTOR& pos, const DirectX::XMMATRIX& mat, bool s);
@@ -39,5 +41,5 @@ private:
 	XMFLOAT2 TexSize = {};
 	float TexAlpha = 0.0f;
 	int DamageDisPlayT = 0;
-	std::list<std::unique_ptr<DebugTxt>> DamageTex;
+	std::unique_ptr<DebugTextSprite> DamageTex;
 };

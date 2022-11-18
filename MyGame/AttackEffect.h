@@ -42,7 +42,7 @@ public:
 	enum ParticleSize
 	{
 		//パティクル数設定
-		FIRST = 40,
+		FIRST = 20,
 		SECOND = 20,
 		THIRD=15
 	};

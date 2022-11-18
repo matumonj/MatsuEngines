@@ -13,7 +13,8 @@
 #include"ObjectManager.h"
 #include"ParticleManager.h"
 #include"DebugTxt.h"
-
+#include<list>
+#include"DamageManager.h"
 class NodeBase;
 
 /// <summary>
@@ -73,6 +74,7 @@ public:
 	void SetMoveStop(bool f) { movestop = f; }
 	bool GetMoveStop() { return movestop; }
 	void DamageTexDisplay();
+	void DamageTexDisplay_Draw();
 protected:
 	bool f_AttackFlag = false;
 	bool DeathFlag = false;
@@ -233,6 +235,9 @@ protected:
 protected:
 	EnemyState* state_mob;
 	BossEnemyState* state_boss;
-	ParticleManager* particleMan = nullptr;
-	ParticleManager* particleMan2 = nullptr;
+
+	private:
+	std::vector<std::unique_ptr<DamageManager>> dMans_;
+	std::vector<int> dam;
+	std::vector<DirectX::XMFLOAT3> pos_;
 };

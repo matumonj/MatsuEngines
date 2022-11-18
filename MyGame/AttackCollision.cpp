@@ -50,9 +50,14 @@ void AttackCollision::GetCol(int damage)
 	case SceneManager::TUTORIAL:
 
 		ColOBB(TYTORIAL);
-		if (CustomButton::GetInstance()->GetAttackAction() || CustomButton::GetInstance()->Get2AttackAction())
+		if (PlayerControl::GetInstance()->
+			GetPlayer()->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->FIRST)
 		{
-			HitCol = false;
+			if (PlayerControl::GetInstance()->
+				GetPlayer()->GetFbxTime() > PlayerControl::GetInstance()->
+				GetPlayer()->GetFbxTime_SecondAtack()-0.5f) {
+				HitCol = false;
+			}
 		}
 
 		for (int i = 0; i < EnemyOBB.size(); i++)
@@ -98,10 +103,7 @@ void AttackCollision::GetCol(int damage)
 			{
 				continue;
 			}
-			if (PlayerControl::GetInstance()->GetPlayer()->GetAttackType() != PlayerControl::GetInstance()->GetPlayer()
-				->NON && PlayerControl::GetInstance()->GetPlayer()->GetAttackType() != PlayerControl::GetInstance()->
-				GetPlayer()->RUN)
-			{
+
 				if (attackcolJudgTime_First || attackcolJudgTime_Second || attackcolJudgTime_Third)
 				{
 					if (Collision::CheckOBBCollision(HandObb, EnemyOBB[i]) == true && !HitCol)
@@ -112,23 +114,18 @@ void AttackCollision::GetCol(int damage)
 						HitCol = true;
 					}
 				}
-			}
 		}
 		break;
 
 	case SceneManager::BOSS:
 		ColOBB(BOSS);
 
-		if (PlayerControl::GetInstance()->GetPlayer()->GetFbxTime() < 0.48f)
+		if (CustomButton::GetInstance()->GetAttackAction())
 		{
 			HitCol = false;
 		}
 		if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0] != nullptr)
 		{
-			if (PlayerControl::GetInstance()->GetPlayer()->GetAttackType() != PlayerControl::GetInstance()->GetPlayer()
-				->NON && PlayerControl::GetInstance()->GetPlayer()->GetAttackType() != PlayerControl::GetInstance()->
-				GetPlayer()->RUN)
-			{
 				if (attackcolJudgTime_First || attackcolJudgTime_Second || attackcolJudgTime_Third)
 				{
 					if (Collision::CheckOBBCollision(HandObb, BossEnemyOBB[0]) == true && !HitCol)
@@ -139,7 +136,6 @@ void AttackCollision::GetCol(int damage)
 						HitCol = true;
 					}
 				}
-			}
 		}
 		break;
 	default:

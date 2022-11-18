@@ -6,7 +6,6 @@
 #include"EnemyFollowState.h"
 #include"EnemyFollowState.h"
 #include"BossEnemyStay.h"
-#include"DamageManager.h"
 #include"PlayerControl.h"
 using namespace DirectX;
 
@@ -18,7 +17,6 @@ Enemy::Enemy()
 
 Enemy::~Enemy()
 {
-	delete particleMan, particleMan2;
 	delete state_mob;
 	delete state_boss;
 }
@@ -52,15 +50,19 @@ void Enemy::RecvDamage(int Damage)
 		->GetEye().z;
 	float texX = PlayerControl::GetInstance()->GetPlayer()->GetPosition().x - CameraControl::GetInstance()->GetCamera()
 		->GetEye().x;
-	damageDisF = true;
 	RecvDamagef = true;
 	DamageSize = Damage;
 	DamageTexPos = Position;
-	DamageManager::GetIns()->SetTexSize(2.0f);
-	DamageManager::GetIns()->SetAlpha(1.0f);
 	if (EnemyHP <= 10)
 	{
 	}
+
+	std::unique_ptr<DamageManager>newdTex = std::make_unique<DamageManager>();
+
+	dMans_.push_back(std::move(newdTex));
+	dam.push_back(Damage);
+	pos_.push_back({ Position.x + float(rand() % 20 - 10),Position.y + float(rand() % 10 - 5),Position.z });
+	
 	EnemyHP = EnemyHP - Damage;
 	DamageParticleCreateF = true;
 }
@@ -75,12 +77,19 @@ void Enemy::DestroyJudg()
 
 void Enemy::DamageTexDisplay()
 {
-	if (damageDisF)
-	{
-		DamageManager::GetIns()->DamageDisPlay(DamageSize, {1.0f, 1.0f, 1.0f, 1.0f}, DamageTexPos);
+
+	for (int i = 0; i < dMans_.size(); i++) {
+		if (dMans_[i] == nullptr)continue;
+		dMans_[i]->DamageDisPlay(dam[i], { 1,1,1,1 }, pos_[i]);
 	}
 }
-
+void Enemy::DamageTexDisplay_Draw()
+{
+	for (int i = 0; i < dMans_.size(); i++) {
+		if (dMans_[i] == nullptr)continue; 
+		dMans_[i]->Draw();
+	}
+}
 void Enemy::isRespawn()
 {
 	EnemyHP = MaxHP;

@@ -6,7 +6,17 @@ DamageManager* DamageManager::GetIns()
 	static DamageManager instans;
 	return &instans;
 }
-
+DamageManager::DamageManager()
+{
+	DamageTex = std::make_unique<DebugTextSprite>();
+	DamageTex->Initialize(0);
+	TexAlpha = 1.0f;
+	TexSize = { 2.0f,2.0f };
+}
+DamageManager::~DamageManager()
+{
+	DamageTex.reset();
+}
 void DamageManager::DamageDisPlay(int damage, XMFLOAT4 color, XMFLOAT3 Position)
 {
 	//テクスチャのアルファ値だのサイズだの
@@ -27,14 +37,23 @@ void DamageManager::DamageDisPlay(int damage, XMFLOAT4 color, XMFLOAT3 Position)
 	tex2DPos = WDivi(tex2DPos, false);
 	tex2DPos = PosDivi(tex2DPos, CameraControl::GetInstance()->GetCamera()->GetViewPort(), false);
 
-	DebugTextSprite::GetInstance()->SetAlpha(TexAlpha);
+	DamageTex->SetAlpha(TexAlpha);
 	//表記
-	DebugTextSprite::GetInstance()->Print(str.str(), tex2DPos.m128_f32[0], tex2DPos.m128_f32[1], TexSize.x);
+	DamageTex->Print(str.str(), tex2DPos.m128_f32[0], tex2DPos.m128_f32[1], TexSize.x);
+	
 
 	//TexSize.x = min(TexSize.x, 1.4f);
 	TexSize.x = max(TexSize.x, 0.8f);
 }
 
+void DamageManager::Draw()
+{
+	if (DamageTex == nullptr)return;
+	Sprite::PreDraw();
+	DamageTex->DrawAll();
+	Sprite::PostDraw();
+
+}
 XMVECTOR DamageManager::WDivi(const DirectX::XMVECTOR& pos, const DirectX::XMMATRIX& mat, const bool s)
 {
 	float x, y, z, w;

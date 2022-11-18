@@ -58,12 +58,7 @@ void EnemyAlpha::Initialize(DebugCamera* camera)
 	state_mob->Initialize(this);
 	addRotRadians = -180;
 	FollowRotAngleCorrect = 0;
-	//パーティクルセット
-	ParticleManager::LoadTexture(4, L"Resources/ParticleTex/Normal.png");
-	particleMan = ParticleManager::Create(4, L"Resources/ParticleTex/Attack.png");
-	ParticleManager::LoadTexture(6, L"Resources/ParticleTex/Attack.png");
-	particleMan2 = ParticleManager::Create(6, L"Resources/ParticleTex/Attack.png");
-}
+	}
 
 //更新処理
 void EnemyAlpha::Update(DebugCamera* camera)
@@ -113,9 +108,6 @@ void EnemyAlpha::Draw()
 		Draw_Fbx();
 	}
 	ParticleManager::PreDraw();
-	// 3Dオブクジェクトの描画
-	particleMan->Draw();
-	particleMan2->Draw();
 	// 3Dオブジェクト描画後処理
 	ParticleManager::PostDraw();
 }
