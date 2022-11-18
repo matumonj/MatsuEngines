@@ -219,7 +219,6 @@
     <ClCompile Include="FrontCircleAttack.cpp" />
     <ClCompile Include="f_Model.cpp" />
     <ClCompile Include="f_Object3d.cpp" />
-    <ClCompile Include="GigaBossEnemy.cpp" />
     <ClCompile Include="GrassField.cpp" />
     <ClCompile Include="GrassFieldControl.cpp" />
     <ClCompile Include="GrassObj.cpp" />

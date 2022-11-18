@@ -531,9 +531,6 @@
     <ClCompile Include="AttackEffect.cpp">
       <Filter>Game\2d %28DebugTxt  Sprite Texture%29\texture</Filter>
     </ClCompile>
-    <ClCompile Include="GigaBossEnemy.cpp">
-      <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン\後半フェーズ\行動内容</Filter>
-    </ClCompile>
     <ClCompile Include="GrassFieldControl.cpp">
       <Filter>Game\gameobject\Control</Filter>
     </ClCompile>

@@ -72,6 +72,7 @@ private:
 		ROAR,
 		NORMAL,
 		MAGIC,
+		SWING,
 		EVASION,
 		FALTER,
 		IDLE

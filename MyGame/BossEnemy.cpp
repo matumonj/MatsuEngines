@@ -57,6 +57,8 @@ void BossEnemy::Initialize(DebugCamera* camera)
 	RoarTime_End = 700.00f / 60.00f;
 	IdleTime = 708.00f / 60.00f;
 	IdleTime_End = 1066.00f / 60.00f;
+	SwingTime = 1078.00f / 60.00f;
+	SwingTime_End = 1268.00f / 60.00f;
 	DeathTime = 4.9f;
 	DeathFlag = false;
 	f_time = 200 / 60;
@@ -159,6 +161,7 @@ void BossEnemy::FbxAnimationControl()
 	SetMotion(FalterFlag, FALTER, FalterTime, FalterTime_End);
 	SetMotion(IdleMotionFlag, IDLE, IdleTime, IdleTime_End);
 	SetMotion(RoarMotionFlag, ROAR, RoarTime, RoarTime_End);
+	SetMotion(SwingFlag, SWING, SwingTime, SwingTime_End);
 
 	if (nowMotion == NON && f_time > AttackTime)
 	{

@@ -3,7 +3,6 @@
 #include"EnemyControl.h"
 #include"TutorialSprite.h"
 #include"BossSpell.h"
-#include"EncountGuardianSprite.h"
 #include"ExpPointSystem.h"
 
 UI* UI::GetInstance()
@@ -23,7 +22,7 @@ void UI::Initialize()
 	{
 		TutorialSprite::GetInstance()->Initialize();
 	}
-	EncountGuardianSprite::GetInstance()->Init();
+	
 }
 
 void UI::HUDUpdate(bool& hudload, DebugCamera* camera)
@@ -38,8 +37,6 @@ void UI::HUDUpdate(bool& hudload, DebugCamera* camera)
 	HUD::GetInstance()->SkillBottonUpdate();
 	HUD::GetInstance()->Update();
 	HUD::GetInstance()->TaskUpdate(camera);
-
-	EncountGuardianSprite::GetInstance()->Update();
 
 	ExpPointSystem::GetInstance()->Upda();
 }
@@ -56,8 +53,7 @@ void UI::HUDDraw()
 		}
 
 		BossSpell::GetInstance()->Draw();
-
-		EncountGuardianSprite::GetInstance()->Draw();
+		
 	}
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL)
 	{

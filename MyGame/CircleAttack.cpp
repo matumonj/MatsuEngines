@@ -262,7 +262,7 @@ void BomAttack::Setting_DamageArea()
 	 BossPos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
 
 	XMVECTOR move = { 0.0f, 0.0f, 0.1f, 0.0f };
-	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(BossRotY-69.0f));
+	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(BossRotY+140));
 	move = XMVector3TransformNormal(move, matRot);
 				CenterPosi[0].x = BossPos.x + move.m128_f32[0] * 10;
 				
@@ -334,6 +334,9 @@ void BomAttack::BomParticleUpda()
 	}
 
 	if (_Bphase == bParticlePhase::UPDATE) {
+		if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetFbxTime() < 1085.00f / 60.00f) {
+			AttackJudg = false;
+		}
 		for (int i = 0; i < BomParticleSize; i++)
 		{
 			bom_particle_[0][i].TexScl.x += 0.1f;
@@ -362,7 +365,7 @@ void BomAttack::BomParticleUpda()
 void BomAttack::Upda()
 {
 
-	if (Input::GetInstance()->TriggerButton(Input::X)) {
+	if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetFbxTime()>1085.00f/60.00f&&!AttackJudg) {
 		_Bphase = bParticlePhase::SETPOSITION;
 		//Phase_One();
 		AttackJudg = true;

@@ -149,7 +149,7 @@ void EnemyControl::Init_Boss(DebugCamera* camera)
 	boss_pos = {-1.0f, 10.0f, 20.987f};
 	enemys[BOSS][0]->SetPosition(boss_pos);
 
-
+	HalfAttack::GetInstance()->Initialize();
 	KnockAttack::GetInstance()->Initialize();
 	CircleAttack::GetInstance()->Initialize();
 	AltAttack::GetInstance()->Initialize();

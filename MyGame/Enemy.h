@@ -79,6 +79,7 @@ protected:
 	bool nowDeath = false;
 	bool nowAttack = false;
 	bool FalterFlag = false;
+	bool SwingFlag=false;
 	int cooltime = 0;
 
 	int onGroundTime = 0;
@@ -108,6 +109,7 @@ public:
 		WALK,
 		ATTACK1,
 		ATTACK2,
+		ATTACK3,
 		DEATH,
 		ROAR,
 		IDLE
@@ -123,6 +125,8 @@ protected:
 	float FalterTime_End;
 	float RoarTime;
 	float RoarTime_End;
+	float SwingTime;
+	float SwingTime_End;
 	float IdleTime;
 	float IdleTime_End;
 	float EvaTime = 0.0f;
@@ -185,6 +189,8 @@ protected: //攻撃の開始と終了判定用
 	Attack_SE Attack[AtckNum];
 
 public:
+	void SetSwingMotion(bool f) { if (f_time < SwingTime) { SwingFlag = f; } }
+
 	void SetFalterMotion(bool f) { if (f_time < FalterTime) { FalterFlag = f; } }
 	void SetRoarMotion(bool f) { if (sqrtf((f_time - RoarTime) * (f_time - RoarTime)) > 4.44f) { RoarMotionFlag = f; } }
 	void SetIdleMotion(bool f) { if (f_time < IdleTime) { IdleMotionFlag = f; } }

@@ -10,7 +10,7 @@ void BossEnemyAttackCircle::Initialize(Enemy* enmey)
 
 void BossEnemyAttackCircle::Update(Enemy* enemy)
 {
-	enemy->SetRoarMotion(true);
+	enemy->SetSwingMotion(true);
 	CircleAttack::GetInstance()->ActionJudg();
 
 	if (Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) < 50.0f)

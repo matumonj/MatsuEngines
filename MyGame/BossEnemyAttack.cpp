@@ -10,7 +10,7 @@ void BossEnemyAttack::Initialize(Enemy* enmey)
 
 void BossEnemyAttack::Update(Enemy* enemy)
 {
-	enemy->SetAttackTime(true);
+	enemy->SetSwingMotion(true);
 	//PlayerControl::GetInstance()->GetPlayer()->RecvDamage(2);
 	if (CameraControl::GetInstance()->GetCameraState() == CameraControl::BOSSCUTSCENE)
 	{
