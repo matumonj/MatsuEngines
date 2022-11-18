@@ -26,7 +26,10 @@ void GrassField::Initialize(DebugCamera* camera)
 
 void GrassField::Update(DebugCamera* camera)
 {
-	if (grass == nullptr)return;
+	if (grass == nullptr)
+	{
+		return;
+	}
 
 
 	grass->SetPosition(FieldPos);
@@ -40,7 +43,10 @@ void GrassField::Update(DebugCamera* camera)
 
 void GrassField::Draw()
 {
-	if (grass == nullptr)return;
+	if (grass == nullptr)
+	{
+		return;
+	}
 	GrassObj::PreDraw();
 	grass->Draw();
 	GrassObj::PostDraw();

@@ -80,7 +80,10 @@ void Player::ReturnGround()
 
 void Player::Move()
 {
-	if (StopFlag || evasionF)return;
+	if (StopFlag || evasionF)
+	{
+		return;
+	}
 
 	XMFLOAT3 pos = Position;
 	XMFLOAT3 rot = Rotation;
@@ -174,7 +177,10 @@ void Player::Evasion()
 
 void Player::Update(DebugCamera* camera)
 {
-	if (m_Object == nullptr || m_fbxObject == nullptr)return;
+	if (m_Object == nullptr || m_fbxObject == nullptr)
+	{
+		return;
+	}
 	//‚PƒtƒŒ[ƒ€‘O‚ÌÀ•W‚ð•Û‘¶
 	oldpos = Position;
 
@@ -215,7 +221,7 @@ void Player::Draw()
 	ImGui::SliderFloat("posx", &Position.x, -100, 106);
 	ImGui::SliderFloat("tposy", &Position.y, -100, 106);
 	ImGui::SliderFloat("posz", &Position.z, -100, 106);
-	ImGui::Text("%f",Position.x);
+	ImGui::Text("%f", Position.x);
 	ImGui::Text("%f", Position.y);
 	ImGui::Text("%f", Position.z);
 	ImGui::End();
@@ -258,7 +264,10 @@ void Player::FbxAnimationControls(const AttackMotion& motiontype, const float at
 
 void Player::FbxAnimationControl()
 {
-	if (evasionF || noAttack)return;
+	if (evasionF || noAttack)
+	{
+		return;
+	}
 	float timespeed = 0.02f;
 
 	if (attackMotion == FIRST)
@@ -343,8 +352,14 @@ XMMATRIX Player::GetMatrot()
 void Player::RecvDamage(int Damage)
 {
 	//UŒ‚Žó‚¯‚½‚ ‚Æ2•b‚Í–³“G
-	if (CoolTime != 0 || evasionF)return;
-	if (CameraControl::GetInstance()->GetCameraState() != CameraControl::PLAYER) return;
+	if (CoolTime != 0 || evasionF)
+	{
+		return;
+	}
+	if (CameraControl::GetInstance()->GetCameraState() != CameraControl::PLAYER)
+	{
+		return;
+	}
 
 	if (!HUD::GetInstance()->GetRecvDamageFlag())
 	{

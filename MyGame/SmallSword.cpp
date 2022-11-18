@@ -485,7 +485,10 @@ void SmallSword::Slash::Updata(DebugCamera* camera)
 /*-------------*/
 void SmallSword::Blizzard::Draw()
 {
-	if (!ActFlag)return;
+	if (!ActFlag)
+	{
+		return;
+	}
 	Object3d::PreDraw();
 
 	IceCrystalObj->Draw();

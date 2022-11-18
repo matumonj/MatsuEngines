@@ -39,7 +39,7 @@ void BossScene::Initialize()
 
 	//postEffect = new MinimapSprite();
 	//postEffect->Initialize();
-//	dc = new DebugCamera(WinApp::window_width, WinApp::window_height);
+	//	dc = new DebugCamera(WinApp::window_width, WinApp::window_height);
 }
 
 /*------------------------*/
@@ -137,8 +137,9 @@ void BossScene::Draw()
 	case Default: //•’Ê‚Ì‚â‚Â“Á‚É‰½‚à‚©‚©‚Á‚Ä‚¢‚È‚¢
 		DirectXCommon::GetInstance()->BeginDraw();
 		MyGameDraw();
-		//postEffect->Draw();
-		if (bAttack!=nullptr) {
+	//postEffect->Draw();
+		if (bAttack != nullptr)
+		{
 			bAttack->Draw();
 		}
 		Sprite::PreDraw();

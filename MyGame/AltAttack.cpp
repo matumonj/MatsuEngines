@@ -151,7 +151,10 @@ void AltAttack::EnergieCharge()
 
 void AltAttack::BeamObjSetParam()
 {
-	if (BeamObj[0] == nullptr)return;
+	if (BeamObj[0] == nullptr)
+	{
+		return;
+	}
 
 	BeamPosition[0] = {60.0f, -10.0f, 60.0f};
 	BeamPosition[1] = {-60.0f, -10.0f, 60.0f};
@@ -169,7 +172,10 @@ void AltAttack::BeamObjSetParam()
 
 void AltAttack::BeamObjDraw()
 {
-	if (BeamObj[0] == nullptr)return;
+	if (BeamObj[0] == nullptr)
+	{
+		return;
+	}
 	Object3d::PreDraw();
 	for (int i = 0; i < 2; i++)
 	{

@@ -22,7 +22,6 @@ void UI::Initialize()
 	{
 		TutorialSprite::GetInstance()->Initialize();
 	}
-	
 }
 
 void UI::HUDUpdate(bool& hudload, DebugCamera* camera)
@@ -53,7 +52,6 @@ void UI::HUDDraw()
 		}
 
 		BossSpell::GetInstance()->Draw();
-		
 	}
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL)
 	{

@@ -49,7 +49,10 @@ void Wood::Draw()
 
 bool Wood::CollideWood()
 {
-	if (PlayerControl::GetInstance()->GetPlayer() == nullptr)return false;
+	if (PlayerControl::GetInstance()->GetPlayer() == nullptr)
+	{
+		return false;
+	}
 	playerOBB.SetOBBParam_Pos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
 	playerOBB.SetOBBParam_Scl({1.0f, 1.0f, 1.0f});
 	playerOBB.SetOBBParam_Rot(PlayerControl::GetInstance()->GetPlayer()->GetMatrot());

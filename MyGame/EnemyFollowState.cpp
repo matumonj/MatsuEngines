@@ -46,23 +46,23 @@ void EnemyFollowState::Update(Enemy* enemy)
 	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(enemy->GetRotation().y + enemy->GetRotRadians()));
 
 	move = XMVector3TransformNormal(move, matRot);
-//	if (enemy->GetFbxTime()< 510.000f / 60.000f) {
-		enemy->SetRotation({
-			enemy->GetRotation().x,
-			RotY * 60 + enemy->GetRotCorrect(),
-			enemy->GetRotation().z
-			});
+	//	if (enemy->GetFbxTime()< 510.000f / 60.000f) {
+	enemy->SetRotation({
+		enemy->GetRotation().x,
+		RotY * 60 + enemy->GetRotCorrect(),
+		enemy->GetRotation().z
+	});
 
-		if (!enemy->GetMoveStop())
+	if (!enemy->GetMoveStop())
+	{
+		if (Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) > 5)
 		{
-			if (Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) > 5)
-			{
-				enemy->SetPosition({
-						enemy->GetPosition().x + move.m128_f32[0],
-						enemy->GetPosition().y,
-						enemy->GetPosition().z + move.m128_f32[2]
-					}
-				);
+			enemy->SetPosition({
+					enemy->GetPosition().x + move.m128_f32[0],
+					enemy->GetPosition().y,
+					enemy->GetPosition().z + move.m128_f32[2]
+				}
+			);
 			//}
 		}
 

@@ -195,7 +195,10 @@ void Tutorial::MyGameDraw()
 	{
 		for (int i = 0; i < AllObjectControl.size(); i++)
 		{
-			if (AllObjectControl[i] == nullptr) continue;
+			if (AllObjectControl[i] == nullptr)
+			{
+				continue;
+			}
 			AllObjectControl[i]->Draw();
 		}
 	}

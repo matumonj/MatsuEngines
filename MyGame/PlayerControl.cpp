@@ -83,7 +83,10 @@ void PlayerControl::Load(DebugCamera* camera)
 //playerの中にある移動処理とかは後でこっち持ってくる
 void PlayerControl::Update_Tutorial(DebugCamera* camera) //チュートリアル時
 {
-	if (player == nullptr)return;
+	if (player == nullptr)
+	{
+		return;
+	}
 	player->Update(camera);
 
 
@@ -126,19 +129,28 @@ void PlayerControl::Update_Boss(DebugCamera* camera)
 /*------------------------*/
 void PlayerControl::Draw_Play()
 {
-	if (player == nullptr)return;
+	if (player == nullptr)
+	{
+		return;
+	}
 	player->Draw();
 }
 
 void PlayerControl::Draw_Tutorial()
 {
-	if (player == nullptr)return;
+	if (player == nullptr)
+	{
+		return;
+	}
 	player->Draw();
 }
 
 void PlayerControl::Draw_Boss()
 {
-	if (player == nullptr)return;
+	if (player == nullptr)
+	{
+		return;
+	}
 	player->Draw();
 }
 

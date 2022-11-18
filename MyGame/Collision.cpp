@@ -174,7 +174,10 @@ bool Collision::CheckSphere2Triangle(const Sphere& sphere, const Triangle& trian
 	//（同じベクトル同士の内積は三平方の定理のルート内部の式と一致する）
 	float distanceSquare = XMVector3Dot(v, v).m128_f32[0];
 	// 球と三角形の距離が半径以下なら当たっていない
-	if (distanceSquare > sphere.radius * sphere.radius) return false;
+	if (distanceSquare > sphere.radius * sphere.radius)
+	{
+		return false;
+	}
 	// 擬似交点を計算
 	if (inter)
 	{
@@ -206,7 +209,10 @@ bool Collision::CheckRay2Plane(const Ray& lay, const Plane& plane, float* distan
 	float d2 = XMVector3Dot(plane.normal, lay.start).m128_f32[0];
 	float t = (plane.distance - d2) / d1;
 
-	if (t < 0) return false;
+	if (t < 0)
+	{
+		return false;
+	}
 
 	// 距離を書き込む
 	if (distance)
@@ -302,7 +308,10 @@ bool Collision::CheckRay2Sphere(const Ray& lay, const Sphere& sphere, float* dis
 	// 交差する最小の値tを計算
 	float t = -b - sqrtf(discr);
 	// tが負である場合、レイは球の内側から開始しているのでtをゼロにクランプ
-	if (t < 0) t = 0.0f;
+	if (t < 0)
+	{
+		t = 0.0f;
+	}
 
 	if (distance)
 	{

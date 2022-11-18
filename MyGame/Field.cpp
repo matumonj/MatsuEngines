@@ -40,7 +40,6 @@ void Field::Initialize(DebugCamera* camera)
 {
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
 	{
-	
 		//FieldObject->CreateGraphicsPipeline(L"Resources/Shader/Object3dVS.hlsl", L"Resources/Shader/Object3dPS.hlsl", L"Resources/Shader/BasicGS.hlsl");
 		//ミニマップ(ボスフィールド)
 		SetFieldModel(MINI, ModelManager::GetIns()->GetModel(ModelManager::BOSSFIELD), camera);
@@ -115,7 +114,10 @@ void Field::Initialize(DebugCamera* camera)
 
 void Field::Update_Tutorial(DebugCamera* camera)
 {
-	if (FieldObject == nullptr)return;
+	if (FieldObject == nullptr)
+	{
+		return;
+	}
 	FieldObject->SetPosition({0.0f, -25.0f, 0.0f});
 	FieldObject->SetFogCenter({125.0f, -25.0f, -680.0f});
 	FieldObject->setFog(TRUE);
@@ -168,7 +170,10 @@ void Field::Update_Play(DebugCamera* camera)
 		FogCenterPos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 	}
 
-	if (FieldObject == nullptr)return;
+	if (FieldObject == nullptr)
+	{
+		return;
+	}
 	CelestalRot += 0.1f;
 	m_object[CELESTIALSPHERE]->SetRotation({90.0f, CelestalRot, 180.0f});
 	SetFieldUpdate(CELESTIALSPHERE, camera, {0.0f, 2290.0f, 0.0f}, {40.0f, 40.0f, 40.0f}, FALSE, FALSE);
@@ -210,7 +215,7 @@ void Field::Update_Boss(DebugCamera* camera)
 
 	//フィールド外周とプレイヤーの当たり判定(現時点では矩形と点)
 	//FieldDamageAreaCol();
-	
+
 	//playerpoint->SetPosition({ PlayerControl::GetInstance()->GetPlayer()->GetPosition().x,PlayerControl::GetInstance()->GetPlayer()->GetPosition().y + 10,PlayerControl::GetInstance()->GetPlayer()->GetPosition().z });
 	//playerpoint->Update(dc);
 	//playerpoint->SetScale({ 4,4,4 });
@@ -273,18 +278,18 @@ void Field::MiniFieldDraw()
 
 void Field::Draw()
 {
-	
 	Object3d::PreDraw();
 	if (SceneManager::GetInstance()->GetScene() != SceneManager::MAPCREATE)
 	{
 		m_object[CELESTIALSPHERE]->Draw();
 	}
-	
+
 	if (SceneManager::GetInstance()->GetScene() != SceneManager::BOSS)
 	{
 		FieldObject->Draw();
 	}
-	else {
+	else
+	{
 		ModelDraw_nullCheck(BOSSBACK);
 		ModelDraw_nullCheck(DAMAGEAREA);
 	}
@@ -347,7 +352,10 @@ void Field::SetFieldModel(ObjType type, Model* model, DebugCamera* camera)
 
 void Field::SetFieldUpdate(ObjType type, DebugCamera* camera, XMFLOAT3 Pos, XMFLOAT3 Scl, bool uvscroll, bool fog)
 {
-	if (m_object[type] == nullptr)return;
+	if (m_object[type] == nullptr)
+	{
+		return;
+	}
 
 	m_object[type]->SetPosition(Pos);
 	m_object[type]->SetScale(Scl);
@@ -358,6 +366,9 @@ void Field::SetFieldUpdate(ObjType type, DebugCamera* camera, XMFLOAT3 Pos, XMFL
 
 void Field::ModelDraw_nullCheck(ObjType type)
 {
-	if (m_object[type] == nullptr)return;
+	if (m_object[type] == nullptr)
+	{
+		return;
+	}
 	m_object[type]->Draw();
 }

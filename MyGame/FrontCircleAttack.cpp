@@ -53,14 +53,14 @@ void FrontCircleAttack::ActionJudg()
 		fase = FASETHREE;
 		break;
 	case FASETHREE:
-		
 
-			TexAlpha -= 0.02f;
-			if (TexAlpha <= 0.0f)
-			{
-				fase = FASEFOUR;
-			}
-		
+
+		TexAlpha -= 0.02f;
+		if (TexAlpha <= 0.0f)
+		{
+			fase = FASEFOUR;
+		}
+
 		break;
 	case FASEFOUR:
 		BossSpell::GetInstance()->SetEndSpell(BossSpell::SLAM, false);

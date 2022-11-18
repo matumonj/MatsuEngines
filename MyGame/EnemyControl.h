@@ -52,7 +52,14 @@ public:
 
 	std::unique_ptr<GigaBossEnemy>& GetGigaBossEnemy() { return gigaboss; };
 
-	Enemy* GetEncountEnemy() { if (encountEnemy != nullptr)return encountEnemy; }
+	Enemy* GetEncountEnemy()
+	{
+		if (encountEnemy != nullptr)
+		{
+			return encountEnemy;
+		}
+	}
+
 private:
 	/*XVˆ—*/
 	void Init_Tutorial(DebugCamera* camera) override;

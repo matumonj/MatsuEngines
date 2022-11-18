@@ -63,11 +63,11 @@ void BossEnemy::Initialize(DebugCamera* camera)
 	DeathFlag = false;
 	f_time = 200 / 60;
 
-	FollowRotAngleCorrect =36.0f;
+	FollowRotAngleCorrect = 36.0f;
 	addRotRadians = 157.0f;
 	state_boss->Initialize(this);
-
 }
+
 //更新処理
 void BossEnemy::Update(DebugCamera* camera)
 {
@@ -91,7 +91,7 @@ void BossEnemy::Update(DebugCamera* camera)
 	//攻撃後のクールタイム設定
 	AttackCoolTime();
 	//地形当たり判定
-	
+
 	//攻撃受けたらパーティクル
 	DamageParticleSet();
 }
@@ -129,11 +129,13 @@ void BossEnemy::Draw()
 	ImGui::SliderFloat("rotfolow", &FollowRotAngleCorrect, -180, 360);
 	ImGui::SliderFloat("rotadd", &addRotRadians, -180, 360);
 	ImGui::End();
-	if (alpha < 0)return;
+	if (alpha < 0)
+	{
+		return;
+	}
 	Draw_Fbx();
-	
-	// 3Dオブジェクト描画前処理
 
+	// 3Dオブジェクト描画前処理
 }
 
 void BossEnemy::Death()
@@ -216,5 +218,4 @@ void BossEnemy::AttackCoolTime()
 
 void BossEnemy::DamageParticleSet()
 {
-	
 }

@@ -44,7 +44,10 @@ void Enemy::Action()
 
 void Enemy::RecvDamage(int Damage)
 {
-	if (this == nullptr || EnemyHP < 0)return;
+	if (this == nullptr || EnemyHP < 0)
+	{
+		return;
+	}
 	float texZ = PlayerControl::GetInstance()->GetPlayer()->GetPosition().z - CameraControl::GetInstance()->GetCamera()
 		->GetEye().z;
 	float texX = PlayerControl::GetInstance()->GetPlayer()->GetPosition().x - CameraControl::GetInstance()->GetCamera()

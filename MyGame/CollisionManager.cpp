@@ -101,8 +101,14 @@ bool CollisionManager::Raycast(const Ray& ray, unsigned short attribute, Raycast
 			float tempDistance;
 			XMVECTOR tempInter;
 
-			if (!Collision::CheckRay2Sphere(ray, *sphere, &tempDistance, &tempInter)) continue;
-			if (tempDistance >= distance) continue;
+			if (!Collision::CheckRay2Sphere(ray, *sphere, &tempDistance, &tempInter))
+			{
+				continue;
+			}
+			if (tempDistance >= distance)
+			{
+				continue;
+			}
 
 			result = true;
 			distance = tempDistance;
@@ -115,8 +121,14 @@ bool CollisionManager::Raycast(const Ray& ray, unsigned short attribute, Raycast
 
 			float tempDistance;
 			XMVECTOR tempInter;
-			if (!meshCollider->CheckCollisionRay(ray, &tempDistance, &tempInter)) continue;
-			if (tempDistance >= distance) continue;
+			if (!meshCollider->CheckCollisionRay(ray, &tempDistance, &tempInter))
+			{
+				continue;
+			}
+			if (tempDistance >= distance)
+			{
+				continue;
+			}
 
 			result = true;
 			distance = tempDistance;
@@ -161,7 +173,10 @@ void CollisionManager::QuerySphere(const Sphere& sphere, QueryCallback* callback
 
 			XMVECTOR tempInter;
 			XMVECTOR tempReject;
-			if (!Collision::CheckSphere2Sphere(sphere, *sphereB, &tempInter, &tempReject)) continue;
+			if (!Collision::CheckSphere2Sphere(sphere, *sphereB, &tempInter, &tempReject))
+			{
+				continue;
+			}
 
 			// 交差情報をセット
 			QueryHit info;
@@ -184,7 +199,10 @@ void CollisionManager::QuerySphere(const Sphere& sphere, QueryCallback* callback
 
 			XMVECTOR tempInter;
 			XMVECTOR tempReject;
-			if (!meshCollider->CheckCollisionSphere(sphere, &tempInter, &tempReject)) continue;
+			if (!meshCollider->CheckCollisionSphere(sphere, &tempInter, &tempReject))
+			{
+				continue;
+			}
 
 			// 交差情報をセット
 			QueryHit info;

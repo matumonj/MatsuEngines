@@ -326,8 +326,14 @@ void (CameraControl::* CameraControl::targetTable[])() = {
 XMVECTOR CameraControl::SplinePosition(const std::vector<XMVECTOR>& points, size_t startindex, float t)
 {
 	size_t n = points.size() - 2;
-	if (startindex > n)return points[n];
-	if (startindex < 1)return points[1];
+	if (startindex > n)
+	{
+		return points[n];
+	}
+	if (startindex < 1)
+	{
+		return points[1];
+	}
 
 	XMVECTOR p0 = points[startindex - 1];
 	XMVECTOR p1 = points[startindex];
@@ -360,7 +366,7 @@ void CameraControl::BossSceneStart()
 		point.push_back({BossPos.x + 20.0f, BossPos.y + 20.0f, BossPos.z + 10.0f}); //Œã‚ë‰ñ‚Á‚Ä
 		point.push_back({BossPos.x + 0.0f, BossPos.y + 20.0f, BossPos.z + 30.0f}); //¶‚­‚é
 		point.push_back({BossPos.x - 20.0f, BossPos.y + 20.0f, BossPos.z + 10.0f});
-		point.push_back({ BossPos.x, BossPos.y + 20.0f, BossPos.z - 20.0f });
+		point.push_back({BossPos.x, BossPos.y + 20.0f, BossPos.z - 20.0f});
 		point.push_back({BossPos.x, BossPos.y + 20.0f, BossPos.z - 20.0f});
 	}
 	switch (bCamera)

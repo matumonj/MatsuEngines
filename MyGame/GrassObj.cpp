@@ -376,7 +376,10 @@ void GrassObj::Draw()
 	// nullptrチェック
 	assert(device);
 	assert(GrassObj::cmdList);
-	if (model == nullptr)return;
+	if (model == nullptr)
+	{
+		return;
+	}
 	cmdList->SetGraphicsRootConstantBufferView(0, constBuffB0->GetGPUVirtualAddress());
 	// ライトの描画
 

@@ -153,7 +153,10 @@ void WoodControl::Update_Play(DebugCamera* camera)
 
 	for (int i = 0; i < Quantity; i++)
 	{
-		if (woods[i] == nullptr)continue;
+		if (woods[i] == nullptr)
+		{
+			continue;
+		}
 		if (Collision::GetLength(pPos, woods[i]->GetPosition()) < 200)
 		{
 			//woods[i]->SetColor({ 0.0f,1.0f,0.0f,1.0f });

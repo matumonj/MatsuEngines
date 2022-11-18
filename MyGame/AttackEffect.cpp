@@ -87,13 +87,19 @@ void AttackEffect::SetParticle(XMFLOAT3 pos)
 
 void AttackEffect::ParticleUpda()
 {
-	if (AttackParticle.size() < FIRST)return;
+	if (AttackParticle.size() < FIRST)
+	{
+		return;
+	}
 	XMVECTOR pmove;
 	XMMATRIX pmatRot;
 
 	for (int i = 0; i < AttackParticle.size(); i++)
 	{
-		if (AttackParticle[i] == nullptr)continue;
+		if (AttackParticle[i] == nullptr)
+		{
+			continue;
+		}
 		pmove = {0.0f, 0.1f, 0.0f, 0.0f};
 		pmatRot = XMMatrixRotationZ(XMConvertToRadians(ParRot[i].z));
 		pmove = XMVector3TransformNormal(pmove, pmatRot);
@@ -189,7 +195,10 @@ void AttackEffect::Draw()
 	Texture::PreDraw();
 	for (int i = 0; i < AttackParticle.size(); i++)
 	{
-		if (AttackParticle[i] == nullptr)continue;
+		if (AttackParticle[i] == nullptr)
+		{
+			continue;
+		}
 		AttackParticle[i]->Draw();
 	}
 	if (AttackTex != nullptr)

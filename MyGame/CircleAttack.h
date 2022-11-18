@@ -6,6 +6,7 @@
 #include"Sprite.h"
 #include<array>
 #include<map>
+
 class CircleAttack
 {
 public:
@@ -90,7 +91,7 @@ class BomAttack
 private:
 	struct BomParticle
 	{
-		std::unique_ptr<Texture>BomTex;
+		std::unique_ptr<Texture> BomTex;
 		DirectX::XMFLOAT3 CenterPos;
 		DirectX::XMFLOAT3 TexPos;
 		DirectX::XMFLOAT3 TexScl;
@@ -98,12 +99,15 @@ private:
 		float TexAlpha;
 		float Angle;
 	};
-	enum bParticlePhase {
+
+	enum bParticlePhase
+	{
 		NON,
 		SETPOSITION,
 		UPDATE,
 		CLEAR
-	}_Bphase;
+	} _Bphase;
+
 	//パーティクルサイズ
 	static constexpr int BomParticleSize = 15;
 	static constexpr int meteoSize = 7;
@@ -112,7 +116,7 @@ private:
 	bool jf[meteoSize];
 	DirectX::XMFLOAT3 BossPos;
 	DirectX::XMFLOAT3 CenterPosi[meteoSize];
-std::array <std::array<BomParticle, BomParticleSize>,meteoSize> bom_particle_;
+	std::array<std::array<BomParticle, BomParticleSize>, meteoSize> bom_particle_;
 public:
 	void Init();
 	void Upda();
@@ -133,7 +137,8 @@ private:
 	bool AttackJudg;
 	int NextPhase_WaitC = 0;
 
-	static constexpr float FieldBottomPosY=10.0f;
+	static constexpr float FieldBottomPosY = 10.0f;
+
 	enum DamageArea
 	{
 		LEFT,
@@ -141,9 +146,10 @@ private:
 		UP,
 		BOTTOM
 	};
+
 	float MteoObjAlpha;
 	//各ダメージエリアの座標書き出し
-	std::map<DamageArea,DirectX::XMFLOAT3>damageAreaPos;
+	std::map<DamageArea, DirectX::XMFLOAT3> damageAreaPos;
 	void Phase_One();
 	void Phase_Two();
 	void Phase_Three();

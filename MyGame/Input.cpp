@@ -218,8 +218,14 @@ bool Input::TiltStick(STICK Stick)
 		vec.x = xinputState.Gamepad.sThumbRX;
 		vec.y = xinputState.Gamepad.sThumbRY;
 	}
-	if (!StickInDeadZone(oldVec))return false;
-	if (StickInDeadZone(vec))return false;
+	if (!StickInDeadZone(oldVec))
+	{
+		return false;
+	}
+	if (StickInDeadZone(vec))
+	{
+		return false;
+	}
 
 	bool result = false;
 
@@ -516,7 +522,10 @@ bool Input::TiltPushStick(STICK Stick, float DeadZone)
 	}
 
 	//if (!StickInDeadZone(oldVec))return false;
-	if (StickInDeadZone(vec))return false;
+	if (StickInDeadZone(vec))
+	{
+		return false;
+	}
 
 	bool result = false;
 	if (Stick % 4 == L_UP)
@@ -554,6 +563,9 @@ bool Input::StickInDeadZone(StickPos& Thumb)
 		Thumb.y = 0.0f;
 		y = true;
 	}
-	if (x && y)return true;
+	if (x && y)
+	{
+		return true;
+	}
 	return false;
 }

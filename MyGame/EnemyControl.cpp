@@ -165,7 +165,10 @@ void EnemyControl::Load(DebugCamera* camera)
 /*------------------------*/
 void EnemyControl::Update_Tutorial(DebugCamera* camera)
 {
-	if (enemys[TUTORIAL][0] == nullptr)return;
+	if (enemys[TUTORIAL][0] == nullptr)
+	{
+		return;
+	}
 	if (TutorialSprite::GetInstance()->GetClearMove())
 	{
 		//enemys[EnemyType::TUTORIAL][0]->SetMoveFlag(true);
@@ -183,7 +186,10 @@ void EnemyControl::Update_Play(DebugCamera* camera)
 
 	for (int i = 0; i < Quantity; i++)
 	{
-		if (enemys[PLAYSCENE][i] == nullptr) continue;
+		if (enemys[PLAYSCENE][i] == nullptr)
+		{
+			continue;
+		}
 		if (Collision::GetLength(pPos, enemys[PLAYSCENE][i]->GetPosition()) < 200)
 		{
 			enemys[PLAYSCENE][i]->SetMoveFlag(true);
@@ -198,7 +204,10 @@ void EnemyControl::Update_Play(DebugCamera* camera)
 
 void EnemyControl::Update_Boss(DebugCamera* camera)
 {
-	if (enemys[BOSS][0] == nullptr) return;
+	if (enemys[BOSS][0] == nullptr)
+	{
+		return;
+	}
 	enemys[BOSS][0]->Update(camera);
 	if (enemys[BOSS][0]->GetObjAlpha() <= 0)
 	{
@@ -242,7 +251,10 @@ void EnemyControl::Draw_Play()
 
 void EnemyControl::Draw_Boss()
 {
-	if (enemys[BOSS][0] == nullptr)return;
+	if (enemys[BOSS][0] == nullptr)
+	{
+		return;
+	}
 	enemys[BOSS][0]->Draw();
 	CircleAttack::GetInstance()->Draw();
 	HalfAttack::GetInstance()->Draw();

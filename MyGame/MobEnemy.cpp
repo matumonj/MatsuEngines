@@ -176,7 +176,10 @@ void MobEnemy::Death()
 
 void MobEnemy::FbxAnimationControl()
 {
-	if (DeathFlag)return;
+	if (DeathFlag)
+	{
+		return;
+	}
 	float fbxanimationTime;
 	if (nowAttack)
 	{

@@ -79,7 +79,7 @@ protected:
 	bool nowDeath = false;
 	bool nowAttack = false;
 	bool FalterFlag = false;
-	bool SwingFlag=false;
+	bool SwingFlag = false;
 	int cooltime = 0;
 
 	int onGroundTime = 0;
@@ -192,7 +192,7 @@ protected: //攻撃の開始と終了判定用
 
 public:
 	void SetSwingMotion(bool f) { if (f_time < SwingTime) { SwingFlag = f; } }
-	
+
 	void SetFalterMotion(bool f) { if (f_time < FalterTime) { FalterFlag = f; } }
 	void SetRoarMotion(bool f) { if (sqrtf((f_time - RoarTime) * (f_time - RoarTime)) > 4.44f) { RoarMotionFlag = f; } }
 	void SetIdleMotion(bool f) { if (f_time < IdleTime) { IdleMotionFlag = f; } }

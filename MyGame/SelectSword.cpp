@@ -397,7 +397,10 @@ void SelectSword::SpriteDraw()
 
 void SelectSword::PedestalDraw()
 {
-	if (!SelectJudg)return;
+	if (!SelectJudg)
+	{
+		return;
+	}
 	Object3d::PreDraw();
 	PedestalObj->Draw();
 	for (int i = 0; i < 3; i++)

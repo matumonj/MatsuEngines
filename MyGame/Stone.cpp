@@ -67,7 +67,10 @@ void Stone_A::Draw()
 
 bool Stone_A::CollideStone()
 {
-	if (PlayerControl::GetInstance()->GetPlayer() == nullptr)return false;
+	if (PlayerControl::GetInstance()->GetPlayer() == nullptr)
+	{
+		return false;
+	}
 	playerOBB.SetOBBParam_Pos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
 	playerOBB.SetOBBParam_Scl({1, 1, 1});
 	playerOBB.SetOBBParam_Rot(PlayerControl::GetInstance()->GetPlayer()->GetMatrot());
@@ -123,7 +126,10 @@ void Stone_B::Draw()
 
 bool Stone_B::CollideStone()
 {
-	if (PlayerControl::GetInstance()->GetPlayer() == nullptr)return false;
+	if (PlayerControl::GetInstance()->GetPlayer() == nullptr)
+	{
+		return false;
+	}
 	playerOBB.SetOBBParam_Pos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
 	playerOBB.SetOBBParam_Scl({1, 1, 1});
 	playerOBB.SetOBBParam_Rot(PlayerControl::GetInstance()->GetPlayer()->GetMatrot());
