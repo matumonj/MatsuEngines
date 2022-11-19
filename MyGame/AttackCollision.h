@@ -25,6 +25,7 @@ private:
 	bool HitCol;
 	bool HitCol2;
 	OBB HandObb;
+	bool attackCol[2];
 	//OBBCollision* ColObb;
 	//OBBCollision* BossColObb;
 	//std::vector<OBBCollision*>PlayColOBB;
@@ -51,5 +52,6 @@ private:
 	std::vector<OBB> EnemyOBB;
 	std::vector<OBB> PlayEnemyOBB;
 	std::vector<OBB> BossEnemyOBB;
+	OBB SummonEnemyOBB[2];
 	void ColOBB(ColType Enemytype);
 };

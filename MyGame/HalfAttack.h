@@ -1,7 +1,8 @@
 #pragma once
 #include"Texture.h"
 #include"Input.h"
-
+#include"MobEnemy.h"
+#include<array>
 class HalfAttack
 {
 public:
@@ -18,6 +19,9 @@ private:
 		LEFT,
 		RIGHT
 	};
+	static constexpr int EnemySize = 4;
+	std::array<std::unique_ptr<Texture>, EnemySize>MagicTex;
+	std::array<XMFLOAT3, EnemySize>TexScl;
 
 	AttackArea Area;
 
@@ -56,7 +60,9 @@ public:
 	void Draw();
 	void ActionJudg();
 	void TurnCenter();
+	bool SummonEnemy();
 
 	void SetAttackFase(bool f) { if (f && fase != FASEONE) { fase = FASEONE; } }
+	XMFLOAT3 GetTexPos(int index) { return MagicTex[index]->GetPosition(); }
 	Fase GetFaseEnd() { return fase; }
 };

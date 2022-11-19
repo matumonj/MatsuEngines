@@ -1,13 +1,10 @@
 #include "DamageManager.h"
 #include"CameraControl.h"
 
-DamageManager* DamageManager::GetIns()
+DamageManager::DamageManager(XMFLOAT3 Position,int Damage)
 {
-	static DamageManager instans;
-	return &instans;
-}
-DamageManager::DamageManager()
-{
+	this->Position = Position;
+	this->Damage = Damage;
 	DamageTex = std::make_unique<DebugTextSprite>();
 	DamageTex->Initialize(0);
 	TexAlpha = 1.0f;
@@ -15,9 +12,9 @@ DamageManager::DamageManager()
 }
 DamageManager::~DamageManager()
 {
-	DamageTex.reset();
+	DamageTex.reset(nullptr);
 }
-void DamageManager::DamageDisPlay(int damage, XMFLOAT4 color, XMFLOAT3 Position)
+void DamageManager::DamageDisPlay(int damage, XMFLOAT4 color)
 {
 	//テクスチャのアルファ値だのサイズだの
 	TexSize.x -= 0.04f;
@@ -29,7 +26,7 @@ void DamageManager::DamageDisPlay(int damage, XMFLOAT4 color, XMFLOAT3 Position)
 	//int->stringに
 	std::ostringstream str;
 	str << std::fixed << std::setprecision(2)
-		<< damage;
+		<< Damage;
 	//3D->2D変換 3引数消す
 	XMVECTOR tex2DPos = {Position.x, Position.y + 10, Position.z};
 	tex2DPos = PosDivi(tex2DPos, CameraControl::GetInstance()->GetCamera()->GetViewMatrix(), false);

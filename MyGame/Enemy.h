@@ -237,7 +237,6 @@ protected:
 	BossEnemyState* state_boss;
 
 	private:
-	std::vector<std::unique_ptr<DamageManager>> dMans_;
-	std::vector<int> dam;
-	std::vector<DirectX::XMFLOAT3> pos_;
+	std::list<std::unique_ptr<DamageManager>> dMans_;
+	
 };

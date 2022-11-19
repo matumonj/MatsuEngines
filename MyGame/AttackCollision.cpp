@@ -122,6 +122,8 @@ void AttackCollision::GetCol(int damage)
 
 		if (CustomButton::GetInstance()->GetAttackAction())
 		{
+			attackCol[0] = false;
+			attackCol[1] = false;
 			HitCol = false;
 		}
 		if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0] != nullptr)
@@ -134,6 +136,14 @@ void AttackCollision::GetCol(int damage)
 							EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition());
 						EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->RecvDamage(damage);
 						HitCol = true;
+					}
+					if (Collision::CheckOBBCollision(HandObb, SummonEnemyOBB[0]) == true && !attackCol[0]) {
+						EnemyControl::GetInstance()->GetSummonEnemy(0)->RecvDamage(damage);
+						attackCol[0] = true;
+					}
+					if (Collision::CheckOBBCollision(HandObb, SummonEnemyOBB[1]) == true && !attackCol[1]) {
+						EnemyControl::GetInstance()->GetSummonEnemy(1)->RecvDamage(damage);
+						attackCol[1] = true;
 					}
 				}
 		}
@@ -174,6 +184,16 @@ void AttackCollision::ColOBB(ColType Enemytype)
 
 	case BOSS:
 		BossEnemyOBB.resize(1);
+		SummonEnemyOBB[0].
+			SetOBBParam_Pos(EnemyControl::GetInstance()->GetSummonEnemy(0)->GetPosition());
+		SummonEnemyOBB[0].SetOBBParam_Rot(EnemyControl::GetInstance()->GetSummonEnemy(0)->GetMatrot());
+		SummonEnemyOBB[0].SetOBBParam_Scl({ 4.0f, 15.0f, 4.0f });
+
+		SummonEnemyOBB[1].
+			SetOBBParam_Pos(EnemyControl::GetInstance()->GetSummonEnemy(1)->GetPosition());
+		SummonEnemyOBB[1].SetOBBParam_Rot(EnemyControl::GetInstance()->GetSummonEnemy(1)->GetMatrot());
+		SummonEnemyOBB[1].SetOBBParam_Scl({ 4.0f, 15.0f, 4.0f });
+
 		if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0] != nullptr)
 		{
 			//OBB ‰ñ“]ƒxƒNƒgƒ‹

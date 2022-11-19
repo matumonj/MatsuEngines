@@ -46,10 +46,7 @@ void Enemy::RecvDamage(int Damage)
 	{
 		return;
 	}
-	float texZ = PlayerControl::GetInstance()->GetPlayer()->GetPosition().z - CameraControl::GetInstance()->GetCamera()
-		->GetEye().z;
-	float texX = PlayerControl::GetInstance()->GetPlayer()->GetPosition().x - CameraControl::GetInstance()->GetCamera()
-		->GetEye().x;
+
 	RecvDamagef = true;
 	DamageSize = Damage;
 	DamageTexPos = Position;
@@ -57,12 +54,10 @@ void Enemy::RecvDamage(int Damage)
 	{
 	}
 
-	std::unique_ptr<DamageManager>newdTex = std::make_unique<DamageManager>();
+	std::unique_ptr<DamageManager>newdTex = std::make_unique<DamageManager>(XMFLOAT3(Position.x+rand()%10-5,Position.y+rand()%10-5,Position.z), Damage);
 
 	dMans_.push_back(std::move(newdTex));
-	dam.push_back(Damage);
-	pos_.push_back({ Position.x + float(rand() % 20 - 10),Position.y + float(rand() % 10 - 5),Position.z });
-	
+
 	EnemyHP = EnemyHP - Damage;
 	DamageParticleCreateF = true;
 }
@@ -77,17 +72,16 @@ void Enemy::DestroyJudg()
 
 void Enemy::DamageTexDisplay()
 {
-
-	for (int i = 0; i < dMans_.size(); i++) {
-		if (dMans_[i] == nullptr)continue;
-		dMans_[i]->DamageDisPlay(dam[i], { 1,1,1,1 }, pos_[i]);
+	for (std::unique_ptr<DamageManager>&dTex:dMans_) {
+		dTex->DamageDisPlay(1, { 1,1,1,1 });
 	}
+	dMans_.remove_if([](std::unique_ptr<DamageManager>& dTex) {
+		return dTex->GetAlpha() <= 0.1f;});
 }
 void Enemy::DamageTexDisplay_Draw()
 {
-	for (int i = 0; i < dMans_.size(); i++) {
-		if (dMans_[i] == nullptr)continue; 
-		dMans_[i]->Draw();
+	for (std::unique_ptr<DamageManager>& dTex : dMans_) {
+		dTex->Draw();
 	}
 }
 void Enemy::isRespawn()

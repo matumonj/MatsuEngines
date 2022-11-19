@@ -12,8 +12,8 @@ private:
 	using XMMATRIX = DirectX::XMMATRIX;
 
 private:
-	std::unique_ptr<Sprite> m_ExpBarSpite;
-	std::unique_ptr<Sprite> m_ExpBarFrameSprite;
+	std::unique_ptr<Sprite> m_BossHP;
+	std::unique_ptr<Sprite> m_BossHPFrame;
 private:
 	int m_ExpPoint;
 	int ol;
@@ -40,6 +40,8 @@ private:
 	XMFLOAT2 BarFramePos;
 	XMFLOAT2 BarFrameScl;
 	float m_EaseTime;
+	int OldHP;
+	int NowHP;
 public:
 	static ExpPointSystem* GetInstance();
 	void Init();

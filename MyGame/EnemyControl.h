@@ -8,7 +8,7 @@
 #include"DebugCamera.h"
 #include<memory>
 #include"GigaBossEnemy.h"
-
+#include<array>
 class EnemyControl :
 	public ControlBase
 {
@@ -59,7 +59,10 @@ public:
 			return encountEnemy;
 		}
 	}
-
+	static constexpr int EnemySize = 2;
+	std::array<std::unique_ptr<Enemy>, EnemySize>SummonEnemys;
+	bool summonEnemyCreate;
+	XMFLOAT3 SummonEPos;
 private:
 	/*çXêVèàóù*/
 	void Init_Tutorial(DebugCamera* camera) override;
@@ -81,5 +84,6 @@ private:
 	void Draw_Play() override;
 
 	void Draw_Boss() override;
-	void GuardianSetPos();
+public:
+	Enemy* GetSummonEnemy(int index) { return SummonEnemys[index].get(); }
 };

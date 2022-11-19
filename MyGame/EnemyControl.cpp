@@ -148,6 +148,11 @@ void EnemyControl::Init_Boss(DebugCamera* camera)
 	enemys[BOSS][0]->Initialize(camera);
 	boss_pos = {-1.0f, 10.0f, 20.987f};
 	enemys[BOSS][0]->SetPosition(boss_pos);
+	for (int i = 0; i < EnemySize; i++) {
+		SummonEnemys[i] = std::make_unique<MobEnemy>();
+		SummonEnemys[i]->Initialize(camera);
+		SummonEnemys[i]->SetPosition({ 0,-20,20 });
+	}
 
 	HalfAttack::GetInstance()->Initialize();
 	KnockAttack::GetInstance()->Initialize();
@@ -213,6 +218,32 @@ void EnemyControl::Update_Boss(DebugCamera* camera)
 	{
 		Destroy_unique(enemys[BOSS][0]);
 	}
+	if (HalfAttack::GetInstance()->SummonEnemy() == true) {
+		summonEnemyCreate = true;
+	}
+	if (summonEnemyCreate) {
+		SummonEPos.y += 0.1f;
+		for (int i = 0; i < EnemySize; i++) {
+			if (SummonEnemys[i] == nullptr)continue;
+			if (SummonEPos.y < 10.0f) {
+				SummonEnemys[i]->SetPosition({ HalfAttack::GetInstance()->GetTexPos(i).x,SummonEPos.y,HalfAttack::GetInstance()->GetTexPos(i).z });
+			}
+		
+		}
+		}
+	if(summonEnemyCreate){
+		for (int i = 0; i < EnemySize; i++) {
+			if (SummonEnemys[i] == nullptr)continue;
+
+			SummonEnemys[i]->Update(camera);
+
+			if (SummonEnemys[i]->GetObjAlpha() <= 0.0f)
+			{
+				//Destroy_unique(SummonEnemys[i]);
+			}
+		}
+	}
+		SummonEPos.y = min(SummonEPos.y, 10);
 }
 
 /*------------------------*/
@@ -254,6 +285,10 @@ void EnemyControl::Draw_Boss()
 	if (enemys[BOSS][0] == nullptr)
 	{
 		return;
+	}
+	for (int i = 0; i < EnemySize; i++) {
+		if (SummonEnemys[i] == nullptr)continue;
+		SummonEnemys[i]->Draw();
 	}
 	enemys[BOSS][0]->Draw();
 	CircleAttack::GetInstance()->Draw();

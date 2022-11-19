@@ -599,9 +599,6 @@
     <ClInclude Include="Input.h">
       <Filter>Game\base %28Dxcmn  Winapp  Input%29</Filter>
     </ClInclude>
-    <ClInclude Include="WinApp.h">
-      <Filter>Game\base %28Dxcmn  Winapp  Input%29</Filter>
-    </ClInclude>
     <ClInclude Include="DebugCamera.h">
       <Filter>Game\gameobject\camera</Filter>
     </ClInclude>
@@ -934,6 +931,9 @@
     </ClInclude>
     <ClInclude Include="BossEnemyEvasion.h">
       <Filter>Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン</Filter>
+    </ClInclude>
+    <ClInclude Include="WinApp.h">
+      <Filter>Game\collision</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -14,7 +14,7 @@ AltAttack* AltAttack::GetInstance()
 
 void AltAttack::Initialize()
 {
-	Texture::LoadTexture(21, L"Resources/EnergieSphere.png");
+	//Texture::LoadTexture(21, L"Resources/EnergieSphere.png");
 	for (int i = 0; i < 2; i++)
 	{
 		DamageAreaTex[i] = Texture::Create(21, {0.0f, 0.0f, 0.0f}, {100.0f, 100.0f, 1.0f}, {1.0f, 1.0f, 1.0f, 1.0f});

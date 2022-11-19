@@ -13,7 +13,10 @@ UI* UI::GetInstance()
 
 void UI::Initialize()
 {
-	ExpPointSystem::GetInstance()->Init();
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
+	{
+		
+	}
 	BossSpell::GetInstance()->Initialize();
 	HUD::GetInstance()->Initialize();
 	HUD::GetInstance()->EnemyHPGaugeInitialize();
@@ -36,16 +39,21 @@ void UI::HUDUpdate(bool& hudload, DebugCamera* camera)
 	HUD::GetInstance()->SkillBottonUpdate();
 	HUD::GetInstance()->Update();
 	HUD::GetInstance()->TaskUpdate(camera);
-
-	ExpPointSystem::GetInstance()->Upda();
-}
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
+	{
+		ExpPointSystem::GetInstance()->Upda();
+	}
+	}
 
 void UI::HUDDraw()
 {
 	if (!TurnOffDrawUI)
 	{
 		HUD::GetInstance()->SkillBottonDraw();
-		ExpPointSystem::GetInstance()->Draw();
+		if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
+		{
+			ExpPointSystem::GetInstance()->Draw();
+		}
 		if (TutorialSprite::GetInstance()->GetClearSetting())
 		{
 			HUD::GetInstance()->EnemyHPGauge_MultiDraw();

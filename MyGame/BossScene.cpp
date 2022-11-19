@@ -161,7 +161,7 @@ void BossScene::Draw()
 		break;
 	}
 }
-
+#include"ExpPointSystem.h"
 /*------------------------*/
 /*--------“Çžˆ—--------*/
 /*-----------------------*/
@@ -184,7 +184,7 @@ bool BossScene::LoadParam(DebugCamera* camera)
 		CameraControl::GetInstance()->SetCameraState(CameraControl::BOSSCUTSCENE);
 
 		Field::GetInstance()->Initialize(CameraControl::GetInstance()->GetCamera());
-
+		ExpPointSystem::GetInstance()->Init();
 		hudload = true;
 		Play = true;
 		LoadEnemy = false;

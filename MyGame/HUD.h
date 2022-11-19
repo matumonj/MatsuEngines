@@ -35,7 +35,6 @@ private:
 	float TimeSpeed = 0.0f;
 	bool iconchangeF = false;
 public:
-	float GetSpriteSize(int index) { return coolDownSprite[index]->GetSize().y; }
 	bool GetLayOutMode();
 	void SetPosition_PlayerHP(XMFLOAT2 position);
 	void SetAnchor_PlayerHP(XMFLOAT2 position);
@@ -73,17 +72,11 @@ public:
 	void EnemyHPGauge_MultiDraw();
 	XMFLOAT2 GetCenterPosition() { return CenterPosition; }
 	void SetCenterPosition(XMFLOAT2 pos) { CenterPosition = pos; }
-	Sprite* GetSkillButton() { return FirstAttackSprite; }
 	float GetCoolTime() { return CoolTime_Time; }
 	XMFLOAT2 GetMinimapFramePos() { return MiniframePos; };
 	Sprite* GetMinimapSprite() { return MiniMapFrame; }
 private:
 	XMFLOAT2 CenterPosition = {1050.0f, 500.0f};
-	Sprite* coolDownSprite[4] = {nullptr};
-	Sprite* FirstAttackSprite = nullptr;
-	Sprite* SecondAttackSprite = nullptr;
-	Sprite* ThirdAttackSprite = nullptr;
-	Sprite* BuffSprite = nullptr;
 	Sprite* ChestCollect[5] = {nullptr};
 	Sprite* ChestCollectFrame = nullptr;
 	XMFLOAT2 CooltimeSize = {0.0f, 0.0f};

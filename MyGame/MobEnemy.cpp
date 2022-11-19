@@ -78,6 +78,11 @@ void MobEnemy::Update(DebugCamera* camera)
 	{
 		m_fbxObject->SetFogPos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
 	}
+	if (SceneManager::GetInstance()->GetScene() != SceneManager::BOSS)
+	{
+		CollisionField(camera);
+	
+	}
 	FbxAnimationControl();
 
 	EnemyPop(150);
@@ -87,8 +92,7 @@ void MobEnemy::Update(DebugCamera* camera)
 	DamageTexDisplay();
 	ParameterSet_Fbx(camera);
 
-	CollisionField(camera);
-
+	
 	m_fbxObject->SetColor({1.0f, 1.0f, 1.0f, alpha});
 	m_fbxObject->SetHandBoneIndex(19);
 	Sword->Setf(FALSE);
@@ -129,7 +133,7 @@ void MobEnemy::Update(DebugCamera* camera)
 		}
 	}
 	DestroyJudg();
-	m_fbxObject->SetFbxTime(imt);
+	m_fbxObject->SetFbxTime(f_time);
 }
 
 
