@@ -1,29 +1,3 @@
-#include "BossEnemyAttackHalf.h"
-#include"BossEnemyFollow.h"
-#include"HalfAttack.h"
-#include"mHelper.h"
-
-void BossEnemyAttackHalf::Initialize(Enemy* enmey)
-{
-}
-
-void BossEnemyAttackHalf::Update(Enemy* enemy)
-{
-	HalfAttack::GetInstance()->ActionJudg();
-	enemy->SetRoarMotion(true);
-	//80%以下時の半面攻撃終了
-	if (Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) <= 60.0f)
-	{
-		enemy->SetAttack_End(enemy->HALF_1, true);
-	}
-	//40%以下時の半面攻撃終了
-	if (Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) < 40.0f)
-	{
-		enemy->SetAttack_End(enemy->HALF_2, true);
-	}
-	//半面攻撃のフェーズが最後まで行ったらボスのstateを追跡に
-	if (HalfAttack::GetInstance()->GetFaseEnd() == HalfAttack::FASEFOUR)
-	{
-		enemy->ChangeState_Boss(new BossEnemyFollow());
-	}
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:1588ef831d5c3e9aee84ecd01535668bcfdca8ec05f4af5be46a58ca699e0863
+size 762

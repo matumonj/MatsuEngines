@@ -1,22 +1,3 @@
-#include "BossEnemyAttackSlam.h"
-#include"BossEnemyFollow.h"
-#include"FrontCircleAttack.h"
-#include"mHelper.h"
-
-void BossEnemyAttackSlam::Initialize(Enemy* enmey)
-{
-}
-
-void BossEnemyAttackSlam::Update(Enemy* enemy)
-{
-	FrontCircleAttack::GetInstance()->ActionJudg();
-
-	if (Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) <= 90.0f)
-	{
-		enemy->SetAttack_End(enemy->Slam, true);
-	}
-	if (FrontCircleAttack::GetInstance()->GetFaseEnd() == FrontCircleAttack::FASEFOUR)
-	{
-		enemy->ChangeState_Boss(new BossEnemyFollow());
-	}
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:cf74d3bfdb24124e2586973521d829de3bc83e45c5fd774af143fa5df3d0b64b
+size 550

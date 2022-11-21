@@ -3,7 +3,7 @@
 // 四角形の頂点数
 static const uint vnum = 7;
 
-float rand(float2 seed)
+float rand(float4 seed)
 {
 	return frac(sin(dot(seed.xy, float2(12.9808, 78.233))) * 43758.5453);
 }
@@ -13,11 +13,9 @@ float rand(float2 seed)
 void main(
 
 	triangle VSOutput input[3]:SV_POSITION,
-	//point VSOutput input[1] : SV_POSITION,
 	inout TriangleStream<g2f> output
 )
 {
-	// _WindDistortionMap("Wind Distortion Map", 2D) = "white" {}
 	//頂点の色
 	float4 _TopColor = {0.0, 1.0, 0.0, 1.0};
 	//根本の色
@@ -58,14 +56,8 @@ void main(
 	//草の向き
 	float4 dir = float4(normalize(pos2 * rand(pos2) - pos0 * rand(pos1)).xyz * 1, 1.0f) * 2;
 
-	//風表現もどきGrassObjの方でuvtimeいじって調整
-
 	float2 uv = pos0.xz * float2(0.5, 0.5) + float2(0.5, 0.5) + _WindFrequency * time;
-	//float2 windDir_xy = (tex2Dlod(tex, float4(uv, 0, 0)).xy * 2 - 1) * _WindPower;
 	float4 wind = float4(uv, 0, 0);
-	//float uvx = pos0.x * (float(0.2) + float(1) + _WindFrequency * time);
-	//float uvz = pos0.z * (float(0.2) + float(1) + _WindFrequency * time);
-	// float4 wind = float4(uvx, 1, uvz, 0);
 
 	g2f o[7];
 
@@ -99,13 +91,11 @@ void main(
 	// o[4].pos += wind * _WindPowerRate.y;
 	// o[5].pos += wind * _WindPowerRate.y;
 	// o[6].pos += wind * _WindPowerRate.z;
-	[unroll]
+	
 	for (int i = 0; i < 7; i++)
 	{
 		o[i].pos = mul(viewproj, mul(world, float4(o[i].pos.xyz, 1.0f)));
 		output.Append(o[i]);
 	}
-	[unroll]
-
-		output.RestartStrip();
+	output.RestartStrip();
 }
