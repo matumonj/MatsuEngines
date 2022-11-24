@@ -1,3 +1,18 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:15cf13b7ca07691c7d8e8d18f73d3717f80197e83d3dc759d2c882bd558996d1
-size 432
+#include "DebugCamera.h"
+#include <cassert>
+
+using namespace DirectX;
+
+DebugCamera::DebugCamera(int window_width, int window_height /*Input* input*/)
+	: Camera(window_width, window_height)
+{
+	this->input = input;
+	// 画面サイズに対する相対的なスケールに調整
+	scaleX = 1.0f / static_cast<float>(window_width);
+	scaleY = 1.0f / static_cast<float>(window_height);
+}
+
+void DebugCamera::Update()
+{
+	Camera::Update();
+}

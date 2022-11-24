@@ -14,6 +14,8 @@ struct PSInput
 {
 	float4 pos : SV_POSITION;
 	float2 uv : TEXCOORD0;
+	// step-7 カメラ空間でのZ値を記録する変数を追加
+	float3 depthInView : TEXCOORD2; // カメラ空間でのZ値
 };
 
 struct PSOutput

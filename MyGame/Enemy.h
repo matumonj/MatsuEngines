@@ -59,7 +59,6 @@ protected:
 	float alpha = 1.0f;
 	XMFLOAT3 RespawnPos = {0.0f, 0.0f, 0.0f};
 	bool RecvDamagef = false; //
-	bool RecvDamagef2 = false; //
 	bool RecvAttackHit = false;
 	bool DamageParticleCreateF = false; //攻撃受けた直後パーティクル発生フラg
 private:
@@ -146,8 +145,6 @@ public:
 	void SetRecvAttack(bool f) { RecvAttackHit = f; }
 	//攻撃受けた直後の判定用
 	bool GetRecvDamage() { return RecvDamagef; }
-	//攻撃受けた直後の判定用
-	bool GetRecvDamage2() { return RecvDamagef2; }
 	//歩いているか
 	bool GetMoveFlag() { return MoveFlag; }
 	//地面設置状態かどうか
@@ -176,8 +173,6 @@ public:
 	void SetRotRadian(float roty) { addRotRadians = roty; }
 	float GetRotRadians() { return addRotRadians; }
 	void SetRecvDamage(bool f) { RecvDamagef = f; }
-
-	void SetRecvDamage2(bool f) { RecvDamagef2 = f; }
 	void SetMoveFlag(bool f) { MoveFlag = f; }
 
 	void SetScale(XMFLOAT3 scale) { Scale = scale; }
@@ -201,7 +196,7 @@ public:
 	void SetSwingMotion(bool f) { if (f_time < SwingTime) { SwingFlag = f; } }
 
 	void SetFalterMotion(bool f) { if (f_time < FalterTime) { FalterFlag = f; } }
-	void SetRoarMotion(bool f) { if (f_time>RoarTime_End) { RoarMotionFlag = f; } }
+	void SetRoarMotion(bool f) { if (sqrtf((f_time - RoarTime) * (f_time - RoarTime)) > 4.44f) { RoarMotionFlag = f; } }
 	void SetIdleMotion(bool f) { if (f_time < IdleTime) { IdleMotionFlag = f; } }
 	float GetFalterTime_End() { return FalterTime_End; }
 	float GetRoarTime_End() { return RoarTime_End; }

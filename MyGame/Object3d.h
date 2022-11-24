@@ -22,34 +22,34 @@ private: // エイリアス
 
 	Model* model = nullptr;
 
-	Camera* camera=nullptr;
+	Camera* camera;
 public: // サブクラス
 	void SetModel(Model* model) { this->model = model; }
 
 	//定数バッファ用データ構造体
 	struct ConstBufferDataB0
 	{
-		XMFLOAT4 color = {};
+		XMFLOAT4 color;
 		//XMMATRIX mat;
 		// 定数バッファ用データ構造体B0
-		XMMATRIX viewproj = {}; // ビュープロジェクション行列
-		XMMATRIX world = {}; // ワールド行列
-		XMFLOAT3 cameraPos = {}; // カメラ座標（ワールド座標）
+		XMMATRIX viewproj; // ビュープロジェクション行列
+		XMMATRIX world; // ワールド行列
+		XMFLOAT3 cameraPos; // カメラ座標（ワールド座標）
 		//bool shadowf;
-		bool gsflag=false;
-		XMFLOAT3 ks2 = {};
-		bool f=false;
-		XMFLOAT3 ks3 = {};
-		float time=0.0f;
-		XMFLOAT3 ks4 = {};
-		bool destF=false;
-		XMFLOAT3 ks5 = {};
-		float destTime=0.0f;
-		bool shadowf=false;
+		bool gsflag;
+		XMFLOAT3 ks2;
+		bool f;
+		XMFLOAT3 ks3;
+		float time;
+		XMFLOAT3 ks4;
+		bool destF;
+		XMFLOAT3 ks5;
+		float destTime;
+		bool shadowf;
 	};
 
 private: // 定数
-	XMFLOAT3 FogCenter = {};
+	XMFLOAT3 FogCenter;
 	static const int division = 50;
 	bool shadowf = true;
 public: // 静的メンバ関数
@@ -233,15 +233,15 @@ protected: // メンバ変数
 	XMFLOAT3 position = {0, 0, 0};
 
 	// ローカルワールド変換行列
-	XMMATRIX matWorld = {};
+	XMMATRIX matWorld;
 	// 親オブジェクト
 	Object3d* parent = nullptr;
-	bool rf=false;
+	bool rf;
 	bool gsf = false;;
-	XMMATRIX rm = {}, rt = {}, rr = {}, rs = {};
+	XMMATRIX rm, rt, rr, rs;
 	bool setef = false;
 	bool uvf = false;
-	float uvtime=0.0f;
+	float uvtime;
 
 	bool DestF = false;
 	float DestTime = 0;
@@ -282,8 +282,8 @@ protected:
 public:
 	BaseCollider* collider = nullptr;
 private:
-	XMMATRIX matScale = {}, matRot = {}, matTrans = {};
-	XMFLOAT2 time = {0,0};
+	XMMATRIX matScale, matRot, matTrans;
+	XMFLOAT2 time;
 public:
 	/// <summary>
 	/// モデルを取得

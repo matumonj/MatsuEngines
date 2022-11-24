@@ -1,3 +1,74 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:eefd2a8b8927091eb4609b381c60cb335eb1a4c360baa8d29ed21ae49666599d
-size 1291
+#include "Framework.h"
+
+void Framework::Run()
+{
+	Initialize();
+
+	while (true)
+	{
+		//ウィンドウメッセージ処理
+		Update();
+
+		//終了リクエストが来たら抜ける
+		if (IsEndRequst())
+		{
+			break;
+		}
+
+		Draw();
+	}
+	//Finalize();
+}
+
+/// <summary>
+/// 初期化
+/// </summary>
+void Framework::Initialize()
+{
+	//共通部分のインスタンス生成と初期化
+	winapp = new WinApp();
+	winapp->Createwindow();
+	DirectXCommon::GetInstance()->Initialize(winapp);
+	input = Input::GetInstance();
+	input->Initialize(winapp);
+	audio = new Audio();
+
+	// ライト静的初期化
+	Object3d::StaticInitialize(WinApp::window_width, WinApp::window_height);
+	GrassObj::StaticInitialize(WinApp::window_width, WinApp::window_height);
+	//MyGame* MyGame = new MyGame();
+	sceneManger = new SceneManager();
+}
+
+/// <summary>
+/// 更新
+/// </summary>
+void Framework::Update()
+{
+	input->update();
+	if (winapp->Processmassage())
+	{
+		winRequest = true;
+		return;
+	}
+	sceneManger->Update();
+}
+
+/// <summary>
+/// 描画
+/// </summary>
+/// <param name="cmdList"></param>
+void Framework::Draw()
+{
+	sceneManger->Draw();
+}
+
+void Framework::Finalize()
+{
+	FbxLoader::GetInstance()->Finalize();
+	//delete sceneManger;
+	delete audio;
+	//delete dxcomn;
+	delete input;
+	delete winapp;
+}

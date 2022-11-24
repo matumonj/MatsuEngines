@@ -1,3 +1,53 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:4bfa0c39d6ebf53a5a1ffcf08ad2aeea7ecd1fe05c9d4081fa4f89e13fc044d6
-size 1163
+#include "GrassField.h"
+#include"PlayerControl.h"
+#include"ModelManager.h"
+
+GrassField::GrassField()
+{
+};
+
+GrassField::~GrassField()
+{
+};
+
+void GrassField::Initialize(DebugCamera* camera)
+{
+	//FieldPos = { PlayerControl::GetInstance()->GetPlayer()->GetPosition() };
+	FieldRot = {0.0f, 0.0f, 0.0f};
+	FieldScl = {1.0f, 1.0f, 1.0f};
+	//FieldPos = { PlayerControl::GetInstance()->GetPlayer()->GetPosition().x,PlayerControl::GetInstance()->GetPlayer()->GetPosition().y -40,PlayerControl::GetInstance()->GetPlayer()->GetPosition().z };
+
+	grass = std::make_unique<GrassObj>();
+	grass->SetModel(ModelManager::GetIns()->GetModel(ModelManager::GRASSFIELD));
+	grass->Initialize(camera);
+	FieldRot = {0.0f, 0.0f, 0.0f};
+	FieldScl = {1.0f, 1.0f, 1.0f};
+}
+
+void GrassField::Update(DebugCamera* camera)
+{
+	if (grass == nullptr)
+	{
+		return;
+	}
+
+
+	grass->SetPosition(FieldPos);
+	grass->SetRotation(FieldRot);
+	grass->SetScale(FieldScl);
+
+	grass->Update({1, 1, 1, 1}, camera);
+}
+
+#include"imgui.h"
+
+void GrassField::Draw()
+{
+	if (grass == nullptr)
+	{
+		return;
+	}
+	GrassObj::PreDraw();
+	grass->Draw();
+	GrassObj::PostDraw();
+}

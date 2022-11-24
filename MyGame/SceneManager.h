@@ -21,7 +21,6 @@ public:
 		TUTORIAL,
 		PLAY,
 		BOSS,
-		GAMEOVER,
 		MAPCREATE
 	};
 

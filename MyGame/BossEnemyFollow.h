@@ -20,7 +20,6 @@ public:
 	void AttackStart(Enemy* enemy, int num);
 private:
 	bool ActionCount = true, ActionCount2 = true;
-	int Evaprobability; 
-	int Falprobability;
+	int Evaprobability;
 	float RotY = 0;
 };

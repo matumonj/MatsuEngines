@@ -21,7 +21,7 @@ public:
 	void SetChestLost(bool f) { ChestLost = f; }
 	void SetpColor(XMFLOAT4 color) { pColor = color; }
 private:
-	XMFLOAT4 pColor = {1,1,1,1};
-	bool ChestLost=false;
-	ParticleManager* DefaultEffect=nullptr;
+	XMFLOAT4 pColor;
+	bool ChestLost;
+	ParticleManager* DefaultEffect;
 };

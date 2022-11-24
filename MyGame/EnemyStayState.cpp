@@ -1,3 +1,44 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e77d0d01293de30bf624753547bad623be6f8c482ee1827b55bcec1ab67f0f48
-size 900
+#include "EnemyStayState.h"
+#include "EnemyWalkState.h"
+#include"EnemyAttackState.h"
+#include"EnemyFollowState.h"
+#include"mHelper.h"
+#include"EnemyDeathState.h"
+
+void EnemyStayState::Initialize(Enemy* enemy)
+{
+}
+
+void EnemyStayState::Update(Enemy* enemy)
+{
+	float RandMove = static_cast<float>(rand() % 90 + 40);
+	if (StayCount == 0)
+	{
+		//ƒC[ƒWƒ“ƒOŠ|‚¯‚é‘O‚Ì“G‚ÌŒü‚«
+		BeforeRot = enemy->GetRotation().y;
+		//Š|‚¯‚½Œã‚Ì“G‚ÌŒü‚«
+		AfterRot = enemy->GetRotation().y + RandMove;
+	}
+
+	StayCount++;
+
+	if (StayCount > 90)
+	{
+		//’âŽ~ŽžŠÔ
+		RotTime += 0.01f;
+		enemy->SetRotation({
+			enemy->GetRotation().x,
+			Easing::EaseOut(RotTime, BeforeRot, AfterRot),
+			enemy->GetRotation().z
+		});
+		if (RotTime > 0.6)
+		{
+			enemy->ChangeState_Mob(new EnemyWalkState());
+		}
+	}
+
+	if (enemy->GetHP() <= 0.0f)
+	{
+		enemy->ChangeState_Mob(new EnemyDeathState());
+	}
+}

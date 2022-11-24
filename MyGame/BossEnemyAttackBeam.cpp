@@ -1,3 +1,22 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:a8f9c75ad8ab0dc12d4f1410d427a0937d93daf17177b1d7b7eb44d9cf48b0f9
-size 518
+#include "BossEnemyAttackBeam.h"
+#include"BossEnemyFollow.h"
+#include"AltAttack.h"
+#include"mHelper.h"
+
+void BossEnemyAttackBeam::Initialize(Enemy* enmey)
+{
+}
+
+void BossEnemyAttackBeam::Update(Enemy* enemy)
+{
+	AltAttack::GetInstance()->ActionJudg();
+
+	if (Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) <= 70.0f)
+	{
+		enemy->SetAttack_End(enemy->Beam, true);
+	}
+	if (AltAttack::GetInstance()->GetFaseEnd() == AltAttack::FASEFOUR)
+	{
+		enemy->ChangeState_Boss(new BossEnemyFollow());
+	}
+}

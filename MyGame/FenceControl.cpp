@@ -1,3 +1,208 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:335f291e50d458a54cb88360b315d4b626cbdee0a5cef1049d409c5c7a580d70
-size 4730
+#include "FenceControl.h"
+#include "EnemyControl.h"
+#include"SceneManager.h"
+#include"TutorialSprite.h"
+#include"PlayerControl.h"
+#include"Enemy.h"
+
+FenceControl* FenceControl::GetInstance()
+{
+	static FenceControl instance;
+	return &instance;
+}
+
+void FenceControl::Init_Tutorial(DebugCamera* camera)
+{
+	Tutorialfence.resize(1);
+	Tutorialfence[0] = std::make_unique<AreaFence>();
+	Tutorialfence[0]->Initialize(camera);
+	Tutorialfence[0]->SetPosition({110.0f, -40.0f, -596.0f});
+	Tutorialfence[0]->SetRotation({0.0f, 0.0f, 0.0f});
+	Tutorialfence[0]->SetScale({8.39f, 10.0f, 4.0f});
+}
+
+void FenceControl::Init_Play(DebugCamera* camera)
+{
+	file.open("Param_CSV/fence.csv");
+
+	popcom << file.rdbuf();
+
+	file.close();
+
+	while (std::getline(popcom, line))
+	{
+		std::istringstream line_stream(line);
+		std::string word;
+		std::getline(line_stream, word, ',');
+
+		if (word.find("//") == 0)
+		{
+			continue;
+		}
+		if (word.find("Fence_Quantity") == 0)
+		{
+			std::getline(line_stream, word, ',');
+			int quantity = static_cast<int>(std::atof(word.c_str()));
+			Quantity = quantity;
+			break;
+		}
+	}
+	Num.resize(Quantity);
+	pos.resize(Quantity);
+	rot.resize(Quantity);
+	scl.resize(Quantity);
+	for (int i = 0; i < Quantity; i++)
+	{
+		while (std::getline(popcom, line))
+		{
+			std::istringstream line_stream(line);
+			std::string word;
+			std::getline(line_stream, word, ',');
+
+			if (word.find("//") == 0)
+			{
+				continue;
+			}
+			if (word.find("POP") == 0)
+			{
+				std::getline(line_stream, word, ',');
+				float x = static_cast<float>(std::atof(word.c_str()));
+
+				std::getline(line_stream, word, ',');
+				float y = static_cast<float>(std::atof(word.c_str()));
+
+				std::getline(line_stream, word, ',');
+				float z = static_cast<float>(std::atof(word.c_str()));
+
+				pos[i] = {x, y, z};
+				//break;
+			}
+			if (word.find("ROTATION") == 0)
+			{
+				std::getline(line_stream, word, ',');
+				float x = static_cast<float>(std::atof(word.c_str()));
+
+				std::getline(line_stream, word, ',');
+				float y = static_cast<float>(std::atof(word.c_str()));
+
+				std::getline(line_stream, word, ',');
+				float z = static_cast<float>(std::atof(word.c_str()));
+
+				rot[i] = {x, y, z};
+				//break;
+			}
+			if (word.find("SCALE") == 0)
+			{
+				std::getline(line_stream, word, ',');
+				float x = static_cast<float>(std::atof(word.c_str()));
+
+				std::getline(line_stream, word, ',');
+				float y = static_cast<float>(std::atof(word.c_str()));
+
+				std::getline(line_stream, word, ',');
+				float z = static_cast<float>(std::atof(word.c_str()));
+
+				scl[i] = {x, y, z};
+				break;
+			}
+		}
+	}
+	fences.resize(Quantity);
+
+	Load_FencePosition.resize(Quantity);
+
+	for (int i = 0; i < Quantity; i++)
+	{
+		fences[i] = std::make_unique<AreaFence>();
+		fences[i]->Initialize(camera);
+		fences[i]->SetPosition(pos[i]);
+		fences[i]->SetRotation(rot[i]);
+		fences[i]->SetScale(scl[i]);
+	}
+}
+
+void FenceControl::Init_Boss(DebugCamera* camera)
+{
+}
+
+/*------------------------*/
+/*--------解放処理---------*/
+/*------------------------*/
+void FenceControl::Finalize()
+{
+	Tutorialfence.clear();
+	fences.clear();
+	Num.clear();
+	pos.clear();
+	rot.clear();
+	scl.clear();
+}
+
+
+/*------------------------*/
+/*--------読み込み処理---------*/
+/*-----------csv---------*/
+void FenceControl::Load(DebugCamera* camera)
+{
+}
+
+
+/*------------------------*/
+/*--------更新処理---------*/
+/*------------------------*/
+void FenceControl::Update_Tutorial(DebugCamera* camera) //チュートリアル時
+{
+	//チュートリアルエリアの柵が開く条件
+	if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr)
+	{
+		TutorialFenceOpen = TutorialSprite::GetInstance()->GetClearSetting();
+	}
+	if (Tutorialfence[0] != nullptr)
+	{
+		Tutorialfence[0]->Update(camera);
+		Tutorialfence[0]->SetColor({1.0f, 0.0f, 0.0f, 1.0f});
+	}
+	Tutorialfence[0]->FenceOpenCondition(TutorialFenceOpen);
+}
+
+void FenceControl::Update_Play(DebugCamera* camera) //プレイシーン時
+{
+	Player_OldPos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	for (int i = 0; i < Quantity; i++)
+	{
+		if (fences[i] != nullptr)
+		{
+			fences[i]->Update(camera);
+		}
+	}
+}
+
+void FenceControl::Update_Boss(DebugCamera* camera)
+{
+}
+
+/*------------------------*/
+/*--------描画処理---------*/
+/*------------------------*/
+void FenceControl::Draw_Play()
+{
+	for (int i = 0; i < Quantity; i++)
+	{
+		if (fences[i] != nullptr)
+		{
+			fences[i]->Draw();
+		}
+	}
+}
+
+void FenceControl::Draw_Tutorial()
+{
+	if (Tutorialfence[0] != nullptr)
+	{
+		Tutorialfence[0]->Draw();
+	}
+}
+
+void FenceControl::Draw_Boss()
+{
+}

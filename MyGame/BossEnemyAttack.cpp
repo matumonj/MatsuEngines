@@ -1,3 +1,23 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:051ddcbb959f8015cf03e376eaa663849f5eac7752bbe31fdd9ef3a1ffbb9300
-size 666
+#include "BossEnemyAttack.h"
+#include"BossEnemyFollow.h"
+#include"BossEnemyStay.h"
+#include"CameraControl.h"
+#include"PlayerControl.h"
+
+void BossEnemyAttack::Initialize(Enemy* enmey)
+{
+}
+
+void BossEnemyAttack::Update(Enemy* enemy)
+{
+	enemy->SetSwingMotion(true);
+	//PlayerControl::GetInstance()->GetPlayer()->RecvDamage(2);
+	if (CameraControl::GetInstance()->GetCameraState() == CameraControl::BOSSCUTSCENE)
+	{
+		enemy->ChangeState_Boss(new BossEnemyStay());
+	}
+	else
+	{
+		enemy->ChangeState_Boss(new BossEnemyFollow());
+	}
+}

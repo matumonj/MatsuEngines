@@ -17,15 +17,14 @@ public:
 	{
 	};
 private:
-	std::vector<XMFLOAT3> Load_EnemyPosition = {};
+	std::vector<XMFLOAT3> Load_EnemyPosition;
+	std::vector<std::vector<std::unique_ptr<Enemy>>> enemys;
+	std::unique_ptr<GigaBossEnemy> gigaboss;
 
-	std::vector<std::vector<std::unique_ptr<Enemy>>> enemys = {};
-	std::unique_ptr<GigaBossEnemy> gigaboss=nullptr;
+	XMFLOAT3 tutorial_pos;
+	XMFLOAT3 boss_pos;
 
-	XMFLOAT3 tutorial_pos = {0,0,0};
-	XMFLOAT3 boss_pos = {0,0,0};
-
-	Enemy* encountEnemy=nullptr;
+	Enemy* encountEnemy;
 private:
 	enum
 	{
@@ -61,21 +60,9 @@ public:
 		}
 	}
 	static constexpr int EnemySize = 2;
-	std::array<std::unique_ptr<Enemy>, EnemySize>SummonEnemys = {};
-	bool summonEnemyCreate=false;
-	XMFLOAT3 SummonEPos = {1,1,1};
-	bool SummonEnemysDeath;
-	bool SummonEnemysApper;
-	float Shieldalpha;
-
-private:
-	bool ShieldCreate;
-	bool ShieldLost;
-	std::unique_ptr<Texture>ShielTex[4];
-	float Texangle[4];
-	std::array<XMFLOAT3, 4>ShieldTexPos;
-	float ShieldTexAlpha;
-
+	std::array<std::unique_ptr<Enemy>, EnemySize>SummonEnemys;
+	bool summonEnemyCreate;
+	XMFLOAT3 SummonEPos;
 private:
 	/*çXêVèàóù*/
 	void Init_Tutorial(DebugCamera* camera) override;
@@ -98,8 +85,5 @@ private:
 
 	void Draw_Boss() override;
 public:
-	bool GetSummonEnemysDeath() { return SummonEnemysDeath; }
-
-	bool GetSummonEnemysApper() { return SummonEnemysApper; }
 	Enemy* GetSummonEnemy(int index) { return SummonEnemys[index].get(); }
 };
