@@ -18,8 +18,8 @@ PSOutPut main(GSOutput input) : SV_TARGET
 	float4 nc = {0.1, 0.1, 0.1, 1}; //cameraPos付近の色
 	float4 c = {0.3, 0.3, 0.4, 1}; //
 	//cameraPosとあるが今は固定座標
-	float dist = length(cameraPos - input.worldpos);
-	float4 addcol = float4(lerp(nc.rgb, c.rgb, dist / 100), 0.0);
+	float dist = length(cameraPos - input.worldpos.xyz);
+	float4 addcol = float4(lerp(nc.rgb, c.rgb, dist / 200), 0.0);
 	float3 fc = {0.1, 0.1, 0.1};
 
 	// 光沢度
@@ -65,7 +65,7 @@ PSOutPut main(GSOutput input) : SV_TARGET
 		}
 	}
 	// 平行光源
-	for (int i = 0; i < DIRLIGHT_NUM; i++)
+	for (int i = 0; i < int(DIRLIGHT_NUM); i++)
 	{
 		if (dirLights[i].active)
 		{
@@ -150,7 +150,7 @@ PSOutPut main(GSOutput input) : SV_TARGET
 	}
 
 	// 丸影
-	for (int i = 0; i < CIRCLESHADOW_NUM; i++)
+	for (int i = 0; i < int(CIRCLESHADOW_NUM); i++)
 	{
 		if (circleShadows[i].active)
 		{
