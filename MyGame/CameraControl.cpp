@@ -125,20 +125,20 @@ void CameraControl::Init_Play(DebugCamera* camera)
 				std::getline(line_stream, word, ',');
 				float z = static_cast<float>(std::atof(word.c_str()));
 
-				pos[i] = {x, y, z};
+				pos[i] = { x, y, z };
 				break;
 			}
 		}
 	}
-	points.push_back({pos[0].x, pos[0].y, pos[0].z});
-	points.push_back({pos[0].x, pos[0].y, pos[0].z});
+	points.push_back({ pos[0].x, pos[0].y, pos[0].z });
+	points.push_back({ pos[0].x, pos[0].y, pos[0].z });
 	for (int i = 1; i < Quantity - 1; i++)
 	{
-		points.push_back({pos[i].x, pos[i].y, pos[i].z});
+		points.push_back({ pos[i].x, pos[i].y, pos[i].z });
 	}
 	int quantity_end = Quantity - 1;
-	points.push_back({pos[quantity_end].x, pos[quantity_end].y, pos[quantity_end].z});
-	points.push_back({pos[quantity_end].x, pos[quantity_end].y, pos[quantity_end].z});
+	points.push_back({ pos[quantity_end].x, pos[quantity_end].y, pos[quantity_end].z });
+	points.push_back({ pos[quantity_end].x, pos[quantity_end].y, pos[quantity_end].z });
 
 	//Load_ChestPosition.resize(Quantity);
 	this->camera->SetEye(pos[0]);
@@ -231,7 +231,7 @@ void CameraControl::TargetPlayer()
 		}
 	}
 
-	this->camera->SetTarget({PlayerControl::GetInstance()->GetPlayer()->GetPosition()});
+	this->camera->SetTarget({ PlayerControl::GetInstance()->GetPlayer()->GetPosition() });
 	if (input->TiltPushStick(Input::R_RIGHT) || input->TiltPushStick(Input::R_LEFT))
 	{
 		if (input->TiltPushStick(Input::R_RIGHT))
@@ -253,7 +253,7 @@ void CameraControl::TargetPlayer()
 	}
 	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 	//	camera->SetTarget(player_shadow->GetCameraPos(angle));
-	CameraPosition = {ppos.x + distance.x, ppos.y + 10.0f, ppos.z + distance.y};
+	CameraPosition = { ppos.x + distance.x, ppos.y + 10.0f, ppos.z + distance.y };
 	camera->SetEye(CameraPosition);
 
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
@@ -308,7 +308,7 @@ void CameraControl::TargetBossField()
 	default:
 		break;
 	}
-	this->camera->SetTarget({PlayerControl::GetInstance()->GetPlayer()->GetPosition()});
+	this->camera->SetTarget({ PlayerControl::GetInstance()->GetPlayer()->GetPosition() });
 }
 
 void (CameraControl::* CameraControl::targetTable[])() = {
@@ -359,15 +359,15 @@ void CameraControl::BossSceneStart()
 	XMFLOAT3 BossPos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
 	if (point.size() == 0)
 	{
-		point.push_back({BossPos.x, BossPos.y + 100.0f, BossPos.z - 10.0f});
-		point.push_back({BossPos.x, BossPos.y + 100.0f, BossPos.z - 10.0f}); //上から
-		point.push_back({BossPos.x, BossPos.y + 100.0f, BossPos.z - 50.0f}); //下へ
-		point.push_back({BossPos.x, BossPos.y + 20.0f, BossPos.z - 10.0f}); //から右
-		point.push_back({BossPos.x + 20.0f, BossPos.y + 20.0f, BossPos.z + 10.0f}); //後ろ回って
-		point.push_back({BossPos.x + 0.0f, BossPos.y + 20.0f, BossPos.z + 30.0f}); //左くる
-		point.push_back({BossPos.x - 20.0f, BossPos.y + 20.0f, BossPos.z + 10.0f});
-		point.push_back({BossPos.x, BossPos.y + 20.0f, BossPos.z - 20.0f});
-		point.push_back({BossPos.x, BossPos.y + 20.0f, BossPos.z - 20.0f});
+		point.push_back({ BossPos.x, BossPos.y + 100.0f, BossPos.z - 10.0f });
+		point.push_back({ BossPos.x, BossPos.y + 100.0f, BossPos.z - 10.0f }); //上から
+		point.push_back({ BossPos.x, BossPos.y + 100.0f, BossPos.z - 50.0f }); //下へ
+		point.push_back({ BossPos.x, BossPos.y + 60.0f, BossPos.z - 10.0f }); //から右
+		point.push_back({ BossPos.x + 20.0f, BossPos.y + 40.0f, BossPos.z + 10.0f }); //後ろ回って
+		point.push_back({ BossPos.x + 0.0f, BossPos.y + 40.0f, BossPos.z + 30.0f }); //左くる
+		point.push_back({ BossPos.x - 20.0f, BossPos.y + 40.0f, BossPos.z + 10.0f });
+		point.push_back({ BossPos.x, BossPos.y + 40.0f, BossPos.z - 20.0f });
+		point.push_back({ BossPos.x, BossPos.y + 40.0f, BossPos.z - 20.0f });
 	}
 	switch (bCamera)
 	{
@@ -384,10 +384,8 @@ void CameraControl::BossSceneStart()
 
 	case BOSSCUTEND:
 
-		if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetFbxTime() > EnemyControl::GetInstance()->
-			GetEnemy(EnemyControl::BOSS)[0]->GetRoarTime_End() - 2.5f)
-		{
-			AttackSceneF = true;
+		AttackSceneF = true;
+		if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetFbxTime() > EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetRoarTime_End() - 2.8f) {
 			CameraPosition.z -= 1.5f;
 		}
 		Feed::GetInstance()->Update_White(Feed::FEEDIN);
@@ -404,7 +402,7 @@ void CameraControl::BossSceneStart()
 	}
 
 
-	camera->SetTarget({BossPos.x, BossPos.y + BCutCameraHeight, BossPos.z});
+	camera->SetTarget({ BossPos.x, BossPos.y + BCutCameraHeight, BossPos.z });
 	camera->SetEye(CameraPosition);
 }
 
@@ -412,7 +410,7 @@ void CameraControl::BossCutScene_Spline()
 {
 	nowCount = static_cast<float>(GetTickCount64());
 	elapsedCount = nowCount - startCount;
-	elapsedTime = elapsedCount / 10.0f;
+	elapsedTime = elapsedCount / 250.0f;
 
 	timerate = elapsedTime / maxtime;
 	if (timerate >= 1)
@@ -423,17 +421,17 @@ void CameraControl::BossCutScene_Spline()
 			timerate -= 1;
 
 			startCount = static_cast<float>(GetTickCount64());
-		}
-		else
+		} else
 		{
 			timerate = 1;
 		}
 	}
-
-	CameraPosition = {
-		SplinePosition(point, startindex, timerate).m128_f32[0],
-		SplinePosition(point, startindex, timerate).m128_f32[1], SplinePosition(point, startindex, timerate).m128_f32[2]
-	};
+	if (startindex < 7) {
+		CameraPosition = {
+			SplinePosition(point, startindex, timerate).m128_f32[0],
+			SplinePosition(point, startindex, timerate).m128_f32[1], SplinePosition(point, startindex, timerate).m128_f32[2]
+		};
+	}
 }
 
 void CameraControl::BossCutScene_Start(XMFLOAT3 BossPos)
@@ -443,11 +441,11 @@ void CameraControl::BossCutScene_Start(XMFLOAT3 BossPos)
 	Feed::GetInstance()->Update_White(Feed::FEEDOUT);
 
 	CutCount[0]++;
-	if (CutCount[0] > 190)
+	if (CutCount[0] > 10)
 	{
 		bCamera = CAMERADOWN;
 	}
-	CameraPosition = {BossPos.x, BossPos.y + 100.0f, BossPos.z - 10.0f};
+	CameraPosition = { BossPos.x, BossPos.y + 100.0f, BossPos.z - 10.0f };
 }
 
 /*------------------------*/
@@ -482,8 +480,7 @@ void CameraControl::PlaySceneStart()
 				timerate -= 1;
 
 				startCount = static_cast<float>(GetTickCount64());
-			}
-			else
+			} else
 			{
 				timerate = 1;
 			}
@@ -493,14 +490,13 @@ void CameraControl::PlaySceneStart()
 			SplinePosition(points, startindex, timerate).m128_f32[0],
 			SplinePosition(points, startindex, timerate).m128_f32[1],
 			SplinePosition(points, startindex, timerate).m128_f32[2]
-		});
+			});
 
-	//カメラが一定距離近づいたらフェード
+		//カメラが一定距離近づいたらフェード
 		if (Collision::GetLength(camera->GetEye(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 30.0f)
 		{
 			Feed::GetInstance()->Update_Black(Feed::FEEDIN);
-		}
-		else
+		} else
 		{
 			Feed::GetInstance()->Update_Black(Feed::FEEDOUT);
 		}
@@ -524,7 +520,7 @@ void CameraControl::PlaySceneStart()
 	default:
 		break;
 	}
-	this->camera->SetTarget({PlayerControl::GetInstance()->GetPlayer()->GetPosition()});
+	this->camera->SetTarget({ PlayerControl::GetInstance()->GetPlayer()->GetPosition() });
 }
 
 /*------------------------*/
@@ -546,13 +542,12 @@ void CameraControl::ShakeCamera()
 		shaketime--;
 		//}
 		//シェイク値を０に
-	}
-	else if (shaketime == 0.0f)
+	} else if (shaketime == 0.0f)
 	{
 		shakex = 0.0f;
 		shakey = 0.0f;
 	}
-	camera->SetEye({CameraPosition.x + shakex, CameraPosition.y + shakey, CameraPosition.z});
+	camera->SetEye({ CameraPosition.x + shakex, CameraPosition.y + shakey, CameraPosition.z });
 }
 
 

@@ -177,13 +177,6 @@ void Tutorial::Update()
 		SceneManager::GetInstance()->SetScene(SceneManager::BOSS);
 		sceneManager_->SetnextScene(scene); //シーンのセット
 	}
-	if (Input::GetInstance()->TriggerButton(Input::A))
-	{
-		BaseScene* scene = new BossScene(sceneManager_); //次のシーンのインスタンス生成
-		Play = false;
-		SceneManager::GetInstance()->SetScene(SceneManager::BOSS);
-		sceneManager_->SetnextScene(scene); //シーンのセット
-	}
 }
 
 /*------------------------*/

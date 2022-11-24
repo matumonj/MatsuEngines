@@ -21,7 +21,7 @@ using namespace DirectX;
 Player::~Player()
 {
 	Destroy_unique(m_Object);
-	//delete  m_Model;
+	Destroy_unique(m_fbxObject);
 }
 
 Player* Player::GetInstance()
@@ -50,9 +50,9 @@ void Player::Initialize(DebugCamera* camera)
 
 	SetCollider();
 
-	Rotation = {-163.0f, -62.0f, 103.0f};
-	Position = {0.0f, 0.0f, 0.0f};
-	Scale = {0.02f, 0.02f, 0.02f};
+	Rotation = { -163.0f, -62.0f, 103.0f };
+	Position = { 0.0f, 0.0f, 0.0f };
+	Scale = { 0.02f, 0.02f, 0.02f };
 
 	HP = MaxHP;
 	vel /= 5.0f;
@@ -69,7 +69,7 @@ void Player::Jump()
 		{
 			onGround = false;
 			const float jumpVYFist = 0.3f;
-			fallV = {0.0f, jumpVYFist, 0.0f, 0.0f};
+			fallV = { 0.0f, jumpVYFist, 0.0f, 0.0f };
 		}
 	}
 }
@@ -101,19 +101,19 @@ void Player::Move()
 	{
 		if (input->TiltPushStick(Input::L_UP, 0.0f))
 		{
-			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{0, 0, vel, 0}, angle);
+			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{ 0, 0, vel, 0 }, angle);
 		}
 		if (input->TiltPushStick(Input::L_DOWN, 0.0f))
 		{
-			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{0, 0, -vel, 0}, angle);
+			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{ 0, 0, -vel, 0 }, angle);
 		}
 		if (input->TiltPushStick(Input::L_RIGHT, 0.0f))
 		{
-			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{vel, 0, 0, 0}, angle);
+			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{ vel, 0, 0, 0 }, angle);
 		}
 		if (input->TiltPushStick(Input::L_LEFT, 0.0f))
 		{
-			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{-vel, 0, 0, 0}, angle);
+			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{ -vel, 0, 0, 0 }, angle);
 		}
 		const float rnd_vel = 0.1f;
 		XMFLOAT3 vel{};
@@ -121,21 +121,20 @@ void Player::Move()
 		vel.y = static_cast<float>(rand()) / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
 		vel.z = static_cast<float>(rand()) / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
 		rot.y = angle + atan2f(StickX, StickY) * (180.0f / pi);
-		Rotation = {rot.x, rot.y - 63.0f, rot.z};
-		XMVECTOR move = {0.0f, 0.0f, 0.1f, 0.0f};
+		Rotation = { rot.x, rot.y - 63.0f, rot.z };
+		XMVECTOR move = { 0.0f, 0.0f, 0.1f, 0.0f };
 		XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(Rotation.y + 63.0f));
 		move = XMVector3TransformNormal(move, matRot);
 
-		Position.x += move.m128_f32[0] * movespeed;
-		Position.z += move.m128_f32[2] * movespeed;
+		Position.x += move.m128_f32[0] * movespeed * 3;
+		Position.z += move.m128_f32[2] * movespeed * 3;
 		Gmove = move;
 
 		if (f_time < AttackFirTime)
 		{
 			attackMotion = RUN;
 		}
-	}
-	else
+	} else
 	{
 		if (f_time < AttackFirTime)
 		{
@@ -154,7 +153,7 @@ void Player::Evasion()
 	{
 		if (evaTime < 1.0f)
 		{
-			evaTime += 0.03f;
+			evaTime += 0.05f;
 			Position.x += Gmove.m128_f32[0] * Easing::EaseOut(evaTime, 15.0f, 0.0f);
 			Position.z += Gmove.m128_f32[2] * Easing::EaseOut(evaTime, 15.0f, 0.0f);
 		}
@@ -167,10 +166,9 @@ void Player::Evasion()
 			evasionF = false;
 		}
 		f_time += 0.02f;
-	}
-	else
+	} else
 	{
-		m_fbxObject->SetColor({1.0f, 1.0f, 1.0f, 1.0f});
+		m_fbxObject->SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
 		evaTime = 0.0f;
 	}
 }
@@ -184,12 +182,10 @@ void Player::Update(DebugCamera* camera)
 	//１フレーム前の座標を保存
 	oldpos = Position;
 
-	ReturnGround();
-
 	RecvDamage_Cool();
 
 	Move();
-	//Gmove = move;
+
 	if (input->TriggerButton(input->RB))
 	{
 		evasionF = true;
@@ -203,13 +199,16 @@ void Player::Update(DebugCamera* camera)
 	//fbxのタイマー処理
 	m_fbxObject->SetFbxTime(f_time);
 	//当たり判定
-	//CollisionField(camera);
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY ||
+		SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
+		CollisionField(camera);
+	}
 
 	ParameterSet_Obj(camera);
 	ParameterSet_Fbx(camera);
 	//持つ武器の更新
 	SelectSword::GetInstance()->Update();
-	//攻撃エフェクトだの
+	//攻撃エフェクト
 	AttackEffect::GetIns()->Upda();
 }
 
@@ -270,65 +269,60 @@ void Player::FbxAnimationControl()
 	}
 	float timespeed = 0.02f;
 
-	if (attackMotion == FIRST)
+
+	if (attackMotion == FIRST && f_time >= AttackSecTime - 0.2f)
 	{
-		if (f_time >= AttackSecTime - 0.2f)
-		{
-			AnimationEndJudg_FirstAttack = true;
-		}
-	}
-	else if (attackMotion == SECOND)
+		AnimationEndJudg_FirstAttack = true;
+	} else if (attackMotion == SECOND && f_time >= AttackThiTime - 0.2f)
 	{
-		if (f_time >= AttackThiTime - 0.2f)
-		{
-			AnimationEndJudg_SecondAttack = true;
-		}
-	}
-	else if (attackMotion == THIRD)
+		AnimationEndJudg_SecondAttack = true;
+
+	} else if (attackMotion == THIRD && f_time >= EvaTime_Start - 0.2f)
 	{
-		if (f_time >= EvaTime_Start - 0.2f)
-		{
-			AnimationEndJudg_ThirdAttack = true;
-		}
+		AnimationEndJudg_ThirdAttack = true;
+
 	}
 
-
-	if (OldattackMotion == NON)
-	{
-		if (CustomButton::GetInstance()->GetAttackAction() == true)
+	/*アニメーション遷移処理  やり方ひどいので複数アニメーション読み込んだら消す*/
+	if (attackMotion == RUN || attackMotion == NON) {
+		if (OldattackMotion == NON)
 		{
-			attackMotion = FIRST;
-			OldattackMotion = FIRST;
+			if (CustomButton::GetInstance()->GetAttackAction() == true)
+			{
+				attackMotion = FIRST;
+				OldattackMotion = FIRST;
+			}
 		}
-	}
-	if (OldattackMotion == FIRST && AnimationEndJudg_FirstAttack)
-	{
-		if (CustomButton::GetInstance()->GetAttackAction() == true)
+
+		if (OldattackMotion == FIRST && AnimationEndJudg_FirstAttack)
 		{
-			AnimationEndJudg_FirstAttack = false;
-			attackMotion = SECOND;
-			OldattackMotion = SECOND;
+			if (CustomButton::GetInstance()->GetAttackAction() == true)
+			{
+				AnimationEndJudg_FirstAttack = false;
+				attackMotion = SECOND;
+				OldattackMotion = SECOND;
+			}
 		}
-	}
 
-	if (OldattackMotion == SECOND && AnimationEndJudg_SecondAttack)
-	{
-		if (CustomButton::GetInstance()->GetAttackAction() == true)
+		if (OldattackMotion == SECOND && AnimationEndJudg_SecondAttack)
 		{
-			AnimationEndJudg_SecondAttack = false;
-			attackMotion = THIRD;
-			OldattackMotion = THIRD;
+			if (CustomButton::GetInstance()->GetAttackAction() == true)
+			{
+				AnimationEndJudg_SecondAttack = false;
+				attackMotion = THIRD;
+				OldattackMotion = THIRD;
+			}
 		}
-	}
 
 
-	if (OldattackMotion == THIRD && AnimationEndJudg_ThirdAttack)
-	{
-		if (CustomButton::GetInstance()->GetAttackAction() == true)
+		if (OldattackMotion == THIRD && AnimationEndJudg_ThirdAttack)
 		{
-			AnimationEndJudg_ThirdAttack = false;
-			attackMotion = NON;
-			OldattackMotion = NON;
+			if (CustomButton::GetInstance()->GetAttackAction() == true)
+			{
+				AnimationEndJudg_ThirdAttack = false;
+				attackMotion = NON;
+				OldattackMotion = NON;
+			}
 		}
 	}
 	if (PlayerAttackState::GetInstance()->GetHitStopJudg())
@@ -376,7 +370,7 @@ XMFLOAT3 Player::MoveVECTOR(XMVECTOR v, float angle)
 	XMMATRIX rot2 = {};
 	rot2 = XMMatrixRotationY(XMConvertToRadians(angle));
 	v = XMVector3TransformNormal(v, rot2);
-	XMFLOAT3 pos = {v.m128_f32[0], v.m128_f32[1], v.m128_f32[2]};
+	XMFLOAT3 pos = { v.m128_f32[0], v.m128_f32[1], v.m128_f32[2] };
 	return pos;
 }
 

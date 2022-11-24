@@ -57,13 +57,14 @@ protected:
 	float OldHP = 0.0f; //前フレーム時の体力(HUDのイージング用)
 protected:
 	float alpha = 1.0f;
-	XMFLOAT3 RespawnPos = {0.0f, 0.0f, 0.0f};
+	XMFLOAT3 RespawnPos = { 0.0f, 0.0f, 0.0f };
 	bool RecvDamagef = false; //
+	bool RecvDamagef2 = false; //
 	bool RecvAttackHit = false;
 	bool DamageParticleCreateF = false; //攻撃受けた直後パーティクル発生フラg
 private:
 	bool MoveFlag = false;
-	XMFLOAT3 OldPos = {0.0f, 0.0f, 0.0f};
+	XMFLOAT3 OldPos = { 0.0f, 0.0f, 0.0f };
 	int DamageSize = 0;
 	XMFLOAT3 DamageTexPos = {};
 public:
@@ -82,6 +83,7 @@ protected:
 	bool nowAttack = false;
 	bool FalterFlag = false;
 	bool SwingFlag = false;
+	bool DieFlag = false;
 	int cooltime = 0;
 
 	int onGroundTime = 0;
@@ -131,6 +133,13 @@ protected:
 	float SwingTime_End;
 	float IdleTime;
 	float IdleTime_End;
+	float SideWalk_LeftTime;
+	float SideWalk_LeftTime_End;
+	float SideWalk_RightTime;
+	float SideWalk_RightTime_End;
+
+	float DeathMotionTime_Start;
+	float DeathMotionTime_End;
 	float EvaTime = 0.0f;
 	float AttackTime;
 	float AttackTime_End;
@@ -138,6 +147,9 @@ protected:
 	bool MagicMotionStart = false;
 	bool RoarMotionFlag = false;
 	bool IdleMotionFlag = false;
+	bool DeathMotionFlag = false;
+	bool SideWalk_RightMotionFlag = false;
+	bool SideWalk_LeftMotionFlag = false;
 	/*ゲッター*/
 public:
 	float GetRotCorrect() { return FollowRotAngleCorrect; }
@@ -145,6 +157,8 @@ public:
 	void SetRecvAttack(bool f) { RecvAttackHit = f; }
 	//攻撃受けた直後の判定用
 	bool GetRecvDamage() { return RecvDamagef; }
+	//攻撃受けた直後の判定用
+	bool GetRecvDamage2() { return RecvDamagef2; }
 	//歩いているか
 	bool GetMoveFlag() { return MoveFlag; }
 	//地面設置状態かどうか
@@ -173,6 +187,8 @@ public:
 	void SetRotRadian(float roty) { addRotRadians = roty; }
 	float GetRotRadians() { return addRotRadians; }
 	void SetRecvDamage(bool f) { RecvDamagef = f; }
+
+	void SetRecvDamage2(bool f) { RecvDamagef2 = f; }
 	void SetMoveFlag(bool f) { MoveFlag = f; }
 
 	void SetScale(XMFLOAT3 scale) { Scale = scale; }
@@ -196,12 +212,19 @@ public:
 	void SetSwingMotion(bool f) { if (f_time < SwingTime) { SwingFlag = f; } }
 
 	void SetFalterMotion(bool f) { if (f_time < FalterTime) { FalterFlag = f; } }
-	void SetRoarMotion(bool f) { if (sqrtf((f_time - RoarTime) * (f_time - RoarTime)) > 4.44f) { RoarMotionFlag = f; } }
+	void SetRoarMotion(bool f) { if (f_time > RoarTime_End) { RoarMotionFlag = f; } }
+	void SetDeathMotion(bool f) { if (f_time < DeathMotionTime_Start) { DieFlag = f; } }
+	//
+	void SetRSideWalkMotion(bool f) { if (f_time > SideWalk_RightTime) { SideWalk_RightMotionFlag = f; } }
+	void SetLSideWalkMotion(bool f) { if (f_time < SideWalk_LeftTime) { SideWalk_LeftMotionFlag = f; } }
+
+	//
 	void SetIdleMotion(bool f) { if (f_time < IdleTime) { IdleMotionFlag = f; } }
 	float GetFalterTime_End() { return FalterTime_End; }
 	float GetRoarTime_End() { return RoarTime_End; }
 	void SetMagicAttackTime(bool f) { if (f_time < MagicAttackTime) { MagicMotionStart = f; } }
 	void SetEvaMotionTime(bool f) { if (f_time < EvaTime) { EvaMotionStart = f; } }
+
 	bool GetAttack_Start(int Num) { return Attack[Num].start; }
 	bool GetAttack_End(int Num) { return Attack[Num].end; }
 
@@ -236,7 +259,7 @@ protected:
 	EnemyState* state_mob;
 	BossEnemyState* state_boss;
 
-	private:
+private:
 	std::list<std::unique_ptr<DamageManager>> dMans_;
-	
+
 };

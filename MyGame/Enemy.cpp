@@ -47,6 +47,7 @@ void Enemy::RecvDamage(int Damage)
 		return;
 	}
 
+	RecvDamagef2 = true;
 	RecvDamagef = true;
 	DamageSize = Damage;
 	DamageTexPos = Position;
@@ -54,7 +55,7 @@ void Enemy::RecvDamage(int Damage)
 	{
 	}
 
-	std::unique_ptr<DamageManager>newdTex = std::make_unique<DamageManager>(XMFLOAT3(Position.x+rand()%10-5,Position.y+rand()%10-5,Position.z), Damage);
+	std::unique_ptr<DamageManager>newdTex = std::make_unique<DamageManager>(XMFLOAT3(Position.x + rand() % 10 - 5, Position.y + rand() % 10 - 5, Position.z), Damage);
 
 	dMans_.push_back(std::move(newdTex));
 
@@ -72,14 +73,15 @@ void Enemy::DestroyJudg()
 
 void Enemy::DamageTexDisplay()
 {
-	for (std::unique_ptr<DamageManager>&dTex:dMans_) {
+	for (std::unique_ptr<DamageManager>& dTex : dMans_) {
 		dTex->DamageDisPlay(1, { 1,1,1,1 });
 	}
 	dMans_.remove_if([](std::unique_ptr<DamageManager>& dTex) {
-		return dTex->GetAlpha() <= 0.1f;});
+		return dTex->GetAlpha() <= 0.1f; });
 }
 void Enemy::DamageTexDisplay_Draw()
 {
+	if (this == nullptr)return;
 	for (std::unique_ptr<DamageManager>& dTex : dMans_) {
 		dTex->Draw();
 	}
