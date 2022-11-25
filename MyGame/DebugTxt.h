@@ -109,3 +109,43 @@ private:
 	// スプライトデータ配列の添え字番号
 	int spriteIndex = 0;
 };
+
+class DebugTextSprite2
+{
+private:
+	// DirectX::を省略
+	using XMFLOAT2 = DirectX::XMFLOAT2;
+	using XMFLOAT3 = DirectX::XMFLOAT3;
+	using XMFLOAT4 = DirectX::XMFLOAT4;
+	using XMMATRIX = DirectX::XMMATRIX;
+public:
+	// デバッグテキスト用のテクスチャ番号を指定
+	static const int maxCharCount = 200; // 最大文字数
+	static const int fontWidth = 55; // フォント画像内1文字分の横幅
+	static const int fontHeight = 110; // フォント画像内1文字分の縦幅
+	static const int fontLineCount = 14; // フォント画像内1行分の文字数
+
+	DebugTextSprite2();
+	~DebugTextSprite2();
+public: // 静的メンバ関数
+	static DebugTextSprite2* GetInstance();
+
+	void Initialize(UINT texnumber);
+
+	void Print(const std::string& text, float x, float y, float size);
+
+	void DrawAll();
+
+	void FeedTex();
+
+	void SetAlpha(float alpha) { this->alpha = alpha; }
+private:
+	bool SizeVariableF = false;
+	int VariableStopT = 0;
+	XMFLOAT2 TexScale = { 0.f, 0.f };
+	float alpha = 1.f;
+	// スプライトデータの配列
+	Sprite* spriteDatas[maxCharCount] = {};
+	// スプライトデータ配列の添え字番号
+	int spriteIndex = 0;
+};

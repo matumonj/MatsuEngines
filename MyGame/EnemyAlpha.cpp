@@ -58,6 +58,7 @@ void EnemyAlpha::Initialize(DebugCamera* camera)
 	state_mob->Initialize(this);
 	addRotRadians = -180;
 	FollowRotAngleCorrect = 0;
+	ENumber = EnemyNumber::GOLEM;
 	}
 
 //XVˆ—

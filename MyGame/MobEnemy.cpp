@@ -66,6 +66,8 @@ void MobEnemy::Initialize(DebugCamera* camera)
 
 	addRotRadians = 0;
 	FollowRotAngleCorrect = 180;
+
+	ENumber = EnemyNumber::GOLEM;
 }
 
 #include"SceneManager.h"

@@ -215,6 +215,14 @@ void EnemyControl::Update_Play(DebugCamera* camera)
 		}
 		if (enemys[PLAYSCENE][i]->GetObjAlpha() <= 0.0f)
 		{
+			if(enemys[PLAYSCENE][i]->GetEnemyNumber()== enemys[PLAYSCENE][i]->EnemyNumber::GOLEM)
+			{
+				Task::GetInstance()->SetGolemDestroyCount();
+			}
+			else if(enemys[PLAYSCENE][i]->GetEnemyNumber() == enemys[PLAYSCENE][i]->EnemyNumber::FLOG)
+			{
+				Task::GetInstance()->SetFlogDestroyCount();
+			}
 			Destroy_unique(enemys[PLAYSCENE][i]);
 		}
 	}

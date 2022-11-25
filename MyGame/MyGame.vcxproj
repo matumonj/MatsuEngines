@@ -206,6 +206,7 @@
     <ClCompile Include="StoneControl.cpp" />
     <ClCompile Include="SwordBase.cpp" />
     <ClCompile Include="TargetMarker.cpp" />
+    <ClCompile Include="Task.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="TouchableObject.cpp" />
@@ -334,6 +335,7 @@
     <ClInclude Include="StoneControl.h" />
     <ClInclude Include="SwordBase.h" />
     <ClInclude Include="TargetMarker.h" />
+    <ClInclude Include="Task.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="TouchableObject.h" />

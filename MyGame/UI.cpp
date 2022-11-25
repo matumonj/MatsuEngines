@@ -4,7 +4,7 @@
 #include"TutorialSprite.h"
 #include"BossSpell.h"
 #include"ExpPointSystem.h"
-
+#include"Task.h"
 UI* UI::GetInstance()
 {
 	static UI instance;
@@ -25,6 +25,7 @@ void UI::Initialize()
 	{
 		TutorialSprite::GetInstance()->Initialize();
 	}
+	Task::GetInstance()->Init();
 }
 
 void UI::HUDUpdate(bool& hudload, DebugCamera* camera)
@@ -35,7 +36,6 @@ void UI::HUDUpdate(bool& hudload, DebugCamera* camera)
 		                                             EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL));
 		TutorialSprite::GetInstance()->Update();
 	}
-	BossSpell::GetInstance()->Update();
 	HUD::GetInstance()->SkillBottonUpdate();
 	HUD::GetInstance()->Update();
 	HUD::GetInstance()->TaskUpdate(camera);
@@ -43,7 +43,11 @@ void UI::HUDUpdate(bool& hudload, DebugCamera* camera)
 	{
 		ExpPointSystem::GetInstance()->Upda();
 	}
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
+	{
+		Task::GetInstance()->Upda();
 	}
+}
 
 void UI::HUDDraw()
 {
@@ -64,6 +68,10 @@ void UI::HUDDraw()
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL)
 	{
 		TutorialSprite::GetInstance()->Draw();
+	}
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
+	{
+		Task::GetInstance()->Draw();
 	}
 }
 

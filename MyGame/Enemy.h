@@ -14,6 +14,7 @@
 #include"ParticleManager.h"
 #include"DebugTxt.h"
 #include<list>
+#include"Task.h"
 #include"DamageManager.h"
 class NodeBase;
 
@@ -120,6 +121,7 @@ public:
 	};
 
 	void SetAnimeState(AnimationState state) { animeState = state; }
+	int GetEnemyNumber() { return ENumber; }
 protected:
 	AnimationState animeState;
 	float addRotRadians;
@@ -203,7 +205,14 @@ protected: //攻撃の開始と終了判定用
 		bool start;
 		bool end;
 	};
-
+public:
+	enum EnemyNumber
+	{
+		GOLEM,
+		FLOG,
+	};
+protected:
+	int ENumber;
 	//攻撃数
 	static const int AtckNum = 7;
 	Attack_SE Attack[AtckNum];
