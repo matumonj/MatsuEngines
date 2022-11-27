@@ -16,8 +16,6 @@ public:
 	~WoodB() override;
 
 private:
-	OBB playerOBB = {};
-	OBB woodOBB = {}; // = nullptr;
 	bool f = false;
 	float t = false;
 	float alpha = 0.0f;
@@ -25,5 +23,6 @@ public:
 	void Initialize(DebugCamera* camera) override;
 	void Update(DebugCamera* camera) override;
 	void Draw() override;
-	bool CollideWood();
+	bool CollideWood()override;
 };
+

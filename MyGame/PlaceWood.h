@@ -1,7 +1,7 @@
 #pragma once
 #include<memory>
 #include"CreateObjManager.h"
-#include"Wood.h"
+#include"WoodBase.h"
 
 class PlaceWood : public CreateObjManager
 {
@@ -22,5 +22,6 @@ public:
 
 	void Finalize() override;
 private:
-	std::vector<std::unique_ptr<Wood>> woods;
+	bool AWoodArgmentFlag;
+	std::vector<std::unique_ptr<WoodBase>> woods;
 };

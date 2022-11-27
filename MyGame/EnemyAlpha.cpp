@@ -30,36 +30,39 @@ EnemyAlpha::~EnemyAlpha()
 //初期化処理
 void EnemyAlpha::Initialize(DebugCamera* camera)
 {
+	//オブジェクトの生成と初期化
 	m_Object = std::make_unique<Object3d>();
 	m_Object->Initialize(camera);
-	//m_fbxModel = ModelManager::GetIns()->GetFBXModel(ModelManager::GOLEM);
-
-	EnemyHP = 65.00f;
-	MaxHP = 65.00f;
-	//パラメータのセット
-
-	Rotation = {-110, 0, 0};
-
 
 	m_fbxObject = std::make_unique<f_Object3d>();
 	m_fbxObject->Initialize();
 	m_fbxObject->SetModel(FbxLoader::GetInstance()->LoadModelFromFile("sniper_blender"));
 	m_fbxObject->PlayAnimation();
+
+	//パラメータのセット
+	EnemyHP = 65.00f;
+	MaxHP = 65.00f;
+
+	Rotation = {-110, 0, 0};
+	Scale = {0.05f, 0.05f, 0.05f};
 	radius_adjustment = 0;
-	Scale = {
-		0.05f, 0.05f, 0.05f
-	};
+	
 	SetCollider();
+	//fbxアニメーション時間の設定
 	NormalAttackTime = 1.5f;
 	DeathTime = 6.f;
+
 	nowAttack = false;
 	nowDeath = false;
 	m_fbxObject->SetColor({1, 0, 0, alpha});
-	state_mob->Initialize(this);
+	
 	addRotRadians = -180;
 	FollowRotAngleCorrect = 0;
-	ENumber = EnemyNumber::GOLEM;
-	}
+	//タスク用敵の種類
+	ENumber = EnemyNumber::FLOG;
+	//状態初期化
+	state_mob->Initialize(this);
+}
 
 //更新処理
 void EnemyAlpha::Update(DebugCamera* camera)
@@ -95,7 +98,7 @@ void EnemyAlpha::Update(DebugCamera* camera)
 	EnemyPop(150);
 	AttackCoolTime();
 	ParameterSet_Fbx2(camera);
-
+	DamageTexDisplay();
 	CollisionField(camera);
 
 	DamageParticleSet();

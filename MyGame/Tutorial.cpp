@@ -58,7 +58,6 @@ void Tutorial::Initialize()
 	postEffect = new MinimapSprite();
 	postEffect->Initialize();
 	//ミニマップ用のカメラ　後で別のところに移す
-	dc = new DebugCamera(WinApp::window_width, WinApp::window_height);
 	//各種設定画面
 	SistemConfig::GetInstance()->Initialize();
 	SelectSword::GetInstance()->Initialize();
@@ -97,18 +96,6 @@ void Tutorial::objUpdate(DebugCamera* camera)
 		UI::GetInstance()->HUDUpdate(hudload, CameraControl::GetInstance()->GetCamera());
 	}
 	//後で別ん所移す
-
-	dc->Update();
-	if (PlayerControl::GetInstance()->GetPlayer() != nullptr)
-	{
-		dc->SetTarget({PlayerControl::GetInstance()->GetPlayer()->GetPosition()});
-		dc->SetEye({
-			PlayerControl::GetInstance()->GetPlayer()->GetPosition().x,
-			PlayerControl::GetInstance()->GetPlayer()->GetPosition().y + 300.0f,
-			PlayerControl::GetInstance()->GetPlayer()->GetPosition().z - 1
-		});
-	}
-	Field::GetInstance()->SetCamera(dc);
 
 	Field::GetInstance()->Update(CameraControl::GetInstance()->GetCamera());
 }
@@ -177,6 +164,9 @@ void Tutorial::Update()
 		SceneManager::GetInstance()->SetScene(SceneManager::PLAY);
 		sceneManager_->SetnextScene(scene); //シーンのセット
 	}
+	if(Input::GetInstance()->TriggerButton(Input::A))
+	{
+		}
 }
 
 /*------------------------*/
@@ -227,7 +217,10 @@ void Tutorial::Draw()
 		MyGameDraw();
 	//postEffect->Draw();
 		Sprite::PreDraw();
-		DebugTextSprite::GetInstance()->DrawAll();
+		if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr) {
+			EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->DamageTexDisplay_Draw();
+		}
+			DebugTextSprite::GetInstance()->DrawAll();
 		Sprite::PostDraw();
 		PlayerControl::GetInstance()->DamageTexDraw();
 		UI::GetInstance()->HUDDraw();
@@ -285,5 +278,5 @@ void Tutorial::Finalize()
 	AllObjectControl.clear();
 	Field::GetInstance()->Finalize();
 	Destroy(postEffect);
-	Destroy(dc);
+	
 }

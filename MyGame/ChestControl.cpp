@@ -4,6 +4,7 @@
 #include"Feed.h"
 #include"PlayerControl.h"
 #include"CameraControl.h"
+
 #include"UI.h"
 
 ChestControl* ChestControl::GetInstance()
@@ -108,11 +109,7 @@ void ChestControl::Init_Play(DebugCamera* camera)
 		chests[i]->Initialize(camera);
 		chests[i]->SetRotation({0.0f, 90.0f, 0.0f});
 	}
-	chests[RED]->SetPosition({14, -26, -261});
-	chests[GREEN]->SetPosition({-48, -24, -17});
-	chests[BLUE]->SetPosition({269, -29, -43});
-	chests[YELLOW]->SetPosition({163, -30, -252});
-
+	
 	ParticleManager::LoadTexture(8, L"Resources/ParticleTex/normal.png");
 	for (int i = 0; i < 4; i++)
 	{
@@ -167,6 +164,7 @@ void ChestControl::Update_Play(DebugCamera* camera)
 			GetChestEvent(chests[i].get(), PlayPchest[i]);
 		}
 	}
+
 	if (chests[RED] != nullptr)
 	{
 		chests[RED]->SetpColor(color_red);
@@ -184,7 +182,10 @@ void ChestControl::Update_Play(DebugCamera* camera)
 		chests[YELLOW]->SetpColor(color_yellow);
 	}
 }
-
+void ChestControl::SetChestAppearance(Color color,XMFLOAT3 position)
+{
+	chests[color]->SetPosition(position);
+}
 void ChestControl::Update_Boss(DebugCamera* camera)
 {
 }

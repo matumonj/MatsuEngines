@@ -15,6 +15,7 @@ void ModelManager::Initialize()
 	LoadModel(FIELD, "LowPoly_Landscape");
 	LoadModel(BOSSFIELD, "BossField");
 	LoadModel(WOOD, "wood");
+	LoadModel(WOOD2, "wood2");
 	LoadModel(CHEST, "chest");
 	LoadModel(FENCE, "Fence");
 	LoadFBXModel(PLAYER, "playerGolem");

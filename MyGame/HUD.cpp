@@ -260,7 +260,7 @@ void HUD::EnemyHPGauge_MultiDraw()
 void HUD::SkillBottonDraw()
 {
 	Sprite::PreDraw();
-	MiniMapFrame->Draw();
+	//MiniMapFrame->Draw();
 	PlayerHPFrame2->Draw();
 	PlayerHP->Draw();
 	PlayerHPFrame->Draw();

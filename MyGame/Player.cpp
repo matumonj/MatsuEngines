@@ -39,6 +39,7 @@ Player* Player::Create(Model* model, DebugCamera* camera)
 void Player::Initialize(DebugCamera* camera)
 {
 	StopFlag = false;
+	//オブジェクトの生成、初期化
 	m_Object = std::make_unique<Object3d>();
 	m_Object->Initialize(camera);
 
@@ -47,14 +48,16 @@ void Player::Initialize(DebugCamera* camera)
 	m_fbxObject->SetModel(FbxLoader::GetInstance()->LoadModelFromFile("playerGolem"));
 	m_fbxObject->PlayAnimation();
 
-
+	//地形判定のコライダーセット
 	SetCollider();
 
 	Rotation = { -163.0f, -62.0f, 103.0f };
 	Position = { 0.0f, 0.0f, 0.0f };
 	Scale = { 0.02f, 0.02f, 0.02f };
 
+	//体力初期化
 	HP = MaxHP;
+	//移動処理用
 	vel /= 5.0f;
 
 	AttackEffect::GetIns()->Init();
@@ -63,8 +66,7 @@ void Player::Initialize(DebugCamera* camera)
 //80,145
 void Player::Jump()
 {
-	if (onGround)
-	{
+	if(onGround){
 		if (CustomButton::GetInstance()->GetJumpAction())
 		{
 			onGround = false;
@@ -74,12 +76,9 @@ void Player::Jump()
 	}
 }
 
-void Player::ReturnGround()
-{
-}
-
 void Player::Move()
 {
+	//移動停止フラグと回避モーション時は動けない
 	if (StopFlag || evasionF)
 	{
 		return;
@@ -93,7 +92,7 @@ void Player::Move()
 	const float pi = 3.14159f;
 	const float STICK_MAX = 32768.0f;
 
-
+	//スティックの移動処理
 	if (input->TiltPushStick(Input::L_UP, 0.0f) ||
 		input->TiltPushStick(Input::L_DOWN, 0.0f) ||
 		input->TiltPushStick(Input::L_RIGHT, 0.0f) ||
@@ -117,6 +116,7 @@ void Player::Move()
 		}
 		const float rnd_vel = 0.1f;
 		XMFLOAT3 vel{};
+
 		vel.x = static_cast<float>(rand()) / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
 		vel.y = static_cast<float>(rand()) / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
 		vel.z = static_cast<float>(rand()) / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
@@ -126,16 +126,19 @@ void Player::Move()
 		XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(Rotation.y + 63.0f));
 		move = XMVector3TransformNormal(move, matRot);
 
-		Position.x += move.m128_f32[0] * movespeed * 3;
-		Position.z += move.m128_f32[2] * movespeed * 3;
+		Position.x += move.m128_f32[0] * movespeed *3;
+		Position.z += move.m128_f32[2] * movespeed *3;
 		Gmove = move;
 
+		//いずれかのスティックが倒されていてFBXのタイムが最初の攻撃モーションのタイムより
+		//短かったら状態をRUNに
 		if (f_time < AttackFirTime)
 		{
 			attackMotion = RUN;
 		}
 	} else
 	{
+		//スティックが倒されていなかったら待機
 		if (f_time < AttackFirTime)
 		{
 			attackMotion = NON;
@@ -153,10 +156,12 @@ void Player::Evasion()
 	{
 		if (evaTime < 1.0f)
 		{
+			//プレイヤーの向いてる方向にイージングで飛ぶ
 			evaTime += 0.05f;
 			Position.x += Gmove.m128_f32[0] * Easing::EaseOut(evaTime, 15.0f, 0.0f);
 			Position.z += Gmove.m128_f32[2] * Easing::EaseOut(evaTime, 15.0f, 0.0f);
 		}
+		//FBXタイムを回避モーション開始時に合わせる
 		if (f_time <= EvaTime_Start)
 		{
 			f_time = EvaTime_Start;
@@ -166,7 +171,8 @@ void Player::Evasion()
 			evasionF = false;
 		}
 		f_time += 0.02f;
-	} else
+	}
+	else
 	{
 		m_fbxObject->SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
 		evaTime = 0.0f;
@@ -181,15 +187,16 @@ void Player::Update(DebugCamera* camera)
 	}
 	//１フレーム前の座標を保存
 	oldpos = Position;
-
+	//攻撃受けた後のクールタイム
 	RecvDamage_Cool();
 
 	Move();
 
-	if (input->TriggerButton(input->RB))
+	if (CustomButton::GetInstance()->Get3AttackAction())
 	{
 		evasionF = true;
 	}
+	//回避
 	Evasion();
 	//手のボーン位置設定
 	m_fbxObject->SetHandBoneIndex(hindex);
@@ -215,7 +222,7 @@ void Player::Update(DebugCamera* camera)
 
 void Player::Draw()
 {
-	ImGui::Begin("fTime");
+	/*ImGui::Begin("fTime");
 	ImGui::SliderInt("t", &hindex, 0, 36);
 	ImGui::SliderFloat("posx", &Position.x, -100, 106);
 	ImGui::SliderFloat("tposy", &Position.y, -100, 106);
@@ -223,7 +230,7 @@ void Player::Draw()
 	ImGui::Text("%f", Position.x);
 	ImGui::Text("%f", Position.y);
 	ImGui::Text("%f", Position.z);
-	ImGui::End();
+	ImGui::End();*/
 	Draw_Fbx();
 	SelectSword::GetInstance()->SwordDraw();
 

@@ -22,8 +22,8 @@ void Wood::Initialize(DebugCamera* camera)
 	//モデル割り当て
 	m_Object->Initialize(camera);
 	m_Object->SetModel(ModelManager::GetIns()->GetModel(ModelManager::WOOD));
-	Scale = {2.0f, 3.0f, 3.0f};
-	radius_adjustment = -14.0f;
+	Scale = {12.0f, 9.0f, 12.0f};
+	radius_adjustment = 2.0f;
 	SetCollider();
 	alpha = 1.0f;
 }
@@ -49,24 +49,25 @@ void Wood::Draw()
 
 bool Wood::CollideWood()
 {
-	if (PlayerControl::GetInstance()->GetPlayer() == nullptr)
+	Player* l_player = PlayerControl::GetInstance()->GetPlayer();
+	if (l_player == nullptr)
 	{
 		return false;
 	}
-	playerOBB.SetOBBParam_Pos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
+	playerOBB.SetOBBParam_Pos(l_player->GetPosition());
 	playerOBB.SetOBBParam_Scl({1.0f, 1.0f, 1.0f});
-	playerOBB.SetOBBParam_Rot(PlayerControl::GetInstance()->GetPlayer()->GetMatrot());
+	playerOBB.SetOBBParam_Rot(l_player->GetMatrot());
 
 	//OBB 回転ベクトル
 	woodOBB.SetOBBParam_Pos(m_Object->GetPosition());
-	woodOBB.SetOBBParam_Scl({2.0f, 20.0f, 3.0f});
+	woodOBB.SetOBBParam_Scl({6.0f, 20.0f, 6.0f});
 	woodOBB.SetOBBParam_Rot(m_Object->GetMatrot());
 
-	if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), Position) < 20)
+	if (Collision::GetLength(l_player->GetPosition(), Position) < 20)
 	{
 		if (Collision::CheckOBBCollision(playerOBB, woodOBB) == true)
 		{
-			PlayerControl::GetInstance()->GetPlayer()->isOldPos();
+			l_player->isOldPos();
 			return true;
 		}
 		return false;

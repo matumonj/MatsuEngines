@@ -94,10 +94,9 @@ void BossEnemyFollow::Update(Enemy* enemy)
 
 	/*2ˆø”F‘Ì—ÍÝ’è(Ý’è’lˆÈ‰º‚È‚Á‚½‚ç‚Rˆø”‚ÌUŒ‚‚Ö)*/
 	AttackSelect(enemy, Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) <= 60.0f, enemy->HALF_1);
-	AttackSelect(enemy, Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) <= 30.0f, enemy->KNOCK);
 	
 	//Ž€–S
-	if (enemy->GetHP() <= 0.0f)
+	if (enemy->GetHP() <= 0.f)
 	{
 		enemy->ChangeState_Boss(new BossEnemyDeath());
 	}

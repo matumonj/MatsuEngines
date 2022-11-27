@@ -36,7 +36,7 @@ void EnemyWalkState::do_work(Enemy* enemy)
 	{
 		tempx = enemy->GetPosition().x;
 		tempz = enemy->GetPosition().z;
-		if (!enemy->GetMoveStop())
+		if (!enemy->GetMoveStop()&&PlayerControl::GetInstance()->GetPlayer()->GetStopFlag() == false)
 		{
 			enemy->SetPosition({
 					enemy->GetPosition().x + move.m128_f32[0],

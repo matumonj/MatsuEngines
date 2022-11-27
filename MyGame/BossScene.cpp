@@ -13,6 +13,7 @@
 #include"Feed.h"
 #include"PlayerControl.h"
 #include"DamageManager.h"
+#include "GameOver.h"
 
 BossScene::BossScene(SceneManager* sceneManager)
 	: BaseScene(sceneManager)
@@ -74,7 +75,7 @@ void BossScene::Update()
 				AllObjectControl[i]->Update(CameraControl::GetInstance()->GetCamera());
 			}
 		}
-		bAttack->Upda();
+	
 		Nail::GetInstance()->Update();
 		UI::GetInstance()->HUDUpdate(hudload, CameraControl::GetInstance()->GetCamera());
 	}
@@ -98,6 +99,15 @@ void BossScene::Update()
 	{
 		c_postEffect = Default;
 	}
+	if (PlayerControl::GetInstance()->GetPlayer()->GetHP() <= 0)
+	{
+		//画面真っ白なったら
+		BaseScene* scene = new GameOver(sceneManager_); //次のシーンのインスタンス生成
+		Play = false;
+		SceneManager::GetInstance()->SetScene(SceneManager::GAMEOVER);
+		sceneManager_->SetnextScene(scene); //シーンのセット
+
+	}
 }
 
 /*------------------------*/
@@ -105,9 +115,10 @@ void BossScene::Update()
 /*-----------------------*/
 void BossScene::MyGameDraw()
 {
-	Field::GetInstance()->Draw();
 	if (Play)
 	{
+
+		Field::GetInstance()->Draw();
 		for (int i = 0; i < AllObjectControl.size(); i++)
 		{
 			AllObjectControl[i]->Draw();
@@ -138,11 +149,12 @@ void BossScene::Draw()
 		DirectXCommon::GetInstance()->BeginDraw();
 		MyGameDraw();
 	//postEffect->Draw();
-		if (bAttack != nullptr)
-		{
-			bAttack->Draw();
-		}
+		
 		EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->DamageTexDisplay_Draw();
+
+		for (int i = 0; i <2; i++) {
+			EnemyControl::GetInstance()->GetSummonEnemy(i)->DamageTexDisplay_Draw();
+		}
 		Sprite::PreDraw();
 		DebugTextSprite::GetInstance()->DrawAll();
 		Sprite::PostDraw();
@@ -173,8 +185,7 @@ bool BossScene::LoadParam(DebugCamera* camera)
 		{
 			AllObjectControl[i]->Initialize(CameraControl::GetInstance()->GetCamera());
 		}
-		bAttack = std::make_unique<BomAttack>();
-		bAttack->Init();
+	
 		//カメラをセット
 		f_Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
 		//グラフィックパイプライン生成
@@ -197,9 +208,6 @@ bool BossScene::LoadParam(DebugCamera* camera)
 /*-----------------------*/
 void BossScene::Finalize()
 {
-	UI::GetInstance()->Finalize();
-	SistemConfig::GetInstance()->Finalize();
-	AttackCollision::GetInstance()->Finalize();
 	AllObjectControl.clear();
 	Field::GetInstance()->Finalize();
 }

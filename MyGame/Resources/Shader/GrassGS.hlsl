@@ -60,10 +60,7 @@ void main(
     float2 uv = pos0.xz * float2(0.5, 0.5) + float2(0.5, 0.5) + _WindFrequency * time;
     //float2 windDir_xy = (tex2Dlod(tex, float4(uv, 0, 0)).xy * 2 - 1) * _WindPower;
     float4 wind = float4(uv, 0, 0);
-    //float uvx = pos0.x * (float(0.2) + float(1) + _WindFrequency * time);
-    //float uvz = pos0.z * (float(0.2) + float(1) + _WindFrequency * time);
-   // float4 wind = float4(uvx, 1, uvz, 0);
-
+  
     g2f o[7];
 
     //bottom

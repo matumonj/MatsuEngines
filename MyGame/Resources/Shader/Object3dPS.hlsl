@@ -19,7 +19,7 @@ PSOutPut main(GSOutput input) : SV_TARGET
 	float4 c = {0.3, 0.3, 0.4, 1}; //
 	//cameraPosとあるが今は固定座標
 	float dist = length(cameraPos - input.worldpos.xyz);
-	float4 addcol = float4(lerp(nc.rgb, c.rgb, dist / 200), 0.0);
+	float4 addcol = float4(lerp(nc.rgb, c.rgb, dist / 500), 0.0);
 	float3 fc = {0.1, 0.1, 0.1};
 
 	// 光沢度
@@ -84,7 +84,7 @@ PSOutPut main(GSOutput input) : SV_TARGET
 	}
 
 	// 点光源
-	for (i = 0; i < POINTLIGHT_NUM; i++)
+	for (int i = 0; i < POINTLIGHT_NUM; i++)
 	{
 		if (pointLights[i].active)
 		{
@@ -112,7 +112,7 @@ PSOutPut main(GSOutput input) : SV_TARGET
 	}
 
 	// スポットライト
-	for (i = 0; i < SPOTLIGHT_NUM; i++)
+	for (int i = 0; i < SPOTLIGHT_NUM; i++)
 	{
 		if (spotLights[i].active)
 		{
@@ -190,7 +190,7 @@ PSOutPut main(GSOutput input) : SV_TARGET
 	{
 		if (shadowf)
 		{
-			output.target0 = shadecolor * float4(texcolor.rgb * fc, texcolor.a) + addcol;
+			output.target0 = shadecolor * float4(texcolor.rgb * fc, texcolor.a) +addcol;
 			output.target1 = shadecolor * float4(texcolor.rgb * fc, texcolor.a) + addcol;
 		}
 	}

@@ -31,6 +31,7 @@ public:
 	};
 
 	Chest* GetChest(Color col) { return chests[col].get(); }
+	void SetChestAppearance(Color color, XMFLOAT3 position);
 private:
 	enum Event
 	{

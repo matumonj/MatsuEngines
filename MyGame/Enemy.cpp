@@ -17,20 +17,10 @@ Enemy::Enemy()
 
 Enemy::~Enemy()
 {
-	delete state_mob;
-	delete state_boss;
+	Destroy(state_mob);
+	Destroy(state_boss);
 }
 
-
-//初期化処理
-void Enemy::Initialize(DebugCamera* camera)
-{
-}
-
-//更新処理
-void Enemy::Update(DebugCamera* camera)
-{
-}
 
 void Enemy::Action()
 {
@@ -63,22 +53,18 @@ void Enemy::RecvDamage(int Damage)
 	DamageParticleCreateF = true;
 }
 
-void Enemy::DestroyJudg()
-{
-	if (f_time >= m_fbxObject->GetEndTime())
-	{
-		//alpha -= 0.05f;
-	}
-}
-
 void Enemy::DamageTexDisplay()
 {
+	//ダメージスプライト生成
 	for (std::unique_ptr<DamageManager>& dTex : dMans_) {
 		dTex->DamageDisPlay(1, { 1,1,1,1 });
 	}
+
+	//アルファ値一定以下なったら破棄
 	dMans_.remove_if([](std::unique_ptr<DamageManager>& dTex) {
 		return dTex->GetAlpha() <= 0.1f; });
 }
+
 void Enemy::DamageTexDisplay_Draw()
 {
 	if (this == nullptr)return;
@@ -86,6 +72,7 @@ void Enemy::DamageTexDisplay_Draw()
 		dTex->Draw();
 	}
 }
+
 void Enemy::isRespawn()
 {
 	EnemyHP = MaxHP;
@@ -100,19 +87,15 @@ void Enemy::EnemyPop(int HP)
 {
 }
 
-//描画処理
-void Enemy::Draw()
-{
-}
 
 void Enemy::ChangeState_Mob(EnemyState* state)
 {
-	delete state_mob;
+	Destroy(state_mob);
 	state_mob = state;
 }
 
 void Enemy::ChangeState_Boss(BossEnemyState* state)
 {
-	delete state_boss;
+	Destroy(state_boss);
 	state_boss = state;
 }

@@ -12,11 +12,11 @@ class WoodControl :
 {
 	~WoodControl() override;
 private:
-	std::vector<std::unique_ptr<Wood>> woods;
+	std::vector<std::unique_ptr<WoodBase>> woods;
 	std::vector<XMFLOAT3> Load_WoodPosition;
 
 	XMFLOAT3 Player_OldPos;
-	std::vector<std::unique_ptr<Wood>> Tutorialwoods;
+	std::vector<std::unique_ptr<WoodBase>> Tutorialwoods;
 
 public:
 	static WoodControl* GetInstance();
@@ -27,7 +27,7 @@ public:
 
 	void ImGuiDraw();
 
-	Wood* GetWood(int index) { return Tutorialwoods[index].get(); }
+	WoodBase* GetWood(int index) { return Tutorialwoods[index].get(); }
 private:
 	void Update_Tutorial(DebugCamera* camera) override;
 

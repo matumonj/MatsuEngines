@@ -16,8 +16,11 @@ private:
 private:
 	static constexpr int TaskNum = 5;
 	std::unique_ptr<Sprite>TaskFrame;
+	std::array <std::unique_ptr<Sprite>,2>navChestSprite;
+	std::array<float, 2>navSpriteAlpha;
 	std::array<std::unique_ptr<Sprite>, TaskNum>TasksSprite;
 	std::array<bool, TaskNum>Judg;
+	std::array<float, TaskNum>TaskSpriteAlpha;
 	enum Tasks {
 		TASK_ONE,
 		TASK_TWO,
@@ -26,11 +29,17 @@ private:
 		TASK_FIVE,
 		TASK_COMPLEATE
 	}tasks=Tasks::TASK_ONE;
-
+	bool TaskAllClear;
 private:
 	XMFLOAT2 TaskMenuPos = {};
 	XMFLOAT2 FramePos;
 	XMFLOAT2 FrameScl;
+
+	XMFLOAT2 TaskPos;
+	XMFLOAT2 TaskScl;
+
+	XMFLOAT2 navTaskPos;
+	XMFLOAT2 navTaskScl;
 public:
 	void Init();
 	void Upda();
@@ -38,9 +47,13 @@ public:
 
 	void SetGolemDestroyCount() { GolemDestCount++; }
 	void SetFlogDestroyCount() { FlogDestCount++; }
+
+	bool GetAllTaskClear() { return TaskAllClear; }
+	bool GetGolemDesthCount(int count) { if (GolemDestCount > count) { return true; }return false; }
+	bool GetFlogDesthCount(int count) { if (FlogDestCount > count) { return true; }return false; }
 private:
 	int GolemDestCount;
 	int FlogDestCount;
-	void TaskClear(const Tasks& task, bool clearjudg);
+	void TaskClear(const Tasks& task, const Tasks& nexttask, bool clearjudg,int chestcunt);
 };
 

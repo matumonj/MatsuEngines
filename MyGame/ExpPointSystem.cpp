@@ -47,7 +47,9 @@ void ExpPointSystem::Init()
 
 void ExpPointSystem::Upda()
 {
+
 	if (m_BossHPFrame == nullptr)return;
+	if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0] == nullptr)return;
 	if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetRecvDamage()) {
 		NowHP = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetHP();
 		m_EaseTime += 0.05f;
@@ -95,17 +97,17 @@ void ExpPointSystem::Draw()
 	m_BossHPFrame->Draw();
 	Sprite::PostDraw();
 
-	ImGui::Begin("BossHP");
-	ImGui::SliderFloat("BarX", &BarScl.x, 0, 1900);
-	ImGui::SliderFloat("BarY", &BarScl.y, 0, 1000);
-	ImGui::SliderFloat("BarPosX", &BarPos.x, 0, 1000);
-	ImGui::SliderFloat("BarPosY", &BarPos.y, 0, 900);
-	ImGui::End();
+	//ImGui::Begin("BossHP");
+	//ImGui::SliderFloat("BarX", &BarScl.x, 0, 1900);
+	//ImGui::SliderFloat("BarY", &BarScl.y, 0, 1000);
+	//ImGui::SliderFloat("BarPosX", &BarPos.x, 0, 1000);
+	//ImGui::SliderFloat("BarPosY", &BarPos.y, 0, 900);
+	//ImGui::End();
 
-	ImGui::Begin("BossHPFrame");
-	ImGui::SliderFloat("FrameSclX", &BarFrameScl.x, 0, 1900);
-	ImGui::SliderFloat("FrameSclY", &BarFrameScl.y, 0, 1000);
-	ImGui::SliderFloat("FramePosX", &BarFramePos.x, 0, 1000);
-	ImGui::SliderFloat("FramePosY", &BarFramePos.y, 0, 900);
-	ImGui::End();
+	//ImGui::Begin("BossHPFrame");
+	//ImGui::SliderFloat("FrameSclX", &BarFrameScl.x, 0, 1900);
+	//ImGui::SliderFloat("FrameSclY", &BarFrameScl.y, 0, 1000);
+	//ImGui::SliderFloat("FramePosX", &BarFramePos.x, 0, 1000);
+	//ImGui::SliderFloat("FramePosY", &BarFramePos.y, 0, 900);
+	//ImGui::End();
 }

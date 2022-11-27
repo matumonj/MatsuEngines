@@ -39,9 +39,11 @@ void AttackCollision::GetCol(int damage)
 	bool attackcolJudgTime_First = PlayerControl::GetInstance()->GetPlayer()->GetFbxTime() >
 		PlayerControl::GetInstance()->GetPlayer()->GetFbxTime_FirstAtack() + 0.2f && PlayerControl::GetInstance()->
 		GetPlayer()->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->FIRST;
+
 	bool attackcolJudgTime_Second = PlayerControl::GetInstance()->GetPlayer()->GetFbxTime() >
 		PlayerControl::GetInstance()->GetPlayer()->GetFbxTime_SecondAtack() + 0.2f && PlayerControl::GetInstance()->
 		GetPlayer()->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->SECOND;
+
 	bool attackcolJudgTime_Third = PlayerControl::GetInstance()->GetPlayer()->GetFbxTime() >
 		PlayerControl::GetInstance()->GetPlayer()->GetFbxTime_ThirdAtack() + 0.5f && PlayerControl::GetInstance()->
 		GetPlayer()->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->THIRD;
@@ -61,33 +63,26 @@ void AttackCollision::GetCol(int damage)
 
 		if (attackcolJudgTime_First || attackcolJudgTime_Second || attackcolJudgTime_Third)
 		{
-			if (Collision::CheckOBBCollision(HandObb, EnemyOBB[0]) == true && !HitCol)
-			{
-				AttackEffect::GetIns()->SetParticle(
-					EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition());
-				EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->RecvDamage(damage);
-				HitCol = true;
+			if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr) {
+				if (Collision::CheckOBBCollision(HandObb, EnemyOBB[0]) == true && !HitCol)
+				{
+					AttackEffect::GetIns()->SetParticle(
+						EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition());
+					EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->RecvDamage(damage);
+					HitCol = true;
+				}
 			}
 		}
-
 		break;
 
 	case SceneManager::PLAY:
 		ColOBB(PLAY);
-
-		if (CustomButton::GetInstance()->GetAttackAction() || CustomButton::GetInstance()->Get2AttackAction())
-		{
-			HitCol = false;
-		}
-
+		XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 		for (int i = 0; i < EnemyOBB.size(); i++)
 		{
-			if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i] == nullptr || Collision::GetLength(
-				PlayerControl::GetInstance()->GetPlayer()->GetPosition(),
-				EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetPosition()) > 100.0f)
-			{
-				continue;
-			}
+			if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i] == nullptr)continue;
+			if (Collision::GetLength(EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetPosition(),
+				ppos) > 40)continue;
 
 			if (attackcolJudgTime_First || attackcolJudgTime_Second || attackcolJudgTime_Third)
 			{
@@ -95,7 +90,7 @@ void AttackCollision::GetCol(int damage)
 				{
 					AttackEffect::GetIns()->SetParticle(
 						EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetPosition());
-					EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i]->RecvDamage(damage);
+					EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i]->RecvDamage(damage*3);
 					HitCol = true;
 				}
 			}
@@ -114,7 +109,7 @@ void AttackCollision::GetCol(int damage)
 					AttackEffect::GetIns()->SetParticle(
 						EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition());
 					if (EnemyControl::GetInstance()->GetSummonEnemysApper() == false || EnemyControl::GetInstance()->GetSummonEnemysDeath() == true) {
-						EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->RecvDamage(damage);
+						EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->RecvDamage(damage*3);
 					} else if (EnemyControl::GetInstance()->GetSummonEnemysApper() == true) {
 						EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->RecvDamage(0);
 					}

@@ -5,6 +5,7 @@
 #include"CollisionManager.h"
 #include"Collision.h"
 #include"Destroy.h"
+#include "SceneManager.h"
 
 ObjectManager::~ObjectManager()
 {
@@ -63,7 +64,7 @@ void ObjectManager::CollisionField(DebugCamera* camera)
 			float cos = XMVector3Dot(rejectDir, up).m128_f32[0];
 
 			// 地面判定しきい値
-			const float threshold = cosf(XMConvertToRadians(15.0f));
+			const float threshold = cosf(XMConvertToRadians(30.0f));
 
 			if (-threshold < cos && cos < threshold)
 			{
@@ -98,36 +99,65 @@ void ObjectManager::CollisionField(DebugCamera* camera)
 	RaycastHit raycastHit;
 
 	// 接地状態
+
 	if (onGround)
 	{
-		// スムーズに坂を下る為の吸着距離
-		const float adsDistance = 1.2f;
-		// 接地を維持
-		if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit,
-		                                             sphereCollider->GetRadius() * 2.5f + adsDistance))
-		{
-			onGround = true;
-			Position.y -= (raycastHit.distance - sphereCollider->GetRadius() * 2.0f);
+		if (SceneManager::GetInstance()->GetScene() != SceneManager::BOSS) {
+
+			// スムーズに坂を下る為の吸着距離
+			const float adsDistance = 1.2f;
+			// 接地を維持
+			if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit,
+				sphereCollider->GetRadius() * 2.5f + adsDistance))
+			{
+				onGround = true;
+				Position.y -= (raycastHit.distance - sphereCollider->GetRadius() * 2.0f);
+			}
+			// 地面がないので落下
+			else
+			{
+				onGround = false;
+				fallV = {};
+			}
 		}
-		// 地面がないので落下
 		else
 		{
-			onGround = false;
-			fallV = {};
+			if (Position.y<=10)
+			{
+				onGround = true;
+				Position.y = 10;
+			}
+			// 地面がないので落下
+			else
+			{
+				onGround = false;
+				fallV = {};
+			}
 		}
 	}
 	// 落下状態
 
 	else if (fallV.m128_f32[1] <= 0.0f)
 	{
-		if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit,
-		                                             sphereCollider->GetRadius() * 2.0f))
-		{
-			// 着地
-			onGround = true;
-			Position.y -= (raycastHit.distance - sphereCollider->GetRadius() * 2.0f);
+		if (SceneManager::GetInstance()->GetScene() != SceneManager::BOSS) {
+			if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit,
+				sphereCollider->GetRadius() * 2.0f))
+			{
+				// 着地
+				onGround = true;
+				Position.y -= (raycastHit.distance - sphereCollider->GetRadius() * 2.0f);
+			}
 		}
-	}
+		else
+		{
+			if(Position.y<=10)
+			{
+				// 着地
+				onGround = true;
+				Position.y =10;
+			}
+		}
+		}
 	// 行列の更新など
 	m_Object->Update({1, 1, 1, 1}, camera);
 }

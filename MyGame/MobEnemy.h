@@ -32,6 +32,9 @@ public:
 	//死亡処理
 	void Death() override;
 
+	void DamageParticleSet();
+
+private:
 	//攻撃後のクールタイム挙動
 	void AttackCoolTime() override;
 
@@ -39,8 +42,8 @@ public:
 	void FbxAnimationControl() override;
 
 	void FbxAnimeControl(const AnimationState& animestate, bool& Judg, float nowanimeTime, float nextanimetime);
-	void DamageParticleSet();
 
+	void OBBSetParam();
 private:
 	enum AttackType
 	{

@@ -31,7 +31,6 @@ void PlaceEnemy::FileWriting()
 	popcom << file.rdbuf();
 
 	file.close();
-	std::ofstream pofs("Param_CSV/position.csv");
 	std::ofstream ofs("Param_CSV/enemy.csv"); // ファイルパスを指定する
 	ofs << "Enemy_Quantity" << "," << enemys.size() << std::endl;
 
@@ -61,10 +60,7 @@ void PlaceEnemy::ArgMent(DebugCamera* camera)
 		newEnemy->Initialize(camera);
 		newEnemy->SetPosition(pos);
 		enemys.push_back(std::move(newEnemy));
-		if (ArgmentFlag)
-		{
-			Number.push_back(1);
-		}
+	
 		ArgmentFlag = false;
 		BossArgmentFlag = false;
 	}

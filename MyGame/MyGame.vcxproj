@@ -158,6 +158,7 @@
     <ClCompile Include="FrontCircleAttack.cpp" />
     <ClCompile Include="f_Model.cpp" />
     <ClCompile Include="f_Object3d.cpp" />
+    <ClCompile Include="GameOver.cpp" />
     <ClCompile Include="GrassField.cpp" />
     <ClCompile Include="GrassFieldControl.cpp" />
     <ClCompile Include="GrassObj.cpp" />
@@ -215,6 +216,8 @@
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="WinApp.cpp" />
     <ClCompile Include="Wood.cpp" />
+    <ClCompile Include="WoodB.cpp" />
+    <ClCompile Include="WoodBase.cpp" />
     <ClCompile Include="WoodControl.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -283,6 +286,7 @@
     <ClInclude Include="FrontCircleAttack.h" />
     <ClInclude Include="f_Model.h" />
     <ClInclude Include="f_Object3d.h" />
+    <ClInclude Include="GameOver.h" />
     <ClInclude Include="GigaBossEnemy.h" />
     <ClInclude Include="GrassField.h" />
     <ClInclude Include="GrassFieldControl.h" />
@@ -344,6 +348,8 @@
     <ClInclude Include="UI.h" />
     <ClInclude Include="WinApp.h" />
     <ClInclude Include="Wood.h" />
+    <ClInclude Include="WoodB.h" />
+    <ClInclude Include="WoodBase.h" />
     <ClInclude Include="WoodControl.h" />
   </ItemGroup>
   <ItemGroup>

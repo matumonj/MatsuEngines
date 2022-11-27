@@ -94,9 +94,10 @@ private:
 	//
 	int FallGroundTime = 0;
 public:
+	void SetHP(int HP) { this->HP = HP; }
 	int GetHP() { return HP; }
 	int GetMaxHP() { return MaxHP; }
-
+	bool GetStopFlag() { return StopFlag; };
 private:
 	float vel = 0.0f;
 	bool jumpflag = false;
@@ -135,6 +136,8 @@ private:
 	bool AnimationEndJudg_FirstAttack = false;
 	bool AnimationEndJudg_SecondAttack = false;
 	bool AnimationEndJudg_ThirdAttack = false;
+
+	bool onGround_Boss;
 
 	int ComboCoolT = 0;
 	bool SecAttack = false;

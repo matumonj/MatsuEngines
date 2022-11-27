@@ -19,6 +19,7 @@ public:
 		MINI,
 		BOSSFIELD,
 		WOOD,
+		WOOD2,
 		CHEST,
 		FENCE,
 		NAIL,

@@ -212,12 +212,12 @@ void AttackEffect::Draw()
 	Texture::PostDraw();
 
 
-	ImGui::Begin("slashpar");
+	/*ImGui::Begin("slashpar");
 
 
 	ImGui::Text("ParSize %f", InpactScl.x);
 	ImGui::Text("parPos.size %f", InpactAlpha);
-	ImGui::End();
+	ImGui::End();*/
 }
 
 void AttackEffect::Effect_First()

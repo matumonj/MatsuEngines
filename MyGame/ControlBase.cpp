@@ -12,7 +12,9 @@ void (ControlBase::* ControlBase::initTable[])(DebugCamera* camera) = {
 	&ControlBase::Init_Tutorial, //チュートリアル
 	&ControlBase::Init_Play, //プレーシーン
 	&ControlBase::Init_Boss, //ボスシーン
-	nullptr //マップエディタ
+	nullptr, //マップエディタ,
+	nullptr,
+	nullptr
 };
 
 /*------------------------*/

@@ -53,6 +53,9 @@ public:
 	void Draw() override;
 	void LoadParam(DebugCamera* camera);
 	void Finalize() override;
+
+private:
+	void ChangeSceneJudg();
 public:
 	//エフェクト用(ただプログラムでつくれるものはプログラムで作る方がいい　多用はいくない)
 	int c_postEffect = Default;

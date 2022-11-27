@@ -42,7 +42,6 @@ void Field::Initialize(DebugCamera* camera)
 	{
 		//FieldObject->CreateGraphicsPipeline(L"Resources/Shader/Object3dVS.hlsl", L"Resources/Shader/Object3dPS.hlsl", L"Resources/Shader/BasicGS.hlsl");
 		//ミニマップ(ボスフィールド)
-		SetFieldModel(MINI, ModelManager::GetIns()->GetModel(ModelManager::BOSSFIELD), camera);
 		//ダメージエリア
 		SetFieldModel(DAMAGEAREA, ModelManager::GetIns()->GetModel(ModelManager::DAMAGEAREA), camera);
 		//天球
@@ -60,56 +59,28 @@ void Field::Initialize(DebugCamera* camera)
 	{
 		FieldObject = TouchableObject::Create(ModelManager::GetIns()->GetModel(ModelManager::FIELD), camera);
 		//ミニマップ(通常ふぃ－るど)
-		SetFieldModel(MINI, ModelManager::GetIns()->GetModel(ModelManager::MINI), camera);
 		//天球
 		SetFieldModel(CELESTIALSPHERE, ModelManager::GetIns()->GetModel(ModelManager::CELESTIALSPHERE), camera);
-		Texture::LoadTexture(36, L"Resources/life.png");
-
-		playerpoint = Texture::Create(36, {0.0f, 0.0f, 0.0f}, {100.0f, 100.0f, 1.0f}, {1.0f, 1.0f, 1.0f, 1.0f});
-		playerpoint->CreateTexture();
-		playerpoint->SetAnchorPoint({0.5f, 0.5f});
-	}
-	Texture::LoadTexture(37, L"Resources/2d/icon/enemyicon.png");
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL)
-	{
-		EnemyIconSize = static_cast<int>(EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL).size());
-	}
+		
+		}
+	
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
 	{
-		EnemyIconSize = static_cast<int>(EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE).size());
-	}
-	Enemyicon.resize(EnemyIconSize);
-	std::vector<Texture*> l_tex;
-	l_tex.resize(EnemyIconSize);
-	for (int i = 0; i < EnemyIconSize; i++)
-	{
-		l_tex[i] = Texture::Create(37, {0.0f, 0.0f, 0.0f}, {100.0f, 100.0f, 1.0f}, {1.0f, 1.0f, 1.0f, 1.0f});
-		Enemyicon[i].reset(l_tex[i]);
-		Enemyicon[i]->CreateTexture();
-		Enemyicon[i]->SetAnchorPoint({0.5f, 0.5f});
+		//ボスの背景obj
+		SetFieldModel(BOSSBACK, ModelManager::GetIns()->GetModel(ModelManager::BOSSFIELD), camera);
 	}
 
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::MAPCREATE)
 	{
 		FieldObject = TouchableObject::Create(ModelManager::GetIns()->GetModel(ModelManager::FIELD), camera);
 	}
-	//フィールド外周がダメージエリアになる警告スプライト
-	Explanation = Sprite::Create(41, {WinApp::window_width / 2, WinApp::window_height / 2});
-	Explanation->SetAnchorPoint({0.5f, 0.5f});
-	Explanation->SetPosition({WinApp::window_width / 2, WinApp::window_height / 2});
-	Explanation->SetSize({800.0f, 800.0f});
 
 	//ボスのネームプレート
-	BossName = Sprite::Create(40, {WinApp::window_width / 2, WinApp::window_height / 2});
-	BossName->SetAnchorPoint({0.5f, 0.5f});
-	BossName->SetPosition({WinApp::window_width / 2, WinApp::window_height / 2});
-	BossName->SetSize({800, 800});
-
-	//Texture::LoadTexture(299, L"Resources/AOE.png");
-
-	//playerpoint = Texture::Create(299, { 0.0f ,0.0f ,0.0f }, { 100.0f ,100.0f ,1.0f }, { 1.0f ,1.0f ,1.0f ,1.0f });
-	//playerpoint->CreateTexture();
-	//playerpoint->SetAnchorPoint({ 0.5f,0.5f });
+	BossName = Sprite::Create(40, { WinApp::window_width / 2, WinApp::window_height / 2 });
+	BossName->SetAnchorPoint({ 0.5f, 0.5f });
+	BossName->SetPosition({ WinApp::window_width / 2, WinApp::window_height / 2 });
+	BossName->SetSize({ 800, 800 });
+	
 }
 
 void Field::Update_Tutorial(DebugCamera* camera)
@@ -118,42 +89,14 @@ void Field::Update_Tutorial(DebugCamera* camera)
 	{
 		return;
 	}
-	FieldObject->SetPosition({0.0f, -25.0f, 0.0f});
-	FieldObject->SetFogCenter({125.0f, -25.0f, -680.0f});
+	FieldObject->SetPosition({ 0.0f, -25.0f, 0.0f });
+	FieldObject->SetFogCenter({ 125.0f, -25.0f, -680.0f });
 	FieldObject->setFog(TRUE);
-	SetFieldUpdate(CELESTIALSPHERE, camera, {0.0f, 30.0f, 0.0f}, {40.0f, 40.0f, 40.0f}, FALSE, TRUE);
-	FieldObject->SetColor({0.2f, 0.2f, 0.2f, 1.0f});
-	FieldObject->Update({0.2f, 0.2f, 0.2f, 1.0f}, camera);
-	playerpoint->SetPosition({
-		PlayerControl::GetInstance()->GetPlayer()->GetPosition().x,
-		PlayerControl::GetInstance()->GetPlayer()->GetPosition().y + 10,
-		PlayerControl::GetInstance()->GetPlayer()->GetPosition().z
-	});
-	playerpoint->Update(dc);
-	playerpoint->SetScale({4.0f, 4.0f, 4.0f});
-	playerpoint->SetBillboard(true);
-	playerpoint->SetColor({1.0f, 1.0f, 1.0f, 1});
-
-	for (int i = 0; i < EnemyIconSize; i++)
-	{
-		//if (Enemyicon[i] == nullptr||Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[i]->GetPosition())>100) {
-		continue;
-		//}
-		Enemyicon[i]->SetPosition({
-			EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[i]->GetPosition().x,
-			EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[i]->GetPosition().y + 10.0f,
-			EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[i]->GetPosition().z
-		});
-		Enemyicon[i]->Update(dc);
-		Enemyicon[i]->SetScale({4.0f, 4.0f, 4.0f});
-		Enemyicon[i]->SetBillboard(true);
-		Enemyicon[i]->SetColor({1.0f, 1.0f, 1.0f, 1});
-
-		if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[i]->GetHP() <= 0)
-		{
-			Destroy_unique(Enemyicon[i]);
-		}
-	}
+	SetFieldUpdate(CELESTIALSPHERE, camera, { 0.0f, 30.0f, 0.0f }, { 40.0f, 40.0f, 40.0f }, FALSE, TRUE);
+	FieldObject->SetColor({ 0.2f, 0.2f, 0.2f, 1.0f });
+	FieldObject->Update({ 0.2f, 0.2f, 0.2f, 1.0f }, camera);
+	
+	
 }
 
 void Field::Update_Play(DebugCamera* camera)
@@ -164,8 +107,7 @@ void Field::Update_Play(DebugCamera* camera)
 		{
 			FogCenterPos = camera->GetEye();
 		}
-	}
-	else
+	} else
 	{
 		FogCenterPos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 	}
@@ -175,30 +117,25 @@ void Field::Update_Play(DebugCamera* camera)
 		return;
 	}
 	CelestalRot += 0.1f;
-	m_object[CELESTIALSPHERE]->SetRotation({90.0f, CelestalRot, 180.0f});
-	SetFieldUpdate(CELESTIALSPHERE, camera, {0.0f, 2290.0f, 0.0f}, {40.0f, 40.0f, 40.0f}, FALSE, FALSE);
-	FieldObject->SetPosition({0.0f, -25.0f, 0.0f});
+	m_object[CELESTIALSPHERE]->SetRotation({ 90.0f, CelestalRot, 180.0f });
+	SetFieldUpdate(CELESTIALSPHERE, camera, { 0.0f, 2290.0f, 0.0f }, { 30.0f, 30.0f, 30.0f }, FALSE, TRUE);
+	FieldObject->SetPosition({ 0.0f, -25.0f, 0.0f });
 	FieldObject->SetFogCenter(FogCenterPos);
-	FieldObject->SetColor({0.2f, 0.2f, 0.2f, 1.0f});
+	FieldObject->SetColor({ 0.2f, 0.2f, 0.2f, 1.0f });
 	FieldObject->setFog(true);
-	FieldObject->Update({0.2f, 0.2f, 0.2f, 1.0f}, camera);
+	FieldObject->Update({ 0.2f, 0.2f, 0.2f, 1.0f }, camera);
 
-	playerpoint->SetPosition({
-		PlayerControl::GetInstance()->GetPlayer()->GetPosition().x, 150.0f,
-		PlayerControl::GetInstance()->GetPlayer()->GetPosition().z
-	});
-	playerpoint->Update(dc);
-	playerpoint->SetScale({4.0f, 4.0f, 4.0f});
-	playerpoint->SetBillboard(true);
-	playerpoint->SetColor({1.0f, 1.0f, 1.0f, 1.0f});
+	m_object[BOSSBACK]->SetRotation({ 0,180,0 });
+	SetFieldUpdate(BOSSBACK, camera, { 22,-70,1010 }, { 1.0f, 1.0f, 1.0f }, FALSE, TRUE);
+
 }
 
 void Field::Update_Edit(DebugCamera* camera)
 {
-	FieldObject->SetPosition({0.0f, -25.0f, 0.0f});
-	FieldObject->SetFogCenter({0.0f, -20.0f, 0.0f});
-	FieldObject->SetColor({0.2f, 0.2f, 0.2f, 1.0f});
-	FieldObject->Update({0.2f, 0.2f, 0.2f, 1.0f}, camera);
+	FieldObject->SetPosition({ 0.0f, -25.0f, 0.0f });
+	FieldObject->SetFogCenter({ 0.0f, -20.0f, 0.0f });
+	FieldObject->SetColor({ 0.2f, 0.2f, 0.2f, 1.0f });
+	FieldObject->Update({ 0.2f, 0.2f, 0.2f, 1.0f }, camera);
 }
 
 void Field::Update_Boss(DebugCamera* camera)
@@ -209,9 +146,9 @@ void Field::Update_Boss(DebugCamera* camera)
 		SpriteFeed(t, feed, feedSpeed_Explanation, 2.5f);
 	}
 
-	SetFieldUpdate(CELESTIALSPHERE, camera, {0.0f, 30.0f, 0.0f}, {40.0f, 40.0f, 40.0f}, FALSE, TRUE);
-	SetFieldUpdate(DAMAGEAREA, camera, {0.0f, -19.2f, 0.0f}, {1.0f, 1.0f, 1.0f}, TRUE, FALSE);
-	SetFieldUpdate(BOSSBACK, camera, {0.0f, -19.2f, 0.0f}, {1.0f, 1.0f, 1.0f}, FALSE, TRUE);
+	SetFieldUpdate(CELESTIALSPHERE, camera, { 0.0f, 30.0f, 0.0f }, { 40.0f, 40.0f, 40.0f }, FALSE, TRUE);
+	SetFieldUpdate(DAMAGEAREA, camera, { 0.0f, -19.2f, 0.0f }, { 1.0f, 1.0f, 1.0f }, TRUE, FALSE);
+	SetFieldUpdate(BOSSBACK, camera, {0,-19,0}, { 1.0f, 1.0f, 1.0f }, FALSE, TRUE);
 
 	//フィールド外周とプレイヤーの当たり判定(現時点では矩形と点)
 	//FieldDamageAreaCol();
@@ -238,11 +175,7 @@ void Field::Update(DebugCamera* camera)
 	{
 		Update_Boss(camera);
 	}
-	if (m_object[MINI] != nullptr)
-	{
-		m_object[MINI]->SetShadowF(FALSE);
-	}
-	SetFieldUpdate(MINI, dc, {0.0f, -25.0f, 0.0f}, {1.0f, 1.0f, 1.0f});
+
 	t = min(t, 2.5f);
 	t = max(t, 0.0f);
 	TexAlpha_BossName = min(TexAlpha_BossName, 3.0f);
@@ -252,32 +185,23 @@ void Field::Update(DebugCamera* camera)
 void Field::MiniFieldDraw()
 {
 	Object3d::PreDraw();
-	m_object[MINI]->Draw();
+	//m_object[MINI]->Draw();
 	Object3d::PostDraw();
 
-	Texture::PreDraw();
-	playerpoint->Draw();
 
-	for (int i = 0; i < EnemyIconSize; i++)
-	{
-		if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL)
-		{
-			if (Enemyicon[i] == nullptr || Collision::GetLength(
-				PlayerControl::GetInstance()->GetPlayer()->GetPosition(),
-				EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[i]->GetPosition()) > 100)
-			{
-				continue;
-			}
-			Enemyicon[i]->Draw();
-		}
-	}
-	Texture::PostDraw();
 }
 
 #include"imgui.h"
 
 void Field::Draw()
 {
+	/*ImGui::Begin("field");
+	ImGui::SliderFloat("PosX", &BossFieldPos.x, -700, 700);
+	ImGui::SliderFloat("Posy", &BossFieldPos.y, -70, 70);
+
+	ImGui::SliderFloat("Posz", &BossFieldPos.z, 0, 1700);
+	ImGui::End();
+	*///	if (FieldObject == nullptr)return;
 	Object3d::PreDraw();
 	if (SceneManager::GetInstance()->GetScene() != SceneManager::MAPCREATE)
 	{
@@ -287,44 +211,33 @@ void Field::Draw()
 	if (SceneManager::GetInstance()->GetScene() != SceneManager::BOSS)
 	{
 		FieldObject->Draw();
-	}
-	else
+	} else
 	{
 		ModelDraw_nullCheck(BOSSBACK);
 		ModelDraw_nullCheck(DAMAGEAREA);
 	}
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
+	{
+		ModelDraw_nullCheck(BOSSBACK);
+	}
 	Object3d::PostDraw();
-	Explanation->setcolor({1.0f, 1.0f, 1.0f, t});
-	BossName->setcolor({1.0f, 1.0f, 1.0f, TexAlpha_BossName});
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
+	{
+		BossName->setcolor({ 1.0f, 1.0f, 1.0f, TexAlpha_BossName });
+	}
 }
-
 void Field::WarningDraw()
 {
 	Sprite::PreDraw();
 	BossName->Draw();
-	Explanation->Draw();
+	//Explanation->Draw();
 	Sprite::PostDraw();
 }
 
 void Field::FieldDamageAreaCol()
 {
-	if (PlayerControl::GetInstance()->GetPlayer() != nullptr)
-	{
-		Box damagearea;
-		Point player;
-		Ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 
-		damagearea.position = {-60.0f, -50.0f};
-		damagearea.scale = {120.0f, 110.0f};
 
-		player.x = Ppos.x;
-		player.y = Ppos.z * -1;
-
-		if (Collision::CheckPoint2Rect(player, damagearea) == false)
-		{
-			PlayerControl::GetInstance()->GetPlayer()->RecvDamage(10);
-		}
-	}
 }
 
 void Field::SpriteFeed(float& alpha, bool& feed, const float feedSpeed, const float MaxAlphaValue)
@@ -332,8 +245,7 @@ void Field::SpriteFeed(float& alpha, bool& feed, const float feedSpeed, const fl
 	if (feed)
 	{
 		alpha -= 0.02f;
-	}
-	else
+	} else
 	{
 		alpha += feedSpeed;
 	}
@@ -361,7 +273,7 @@ void Field::SetFieldUpdate(ObjType type, DebugCamera* camera, XMFLOAT3 Pos, XMFL
 	m_object[type]->SetScale(Scl);
 	m_object[type]->SetUVf(uvscroll);
 	m_object[type]->setFog(fog);
-	m_object[type]->Update({1.0f, 1.0f, 1.0f, 1.0f}, camera);
+	m_object[type]->Update({ 1.0f, 1.0f, 1.0f, 1.0f }, camera);
 }
 
 void Field::ModelDraw_nullCheck(ObjType type)

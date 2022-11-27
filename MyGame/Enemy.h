@@ -36,11 +36,11 @@ public:
 
 public:
 	//初期化
-	void Initialize(DebugCamera* camera) override;
+	virtual void Initialize(DebugCamera* camera) override=0;
 	//更新処理
-	void Update(DebugCamera* camera) override;
+	virtual void Update(DebugCamera* camera) override=0;
 	//描画処理
-	void Draw() override;
+	virtual void Draw() override=0;
 	//死亡処理
 	virtual void Death() = 0;
 	//Fbx制御
@@ -95,7 +95,6 @@ protected:
 	bool movestop = false;
 protected:
 	//FBXTime周りの変数
-	int fTime = 0;
 	float f_time = 0.0f; //現在のフレーム
 	float start_time = 0.0f; //初期フレーム(0)
 	float end_time = 0.0f; //最終フレーム
@@ -123,9 +122,13 @@ public:
 	void SetAnimeState(AnimationState state) { animeState = state; }
 	int GetEnemyNumber() { return ENumber; }
 protected:
+	/*blenderの複数アニメーションで来たら全部消す*/
 	AnimationState animeState;
+	//敵の回転調整用
 	float addRotRadians;
 	float FollowRotAngleCorrect;
+
+	//各アニメーションの開始タイム
 	float MagicAttackTime = 0.0f;
 	float FalterTime = 0.0f;
 	float FalterTime_End;
@@ -145,6 +148,7 @@ protected:
 	float EvaTime = 0.0f;
 	float AttackTime;
 	float AttackTime_End;
+
 	bool EvaMotionStart = false;
 	bool MagicMotionStart = false;
 	bool RoarMotionFlag = false;
@@ -167,7 +171,7 @@ public:
 	bool GetonFlag() { return onGround; }
 	//体力周り
 	float GetHP() { return EnemyHP; };
-
+	//体力最大値
 	float GetMaxHP() { return MaxHP; }
 	//FBXTime(死にモーションと攻撃モーションの開始フレーム取得)
 	bool GetDeathTime() { return nowDeath; }
@@ -179,14 +183,13 @@ public:
 	XMMATRIX GetMatrot() { return m_fbxObject->GetMatrot(); }
 	//攻撃のクールタイム
 	int GetCoolTime() { return cooltime; }
-	//
+
 	XMMATRIX GetHandMat() { return HandMat; }
 	OBB GetHandSiteMat() { return HandSiteOBB; }
 
 	float GetObjAlpha() { return alpha; }
 	/*セッター*/
 public:
-	void SetRotRadian(float roty) { addRotRadians = roty; }
 	float GetRotRadians() { return addRotRadians; }
 	void SetRecvDamage(bool f) { RecvDamagef = f; }
 
@@ -240,6 +243,7 @@ public:
 	void SetAttack_Start(int Num, bool f) { Attack[Num].start = f; }
 	void SetAttack_End(int Num, bool f) { Attack[Num].end = f; }
 
+	void SetHP(int HP) { this->EnemyHP = HP; }
 public: //state切り替え
 	void ChangeState_Mob(EnemyState* state);
 	void ChangeState_Boss(BossEnemyState* state);

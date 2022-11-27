@@ -11,6 +11,8 @@
 #include"Field.h"
 #include<array>
 
+#include "FenceControl.h"
+
 CameraControl* CameraControl::GetInstance()
 {
 	static CameraControl instance;
@@ -54,7 +56,6 @@ void CameraControl::ParamSet()
 	sCamera = PLAYCUTSTART;
 	mCamera = NON;
 	Tstate = PLAYER;
-
 	this->camera = new DebugCamera(WinApp::window_width, WinApp::window_height); //(/*input*/);
 	input = Input::GetInstance();
 }
@@ -258,10 +259,14 @@ void CameraControl::TargetPlayer()
 
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
 	{
-		if (ChestControl::GetInstance()->ChestCount() >= 5)
+		if (Task::GetInstance()->GetAllTaskClear()&& FenceControl::GetInstance()->GetBossGateFence()->FenceYposMin() == FALSE)
 		{
 			Tstate = MOVEBOSSAREA;
 		}
+	}
+	if(Tstate==PLAYER)
+	{
+		mCamera = NON;
 	}
 	//}
 }
@@ -271,44 +276,67 @@ void CameraControl::TargetPlayer()
 /*---------field---------*/
 void CameraControl::TargetBossField()
 {
+	//if (Tstate == PLAYER)return;
 	switch (mCamera)
 	{
 	case NON:
-		countAreaMove = 0;
-		mCamera = SHAKESTART;
-		break;
-	case SHAKESTART:
-		ShakeCamera();
-		countAreaMove++;
-		if (countAreaMove >= 120)
-		{
-			mCamera = YPOSUP;
+		if (FenceControl::GetInstance()->GetBossGateFence()->FenceYposMin() == FALSE) {
+			mCamera = FEED_BOSS;
 		}
-		OldCameraPosY = CameraPosition.y;
 		break;
-	case YPOSUP:
-		ShakeCamera();
-		countAreaMove = 0;
-		EaseTime += 1.0f / 120.0f;
-		CameraPosition.y = Easing::EaseOut(EaseTime, OldCameraPosY, OldCameraPosY + 50);
-		if (EaseTime >= 1.0f)
+	case FEED_BOSS:
+		Feed::GetInstance()->Update_Black(Feed::FEEDIN);
+		this->camera->SetTarget(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
+		if(Feed::GetInstance()->GetAlpha()>=1.0f)
 		{
+			CameraPosition = { 17.0f, 15.0f, 802.0f };
+
+			mCamera = TARGETFENCE;
+		}
+		break;
+	case TARGETFENCE:
+		CameraPosition = { 17.0f, -30.0f, 720.0f };
+
+		this->camera->SetTarget({ 17.0f, -35.0f, 832.0f });
+		
+			Feed::GetInstance()->Update_Black(Feed::FEEDOUT);
+		
+		if (Feed::GetInstance()->GetAlpha() <= 0.0f)
+		{
+			
 			mCamera = TARGETPLAYER;
 		}
 		break;
 	case TARGETPLAYER:
-		ShakeCamera();
-		EaseTime = 0.0f;
-		countAreaMove++;
-		if (countAreaMove >= 120)
+		CameraPosition = { 17.0f, -30.0f, 720.0f };
+
+		this->camera->SetTarget({ 17.0f, -35.0f, 832.0f });
+
+		if (FenceControl::GetInstance()->GetBossGateFence()->FenceYposMin() == TRUE)
 		{
-			Feed::GetInstance()->Update_White(Feed::FEEDIN);
+			Feed::GetInstance()->Update_Black(Feed::FEEDIN);
+		}
+		if(Feed::GetInstance()->GetAlpha() >=1.0f)
+		{
+			mCamera = END_BOSS;
+		}
+		break;
+	case END_BOSS:
+	//	if (FenceControl::GetInstance()->GetBossGateFence()->FenceYposMin() == TRUE)
+		if (Feed::GetInstance()->GetAlpha() > 0.0f)
+		{
+			if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), { 17, -35, 800 }) >= 50) {
+				Feed::GetInstance()->Update_Black(Feed::FEEDOUT);
+			}
+		}else
+		{
+			Tstate = PLAYER;
 		}
 		break;
 	default:
 		break;
 	}
-	this->camera->SetTarget({ PlayerControl::GetInstance()->GetPlayer()->GetPosition() });
+	camera->SetEye(CameraPosition);
 }
 
 void (CameraControl::* CameraControl::targetTable[])() = {
@@ -355,6 +383,7 @@ XMVECTOR CameraControl::SplinePosition(const std::vector<XMVECTOR>& points, size
 /*---------boss---------*/
 void CameraControl::BossSceneStart()
 {
+	Feed::GetInstance()->Update_White(Feed::FEEDOUT);
 	const size_t size = 5;
 	XMFLOAT3 BossPos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
 	if (point.size() == 0)
@@ -385,7 +414,7 @@ void CameraControl::BossSceneStart()
 	case BOSSCUTEND:
 
 		AttackSceneF = true;
-		if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetFbxTime() > EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetRoarTime_End() - 2.8f) {
+		if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetFbxTime() > EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetRoarTime_End()-2.8f) {
 			CameraPosition.z -= 1.5f;
 		}
 		Feed::GetInstance()->Update_White(Feed::FEEDIN);
@@ -410,7 +439,7 @@ void CameraControl::BossCutScene_Spline()
 {
 	nowCount = static_cast<float>(GetTickCount64());
 	elapsedCount = nowCount - startCount;
-	elapsedTime = elapsedCount / 250.0f;
+	elapsedTime = elapsedCount / 350.0f;
 
 	timerate = elapsedTime / maxtime;
 	if (timerate >= 1)
@@ -469,7 +498,7 @@ void CameraControl::PlaySceneStart()
 	case SPLINE:
 		nowCount = static_cast<float>(GetTickCount64());
 		elapsedCount = nowCount - startCount;
-		elapsedTime = elapsedCount / 1000.0f;
+		elapsedTime = elapsedCount / 100.0f;
 
 		timerate = elapsedTime / maxtime;
 		if (timerate >= 1)
@@ -562,7 +591,7 @@ void CameraControl::Draw_Play()
 
 void CameraControl::Draw_Boss()
 {
-	ImGui::Begin("cam");
+	/*ImGui::Begin("cam");
 	ImGui::Text("size %d", point.size());
-	ImGui::End();
+	ImGui::End();*/
 }

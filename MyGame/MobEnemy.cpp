@@ -32,6 +32,7 @@ MobEnemy::~MobEnemy()
 //初期化処理
 void MobEnemy::Initialize(DebugCamera* camera)
 {
+	//オブジェクトの生成と初期化
 	Sword = std::make_unique<Object3d>();
 	Sword->Initialize(camera);
 	Sword->SetModel(ModelManager::GetIns()->GetModel(ModelManager::BIGSWORD));
@@ -40,16 +41,18 @@ void MobEnemy::Initialize(DebugCamera* camera)
 	m_Object = std::make_unique<Object3d>();
 	m_Object->Initialize(camera);
 	//m_Object->CreateGraphicsPipeline(L"Resources/Shader/Object3dVS.hlsl", L"Resources/Shader/Object3dPS.hlsl", L"Resources/Shader/BasicGS.hlsl");
-	EnemyHP = 50.0f;
-	MaxHP = 80.0f;
-	//パラメータのセット
-	Rotation = {114.0f, 118.0f, 165.0f};
-	Scale = {0.05f, 0.05f, 0.05f};
-
+	
 	m_fbxObject = std::make_unique<f_Object3d>();
 	m_fbxObject->Initialize();
 	m_fbxObject->SetModel(FbxLoader::GetInstance()->LoadModelFromFile("monster_golem_demo"));
 	m_fbxObject->PlayAnimation();
+
+	EnemyHP = 50.0f;
+	MaxHP = 80.0f;
+	//パラメータのセット
+	Rotation = { 114.0f, 118.0f, 165.0f };
+	Scale = { 0.05f, 0.05f, 0.05f };
+
 	//コライダー周り
 	radius_adjustment = 0;
 	SetCollider();
@@ -97,59 +100,73 @@ void MobEnemy::Update(DebugCamera* camera)
 	
 	m_fbxObject->SetColor({1.0f, 1.0f, 1.0f, alpha});
 	m_fbxObject->SetHandBoneIndex(19);
+
 	Sword->Setf(FALSE);
 	Sword->SetRotation({-23, 43, 83});
 	Sword->Update(m_fbxObject->GetHandBoneMatWorld(), {1.0f, 1.0f, 1.0f, 1.0f}, camera);
 
 	HandMat = m_fbxObject->GetHandBoneMatWorld();
 
-	if (SceneManager::GetInstance()->GetScene() != SceneManager::MAPCREATE)
+	OBBSetParam();
+	m_fbxObject->SetFbxTime(f_time);
+}
+void MobEnemy::OBBSetParam()
+{
+	Player* l_player = PlayerControl::GetInstance()->GetPlayer();
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::MAPCREATE)
 	{
+		return;
+	}
+	if(l_player==nullptr)
+	{
+		return;
+	}
+
 		HandSiteOBB.SetOBBParam_Pos(Sword->GetMatWorld());
 		HandSiteOBB.SetOBBParam_Rot(Sword->GetMatWorld());
-		HandSiteOBB.SetOBBParam_Scl({5.0f, 20.0f, 5.0f});
+		HandSiteOBB.SetOBBParam_Scl({ 5.0f, 20.0f, 5.0f });
 
-		playerOBB.SetOBBParam_Pos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
-		playerOBB.SetOBBParam_Rot(PlayerControl::GetInstance()->GetPlayer()->GetMatrot());
-		playerOBB.SetOBBParam_Scl({1.0f, 5.0f, 1.0f});
+		playerOBB.SetOBBParam_Pos(l_player->GetPosition());
+		playerOBB.SetOBBParam_Rot(l_player->GetMatrot());
+		playerOBB.SetOBBParam_Scl({ 1.0f, 5.0f, 1.0f });
 
+	//横薙ぎ攻撃
 		if (atcktype == SIDEAWAY)
 		{
+			//アニメーションが一定フレーム越したら
 			if (f_time >= NormalAttackTime + 1.0f)
 			{
 				if (Collision::CheckOBBCollision(playerOBB, HandSiteOBB) == true)
 				{
-					PlayerControl::GetInstance()->GetPlayer()->RecvDamage(10);
+					l_player->RecvDamage(10);
 				}
 			}
 		}
+	//縦振り攻撃
 		if (atcktype == VERTICAL)
 		{
 			if (f_time >= 4.8f && f_time <= 5.5f)
 			{
 				if (Collision::CheckOBBCollision(playerOBB, HandSiteOBB) == true)
 				{
-					PlayerControl::GetInstance()->GetPlayer()->RecvDamage(15);
+					l_player->RecvDamage(15);
 				}
 			}
 		}
-	}
-	DestroyJudg();
-	m_fbxObject->SetFbxTime(f_time);
 }
 
 
 //描画処理
 void MobEnemy::Draw()
 {
-	ImGui::Begin("i");
+	/*ImGui::Begin("i");
 	ImGui::Text("t %f", m_fbxObject->GetEndTime());
 	imt += 0.01f;
 	ImGui::SliderFloat("rx", &imt, -180, 360);
 	ImGui::SliderFloat("ry", &FollowRotAngleCorrect, -180, 180);
 	ImGui::SliderFloat("rotx", &Rotation.x, -170, 360);
 	ImGui::SliderFloat("rz", &Rotation.z, -170, 360);
-	ImGui::End();
+	ImGui::End();*/
 	if (alpha >= 0.0f)
 	{
 		Draw_Fbx();
@@ -167,16 +184,23 @@ void MobEnemy::Death()
 {
 	if (!DeathFlag)
 	{
-		ExpPointSystem::GetInstance()->ExpPoint_Get(10);
 		DeathFlag = true;
+		//アニメーションを死亡時に合わせる
 		if (f_time < DeathTime)
 		{
 			f_time = DeathTime;
 		}
 	}
-	f_time += 0.01f;
-	PlayerAttackState::GetInstance()->SetHitStopJudg(TRUE);
+	//最終フレーム超えたら透明に
+	if(f_time>=m_fbxObject->GetEndTime())
+	{
+		alpha -= 0.02f;
+	}
 
+	f_time += 0.01f;
+
+//	PlayerAttackState::GetInstance()->SetHitStopJudg(TRUE);
+	
 	movestop = false;
 }
 
@@ -186,23 +210,30 @@ void MobEnemy::FbxAnimationControl()
 	{
 		return;
 	}
+	//アニメーションスピード
 	float fbxanimationTime;
+
 	if (nowAttack)
-	{
+	{//攻撃中
 		fbxanimationTime = 0.02f;
 	}
 	else
-	{
+	{//歩きとか死亡時
 		fbxanimationTime = 0.01f;
 	}
-	//1フレーム進める
+
+	//ヒットストップ時
 	if (PlayerAttackState::GetInstance()->GetHitStopJudg())
 	{
 		fbxanimationTime = 0.000f;
 	}
+	//アニメーションカウント進める
 	f_time += fbxanimationTime;
+
+	//攻撃方法ランダムで決定
 	if (f_AttackFlag)
 	{
+		//50以下では横薙ぎ
 		rand_Attacktype = static_cast<float>(rand() % 100);
 		if (rand_Attacktype <= 50)
 		{
@@ -210,7 +241,7 @@ void MobEnemy::FbxAnimationControl()
 			f_time = NormalAttackTime;
 		}
 		else
-		{
+		{//以上は縦振り
 			atcktype = VERTICAL;
 			f_time = 3.7f;
 		}

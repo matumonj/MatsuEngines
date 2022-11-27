@@ -78,7 +78,18 @@ void AreaFence::FenceOpenCondition(bool condition)
 	}
 	else
 	{
-		FencePosY_Min = Position.y - 30;
+		FencePosY_Min = Position.y - 70;
 	}
 	Position.y = max(Position.y, FencePosY_Min);
+}
+
+bool AreaFence::FenceYposMin()
+{
+	if (Position.y <= FencePosY_Min+1)
+	{
+		return true;
+	}
+	
+		return false;
+	
 }

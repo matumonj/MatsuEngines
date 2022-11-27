@@ -38,6 +38,7 @@ void Chest::Update(DebugCamera* camera)
 {
 	m_Object->SetColor({1, 1, 1, 1});
 	ParameterSet_Obj(camera);
+	
 	//フィールド
 	//CollideWood();
 	for (int i = 0; i < 1; i++)
@@ -59,7 +60,10 @@ void Chest::Update(DebugCamera* camera)
 		}
 		DefaultEffect->SetColor(pColor);
 	}
+
 	DefaultEffect->Update(DefaultEffect->NORMAL);
+
+	CollisionField(camera);
 }
 
 void Chest::Draw()

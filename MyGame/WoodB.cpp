@@ -22,9 +22,9 @@ void WoodB::Initialize(DebugCamera* camera)
 	m_Object = std::make_unique<Object3d>();
 	//ƒ‚ƒfƒ‹Š„‚è“–‚Ä
 	m_Object->Initialize(camera);
-	m_Object->SetModel(ModelManager::GetIns()->GetModel(ModelManager::WOOD));
-	Scale = { 2.0f, 3.0f, 3.0f };
-	radius_adjustment = -14.0f;
+	m_Object->SetModel(ModelManager::GetIns()->GetModel(ModelManager::WOOD2));
+	Scale = { 9.0f, 18.0f, 9.0f };
+	radius_adjustment = 5.0f;
 	SetCollider();
 	alpha = 1.0f;
 }

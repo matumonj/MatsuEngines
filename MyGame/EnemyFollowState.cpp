@@ -53,7 +53,7 @@ void EnemyFollowState::Update(Enemy* enemy)
 		enemy->GetRotation().z
 	});
 
-	if (!enemy->GetMoveStop())
+	if (!enemy->GetMoveStop()&& PlayerControl::GetInstance()->GetPlayer()->GetStopFlag() == false)
 	{
 		if (Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) > 5)
 		{

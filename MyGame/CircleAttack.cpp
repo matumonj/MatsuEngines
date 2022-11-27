@@ -268,7 +268,7 @@ void BomAttack::Setting_DamageArea()
 	BossPos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
 
 	XMVECTOR move = {0.0f, 0.0f, 0.1f, 0.0f};
-	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(BossRotY + 140));
+	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(BossRotY -70));
 	move = XMVector3TransformNormal(move, matRot);
 	CenterPosi[0].x = BossPos.x + move.m128_f32[0] * 10;
 
@@ -420,12 +420,12 @@ void BomAttack::Draw()
 
 	Texture::PostDraw();
 
-	ImGui::Begin("w");
-	ImGui::SliderFloat("angle", &attackangle, 0, 360);
-	ImGui::Text("%f", bom_particle_[LEFT][0].TexAlpha);
-	ImGui::Text("CenPos%f", CenterPosi[0].z);
-	ImGui::Text("CenPos2%f", CenterPosi[1].z);
-	//ImGui::Text("CenPs%f", CenterPosi[2].z);
-	ImGui::Text("Phase%f", BossPos.z);
-	ImGui::End();
+	//ImGui::Begin("w");
+	//ImGui::SliderFloat("angle", &attackangle, 0, 360);
+	//ImGui::Text("%f", bom_particle_[LEFT][0].TexAlpha);
+	//ImGui::Text("CenPos%f", CenterPosi[0].z);
+	//ImGui::Text("CenPos2%f", CenterPosi[1].z);
+	////ImGui::Text("CenPs%f", CenterPosi[2].z);
+	//ImGui::Text("Phase%f", BossPos.z);
+	//ImGui::End();
 }

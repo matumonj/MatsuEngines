@@ -2,6 +2,7 @@
 #include"SceneManager.h"
 #include"PlayerControl.h"
 #include"mHelper.h"
+#include "WoodB.h"
 
 WoodControl* WoodControl::GetInstance()
 {
@@ -28,9 +29,9 @@ void WoodControl::Init_Tutorial(DebugCamera* camera)
 	{
 		Tutorialwoods[i]->Initialize(camera);
 	}
-	Tutorialwoods[0]->SetPosition({92.0f, -15.0f, -689.0f});
-	Tutorialwoods[1]->SetPosition({70.0f, -15.0f, -700.0f});
-	Tutorialwoods[2]->SetPosition({110.0f, -15.0f, -720.0f});
+	Tutorialwoods[0]->SetPosition({92.0f, -28.0f, -689.0f});
+	Tutorialwoods[1]->SetPosition({70.0f, -28.0f, -700.0f});
+	Tutorialwoods[2]->SetPosition({110.0f, -28.0f, -720.0f});
 }
 
 void WoodControl::Init_Play(DebugCamera* camera)
@@ -73,6 +74,12 @@ void WoodControl::Init_Play(DebugCamera* camera)
 			{
 				continue;
 			}
+			if (word.find("Number") == 0)
+			{
+				std::getline(line_stream, word, ',');
+				int number = static_cast<int>(std::atof(word.c_str()));
+				Num[i] = number;
+			}
 			if (word.find("POP") == 0)
 			{
 				std::getline(line_stream, word, ',');
@@ -95,8 +102,15 @@ void WoodControl::Init_Play(DebugCamera* camera)
 
 	for (int i = 0; i < Quantity; i++)
 	{
-		woods[i] = std::make_unique<Wood>();
-
+		//èâä˙âªèàóù
+		if (Num[i] ==1)
+		{
+			woods[i] = std::make_unique<Wood>();
+		}
+		if (Num[i] == 2)
+		{
+			woods[i] = std::make_unique<WoodB>();
+		}
 		woods[i]->Initialize(camera);
 		woods[i]->SetPosition(pos[i]);
 	}
@@ -157,15 +171,13 @@ void WoodControl::Update_Play(DebugCamera* camera)
 		{
 			continue;
 		}
-		if (Collision::GetLength(pPos, woods[i]->GetPosition()) < 200)
-		{
+		if (Collision::GetLength(pPos, woods[i]->GetPosition()) >200)continue;
 			//woods[i]->SetColor({ 0.0f,1.0f,0.0f,1.0f });
 			woods[i]->Update(camera);
 			if (woods[i]->CollideWood() == true)
 			{
 				PlayerControl::GetInstance()->GetPlayer()->SetPosition(Player_OldPos);
 				break;
-			}
 		}
 	}
 }

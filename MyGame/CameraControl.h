@@ -99,19 +99,21 @@ public:
 		PLAYCUTEND
 	};
 
-	enum MoveBossAreaCamera
+	enum BossAreaCamera
 	{
 		NON,
-		SHAKESTART,
-		YPOSUP,
-		TARGETPLAYER
+		FEED_BOSS,
+		TARGETFENCE,
+		TARGETPLAYER,
+		END_BOSS,
+
 	};
 
 	SplineCamera GetCameraState_Spline() { return sCamera; }
 private:
 	BossCamera bCamera;
 	SplineCamera sCamera;
-	MoveBossAreaCamera mCamera;
+	BossAreaCamera mCamera;
 private:
 	bool UpStage;
 	int countAreaMove;

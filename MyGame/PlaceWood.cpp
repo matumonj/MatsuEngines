@@ -1,5 +1,7 @@
 #include "PlaceWood.h"
 #include"imgui.h"
+#include "Wood.h"
+#include "WoodB.h"
 
 void PlaceWood::Initialize(DebugCamera* camera)
 {
@@ -20,6 +22,7 @@ void PlaceWood::FileWriting()
 
 	for (int i = 0; i < woods.size(); i++)
 	{
+		ofs << "Number" << "," << Number[i] << std::endl;
 		ofs << "POP" << "," << woods[i]->GetPosition().x
 			<< "," << woods[i]->GetPosition().y
 			<< "," << woods[i]->GetPosition().z << std::endl;
@@ -35,7 +38,7 @@ void PlaceWood::ArgMent(DebugCamera* camera)
 {
 	if (ArgmentFlag)
 	{
-		std::unique_ptr<Wood> newWood;
+		std::unique_ptr<WoodBase> newWood;
 		newWood = std::make_unique<Wood>();
 
 		newWood->Initialize(camera);
@@ -43,7 +46,17 @@ void PlaceWood::ArgMent(DebugCamera* camera)
 		woods.push_back(std::move(newWood));
 		ArgmentFlag = false;
 	}
-	for (std::unique_ptr<Wood>& wood : woods)
+	if (AWoodArgmentFlag)
+	{
+		std::unique_ptr<WoodBase> newWood;
+		newWood = std::make_unique<WoodB>();
+
+		newWood->Initialize(camera);
+		newWood->SetPosition(pos);
+		woods.push_back(std::move(newWood));
+		AWoodArgmentFlag = false;
+	}
+	for (std::unique_ptr<WoodBase>& wood : woods)
 	{
 		if (wood != nullptr)
 		{
@@ -55,6 +68,7 @@ void PlaceWood::ArgMent(DebugCamera* camera)
 	if (DeleteFlag && woods.size() > 1)
 	{
 		woods.pop_back();
+		Number.pop_back();
 		DeleteFlag = false;
 	}
 }
@@ -69,7 +83,7 @@ void PlaceWood::Update(DebugCamera* camera)
 
 void PlaceWood::Draw()
 {
-	for (std::unique_ptr<Wood>& wood : woods)
+	for (std::unique_ptr<WoodBase>& wood : woods)
 	{
 		if (wood != nullptr)
 		{
@@ -92,10 +106,13 @@ void PlaceWood::ImGui_Draw()
 	if (ImGui::Button("Wood", ImVec2(90, 50)))
 	{
 		ArgmentFlag = true;
+		Number.push_back(1);
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("B", ImVec2(90, 50)))
 	{
+		AWoodArgmentFlag = true;
+		Number.push_back(2);
 	}
 	if (ImGui::Button("C", ImVec2(90, 50)))
 	{

@@ -9,6 +9,9 @@
 #include<memory>
 #include"GigaBossEnemy.h"
 #include<array>
+
+#include "CircleAttack.h"
+
 class EnemyControl :
 	public ControlBase
 {
@@ -71,11 +74,12 @@ public:
 private:
 	bool ShieldCreate;
 	bool ShieldLost;
-	std::unique_ptr<Texture>ShielTex[4];
+	std::unique_ptr<Texture>ShieldTex[4];
 	float Texangle[4];
 	std::array<XMFLOAT3, 4>ShieldTexPos;
 	float ShieldTexAlpha;
-
+	std::unique_ptr<BomAttack>bAttack;
+	
 private:
 	/*çXêVèàóù*/
 	void Init_Tutorial(DebugCamera* camera) override;
@@ -97,6 +101,9 @@ private:
 	void Draw_Play() override;
 
 	void Draw_Boss() override;
+
+	void SummonEnemyInit(DebugCamera* camera);
+	void SummonEnemyUpdate(DebugCamera* camera);
 public:
 	bool GetSummonEnemysDeath() { return SummonEnemysDeath; }
 

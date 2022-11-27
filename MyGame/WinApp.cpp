@@ -22,7 +22,7 @@ void WinApp::Createwindow()
 {
 	w.cbSize = sizeof(WNDCLASSEX);
 	w.lpfnWndProc = static_cast<WNDPROC>(WindowProc);
-	w.lpszClassName = L"DirectX";
+	w.lpszClassName = L"GolemFantasy";
 	w.hInstance = GetModuleHandle(nullptr);
 	w.hCursor = LoadCursor(nullptr, IDC_ARROW);
 
@@ -32,7 +32,7 @@ void WinApp::Createwindow()
 	AdjustWindowRect(&wrc, WS_OVERLAPPEDWINDOW, false);
 
 	hwnd = CreateWindow(w.lpszClassName,
-	                    L"DirectX",
+	                    L"GolemFantasy",
 	                    WS_OVERLAPPEDWINDOW,
 	                    CW_USEDEFAULT,
 	                    CW_USEDEFAULT,

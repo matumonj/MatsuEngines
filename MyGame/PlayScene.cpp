@@ -19,6 +19,7 @@
 #include"BossScene.h"
 #include"SelectSword.h"
 #include"DamageManager.h"
+#include "GameOver.h"
 //シーンのコンストラクタ
 PlayScene::PlayScene(SceneManager* sceneManager)
 	: BaseScene(sceneManager)
@@ -45,9 +46,6 @@ void PlayScene::Initialize()
 		AllObjectControl.push_back(FenceControl::GetInstance());
 	}
 
-	//ミニマップ用のカメラ　後で別のところに移す
-	dc = new DebugCamera(WinApp::window_width, WinApp::window_height);
-
 	//ポストエフェクト初期化
 	postEffect = new MinimapSprite();
 	postEffect->Initialize();
@@ -69,16 +67,7 @@ void PlayScene::objUpdate(DebugCamera* camera)
 			AllObjectControl[i]->Update((CameraControl::GetInstance()->GetCamera()));
 		}
 	}
-	dc->Update();
-
-	dc->SetTarget({PlayerControl::GetInstance()->GetPlayer()->GetPosition()});
-	dc->SetEye({
-		PlayerControl::GetInstance()->GetPlayer()->GetPosition().x,
-		300.0f,
-		PlayerControl::GetInstance()->GetPlayer()->GetPosition().z - 1
-	});
-	Field::GetInstance()->SetCamera(dc);
-
+	
 	if (CameraControl::GetInstance()->GetCamera() != nullptr)
 	{
 		Field::GetInstance()->Update((CameraControl::GetInstance()->GetCamera()));
@@ -120,10 +109,11 @@ void PlayScene::Update()
 	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 
 	lightGroup->SetCircleShadowDir(3, XMVECTOR({circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0}));
-	lightGroup->SetCircleShadowCasterPos(3, {ppos});
+	lightGroup->SetCircleShadowCasterPos(3, {ppos.x,ppos.y+10.0f,ppos.z});
 	lightGroup->SetCircleShadowAtten(3, XMFLOAT3(circleShadowAtten));
 	lightGroup->SetCircleShadowFactorAngle(3, XMFLOAT2(circleShadowFactorAngle2));
 	postEffect->SetCenterpos(HUD::GetInstance()->GetMinimapSprite()->GetPosition());
+
 	for (int i = 0; i < EnemyControl::GetInstance()->GetQuentity(); i++)
 	{
 		if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i] == nullptr)
@@ -141,16 +131,40 @@ void PlayScene::Update()
 		lightGroup->SetCircleShadowAtten(i + 4, XMFLOAT3(circleShadowAtten));
 		lightGroup->SetCircleShadowFactorAngle(i + 4, XMFLOAT2(circleShadowFactorAngle));
 	}
-	if (CameraControl::GetInstance()->GetMoveBosAreaCam() == CameraControl::TARGETPLAYER)
+
+	ChangeSceneJudg();
+	
+	if (PlayerControl::GetInstance()->GetPlayer()->GetHP() <= 0)
 	{
-		if (Feed::GetInstance()->GetAlpha() >= 1.0f)
-		{
-			//画面真っ白なったら
-			BaseScene* scene = new BossScene(sceneManager_); //次のシーンのインスタンス生成
-			SceneManager::GetInstance()->SetScene(SceneManager::BOSS);
-			sceneManager_->SetnextScene(scene); //シーンのセット
-		}
+		//画面真っ白なったら
+		BaseScene* scene = new GameOver(sceneManager_); //次のシーンのインスタンス生成
+		PlayGame = false;
+		SceneManager::GetInstance()->SetScene(SceneManager::GAMEOVER);
+		sceneManager_->SetnextScene(scene); //シーンのセット
+
 	}
+}
+
+void PlayScene::ChangeSceneJudg()
+{
+	if (Task::GetInstance()->GetAllTaskClear())
+	
+			if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), { 17, -35, 800 }) < 50)
+			{
+				Feed::GetInstance()->Update_White(Feed::FEEDIN);
+				PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(TRUE);
+
+				if (Feed::GetInstance()->GetAlpha() >= 1.0f)
+				{
+					PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(FALSE);
+
+					//画面真っ白なったら
+					BaseScene* scene = new BossScene(sceneManager_); //次のシーンのインスタンス生成
+					SceneManager::GetInstance()->SetScene(SceneManager::BOSS);
+					sceneManager_->SetnextScene(scene); //シーンのセット
+				}
+			}
+
 }
 
 /*------------------------*/
@@ -158,11 +172,7 @@ void PlayScene::Update()
 /*-----------------------*/
 void PlayScene::MyGameDraw()
 {
-	Field::GetInstance()->Draw();
-	for (int i = 0; i < AllObjectControl.size(); i++)
-	{
-		AllObjectControl[i]->Draw();
-	}
+	
 }
 
 /*------------------------*/
@@ -192,9 +202,21 @@ void PlayScene::Draw()
 		postEffect->PostDrawScene();
 
 		DirectXCommon::GetInstance()->BeginDraw();
-		MyGameDraw();
-		postEffect->Draw();
+		if (Field::GetInstance() != nullptr) {
+			Field::GetInstance()->Draw();
+			for (int i = 0; i < AllObjectControl.size(); i++)
+			{
+				if (AllObjectControl[i] == nullptr)continue;
+				AllObjectControl[i]->Draw();
+			}
+		}
+		//postEffect->Draw();
+
 		PlayerControl::GetInstance()->DamageTexDraw();
+		for (int i = 0; i < EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE).size(); i++) {
+			if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i] == nullptr)continue;
+			EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i]->DamageTexDisplay_Draw();
+		}
 
 		SistemConfig::GetInstance()->Draw();
 

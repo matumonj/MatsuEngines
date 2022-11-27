@@ -21,7 +21,7 @@ public:
 private:
 	TouchableObject* FieldObject = nullptr;
 	std::unique_ptr<Object3d> BossField;
-
+	XMFLOAT3 BossFieldPos;
 	//Obj
 	enum ObjType
 	{

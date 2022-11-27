@@ -3,6 +3,7 @@
 #include"TutorialSprite.h"
 #include"PlayerAttackState.h"
 #include"AttackCollision.h"
+#include "CustomButton.h"
 #include"Feed.h"
 
 PlayerControl* PlayerControl::GetInstance()
@@ -37,7 +38,7 @@ void PlayerControl::Init_Play(DebugCamera* camera)
 void PlayerControl::Init_Boss(DebugCamera* camera)
 {
 	StartPos = {-1.0f, 10.0f, -116.0f};
-
+	player->SetHP(player->GetMaxHP());
 	player->SetPosition(StartPos);
 	AttackCollision::GetInstance()->Init();
 }
@@ -88,38 +89,31 @@ void PlayerControl::Update_Tutorial(DebugCamera* camera) //チュートリアル時
 		return;
 	}
 	player->Update(camera);
-
-
-	dalpha -= 0.02f;
-	DamageTex->setcolor({1, 1, 1, dalpha});
-	PlayerAttackState::GetInstance()->Update();
-	dalpha = max(dalpha, 0.0f);
+	DamageTexUpdate();
 }
 
 void PlayerControl::Update_Play(DebugCamera* camera) //プレイシーン時
 {
 	player->Update(camera);
-	if (HUD::GetInstance()->GetRecvDamageFlag())
-	{
-		dalpha = 1.0f;
-	}
-
-	dalpha -= 0.02f;
-	DamageTex->setcolor({1, 1, 1, dalpha});
-	PlayerAttackState::GetInstance()->Update();
-	dalpha = max(dalpha, 0.0f);
+	
+	DamageTexUpdate();
 }
 
 void PlayerControl::Update_Boss(DebugCamera* camera)
 {
 	player->Update(camera);
+	
+	DamageTexUpdate();
+}
+
+void PlayerControl::DamageTexUpdate()
+{
 	if (HUD::GetInstance()->GetRecvDamageFlag())
 	{
 		dalpha = 1.0f;
 	}
-
 	dalpha -= 0.02f;
-	DamageTex->setcolor({1, 1, 1, dalpha});
+	DamageTex->setcolor({ 1, 1, 1, dalpha });
 	PlayerAttackState::GetInstance()->Update();
 	dalpha = max(dalpha, 0.0f);
 }
@@ -160,3 +154,13 @@ void PlayerControl::DamageTexDraw()
 	DamageTex->Draw();
 	Sprite::PostDraw();
 }
+
+void PlayerControl::BossFieldCol()
+{
+	if(Collision::GetLength(player->GetPosition(),{0,-10,0})>120)
+	{
+		player->isOldPos();
+	}
+
+}
+

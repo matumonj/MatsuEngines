@@ -36,6 +36,8 @@ public:
 	void DamageTexDraw();
 	Player* GetPlayer() { return player.get(); }
 
+	void BossFieldCol();
+	void DamageTexUpdate();
 private:
 	void Init_Tutorial(DebugCamera* camera) override;
 

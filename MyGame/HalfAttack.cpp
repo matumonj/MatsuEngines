@@ -19,6 +19,7 @@ HalfAttack* HalfAttack::GetInstance()
 
 void HalfAttack::Initialize()
 {
+	fase = FASENON;
 	Texture::LoadTexture(21, L"Resources/2d/BossAttackEffect/DamageArea.png");
 
 	Texture* l_Tex[EnemySize];

@@ -36,7 +36,7 @@ void BossEnemy::Initialize(DebugCamera* camera)
 	EnemyHP = MaxHP;
 
 	Scale = { 0.15f, 0.1f, 0.15f };
-	Rotation = { 96.0f, -48.0f, -101.0f };
+	Rotation = { 96.0f, 70.0f, -101.0f };
 	Sword = std::make_unique<Object3d>();
 	Sword->Initialize(camera);
 	Sword->SetModel(ModelManager::GetIns()->GetModel(ModelManager::WOOD));
@@ -74,7 +74,7 @@ void BossEnemy::Initialize(DebugCamera* camera)
 
 	DeathTime = 4.9f;
 	DeathFlag = false;
-	f_time = 200 / 60;
+	f_time = 0.0f;
 
 	FollowRotAngleCorrect = -85.0f;
 	addRotRadians = -111.0f;
@@ -104,14 +104,13 @@ void BossEnemy::Update(DebugCamera* camera)
 
 	//攻撃受けたらパーティクル
 	DamageParticleSet();
-
-
-	m_fbxObject->SetFbxTime(f_time);
+	m_fbxObject->SetFogPos({ camera->GetEye() });
 	m_fbxObject->SetHandBoneIndex(hind);
+	m_fbxObject->SetFbxTime(f_time);
 	Sword->Setf(FALSE);
 	Sword->SetScale({ 10,10,10 });
 	Sword->SetRotation({ -23, 43, 83 });
-	Sword->Update(m_fbxObject->GetHandBoneMatWorld(), { 1.0f, 1.0f, 1.0f, 1.0f }, camera);
+	Sword->Update(m_fbxObject->GetHandBoneMatWorld(), { 0.70f, 0.70f, 0.70f, 1.0f }, camera);
 
 
 }
@@ -143,8 +142,6 @@ void BossEnemy::Draw()
 	ImGui::Begin("rotx");
 	ImGui::SliderInt("indx", &hind, 0, 60);
 	ImGui::SliderFloat("fbxt", &Rotation.x, -180, 360);
-
-	ImGui::SliderFloat("fbxy", &Rotation.y, -180, 360);
 	ImGui::SliderFloat("rotz", &Rotation.z, -180, 360);
 	ImGui::End();
 	ImGui::Begin("we");
@@ -159,17 +156,20 @@ void BossEnemy::Draw()
 	Draw_Fbx();
 	// 3Dオブジェクト描画前処理
 	Object3d::PreDraw();
-	//Sword->Draw();
+	Sword->Draw();
 	Object3d::PostDraw();
 	// 3Dオブジェクト描画前処理
 }
 
 void BossEnemy::Death()
 {
-	if (!DeathFlag)
+	if (!DieFlag)
 	{
+		DieFlag = true;
 		//ExpPointSystem::GetInstance()->ExpPoint_Get(10);
-		DeathFlag = true;
+	}
+	else
+	{
 		if (f_time < DeathMotionTime_Start)
 		{
 			f_time = DeathMotionTime_Start;
@@ -181,13 +181,15 @@ void BossEnemy::Death()
 	}
 
 	f_time += 0.009f;
+
+	
 	movestop = false;
 }
 
 
 void BossEnemy::FbxAnimationControl()
 {
-	if (DeathFlag)return;
+	if (DieFlag)return;
 	if (nowMotion == ROAR && f_time <= RoarTime + 0.2f)
 	{
 		f_time += 0.006f;
@@ -204,12 +206,12 @@ void BossEnemy::FbxAnimationControl()
 	SetMotion(SwingFlag, SWING, SwingTime, SwingTime_End);
 	SetMotion(SideWalk_LeftMotionFlag, LSIDEWALK, SideWalk_LeftTime, SideWalk_LeftTime_End);
 	SetMotion(SideWalk_RightMotionFlag, RSIDEWALK, SideWalk_RightTime, SideWalk_RightTime_End);
-	SetMotion(DieFlag, DEATH, DeathMotionTime_Start, DeathMotionTime_End);
-
+	
 	if (nowMotion == NON && f_time > NormalAttackTime)
 	{
 		f_time = 0.0f;
 	}
+	
 
 }
 
@@ -227,6 +229,7 @@ void BossEnemy::SetMotion(bool& motionStartJudg, NowAttackMotion motion, float a
 		AfterAttack = true;
 		nowMotion = NON;
 	}
+	
 }
 
 void BossEnemy::AttackCoolTime()

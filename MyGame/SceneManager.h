@@ -21,7 +21,9 @@ public:
 		TUTORIAL,
 		PLAY,
 		BOSS,
-		MAPCREATE
+		MAPCREATE,
+		GAMEOVER,
+		GAMECLEAR
 	};
 
 	NowScene GetScene() { return scene; }

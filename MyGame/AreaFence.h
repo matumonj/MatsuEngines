@@ -18,6 +18,7 @@ public:
 	void Update(DebugCamera* camera) override;
 	void Draw() override;
 
+	bool FenceYposMin();
 	void FenceOpenCondition(bool Condition);
 	bool CollideAreaFence();
 };
