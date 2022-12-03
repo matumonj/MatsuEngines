@@ -242,7 +242,7 @@ public:
 	Texture(UINT texNumber, XMFLOAT3 position, XMFLOAT3 size, XMFLOAT4 color);
 
 	static bool LoadTexture(UINT texnumber, const wchar_t* filename);
-	static Texture* Create(UINT texNumber, XMFLOAT3 position, XMFLOAT3 size, XMFLOAT4 color);
+	static Texture* Create(UINT texNumber, XMFLOAT3 position = {}, XMFLOAT3 size = {}, XMFLOAT4 color = {});
 	void TransferVertices();
 	void SetAnchorPoint(XMFLOAT2 anchorpoint);
 	void SetTextureRect(XMFLOAT2 texBase, XMFLOAT2 texSize);
