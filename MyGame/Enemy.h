@@ -221,6 +221,8 @@ protected:
 	Attack_SE Attack[AtckNum];
 
 public:
+	bool getdie() { return DieFlag; }
+	bool getdeath() { return DeathFlag; }
 	void SetSwingMotion(bool f) { if (f_time < SwingTime) { SwingFlag = f; } }
 
 	void SetFalterMotion(bool f) { if (f_time < FalterTime) { FalterFlag = f; } }

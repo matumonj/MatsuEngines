@@ -36,7 +36,9 @@ public:
 		ICECRYSTAL,
 		BIGROCK_A,
 		BIGROCK_B,
-		GRASSFIELD
+		GRASSFIELD,
+		HOUSE,
+		SANDFIELD
 	};
 
 	enum FBXName

@@ -623,6 +623,9 @@ void Object3d::Update(XMFLOAT4 color, DebugCamera* camera)
 	constMap->ks5 = {0, 0, 0};
 	constMap->destTime = DestTime;
 	constMap->shadowf = shadowf;
+
+	constMap->ks6 = {};
+	constMap->dislen = dislen;
 	// 定数バッファへデータ転送
 	//ConstBufferDataB0* constMap = nullptr;
 	//result = constBuffB0->Map(0, nullptr, (void**)&constMap);
@@ -735,7 +738,7 @@ void Object3d::UpdateWorldMatrix()
 	matRot *= XMMatrixRotationY(XMConvertToRadians(rotation.y));
 	matTrans = XMMatrixTranslation(position.x, position.y, position.z);
 
-	// ワールド行列の合成
+	// ワールド行列の合成F
 
 	matWorld = XMMatrixIdentity(); // 変形をリセット
 	matWorld *= matScale; // ワールド行列にスケーリングを反映

@@ -15,5 +15,5 @@ protected:
 	OBB playerOBB = {};
 	OBB woodOBB = {}; // = nullptr;
 public:
-	virtual bool CollideWood()=0;
+	virtual void CollideWood()=0;
 };

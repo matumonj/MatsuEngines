@@ -38,8 +38,12 @@ void Wood::Update(DebugCamera* camera)
 	Color = {1.0f, 1.0f, 1.0f, alpha};
 	ParameterSet_Obj(camera);
 	m_Object->Setf(TRUE);
+	m_Object->SetFogCenter(camera->GetEye());
+	m_Object->setFog(true);
+	m_Object->SetDisLen(1000);
 	//フィールド
-	CollideWood();
+		CollideWood();
+	
 }
 
 void Wood::Draw()
@@ -47,12 +51,12 @@ void Wood::Draw()
 	Draw_Obj();
 }
 
-bool Wood::CollideWood()
+void Wood::CollideWood()
 {
 	Player* l_player = PlayerControl::GetInstance()->GetPlayer();
 	if (l_player == nullptr)
 	{
-		return false;
+		return;
 	}
 	playerOBB.SetOBBParam_Pos(l_player->GetPosition());
 	playerOBB.SetOBBParam_Scl({1.0f, 1.0f, 1.0f});
@@ -68,9 +72,7 @@ bool Wood::CollideWood()
 		if (Collision::CheckOBBCollision(playerOBB, woodOBB) == true)
 		{
 			l_player->isOldPos();
-			return true;
+			
 		}
-		return false;
 	}
-	return false;
 }

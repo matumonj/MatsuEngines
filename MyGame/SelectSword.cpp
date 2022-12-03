@@ -31,7 +31,7 @@ void SelectSword::Finalize()
 
 void SelectSword::SpriteSet()
 {
-	Sprite::LoadTexture(229, L"Resources/2d/confignav/navselectsword.png");
+/*	Sprite::LoadTexture(229, L"Resources/2d/confignav/navselectsword.png");
 
 	Sprite::LoadTexture(230, L"Resources/SwordA.png");
 	Sprite::LoadTexture(231, L"Resources/swordB.png");
@@ -48,47 +48,47 @@ void SelectSword::SpriteSet()
 	Sprite::LoadTexture(239, L"Resources/2d/attackicon/config_swordattack2.png");
 
 	Sprite::LoadTexture(240, L"Resources/2d/attackicon/SetCustom.png");
-	NavSprite = Sprite::Create(229, {1.0f, 1.0f});
-	SwordSample[0] = Sprite::Create(230, {1.0f, 1.0f});
-	SwordSample[1] = Sprite::Create(231, {1.0f, 1.0f});
-	SwordSample[2] = Sprite::Create(232, {1.0f, 1.0f});
-	Frame = Sprite::Create(233, {1.0f, 1.0f});
-	for (int i = 0; i < 3; i++)
-	{
-		//フィールドにモデル割り当て
-		//SwordSample[i]->Initialize();
-		SwordSample[i]->SetSize({400.0f, 400.0f});
-		SwordSample[i]->SetAnchorPoint({0.5f, 0.5f});
-		SwordSample[i]->SetPosition({Position[i]});
-	}
-	Frame->SetSize({450.0f, 450.0f});
-	Frame->SetPosition(Position[0]);
-	Frame->SetAnchorPoint({0.5f, 0.5f});
+	//*///NavSprite = Sprite::Create(229, {1.0f, 1.0f});
+	//SwordSample[0] = Sprite::Create(230, {1.0f, 1.0f});
+	//SwordSample[1] = Sprite::Create(231, {1.0f, 1.0f});
+	//SwordSample[2] = Sprite::Create(232, {1.0f, 1.0f});
+	//Frame = Sprite::Create(233, {1.0f, 1.0f});
+	//for (int i = 0; i < 3; i++)
+	//{
+	//	//フィールドにモデル割り当て
+	//	//SwordSample[i]->Initialize();
+	//	SwordSample[i]->SetSize({400.0f, 400.0f});
+	//	SwordSample[i]->SetAnchorPoint({0.5f, 0.5f});
+	//	SwordSample[i]->SetPosition({Position[i]});
+	//}
+	//Frame->SetSize({450.0f, 450.0f});
+	//Frame->SetPosition(Position[0]);
+	//Frame->SetAnchorPoint({0.5f, 0.5f});
 
 
-	WeponParamSprite[0] = Sprite::Create(234, {1.0f, 1.0f});
-	WeponParamSprite[1] = Sprite::Create(235, {1.0f, 1.0f});
-	WeponParamSprite[2] = Sprite::Create(236, {1.0f, 1.0f});
+	//WeponParamSprite[0] = Sprite::Create(234, {1.0f, 1.0f});
+	//WeponParamSprite[1] = Sprite::Create(235, {1.0f, 1.0f});
+	//WeponParamSprite[2] = Sprite::Create(236, {1.0f, 1.0f});
 
-	Equipment = Sprite::Create(240, {1.0f, 1.0f});
-	Equipment->SetSize({1000, 600});
-	EquipmentPos.x = 200.0f;
+	//Equipment = Sprite::Create(240, {1.0f, 1.0f});
+	//Equipment->SetSize({1000, 600});
+	//EquipmentPos.x = 200.0f;
 
-	NavSprite->SetSize({1500, 700});
-	NavSprite->SetPosition({400, 300});
+	//NavSprite->SetSize({1500, 700});
+	//NavSprite->SetPosition({400, 300});
 }
 
 void SelectSword::WeponParamInit()
 {
 	for (int i = 0; i < 3; i++)
 	{
-		WeponParamSprite[i]->SetPosition(WeponParamSpritePos[i]);
+		//WeponParamSprite[i]->SetPosition(WeponParamSpritePos[i]);
 	}
 
 	for (int i = 0; i < 3; i++)
 	{
-		WeponParamSprite[i]->SetSize({1000, 800});
-		WeponParamSprite[i]->SetAnchorPoint({0.5f, 0.5f});
+		//WeponParamSprite[i]->SetSize({1000, 800});
+		//WeponParamSprite[i]->SetAnchorPoint({0.5f, 0.5f});
 	}
 }
 
@@ -141,13 +141,13 @@ void SelectSword::pedestalSet()
 	SampleSword[NORMAL]->Initialize(CameraControl::GetInstance()->GetCamera());
 	sampleSwordRot[NORMAL] = {-60.0f, 100.0f, -90.0f};
 
-	SampleSword[BIG]->SetModel(ModelManager::GetIns()->GetModel(ModelManager::BIGSWORD));
-	SampleSword[BIG]->Initialize(CameraControl::GetInstance()->GetCamera());
-	sampleSwordRot[BIG] = {-60.0f, 100.0f, -90.0f};
+	///SampleSword[BIG]->SetModel(ModelManager::GetIns()->GetModel(ModelManager::BIGSWORD));
+	//SampleSword[BIG]->Initialize(CameraControl::GetInstance()->GetCamera());
+	//sampleSwordRot[BIG] = {-60.0f, 100.0f, -90.0f};
 
-	PedestalObj = std::make_unique<Object3d>();
-	PedestalObj->SetModel(ModelManager::GetIns()->GetModel(ModelManager::PEDESTAL));
-	PedestalObj->Initialize(CameraControl::GetInstance()->GetCamera());
+	//PedestalObj = std::make_unique<Object3d>();
+	//PedestalObj->SetModel(ModelManager::GetIns()->GetModel(ModelManager::PEDESTAL));
+	//PedestalObj->Initialize(CameraControl::GetInstance()->GetCamera());
 
 	RotAngle = 0.0f;
 	RotationF = false;
@@ -177,7 +177,7 @@ void SelectSword::SetSword(SwordScale nowsword)
 		Sword = std::make_unique<NormalSword>();
 		break;
 	case BIG:
-		Sword = std::make_unique<BigSword>();
+		//Sword = std::make_unique<BigSword>();
 		break;
 	default:
 		break;
@@ -248,7 +248,7 @@ void SelectSword::Update()
 			}
 			SetSword(NowSelectSword);
 		}
-		Frame->SetPosition(Position[index]);
+		//Frame->SetPosition(Position[index]);
 		Equipment->SetPosition(EquipmentPos);
 		CameraControl::GetInstance()->GetCamera()->SetEye({0, 0, -30});
 		CameraControl::GetInstance()->GetCamera()->SetTarget({10, 0, 0});
@@ -312,9 +312,9 @@ void SelectSword::PedestalUpdate()
 	/*-------------------------------------------------------------*/
 	SampleSword[SMALL]->SetPosition(samplePos_small);
 	SampleSword[NORMAL]->SetPosition(samplePos_normal);
-	SampleSword[BIG]->SetPosition(samplePos_big);
+	//SampleSword[BIG]->SetPosition(samplePos_big);
 
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 2; i++)
 	{
 		SampleSword[i]->SetRotation(sampleSwordRot[i]);
 		SampleSword[i]->SetScale({2.0f, 2.0f, 2.0f});
@@ -337,10 +337,10 @@ void SelectSword::PedestalUpdate()
 		break;
 	}
 
-	PedestalObj->SetScale({10.0f, 10.0f, 10.0f});
+	/*PedestalObj->SetScale({10.0f, 10.0f, 10.0f});
 	PedestalObj->SetPosition(PedestalPos);
 	PedestalObj->SetColor({1.0f, 1.0f, 1.0f, 1.0f});
-	PedestalObj->Update({10.0f, 10.0f, 10.0f, 10.0f}, CameraControl::GetInstance()->GetCamera());
+	PedestalObj->Update({10.0f, 10.0f, 10.0f, 10.0f}, CameraControl::GetInstance()->GetCamera());*/
 }
 
 void SelectSword::SwordRot()
@@ -376,7 +376,7 @@ void SelectSword::Draw()
 
 void SelectSword::SpriteDraw()
 {
-	if (SelectJudg)
+	/*if (SelectJudg)
 	{
 		Sprite::PreDraw();
 		for (int i = 0; i < 3; i++)
@@ -391,8 +391,8 @@ void SelectSword::SpriteDraw()
 		Frame->Draw();
 		Equipment->Draw();
 		NavSprite->Draw();
-		Sprite::PostDraw();
-	}
+		Sprite::PostDraw();*/
+//	}
 }
 
 void SelectSword::PedestalDraw()
@@ -401,13 +401,13 @@ void SelectSword::PedestalDraw()
 	{
 		return;
 	}
-	Object3d::PreDraw();
-	PedestalObj->Draw();
-	for (int i = 0; i < 3; i++)
-	{
-		SampleSword[i]->Draw();
-	}
-	Object3d::PostDraw();
+//	Object3d::PreDraw();
+	//PedestalObj->Draw();
+	//for (int i = 0; i < 3; i++)
+	//{
+		//SampleSword[i]->Draw();
+	//}
+	//Object3d::PostDraw();
 }
 
 void SelectSword::SwordDraw()

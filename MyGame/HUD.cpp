@@ -52,9 +52,7 @@ void HUD::Initialize()
 	Sprite::LoadTexture(146, L"Resources/HPTex/frame2.png");
 	Sprite::LoadTexture(147, L"Resources/chestCollect1.png");
 	Sprite::LoadTexture(148, L"Resources/chestColFrame.png");
-
-	Sprite::LoadTexture(149, L"Resources/2d/minimapframe.png");
-
+	
 	TaskSprite = Sprite::Create(143, {0.0f, -200.0f});
 	TaskSprite->SetPosition({WinApp::window_width / 2, WinApp::window_height / 2});
 	TaskSprite->SetAnchorPoint({0.5, 0.5});
@@ -78,13 +76,7 @@ void HUD::Initialize()
 
 
 	PlayerHPSize = static_cast<float>(PlayerControl::GetInstance()->GetPlayer()->GetMaxHP()) * 7.0f;
-
-	MiniMapFrame = Sprite::Create(149, {0.0f, -200.0f});
-	MiniMapFrame->SetAnchorPoint({0.5F, 0.5F});
-	MiniFrameSize = {480, 500};
-	MiniframePos = {1600, 200};
-	MiniMapFrame->SetSize({MiniFrameSize});
-	MiniMapFrame->SetPosition(MiniframePos);
+	
 }
 
 void HUD::EnemyHPGaugeInitialize()
@@ -203,58 +195,16 @@ void HUD::EnemyHPGauge_MultiUpdate(bool& loadf, DebugCamera* camera, std::vector
 	{
 		for (int i = 0; i < enemy.size(); i++)
 		{
-			EnemyHP_Border_Multi.resize(enemy.size());
-			EnemyHP_Inner_Multi.resize(enemy.size());
-			multi_NowHP.resize(enemy.size());
-			multi_OldHP.resize(enemy.size());
-			multi_Hpt.resize(enemy.size());
-			multi_sizel.resize(enemy.size());
-
-			EnemyHP_Inner_Multi[i] = Texture::Create(122, {0.0f, -200.0f, 1}, {1.0f, 1.0f, 1.0f},
-			                                         {1.0f, 1.0f, 1.0f, 1.0f});
-			EnemyHP_Border_Multi[i] = Texture::Create(123, {0.0f, -200.0f, 1}, {1.0f, 1.0f, 1.0f},
-			                                          {1.0f, 1.0f, 1.0f, 1.0f});
-			//EnemyHP_Border_Multi[i]->SetPosition({ 80,860,1 });
-			EnemyHP_Inner_Multi[i]->CreateTexture();
-			EnemyHP_Border_Multi[i]->CreateTexture();
-			EnemyHP_Border_Multi[i]->SetAnchorPoint({0.0f, 0.0f});
-			EnemyHP_Inner_Multi[i]->SetAnchorPoint({0.0f, 0.0f});
 		}
 		loadf = false;
 	}
 
-	for (int i = 0; i < enemy.size(); i++)
-	{
-		//ƒpƒ‰ƒ[ƒ^‚ÌÝ’è
-		if (enemy[i] != nullptr && EnemyHP_Border_Multi.size() > 0)
-		{
-		
-
-
-			EnemyHP_Inner_Multi[i]->Update(camera);
-			EnemyHP_Border_Multi[i]->Update(camera);
-			EnemyHP_Border_Multi[i]->SetScale({2.5f, 1.0f, 1.0f});
-			EnemyHP_Border_Multi[i]->SetPosition({
-				enemy[i]->GetPosition().x - 10.0f, enemy[i]->GetPosition().y + 20.0f, enemy[i]->GetPosition().z
-			});
-
-			EnemyHP_Inner_Multi[i]->SetPosition({
-				EnemyHP_Border_Multi[i]->GetPosition().x, EnemyHP_Border_Multi[i]->GetPosition().y,
-				EnemyHP_Border_Multi[i]->GetPosition().z
-			});
-		}
-	}
+	
 }
 
 void HUD::EnemyHPGauge_MultiDraw()
 {
-	Texture::PreDraw();
-	for (int i = 0; i < EnemyHP_Border_Multi.size(); i++)
-	{
-		EnemyHP_Border_Multi[i]->Draw();
-		EnemyHP_Inner_Multi[i]->Draw();
-	}
-	Texture::PostDraw();
+	
 }
 
 void HUD::SkillBottonDraw()
@@ -315,7 +265,5 @@ void HUD::Draw()
 
 void HUD::AreaName()
 {
-	Sprite::PreDraw();
-	TaskSprite->Draw();
-	Sprite::PostDraw();
+
 }

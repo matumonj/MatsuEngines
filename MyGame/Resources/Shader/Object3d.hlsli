@@ -14,6 +14,8 @@ bool destF;
 float3 ks5;
 float desttime;
 bool shadowf;
+float3 ks6;
+float dislen;
 };
 
 cbuffer cbuff1 : register(b1)

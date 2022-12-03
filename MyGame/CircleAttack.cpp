@@ -22,7 +22,7 @@ CircleAttack* CircleAttack::GetInstance()
 
 void CircleAttack::Initialize()
 {
-	Texture::LoadTexture(23, L"Resources/AOE.png");
+	Texture::LoadTexture(23, L"Resources/2d/icon/enemyicon.png");
 
 	for (int i = 0; i < 2; i++)
 	{
@@ -31,10 +31,10 @@ void CircleAttack::Initialize()
 		ImpactAreaTex[i]->SetAnchorPoint({0.5f, 0.5f});
 	}
 
-	Direction[NORTH] = {0.0f, 0.0f, 30.0f};
-	Direction[SOUTH] = {0.0f, 0.0f, -30.0f};
-	Direction[EAST] = {30.0f, 0.0f, 0.0f};
-	Direction[WEST] = {-30.0f, 0.0f, 0.0f};
+	Direction[NORTH] = {0.0f, 0.0f, 60.0f};
+	Direction[SOUTH] = {0.0f, 0.0f, -60.0f};
+	Direction[EAST] = {60.0f, 0.0f, 0.0f};
+	Direction[WEST] = {-60.0f, 0.0f, 0.0f};
 }
 
 void CircleAttack::ActionJudg()
@@ -56,6 +56,7 @@ void CircleAttack::ActionJudg()
 		ProtrudeNail();
 		break;
 	case FASEFOUR:
+		
 		//攻撃終了です
 		EndAttackAction();
 		break;
@@ -75,8 +76,8 @@ void CircleAttack::ActionJudg()
 		ImpactAreaTex[i]->SetRotation({90.0f, 0.0f, rotY});
 		ImpactAreaTex[i]->SetColor({1.0f, 1.0f, 1.0f, TexAlpha});
 	}
-	ImpactAreaTex[0]->SetPosition({Direction[Area1].x, -18, Direction[Area1].z});
-	ImpactAreaTex[1]->SetPosition({Direction[Area2].x, -18, Direction[Area2].z});
+	ImpactAreaTex[0]->SetPosition({Direction[Area1].x, 18, Direction[Area1].z+30});
+	ImpactAreaTex[1]->SetPosition({Direction[Area2].x, 18, Direction[Area2].z+30});
 
 	//釘オブジェの更新
 	for (int i = 0; i < NailObj.size(); i++)
@@ -90,6 +91,8 @@ void CircleAttack::ActionJudg()
 
 void CircleAttack::Draw()
 {
+	
+
 	Texture::PreDraw();
 	for (int i = 0; i < 2; i++)
 	{
@@ -126,10 +129,8 @@ void CircleAttack::PierceNail()
 {
 	TexAlpha = 1.0f;
 	BossSpell::GetInstance()->SetStartSpell(BossSpell::CIRCLE, true);
-	if (BossSpell::GetInstance()->GetEndSpell(BossSpell::CIRCLE))
-	{
-		fase = FASETWO;
-	}
+	
+	
 	//釘生成
 	NailObj.resize(2);
 	for (int i = 0; i < NailObj.size(); i++)
@@ -148,6 +149,10 @@ void CircleAttack::PierceNail()
 	{
 		Direction[Area1].y--;
 		Direction[Area2].y--;
+	}
+	else {
+		fase = FASETWO;
+
 	}
 	//座標合わせる
 	NailObj[0]->SetPosition(Direction[Area1]);
@@ -187,10 +192,10 @@ void CircleAttack::ProtrudeNail()
 	NailObj[0]->SetPosition(Direction[Area1]);
 	NailObj[1]->SetPosition(Direction[Area2]);
 	TexAlpha -= 0.01f;
-	if (TexAlpha <= 0.0f)
-	{
-		fase = FASEFOUR;
-	}
+		if (Nail::GetInstance()->GetEndAction_Circle()) {
+			fase = FASEFOUR;
+		}
+	
 }
 
 void CircleAttack::EndAttackAction()
@@ -198,10 +203,10 @@ void CircleAttack::EndAttackAction()
 	TexAlpha = 0.5f;
 	BossSpell::GetInstance()->SetEndSpell(BossSpell::CIRCLE, false);
 
-	Direction[NORTH] = {0.0f, 0.0f, 30.0f};
-	Direction[SOUTH] = {0.0f, 0.0f, -30.0f};
-	Direction[EAST] = {30.0f, 0.0f, 0.0f};
-	Direction[WEST] = {-30.0f, 0.0f, 0.0f};
+	Direction[NORTH] = {0.0f, 0.0f, 60.0f};
+	Direction[SOUTH] = {0.0f, 0.0f, -60.0f};
+	Direction[EAST] = {60.0f, 0.0f, 0.0f};
+	Direction[WEST] = {-60.0f, 0.0f, 0.0f};
 
 	NailObj[0]->SetPosition(Direction[Area1]);
 	NailObj[1]->SetPosition(Direction[Area2]);
@@ -293,7 +298,7 @@ void BomAttack::Setting_DamageArea()
 	CenterPosi[6].z = BossPos.z + move.m128_f32[2] * 900;
 	for (int i = 0; i < meteoSize; i++)
 	{
-		CenterPosi[i].y = 10.0f;
+		CenterPosi[i].y = 15.0f;
 	}
 }
 
@@ -305,7 +310,7 @@ void BomAttack::ParamSet()
 		{
 			bom_particle_[j][i].BomTex->SetBillboard(TRUE);
 			bom_particle_[j][i].BomTex->SetPosition(bom_particle_[j][i].TexPos);
-			bom_particle_[j][i].BomTex->SetColor({0.2f, 0.2f, 0.2f, bom_particle_[j][i].TexAlpha});
+			bom_particle_[j][i].BomTex->SetColor({0.8f, 0.8f, 0.8f, bom_particle_[j][i].TexAlpha});
 			bom_particle_[j][i].BomTex->SetScale(bom_particle_[j][i].TexScl);
 			bom_particle_[j][i].BomTex->Update(CameraControl::GetInstance()->GetCamera());
 		}
@@ -420,11 +425,7 @@ void BomAttack::Draw()
 
 	Texture::PostDraw();
 
-	//ImGui::Begin("w");
-	//ImGui::SliderFloat("angle", &attackangle, 0, 360);
-	//ImGui::Text("%f", bom_particle_[LEFT][0].TexAlpha);
-	//ImGui::Text("CenPos%f", CenterPosi[0].z);
-	//ImGui::Text("CenPos2%f", CenterPosi[1].z);
+	
 	////ImGui::Text("CenPs%f", CenterPosi[2].z);
 	//ImGui::Text("Phase%f", BossPos.z);
 	//ImGui::End();

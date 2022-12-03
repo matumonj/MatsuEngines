@@ -20,6 +20,7 @@
 #include"SelectSword.h"
 #include"DamageManager.h"
 #include "GameOver.h"
+#include "HouseControl.h"
 //シーンのコンストラクタ
 PlayScene::PlayScene(SceneManager* sceneManager)
 	: BaseScene(sceneManager)
@@ -42,6 +43,7 @@ void PlayScene::Initialize()
 		AllObjectControl.push_back(EnemyControl::GetInstance());
 		AllObjectControl.push_back(PlayerControl::GetInstance());
 		AllObjectControl.push_back(ChestControl::GetInstance());
+		AllObjectControl.push_back(HouseControl::GetInstance());
 		AllObjectControl.push_back(WoodControl::GetInstance());
 		AllObjectControl.push_back(FenceControl::GetInstance());
 	}
@@ -67,7 +69,7 @@ void PlayScene::objUpdate(DebugCamera* camera)
 			AllObjectControl[i]->Update((CameraControl::GetInstance()->GetCamera()));
 		}
 	}
-	
+	TargetMarker::GetInstance()->Update_PlayScene(CameraControl::GetInstance()->GetCamera());
 	if (CameraControl::GetInstance()->GetCamera() != nullptr)
 	{
 		Field::GetInstance()->Update((CameraControl::GetInstance()->GetCamera()));
@@ -83,7 +85,7 @@ void PlayScene::Update()
 	lightGroup->Update();
 
 	SistemConfig::GetInstance()->Update();
-
+	
 	if (!Load && !PlayGame)
 	{
 		Load = true;
@@ -112,8 +114,7 @@ void PlayScene::Update()
 	lightGroup->SetCircleShadowCasterPos(3, {ppos.x,ppos.y+10.0f,ppos.z});
 	lightGroup->SetCircleShadowAtten(3, XMFLOAT3(circleShadowAtten));
 	lightGroup->SetCircleShadowFactorAngle(3, XMFLOAT2(circleShadowFactorAngle2));
-	postEffect->SetCenterpos(HUD::GetInstance()->GetMinimapSprite()->GetPosition());
-
+	
 	for (int i = 0; i < EnemyControl::GetInstance()->GetQuentity(); i++)
 	{
 		if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i] == nullptr)
@@ -134,22 +135,13 @@ void PlayScene::Update()
 
 	ChangeSceneJudg();
 	
-	if (PlayerControl::GetInstance()->GetPlayer()->GetHP() <= 0)
-	{
-		//画面真っ白なったら
-		BaseScene* scene = new GameOver(sceneManager_); //次のシーンのインスタンス生成
-		PlayGame = false;
-		SceneManager::GetInstance()->SetScene(SceneManager::GAMEOVER);
-		sceneManager_->SetnextScene(scene); //シーンのセット
-
-	}
 }
 
 void PlayScene::ChangeSceneJudg()
 {
 	if (Task::GetInstance()->GetAllTaskClear())
 	
-			if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), { 17, -35, 800 }) < 50)
+			if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), { 17, -35, 820 }) < 30)
 			{
 				Feed::GetInstance()->Update_White(Feed::FEEDIN);
 				PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(TRUE);
@@ -211,7 +203,7 @@ void PlayScene::Draw()
 			}
 		}
 		//postEffect->Draw();
-
+		Task::GetInstance()->TargetDraw();
 		PlayerControl::GetInstance()->DamageTexDraw();
 		for (int i = 0; i < EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE).size(); i++) {
 			if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i] == nullptr)continue;

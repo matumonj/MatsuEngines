@@ -46,9 +46,10 @@ void MobEnemy::Initialize(DebugCamera* camera)
 	m_fbxObject->Initialize();
 	m_fbxObject->SetModel(FbxLoader::GetInstance()->LoadModelFromFile("monster_golem_demo"));
 	m_fbxObject->PlayAnimation();
+	
+	MaxHP = 120.0f;
 
-	EnemyHP = 50.0f;
-	MaxHP = 80.0f;
+	EnemyHP = MaxHP;
 	//ƒpƒ‰ƒ[ƒ^‚ÌƒZƒbƒg
 	Rotation = { 114.0f, 118.0f, 165.0f };
 	Scale = { 0.05f, 0.05f, 0.05f };
@@ -90,7 +91,7 @@ void MobEnemy::Update(DebugCamera* camera)
 	}
 	FbxAnimationControl();
 
-	EnemyPop(150);
+	//EnemyPop(150);
 
 	AttackCoolTime();
 
@@ -99,7 +100,7 @@ void MobEnemy::Update(DebugCamera* camera)
 
 	
 	m_fbxObject->SetColor({1.0f, 1.0f, 1.0f, alpha});
-	m_fbxObject->SetHandBoneIndex(19);
+	m_fbxObject->SetHandBoneIndex(25);
 
 	Sword->Setf(FALSE);
 	Sword->SetRotation({-23, 43, 83});
@@ -121,14 +122,15 @@ void MobEnemy::OBBSetParam()
 	{
 		return;
 	}
+	if (DeathFlag|| Collision::GetLength(Position, l_player->GetPosition()) > 40)return;
 
 		HandSiteOBB.SetOBBParam_Pos(Sword->GetMatWorld());
 		HandSiteOBB.SetOBBParam_Rot(Sword->GetMatWorld());
-		HandSiteOBB.SetOBBParam_Scl({ 5.0f, 20.0f, 5.0f });
+		HandSiteOBB.SetOBBParam_Scl({ 8.0f, 30.0f, 8.0f });
 
 		playerOBB.SetOBBParam_Pos(l_player->GetPosition());
 		playerOBB.SetOBBParam_Rot(l_player->GetMatrot());
-		playerOBB.SetOBBParam_Scl({ 1.0f, 5.0f, 1.0f });
+		playerOBB.SetOBBParam_Scl({ 1.0f, 9.0f, 1.0f });
 
 	//‰¡“ã‚¬UŒ‚
 		if (atcktype == SIDEAWAY)
@@ -145,7 +147,7 @@ void MobEnemy::OBBSetParam()
 	//cU‚èUŒ‚
 		if (atcktype == VERTICAL)
 		{
-			if (f_time >= 4.8f && f_time <= 5.5f)
+			if (f_time >= 4.8f&& f_time <= 5.2f)
 			{
 				if (Collision::CheckOBBCollision(playerOBB, HandSiteOBB) == true)
 				{
@@ -159,14 +161,6 @@ void MobEnemy::OBBSetParam()
 //•`‰æˆ—
 void MobEnemy::Draw()
 {
-	/*ImGui::Begin("i");
-	ImGui::Text("t %f", m_fbxObject->GetEndTime());
-	imt += 0.01f;
-	ImGui::SliderFloat("rx", &imt, -180, 360);
-	ImGui::SliderFloat("ry", &FollowRotAngleCorrect, -180, 180);
-	ImGui::SliderFloat("rotx", &Rotation.x, -170, 360);
-	ImGui::SliderFloat("rz", &Rotation.z, -170, 360);
-	ImGui::End();*/
 	if (alpha >= 0.0f)
 	{
 		Draw_Fbx();

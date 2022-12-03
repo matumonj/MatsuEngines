@@ -65,6 +65,7 @@ public:
 	void isOldPos()
 	{
 		Position.x = oldpos.x;
+		//Position.y = oldpos.y;
 		Position.z = oldpos.z;
 	}
 

@@ -42,78 +42,78 @@ CustomButton::~CustomButton()
 void CustomButton::Initialize()
 {
 	input = Input::GetInstance();
-	Sprite::LoadTexture(125, L"Resources/con.png"); //コントローラー画像
-	Sprite::LoadTexture(126, L"Resources/xbutton.png"); //Xボタン画像
-	Sprite::LoadTexture(127, L"Resources/ybutton.png"); //Yボタン画像
-	Sprite::LoadTexture(128, L"Resources/abutton.png"); //Aボタン画像
-	Sprite::LoadTexture(129, L"Resources/bbutton.png"); //Bボタン画像
-	Sprite::LoadTexture(130, L"Resources/05 ボタン/button.png"); //枠画像
-	Sprite::LoadTexture(131, L"Resources/jumpaction.png"); //
-	Sprite::LoadTexture(132, L"Resources/attackaction.png"); //
-	Sprite::LoadTexture(133, L"Resources/attackaction2.png"); //
-	Sprite::LoadTexture(140, L"Resources/selectsprite.png"); //
-	Sprite::LoadTexture(141, L"Resources/error.png"); //
-	Sprite::LoadTexture(142, L"Resources/custommenu.png"); //
-	//コントローラー画像
-	Controller = Sprite::Create(125, {0.0f, -200.0f});
-	Controller->SetPosition({900, 600});
-	Controller->SetSize({500, 500});
-	//セレクトスプライト
-	SelectSprite = Sprite::Create(140, {0.0f, -200.0f});
-	SelectSprite->SetPosition(SelectSpritePosition[SelectNum]);
-	SelectSprite->SetSize({200, 200});
+	//Sprite::LoadTexture(125, L"Resources/con.png"); //コントローラー画像
+	//Sprite::LoadTexture(126, L"Resources/xbutton.png"); //Xボタン画像
+	//Sprite::LoadTexture(127, L"Resources/ybutton.png"); //Yボタン画像
+	//Sprite::LoadTexture(128, L"Resources/abutton.png"); //Aボタン画像
+	//Sprite::LoadTexture(129, L"Resources/bbutton.png"); //Bボタン画像
+	//Sprite::LoadTexture(130, L"Resources/05 ボタン/button.png"); //枠画像
+	//Sprite::LoadTexture(131, L"Resources/jumpaction.png"); //
+	//Sprite::LoadTexture(132, L"Resources/attackaction.png"); //
+	//Sprite::LoadTexture(133, L"Resources/attackaction2.png"); //
+	//Sprite::LoadTexture(140, L"Resources/selectsprite.png"); //
+	//Sprite::LoadTexture(141, L"Resources/error.png"); //
+	//Sprite::LoadTexture(142, L"Resources/custommenu.png"); //
+	////コントローラー画像
+	//Controller = Sprite::Create(125, {0.0f, -200.0f});
+	//Controller->SetPosition({900, 600});
+	//Controller->SetSize({500, 500});
+	////セレクトスプライト
+	//SelectSprite = Sprite::Create(140, {0.0f, -200.0f});
+	//SelectSprite->SetPosition(SelectSpritePosition[SelectNum]);
+	//SelectSprite->SetSize({200, 200});
 
-	Custommenu = Sprite::Create(142, {0.0f, -200.0f});
-	Custommenu->SetPosition({500, -650});
-	Custommenu->SetSize({1000, 1500});
+	//Custommenu = Sprite::Create(142, {0.0f, -200.0f});
+	//Custommenu->SetPosition({500, -650});
+	//Custommenu->SetSize({1000, 1500});
 
 	//コントローラーボタンのスプライト(各アクションごとに用意)
-	for (int i = 0; i < menuNum; i++)
-	{
-		//i={JUMP,ATTACK,}
-		ButtonSprite[i][BUTTON_X] = Sprite::Create(126, {0.0f, -200.0f});
-		ButtonSprite[i][BUTTON_Y] = Sprite::Create(127, {0.0f, -200.0f});
-		ButtonSprite[i][BUTTON_A] = Sprite::Create(128, {0.0f, -200.0f});
-		ButtonSprite[i][BUTTON_B] = Sprite::Create(129, {0.0f, -200.0f});
-	}
+	//for (int i = 0; i < menuNum; i++)
+	//{
+	//	//i={JUMP,ATTACK,}
+	//	ButtonSprite[i][BUTTON_X] = Sprite::Create(126, {0.0f, -200.0f});
+	//	ButtonSprite[i][BUTTON_Y] = Sprite::Create(127, {0.0f, -200.0f});
+	//	ButtonSprite[i][BUTTON_A] = Sprite::Create(128, {0.0f, -200.0f});
+	//	ButtonSprite[i][BUTTON_B] = Sprite::Create(129, {0.0f, -200.0f});
+	//}
 	//各ボタンを対応させるアクション項目スプライト
 	/*JUMP*/
-	MenuSprite[JUMP] = Sprite::Create(131, {0.0f, -200.0f});
-	MenuSprite[JUMP]->SetSize(MenuSpriteSize);
-	MenuSprite[JUMP]->SetPosition(JumpSpritePosition);
-	/*ATTACK*/
-	MenuSprite[ATTACK] = Sprite::Create(132, {0.0f, -200.0f});
-	MenuSprite[ATTACK]->SetSize(MenuSpriteSize);
-	MenuSprite[ATTACK]->SetPosition(AttackSpritePosition);
+	//MenuSprite[JUMP] = Sprite::Create(131, {0.0f, -200.0f});
+	//MenuSprite[JUMP]->SetSize(MenuSpriteSize);
+	//MenuSprite[JUMP]->SetPosition(JumpSpritePosition);
+	///*ATTACK*/
+	//MenuSprite[ATTACK] = Sprite::Create(132, {0.0f, -200.0f});
+	//MenuSprite[ATTACK]->SetSize(MenuSpriteSize);
+	//MenuSprite[ATTACK]->SetPosition(AttackSpritePosition);
 
-	MenuSprite[SATTACK] = Sprite::Create(133, {0.0f, -200.0f});
-	MenuSprite[SATTACK]->SetSize(MenuSpriteSize);
-	MenuSprite[SATTACK]->SetPosition(SAttackSpritePosition);
+	//MenuSprite[SATTACK] = Sprite::Create(133, {0.0f, -200.0f});
+	//MenuSprite[SATTACK]->SetSize(MenuSpriteSize);
+	//MenuSprite[SATTACK]->SetPosition(SAttackSpritePosition);
 
-	MenuSprite[TATTACK] = Sprite::Create(131, {0.0f, -200.0f});
-	MenuSprite[TATTACK]->SetSize(MenuSpriteSize);
-	MenuSprite[TATTACK]->SetPosition(TAttackSpritePosition);
+	//MenuSprite[TATTACK] = Sprite::Create(131, {0.0f, -200.0f});
+	//MenuSprite[TATTACK]->SetSize(MenuSpriteSize);
+	//MenuSprite[TATTACK]->SetPosition(TAttackSpritePosition);
 
-	//ボタン囲う枠画像、コントローラーボタン画像
-	//ほんとは[i],[j]とかより[JUMP][Button_A]とか明示的に書いてあげたほうがわかりやすけど,,,行数削減のため
-	for (int j = 0; j < menuNum; j++)
-	{
-		ButtonFrame[j] = Sprite::Create(130, {0.0f, -200.0f});
-		ButtonFrame[j]->SetPosition({MenuSprite[j]->GetPosition().x + 400, MenuSprite[j]->GetPosition().y + 80});
-		ButtonFrame[j]->SetSize({400, 150});
+	////ボタン囲う枠画像、コントローラーボタン画像
+	////ほんとは[i],[j]とかより[JUMP][Button_A]とか明示的に書いてあげたほうがわかりやすけど,,,行数削減のため
+	//for (int j = 0; j < menuNum; j++)
+	//{
+	//	ButtonFrame[j] = Sprite::Create(130, {0.0f, -200.0f});
+	//	ButtonFrame[j]->SetPosition({MenuSprite[j]->GetPosition().x + 400, MenuSprite[j]->GetPosition().y + 80});
+	//	ButtonFrame[j]->SetSize({400, 150});
 
-		for (int i = 0; i < ActionMax; i++)
-		{
-			ButtonSprite[j][i]->SetPosition({
-				ButtonFrame[j]->GetPosition().x + 100, ButtonFrame[j]->GetPosition().y - 50
-			});
-			ButtonSprite[j][i]->SetSize({300, 300});
-			ButtonSprite[j][i]->SetAnchorPoint({0, 0});
-		}
-	}
-	ErrorSprite = Sprite::Create(141, {0.0f, -200.0f});
-	ErrorSprite->SetPosition({900, 100});
-	ErrorSprite->SetSize({700, 700});
+	//	for (int i = 0; i < ActionMax; i++)
+	//	{
+	//		ButtonSprite[j][i]->SetPosition({
+	//			ButtonFrame[j]->GetPosition().x + 100, ButtonFrame[j]->GetPosition().y - 50
+	//		});
+	//		ButtonSprite[j][i]->SetSize({300, 300});
+	//		ButtonSprite[j][i]->SetAnchorPoint({0, 0});
+	//	}
+	//}
+	//ErrorSprite = Sprite::Create(141, {0.0f, -200.0f});
+	//ErrorSprite->SetPosition({900, 100});
+	//ErrorSprite->SetSize({700, 700});
 	//初期各アクション対応ボタン
 	actionButton[JUMP].selectButton_Before = SBUTTON_A;
 	actionButton[ATTACK].selectButton_Before = SBUTTON_B;
@@ -196,7 +196,7 @@ void CustomButton::Update()
 	{
 		ErrorSpriteAlpha -= 0.04f;
 	}
-	ErrorSprite->setcolor({1, 1, 1, ErrorSpriteAlpha});
+	//ErrorSprite->setcolor({1, 1, 1, ErrorSpriteAlpha});
 	ErrorSpriteAlpha = min(ErrorSpriteAlpha, 1);
 	ErrorSpriteAlpha = max(ErrorSpriteAlpha, 0);
 	SelectNum = min(SelectNum, 4);
@@ -278,7 +278,7 @@ void CustomButton::ConsiderationButton(int index)
 
 void CustomButton::Custom_Draw()
 {
-	for (int i = 0; i < menuNum; i++)
+	/*for (int i = 0; i < menuNum; i++)
 	{
 		if (actionButton[i].selectButton_Before == SBUTTON_X)
 		{
@@ -296,31 +296,31 @@ void CustomButton::Custom_Draw()
 		{
 			ButtonSprite[i][BUTTON_B]->Draw();
 		}
-	}
+	}*/
 }
 
 void CustomButton::Draw()
 {
-	if (CustomButtonJudg)
-	{
-		Sprite::PreDraw();
-		Controller->Draw();
-		if (SelectNum != NONE)
-		{
-			SelectSprite->Draw();
-		}
-		for (int i = 0; i < menuNum; i++)
-		{
-			MenuSprite[i]->Draw();
-			ButtonFrame[i]->Draw();
-		}
-		Custom_Draw();
-		Custommenu->Draw();
-		//if (ErrorFlag) {
-		ErrorSprite->Draw();
-		//}
-		Sprite::PostDraw();
-	}
+	//if (CustomButtonJudg)
+	//{
+	//	Sprite::PreDraw();
+	//	Controller->Draw();
+	//	if (SelectNum != NONE)
+	//	{
+	//		SelectSprite->Draw();
+	//	}
+	//	for (int i = 0; i < menuNum; i++)
+	//	{
+	//		MenuSprite[i]->Draw();
+	//		ButtonFrame[i]->Draw();
+	//	}
+	//	Custom_Draw();
+	//	Custommenu->Draw();
+	//	//if (ErrorFlag) {
+	//	ErrorSprite->Draw();
+	//	//}
+	//	Sprite::PostDraw();
+	//}
 }
 
 void CustomButton::ErrorJudg()

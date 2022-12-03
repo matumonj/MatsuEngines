@@ -154,9 +154,7 @@ void Tutorial::Update()
 	lightGroup->SetCircleShadowAtten(1, XMFLOAT3(circleShadowAtten));
 	lightGroup->SetCircleShadowFactorAngle(1, XMFLOAT2(circleShadowFactorAngle));
 
-
-	postEffect->SetCenterpos(HUD::GetInstance()->GetMinimapSprite()->GetPosition());
-	if (scenechange && Feed::GetInstance()->GetAlpha() >= 1.0f)
+if (scenechange && Feed::GetInstance()->GetAlpha() >= 1.0f)
 	{
 		//画面真っ白なったら
 		BaseScene* scene = new PlayScene(sceneManager_); //次のシーンのインスタンス生成
@@ -164,9 +162,7 @@ void Tutorial::Update()
 		SceneManager::GetInstance()->SetScene(SceneManager::PLAY);
 		sceneManager_->SetnextScene(scene); //シーンのセット
 	}
-	if(Input::GetInstance()->TriggerButton(Input::A))
-	{
-		}
+	
 }
 
 /*------------------------*/
@@ -201,7 +197,7 @@ void Tutorial::Draw()
 
 		DirectXCommon::GetInstance()->BeginDraw();
 
-		SistemConfig::GetInstance()->Draw();
+		//SistemConfig::GetInstance()->Draw();
 		DirectXCommon::GetInstance()->EndDraw();
 
 		break;

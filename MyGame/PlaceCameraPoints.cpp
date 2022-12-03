@@ -19,13 +19,13 @@ void PlaceCameraPoints::Update(DebugCamera* camera)
 
 void PlaceCameraPoints::FileWriting()
 {
-	file.open("CameraPoints.csv");
+	file.open("subCameraPoints.csv");
 
 	popcom << file.rdbuf();
 
 	file.close();
 	///std::ofstream pofs("EnemyParam_CSV/position.csv");
-	std::ofstream ofs("Param_CSV/CameraPoints.csv"); // ファイルパスを指定する
+	std::ofstream ofs("Param_CSV/subCameraPoints.csv"); // ファイルパスを指定する
 	ofs << "Points_Quantity" << "," << points.size() << std::endl;
 
 	for (int i = 0; i < points.size(); i++)

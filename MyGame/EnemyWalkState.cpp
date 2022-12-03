@@ -75,15 +75,5 @@ void EnemyWalkState::Update(Enemy* enemy)
 
 void EnemyWalkState::BacktoGround(Enemy* enemy)
 {
-	//Ú’nó‘Ô‚Å‚È‚­ŠŽ‚Â“®‚¢‚Ä‚¢‚é‚Æ‚«
-	if (enemy->GetonFlag())
-	{
-		return;
-	}
-	if (!enemy->GetMoveFlag())
-	{
-		return;
-	}
-
-	enemy->SetPosition({tempx, enemy->GetPosition().y, tempz});
+	
 }

@@ -66,6 +66,7 @@ private:
 	void PierceNail();
 	void DamageAreaTexSet();
 	void ProtrudeNail();
+	void ImpactAttack();
 	void EndAttackAction();
 public:
 	int GetDamageArea1() { return Area1; }

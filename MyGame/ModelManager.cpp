@@ -31,8 +31,11 @@ void ModelManager::Initialize()
 	LoadModel(CELESTIALSPHERE, "skydome");
 	LoadModel(NORMALSWORD, "sword");
 	LoadModel(BIGROCK_A, "BigStone_A");
+	LoadModel(HOUSE, "house");
 	LoadModel(BIGROCK_B, "crystal");
 	LoadModel(GRASSFIELD, "GrassField");
+	LoadModel(SANDFIELD, "Sandfield");
+
 }
 
 void ModelManager::LoadModel(const ModelName modelName, std::string fileName)

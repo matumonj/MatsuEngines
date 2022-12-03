@@ -163,6 +163,8 @@
     <ClCompile Include="GrassFieldControl.cpp" />
     <ClCompile Include="GrassObj.cpp" />
     <ClCompile Include="HalfAttack.cpp" />
+    <ClCompile Include="House.cpp" />
+    <ClCompile Include="HouseControl.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="ImageManager.cpp" />
     <ClCompile Include="Input.cpp" />
@@ -185,7 +187,7 @@
     <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="ParticleManager.cpp" />
     <ClCompile Include="PlaceCameraPoints.cpp" />
-    <ClCompile Include="PlaceChest.cpp" />
+    <ClCompile Include="PlaceHouse.cpp" />
     <ClCompile Include="PlaceEnemy.cpp" />
     <ClCompile Include="PlaceFence.cpp" />
     <ClCompile Include="PlaceGrassField.cpp" />
@@ -292,6 +294,8 @@
     <ClInclude Include="GrassFieldControl.h" />
     <ClInclude Include="GrassObj.h" />
     <ClInclude Include="HalfAttack.h" />
+    <ClInclude Include="House.h" />
+    <ClInclude Include="HouseControl.h" />
     <ClInclude Include="HUD.h" />
     <ClInclude Include="ImageManager.h" />
     <ClInclude Include="Input.h" />
@@ -314,7 +318,7 @@
     <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="ParticleManager.h" />
     <ClInclude Include="PlaceCameraPoints.h" />
-    <ClInclude Include="PlaceChest.h" />
+    <ClInclude Include="PlaceHouse.h" />
     <ClInclude Include="PlaceEnemy.h" />
     <ClInclude Include="PlaceFence.h" />
     <ClInclude Include="PlaceGrassField.h" />

@@ -4,11 +4,11 @@
 #include"PlaceFence.h"
 #include"PlaceWood.h"
 #include"PlaceEnemy.h"
-#include"PlaceChest.h"
 #include"PlaceStone.h"
 #include"PlaceCameraPoints.h"
 #include"imgui.h"
 #include"PlaceGrassField.h"
+#include "PlaceHouse.h"
 
 MapCreate::MapCreate()
 {
@@ -27,10 +27,10 @@ void MapCreate::ObjectInitialize(DebugCamera* camera)
 	if (placeobj.size() == 0)
 	{
 		//create->playscene->createといったときに二回newされるの防ぐ
-		placeobj.push_back(new PlaceFence()); //柵
 		placeobj.push_back(new PlaceWood()); //木
+		placeobj.push_back(new PlaceFence()); //柵
 		placeobj.push_back(new PlaceEnemy()); //敵
-		placeobj.push_back(new PlaceChest());
+		placeobj.push_back(new PlaceHouse());
 		placeobj.push_back(new PlaceStone());
 		placeobj.push_back(new PlaceCameraPoints());
 		placeobj.push_back(new PlaceGrassField());
@@ -105,9 +105,9 @@ bool MapCreate::Error()
 	//エラーウィンドウ処理
 	if (placeobj[FENCE]->ErrorJudg() || placeobj[WOOD]->ErrorJudg() || placeobj[2]->ErrorJudg())
 	{
-		WinApp::CreateErrorWindow(placeobj[ENEMY]->ErrorJudg(), TEXT("敵を1体以上配置してください"));
+		WinApp::CreateErrorWindow(placeobj[ENEMY]->ErrorJudg(), TEXT("敵を1体以上配置してください(上限30)"));
 		WinApp::CreateErrorWindow(placeobj[FENCE]->ErrorJudg(), TEXT("柵を1個以上配置してください"));
-		WinApp::CreateErrorWindow(placeobj[WOOD]->ErrorJudg(), TEXT("木を1本以上配置してください"));
+		WinApp::CreateErrorWindow(placeobj[WOOD]->ErrorJudg(), TEXT("木を4本以上配置してください(上限50)"));
 		WinApp::CreateErrorWindow(placeobj[CHEST]->ErrorJudg(), TEXT("宝箱は必ず5つ配置してください"));
 		return true;
 	}

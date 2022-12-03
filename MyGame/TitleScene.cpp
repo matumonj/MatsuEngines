@@ -77,11 +77,12 @@ void TitleScene::Update()
 	celestal->SetScale({30.f, 30.1f, 30.1f});
 	if (Input::GetInstance()->TriggerButton(Input::B))
 	{
-		//押されたら
-		menujudg_Play = true;
 		BaseScene* scene = new Tutorial(sceneManager_); //次のシーンのインスタンス生成
 		SceneManager::GetInstance()->SetScene(SceneManager::TUTORIAL);
 		sceneManager_->SetnextScene(scene); //シーンのセット
+	
+		//押されたら
+		menujudg_Play = true;
 		//押されたら
 		feedf = true;
 	}

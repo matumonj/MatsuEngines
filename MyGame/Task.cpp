@@ -1,8 +1,13 @@
 #include "Task.h"
+
+#include "CameraControl.h"
 #include"DebugTxt.h"
 #include"EnemyControl.h"
 #include"imgui.h"
 #include"ChestControl.h"
+#include "PlayerControl.h"
+#include "TargetMarker.h"
+
 Task* Task::GetInstance()
 {
 	static Task ins;
@@ -60,6 +65,40 @@ void Task::Init()
 	navSpriteAlpha[0] = 0.0f;
 	navSpriteAlpha[1] = 1.0f;
 	TaskMenuPos = { 1685.0f,915.0f };
+
+	Texture::LoadTexture(17, L"Resources/targetarrow.png");
+	Texture::LoadTexture(18, L"Resources/2d/icon/nav1.png");
+	Texture::LoadTexture(19, L"Resources/2d/icon/nav2.png");
+	Texture::LoadTexture(20, L"Resources/2d/icon/nav3.png");
+	Texture::LoadTexture(21, L"Resources/2d/icon/nav4.png");
+
+
+	Texture* l_arrowTex  = Texture::Create(17, { 0.0f, -200.0f, 1 }, { 1.0f, 1.0f, 1.0f },
+		{ 1.0f, 1.0f, 1.0f, 1.0f });
+		
+	TargetArrow.reset(l_arrowTex);
+	TargetArrow->CreateTexture();
+	TargetArrow->SetAnchorPoint({ 0.5,1.0 });
+
+	std::array<Texture*,4>l_icon;
+	l_icon[0] = Texture::Create(18, {0.0f, -200.0f, 1}, {1.0f, 1.0f, 1.0f},
+		{ 1.0f, 1.0f, 1.0f, 1.0f });
+	l_icon[1] = Texture::Create(19, { 0.0f, -200.0f, 1 }, { 1.0f, 1.0f, 1.0f },
+		{ 1.0f, 1.0f, 1.0f, 1.0f });
+	l_icon[2] = Texture::Create(20, { 0.0f, -200.0f, 1 }, { 1.0f, 1.0f, 1.0f },
+		{ 1.0f, 1.0f, 1.0f, 1.0f });
+	l_icon[3] = Texture::Create(21, { 0.0f, -200.0f, 1 }, { 1.0f, 1.0f, 1.0f },
+		{ 1.0f, 1.0f, 1.0f, 1.0f });
+	
+
+	for (int i = 0; i < TargetIcon.size(); i++)
+	{
+		TargetIcon[i].reset(l_icon[i]);
+		TargetIcon[i]->CreateTexture();
+		TargetIcon[i]->SetAnchorPoint({ 0.5f,1.0f });
+		TargetIcon[i]->SetRotation({ 180,0,0 });
+	}
+	iconalpha[0] = 1.0f;
 }
 
 void Task::Upda()
@@ -83,10 +122,10 @@ void Task::Upda()
 		TasksSprite[i]->SetSize(TaskScl);
 	TasksSprite[i]->setcolor({ 1.f,1.f,1.f,TaskSpriteAlpha[i] });
 	}
-	TasksSprite[1]->SetSize({ TaskScl.x * 4.0f / 3.0f,TaskScl.y });
+	TasksSprite[1]->SetSize({ TaskScl.x / 1.6f,TaskScl.y });
 
-	TaskClear(Tasks::TASK_ONE, Tasks::TASK_TWO, Judg[Tasks::TASK_ONE],1);
-	TaskClear(Tasks::TASK_TWO, Tasks::TASK_THREE, Judg[Tasks::TASK_TWO],2);
+	TaskClear(Tasks::TASK_ONE, Tasks::TASK_TWO, Judg[Tasks::TASK_ONE],2);
+	TaskClear(Tasks::TASK_TWO, Tasks::TASK_THREE, Judg[Tasks::TASK_TWO],3);
 	//int->stringに
 	if(tasks==Tasks::TASK_THREE)
 	{
@@ -105,10 +144,119 @@ void Task::Upda()
 
 	const std::string amount = "/2";
 	DebugTextSprite2::GetInstance()->Print(str.str()+amount,TaskMenuPos.x,TaskMenuPos.y , 1);
+	int nearIndex_Golem = TargetMarker::GetInstance()->GetNearGolemIndex();
+	int nearIndex_Lizard = TargetMarker::GetInstance()->GetNearLizardIndex();
+
+	Player* player = PlayerControl::GetInstance()->GetPlayer();
+	Enemy* targetenemy_Golem = EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[nearIndex_Golem].get();
+	Enemy* targetenemy_Lizard = EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[nearIndex_Lizard].get();
+
+	switch (target)
+	{
+	case GOLEM:
+		TargetPos= targetenemy_Golem->GetPosition();
+		arrowcol = { 0.2,0.2,0.9,0.7 };
+		break;
+
+	case COW:
+		TargetPos = targetenemy_Lizard->GetPosition();
+		arrowcol = { 0.9,0.2,0.2,0.7 };
+		break;
+	case CHEST:
+		if (ChestControl::GetInstance()->ChestCount() == 1) {
+			TargetPos = ChestControl::GetInstance()->GetChest(ChestControl::RED)->GetPosition();
+		}
+		if (ChestControl::GetInstance()->ChestCount() == 2) {
+			TargetPos = ChestControl::GetInstance()->GetChest(ChestControl::BLUE)->GetPosition();
+		}
+		arrowcol = { 0.7,0.7,0.1,0.7 };
+		break;
+	case Bossarea:
+		TargetPos = { 17, -35, 820 };
+		break;
+	}
+
+	if(Judg[Tasks::TASK_ONE]==false)
+	{
+		target = Target::GOLEM;
+	}
+	if(Judg[Tasks::TASK_TWO]==false&& Judg[Tasks::TASK_ONE] == true)
+	{
+		target = Target::COW;
+	}
+	if(Judg[Tasks::TASK_TWO] == true && Judg[Tasks::TASK_ONE] == true)
+	{
+		target = Target::Bossarea;
+	}
+	//敵がプエレイヤーの方向く処理
+	XMVECTOR positionA = {
+		player->GetPosition().x,
+		player->GetPosition().y,
+		player->GetPosition().z
+	};
+	XMVECTOR positionB = { TargetPos.x, TargetPos.y, TargetPos.z };
+	//プレイヤーと敵のベクトルの長さ(差)を求める
+	XMVECTOR SubVector = XMVectorSubtract(positionB, positionA); // positionA - positionB;
+
+	float RotY;
+	//角度の取得 プレイヤーが敵の索敵位置に入ったら向きをプレイヤーの方に
+	RotY = atan2f(SubVector.m128_f32[0], SubVector.m128_f32[2]);
+//	if (enemy->GetFbxTime()< 510.000f / 60.000f) {
+	curr = 55.f;
+	TargetArrowRot={
+		90,
+		0,
+		RotY*-curr+180 ,
+		};
+
+	TargetArrow->SetRotation(TargetArrowRot);
+	TargetArrow->SetPosition({ player->GetPosition().x,player->GetPosition().y + 0.0f,player->GetPosition().z });
+	TargetArrow->SetScale({3,4,3});
+	TargetArrow->SetBillboard(FALSE);
+	TargetArrow->SetUVMove(TRUE);
+	TargetArrow->SetColor(arrowcol);
+	TargetArrow->Update(CameraControl::GetInstance()->GetCamera());
+
+	TaskSequence();
+	for(int i=0;i<4;i++)
+	{
+
+		TargetIcon[i]->SetBillboard(TRUE);
+		TargetIcon[i]->SetColor({ 1,1,1,iconalpha[i]});
+		TargetIcon[i]->SetScale({ 3,3,3 });
+		TargetIcon[i]->SetPosition({ player->GetPosition().x,player->GetPosition().y + 7.0f,player->GetPosition().z });
+
+		TargetIcon[i]->Update(CameraControl::GetInstance()->GetCamera());
+	}
+}
+
+bool Task::ClearTaskONE()
+{
+	if(tasks==Tasks::TASK_TWO)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+void Task::TargetDraw()
+{
+	Texture::PreDraw();
+	TargetArrow->Draw();
+	for(int i=0;i<4;i++)
+	{
+		TargetIcon[i]->Draw();
+	}
+	Texture::PostDraw();
+	
 }
 
 void Task::Draw()
 {
+	
 	Sprite::PreDraw();
 	TaskFrame->Draw();
 	for(int i=0;i<TaskNum;i++)
@@ -132,6 +280,71 @@ void Task::Draw()
 	//ImGui::End();
 
 }
+void Task::TaskSequence()
+{
+	Player* l_player = PlayerControl::GetInstance()->GetPlayer();
+	if (l_player == nullptr || l_player->GetStopFlag())return;
+
+	Input* input = Input::GetInstance();
+	
+	if (input->TiltPushStick(Input::L_UP, 0.0f) ||
+		input->TiltPushStick(Input::L_DOWN, 0.0f) ||
+		input->TiltPushStick(Input::L_RIGHT, 0.0f) ||
+		input->TiltPushStick(Input::L_LEFT, 0.0f))
+	{
+		//	if (input->LeftTiltStick(input->Down) || input->LeftTiltStick(input->Up) || input->LeftTiltStick(input->Left) || input->LeftTiltStick(input->Right)) {
+		movement++;
+	}
+	bool taskclear0 = movement > 60;
+	bool taskclear1 = movement > 180;
+	bool taskclear2 = movement > 300;
+	bool taskclear3 = movement > 400;
+	bool taskclear4 = ChestControl::GetInstance()->ChestCount() == 2;
+	if(taskclear0)
+	{
+		iconalpha[0] -= 0.02f;
+	}
+	if (iconalpha[0]<=0.0f&&!taskclear1)
+	{
+		iconalpha[1] += 0.02f;
+	}
+	if(taskclear1&&!taskclear2)
+	{
+		iconalpha[1] -= 0.02f;
+		
+	}
+	if(taskclear2&&!taskclear3)
+	{
+		if (iconalpha[1] <= 0.0f)
+		{
+			iconalpha[2] += 0.02f;
+			//	iconalpha[3] += 0.02f;
+		}
+	}
+	if(taskclear3)
+	{
+		iconalpha[2] -= 0.02f;
+	}
+	if (taskclear3&&taskclear4)
+	{
+		if (iconalpha[2] <= 0.0f)
+		{
+			iconalpha[3] += 0.02f;
+			//	iconalpha[3] += 0.02f;
+		}
+	}
+	if (taskclear4)
+	{
+		if (movement > 460) {
+			iconalpha[3] -= 0.02f;
+		}
+	}
+	for(int i=0;i<4;i++)
+	{
+		iconalpha[i] = min(iconalpha[i], 1.0f);
+		iconalpha[i] = max(iconalpha[i], 0.0f);
+	}
+}
 
 void Task::TaskClear(const Tasks& task, const Tasks& nexttask, bool clearjudg, int chestcount)
 {
@@ -151,6 +364,7 @@ void Task::TaskClear(const Tasks& task, const Tasks& nexttask, bool clearjudg, i
 		}
 		else
 		{
+			target = Target::CHEST;
 			navSpriteAlpha[1] -= 0.02f;
 			navSpriteAlpha[0] += 0.02f;
 		}

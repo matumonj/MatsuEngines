@@ -32,15 +32,11 @@ void BossEnemy::Initialize(DebugCamera* camera)
 	m_Object = std::make_unique<Object3d>();
 	m_Object->Initialize(camera);
 	//m_Object->CreateGraphicsPipeline(L"Resources/Shader/Object3dVS.hlsl", L"Resources/Shader/Object3dPS.hlsl", L"Resources/Shader/BasicGS.hlsl");
-	MaxHP = 200.0f;
+	MaxHP = 260.0f;
 	EnemyHP = MaxHP;
 
 	Scale = { 0.15f, 0.1f, 0.15f };
-	Rotation = { 96.0f, 70.0f, -101.0f };
-	Sword = std::make_unique<Object3d>();
-	Sword->Initialize(camera);
-	Sword->SetModel(ModelManager::GetIns()->GetModel(ModelManager::WOOD));
-	Sword->SetRotation({ 0, 0 + 30, 0 + 100 });
+	Rotation = { 96.0f, 0.0f, -101.0f };
 
 	m_fbxObject = std::make_unique<f_Object3d>();
 	m_fbxObject->Initialize();
@@ -78,7 +74,7 @@ void BossEnemy::Initialize(DebugCamera* camera)
 
 	FollowRotAngleCorrect = -85.0f;
 	addRotRadians = -111.0f;
-
+	SetCollider();
 	state_boss->Initialize(this);
 }
 
@@ -101,17 +97,12 @@ void BossEnemy::Update(DebugCamera* camera)
 	//攻撃後のクールタイム設定
 	AttackCoolTime();
 	//地形当たり判定
-
+	CollisionField(camera);
 	//攻撃受けたらパーティクル
 	DamageParticleSet();
 	m_fbxObject->SetFogPos({ camera->GetEye() });
-	m_fbxObject->SetHandBoneIndex(hind);
+	m_fbxObject->SetHandBoneIndex(80);
 	m_fbxObject->SetFbxTime(f_time);
-	Sword->Setf(FALSE);
-	Sword->SetScale({ 10,10,10 });
-	Sword->SetRotation({ -23, 43, 83 });
-	Sword->Update(m_fbxObject->GetHandBoneMatWorld(), { 0.70f, 0.70f, 0.70f, 1.0f }, camera);
-
 
 }
 
@@ -119,7 +110,7 @@ void BossEnemy::AttackCollide()
 {
 	HandSiteOBB.SetOBBParam_Pos(m_fbxObject->ExtractPositionMat(m_fbxObject->GetHandBoneMatWorld()));
 	HandSiteOBB.SetOBBParam_Rot(m_fbxObject->ExtractRotationMat(m_fbxObject->GetHandBoneMatWorld()));
-	HandSiteOBB.SetOBBParam_Scl({ 5.0f, 5.0f, 5.0f });
+	HandSiteOBB.SetOBBParam_Scl({ 10.0f, 10.0f, 10.0f });
 
 	playerOBB.SetOBBParam_Pos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
 	playerOBB.SetOBBParam_Rot(PlayerControl::GetInstance()->GetPlayer()->GetMatrot());
@@ -139,25 +130,13 @@ void BossEnemy::AttackCollide()
 //描画処理
 void BossEnemy::Draw()
 {
-	ImGui::Begin("rotx");
-	ImGui::SliderInt("indx", &hind, 0, 60);
-	ImGui::SliderFloat("fbxt", &Rotation.x, -180, 360);
-	ImGui::SliderFloat("rotz", &Rotation.z, -180, 360);
-	ImGui::End();
-	ImGui::Begin("we");
-	ImGui::Text("%d", nowMotion);
-	ImGui::SliderFloat("rotfolow", &FollowRotAngleCorrect, -180, 360);
-	ImGui::SliderFloat("rotadd", &addRotRadians, -180, 360);
-	ImGui::End();
+	
 	if (alpha < 0)
 	{
 		return;
 	}
 	Draw_Fbx();
 	// 3Dオブジェクト描画前処理
-	Object3d::PreDraw();
-	Sword->Draw();
-	Object3d::PostDraw();
 	// 3Dオブジェクト描画前処理
 }
 

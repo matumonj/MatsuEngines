@@ -45,7 +45,7 @@ bool AreaFence::CollideAreaFence()
 {
 	playerOBB.SetOBBParam_Pos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
 	playerOBB.SetOBBParam_Rot(PlayerControl::GetInstance()->GetPlayer()->GetMatrot());
-	playerOBB.SetOBBParam_Scl({1.0f, 1.0f, 1.0f});
+	playerOBB.SetOBBParam_Scl({ 1.0f, 1.0f, 1.0f });
 
 	//ò‚ÌOBB ‰ñ“]ƒxƒNƒgƒ‹
 	AreaFenceOBB.SetOBBParam_Pos(Position);
@@ -54,15 +54,14 @@ bool AreaFence::CollideAreaFence()
 		m_Object->GetMatScl().r[0].m128_f32[0] * 4,
 		m_Object->GetMatScl().r[1].m128_f32[1] * 3,
 		m_Object->GetMatScl().r[2].m128_f32[2] - 2
-	});
+		});
 
 	if (Collision::CheckOBBCollision(playerOBB, AreaFenceOBB) == true)
 	{
 		Collision::SetCollideOBB(true);
-		//PlayerControl::GetInstance()->GetPlayer()->isOldPos();
+		PlayerControl::GetInstance()->GetPlayer()->isOldPos();
 		return true;
 	}
-
 	return false;
 }
 

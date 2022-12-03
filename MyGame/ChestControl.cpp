@@ -105,9 +105,12 @@ void ChestControl::Init_Play(DebugCamera* camera)
 	chests.resize(4);
 	for (int i = 0; i < 4; i++)
 	{
+		
 		chests[i] = std::make_unique<Chest>();
 		chests[i]->Initialize(camera);
 		chests[i]->SetRotation({0.0f, 90.0f, 0.0f});
+		chests[i]->SetPosition({ 990,999,0 });
+
 	}
 	
 	ParticleManager::LoadTexture(8, L"Resources/ParticleTex/normal.png");

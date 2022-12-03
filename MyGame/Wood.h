@@ -24,5 +24,5 @@ public:
 	void Draw() override;
 
 private:
-	bool CollideWood()override;
+	void CollideWood()override;
 };

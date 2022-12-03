@@ -383,7 +383,6 @@ XMVECTOR CameraControl::SplinePosition(const std::vector<XMVECTOR>& points, size
 /*---------boss---------*/
 void CameraControl::BossSceneStart()
 {
-	Feed::GetInstance()->Update_White(Feed::FEEDOUT);
 	const size_t size = 5;
 	XMFLOAT3 BossPos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
 	if (point.size() == 0)
@@ -401,9 +400,13 @@ void CameraControl::BossSceneStart()
 	switch (bCamera)
 	{
 	case BOSSCUTSTART:
+		Feed::GetInstance()->Update_White(Feed::FEEDOUT);
+
 		BossCutScene_Start(BossPos);
 		break;
 	case CAMERADOWN:
+		Feed::GetInstance()->Update_White(Feed::FEEDOUT);
+
 		BossCutScene_Spline();
 		if (startindex >= 7)
 		{
@@ -498,7 +501,7 @@ void CameraControl::PlaySceneStart()
 	case SPLINE:
 		nowCount = static_cast<float>(GetTickCount64());
 		elapsedCount = nowCount - startCount;
-		elapsedTime = elapsedCount / 100.0f;
+		elapsedTime = elapsedCount / 1000.0f;
 
 		timerate = elapsedTime / maxtime;
 		if (timerate >= 1)
@@ -563,9 +566,9 @@ void CameraControl::ShakeCamera()
 	}
 	if (shaketime != 0)
 	{
-		shake = static_cast<float>(rand() % 4 - 8);
-		shakex = static_cast<float>(rand() % 4 - 8);
-		shakey = static_cast<float>(rand() % 4 - 8);
+		shake = static_cast<float>(rand() % 16 - 6);
+		shakex = static_cast<float>(rand() % 16 - 8);
+		shakey = static_cast<float>(rand() % 16 - 8);
 		shakex -= shake;
 		shakey -= shake;
 		shaketime--;

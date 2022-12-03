@@ -55,7 +55,7 @@ void Stone_A::Update(DebugCamera* camera)
 	Color = {1, 1, 1, alpha};
 	ParameterSet_Obj(camera);
 	m_Object->Setf(TRUE);
-
+	m_Object->SetDisLen(170);
 	//フィールド
 	CollideStone();
 }

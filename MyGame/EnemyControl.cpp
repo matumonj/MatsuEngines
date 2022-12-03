@@ -135,7 +135,7 @@ void EnemyControl::Init_Play(DebugCamera* camera)
 
 		enemys[PLAYSCENE][i]->Initialize(camera);
 		enemys[PLAYSCENE][i]->SetPosition(pos[i]);
-		enemys[PLAYSCENE][i]->SetRespawnPos(pos[i]);
+		//enemys[PLAYSCENE][i]->SetRespawnPos(pos[i]);
 	}
 }
 
@@ -224,13 +224,19 @@ void EnemyControl::Update_Play(DebugCamera* camera)
 	for (int i = 0; i < Quantity; i++)
 	{
 		if (enemys[PLAYSCENE][i] == nullptr)continue;
-		
-		if (Collision::GetLength(pPos, enemys[PLAYSCENE][i]->GetPosition()) < 200)
-		{
-			enemys[PLAYSCENE][i]->SetMoveFlag(true);
-			enemys[PLAYSCENE][i]->Update(camera);
+		if (enemys[PLAYSCENE][i]->getdeath() == false) {
+			if (Collision::GetLength(pPos, enemys[PLAYSCENE][i]->GetPosition()) < 100)
+			{
+				enemys[PLAYSCENE][i]->SetMoveFlag(true);
+				enemys[PLAYSCENE][i]->Update(camera);
+			}
 		}
-
+		else
+		{
+			
+				enemys[PLAYSCENE][i]->SetMoveFlag(true);
+				enemys[PLAYSCENE][i]->Update(camera);
+		}
 
 		if (enemys[PLAYSCENE][i]->GetObjAlpha() <= 0.0f)
 		{
@@ -244,10 +250,12 @@ void EnemyControl::Update_Play(DebugCamera* camera)
 			}
 			else if(enemys[PLAYSCENE][i]->GetEnemyNumber() ==1)
 			{
-				Task::GetInstance()->SetFlogDestroyCount();
-				if (Task::GetInstance()->GetFlogDesthCount(1))
-				{
-					ChestControl::GetInstance()->SetChestAppearance(ChestControl::BLUE, { enemys[PLAYSCENE][i]->GetPosition().x,enemys[PLAYSCENE][i]->GetPosition().y + 10.0f,enemys[PLAYSCENE][i]->GetPosition().z });
+				if (Task::GetInstance()->ClearTaskONE() == true) {
+					Task::GetInstance()->SetFlogDestroyCount();
+					if (Task::GetInstance()->GetFlogDesthCount(1))
+					{
+						ChestControl::GetInstance()->SetChestAppearance(ChestControl::BLUE, { enemys[PLAYSCENE][i]->GetPosition().x,enemys[PLAYSCENE][i]->GetPosition().y + 10.0f,enemys[PLAYSCENE][i]->GetPosition().z });
+					}
 				}
 			}
 			Destroy_unique(enemys[PLAYSCENE][i]);
@@ -340,7 +348,7 @@ void EnemyControl::Update_Boss(DebugCamera* camera)
 
 	enemys[BOSS][0]->Update(camera);
 
-	//SummonEnemyUpdate(camera);
+	SummonEnemyUpdate(camera);
 	//ƒ{ƒX‚ÌŠJ•úˆ—
 	if (enemys[BOSS][0]->GetObjAlpha() <= 0)
 	{
@@ -375,7 +383,7 @@ void EnemyControl::Draw_Play()
 	{
 		if (enemys[PLAYSCENE][i] != nullptr)
 		{
-			if (Collision::GetLength(pPos, enemys[PLAYSCENE][i]->GetPosition()) < 200)
+			if (Collision::GetLength(pPos, enemys[PLAYSCENE][i]->GetPosition()) < 100)
 			{
 				enemys[PLAYSCENE][i]->Draw();
 			}

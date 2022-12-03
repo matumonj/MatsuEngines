@@ -11,7 +11,11 @@ private:
 	static const int TaskNum = 7;
 	Sprite* Task[TaskNum];
 	Sprite* notClearTask[5];
-
+	Sprite* movecn;;
+	Sprite* Attackcon;
+	DirectX::XMFLOAT2 conpos;
+	float movea;
+	float atacka;
 	enum CLEARTASK
 	{
 		MOVE_CHARA,

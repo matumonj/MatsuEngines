@@ -55,7 +55,7 @@ void EnemyFollowState::Update(Enemy* enemy)
 
 	if (!enemy->GetMoveStop()&& PlayerControl::GetInstance()->GetPlayer()->GetStopFlag() == false)
 	{
-		if (Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) > 5)
+		if (Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) > 10)
 		{
 			enemy->SetPosition({
 					enemy->GetPosition().x + move.m128_f32[0],

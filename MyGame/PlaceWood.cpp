@@ -31,6 +31,13 @@ void PlaceWood::FileWriting()
 
 bool PlaceWood::ErrorJudg()
 {
+	const int Min_WoodSize = 4; //İ’u‚Å‚«‚é–Ø‚ÌÅ¬”
+	const int Max_WoodSize = 50; //İ’u‚Å‚«‚é–Ø‚ÌÅ‘å”
+
+	if (woods.size() < Min_WoodSize || woods.size() > Max_WoodSize)
+	{
+		return true;
+	}
 	return false;
 }
 

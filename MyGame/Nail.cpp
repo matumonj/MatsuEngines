@@ -97,7 +97,7 @@ void Nail::CircleAttack(int area1, int area2)
 {
 	//東西南北のAOE中心場所　参照するなりした方がいい
 	XMFLOAT3 DirectionPos[4] = {
-		{0.0f, -18.0f, 30.0f}, {0.0f, -18.0f, -30.0f}, {30.0f, -18.0f, 0.0f}, {-30.0f, -18.0f, 0.0f}
+		{0.0f, -18.0f, 60.0f}, {0.0f, -18.0f, -60.0f}, {60.0f, -18.0f, 0.0f}, {-60.0f, -18.0f, 0.0f}
 	}; //3
 	if (CAttack.fase == NON && !CAttack.EndAction)
 	{
@@ -108,7 +108,7 @@ void Nail::CircleAttack(int area1, int area2)
 	{
 	case FASE_ONE:
 		//ここで出す釘の数設定
-		NailAmountSet(15);
+		NailAmountSet(25);
 	//座標ずらしの要素数を釘の配列サイズ分
 		CAttack.ZN.resize(Nails.size());
 		CAttack.XN.resize(Nails.size());
@@ -118,25 +118,25 @@ void Nail::CircleAttack(int area1, int area2)
 			CAttack.ZN[i] = rand() % (20 + 1 + 25) - 25;
 			CAttack.XN[i] = rand() % (20 + 1 + 25) - 25;
 			Nails[i]->SetPosition({
-				DirectionPos[area1].x + static_cast<float>(CAttack.XN[i]), MinY,
-				DirectionPos[area1].z + static_cast<float>(CAttack.ZN[i])
+				DirectionPos[area1].x + static_cast<float>(CAttack.XN[i])+10, MinY,
+				DirectionPos[area1].z + static_cast<float>(CAttack.ZN[i])+50
 			});
 		}
 	//２つめのAOE範囲分
 		for (int i = static_cast<int>(Nails.size() / 2); i < Nails.size(); i++)
 		{
-			CAttack.ZN[i] = rand() % (20 + 1 + 25) - 25;
+			CAttack.ZN[i] = rand() % (20 + 1 + 25) - 25 ;
 			CAttack.XN[i] = rand() % (20 + 1 + 25) - 25;
 			Nails[i]->SetPosition({
-				DirectionPos[area2].x + static_cast<float>(CAttack.XN[i]), MinY,
-				DirectionPos[area2].z + static_cast<float>(CAttack.ZN[i])
+				DirectionPos[area2].x + static_cast<float>(CAttack.XN[i])+10, MinY,
+				DirectionPos[area2].z + static_cast<float>(CAttack.ZN[i]+50)
 			});
 		}
 	//次のフェーズへ
 		CAttack.fase = FASE_TWO;
 		break;
 	case FASE_TWO:
-		if (MinY <= -10.0f)
+		if (MinY <= 20.0f)
 		{
 			MinY += 1.0f; //釘出るよ
 		}
@@ -144,7 +144,7 @@ void Nail::CircleAttack(int area1, int area2)
 		{
 			CAttack.fase = FASE_THREE; //出終わったら次のフェーズへ
 		}
-
+		
 		for (int i = 0; i < Nails.size(); i++)
 		{
 			Nails[i]->SetPosition({Nails[i]->GetPosition().x, MinY, Nails[i]->GetPosition().z});
@@ -208,7 +208,7 @@ void Nail::ModelSet()
 void Nail::Update()
 {
 }
-
+#include"imgui.h"
 void Nail::Draw()
 {
 	for (int i = 0; i < Nails.size(); i++)
@@ -217,7 +217,14 @@ void Nail::Draw()
 		Nails[i]->Draw();
 		Object3d::PostDraw();
 	}
-}
+	/*ImGui::Begin("er");
+	ImGui::Text("size %d", Nails.size());
+	if (Nails.size()>0) {
+		ImGui::Text("posy %f", Nails[0]->GetPosition().y);
+	}
+		ImGui::End();*/
+
+	}
 
 void Nail::Finalize()
 {

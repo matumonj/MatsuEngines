@@ -98,7 +98,7 @@ void BossSpell::SpellsDraw(const Spells& spells)
 {
 	if (!spells.EndJudg && spells.StartJudg)
 	{
-		spells.SpellFrame->Draw();
-		spells.SpellGauge->Draw();
+	//	spells.SpellFrame->Draw();
+		//spells.SpellGauge->Draw();
 	}
 }

@@ -37,7 +37,7 @@ void PlayerControl::Init_Play(DebugCamera* camera)
 
 void PlayerControl::Init_Boss(DebugCamera* camera)
 {
-	StartPos = {-1.0f, 10.0f, -116.0f};
+	StartPos = {-1.0f, 10.0f, -106.0f};
 	player->SetHP(player->GetMaxHP());
 	player->SetPosition(StartPos);
 	AttackCollision::GetInstance()->Init();
@@ -66,7 +66,7 @@ void PlayerControl::Load(DebugCamera* camera)
 		StartPos = {110.0f, -12.0f, -379.0f};
 		break;
 	case SceneManager::BOSS:
-		StartPos = {0.0f, 2.0f, -50.0f};
+		StartPos = {0.0f, 12.0f, -50.0f};
 		break;
 	default:
 		break;

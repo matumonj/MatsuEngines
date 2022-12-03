@@ -46,12 +46,19 @@ public: // サブクラス
 		XMFLOAT3 ks5;
 		float destTime;
 		bool shadowf;
+		XMFLOAT3 ks6;
+		float dislen;
 	};
 
 private: // 定数
+
+private: // 定数
+	float dislen;
 	XMFLOAT3 FogCenter;
 	static const int division = 50;
 	bool shadowf = true;
+public:
+	void SetDisLen(float len) { dislen = len; }
 public: // 静的メンバ関数
 	/// <summary>
 	/// 静的初期化

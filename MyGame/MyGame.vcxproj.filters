@@ -205,6 +205,9 @@
     <Filter Include="Game\gameobject\オブジェクト種類\Enemy\敵の行動遷移\ボス\ボス攻撃パターン%28あとでまとめて消す%29\後半フェーズ\行動遷移">
       <UniqueIdentifier>{20191d69-8eea-4a71-8563-3466169c2c59}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\gameobject\オブジェクト種類\house">
+      <UniqueIdentifier>{4409ba6f-07a4-46ba-bb37-c68167745ca1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sprite.cpp">
@@ -384,7 +387,7 @@
     <ClCompile Include="ChestControl.cpp">
       <Filter>Game\gameobject\Control</Filter>
     </ClCompile>
-    <ClCompile Include="PlaceChest.cpp">
+    <ClCompile Include="PlaceHouse.cpp">
       <Filter>Editor\配置管理\宝箱</Filter>
     </ClCompile>
     <ClCompile Include="CameraControl.cpp">
@@ -566,6 +569,12 @@
     </ClCompile>
     <ClCompile Include="GameOver.cpp">
       <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="House.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="HouseControl.cpp">
+      <Filter>Game\gameobject\Control</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -767,7 +776,7 @@
     <ClInclude Include="ChestControl.h">
       <Filter>Game\gameobject\Control</Filter>
     </ClInclude>
-    <ClInclude Include="PlaceChest.h">
+    <ClInclude Include="PlaceHouse.h">
       <Filter>Editor\配置管理\宝箱</Filter>
     </ClInclude>
     <ClInclude Include="CameraControl.h">
@@ -958,6 +967,12 @@
     </ClInclude>
     <ClInclude Include="GameOver.h">
       <Filter>Game\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="House.h">
+      <Filter>Game\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="HouseControl.h">
+      <Filter>Game\gameobject\Control</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

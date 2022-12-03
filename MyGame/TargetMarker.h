@@ -27,11 +27,18 @@ public:
 	static TargetMarker* GetInstance();
 	bool GetEnemyPosition(std::vector<std::unique_ptr<Enemy>>& enemy, int index, float* x, float* y, float* z);
 	int NearEnemySearch(std::vector<std::unique_ptr<Enemy>>& enemy, Player* player);
+	int NearGolemSearch(std::vector<std::unique_ptr<Enemy>>& enemy, Player* player);
+
+	int NearLizardSearch(std::vector<std::unique_ptr<Enemy>>& enemy, Player* player);
+
 	void Initialize();
 	void Update_Tutorial(DebugCamera* camera);
 	void Update_PlayScene(DebugCamera* camera);
 	void Draw();
 	void Finalize();
+
+	bool NearGolem(std::vector<std::unique_ptr<Enemy>>& enemy, int index, float* x, float* y, float* z);
+	bool NearLizard(std::vector<std::unique_ptr<Enemy>>& enemy, int index, float* x, float* y, float* z);
 private:
 	int TargetDecision;
 	XMFLOAT3 TargetDecisionPos;
@@ -48,12 +55,16 @@ private:
 	std::vector<Enemy*> enemy = {nullptr};
 	Texture* TargetMakerTexture = nullptr;
 	bool EnemyTargetDrawFlag;
-
+	int nearGolem = -1;
+	int nearLizard = -1;
 
 public:
 	void SetTargetMarkerDraw(bool f) { EnemyTargetDrawFlag = f; }
 	int GetNearIndex2() { return nearindex2; }
 	int GetNearIndex() { return nearindex; }
+	int GetNearGolemIndex() { return nearGolem; };
+	int GetNearLizardIndex() { return nearLizard; };
+	//int GetNearIndex(int type);
 	XMFLOAT3 GetMarkerPosition() { return MarkerPosition; }
 	int GetTargetEnemyindex() { return nearindex; }
 	XMFLOAT3 Getpos() { return MarkerPosition; }

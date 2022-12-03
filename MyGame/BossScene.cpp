@@ -99,15 +99,7 @@ void BossScene::Update()
 	{
 		c_postEffect = Default;
 	}
-	if (PlayerControl::GetInstance()->GetPlayer()->GetHP() <= 0)
-	{
-		//画面真っ白なったら
-		BaseScene* scene = new GameOver(sceneManager_); //次のシーンのインスタンス生成
-		Play = false;
-		SceneManager::GetInstance()->SetScene(SceneManager::GAMEOVER);
-		sceneManager_->SetnextScene(scene); //シーンのセット
-
-	}
+	
 }
 
 /*------------------------*/
@@ -155,6 +147,8 @@ void BossScene::Draw()
 		for (int i = 0; i <2; i++) {
 			EnemyControl::GetInstance()->GetSummonEnemy(i)->DamageTexDisplay_Draw();
 		}
+		Nail::GetInstance()->Draw();
+
 		Sprite::PreDraw();
 		DebugTextSprite::GetInstance()->DrawAll();
 		Sprite::PostDraw();
@@ -185,7 +179,6 @@ bool BossScene::LoadParam(DebugCamera* camera)
 		{
 			AllObjectControl[i]->Initialize(CameraControl::GetInstance()->GetCamera());
 		}
-	
 		//カメラをセット
 		f_Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
 		//グラフィックパイプライン生成

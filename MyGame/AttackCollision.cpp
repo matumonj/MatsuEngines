@@ -68,7 +68,7 @@ void AttackCollision::GetCol(int damage)
 				{
 					AttackEffect::GetIns()->SetParticle(
 						EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition());
-					EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->RecvDamage(damage);
+					EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->RecvDamage(damage+rand()%20+10);
 					HitCol = true;
 				}
 			}
@@ -90,7 +90,7 @@ void AttackCollision::GetCol(int damage)
 				{
 					AttackEffect::GetIns()->SetParticle(
 						EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetPosition());
-					EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i]->RecvDamage(damage*3);
+					EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i]->RecvDamage(damage*rand()%20+10);
 					HitCol = true;
 				}
 			}
@@ -109,7 +109,7 @@ void AttackCollision::GetCol(int damage)
 					AttackEffect::GetIns()->SetParticle(
 						EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition());
 					if (EnemyControl::GetInstance()->GetSummonEnemysApper() == false || EnemyControl::GetInstance()->GetSummonEnemysDeath() == true) {
-						EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->RecvDamage(damage*3);
+						EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->RecvDamage(damage+rand()%20);
 					} else if (EnemyControl::GetInstance()->GetSummonEnemysApper() == true) {
 						EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->RecvDamage(0);
 					}

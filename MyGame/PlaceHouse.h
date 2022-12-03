@@ -1,8 +1,8 @@
 #pragma once
 #include"CreateObjManager.h"
-#include"Chest.h"
+#include"House.h"
 
-class PlaceChest :
+class PlaceHouse :
 	public CreateObjManager
 {
 	void Initialize(DebugCamera* camera) override;
@@ -21,5 +21,5 @@ class PlaceChest :
 
 	void Finalize() override;
 private:
-	std::vector<std::unique_ptr<Chest>> chests;
+	std::vector<std::unique_ptr<House>> houses;
 };

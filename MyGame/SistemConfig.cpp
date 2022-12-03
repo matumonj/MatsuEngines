@@ -29,13 +29,13 @@ void SistemConfig::Initialize()
 	input = Input::GetInstance();
 	configSprite = ConfigSprite::GetInstance();
 
-	Sprite::LoadTexture(24, L"Resources/04 ‘I‘ðŽˆ/button_select2_3.png");
+	//Sprite::LoadTexture(24, L"Resources/04 ‘I‘ðŽˆ/button_select2_3.png");
 
 	configSprite->Initialize();
 	//SelectSprite = std::make_unique<Sprite>();
-	SelectSprite = Sprite::Create(24, configSprite->GetSpritePosition(m_number));
-	SelectSprite->SetAnchorPoint({1.0f, 1.0f});
-	SelectSprite->SetSize({600.0f, 100.0f});
+	//SelectSprite = Sprite::Create(24, configSprite->GetSpritePosition(m_number));
+	//SelectSprite->SetAnchorPoint({1.0f, 1.0f});
+	//SelectSprite->SetSize({600.0f, 100.0f});
 
 	CustomButton::GetInstance()->Initialize();
 	SelectSword::GetInstance()->Initialize();
@@ -52,8 +52,8 @@ void SistemConfig::Update()
 	{
 		if (input->TriggerButton(input->START))
 		{
-			PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(true);
-			m_ConfigFlag = true;
+		//	PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(true);
+			//m_ConfigFlag = true;
 		}
 	}
 
@@ -111,8 +111,8 @@ void SistemConfig::Update()
 	sAlpha = max(sAlpha, 0.0f);
 	m_number = min(m_number, 2);
 	m_number = max(m_number, 0);
-	SelectSprite->setcolor({1.0f, 1.0f, 1.0f, sAlpha});
-	configSprite->Update();
+	//SelectSprite->setcolor({1.0f, 1.0f, 1.0f, sAlpha});
+	//configSprite->Update();
 }
 
 SistemConfig::Config SistemConfig::NowSelectButton()
@@ -136,7 +136,7 @@ SistemConfig::Config SistemConfig::NowSelectButton()
 
 void SistemConfig::Draw()
 {
-	Sprite::PreDraw();
+	/*Sprite::PreDraw();
 	if (m_ConfigFlag && CustomButton::GetInstance()->GetCustomButtonJudg() == false && SelectSword::GetInstance()->
 		GetSelectJudg() == false)
 	{
@@ -145,7 +145,7 @@ void SistemConfig::Draw()
 	}
 	Sprite::PostDraw();
 	CustomButton::GetInstance()->Draw();
-	SelectSword::GetInstance()->Draw();
+	SelectSword::GetInstance()->Draw();*/
 }
 
 void SistemConfig::SwordPedestalDraw()

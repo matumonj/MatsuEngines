@@ -40,9 +40,9 @@ void EnemyAlpha::Initialize(DebugCamera* camera)
 	m_fbxObject->PlayAnimation();
 
 	//パラメータのセット
-	EnemyHP = 65.00f;
-	MaxHP = 65.00f;
-
+	
+	MaxHP = 100.00f;
+	EnemyHP = MaxHP;
 	Rotation = {-110, 0, 0};
 	Scale = {0.05f, 0.05f, 0.05f};
 	radius_adjustment = 0;
@@ -95,7 +95,6 @@ void EnemyAlpha::Update(DebugCamera* camera)
 		//}
 	}
 	FbxAnimationControl();
-	EnemyPop(150);
 	AttackCoolTime();
 	ParameterSet_Fbx2(camera);
 	DamageTexDisplay();
@@ -124,7 +123,7 @@ void EnemyAlpha::Death()
 		//f_time = DeathTime;
 		//if (f_time > DeathTime) {
 		DeathFlag = true;
-		EnemyHP = MaxHP;
+		//EnemyHP = MaxHP;
 	}
 	//if (f_time < DeathTime) {
 	//f_time = DeathTime;

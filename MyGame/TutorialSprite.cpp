@@ -39,6 +39,16 @@ void TutorialSprite::Initialize()
 	Sprite::LoadTexture(180, L"Resources/2d/tutorialstep/task_attackenemy.png");
 	Sprite::LoadTexture(181, L"Resources/2d/tutorialstep/task_config.png");
 	Sprite::LoadTexture(182, L"Resources/2d/tutorialstep/notCleartask.png");
+	Sprite::LoadTexture(183, L"Resources/2d/icon/movecon.png");
+	Sprite::LoadTexture(184, L"Resources/2d/icon/motioncon.png");
+
+	movecn =Sprite::Create(183, { 10, 10 });
+	Attackcon = Sprite::Create(184, { 10, 10 });
+	movecn->SetAnchorPoint({ 0.5,0.5 });
+	Attackcon->SetAnchorPoint({ 0.5,0.5 });
+	movecn->SetSize({ 400,400 });
+	Attackcon->SetSize({ 400,400 });
+
 	Task[HELLO] = Sprite::Create(171, { 10, 10 });
 	Task[WALK] = Sprite::Create(172, { 10, 10 });
 	Task[SETTING] = Sprite::Create(173, { 10, 10 });
@@ -125,18 +135,24 @@ void TutorialSprite::CheckAttack()
 
 void TutorialSprite::Update()
 {
+	conpos = { 1700,790 };
+	movecn->SetPosition(conpos);
+	Attackcon->SetPosition(conpos);
+	movecn->setcolor({ 1,1,1,movea });
+	Attackcon->setcolor({ 1,1,1,atacka });
 	if (CustomButton::GetInstance()->GetJumpAction() == true)
 	{
 		Jump = true;
 	}
 
 	//歩きとジャンプ
-	ClearTaskJudg[WALK] = Movement > 18 && Movement_Camera > 18;
+	ClearTaskJudg[WALK] = Movement > 100 && Movement_Camera > 100;
 
 	//オールコンプリート
-	AllTaskClear = ClearTaskJudg[WALK] && ClearTaskJudg[SETTING] && ClearTaskJudg[ATTACK] && ClearTaskJudg[GETKEY];
+	AllTaskClear = ClearTaskJudg[WALK] && ClearTaskJudg[ATTACK] && ClearTaskJudg[GETKEY];
 
-	FenceControl::GetInstance()->SetTutorialFenceOpen(ClearTaskJudg[SETTING]);
+	bool tEnemyDeath = EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0] == nullptr;
+	FenceControl::GetInstance()->SetTutorialFenceOpen(tEnemyDeath);
 	switch (task)
 	{
 	case THELLO:
@@ -150,6 +166,7 @@ void TutorialSprite::Update()
 		break;
 
 	case TMOVE:
+		movea += 0.02f;
 		CheckMove_Camera_Player();
 		if (MassageCheck[WALK])
 		{
@@ -159,11 +176,13 @@ void TutorialSprite::Update()
 		Ease_SpriteSize_Up(SpriteSizeX[WALK], t[WALK], WALK);
 		break;
 	case TATTACK:
+		atacka += 0.02f;
+		movea -= 0.02f;
 		//攻撃
 		CheckAttack();
 		if (MassageCheck[ATTACK])
 		{
-			NextTask(t[ATTACK], TSETTING, ClearTaskJudg[ATTACK]);
+			NextTask(t[ATTACK], TGETKEY, ClearTaskJudg[ATTACK]);
 		}
 
 		Ease_SpriteSize_Up(SpriteSizeX[ATTACK], t[ATTACK], ATTACK);
@@ -219,26 +238,34 @@ void TutorialSprite::Update()
 		notClearTask[i]->SetSize({ 1300, 800 });
 	}
 	notClearTask[FRAME]->SetSize({ 1500, 800 });
-}
+	movea = min(movea, 1.0f);
+	movea = max(movea, 0.0f);
+	atacka = min(atacka, 1.0f);
+	atacka = max(atacka, 0.0f);
 
+}
+#include"imgui.h"
 void TutorialSprite::Draw()
 {
+	
 	Sprite::PreDraw();
 	if (!UI::GetInstance()->GetTurnoffUIDraw())
 	{
-		notClearTask[FRAME]->Draw();
+		//notClearTask[FRAME]->Draw();
 
 		for (int i = 0; i < 4; i++)
 		{
-			notClearTask[i]->Draw();
+		//	notClearTask[i]->Draw();
 		}
 	}
 	for (int i = 0; i < TaskNum; i++)
 	{
 		Task[i]->Draw();
 	}
-
+	movecn->Draw();
+	Attackcon->Draw();
 	Sprite::PostDraw();
+	
 }
 
 void TutorialSprite::Ease_SpriteSize_Up(float& x, float& t, int index)

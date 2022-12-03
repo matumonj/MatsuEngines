@@ -126,8 +126,8 @@ void Player::Move()
 		XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(Rotation.y + 63.0f));
 		move = XMVector3TransformNormal(move, matRot);
 
-		Position.x += move.m128_f32[0] * movespeed *3;
-		Position.z += move.m128_f32[2] * movespeed *3;
+		Position.x += move.m128_f32[0] * movespeed ;
+		Position.z += move.m128_f32[2] * movespeed;
 		Gmove = move;
 
 		//いずれかのスティックが倒されていてFBXのタイムが最初の攻撃モーションのタイムより
@@ -146,6 +146,24 @@ void Player::Move()
 	}
 	// ジャンプ操作
 	Jump();
+	if (!onGround)
+	{
+		falltime++;
+		if (falltime > 180)
+		{
+			Position = oldpos;
+			falltime = 0;
+		}
+	} else
+	{
+		falltime = 0;
+		savetime++;
+		if (savetime % 60 == 0)
+		{
+			oldpos = Position;
+			savetime = 0;
+		}
+	}
 }
 
 #include"mHelper.h"
@@ -192,9 +210,17 @@ void Player::Update(DebugCamera* camera)
 
 	Move();
 
-	if (CustomButton::GetInstance()->Get3AttackAction())
+	if (input->TriggerButton(input->RB))
 	{
 		evasionF = true;
+	}
+	// 行列の更新など
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
+	{
+		if (Collision::GetLength(Position, { 0,-19,0 }) > 120)
+		{
+			isOldPos();
+		}
 	}
 	//回避
 	Evasion();
@@ -206,10 +232,8 @@ void Player::Update(DebugCamera* camera)
 	//fbxのタイマー処理
 	m_fbxObject->SetFbxTime(f_time);
 	//当たり判定
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY ||
-		SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
 		CollisionField(camera);
-	}
+
 
 	ParameterSet_Obj(camera);
 	ParameterSet_Fbx(camera);
@@ -222,15 +246,8 @@ void Player::Update(DebugCamera* camera)
 
 void Player::Draw()
 {
-	/*ImGui::Begin("fTime");
-	ImGui::SliderInt("t", &hindex, 0, 36);
-	ImGui::SliderFloat("posx", &Position.x, -100, 106);
-	ImGui::SliderFloat("tposy", &Position.y, -100, 106);
-	ImGui::SliderFloat("posz", &Position.z, -100, 106);
-	ImGui::Text("%f", Position.x);
-	ImGui::Text("%f", Position.y);
-	ImGui::Text("%f", Position.z);
-	ImGui::End();*/
+
+	ImGui::End();
 	Draw_Fbx();
 	SelectSword::GetInstance()->SwordDraw();
 
@@ -364,6 +381,8 @@ void Player::RecvDamage(int Damage)
 
 	if (!HUD::GetInstance()->GetRecvDamageFlag())
 	{
+
+		CameraControl::GetInstance()->ShakeCamera();
 		HUD::GetInstance()->SetRecvDamageFlag(true); //プレイヤーHPのHUD用
 	}
 	if (HP >= 0)

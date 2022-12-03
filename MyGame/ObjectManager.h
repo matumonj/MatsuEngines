@@ -54,6 +54,9 @@ protected:
 	XMVECTOR fallV = {};
 	float radius_adjustment = 0.0f;
 
+protected:
+	int savetime;
+	int falltime;
 	float ObjAlpha = 1.0f;
 public:
 	XMFLOAT3 GetPosition() { return Position; }
