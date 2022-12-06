@@ -47,7 +47,7 @@ void MobEnemy::Initialize(DebugCamera* camera)
 	m_fbxObject->SetModel(FbxLoader::GetInstance()->LoadModelFromFile("monster_golem_demo"));
 	m_fbxObject->PlayAnimation();
 	
-	MaxHP = 120.0f;
+	MaxHP = 950.0f;
 
 	EnemyHP = MaxHP;
 	//パラメータのセット
@@ -219,7 +219,7 @@ void MobEnemy::FbxAnimationControl()
 	//ヒットストップ時
 	if (PlayerAttackState::GetInstance()->GetHitStopJudg())
 	{
-		fbxanimationTime = 0.000f;
+		fbxanimationTime = 0.002f;
 	}
 	//アニメーションカウント進める
 	f_time += fbxanimationTime;

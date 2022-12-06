@@ -170,7 +170,7 @@ void Player::Move()
 
 void Player::Evasion()
 {
-	if (evasionF)
+	if (evasionF||StopFlag)
 	{
 		if (evaTime < 1.0f)
 		{

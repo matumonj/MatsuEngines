@@ -165,17 +165,26 @@ void BossEnemy::Death()
 	movestop = false;
 }
 
-
+#include"PlayerAttackState.h"
 void BossEnemy::FbxAnimationControl()
 {
+	float fbxanimationTime;
 	if (DieFlag)return;
 	if (nowMotion == ROAR && f_time <= RoarTime + 0.2f)
 	{
-		f_time += 0.006f;
-	} else
-	{
-		f_time += 0.015f;
+		fbxanimationTime = 0.006f;
 	}
+	else {
+		if (PlayerAttackState::GetInstance()->GetHitStopJudg())
+		{
+			fbxanimationTime = 0.002f;
+		} else {
+			fbxanimationTime = 0.015f;
+		}
+	}
+	f_time += fbxanimationTime;
+	//ヒットストップ時
+
 	SetMotion(f_AttackFlag, NORMAL, NormalAttackTime, AttackTime_End);
 	SetMotion(MagicMotionStart, MAGIC, MagicAttackTime, MagicAttackTime_End);
 	SetMotion(EvaMotionStart, EVASION, EvaTime, EvaTime_End);

@@ -14,7 +14,8 @@
 #include"PlayerControl.h"
 #include"DamageManager.h"
 #include "GameOver.h"
-
+#include <BossMap.h>
+#include"AltAttack.h"
 BossScene::BossScene(SceneManager* sceneManager)
 	: BaseScene(sceneManager)
 {
@@ -37,7 +38,7 @@ void BossScene::Initialize()
 
 	//ボス攻撃用->できれば移す
 	Nail::GetInstance()->ModelSet();
-
+	BossMap::GetInstance()->Init();
 	//postEffect = new MinimapSprite();
 	//postEffect->Initialize();
 	//	dc = new DebugCamera(WinApp::window_width, WinApp::window_height);
@@ -75,7 +76,7 @@ void BossScene::Update()
 				AllObjectControl[i]->Update(CameraControl::GetInstance()->GetCamera());
 			}
 		}
-	
+		p->Upda();
 		Nail::GetInstance()->Update();
 		UI::GetInstance()->HUDUpdate(hudload, CameraControl::GetInstance()->GetCamera());
 	}
@@ -99,8 +100,11 @@ void BossScene::Update()
 	{
 		c_postEffect = Default;
 	}
-	
+	BossMap::GetInstance()->Upda();
+	AltAttack::GetInstance()->Upda();
 }
+
+
 
 /*------------------------*/
 /*--------描画処理--------*/
@@ -110,7 +114,7 @@ void BossScene::MyGameDraw()
 	if (Play)
 	{
 
-		Field::GetInstance()->Draw();
+	Field::GetInstance()->Draw();
 		for (int i = 0; i < AllObjectControl.size(); i++)
 		{
 			AllObjectControl[i]->Draw();
@@ -148,12 +152,13 @@ void BossScene::Draw()
 			EnemyControl::GetInstance()->GetSummonEnemy(i)->DamageTexDisplay_Draw();
 		}
 		Nail::GetInstance()->Draw();
-
+		BossMap::GetInstance()->Draw();
+		p->Draw();
 		Sprite::PreDraw();
 		DebugTextSprite::GetInstance()->DrawAll();
 		Sprite::PostDraw();
 		PlayerControl::GetInstance()->DamageTexDraw();
-
+	
 	//UI
 		if (CameraControl::GetInstance()->GetCameraState() != CameraControl::BOSSCUTSCENE)
 		{
@@ -179,6 +184,8 @@ bool BossScene::LoadParam(DebugCamera* camera)
 		{
 			AllObjectControl[i]->Initialize(CameraControl::GetInstance()->GetCamera());
 		}
+		p = new Particle();
+		p->Init();
 		//カメラをセット
 		f_Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
 		//グラフィックパイプライン生成

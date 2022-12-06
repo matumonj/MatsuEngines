@@ -5,7 +5,7 @@
 #include<memory>
 #include"CollisionPrimitive.h"
 #include"ParticleManager.h"
-
+#include"Particle.h"
 class AltAttack
 {
 public:
@@ -19,11 +19,16 @@ private:
 public:
 private:
 	std::vector<Texture*> EnergieSphere;
-	std::unique_ptr<Object3d> BeamObj[2];
+	std::unique_ptr<Object3d> RushSphereObj;
+	XMFLOAT3 rushspherescl;
+	XMFLOAT3 rushspherepos;
+	float rushEtime[5];
+
 	Model* BeamModel;
 	ParticleManager* BeamParticle;
 	Texture* DamageAreaTex[2];
 
+	Particle* p;
 private:
 	Line2D beamRay[2];
 	Point PlayerSpehre;
@@ -50,11 +55,28 @@ public:
 	static AltAttack* GetInstance();
 	void Initialize();
 	void ActionJudg();
+	void Upda();
 	void Draw();
 	void Finalize();
 private:
 	void EnergieCharge();
-	void BeamAttack();
+
+	XMFLOAT3 rushimpactarea[5];
+
+public:
+	enum Area {
+		FIR,
+		SEC,
+		THI,
+		FIU,
+		FIV
+	}area;
+private:
+	bool atckjudg;
+	XMFLOAT3 oldp[5];
+	XMFLOAT3 rushpos;
+	void Rush(Area& area, Area now, Area next, float& t);
+	void RushAttack();
 	void CollisionParamSet();
 
 	void BeamShotStart();
@@ -64,6 +86,8 @@ private:
 	void BeamObjSetParam();
 	void BeamObjDraw();
 public:
+	XMFLOAT3 GetImpactArea(Area area) {return rushimpactarea[area]; }
+	Area GetNowArea() { return area; }
 	void SetAttackFase(bool f) { if (f && fase != FASEONE) { fase = FASEONE; } }
 	Fase GetFaseEnd() { return fase; }
 };

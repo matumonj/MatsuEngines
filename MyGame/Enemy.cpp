@@ -44,7 +44,7 @@ void Enemy::RecvDamage(int Damage)
 	if (EnemyHP <= 10)
 	{
 	}
-
+	PlayerAttackState::GetInstance()->SetHitStopJudg(TRUE);
 	std::unique_ptr<DamageManager>newdTex = std::make_unique<DamageManager>(XMFLOAT3(Position.x + rand() % 10 - 5, Position.y + rand() % 10 - 5, Position.z), Damage);
 
 	dMans_.push_back(std::move(newdTex));

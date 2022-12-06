@@ -14,6 +14,7 @@
 #include"UI.h"
 #include"BossScene.h"
 #include"Feed.h"
+#include"BossMap.h"
 #include"PlayerControl.h"
 #include"PlayScene.h"
 #include"DamageManager.h"
@@ -153,6 +154,7 @@ void Tutorial::Update()
 	lightGroup->SetCircleShadowCasterPos(1, {ppos});
 	lightGroup->SetCircleShadowAtten(1, XMFLOAT3(circleShadowAtten));
 	lightGroup->SetCircleShadowFactorAngle(1, XMFLOAT2(circleShadowFactorAngle));
+	// BossMap::GetInstance()->Upda();
 
 if (scenechange && Feed::GetInstance()->GetAlpha() >= 1.0f)
 	{
@@ -162,7 +164,14 @@ if (scenechange && Feed::GetInstance()->GetAlpha() >= 1.0f)
 		SceneManager::GetInstance()->SetScene(SceneManager::PLAY);
 		sceneManager_->SetnextScene(scene); //シーンのセット
 	}
-	
+if (Input::GetInstance()->TriggerButton(Input::RT)) {
+	//画面真っ白なったら
+	BaseScene* scene = new BossScene(sceneManager_); //次のシーンのインスタンス生成
+	Play = false;
+	SceneManager::GetInstance()->SetScene(SceneManager::BOSS);
+	sceneManager_->SetnextScene(scene); //シーンのセット
+
+	}
 }
 
 /*------------------------*/
@@ -216,6 +225,8 @@ void Tutorial::Draw()
 		if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr) {
 			EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->DamageTexDisplay_Draw();
 		}
+		//BossMap::GetInstance()->Draw();
+
 			DebugTextSprite::GetInstance()->DrawAll();
 		Sprite::PostDraw();
 		PlayerControl::GetInstance()->DamageTexDraw();
@@ -241,6 +252,7 @@ bool Tutorial::LoadParam(DebugCamera* camera)
 			//初期化
 			AllObjectControl[i]->Initialize(CameraControl::GetInstance()->GetCamera());
 		}
+		//BossMap::GetInstance()->Init();
 		//カメラをセット
 		f_Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
 		//グラフィックパイプライン生成

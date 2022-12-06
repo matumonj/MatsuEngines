@@ -23,40 +23,30 @@ void AltAttack::Initialize()
 	}
 	ParticleManager::LoadTexture(2, L"Resources/ParticleTex/Normal.png");
 	BeamParticle = ParticleManager::Create(2, L"Resources/ParticleTex/Attack.png");
-	for (int i = 0; i < 2; i++)
-	{
-		BeamObj[i] = std::make_unique<Object3d>();
-		BeamObj[i]->SetModel(ModelManager::GetIns()->GetModel(ModelManager::BEAM));
-		BeamObj[i]->Initialize(CameraControl::GetInstance()->GetCamera());
-	}
+
+		RushSphereObj = std::make_unique<Object3d>();
+		RushSphereObj->SetModel(ModelManager::GetIns()->GetModel(ModelManager::SPHERE));
+		RushSphereObj->Initialize(CameraControl::GetInstance()->GetCamera());
+	
 	texAlpha = 0.7f;
 
 	fase = FASENON;
+
+	p = new Particle();
+	p->Init();
 }
 
 void AltAttack::CollisionParamSet()
 {
-	const float LBeamShot_StartPos = -60.0f;
-	const float RBeamShot_StartPos = 60.0f;
-	const float BeamShot_EndPos = -60.0f;
-	beamRay[0].start = {RBeamShot_StartPos, BeamPosition[0].z};
-	beamRay[1].start = {LBeamShot_StartPos, BeamPosition[1].z};
-
-	beamRay[0].end = {-1 * RBeamShot_StartPos, BeamShot_EndPos};
-	beamRay[1].end = {-1 * LBeamShot_StartPos, BeamShot_EndPos};
-
+	
 	XMFLOAT3 Ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 	PlayerSpehre.x = {Ppos.x};
 	PlayerSpehre.y = {Ppos.z};
+
 }
 
 void AltAttack::ActionJudg()
 {
-	DamageAreaTex[0]->SetRotation({90, 0, 45});
-	DamageAreaTex[1]->SetRotation({90, 0, -45});
-	DamageAreaTex[0]->SetScale({6, 13, 3});
-	DamageAreaTex[1]->SetScale({6, 13, 3});
-
 
 	CollisionParamSet();
 	EnergieCharge();
@@ -100,10 +90,24 @@ void AltAttack::ActionJudg()
 	}
 	BeamObjSetParam();
 
+
 	BeamEaseTime = min(BeamEaseTime, 1.0f);
 	BeamEaseTime = max(BeamEaseTime, 0.0f);
 }
+void AltAttack::Upda()
+{
+	Enemy* boss = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0].get();
 
+	RushAttack();
+	p->CreateParticle(true, RushSphereObj->GetPosition());
+	p->Upda();
+	RushSphereObj->SetScale({15,15,15});
+	RushSphereObj->SetColor({ 0.8f,0.1f,0.1f,0.5f });
+	RushSphereObj->SetUVf(true);
+	RushSphereObj->Update({ 1.5f, 1.5f, 1.5f, 1.5f }, CameraControl::GetInstance()->GetCamera());
+
+}
+#include"imgui.h"
 void AltAttack::Draw()
 {
 	//ParticleManager::PreDraw();
@@ -111,14 +115,17 @@ void AltAttack::Draw()
 	//BeamParticle->Draw();
 	// 3Dオブジェクト描画後処理
 	//ParticleManager::PostDraw();
-
+	ImGui::Begin("Alt");
+	ImGui::Text("spherepx %f", rushpos.x);
+	ImGui::Text("spherepz %f", rushpos.z);
+	ImGui::End();
 	Texture::PreDraw();
 	for (int i = 0; i < 2; i++)
 	{
 		DamageAreaTex[i]->Draw();
 	}
 	Texture::PostDraw();
-
+	p->Draw();
 	BeamObjDraw();
 }
 
@@ -151,36 +158,26 @@ void AltAttack::EnergieCharge()
 
 void AltAttack::BeamObjSetParam()
 {
-	if (BeamObj[0] == nullptr)
+	if (RushSphereObj== nullptr)
 	{
 		return;
 	}
 
 	BeamPosition[0] = {60.0f, -10.0f, 60.0f};
-	BeamPosition[1] = {-60.0f, -10.0f, 60.0f};
-	BeamObj[0]->SetRotation({0, 45, 0});
-	BeamObj[1]->SetRotation({0, -45, 0});
+	RushSphereObj->SetRotation({0, 45, 0});
 
-	for (int i = 0; i < 2; i++)
-	{
-		BeamObj[i]->SetPosition(BeamPosition[i]);
-		BeamObj[i]->SetScale(BeamScale);
-		BeamObj[i]->SetUVf(true);
-		BeamObj[i]->Update({1.5f, 1.5f, 1.5f, 1.5f}, CameraControl::GetInstance()->GetCamera());
-	}
 }
 
 void AltAttack::BeamObjDraw()
 {
-	if (BeamObj[0] == nullptr)
+	if (RushSphereObj == nullptr)
 	{
 		return;
 	}
 	Object3d::PreDraw();
-	for (int i = 0; i < 2; i++)
-	{
-		BeamObj[i]->Draw();
-	}
+	
+		RushSphereObj->Draw();
+	
 	Object3d::PostDraw();
 }
 
@@ -228,12 +225,56 @@ void AltAttack::BeamShotEnd()
 	if (BeamEaseTime <= 0.0f)
 	{
 		//1度しか発動しないのであればここで破棄しても問題ないはず　メモリの無駄です
-		Destroy_unique(BeamObj[0]);
-		Destroy_unique(BeamObj[1]);
+		Destroy_unique(RushSphereObj);
 		fase = FASEFOUR;
 	}
 }
 
+void AltAttack::Rush(Area& area,Area now,Area next,float& t)
+{
+	XMFLOAT3 Bpos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
+	
+	if (area ==now) {
+		if (t == 0) {
+			oldp[now] = rushpos;
+		}
+		t += 0.05f;
+		if (t < 1.0f) {
+			rushpos.x= Easing::EaseOut(t, oldp[now].x, rushimpactarea[now].x);
+			rushpos.z = Easing::EaseOut(t, oldp[now].z, rushimpactarea[now].z);
+		}
+		if (t >= 4.0f) {
+			area = next;
+		}
+	}
+	
+}
+void AltAttack::RushAttack()
+{
+	rushimpactarea[FIR] = { 0,-19,-100 };
+	rushimpactarea[SEC] = { 0,-19,100 };
+	rushimpactarea[THI] = { -100,-19,50 };
+	rushimpactarea[FIU] = { 100,-19,50 };
+	rushimpactarea[FIV] = { 0,-19,-100 };
+
+	XMFLOAT3 Bpos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
+
+	if (Input::GetInstance()->TriggerButton(Input::LT)) {
+		atckjudg = true;
+	}
+
+	if (atckjudg) {
+		Rush(area, FIR, SEC, rushEtime[FIR]);
+		Rush(area, SEC, THI, rushEtime[SEC]);
+		Rush(area, THI, FIU, rushEtime[THI]);
+		Rush(area, FIU, FIV, rushEtime[FIU]);
+
+		rushpos.y = 18;
+		EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->SetPosition(rushpos);
+		RushSphereObj->SetPosition(rushpos);
+
+	}
+}
 void AltAttack::BeamParamReset()
 {
 	texAlpha = 0.0f;
@@ -245,8 +286,7 @@ void AltAttack::BeamParamReset()
 void AltAttack::Finalize()
 {
 	//vector<Texture*>EnergieSphere
-	BeamObj[0].release();
-	BeamObj[1].release();
+	RushSphereObj.release();
 	Destroy(BeamModel);
 	Destroy(BeamParticle);
 	Destroy(DamageAreaTex[0]);

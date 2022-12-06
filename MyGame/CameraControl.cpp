@@ -442,7 +442,7 @@ void CameraControl::BossCutScene_Spline()
 {
 	nowCount = static_cast<float>(GetTickCount64());
 	elapsedCount = nowCount - startCount;
-	elapsedTime = elapsedCount / 350.0f;
+	elapsedTime = elapsedCount / 30.0f;
 
 	timerate = elapsedTime / maxtime;
 	if (timerate >= 1)
@@ -566,9 +566,9 @@ void CameraControl::ShakeCamera()
 	}
 	if (shaketime != 0)
 	{
-		shake = static_cast<float>(rand() % 16 - 6);
-		shakex = static_cast<float>(rand() % 16 - 8);
-		shakey = static_cast<float>(rand() % 16 - 8);
+		shake = static_cast<float>(rand() % 5- 2);
+		shakex = static_cast<float>(rand() % 5 - 2);
+		shakey = static_cast<float>(rand() % 5 - 2);
 		shakex -= shake;
 		shakey -= shake;
 		shaketime--;

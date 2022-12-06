@@ -4,7 +4,7 @@
 #include"Sprite.h"
 #include"Input.h"
 #include"WinApp.h"
-
+#include"Particle.h"
 #include"Object3d.h"
 #include"Model.h"
 #include"Collision.h"
@@ -46,7 +46,7 @@ private: // エイリアス
 
 public:
 	Input* input;
-
+	Particle* p;
 	bool scenechange;
 	bool feedflag;
 	XMFLOAT4 feedcolor = {0, 0, 0, 1};
