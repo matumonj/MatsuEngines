@@ -235,6 +235,7 @@ public:
 	//
 	void SetIdleMotion(bool f) { if (f_time < IdleTime) { IdleMotionFlag = f; } }
 	float GetFalterTime_End() { return FalterTime_End; }
+	float GetFalterTime() { return FalterTime; }
 	float GetRoarTime_End() { return RoarTime_End; }
 	void SetMagicAttackTime(bool f) { if (f_time < MagicAttackTime) { MagicMotionStart = f; } }
 	void SetEvaMotionTime(bool f) { if (f_time < EvaTime) { EvaMotionStart = f; } }

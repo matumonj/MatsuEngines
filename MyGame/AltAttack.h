@@ -16,41 +16,31 @@ private:
 	using XMMATRIX = DirectX::XMMATRIX;
 	using XMVECTOR = DirectX::XMVECTOR;
 
-public:
 private:
-	std::vector<Texture*> EnergieSphere;
 	std::unique_ptr<Object3d> RushSphereObj;
 	XMFLOAT3 rushspherescl;
 	XMFLOAT3 rushspherepos;
+	float rushspherealpha;
 	float rushEtime[5];
-
-	Model* BeamModel;
-	ParticleManager* BeamParticle;
-	Texture* DamageAreaTex[2];
 
 	Particle* p;
 private:
 	Line2D beamRay[2];
-	Point PlayerSpehre;
 public:
-public:
-	enum Fase
+	enum Phase
 	{
-		FASENON,
-		FASEONE,
-		FASETWO,
-		FASETHREE,
-		FASEFOUR
+		PHASENON,
+		PHASEONE,
+		PHASETWO,
+		PHASETHREE,
+		PHASEFOUR
 	};
 
 private:
-	Fase fase;
-	float BeamEaseTime;
-	XMFLOAT3 BeamScale;
-	XMFLOAT3 BeamPosition[2];
-	float angleBeam;
-	int BeamAttackCount = 0;
-	float texAlpha = 0.0f;
+	Phase phase;
+	float RushEaseTime;
+	float angleRush;
+	int RushAttackCount = 0;
 public:
 	static AltAttack* GetInstance();
 	void Initialize();
@@ -59,35 +49,37 @@ public:
 	void Draw();
 	void Finalize();
 private:
-	void EnergieCharge();
-
 	XMFLOAT3 rushimpactarea[5];
 
+	Line2D DamageLine;
 public:
 	enum Area {
 		FIR,
 		SEC,
 		THI,
 		FIU,
-		FIV
+		FIV,
+		END
 	}area;
 private:
 	bool atckjudg;
 	XMFLOAT3 oldp[5];
 	XMFLOAT3 rushpos;
+	float DestTime;
+
 	void Rush(Area& area, Area now, Area next, float& t);
 	void RushAttack();
 	void CollisionParamSet();
 
-	void BeamShotStart();
-	void BeamShotEnd();
-	void BeamParamReset();
+	void RushStart();
+	void RushParamReset();
 
-	void BeamObjSetParam();
-	void BeamObjDraw();
+	void RushObjDraw();
 public:
 	XMFLOAT3 GetImpactArea(Area area) {return rushimpactarea[area]; }
+
+	float GetFtime(Area area) { return rushEtime[area]; }
 	Area GetNowArea() { return area; }
-	void SetAttackFase(bool f) { if (f && fase != FASEONE) { fase = FASEONE; } }
-	Fase GetFaseEnd() { return fase; }
+	void SetAttackPhase(bool f) { if (f && phase != PHASEONE) { phase = PHASEONE; } }
+	Phase GetPhaseEnd() { return phase; }
 };

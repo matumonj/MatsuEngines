@@ -39,23 +39,23 @@ void CircleAttack::Initialize()
 
 void CircleAttack::ActionJudg()
 {
-	switch (fase)
+	switch (phase)
 	{
-	case FASENON:
+	case PHASENON:
 		break;
-	case FASEONE:
+	case PHASEONE:
 		//“BŽh‚³‚è‚Ü‚·
 		PierceNail();
 		break;
-	case FASETWO:
+	case PHASETWO:
 		//ƒ_ƒ[ƒWƒGƒŠƒA‚Ì‰~L‚ª‚è‚Ü‚·
 		DamageAreaTexSet();
 		break;
-	case FASETHREE:
+	case PHASETHREE:
 		//’n–Ê‚©‚ç“Bo‚Ä‚«‚Ü‚·
 		ProtrudeNail();
 		break;
-	case FASEFOUR:
+	case PHASEFOUR:
 		
 		//UŒ‚I—¹‚Å‚·
 		EndAttackAction();
@@ -105,7 +105,7 @@ void CircleAttack::Draw()
 		NailObj[i]->Draw();
 		Object3d::PostDraw();
 	}
-	if (fase == FASETHREE)
+	if (phase == PHASETHREE)
 	{
 		Nail::GetInstance()->Draw();
 	}
@@ -151,7 +151,7 @@ void CircleAttack::PierceNail()
 		Direction[Area2].y--;
 	}
 	else {
-		fase = FASETWO;
+		phase = PHASETWO;
 
 	}
 	//À•W‡‚í‚¹‚é
@@ -175,7 +175,7 @@ void CircleAttack::DamageAreaTexSet()
 
 	if (CircleAreaTime >= 1.0f)
 	{
-		fase = FASETHREE; //‰~‚Ì‘å‚«‚³‚ªÅ‘å’´‚¦‚½‚çŽŸ‚Ö
+		phase = PHASETHREE; //‰~‚Ì‘å‚«‚³‚ªÅ‘å’´‚¦‚½‚çŽŸ‚Ö
 	}
 }
 
@@ -193,7 +193,7 @@ void CircleAttack::ProtrudeNail()
 	NailObj[1]->SetPosition(Direction[Area2]);
 	TexAlpha -= 0.01f;
 		if (Nail::GetInstance()->GetEndAction_Circle()) {
-			fase = FASEFOUR;
+			phase = PHASEFOUR;
 		}
 	
 }

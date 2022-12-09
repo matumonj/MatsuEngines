@@ -22,13 +22,13 @@ public:
 	void Finalize();
 
 public:
-	enum Fase
+	enum Phase
 	{
-		FASENON,
-		FASEONE,
-		FASETWO,
-		FASETHREE,
-		FASEFOUR
+		PHASENON,
+		PHASEONE,
+		PHASETWO,
+		PHASETHREE,
+		PHASEFOUR
 	};
 
 private:
@@ -36,9 +36,9 @@ private:
 	Texture* FissureTex;
 	Texture* DamageAreaTex;
 
-	Fase fase;
+	Phase phase;
 	float TexAlpha;
 public:
-	void SetAttackFase(bool f) { if (f && fase != FASEONE) { fase = FASEONE; } }
-	Fase GetFaseEnd() { return fase; }
+	void SetAttackPhase(bool f) { if (f && phase != PHASEONE) { phase = PHASEONE; } }
+	Phase GetPhaseEnd() { return phase; }
 };

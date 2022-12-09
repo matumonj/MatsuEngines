@@ -16,9 +16,11 @@
 #include "GameOver.h"
 #include <BossMap.h>
 #include"AltAttack.h"
+#include"KnockAttack.h"
 BossScene::BossScene(SceneManager* sceneManager)
 	: BaseScene(sceneManager)
 {
+	
 }
 
 /*------------------------*/
@@ -76,7 +78,6 @@ void BossScene::Update()
 				AllObjectControl[i]->Update(CameraControl::GetInstance()->GetCamera());
 			}
 		}
-		p->Upda();
 		Nail::GetInstance()->Update();
 		UI::GetInstance()->HUDUpdate(hudload, CameraControl::GetInstance()->GetCamera());
 	}
@@ -102,6 +103,7 @@ void BossScene::Update()
 	}
 	BossMap::GetInstance()->Upda();
 	AltAttack::GetInstance()->Upda();
+	KnockAttack::GetInstance()->ActionJudg();
 }
 
 
@@ -144,16 +146,15 @@ void BossScene::Draw()
 	case Default: //普通のやつ特に何もかかっていない
 		DirectXCommon::GetInstance()->BeginDraw();
 		MyGameDraw();
-	//postEffect->Draw();
-		
+
+		Nail::GetInstance()->Draw();
+		BossMap::GetInstance()->Draw();
+
 		EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->DamageTexDisplay_Draw();
 
 		for (int i = 0; i <2; i++) {
 			EnemyControl::GetInstance()->GetSummonEnemy(i)->DamageTexDisplay_Draw();
 		}
-		Nail::GetInstance()->Draw();
-		BossMap::GetInstance()->Draw();
-		p->Draw();
 		Sprite::PreDraw();
 		DebugTextSprite::GetInstance()->DrawAll();
 		Sprite::PostDraw();
@@ -167,7 +168,13 @@ void BossScene::Draw()
 		Feed::GetInstance()->Draw();
 		Field::GetInstance()->WarningDraw();
 		SistemConfig::GetInstance()->Draw();
-
+		{
+			unsigned long current_time = timeGetTime();
+			float fps = float(count_frame) / (current_time - prev_time) * 1000;
+			ImGui::SliderFloat("FPS", &fps, -10, 50);
+			count_frame++;
+			ImGui::End();
+		}
 		DirectXCommon::GetInstance()->EndDraw();
 		break;
 	}
@@ -184,8 +191,6 @@ bool BossScene::LoadParam(DebugCamera* camera)
 		{
 			AllObjectControl[i]->Initialize(CameraControl::GetInstance()->GetCamera());
 		}
-		p = new Particle();
-		p->Init();
 		//カメラをセット
 		f_Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
 		//グラフィックパイプライン生成

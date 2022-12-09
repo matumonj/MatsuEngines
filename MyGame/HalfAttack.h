@@ -27,7 +27,7 @@ private:
 
 	Texture* HalfAreaTex;
 	float RotY;
-	bool fase1, fase2, fase3, fase4;
+	bool phase1, phase2, phase3, phase4;
 	int AttackCount;
 	float TexAlpha = 1.0f;
 	float AfterPositionZ;
@@ -35,24 +35,24 @@ private:
 	float KnockTime = 0.0f;
 
 	XMFLOAT3 CenterPos;
-	//fase1　カウントダウンと中央に戻る処理
+	//phase1　カウントダウンと中央に戻る処理
 	XMFLOAT3 PlayerPos;
 	XMFLOAT3 BossEnemyPos;
 
 	void DamageJudg_Left();
 	void DamageJudg_Right();
 public:
-	enum Fase
+	enum Phase
 	{
-		FASENON,
-		FASEONE,
-		FASETWO,
-		FASETHREE,
-		FASEFOUR
+		PHASENON,
+		PHASEONE,
+		PHASETWO,
+		PHASETHREE,
+		PHASEFOUR
 	};
 
 private:
-	Fase fase;
+	Phase phase;
 public:
 	static HalfAttack* GetInstance();
 	XMFLOAT3 MoveCenterPos();
@@ -62,7 +62,7 @@ public:
 	void TurnCenter();
 	bool SummonEnemy();
 
-	void SetAttackFase(bool f) { if (f && fase != FASEONE) { fase = FASEONE; } }
+	void SetAttackPhase(bool f) { if (f && phase != PHASEONE) { phase = PHASEONE; } }
 	XMFLOAT3 GetTexPos(int index) { return MagicTex[index]->GetPosition(); }
-	Fase GetFaseEnd() { return fase; }
+	Phase GetPhaseEnd() { return phase; }
 };

@@ -56,7 +56,7 @@ void Tutorial::Initialize()
 		AllObjectControl.emplace_back(GrassFieldControl::GetInstance()); //Wood
 	}
 
-	postEffect = new MinimapSprite();
+	postEffect = new PostEffect();
 	postEffect->Initialize();
 	//ミニマップ用のカメラ　後で別のところに移す
 	//各種設定画面

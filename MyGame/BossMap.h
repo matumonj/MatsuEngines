@@ -26,6 +26,9 @@ private:
 	float nailalpha[mapHight][mapWidth] = { 1 };
 
 	DirectX::XMFLOAT3 cpos = {-200,11.6,-200};
+	DirectX::XMFLOAT3 blockColor[mapHight][mapWidth];
+	float blockColorETime[mapHight][mapWidth];
+
 	DirectX::XMFLOAT3 bsize = {10,4,10};
 	int rockappertime;
 	float rockalpha=1;
@@ -33,12 +36,16 @@ private:
 	Point bpoint[mapHight][mapWidth];
 	Line2D RushArea;
 
+	Line2D DamageLine;
+	bool damageLineDrawFlag;
 	DirectX::XMFLOAT2 lineendpos;
 public:
 	static BossMap* GetInstance();
 	void Init();
 	void Upda();
 	void Draw();
+
+	void SetDamageArea(Line2D damageline, bool atckjudg) { if (atckjudg){DamageLine = damageline; } damageLineDrawFlag = atckjudg;};
 
 	void DamageBlockMove();
 	enum phase {
@@ -49,5 +56,8 @@ public:
 	};
 	phase p;
 	void SetDamageArea();
+public:
+	void DrawDamageLine(bool atckjudg,Line2D line);
+	void DrawDamageLine(bool atckjudg, Line2D line[4]);
 };
 

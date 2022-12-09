@@ -21,7 +21,9 @@ public:
 		TUTORIAL,
 		MOVEBOSSAREA,
 		PLAYCUTSCENE,
-		BOSSCUTSCENE
+		BOSSCUTSCENE,
+		RUSHSCENE,
+		ENDSCENE
 	};
 
 private:
@@ -109,11 +111,17 @@ public:
 
 	};
 
+	enum RushAttackCamera {
+		NON_RUSH,
+		UPBOSS,
+		RETURNPLAYER
+	};
 	SplineCamera GetCameraState_Spline() { return sCamera; }
 private:
 	BossCamera bCamera;
 	SplineCamera sCamera;
 	BossAreaCamera mCamera;
+	RushAttackCamera rCamera;
 private:
 	bool UpStage;
 	int countAreaMove;
@@ -126,6 +134,12 @@ private:
 	float BCutCameraHeight = 5.0f;
 	float CameraEaseT;
 private:
+	float rCameraEtime;
+	XMFLOAT3 OldPos;
+	XMFLOAT3 OldTarget;
+	XMFLOAT3 TargetPos;
+	XMFLOAT3 rCameraPos;
+private:
 	bool EncountFlag;
 	XMFLOAT3 OldCameraPos;
 	XMFLOAT3 OldCameratarget;
@@ -133,9 +147,7 @@ private:
 	XMFLOAT3 EaseTime_EnGuar_pos = {0.0f, 0.0f, 0.0f};
 	int waitCount;
 
-public:
-	void SetEncountGuardianFlag(bool f) { EncountFlag = f; }
-	bool GetEncountFlag() { return EncountFlag; }
+
 private:
 	float shakex = 0.0f;
 	float shakey = 0.0f;
@@ -150,6 +162,8 @@ private:
 	void BossCutScene_Spline();
 	void BossCutScene_Start(XMFLOAT3 BossPos);
 	void PlaySceneStart();
+	void RushTargetBoss();
+	void BossDeathStart();
 private:
 	void AngleRotation();
 

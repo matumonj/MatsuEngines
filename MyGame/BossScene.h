@@ -22,7 +22,6 @@
 #include"TargetMarker.h"
 #include"ControlBase.h"
 #include"Nail.h"
-#include"MinimapSprite.h"
 #include"CircleAttack.h"
 #pragma comment(lib,"winmm.lib")
 class CollisionManager;
@@ -48,15 +47,13 @@ public:
 	Input* input;
 	Particle* p;
 	bool scenechange;
-	bool feedflag;
-	XMFLOAT4 feedcolor = {0, 0, 0, 1};
-	std::unique_ptr<MinimapSprite> minimap;
-	DebugCamera* dc;
+	unsigned long prev_time = timeGetTime();
+	int count_frame = 0;
 	std::unique_ptr<BomAttack> bAttack;
 public:
 	//エフェクト用(ただプログラムでつくれるものはプログラムで作る方がいい　多用はいくない)
 	int c_postEffect = Default;
-	MinimapSprite* postEffect = nullptr;
+	PostEffect* postEffect = nullptr;
 	bool Play;
 	bool hudload;
 private:

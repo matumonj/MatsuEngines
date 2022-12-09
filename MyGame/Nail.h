@@ -19,11 +19,11 @@ private:
 	Model* Nailmodel;
 	float MinY = -30;
 
-	enum Fase
+	enum Phase
 	{
-		FASE_ONE,
-		FASE_TWO,
-		FASE_THREE,
+		PHASE_ONE,
+		PHASE_TWO,
+		PHASE_THREE,
 		NON
 	};
 
@@ -34,7 +34,7 @@ private:
 		std::vector<int> XN;
 		int WaitCount;
 		bool EndAction;
-		Fase fase;
+		Phase phase;
 	};
 
 	NailParam HAttack;
@@ -57,9 +57,9 @@ public:
 	bool GetEndAction_Half() { return HAttack.EndAction; }
 	void SetEndAction_Half(bool f) { HAttack.EndAction = f; }
 
-	bool GetEndAction_HalfFase()
+	bool GetEndAction_HalfPhase()
 	{
-		if (HAttack.fase == NON) { return true; }
+		if (HAttack.phase == NON) { return true; }
 		return false;
 	}
 

@@ -36,7 +36,7 @@ private:
 	Model* NailModel;
 	Texture* ImpactAreaTex[2];
 	float TexAlpha = 1;
-	bool fase1, fase2, fase3, fase4;
+	bool phase1, phase2, phase3, phase4;
 	int AttackCount;
 	float CircleAreaTime = 0;
 	XMFLOAT2 CircleSize = {0, 0};
@@ -45,17 +45,17 @@ private:
 	bool NailAttackFlag;
 public:
 public:
-	enum Fase
+	enum Phase
 	{
-		FASENON,
-		FASEONE,
-		FASETWO,
-		FASETHREE,
-		FASEFOUR
+		PHASENON,
+		PHASEONE,
+		PHASETWO,
+		PHASETHREE,
+		PHASEFOUR
 	};
 
 private:
-	Fase fase;
+	Phase phase;
 public:
 	static CircleAttack* GetInstance();
 	void Initialize();
@@ -80,8 +80,8 @@ public:
 
 	bool GetNailMove() { return NailAttackFlag; }
 
-	void SetAttackFase(bool f) { if (f && fase != FASEONE) { fase = FASEONE; } }
-	Fase GetFaseEnd() { return fase; }
+	void SetAttackPhase(bool f) { if (f && phase != PHASEONE) { phase = PHASEONE; } }
+	Phase GetPhaseEnd() { return phase; }
 
 private:
 	void CollisonNailPlayer();

@@ -49,7 +49,7 @@ void PlayScene::Initialize()
 	}
 
 	//ポストエフェクト初期化
-	postEffect = new MinimapSprite();
+	postEffect = new PostEffect();
 	postEffect->Initialize();
 }
 

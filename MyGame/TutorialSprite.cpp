@@ -25,7 +25,7 @@ void TutorialSprite::Finalize()
 void TutorialSprite::Initialize()
 {
 	input = Input::GetInstance();
-	Sprite::LoadTexture(171, L"Resources/2d/tutorialstep/step1.png");
+	Sprite::LoadTexture(171, L"Resources/2d/tutorialstep/startnav.png");
 	Sprite::LoadTexture(172, L"Resources/2d/tutorialstep/step2.png");
 	Sprite::LoadTexture(173, L"Resources/2d/tutorialstep/step3.png");
 	Sprite::LoadTexture(174, L"Resources/2d/tutorialstep/step4.png");
@@ -66,6 +66,7 @@ void TutorialSprite::Initialize()
 	{
 		Task[i]->SetAnchorPoint({ 0, 0 });
 		SpriteSizeX[i] = 0;
+		SpriteAlpha[i] = 0;
 		MassageCheck[i] = false;
 		ClearTaskJudg[i] = false;
 	}
@@ -156,13 +157,13 @@ void TutorialSprite::Update()
 	switch (task)
 	{
 	case THELLO:
-		if (MassageCheck[HELLO])
-		{
-			//次のタスクへの条件(３引数)
-			NextTask(t[HELLO], TMOVE, true);
-		}
+		SpriteAlpha[HELLO] += 0.02f;
+		Task[HELLO]->SetPosition({ 400,200 });
+		Task[HELLO]->SetSize({ 800,400 });
+
+		SpriteAlpha[HELLO] = min(SpriteAlpha[HELLO], 3.f);
+		SpriteAlpha[HELLO] = max(SpriteAlpha[HELLO], 0.f);
 		//説明スプライトの拡縮
-		Ease_SpriteSize_Up(SpriteSizeX[HELLO], t[HELLO], HELLO);
 		break;
 
 	case TMOVE:
@@ -225,13 +226,11 @@ void TutorialSprite::Update()
 	default:
 		break;
 	}
-	for (int i = 0; i < TaskNum; i++)
-	{
-		Task[i]->SetSize({ SpriteSizeX[i], 1000 });
-	}
-
+	
+	 
 	for (int i = 0; i < 4; i++)
 	{
+		Task[i]->setcolor({ 1,1,1,SpriteAlpha[i] });
 		notTaskXpos[i] = min(notTaskXpos[i], 0);
 		notTaskXpos[i] = max(notTaskXpos[i], -1000);
 		notClearTask[i]->SetPosition({ notTaskXpos[i], 0 });
@@ -258,7 +257,7 @@ void TutorialSprite::Draw()
 		//	notClearTask[i]->Draw();
 		}
 	}
-	for (int i = 0; i < TaskNum; i++)
+	for (int i = 0; i < 1; i++)
 	{
 		Task[i]->Draw();
 	}

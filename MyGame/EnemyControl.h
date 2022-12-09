@@ -7,7 +7,6 @@
 #include"Enemy.h"
 #include"DebugCamera.h"
 #include<memory>
-#include"GigaBossEnemy.h"
 #include<array>
 
 #include "CircleAttack.h"
@@ -23,7 +22,6 @@ private:
 	std::vector<XMFLOAT3> Load_EnemyPosition = {};
 
 	std::vector<std::vector<std::unique_ptr<Enemy>>> enemys = {};
-	std::unique_ptr<GigaBossEnemy> gigaboss = nullptr;
 
 	XMFLOAT3 tutorial_pos = { 0,0,0 };
 	XMFLOAT3 boss_pos = { 0,0,0 };
@@ -54,7 +52,6 @@ public:
 	int index = 0;
 	std::vector<std::unique_ptr<Enemy>>& GetEnemy(EnemyType type);
 
-	std::unique_ptr<GigaBossEnemy>& GetGigaBossEnemy() { return gigaboss; };
 
 	Enemy* GetEncountEnemy()
 	{

@@ -15,7 +15,7 @@ void BossEnemyAttackSlam::Update(Enemy* enemy)
 	{
 		enemy->SetAttack_End(enemy->Slam, true);
 	}
-	if (FrontCircleAttack::GetInstance()->GetFaseEnd() == FrontCircleAttack::FASEFOUR)
+	if (FrontCircleAttack::GetInstance()->GetPhaseEnd() == FrontCircleAttack::PHASEFOUR)
 	{
 		enemy->ChangeState_Boss(new BossEnemyFollow());
 	}

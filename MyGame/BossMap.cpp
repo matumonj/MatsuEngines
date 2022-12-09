@@ -2,6 +2,7 @@
 #include"CameraControl.h"
 #include"PlayerControl.h"
 #include"imgui.h"
+#include"mHelper.h"
 BossMap* BossMap::GetInstance()
 {
 	static BossMap ins;
@@ -23,8 +24,6 @@ void BossMap::Init()
 			nailobj[i][j]->Initialize(camera);
 			nailobj[i][j]->SetModel(ModelManager::GetIns()->GetModel(ModelManager::NAIL));
 
-			par[i][j] = std::make_unique<Particle>();
-			par[i][j]->Init();
 			//フィールドにモデル割り当て
 			nailobj[i][j]->Initialize(camera);
 			nailobj[i][j]->SetModel(ModelManager::GetIns()->GetModel(ModelManager::NAIL));
@@ -38,8 +37,7 @@ void BossMap::Upda()
 {
 	Enemy* boss=EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0].get();
 	Player* player = PlayerControl::GetInstance()->GetPlayer();
-	RushArea.start = { boss->GetPosition().x ,boss->GetPosition().z};
-	RushArea.end = { player->GetPosition().x ,player->GetPosition().z };
+	
 	// 頂点間の長さを測る
 		// 頂点間の長さを測る
 	float line_length =Collision::CalculationVertexLength(RushArea.start, RushArea.end);
@@ -48,26 +46,19 @@ void BossMap::Upda()
 
 	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
 	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
-	for (int i = 0; i < mapHight; i++) {
-		for (int j = 0; j < mapWidth; j++) {
-			//フィールドにモデル割り当て
-			mapobj[i][j]->SetPosition({ j * BlockSize+cpos.x,cpos.y,i * BlockSize+cpos.z });
-			mapobj[i][j]->SetScale(bsize);
+	
+		for (int i = 0; i < mapHight; i++) {
+			for (int j = 0; j < mapWidth; j++) {
+				//フィールドにモデル割り当て
+				mapobj[i][j]->SetPosition({ j * BlockSize + cpos.x,cpos.y,i * BlockSize + cpos.z });
+				mapobj[i][j]->SetScale(bsize);
 
-			bpoint[i][j].x = mapobj[i][j]->GetPosition().x;
-			bpoint[i][j].y = mapobj[i][j]->GetPosition().z;
-
-			mapobj[i][j]->Update({1,0,0,1},camera);
-			
-			if (Collision::IsCollidingLineAndCircle(RushArea, bpoint[i][j])==true)
-			{
-				mapSize[i][j] = DAMAGEBLOCK;
-			}
-			else {
-				mapSize[i][j] = BLOCK;
-			}
+				bpoint[i][j].x = mapobj[i][j]->GetPosition().x;
+				bpoint[i][j].y = mapobj[i][j]->GetPosition().z;
+				mapobj[i][j]->Update({ 1,0,0,1 }, camera);
 		}
 	}
+
 	if (Input::GetInstance()->TriggerButton(Input::X)) {
 		p = phase::INI;
 	}
@@ -77,21 +68,62 @@ void BossMap::Upda()
 	for (int i = 0; i < mapHight; i++) {
 		for (int j = 0; j < mapWidth; j++) {
 			if (mapSize[i][j] == DAMAGEBLOCK) {
-				
-				nailobj[i][j]->SetPosition(nailPos[i][j]);
-				nailobj[i][j]->SetScale({5.9,6.0,5.0});
-				nailobj[i][j]->SetRotation({ 180,0,0 });
-				nailobj[i][j]->Update({ 1,0,0,1 }, camera);
-				nailobj[i][j]->SetColor({ 1,1,1,nailalpha[i][j]});
-				//mapobj[i][j]->SetUVf(true);
-				mapobj[i][j]->SetColor({ 1,0,0,0.5 });
-			}
-			else {
+				blockColorETime[i][j] += 0.02f;
+			//mapobj[i][j]->SetUVf(true);
+				mapobj[i][j]->SetColor({ blockColor[i][j].x,blockColor[i][j].y,blockColor[i][j].z,0.5 });
+			} else {
+				blockColorETime[i][j] -= 0.02f;
 				mapobj[i][j]->SetUVf(false);
-				mapobj[i][j]->SetColor({ 1,1,1,1 });
+				mapobj[i][j]->SetColor({ blockColor[i][j].x,blockColor[i][j].y,blockColor[i][j].z,0.5 });
 			}
-			}
+
+			blockColor[i][j].x = Easing::EaseOut(blockColorETime[i][j], 0.5f, 1.0f);
+			blockColor[i][j].y = Easing::EaseOut(blockColorETime[i][j], 0.5f, 0.0f);
+			blockColor[i][j].z = Easing::EaseOut(blockColorETime[i][j], 0.5f, 0.0f);
+
+			blockColorETime[i][j] = min(blockColorETime[i][j], 1.0f);
+			blockColorETime[i][j] = max(blockColorETime[i][j], 0.0f);
+
 		}
+	}
+}
+
+void BossMap::DrawDamageLine(bool atckjudg, Line2D line)
+{
+	for (int i = 0; i < mapHight; i++) {
+		for (int j = 0; j < mapWidth; j++) {
+			if (atckjudg)
+			{
+				if (Collision::IsCollidingLineAndCircle(line, bpoint[i][j]) == true)
+				{
+
+					mapSize[i][j] = DAMAGEBLOCK;
+				} 
+				else {
+					mapSize[i][j] = BLOCK;
+				}
+			}
+			
+		}
+	}
+}
+void BossMap::DrawDamageLine(bool atckjudg, Line2D line[4])
+{
+	for (int i = 0; i < mapHight; i++) {
+		for (int j = 0; j < mapWidth; j++) {
+			if (atckjudg)
+			{
+				for (int k = 0; k < 4; k++) {
+					if (Collision::IsCollidingLineAndCircle(line[k], bpoint[i][j]) == true)
+					{
+
+						mapSize[i][j] = DAMAGEBLOCK;
+					}
+				}
+			}
+
+		}
+	}
 }
 
 void BossMap::DamageBlockMove()
@@ -136,11 +168,7 @@ void BossMap::DamageBlockMove()
 		
 		for (int i = 0; i < mapHight; i++) {
 			for (int j = 0; j < mapWidth; j++) {
-				if (mapSize[i][j] == DAMAGEBLOCK) {
-					par[i][j]->CreateParticle(true, mapobj[i][j]->GetPosition());
-					par[i][j]->Upda();
-					nailalpha[i][j] -= 0.05f;
-				}
+				
 
 
 				nailPos[i][j].y = min(nailPos[i][j].y, 15);
@@ -164,7 +192,7 @@ void BossMap::Draw()
 			mapobj[i][j]->Draw();
 			if (mapSize[i][j] == DAMAGEBLOCK) {
 				if (nailalpha[i][j] > 0.0f) {
-					nailobj[i][j]->Draw();
+					//nailobj[i][j]->Draw();
 				}
 				
 			}
@@ -172,13 +200,7 @@ void BossMap::Draw()
 	}
 	Object3d::PostDraw();
 	Texture::PreDraw();
-	for (int i = 0; i < mapHight; i++) {
-		for (int j = 0; j < mapWidth; j++) {
-			if (mapSize[i][j] == DAMAGEBLOCK) {
-				par[i][j]->Draw();
-			}
-		}
-	}
+
 	Texture::PostDraw();
 	ImGui::Begin("map");
 	ImGui::Text("%d", p);

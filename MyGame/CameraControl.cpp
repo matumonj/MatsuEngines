@@ -54,7 +54,7 @@ void CameraControl::ParamSet()
 	elapsedTime = 0.0f;
 	bCamera = BOSSCUTSTART;
 	sCamera = PLAYCUTSTART;
-	mCamera = NON;
+	mCamera = BossAreaCamera::NON; //NON;
 	Tstate = PLAYER;
 	this->camera = new DebugCamera(WinApp::window_width, WinApp::window_height); //(/*input*/);
 	input = Input::GetInstance();
@@ -216,7 +216,6 @@ void CameraControl::AngleRotation()
 /*---------player---------*/
 void CameraControl::TargetPlayer()
 {
-	EncountFlag = false;
 	//OldCameraPos = camera->GetEye();
 	//OldCameratarget = camera->GetTarget();
 	//	encountGuardian = START;
@@ -266,7 +265,8 @@ void CameraControl::TargetPlayer()
 	}
 	if(Tstate==PLAYER)
 	{
-		mCamera = NON;
+		rCamera = RushAttackCamera::NON_RUSH;
+		mCamera =BossAreaCamera::NON;
 	}
 	//}
 }
@@ -339,13 +339,20 @@ void CameraControl::TargetBossField()
 	camera->SetEye(CameraPosition);
 }
 
+void CameraControl::BossDeathStart()
+{
+
+}
+
 void (CameraControl::* CameraControl::targetTable[])() = {
 	nullptr,
 	&CameraControl::TargetPlayer,
 	nullptr,
 	&CameraControl::TargetBossField,
 	&CameraControl::PlaySceneStart,
-	&CameraControl::BossSceneStart
+	&CameraControl::BossSceneStart,
+	&CameraControl::RushTargetBoss,
+	&CameraControl::BossDeathStart
 };
 
 /*------------------------*/
@@ -580,6 +587,49 @@ void CameraControl::ShakeCamera()
 		shakey = 0.0f;
 	}
 	camera->SetEye({ CameraPosition.x + shakex, CameraPosition.y + shakey, CameraPosition.z });
+}
+
+void CameraControl::RushTargetBoss()
+{
+	Enemy* boss = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0].get();
+
+	if (rCamera == RushAttackCamera::NON_RUSH) {
+		OldPos = camera->GetEye();
+		OldTarget= camera->GetTarget();
+	
+		PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(true);
+		rCamera = RushAttackCamera::UPBOSS;
+	}
+	if (rCamera == RushAttackCamera::UPBOSS) {
+		rCameraEtime += 0.01f;
+		if (rCameraEtime < 1.0f) {
+			
+			TargetPos.x = Easing::EaseOut(rCameraEtime, OldTarget.x, boss->GetPosition().x);
+			TargetPos.y = Easing::EaseOut(rCameraEtime, OldTarget.y, OldTarget.y+5);
+
+			TargetPos.z = Easing::EaseOut(rCameraEtime, OldTarget.z, boss->GetPosition().z);
+		}
+		else if(rCameraEtime>2.0f){
+			rCamera= RushAttackCamera::RETURNPLAYER;
+		}
+	}
+	if (rCamera == RushAttackCamera::RETURNPLAYER) {
+		rCameraEtime -= 0.01f;
+
+		if (rCameraEtime >0.0f) {
+			TargetPos.y = Easing::EaseOut(rCameraEtime, OldTarget.y, OldTarget.y + 5);
+
+			TargetPos.x = Easing::EaseOut(rCameraEtime, OldTarget.x, boss->GetPosition().x);
+			TargetPos.z = Easing::EaseOut(rCameraEtime, OldTarget.z, boss->GetPosition().z);
+		} else {
+			PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(false);
+
+			Tstate = PLAYER;
+		
+		}
+	}
+
+	camera->SetTarget(TargetPos);
 }
 
 

@@ -10,6 +10,7 @@
 #include "FbxLoader.h"
 #include"GrassObj.h"
 #include"DebugTxt.h"
+#include <timeapi.h>
 
 class Framework
 {
@@ -29,5 +30,7 @@ protected:
 	//DirectXCommon* dxcomn = nullptr;
 	Audio* audio = nullptr;
 	SceneManager* sceneManger = nullptr;
+
+	
 	//Sprite* sprite = nullptr;
 };

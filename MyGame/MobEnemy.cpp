@@ -47,7 +47,7 @@ void MobEnemy::Initialize(DebugCamera* camera)
 	m_fbxObject->SetModel(FbxLoader::GetInstance()->LoadModelFromFile("monster_golem_demo"));
 	m_fbxObject->PlayAnimation();
 	
-	MaxHP = 950.0f;
+	MaxHP = 50.0f;
 
 	EnemyHP = MaxHP;
 	//パラメータのセット

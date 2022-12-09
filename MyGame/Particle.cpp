@@ -12,7 +12,7 @@ void Particle::Init()
 void Particle::Upda()
 {
 	if (Input::GetInstance()->TriggerButton(Input::Y)) {
-		m_particles[ParType::NORMAL].phase = INIT;
+	//	m_particles[ParType::NORMAL].phase = INIT;
 	}
 	InitNormal(m_particles[ParType::NORMAL],createpos);
 		UpadaNormal_A(m_particles[ParType::NORMAL]);
@@ -108,7 +108,7 @@ void Particle::UpadaNormal_A(ParParam& parparam)
 		parparam.vel[i].x += parparam.speed[i] * cos(parparam.angle[i]); //360度に広がるようにする
 		parparam.vel[i].y += parparam.speed[i] * sin(parparam.angle[i]); //360度に広がるようにする
 		parparam.speed[i] += 0.002f; //徐々にスピードを速く
-		parparam.alpha[i] -= 0.05f;
+		parparam.alpha[i] -= 0.02f;
 		if (parparam.alpha[i] < 0.0f) {
 			parparam.f[i] = false;
 		}
@@ -119,9 +119,9 @@ void Particle::UpadaNormal_A(ParParam& parparam)
 		parparam.partex[i]->Update(CameraControl::GetInstance()->GetCamera());
 
 	}
-	//if (isAryEqual(parparam.alpha) == true) {
-	//	parparam.phase = Phase::END;
-	//}
+	if (isAryEqual(parparam.alpha) == true) {
+		parparam.phase = Phase::END;
+	}
 }
 
 

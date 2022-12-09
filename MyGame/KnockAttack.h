@@ -1,7 +1,11 @@
 #pragma once
 #include"Texture.h"
 #include"Input.h"
-
+#include<array>
+#include<memory>
+#include"Object3d.h"
+#include"Particle.h"
+#include"CollisionPrimitive.h"
 class KnockAttack
 {
 public:
@@ -13,13 +17,19 @@ private:
 	using XMMATRIX = DirectX::XMMATRIX;
 	using XMVECTOR = DirectX::XMVECTOR;
 private:
-	Texture* KnockTex;
-
+	//Texture* KnockTex;
+	static constexpr int axeSize = 4;
+	std::array<std::unique_ptr<Object3d>,axeSize>AxeObj;
+	std::array<XMFLOAT3, axeSize>AxePos;
+	std::array<XMFLOAT3, axeSize>AxeRot;
+	std::array<XMFLOAT3, axeSize>SetPos;
+	std::array<std::unique_ptr<Particle>, axeSize>ImpactPar;
+	float AxePosDownEtime;
 	int AttackCount;
-	float TexAlpha = 1.0f;
-	float AfterPositionZ;
-	float BeforePositionZ;
-	float KnockTime = 0.0f;
+	Line2D damageLine[axeSize];
+	XMVECTOR move[axeSize];
+	XMMATRIX matRot[axeSize];
+	
 public:
 	static KnockAttack* GetInstance();
 	void Initialize();
@@ -27,18 +37,18 @@ public:
 	void ActionJudg();
 
 public:
-	enum Fase
+	enum Phase
 	{
-		FASENON,
-		FASEONE,
-		FASETWO,
-		FASETHREE,
-		FASEFOUR
+		PHASENON,
+		PHASEONE,
+		PHASETWO,
+		PHASETHREE,
+		PHASEFOUR
 	};
 
-	Fase GetFase() { return fase; }
-	void SetAttackFase(bool f) { if (f && fase != FASEONE) { fase = FASEONE; } }
+	Phase GetPhase() { return phase; }
+	void SetAttackPhase(bool f) { if (f && phase != PHASEONE) { phase = PHASEONE; } }
 
 private:
-	Fase fase;
+	Phase phase;
 };

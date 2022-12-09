@@ -17,7 +17,6 @@
 #include"Enemy.h"
 #include"TargetMarker.h"
 #include"ControlBase.h"
-#include"MinimapSprite.h"
 #pragma comment(lib,"winmm.lib")
 class CollisionManager;
 class Player;
@@ -41,7 +40,7 @@ private: // エイリアス
 private:
 	bool playFeed;
 	bool PlayGame;
-	MinimapSprite* postEffect = nullptr;
+	PostEffect* postEffect = nullptr;
 
 public:
 	void MyGameDraw();

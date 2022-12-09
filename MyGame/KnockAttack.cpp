@@ -4,7 +4,7 @@
 #include"PlayerControl.h"
 #include"mHelper.h"
 #include"BossSpell.h"
-
+#include"BossMap.h"
 KnockAttack::~KnockAttack()
 {
 	//delete KnockTex;
@@ -18,75 +18,125 @@ KnockAttack* KnockAttack::GetInstance()
 
 void KnockAttack::Initialize()
 {
-	Texture::LoadTexture(63, L"Resources/Knock.png");
+	AxePos[0] = { 40,200,40 };
+	AxePos[1] = { -40,200,40 };
+	AxePos[2] = { 40,200,-40 };
+	AxePos[3] = { -40,200,-40 };
+	for (int i = 0; i < axeSize; i++) {
+		AxeObj[i] = std::make_unique<Object3d>();
+		AxeObj[i]->SetModel(ModelManager::GetIns()->GetModel(ModelManager::SMALLSWORD));
+		AxeObj[i]->Initialize(CameraControl::GetInstance()->GetCamera());
 
-	KnockTex = Texture::Create(63, {0.0f, 0.0f, 0.0f}, {100.0f, 100.0f, 1.0f}, {1.0f, 1.0f, 1.0f, 1.0f});
-	KnockTex->CreateTexture();
-	KnockTex->SetAnchorPoint({0.5f, 0.5f});
+		AxeRot[i] = { 90.f,float(i) * 90.f,90.f };
+
+		ImpactPar[i] = std::make_unique<Particle>();
+		ImpactPar[i]->Init();
+		SetPos[i] = AxePos[i];
+	}
+	
+
 }
 
 void KnockAttack::ActionJudg()
 {
-	if (fase == FASEONE)
+	if (phase == PHASEONE)
 	{
-		BossSpell::GetInstance()->SetStartSpell(BossSpell::KNOCK, true);
-		if (BossSpell::GetInstance()->GetEndSpell(BossSpell::KNOCK))
-		{
-			//2秒立ったら
-			fase = FASETWO; //攻撃フェーズsrart
+		bool nextPhase = AttackCount > 120;
+		for (int i = 0; i < axeSize; i++) {
+			AxePos[i].y = 200.f;
 		}
-		//吹き飛ばし直前に吹き飛ばし後のプレイヤーz座標を設定
-		AfterPositionZ = PlayerControl::GetInstance()->GetPlayer()->GetPosition().z - 50.0f;
-		BeforePositionZ = PlayerControl::GetInstance()->GetPlayer()->GetPosition().z;
-
-		KnockTime = 0.0f; //イージング用カウンタリセット
-		TexAlpha = 0.6f;
-	}
-
-	if (fase == FASETWO)
-	{
-		TexAlpha -= 0.1f;
-		if (KnockTime >= 1.0f)
-		{
-			fase = FASETHREE;
+		AttackCount++;
+		if (nextPhase) {
+			phase = PHASETWO;
 		}
-		KnockTime += 0.04f; //イージング用カウンタ
-		AttackCount = 0; //攻撃待機時間リセット
-		PlayerControl::GetInstance()->GetPlayer()->SetPosition({
-			PlayerControl::GetInstance()->GetPlayer()->GetPosition().x,
-			PlayerControl::GetInstance()->GetPlayer()->GetPosition().y,
-			Easing::EaseOut(KnockTime, BeforePositionZ, AfterPositionZ)
-		});
 	}
 
-	if (fase == FASETHREE)
+	if (phase == PHASETWO)
 	{
-		BossSpell::GetInstance()->SetEndSpell(BossSpell::KNOCK, false);
+		AttackCount = 0;
+		AxePosDownEtime += 0.002f;
+
+		for (int i = 0; i < axeSize; i++) {
+			AxePos[i].y = Easing::EaseOut(AxePosDownEtime, 200.f, 70);
+		}
+		for (int i = 0; i < axeSize; i++) {
+			//斧が向いてる方向に動く
+			move[i] = { 0.0f, 0.0f, 0.1f, 0.0f };
+			matRot[i] = XMMatrixRotationY(XMConvertToRadians(AxeRot[i].y));
+
+			move[i] = XMVector3TransformNormal(move[i], matRot[i]);
+		}
+		if (AxePosDownEtime >= 1.0f) {
+			phase =PHASETHREE;
+		}
 	}
-	if (CameraControl::GetInstance()->GetCamera() != nullptr)
+
+	if (phase == PHASETHREE)
 	{
-		KnockTex->SetUVMove(true);
-		KnockTex->SetBillboard(false);
+		AxePosDownEtime += 0.5f;
 
-		KnockTex->Update(CameraControl::GetInstance()->GetCamera());
+		
+		AttackCount++;
+		if (AttackCount > 380) {
+			for (int i = 0; i < axeSize; i++) {
+			//斧が向いてる方向に動く
+			move[i] = {0.0f, 0.0f, 0.1f, 0.0f};
+			matRot[i] = XMMatrixRotationY(XMConvertToRadians(AxeRot[i].y));
+
+		    move[i] = XMVector3TransformNormal(move[i], matRot[i]);
+		
+			AxePos[i].x += move[i].m128_f32[0] * 5.0f;
+			AxePos[i].z += move[i].m128_f32[2] * 5.0f;
+			AxePos[i].y = 10.f;
+			AxeRot[i].x =0 + sinf(3.14f * 2.f / 30.f * AxePosDownEtime) * -70;
+			if (AxeRot[i].x <= -50) {
+				CameraControl::GetInstance()->ShakeCamera();
+			}
+			if (AttackCount > 800) {
+				phase = PHASEFOUR;
+			}
+			}
+		}
+		else {
+			for (int i = 0; i < axeSize; i++) {
+				AxeRot[i].x = 90 + sinf(3.14f * 2.f / 120.f * AxePosDownEtime) * 90;
+			}
+		}
 	}
-	KnockTex->SetPosition({0.0f, -18.0f, 0.0f});
-	KnockTex->SetColor({1.0f, 1.0f, 1.0f, TexAlpha});
-	KnockTex->SetRotation({90.0f, 0.0f, 0.0f});
-	KnockTex->SetScale({11.0f, 11.0f, 3.0f});
-	AttackCount = min(AttackCount, 180);
-	AttackCount = max(AttackCount, 0);
 
-	TexAlpha = min(TexAlpha, 1.0f);
-	TexAlpha = max(TexAlpha, 0.0f);
+	if (phase == PHASEFOUR) {
+
+	}
+	for (int i = 0; i < axeSize; i++) {
+		AxeObj[i]->SetPosition(AxePos[i]);
+		AxeObj[i]->SetScale({ 4,3,4 });
+		AxeObj[i]->SetRotation(AxeRot[i]);
+		AxeObj[i]->Update({ 1,1,1,1 }, CameraControl::GetInstance()->GetCamera());
+		ImpactPar[i]->CreateParticle((phase==PHASETHREE&&AttackCount>180&&AxeRot[i].x<=10), {AxePos[i].x + move[i].m128_f32[0] * 40.0f,14.f, AxePos[i].z + move[i].m128_f32[2] * 40.0f});
+		ImpactPar[i]->Upda();
+		damageLine[i].start = { AxePos[i].x,AxePos[i].z };
+		damageLine[i].end = { SetPos[i].x+= move[i].m128_f32[0] * 8.0f,SetPos[i].z+= move[i].m128_f32[2] * 8.0f };
+		BossMap::GetInstance()->DrawDamageLine( phase == PHASETHREE, damageLine);
+	}
+	
 }
-
+#include"imgui.h"
 void KnockAttack::Draw()
 {
-	Texture::PreDraw();
-	if (fase == FASEONE)
-	{
-		KnockTex->Draw();
+	int i = 0;
+	if ((phase == PHASETHREE && AttackCount > 179)) {
+		i = 1;
 	}
-	Texture::PostDraw();
+	ImGui::Begin("k");
+	
+	ImGui::Text("%d", i);
+	ImGui::End();
+	Object3d::PreDraw();
+	for (int i = 0; i < axeSize; i++) {
+		AxeObj[i]->Draw();
+	}
+	Object3d::PostDraw();
+	for (int i = 0; i < axeSize; i++) {
+		ImpactPar[i]->Draw();
+	}
 }

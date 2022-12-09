@@ -57,7 +57,7 @@ bool Collision::IsCollidingLineAndCircle(Line2D line, Point circle)
 	float distance_projection = start_to_center.x * normal_start_to_end.y - normal_start_to_end.x * start_to_center.y;
 
 	// 射影の長さが半径よりも小さい
-	if (fabs(distance_projection) < 20)
+	if (fabs(distance_projection) < 40)
 	{
 		// 始点 => 終点と始点 => 円の中心の内積を計算する
 		float dot01 = start_to_center.x * start_to_end.x+ start_to_center.y * start_to_end.y;
@@ -74,8 +74,8 @@ bool Collision::IsCollidingLineAndCircle(Line2D line, Point circle)
 			始点 => 円の中心の長さか、終点 => 円の中心の長さが
 			円の半径よりも短かったら当たり
 		*/
-		else if (CalculationVectorLength(start_to_center) <20 ||
-			CalculationVectorLength(end_to_center) < 20)
+		else if (CalculationVectorLength(start_to_center) <40 ||
+			CalculationVectorLength(end_to_center) < 40)
 		{
 			return true;
 		}

@@ -18,7 +18,7 @@ void BossEnemyAttackHalf::Update(Enemy* enemy)
 	}
 	
 	//半面攻撃のフェーズが最後まで行ったらボスのstateを追跡に
-	if (HalfAttack::GetInstance()->GetFaseEnd() == HalfAttack::FASEFOUR)
+	if (HalfAttack::GetInstance()->GetPhaseEnd() == HalfAttack::PHASEFOUR)
 	{
 		enemy->ChangeState_Boss(new BossEnemyFollow());
 	}

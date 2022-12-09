@@ -10,11 +10,11 @@ void BossEnemyAttackKnock::Initialize(Enemy* enmey)
 void BossEnemyAttackKnock::Update(Enemy* enemy)
 {
 	KnockAttack::GetInstance()->ActionJudg();
-	if (Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) <= 30.0f)
+	if (Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) <= 90.0f)
 	{
 		enemy->SetAttack_End(enemy->KNOCK, true);
 	}
-	if (KnockAttack::GetInstance()->GetFase() == KnockAttack::FASETHREE)
+	if (KnockAttack::GetInstance()->GetPhase() == KnockAttack::PHASEFOUR)
 	{
 		enemy->ChangeState_Boss(new BossEnemyFollow());
 	}

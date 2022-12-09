@@ -36,13 +36,13 @@ private:
 	bool isDestoy = false;
 	void TextBeha();
 
-	enum Fase
+	enum Phase
 	{
-		FASEONE,
-		FASETWO
+		PHASEONE,
+		PHASETWO
 	};
 
-	Fase fase;
+	Phase phase;
 public:
 	void SetPosition(XMFLOAT3 position) { Position = position; }
 	XMFLOAT3 GetPosition() { return Position; }

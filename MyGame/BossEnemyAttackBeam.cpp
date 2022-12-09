@@ -15,7 +15,7 @@ void BossEnemyAttackBeam::Update(Enemy* enemy)
 	{
 		enemy->SetAttack_End(enemy->Beam, true);
 	}
-	if (AltAttack::GetInstance()->GetFaseEnd() == AltAttack::FASEFOUR)
+	if (AltAttack::GetInstance()->GetPhaseEnd() == AltAttack::PHASEFOUR)
 	{
 		enemy->ChangeState_Boss(new BossEnemyFollow());
 	}

@@ -287,7 +287,7 @@ void Player::FbxAnimationControls(const AttackMotion& motiontype, const float at
 
 void Player::FbxAnimationControl()
 {
-	if (evasionF || noAttack)
+	if (evasionF || noAttack||StopFlag)
 	{
 		return;
 	}

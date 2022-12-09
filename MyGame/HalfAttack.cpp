@@ -19,7 +19,7 @@ HalfAttack* HalfAttack::GetInstance()
 
 void HalfAttack::Initialize()
 {
-	fase = FASENON;
+	phase = PHASENON;
 	Texture::LoadTexture(21, L"Resources/2d/BossAttackEffect/DamageArea.png");
 
 	Texture* l_Tex[EnemySize];
@@ -34,7 +34,7 @@ void HalfAttack::Initialize()
 
 bool HalfAttack::SummonEnemy()
 {
-	if (fase==FASETWO) {
+	if (phase==PHASETWO) {
 		return true;
 	}
 	return false;
@@ -42,11 +42,11 @@ bool HalfAttack::SummonEnemy()
 void HalfAttack::ActionJudg()
 {
 	Enemy* Boss = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0].get();
-	//fase1　カウントダウンと中央に戻る処理
+	//phase1　カウントダウンと中央に戻る処理
 	PlayerPos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 	BossEnemyPos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
 	CenterPos = {0.0f, -18.0f, 0.0f};
-	if (fase == FASEONE)
+	if (phase == PHASEONE)
 	{
 		TexAlpha = 1.0f;
 		BossSpell::GetInstance()->SetEndSpell(BossSpell::HALF_RIGHT, false);
@@ -59,24 +59,24 @@ void HalfAttack::ActionJudg()
 		RotY += 2.0f;
 		
 		if (TexScl[0].x > 5.0f) {
-			fase = FASETWO;
+			phase = PHASETWO;
 		}
 	}
 
-	if (fase == FASETWO)
+	if (phase == PHASETWO)
 	{
 		TexAlpha -= 0.01f;
 	}
 
 	if (TexAlpha <= 0.0f) {
-		fase = FASETHREE;
+		phase = PHASETHREE;
 	}
 
-	if (fase == FASETHREE)
+	if (phase == PHASETHREE)
 	{
-		fase = FASEFOUR;
+		phase = PHASEFOUR;
 	}
-	if (fase == FASEFOUR)
+	if (phase == PHASEFOUR)
 	{
 		//TexAlpha = 0.5f;
 	}
@@ -104,7 +104,7 @@ void HalfAttack::Draw()
 		MagicTex[i]->Draw();
 	}
 	Texture::PostDraw();
-	if (fase == FASETHREE)
+	if (phase == PHASETHREE)
 	{
 		//Nail::GetInstance()->Draw();
 	}

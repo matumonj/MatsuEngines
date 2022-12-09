@@ -15,7 +15,7 @@ public:
 	void Upda();
 	void Draw();
 
-	void CreateParticle(bool f, XMFLOAT3 pos) { createpos = pos;if(m_particles[ParType::NORMAL].phase == NON) m_particles[ParType::NORMAL].phase = INIT; }
+	void CreateParticle(bool f, XMFLOAT3 pos) { createpos = pos; if (f&&(m_particles[ParType::NORMAL].phase ==NON|| m_particles[ParType::NORMAL].phase ==END)) m_particles[ParType::NORMAL].phase = INIT; }
 
 private:
 	enum Type {

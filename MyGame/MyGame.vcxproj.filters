@@ -537,9 +537,6 @@
     <ClCompile Include="GrassFieldControl.cpp">
       <Filter>Game\gameobject\Control</Filter>
     </ClCompile>
-    <ClCompile Include="MinimapSprite.cpp">
-      <Filter>Game\2d %28DebugTxt  Sprite Texture%29\sprite</Filter>
-    </ClCompile>
     <ClCompile Include="StoneControl.cpp">
       <Filter>Game\gameobject\Control</Filter>
     </ClCompile>
@@ -580,7 +577,7 @@
       <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="BossMap.cpp">
-      <Filter>Game</Filter>
+      <Filter>Game\Shader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -854,9 +851,6 @@
     <ClInclude Include="SelectSword.h">
       <Filter>Game\UI\Config</Filter>
     </ClInclude>
-    <ClInclude Include="UI.h">
-      <Filter>Game\UI</Filter>
-    </ClInclude>
     <ClInclude Include="CustomButton.h">
       <Filter>Game\UI\Config</Filter>
     </ClInclude>
@@ -905,9 +899,6 @@
     <ClInclude Include="PlayerControl.h">
       <Filter>Game\gameobject\Control</Filter>
     </ClInclude>
-    <ClInclude Include="GigaBossEnemy.h">
-      <Filter>Game\gameobject\GameObject\Enemy\Derived</Filter>
-    </ClInclude>
     <ClInclude Include="CircleShadow.h">
       <Filter>Game\gameobject\light</Filter>
     </ClInclude>
@@ -934,9 +925,6 @@
     </ClInclude>
     <ClInclude Include="GrassFieldControl.h">
       <Filter>Game\gameobject\Control</Filter>
-    </ClInclude>
-    <ClInclude Include="MinimapSprite.h">
-      <Filter>Game\2d %28DebugTxt  Sprite Texture%29\sprite</Filter>
     </ClInclude>
     <ClInclude Include="StoneControl.h">
       <Filter>Game\gameobject\Control</Filter>
@@ -985,6 +973,9 @@
     </ClInclude>
     <ClInclude Include="BossMap.h">
       <Filter>Game\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -2,8 +2,6 @@
 #include"EnemyControl.h"
 #include"CameraControl.h"
 #include"BossSpell.h"
-#include"GigaBossEnemy.h"
-
 FrontCircleAttack* FrontCircleAttack::GetInstance()
 {
 	static FrontCircleAttack instance;
@@ -18,7 +16,7 @@ void FrontCircleAttack::Initialize()
 	DamageAreaTex->CreateTexture();
 	DamageAreaTex->SetAnchorPoint({0.5f, 0.5f});
 
-	fase = FASENON;
+	phase = PHASENON;
 	TexAlpha = 0.0f;
 }
 
@@ -31,38 +29,38 @@ void FrontCircleAttack::ActionJudg()
 
 	if (Input::GetInstance()->TriggerButton(Input::X))
 	{
-		fase = FASEONE;
+		phase = PHASEONE;
 	}
 
 	//フェーズごとの処理
-	switch (fase)
+	switch (phase)
 	{
-	case FASENON:
+	case PHASENON:
 		TexAlpha = 0;
 		break;
-	case FASEONE:
+	case PHASEONE:
 		TexAlpha = 1.0f;
 		BossSpell::GetInstance()->SetStartSpell(BossSpell::SLAM, true);
 		if (BossSpell::GetInstance()->GetEndSpell(BossSpell::SLAM))
 		{
-			fase = FASETWO;
+			phase = PHASETWO;
 		}
-	//fase = FASETWO;
+	//phase = PHASETWO;
 		break;
-	case FASETWO:
-		fase = FASETHREE;
+	case PHASETWO:
+		phase = PHASETHREE;
 		break;
-	case FASETHREE:
+	case PHASETHREE:
 
 
 		TexAlpha -= 0.02f;
 		if (TexAlpha <= 0.0f)
 		{
-			fase = FASEFOUR;
+			phase = PHASEFOUR;
 		}
 
 		break;
-	case FASEFOUR:
+	case PHASEFOUR:
 		BossSpell::GetInstance()->SetEndSpell(BossSpell::SLAM, false);
 		break;
 	default:

@@ -14,7 +14,7 @@ void Framework::Run()
 		{
 			break;
 		}
-
+	
 		Draw();
 	}
 	//Finalize();

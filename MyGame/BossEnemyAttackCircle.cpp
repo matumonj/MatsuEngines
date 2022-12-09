@@ -19,7 +19,7 @@ void BossEnemyAttackCircle::Update(Enemy* enemy)
 		enemy->SetAttack_End(enemy->CIRCLE_1, true);
 	}
 
-	if (CircleAttack::GetInstance()->GetFaseEnd() == CircleAttack::FASEFOUR)
+	if (CircleAttack::GetInstance()->GetPhaseEnd() == CircleAttack::PHASEFOUR)
 	{
 		enemy->ChangeState_Boss(new BossEnemyFollow());
 	}

@@ -21,7 +21,6 @@
 #include"ControlBase.h"
 #include"ParticleManager.h"
 #pragma comment(lib,"winmm.lib")
-#include"MinimapSprite.h"
 #include"GrassField.h"
 #include"GrassObj.h"
 class CollisionManager;
@@ -51,7 +50,7 @@ private:
 
 	bool scenechange = false;
 	bool feedflag = false;
-	MinimapSprite* postEffect = nullptr;
+	PostEffect* postEffect = nullptr;
 	DebugCamera* dc = nullptr;
 public:
 	void MyGameDraw();

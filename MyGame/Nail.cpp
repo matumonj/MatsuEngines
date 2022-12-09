@@ -16,13 +16,13 @@ Nail* Nail::GetInstance()
 
 void Nail::HalfAttack(const HalfAttackArea& area)
 {
-	if (HAttack.fase == NON && !HAttack.EndAction)
+	if (HAttack.phase == NON && !HAttack.EndAction)
 	{
-		HAttack.fase = FASE_ONE;
+		HAttack.phase = PHASE_ONE;
 	}
-	switch (HAttack.fase)
+	switch (HAttack.phase)
 	{
-	case FASE_ONE:
+	case PHASE_ONE:
 
 		NailAmountSet(20);
 		for (int i = 0; i < Nails.size(); i++)
@@ -43,16 +43,16 @@ void Nail::HalfAttack(const HalfAttackArea& area)
 			Nails[i]->SetScale({1.0f, 3.0f, 1.0f});
 			Nails[i]->SetPosition({static_cast<float>(HAttack.XN[i]), MinY, static_cast<float>(HAttack.ZN[i])});
 		}
-		HAttack.fase = FASE_TWO;
+		HAttack.phase = PHASE_TWO;
 		break;
-	case FASE_TWO:
+	case PHASE_TWO:
 		if (MinY <= -10.0f)
 		{
 			MinY += 1.0f;
 		}
 		else
 		{
-			HAttack.fase = FASE_THREE;
+			HAttack.phase = PHASE_THREE;
 		}
 		for (int i = 0; i < Nails.size(); i++)
 		{
@@ -61,7 +61,7 @@ void Nail::HalfAttack(const HalfAttackArea& area)
 
 		HAttack.WaitCount = 0;
 		break;
-	case FASE_THREE:
+	case PHASE_THREE:
 		HAttack.WaitCount++;
 		if (HAttack.WaitCount >= 60)
 		{
@@ -70,7 +70,7 @@ void Nail::HalfAttack(const HalfAttackArea& area)
 		if (MinY <= -30.0f)
 		{
 			HAttack.EndAction = true;
-			HAttack.fase = NON;
+			HAttack.phase = NON;
 		}
 		for (int i = 0; i < Nails.size(); i++)
 		{
@@ -99,14 +99,14 @@ void Nail::CircleAttack(int area1, int area2)
 	XMFLOAT3 DirectionPos[4] = {
 		{0.0f, -18.0f, 60.0f}, {0.0f, -18.0f, -60.0f}, {60.0f, -18.0f, 0.0f}, {-60.0f, -18.0f, 0.0f}
 	}; //3
-	if (CAttack.fase == NON && !CAttack.EndAction)
+	if (CAttack.phase == NON && !CAttack.EndAction)
 	{
-		CAttack.fase = FASE_ONE;
+		CAttack.phase = PHASE_ONE;
 	}
 
-	switch (CAttack.fase)
+	switch (CAttack.phase)
 	{
-	case FASE_ONE:
+	case PHASE_ONE:
 		//ここで出す釘の数設定
 		NailAmountSet(25);
 	//座標ずらしの要素数を釘の配列サイズ分
@@ -133,16 +133,16 @@ void Nail::CircleAttack(int area1, int area2)
 			});
 		}
 	//次のフェーズへ
-		CAttack.fase = FASE_TWO;
+		CAttack.phase = PHASE_TWO;
 		break;
-	case FASE_TWO:
+	case PHASE_TWO:
 		if (MinY <= 20.0f)
 		{
 			MinY += 1.0f; //釘出るよ
 		}
 		else
 		{
-			CAttack.fase = FASE_THREE; //出終わったら次のフェーズへ
+			CAttack.phase = PHASE_THREE; //出終わったら次のフェーズへ
 		}
 		
 		for (int i = 0; i < Nails.size(); i++)
@@ -151,7 +151,7 @@ void Nail::CircleAttack(int area1, int area2)
 			Nails[i]->SetScale({1.5f, 3.0f, 1.5f});
 		}
 		break;
-	case FASE_THREE:
+	case PHASE_THREE:
 		CAttack.WaitCount++; //釘出現してから一定時間立ったら引っ込める
 		if (CAttack.WaitCount >= 60)
 		{
@@ -159,7 +159,7 @@ void Nail::CircleAttack(int area1, int area2)
 		}
 		if (MinY <= -30.0f)
 		{
-			CAttack.fase = NON;
+			CAttack.phase = NON;
 			CAttack.EndAction = true; //１連の挙動終了
 		}
 		for (int i = 0; i < Nails.size(); i++)
@@ -200,8 +200,8 @@ void Nail::ModelSet()
 {
 	Nailmodel = ModelManager::GetIns()->GetModel(ModelManager::NAIL);
 	//攻撃フェーズは初期値NON固定
-	HAttack.fase = NON;
-	CAttack.fase = NON;
+	HAttack.phase = NON;
+	CAttack.phase = NON;
 	MinY = -30;
 }
 

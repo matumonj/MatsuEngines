@@ -26,7 +26,7 @@ void ModelManager::Initialize()
 	LoadModel(DAMAGEAREA, "BossFieldDamageArea");
 	LoadModel(BOX, "Box");
 	LoadModel(BEAM, "BeamObj");
-	LoadModel(SMALLSWORD, "Wand");
+	LoadModel(SMALLSWORD, "Hammer");
 	LoadModel(ICECRYSTAL, "crystal");
 	LoadModel(CELESTIALSPHERE, "skydome");
 	LoadModel(NORMALSWORD, "sword");
