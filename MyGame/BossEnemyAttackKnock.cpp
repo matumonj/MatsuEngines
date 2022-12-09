@@ -14,8 +14,16 @@ void BossEnemyAttackKnock::Update(Enemy* enemy)
 	{
 		enemy->SetAttack_End(enemy->KNOCK, true);
 	}
+	if (KnockAttack::GetInstance()->GetPhase() == KnockAttack::PHASETHREE)
+	{
+		enemy->SetMagicAttackTime(false);
+	}
+	else {
+		enemy->SetMagicAttackTime(true);
+	}
 	if (KnockAttack::GetInstance()->GetPhase() == KnockAttack::PHASEFOUR)
 	{
+		
 		enemy->ChangeState_Boss(new BossEnemyFollow());
 	}
 }

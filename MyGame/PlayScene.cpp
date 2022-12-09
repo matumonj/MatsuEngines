@@ -62,14 +62,13 @@ void PlayScene::objUpdate(DebugCamera* camera)
 	{
 		for (int i = 0; i < AllObjectControl.size(); i++)
 		{
-			if (AllObjectControl[i] == nullptr)
-			{
-				continue;
-			}
+			if (AllObjectControl[i] == nullptr)continue;
 			AllObjectControl[i]->Update((CameraControl::GetInstance()->GetCamera()));
 		}
 	}
+	
 	TargetMarker::GetInstance()->Update_PlayScene(CameraControl::GetInstance()->GetCamera());
+	
 	if (CameraControl::GetInstance()->GetCamera() != nullptr)
 	{
 		Field::GetInstance()->Update((CameraControl::GetInstance()->GetCamera()));
