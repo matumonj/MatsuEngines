@@ -103,7 +103,11 @@ void BossMap::DrawDamageLine(bool atckjudg, Line2D line)
 					mapSize[i][j] = BLOCK;
 				}
 			}
-			
+
+			else {
+
+				mapSize[i][j] = BLOCK;
+			}
 		}
 	}
 }

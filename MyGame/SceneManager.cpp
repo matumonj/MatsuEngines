@@ -5,7 +5,26 @@ SceneManager* SceneManager::GetInstance()
 	static SceneManager instance;
 	return &instance;
 }
-
+void SceneManager::SetScene(NowScene scene, SceneManager* scman) {
+	this->scene = scene;
+	BaseScene* nextscene=nullptr;
+	if (scene == TUTORIAL) {
+		 nextscene = new Tutorial(scman); //次のシーンのインスタンス生成
+	}
+	if (scene == PLAY) {
+		nextscene = new PlayScene(scman); //次のシーンのインスタンス生成
+	}
+	if (scene == BOSS) {
+		nextscene = new BossScene(scman); //次のシーンのインスタンス生成
+	}
+	if (scene == MAPCREATE) {
+		nextscene = new MapCreateScene(scman); //次のシーンのインスタンス生成
+	}
+	if (scene == TITLE) {
+		nextscene = new TitleScene(scman); //次のシーンのインスタンス生成
+	}
+	scman->SetnextScene(nextscene); 
+}
 /// <summary>
 /// 更新
 /// </summary>

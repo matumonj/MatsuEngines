@@ -41,7 +41,7 @@ void AltAttack::ActionJudg()
 		RushEaseTime = 0.0f;
 		break;
 	case PHASEONE:
-		CameraControl::GetInstance()->SetCameraState(CameraControl::RUSHSCENE);
+		//CameraControl::GetInstance()->SetCameraState(CameraControl::RUSHSCENE);
 
 		phase = PHASETWO;
 		break;
@@ -49,9 +49,11 @@ void AltAttack::ActionJudg()
 		RushStart();
 		break;
 	case PHASETHREE:
+	
 		RushAttack();
 		break;
 	case PHASEFOUR:
+
 		RushParamReset();
 		
 		break;
@@ -67,8 +69,6 @@ void AltAttack::Upda()
 {
 	Enemy* boss = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0].get();
 	if (boss == nullptr)return;
-	DamageLine.start = { boss->GetPosition().x,boss->GetPosition().z };
-
 	if (area == FIV) {
 		DestTime += 0.2f;
 		rushspherealpha -= 0.02f;
@@ -77,7 +77,6 @@ void AltAttack::Upda()
 
 	}
 
-	BossMap::GetInstance()->DrawDamageLine((phase == PHASETHREE),DamageLine);
 	RushSphereObj->SetScale(rushspherescl);
 	RushSphereObj->SetColor({ 1.f,1.f,1.f,rushspherealpha });
 	RushSphereObj->SetUVf(true);
@@ -160,11 +159,14 @@ void AltAttack::Rush(Area& area,Area now,Area next,float& t)
 			rushpos.x= Easing::EaseOut(t, oldp[now].x, rushimpactarea[now].x);
 			rushpos.z = Easing::EaseOut(t, oldp[now].z, rushimpactarea[now].z);
 		}
-	
+	if(now!=END){
 		DamageLine.end = { rushimpactarea[next].x,rushimpactarea[next].z };
+		
 		if (t >= 6.0f) {
 			area = next;
+
 		}
+	}
 	}
 	
 }
@@ -179,6 +181,8 @@ void AltAttack::RushAttack()
 	XMFLOAT3 Bpos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
 
 
+	DamageLine.start = { Bpos.x,Bpos.z };
+
 		Rush(area, FIR, SEC, rushEtime[FIR]);
 		Rush(area, SEC, THI, rushEtime[SEC]);
 		Rush(area, THI, FIU, rushEtime[THI]);
@@ -190,8 +194,14 @@ void AltAttack::RushAttack()
 		RushSphereObj->SetPosition(rushpos);
 
 	
-	if (area == Area::END) {
+	if (rushEtime[FIV]>=1.0f) {
+
+		BossMap::GetInstance()->DrawDamageLine(false, DamageLine);
 		phase = Phase::PHASEFOUR;
+	}
+	else {
+
+		BossMap::GetInstance()->DrawDamageLine(true, DamageLine);
 	}
 }
 void AltAttack::RushParamReset()

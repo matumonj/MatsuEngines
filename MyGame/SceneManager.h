@@ -1,7 +1,11 @@
 #pragma once
 #include"BaseScene.h"
 #include<thread>
-
+#include"Tutorial.h"
+#include"PlayScene.h"
+#include"BossScene.h"
+#include"MapCreateScene.h"
+#include"TitleScene.h"
 class SceneManager
 {
 public:
@@ -27,7 +31,7 @@ public:
 	};
 
 	NowScene GetScene() { return scene; }
-	void SetScene(NowScene scene) { this->scene = scene; }
+	void SetScene(NowScene scene, SceneManager* scman = nullptr);
 private:
 	NowScene scene = TITLE;
 	std::thread t;

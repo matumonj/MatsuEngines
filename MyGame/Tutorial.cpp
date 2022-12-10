@@ -5,6 +5,7 @@
 #include"MapCreateScene.h"
 #include"Field.h"
 #include"PlayerAttackState.h"
+#include"TutorialSprite.h"
 #include"SistemConfig.h"
 #include"EnemyControl.h"
 #include"WoodControl.h"
@@ -63,6 +64,7 @@ void Tutorial::Initialize()
 	SistemConfig::GetInstance()->Initialize();
 	SelectSword::GetInstance()->Initialize();
 
+	
 	Sprite::LoadTexture(0, L"Resources/2d/LevelUp/debugfont.png");
 	DebugTextSprite::GetInstance()->Initialize(0);
 }
@@ -159,18 +161,14 @@ void Tutorial::Update()
 if (scenechange && Feed::GetInstance()->GetAlpha() >= 1.0f)
 	{
 		//画面真っ白なったら
-		BaseScene* scene = new PlayScene(sceneManager_); //次のシーンのインスタンス生成
 		Play = false;
-		SceneManager::GetInstance()->SetScene(SceneManager::PLAY);
-		sceneManager_->SetnextScene(scene); //シーンのセット
-	}
+		SceneManager::GetInstance()->SetScene(SceneManager::PLAY,sceneManager_);
+		}
 if (Input::GetInstance()->TriggerButton(Input::RT)) {
 	//画面真っ白なったら
-	BaseScene* scene = new BossScene(sceneManager_); //次のシーンのインスタンス生成
 	Play = false;
-	SceneManager::GetInstance()->SetScene(SceneManager::BOSS);
-	sceneManager_->SetnextScene(scene); //シーンのセット
-
+	SceneManager::GetInstance()->SetScene(SceneManager::BOSS,sceneManager_);
+	
 	}
 }
 
@@ -220,6 +218,8 @@ void Tutorial::Draw()
 		DirectXCommon::GetInstance()->BeginDraw();
 		Field::GetInstance()->Draw();
 		MyGameDraw();
+
+		TutorialSprite::GetInstance()->DrawTargetPos();
 	//postEffect->Draw();
 		Sprite::PreDraw();
 		if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr) {

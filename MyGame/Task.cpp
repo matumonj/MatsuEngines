@@ -277,7 +277,7 @@ void Task::Draw()
 	ImGui::SliderFloat("FScaleX", &TaskScl.x, 0, 1900);
 	ImGui::SliderFloat("FScaleY", &TaskScl.y, 0, 1200);*/
 
-	//ImGui::End();
+	//ImGui::E11nd();
 
 }
 void Task::TaskSequence()

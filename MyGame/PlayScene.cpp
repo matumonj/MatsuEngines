@@ -149,10 +149,7 @@ void PlayScene::ChangeSceneJudg()
 				{
 					PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(FALSE);
 
-					//画面真っ白なったら
-					BaseScene* scene = new BossScene(sceneManager_); //次のシーンのインスタンス生成
-					SceneManager::GetInstance()->SetScene(SceneManager::BOSS);
-					sceneManager_->SetnextScene(scene); //シーンのセット
+					SceneManager::GetInstance()->SetScene(SceneManager::BOSS,sceneManager_);
 				}
 			}
 

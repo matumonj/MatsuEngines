@@ -24,6 +24,11 @@ private:
 	std::array<XMFLOAT3, axeSize>AxeRot;
 	std::array<XMFLOAT3, axeSize>SetPos;
 	std::array<std::unique_ptr<Particle>, axeSize>ImpactPar;
+	std::array<std::unique_ptr<Texture>, axeSize>ImpactTex;
+	std::array<XMFLOAT3, axeSize>ImpactTexScl;
+	std::array<XMFLOAT3, axeSize>ImpactTexPos;
+	std::array<float, axeSize>ImpactTexAlpha;
+	float corre;
 	float AxePosDownEtime;
 	int AttackCount;
 	Line2D damageLine[axeSize];
@@ -35,7 +40,7 @@ public:
 	void Initialize();
 	void Draw();
 	void ActionJudg();
-
+	void Finalize();
 public:
 	enum Phase
 	{

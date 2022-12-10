@@ -83,7 +83,7 @@ void Player::Move()
 	{
 		return;
 	}
-
+	if (attackMotion != RUN && attackMotion != NON)return;
 	XMFLOAT3 pos = Position;
 	XMFLOAT3 rot = Rotation;
 
@@ -170,7 +170,7 @@ void Player::Move()
 
 void Player::Evasion()
 {
-	if (evasionF||StopFlag)
+	if (evasionF)
 	{
 		if (evaTime < 1.0f)
 		{
@@ -246,7 +246,12 @@ void Player::Update(DebugCamera* camera)
 
 void Player::Draw()
 {
+	ImGui::Begin("pos");
 
+	ImGui::Text("%f", Position.x);
+	ImGui::Text("%f", Position.y);
+
+	ImGui::Text("%f", Position.z);
 	ImGui::End();
 	Draw_Fbx();
 	SelectSword::GetInstance()->SwordDraw();

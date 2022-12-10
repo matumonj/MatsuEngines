@@ -1,19 +1,26 @@
 #pragma once
 #include"Sprite.h"
 #include"Input.h"
-
+#include"Texture.h"
 class TutorialSprite
 {
 public:
 	~TutorialSprite();
 	static TutorialSprite* GetInstance();
 private:
-	static const int TaskNum = 7;
+	static const int TaskNum = 5;
 	Sprite* Task[TaskNum];
 	Sprite* notClearTask[5];
+	Texture* TargetPoint_Ground;
+	Texture* TargetPoint_Icon;
+	float TargetIconPosY;
+	float TargetPoint_GroundRotY;
+	float targetAlpha;
+	DirectX::XMFLOAT3 TargetTexSize;
 	Sprite* movecn;;
 	Sprite* Attackcon;
 	DirectX::XMFLOAT2 conpos;
+	DirectX::XMFLOAT2 spos;
 	float movea;
 	float atacka;
 	enum CLEARTASK
@@ -33,9 +40,7 @@ private:
 
 		THELLO,
 		TMOVE,
-		TSETTING,
 		TATTACK,
-		TATTACK2,
 		TGETKEY,
 		TEND
 	};
@@ -45,8 +50,6 @@ private:
 		HELLO,
 		WALK,
 		ATTACK,
-		ATTACK2,
-		SETTING,
 		GETKEY,
 		CLEAR,
 	};
@@ -67,6 +70,9 @@ private:
 
 	void CheckMove_Camera_Player();
 	void CheckAttack();
+
+	int MoveTime;
+	void TargetPosTexMove();
 public:
 	void Initialize();
 
@@ -76,9 +82,10 @@ public:
 
 	void Finalize();
 
+	void DrawTargetPos();
 	void Ease_SpriteSize_Up(float& x, float& t, int index);
 	void NextTask(float t, TaskMenu nexttask, bool nextjudg);
 
 	bool GetClearMove() { return ClearTaskJudg[WALK]; }
-	bool GetClearSetting() { return ClearTaskJudg[SETTING]; }
+	bool GetClearSetting() { return ClearTaskJudg[GETKEY]; }
 };

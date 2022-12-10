@@ -103,7 +103,6 @@ void BossScene::Update()
 	}
 	BossMap::GetInstance()->Upda();
 	AltAttack::GetInstance()->Upda();
-	KnockAttack::GetInstance()->ActionJudg();
 }
 
 

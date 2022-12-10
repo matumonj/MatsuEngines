@@ -77,9 +77,7 @@ void TitleScene::Update()
 	celestal->SetScale({30.f, 30.1f, 30.1f});
 	if (Input::GetInstance()->TriggerButton(Input::B))
 	{
-		BaseScene* scene = new Tutorial(sceneManager_); //次のシーンのインスタンス生成
-		SceneManager::GetInstance()->SetScene(SceneManager::TUTORIAL);
-		sceneManager_->SetnextScene(scene); //シーンのセット
+		SceneManager::GetInstance()->SetScene(SceneManager::TUTORIAL,sceneManager_);
 	
 		//押されたら
 		menujudg_Play = true;
@@ -89,9 +87,7 @@ void TitleScene::Update()
 	if (Input::GetInstance()->TriggerButton(Input::A))
 	{
 		//押されたら
-		BaseScene* scene = new MapCreateScene(sceneManager_); //次のシーンのインスタンス生成
-		SceneManager::GetInstance()->SetScene(SceneManager::MAPCREATE);
-		sceneManager_->SetnextScene(scene); //シーンのセット
+		SceneManager::GetInstance()->SetScene(SceneManager::MAPCREATE,sceneManager_);
 		//押されたら
 		//	feedf = true;
 	}
@@ -116,9 +112,7 @@ void TitleScene::Update()
 
 	if (Feed::GetInstance()->GetAlpha() >= 1.0f)
 	{
-		BaseScene* scene = new Tutorial(sceneManager_); //次のシーンのインスタンス生成
-		SceneManager::GetInstance()->SetScene(SceneManager::TUTORIAL);
-		sceneManager_->SetnextScene(scene); //シーンのセット
+		SceneManager::GetInstance()->SetScene(SceneManager::TUTORIAL,sceneManager_);
 	}
 	//titlesprite2->SetRotation(180);165
 	if (Cangle >= 360.0f)
