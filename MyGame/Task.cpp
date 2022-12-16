@@ -19,7 +19,7 @@ void Task::Init()
 	Sprite::LoadTexture(17, L"Resources/2d/PlayTask/getchest.png");
 	Sprite::LoadTexture(18, L"Resources/2d/PlayTask/nogetchest.png");
 	Sprite::LoadTexture(19, L"Resources/2d/LevelUp/debugfont - コピー.png");
-	Sprite::LoadTexture(20, L"Resources/03 開閉型メニュー/bg_menu_tab.png");
+	Sprite::LoadTexture(20, L"Resources/04 選択肢/button_select2_2.png");
 	Sprite::LoadTexture(21, L"Resources/2d/PlayTask/Task1.png");
 	Sprite::LoadTexture(22, L"Resources/2d/PlayTask/Task2.png");
 	Sprite::LoadTexture(23, L"Resources/2d/Frame/Task3.png");
@@ -40,10 +40,10 @@ void Task::Init()
 
 	{
 		TaskFrame->SetAnchorPoint({ 0.5f,0.5f });
-		FramePos = { 1695.0f,775.0f };
-		FrameScl = { 410.0f,650.0f };
+		FramePos = { 710.0f,875.0f };
+		FrameScl = { 1700.0f,113.0f };
 
-		TaskPos = { 1725.0f,720.0f };
+		TaskPos = { 960.0f - 200,884.0f };
 		TaskScl = { 350.0f,240.0f };
 
 		for (int i = 0; i < TaskNum; i++)
@@ -55,8 +55,8 @@ void Task::Init()
 	}
 	//
 	{
-		navTaskPos = { 1724.0f,515.0f };
-		navTaskScl = { 320.0f,220.0f };
+		navTaskPos = { 590 - 200.0f,877.0f };
+		navTaskScl = { 300.0f,200.0f };
 		navChestSprite[0].reset(Sprite::Create(17, {0,0}));
 		navChestSprite[1].reset(Sprite::Create(18, {0,0}));
 		navChestSprite[0]->SetAnchorPoint({0.5f,0.5f});
@@ -64,7 +64,7 @@ void Task::Init()
 	}
 	navSpriteAlpha[0] = 0.0f;
 	navSpriteAlpha[1] = 1.0f;
-	TaskMenuPos = { 1685.0f,915.0f };
+	TaskMenuPos = { 1230-200.0f,880.0f };
 
 	Texture::LoadTexture(17, L"Resources/targetarrow.png");
 	Texture::LoadTexture(18, L"Resources/2d/icon/nav1.png");
@@ -143,7 +143,7 @@ void Task::Upda()
 	}
 
 	const std::string amount = "/2";
-	DebugTextSprite2::GetInstance()->Print(str.str()+amount,TaskMenuPos.x,TaskMenuPos.y , 1);
+	DebugTextSprite2::GetInstance()->Print(str.str()+amount,TaskMenuPos.x,TaskMenuPos.y , 0.8);
 	int nearIndex_Golem = TargetMarker::GetInstance()->GetNearGolemIndex();
 	int nearIndex_Lizard = TargetMarker::GetInstance()->GetNearLizardIndex();
 
@@ -268,16 +268,21 @@ void Task::Draw()
 	DebugTextSprite2::GetInstance()->DrawAll();
 	Sprite::PostDraw();
 
-	/*ImGui::Begin("task");
+	ImGui::Begin("task");
 	ImGui::SliderFloat("X", &TaskMenuPos.x, 0, 1900);
 	ImGui::SliderFloat("Y", &TaskMenuPos.y, 0, 1200);
 	ImGui::Begin("Frame");
-	ImGui::SliderFloat("FX", &TaskPos.x, 0, 1900);
-	ImGui::SliderFloat("FY", &TaskPos.y, 0, 1200);
-	ImGui::SliderFloat("FScaleX", &TaskScl.x, 0, 1900);
-	ImGui::SliderFloat("FScaleY", &TaskScl.y, 0, 1200);*/
+	ImGui::SliderFloat("FX", &navTaskPos.x, 0, 1900);
+	ImGui::SliderFloat("FY", &navTaskPos.y, 0, 1200);
+	ImGui::SliderFloat("FScaleX", &navTaskScl.x, 0, 1900);
+	ImGui::SliderFloat("FScaleY", &navTaskScl.y, 0, 1200);
+	ImGui::SliderFloat("FX32", &FramePos.x, 0, 1900);
+	ImGui::SliderFloat("FY2", &FramePos.y, 0, 1200);
+	ImGui::SliderFloat("FScaleX2", &FrameScl.x, 0, 1900);
+	ImGui::SliderFloat("FScaleY2", &FrameScl.y, 0, 1200);
 
-	//ImGui::E11nd();
+
+	ImGui::End();
 
 }
 void Task::TaskSequence()

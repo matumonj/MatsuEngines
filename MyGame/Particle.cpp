@@ -3,10 +3,11 @@
 
 void Particle::Init()
 {
-	Texture* l_tex0 = Texture::Create(34);
 	Texture::LoadTexture(64, L"Resources/2d/BossAttackEffect/BomParticle.png");
+	Texture::LoadTexture(65, L"Resources/2d/mainEffect/pipo-hiteffect034.png");
+	Texture* l_tex0 = Texture::Create(65);
 
-	SetParType(1, m_particles[ParType::NORMAL], l_tex0);
+	SetParType(20, m_particles[ParType::NORMAL], l_tex0);
 }
 #include"PlayerControl.h"
 void Particle::Upda()
@@ -16,6 +17,15 @@ void Particle::Upda()
 	}
 	InitNormal(m_particles[ParType::NORMAL],createpos);
 		UpadaNormal_A(m_particles[ParType::NORMAL]);
+}
+
+void Particle::Upda_B()
+{
+	if (Input::GetInstance()->TriggerButton(Input::Y)) {
+		//	m_particles[ParType::NORMAL].phase = INIT;
+	}
+	InitNormal(m_particles[ParType::NORMAL], createpos);
+	UpadaNormal_B(m_particles[ParType::NORMAL]);
 }
 #include"imgui.h"
 void Particle::Draw()
@@ -60,7 +70,7 @@ void Particle::SetParType(int size, ParParam& parparam,Texture*tex)
 		l_tex0.resize(size);
 	
 		for (int i = 0; i <size; i++) {
-			l_tex0[i] = Texture::Create(64);
+			l_tex0[i] = Texture::Create(65);
 
 			parparam.partex[i].reset(l_tex0[i]);
 			parparam.partex[i]->CreateTexture();
@@ -118,6 +128,82 @@ void Particle::UpadaNormal_A(ParParam& parparam)
 		parparam.partex[i]->SetColor({ 1.f,1.f,1.f,parparam.alpha[i] });
 		parparam.partex[i]->Update(CameraControl::GetInstance()->GetCamera());
 
+	}
+	if (isAryEqual(parparam.alpha) == true) {
+		parparam.phase = Phase::END;
+	}
+}
+
+
+void Particle::UpadaNormal_B(ParParam& parparam)
+{
+	if (partype == 0) {
+		if (parparam.phase != Phase::UPDA)return;
+
+		for (int i = 0; i < parparam.size; i++)
+		{
+			if (!parparam.f[i]) {
+				parparam.vel[i] = createpos;
+				parparam.scl[i] = { 1.0f,1.0f };
+				parparam.speed[i] = 0;
+				parparam.alpha[i] = 1;
+				parparam.f[i] = true;
+
+				break;
+			}
+		}
+		for (int i = 0; i < parparam.size; i++)
+		{
+			if (!parparam.f[i])continue;
+			parparam.scl[i].x += 0.05f;
+			parparam.scl[i].y += 0.05f;
+			parparam.vel[i].x += parparam.speed[i] * cos(parparam.angle[i]); //360度に広がるようにする
+			parparam.vel[i].y += 0.1f;// parparam.speed[i] * sin(parparam.angle[i]); //360度に広がるようにする
+			parparam.speed[i] += 0.002f; //徐々にスピードを速く
+			parparam.alpha[i] -= 0.02f;
+
+			parparam.partex[i]->SetPosition(parparam.vel[i]);
+			parparam.partex[i]->SetScale({ parparam.scl[i].x,parparam.scl[i].y,1.0f });
+			parparam.partex[i]->SetBillboard(TRUE);
+			parparam.partex[i]->SetColor({ 1.f,1.f,1.f,parparam.alpha[i] });
+			parparam.partex[i]->Update(CameraControl::GetInstance()->GetCamera());
+
+		}
+	}
+
+	//
+	if (partype == 1) {
+		if (parparam.phase != Phase::UPDA)return;
+
+		for (int i = 0; i < parparam.size; i++)
+		{
+			if (!parparam.f[i]) {
+				parparam.vel[i] = createpos;
+				parparam.scl[i] = { 1.0f,1.0f };
+				parparam.speed[i] = 0;
+				parparam.alpha[i] = 1;
+				parparam.f[i] = true;
+
+				break;
+			}
+		}
+		for (int i = 0; i < parparam.size; i++)
+		{
+			if (!parparam.f[i])continue;
+			parparam.scl[i].x += 0.05f;
+			parparam.scl[i].y += 0.05f;
+			parparam.vel[i].x += parparam.speed[i] * cos(parparam.angle[i]); //360度に広がるようにする
+			parparam.vel[i].y += parparam.speed[i] * sin(parparam.angle[i]); //360度に広がるようにする
+			parparam.speed[i] += 0.002f; //徐々にスピードを速く
+			parparam.alpha[i] -= 0.01f;
+
+			parparam.partex[i]->SetPosition(parparam.vel[i]);
+			parparam.partex[i]->SetScale({ parparam.scl[i].x,parparam.scl[i].y,1.0f });
+			parparam.partex[i]->SetBillboard(TRUE);
+			parparam.partex[i]->SetColor({ 1.f,1.f,1.f,parparam.alpha[i] });
+			parparam.partex[i]->Update(CameraControl::GetInstance()->GetCamera());
+
+		}
 	}
 	if (isAryEqual(parparam.alpha) == true) {
 		parparam.phase = Phase::END;

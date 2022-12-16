@@ -5,6 +5,7 @@
 #include"mHelper.h"
 #include"EnemyDeathState.h"
 
+#include"EnemyKnockState.h"
 void EnemyStayState::Initialize(Enemy* enemy)
 {
 }
@@ -37,6 +38,9 @@ void EnemyStayState::Update(Enemy* enemy)
 		}
 	}
 
+	if (enemy->GetRecvDamage2()) {
+		enemy->ChangeState_Mob(new EnemyKnockState());
+	}
 	if (enemy->GetHP() <= 0.0f)
 	{
 		enemy->ChangeState_Mob(new EnemyDeathState());

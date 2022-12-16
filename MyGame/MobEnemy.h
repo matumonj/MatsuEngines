@@ -5,7 +5,7 @@
 #include"Player.h"
 #include"Texture.h"
 #include"Sprite.h"
-
+#include<array>
 class MobEnemy :
 	public Enemy
 {
@@ -34,6 +34,7 @@ public:
 
 	void DamageParticleSet();
 
+	void EnemyHPDraw()override;
 private:
 	//攻撃後のクールタイム挙動
 	void AttackCoolTime() override;
@@ -56,8 +57,13 @@ private:
 	float rand_Attacktype;
 	int HandIndex;
 
+	float NowFrameX;
+	float OldFrameX;
+	float FrameScalingETime;
+	XMFLOAT2 FrameScl;
 public:
 	bool isendtime;
 	std::unique_ptr<Object3d> Sword;
+	std::array<std::unique_ptr<Sprite>, 3>HPFrame;
 	XMFLOAT3 swordrot;
 };

@@ -48,7 +48,7 @@ public:
 
 	void AttackCoolTime() override;
 	void FbxAnimationControl() override;
-
+	void EnemyHPDraw()override;
 	void Death() override;
 	//bool GetArmonGround() { return ArmonGround; }
 private:

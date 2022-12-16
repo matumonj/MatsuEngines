@@ -35,7 +35,7 @@ void ModelManager::Initialize()
 	LoadModel(BIGROCK_B, "crystal");
 	LoadModel(GRASSFIELD, "GrassField");
 	LoadModel(SANDFIELD, "Sandfield");
-
+	LoadModel(LANTHANUM, "lanthanum");
 }
 
 void ModelManager::LoadModel(const ModelName modelName, std::string fileName)

@@ -253,7 +253,7 @@ void CameraControl::TargetPlayer()
 	}
 	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 	//	camera->SetTarget(player_shadow->GetCameraPos(angle));
-	CameraPosition = { ppos.x + distance.x, ppos.y + 10.0f, ppos.z + distance.y };
+	CameraPosition = { ppos.x + distance.x, ppos.y + 6.0f, ppos.z + distance.y };
 	camera->SetEye(CameraPosition);
 
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
@@ -449,7 +449,7 @@ void CameraControl::BossCutScene_Spline()
 {
 	nowCount = static_cast<float>(GetTickCount64());
 	elapsedCount = nowCount - startCount;
-	elapsedTime = elapsedCount / 30.0f;
+	elapsedTime = elapsedCount / 350.0f;
 
 	timerate = elapsedTime / maxtime;
 	if (timerate >= 1)

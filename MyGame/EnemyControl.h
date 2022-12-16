@@ -39,6 +39,8 @@ public:
 
 	void Load(DebugCamera* camera) override;
 
+	void HPFrameDraw();
+
 	void Finalize() override;
 
 	enum EnemyType

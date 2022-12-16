@@ -88,8 +88,6 @@ void TitleScene::Update()
 	{
 		//‰Ÿ‚³‚ê‚½‚ç
 		SceneManager::GetInstance()->SetScene(SceneManager::MAPCREATE,sceneManager_);
-		//‰Ÿ‚³‚ê‚½‚ç
-		//	feedf = true;
 	}
 	if (feedf)
 	{

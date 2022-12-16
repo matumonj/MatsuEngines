@@ -1,6 +1,7 @@
 #include "PlayScene.h"
 #include"Input.h"
 #include"DirectXCommon.h"
+#include"DropWeapon.h"
 #include"TitleScene.h"
 #include"SceneManager.h"
 #include"MapCreateScene.h"
@@ -74,6 +75,7 @@ void PlayScene::objUpdate(DebugCamera* camera)
 		Field::GetInstance()->Update((CameraControl::GetInstance()->GetCamera()));
 		UI::GetInstance()->HUDUpdate(hudload, (CameraControl::GetInstance()->GetCamera()));
 	}
+	DropWeapon::GtIns()->Upda();
 }
 
 /*------------------------*/
@@ -110,7 +112,7 @@ void PlayScene::Update()
 	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 
 	lightGroup->SetCircleShadowDir(3, XMVECTOR({circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0}));
-	lightGroup->SetCircleShadowCasterPos(3, {ppos.x,ppos.y+10.0f,ppos.z});
+	lightGroup->SetCircleShadowCasterPos(3, {ppos.x,ppos.y+2.0f,ppos.z});
 	lightGroup->SetCircleShadowAtten(3, XMFLOAT3(circleShadowAtten));
 	lightGroup->SetCircleShadowFactorAngle(3, XMFLOAT2(circleShadowFactorAngle2));
 	
@@ -131,7 +133,12 @@ void PlayScene::Update()
 		lightGroup->SetCircleShadowAtten(i + 4, XMFLOAT3(circleShadowAtten));
 		lightGroup->SetCircleShadowFactorAngle(i + 4, XMFLOAT2(circleShadowFactorAngle));
 	}
+	if (Input::GetInstance()->TriggerButton(Input::RT)) {
+		//‰æ–Ê^‚Á”’‚È‚Á‚½‚ç
+		
+		SceneManager::GetInstance()->SetScene(SceneManager::BOSS, sceneManager_);
 
+	}
 	ChangeSceneJudg();
 	
 }
@@ -198,6 +205,9 @@ void PlayScene::Draw()
 				AllObjectControl[i]->Draw();
 			}
 		}
+		PlayerControl::GetInstance()->GetPlayer()->ParticleDraw();
+
+		DropWeapon::GtIns()->Draw();
 		//postEffect->Draw();
 		Task::GetInstance()->TargetDraw();
 		PlayerControl::GetInstance()->DamageTexDraw();

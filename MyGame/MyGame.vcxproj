@@ -141,11 +141,13 @@
     <ClCompile Include="DebugCamera.cpp" />
     <ClCompile Include="DebugTxt.cpp" />
     <ClCompile Include="DirectXCommon.cpp" />
+    <ClCompile Include="DropWeapon.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyAlpha.cpp" />
     <ClCompile Include="EnemyAttackState.cpp" />
     <ClCompile Include="EnemyDeathState.cpp" />
     <ClCompile Include="EnemyFollowState.cpp" />
+    <ClCompile Include="EnemyKnockState.cpp" />
     <ClCompile Include="EnemyRespawnState.cpp" />
     <ClCompile Include="EnemyState.cpp" />
     <ClCompile Include="EnemyStayState.cpp" />
@@ -272,11 +274,13 @@
     <ClInclude Include="DebugTxt.h" />
     <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="DirectXCommon.h" />
+    <ClInclude Include="DropWeapon.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyAlpha.h" />
     <ClInclude Include="EnemyAttackState.h" />
     <ClInclude Include="EnemyDeathState.h" />
     <ClInclude Include="EnemyFollowState.h" />
+    <ClInclude Include="EnemyKnockState.h" />
     <ClInclude Include="EnemyRespawnState.h" />
     <ClInclude Include="EnemyState.h" />
     <ClInclude Include="EnemyStayState.h" />

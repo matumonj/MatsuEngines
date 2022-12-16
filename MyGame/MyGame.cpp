@@ -3,7 +3,7 @@
 #include"imgui.h"
 #include"ParticleManager.h"
 #include "ModelManager.h"
-
+#include"ImageManager.h"
 void MyGame::Initialize()
 {
 	Framework::Initialize();
@@ -16,6 +16,7 @@ void MyGame::Initialize()
 	BaseScene* scene_ = new TitleScene(sceneManger);
 	sceneManger->SetnextScene(scene_);
 	ModelManager::GetIns()->Initialize();
+	ImageManager::GetIns()->Init();
 }
 
 void MyGame::Update()

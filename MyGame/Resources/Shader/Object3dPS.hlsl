@@ -201,8 +201,8 @@ PSOutPut main(GSOutput input) : SV_TARGET
 	}
 	if (!shadowf)
 	{
-		output.target0 = shadecolor / 2 * float4(texcolor.rgb * fc, texcolor.a) + addcol;
-		output.target1 = shadecolor / 2 * float4(texcolor.rgb * fc, texcolor.a) + addcol;
+		output.target0 =float4(texcolor.rgb , texcolor.a)*color;
+		output.target1 =float4(texcolor.rgb, texcolor.a)*color;
 	}
 	return output;
 }

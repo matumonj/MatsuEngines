@@ -7,7 +7,10 @@
 #include"ModelManager.h"
 #include"HUD.h"
 #include"imgui.h"
-
+#include"DropWeapon.h"
+#include"EnemyControl.h"
+#include"SceneManager.h"
+#include"PlayerControl.h"
 SelectSword::~SelectSword()
 {
 	delete SwordSample[0], SwordSample[1], SwordSample[2], Frame;
@@ -22,395 +25,295 @@ SelectSword* SelectSword::GetInstance()
 void SelectSword::Finalize()
 {
 	delete SwordSample[0], SwordSample[1], SwordSample[2], Frame;
-	Destroy_unique(PedestalObj);
-	for (int i = 0; i < 3; i++)
-	{
-		Destroy_unique(SampleSword[i]);
-	}
+
 }
 
 void SelectSword::SpriteSet()
 {
-/*	Sprite::LoadTexture(229, L"Resources/2d/confignav/navselectsword.png");
+	Sprite::LoadTexture(229, L"Resources/2d/icon/SelectWeaponSword.png");
 
-	Sprite::LoadTexture(230, L"Resources/SwordA.png");
-	Sprite::LoadTexture(231, L"Resources/swordB.png");
-	Sprite::LoadTexture(232, L"Resources/swordC.png");
+	Sprite::LoadTexture(230, L"Resources/2d/icon/SelectWeaponAxe.png");
+	Sprite::LoadTexture(231, L"Resources/2d/icon/SelectWeaponFrame.png");
+	Sprite::LoadTexture(232, L"Resources/2d/icon/SelectWeaponSword.png");
+	Sprite::LoadTexture(233, L"Resources/2d/icon/pin.png");
+	Sprite::LoadTexture(234, L"Resources/2d/Button/RB.png");
+	Sprite::LoadTexture(235, L"Resources/2d/Button/LB.png");
 
-	Sprite::LoadTexture(233, L"Resources/SelSwordFrame.png");
+	/// <summary>
+	/// 武器Sprite生成
+	/// </summary>
+	SwordSample[WAND] = Sprite::Create(231, { 1.0f, 1.0f });
+	SwordSample[SWORD] = Sprite::Create(232, {1.0f, 1.0f});
+	SwordSample[AXE] = Sprite::Create(230, {1.0f, 1.0f});
 
-	Sprite::LoadTexture(234, L"Resources/2d/attackicon/config_magicattack1.png");
-	Sprite::LoadTexture(235, L"Resources/2d/attackicon/config_magicattack2.png");
-	Sprite::LoadTexture(236, L"Resources/2d/attackicon/config_magicattack2.png");
+	/// <summary>
+	/// 武器のフレーム生成
+	/// </summary>
+	WeaponFrame[0]= Sprite::Create(231, { 1.0f, 1.0f });
+	WeaponFrame[1] = Sprite::Create(231, { 1.0f, 1.0f });
+	WeaponFrame[2] = Sprite::Create(231, { 1.0f, 1.0f });
+	
+	//選択中の武器を指すテクスチャ
+	Frame = Sprite::Create(233, { 1.0f, 1.0f });
+	Frame->SetAnchorPoint({ 0.5,0.5 });
+	
+	//LB,RB
+	Button_RB = Sprite::Create(234, { 1.0f, 1.0f });
+	Button_RB->SetAnchorPoint({ 0.5,0.5 });
+	Button_LB = Sprite::Create(235, { 1.0f, 1.0f });
+	Button_LB->SetAnchorPoint({ 0.5,0.5 });
 
-	Sprite::LoadTexture(237, L"Resources/2d/attackicon/config_swordattack1.png");
-	Sprite::LoadTexture(238, L"Resources/2d/attackicon/config_swordattack2.png");
-	Sprite::LoadTexture(239, L"Resources/2d/attackicon/config_swordattack2.png");
+	RBPos = { 1830.0f,250.f };
+	RBScl = { 230.0f,200.0f };
+	LBPos = { 1400.0f,250.f };
+	LBScl = { 230.0f,200.0f };
+	/// <summary>
+	/// アルファ値初期化(剣だけ最初から)
+	/// </summary>
+	sampleSwordAlpha[WAND] = 0.0f;
+	sampleSwordAlpha[SWORD] = 1.0f;
+	sampleSwordAlpha[AXE] = 0.0f;
 
-	Sprite::LoadTexture(240, L"Resources/2d/attackicon/SetCustom.png");
-	//*///NavSprite = Sprite::Create(229, {1.0f, 1.0f});
-	//SwordSample[0] = Sprite::Create(230, {1.0f, 1.0f});
-	//SwordSample[1] = Sprite::Create(231, {1.0f, 1.0f});
-	//SwordSample[2] = Sprite::Create(232, {1.0f, 1.0f});
-	//Frame = Sprite::Create(233, {1.0f, 1.0f});
-	//for (int i = 0; i < 3; i++)
-	//{
-	//	//フィールドにモデル割り当て
-	//	//SwordSample[i]->Initialize();
-	//	SwordSample[i]->SetSize({400.0f, 400.0f});
-	//	SwordSample[i]->SetAnchorPoint({0.5f, 0.5f});
-	//	SwordSample[i]->SetPosition({Position[i]});
-	//}
-	//Frame->SetSize({450.0f, 450.0f});
-	//Frame->SetPosition(Position[0]);
-	//Frame->SetAnchorPoint({0.5f, 0.5f});
-
-
-	//WeponParamSprite[0] = Sprite::Create(234, {1.0f, 1.0f});
-	//WeponParamSprite[1] = Sprite::Create(235, {1.0f, 1.0f});
-	//WeponParamSprite[2] = Sprite::Create(236, {1.0f, 1.0f});
-
-	//Equipment = Sprite::Create(240, {1.0f, 1.0f});
-	//Equipment->SetSize({1000, 600});
-	//EquipmentPos.x = 200.0f;
-
-	//NavSprite->SetSize({1500, 700});
-	//NavSprite->SetPosition({400, 300});
-}
-
-void SelectSword::WeponParamInit()
-{
-	for (int i = 0; i < 3; i++)
-	{
-		//WeponParamSprite[i]->SetPosition(WeponParamSpritePos[i]);
-	}
-
-	for (int i = 0; i < 3; i++)
-	{
-		//WeponParamSprite[i]->SetSize({1000, 800});
-		//WeponParamSprite[i]->SetAnchorPoint({0.5f, 0.5f});
-	}
-}
-
-void SelectSword::WeponParamUpdate()
-{
-	WeponParamSpriteEaseT[0] += 1.0f / 60.0f;
-	WeponParamSpriteEaseT[1] += 1.0f / 80.0f;
-	WeponParamSpriteEaseT[2] += 1.0f / 100.0f;
-
-	WeponParamSpritePos[0].y = Easing::EaseOut(WeponParamSpriteEaseT[0], 600, ypos_Up);
-	WeponParamSpritePos[1].y = Easing::EaseOut(WeponParamSpriteEaseT[1], 600, ypos_Center);
-	WeponParamSpritePos[2].y = Easing::EaseOut(WeponParamSpriteEaseT[2], 600, ypos_Bottom);
-
-	int Oldindex = index;
-	if (index != Oldindex)
-	{
-		WeponParamSpriteEaseT[0] = 0.0f;
-		WeponParamSpriteEaseT[1] = 0.0f;
-		WeponParamSpriteEaseT[2] = 0.0f;
-	}
-	if (NowSelectSword == SMALL)
-	{
-		WeponParamSpritePos[0].x = 255.0f;
-		WeponParamSpritePos[1].x = 255.0f;
-		WeponParamSpritePos[2].x = 255.0f;
-	}
-	else if (NowSelectSword == NORMAL)
-	{
-		WeponParamSpritePos[0].x = 650.0f;
-		WeponParamSpritePos[1].x = 650.0f;
-		WeponParamSpritePos[2].x = 650.0f;
-	}
-	for (int i = 0; i < 3; i++)
-	{
-		WeponParamSpriteEaseT[i] = min(WeponParamSpriteEaseT[i], 1.0f);
-	}
-}
-
-void SelectSword::pedestalSet()
-{
-	for (int i = 0; i < 3; i++)
-	{
-		SampleSword[i] = std::make_unique<Object3d>();
-	}
-	SampleSword[SMALL]->SetModel(ModelManager::GetIns()->GetModel(ModelManager::SMALLSWORD));
-	SampleSword[SMALL]->Initialize(CameraControl::GetInstance()->GetCamera());
-	sampleSwordRot[SMALL] = {-60.0f, 100.0f, -90.0f};
-
-	SampleSword[NORMAL]->SetModel(ModelManager::GetIns()->GetModel(ModelManager::NORMALSWORD));
-	SampleSword[NORMAL]->Initialize(CameraControl::GetInstance()->GetCamera());
-	sampleSwordRot[NORMAL] = {-60.0f, 100.0f, -90.0f};
-
-	///SampleSword[BIG]->SetModel(ModelManager::GetIns()->GetModel(ModelManager::BIGSWORD));
-	//SampleSword[BIG]->Initialize(CameraControl::GetInstance()->GetCamera());
-	//sampleSwordRot[BIG] = {-60.0f, 100.0f, -90.0f};
-
-	//PedestalObj = std::make_unique<Object3d>();
-	//PedestalObj->SetModel(ModelManager::GetIns()->GetModel(ModelManager::PEDESTAL));
-	//PedestalObj->Initialize(CameraControl::GetInstance()->GetCamera());
-
-	RotAngle = 0.0f;
-	RotationF = false;
-	EaseTime = 0.0f;
+	WeapomScl = { 1,1,1 };
+	WeaponChangeEffect = std::make_unique<Particle>();
+	WeaponChangeEffect->Init();
 }
 
 void SelectSword::Initialize()
 {
+	/// <summary>
+	/// 武器のオブジェクト生成
+	/// </summary>
 	Sword = std::make_unique<NormalSword>();
 	Sword->Initialize(CameraControl::GetInstance()->GetCamera());
 
 	SpriteSet();
-	pedestalSet();
+	
 	input = Input::GetInstance();
-	index = 0;
-	WeponParamInit();
+	
+	index = 1;
+	
+	TurnOffDrawF = true;
 }
 
-void SelectSword::SetSword(SwordScale nowsword)
+void SelectSword::SetSword(SelectWeapon nowsword)
 {
+
 	switch (nowsword)
 	{
-	case SMALL:
-		Sword = std::make_unique<SmallSword>();
+	case SWORD://通常武器
+		Sword.reset(new NormalSword());
+		Sword->Initialize(CameraControl::GetInstance()->GetCamera());
 		break;
-	case NORMAL:
-		Sword = std::make_unique<NormalSword>();
+
+	case AXE://ゴーレム斧
+		if (sampleSwordAlpha[AXE] >= 1.0f) {
+			Sword.reset(new BigSword());
+			Sword->Initialize(CameraControl::GetInstance()->GetCamera());
+		}
 		break;
-	case BIG:
-		//Sword = std::make_unique<BigSword>();
+
+	case WAND://炎の杖
+
+		if (sampleSwordAlpha[AXE] >= 1.0f) {
+			Sword.reset(new SmallSword());
+			Sword->Initialize(CameraControl::GetInstance()->GetCamera());
+		}
 		break;
 	default:
 		break;
 	}
-	Sword->Initialize(CameraControl::GetInstance()->GetCamera());
+
 }
 
 void SelectSword::Update()
 {
-	if (SelectJudg)
-	{
-		WeponParamUpdate();
-		for (int i = 0; i < 3; i++)
-		{
-			WeponParamSprite[i]->SetPosition(WeponParamSpritePos[i]);
+	//チュートリアルの敵死んだら表示
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
+		if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0] == nullptr) {
+			TurnOffDrawF = false;
 		}
-		if (input->TiltStick(input->L_RIGHT))
-		{
-			ResetEaseTime();
-			index++;
-		}
-		else if (input->TiltStick(input->L_LEFT))
-		{
-			ResetEaseTime();
-			index--;
-		}
-
-		if (index == SMALL)
-		{
-			if (SkillSprite != SMALL)
-			{
-				WeponParamSprite[0] = Sprite::Create(234, {1.0f, 1.0f});
-				WeponParamSprite[1] = Sprite::Create(235, {1.0f, 1.0f});
-				WeponParamSprite[2] = Sprite::Create(236, {1.0f, 1.0f});
-
-				WeponParamInit();
-				SkillSprite = SMALL;
-			}
-			NowSelectSword = SMALL;
-		}
-		else if (index == NORMAL)
-		{
-			if (SkillSprite != NORMAL)
-			{
-				WeponParamSprite[0] = Sprite::Create(237, {1.0f, 1.0f});
-				WeponParamSprite[1] = Sprite::Create(238, {1.0f, 1.0f});
-				WeponParamSprite[2] = Sprite::Create(239, {1.0f, 1.0f});
-				WeponParamInit();
-				SkillSprite = NORMAL;
-			}
-			NowSelectSword = NORMAL;
-		}
-		else if (index == BIG)
-		{
-			NowSelectSword = BIG;
-		}
-		if (input->TriggerButton(input->A))
-		{
-			if (NowSelectSword == SMALL)
-			{
-				EquipmentPos.x = -200.0f;
-				HUD::GetInstance()->SetSkillIcon(HUD::WAND);
-			}
-			if (NowSelectSword == NORMAL)
-			{
-				EquipmentPos.x = 200.0f;
-				HUD::GetInstance()->SetSkillIcon(HUD::SWORD);
-			}
-			SetSword(NowSelectSword);
-		}
-		//Frame->SetPosition(Position[index]);
-		Equipment->SetPosition(EquipmentPos);
-		CameraControl::GetInstance()->GetCamera()->SetEye({0, 0, -30});
-		CameraControl::GetInstance()->GetCamera()->SetTarget({10, 0, 0});
 	}
-	else
-	{
-		oldcamerapos = CameraControl::GetInstance()->GetCamera()->GetEye();
-	}
-
-	Sword->Update(CameraControl::GetInstance()->GetCamera());
-
-	PedestalUpdate();
-
-	index = min(index, 2);
-	index = max(index, 0);
-}
-
-void SelectSword::PedestalUpdate()
-{
-	//台座座標
-	const XMFLOAT3 PedestalPos = {40, 0, 0};
-	//サンプル剣回転時の中心座標からの距離(半径)
-	const float Radius = 6.0f;
-	const float Height = 3.0f;
-	//円回転するやつ
-	//右回転
-	if (input->TiltStick(input->L_RIGHT))
-	{
-		rotDir = RIGHT;
-	}
-	//左回転
-	if (input->TiltStick(input->L_LEFT))
-	{
-		rotDir = LEFT;
-	}
-	//イージングカウントリセット
-	if (rotDir == NON)
-	{
+	//武器変更ボタン押されたら
+	if (!SelectJudg_Right && !SelectJudg_Left) {
 		EaseTime = 0.0f;
-	}
-	SwordRot();
-
-	/*-----------剣の座標---------------------------------------------*/
-	XMFLOAT3 samplePos_big = {
-		PedestalPos.x + cosf(RotAngle * PI / 180.0f) * Radius,
-		PedestalPos.y + Height,
-		PedestalPos.z + sinf(RotAngle * PI / 180.0f) * Radius
-	};
-
-	XMFLOAT3 samplePos_normal = {
-		PedestalPos.x + cosf((RotAngle + 120.0f) * PI / 180.0f) * Radius,
-		PedestalPos.y + Height,
-		PedestalPos.z + sinf((RotAngle + 120.0f) * PI / 180.0f) * Radius
-	};
-
-	XMFLOAT3 samplePos_small = {
-		PedestalPos.x + cosf((RotAngle + 240.0f) * PI / 180.0f) * Radius,
-		PedestalPos.y + Height,
-		PedestalPos.z + sinf((RotAngle + 240.0f) * PI / 180.0f) * Radius
-	};
-	/*-------------------------------------------------------------*/
-	SampleSword[SMALL]->SetPosition(samplePos_small);
-	SampleSword[NORMAL]->SetPosition(samplePos_normal);
-	//SampleSword[BIG]->SetPosition(samplePos_big);
-
-	for (int i = 0; i < 2; i++)
-	{
-		SampleSword[i]->SetRotation(sampleSwordRot[i]);
-		SampleSword[i]->SetScale({2.0f, 2.0f, 2.0f});
-		SampleSword[i]->Update({1.0f, 1.0f, 1.0f, 1.0f}, CameraControl::GetInstance()->GetCamera());
-	}
-
-	//現在選択中の剣くるくる回る
-	switch (index)
-	{
-	case SMALL:
-		sampleSwordRot[SMALL].y--;
-		break;
-	case NORMAL:
-		sampleSwordRot[NORMAL].y--;
-		break;
-	case BIG:
-		sampleSwordRot[BIG].y--;
-		break;
-	default:
-		break;
-	}
-
-	/*PedestalObj->SetScale({10.0f, 10.0f, 10.0f});
-	PedestalObj->SetPosition(PedestalPos);
-	PedestalObj->SetColor({1.0f, 1.0f, 1.0f, 1.0f});
-	PedestalObj->Update({10.0f, 10.0f, 10.0f, 10.0f}, CameraControl::GetInstance()->GetCamera());*/
-}
-
-void SelectSword::SwordRot()
-{
-	//イージングカウント
-	const float EaseC = 0.05f;
-	if (rotDir == RIGHT)
-	{
-		EaseTime += EaseC;
-		//現在の角度から120度回転
-		RotAngle = Easing::EaseOut(EaseTime, RotAngle_Old[index - 1], RotAngle_Old[index]);
-		if (EaseTime >= 1.0f)
-		{
-			rotDir = NON;
+		//枠スプライトの位置取る(イージング用)
+		for (int i = 0; i < 3; i++) {
+			oldpos[i] = Position[i];
+		}
+		//右に移動
+		if (input->TriggerButton(input->RB)) {
+			
+			if (index == 2) {//最大値行ったら最初に戻る
+				index = 0;
+			} else {
+				index++;
+			}
+			SelectJudg_Right = true;
+		}
+		//左に移動
+		if (input->TriggerButton(input->LB)) {
+			if (index == 0) {//最小値行ったら一番最後に
+				index = 2;
+			} else {
+				index--;
+			}
+			SelectJudg_Left = true;
 		}
 	}
-	else if (rotDir == LEFT)
-	{
-		EaseTime -= EaseC;
-		//現在の角度から120度回転
-		RotAngle = Easing::EaseOut(EaseTime, RotAngle_Old[index + 1], RotAngle_Old[index]);
-		if (EaseTime <= -1.0f)
-		{
-			rotDir = NON;
+
+	//右に移動
+	if (SelectJudg_Right) {
+		//イージング終わったらフラグ切る
+		if (EaseTime >= 1.0f) {
+			SelectJudg_Right = false;
+		} else {//フラグ立ったら
+			for (int i = 0; i < 3; i++) {
+				Position[i].x = Easing::EaseOut(EaseTime, oldpos[i].x, oldpos[i].x + 200);
+				//枠が右端いったら左端に
+				if (Position[i].x > 1800) {
+					Position[i].x = 1300;
+				}
+			}
+			//イージング進める
+			EaseTime += 0.02f;
 		}
 	}
+
+	//左に移動
+	if (SelectJudg_Left) {
+		if (EaseTime >= 1.0f) {//イージング終わったらフラグ切る
+				SelectJudg_Left = false;
+			} else {//フラグ立ったら
+				for (int i = 0; i < 3; i++) {
+					Position[i].x = Easing::EaseOut(EaseTime, oldpos[i].x, oldpos[i].x - 200);
+					//枠が左端行ったら右端に移動
+					if (Position[i].x < 1200) {
+						Position[i].x = 1700;
+					}
+				}
+				//イージング進める
+				EaseTime += 0.02f;
+			}
+	}
+
+	//RB,LB押されたら武器更新
+	if (input->TriggerButton(input->RB) || input->TriggerButton(input->LB)) {
+		//武器番号と現在装備してる武器を揃える
+	//剣
+		if (index == SWORD)
+		{
+			NowSelectSword = SWORD;
+		}
+		//ゴーレム斧
+		else if (index == WAND)
+		{
+			NowSelectSword = AXE;
+		}
+		//杖
+		else if (index == AXE)
+		{
+			NowSelectSword = WAND;
+		}
+		weaponscalingf = true;
+	}
+	if (weaponscalingf) {
+		WeapomScl.x -= 0.02f;
+		WeapomScl.y-= 0.02f;
+		WeapomScl.z-= 0.02f;
+		if (WeapomScl.x <= 0.0f) {
+			WeaponChangeEffect->SetParF(0);
+			SetSword(NowSelectSword);
+			weaponscalingf = false;
+		}
+	}
+	else {
+		WeapomScl.x += 0.02f;
+		WeapomScl.y += 0.02f;
+		WeapomScl.z += 0.02f;
+	}
+	//敵が落とした斧を取ったら斧テクスチャ表示
+	if (DropWeapon::GtIns()->PickUpWeapon(DropWeapon::AXE) == true) {
+		sampleSwordAlpha[AXE] += 0.02f;
+	}
+	WeaponChangeEffect->CreateParticle(WeapomScl.x <= 0.0f, PlayerControl::GetInstance()->GetPlayer()->GetHandPos());
+
+	Sword->SetScale(WeapomScl);
+	//武器オブジェクトの更新処理
+	Sword->Update(CameraControl::GetInstance()->GetCamera());
+	
+	WeaponChangeEffect->Upda_B();
+	//武器テクスチャの更新
+	for (int i = 0; i < 3; i++) {
+		SwordSample[i]->SetPosition(Position[i]);
+		SwordSample[i]->SetSize(Scale[i]);
+		SwordSample[i]->setcolor({ 1.0f,1.0f,1.0f,sampleSwordAlpha[i] });
+		WeaponFrame[i]->SetPosition(Position[i]);
+		WeaponFrame[i]->SetSize(Scale[i]);
+	}
+	//選択中の武器を指すテクスチャは拡縮させる
+	FrameScalingTime++;//拡縮の周期用
+	//230と240の間で拡縮
+	Frame->SetSize({ 230.0f + sinf(3.14f * 2.f / 90.f * FrameScalingTime) * 10,
+		230.0f + sinf(3.14f * 2.f / 90.f * FrameScalingTime) * 10
+		});
+	Frame->SetPosition({ 1600, 130 });
+	
+	Button_LB->SetPosition(LBPos);
+	Button_LB->SetSize(LBScl);
+
+	Button_RB->SetPosition(RBPos);
+	Button_RB->SetSize(RBScl);
+
+	WeaponScalingETime = min(WeaponScalingETime, 1.0f);
+	WeaponScalingETime = max(WeaponScalingETime, 0.0f);
+
+	WeapomScl.x = min(WeapomScl.x, 1.0f);
+	WeapomScl.y = min(WeapomScl.y, 1.0f);
+	WeapomScl.z = min(WeapomScl.z, 1.0f);
+
+	WeapomScl.x = max(WeapomScl.x, 0.0f);
+	WeapomScl.y = max(WeapomScl.y, 0.0f);
+	WeapomScl.z = max(WeapomScl.z, 0.0f);
 }
 
 void SelectSword::Draw()
 {
+	ImGui::Begin("index");
+	ImGui::SliderFloat("RBPosx", &RBPos.x,0,1900);
+	ImGui::SliderFloat("RBPosy", &RBPos.y, 0, 1000);
+	ImGui::SliderFloat("lBPosx", &LBPos.x, 0, 1900);
+	ImGui::SliderFloat("lBPosy", &LBPos.y, 0, 1900);
+
+	ImGui::Begin("scale");
+
+	ImGui::SliderFloat("RBSclx", &RBScl.x, 0, 1900);
+	ImGui::SliderFloat("RBScly", &RBScl.y, 0, 1000);
+	ImGui::SliderFloat("LBSclx", &LBScl.x, 0, 1900);
+	ImGui::SliderFloat("LBScly", &LBScl.y, 0, 1900);
+	ImGui::Text("%d", NowSelectSword);
+	ImGui::End();
 	SpriteDraw();
 }
 
 void SelectSword::SpriteDraw()
 {
-	/*if (SelectJudg)
-	{
-		Sprite::PreDraw();
-		for (int i = 0; i < 3; i++)
-		{
-			WeponParamSprite[i]->Draw();
-		}
-		for (int i = 0; i < 3; i++)
-		{
-			SwordSample[i]->Draw();
-		}
-
-		Frame->Draw();
-		Equipment->Draw();
-		NavSprite->Draw();
-		Sprite::PostDraw();*/
-//	}
-}
-
-void SelectSword::PedestalDraw()
-{
-	if (!SelectJudg)
-	{
-		return;
+	if (TurnOffDrawF)return;
+	Sprite::PreDraw();
+	
+	for (int i = 0; i < 3; i++){
+		WeaponFrame[i]->Draw();
+		SwordSample[i]->Draw();
 	}
-//	Object3d::PreDraw();
-	//PedestalObj->Draw();
-	//for (int i = 0; i < 3; i++)
-	//{
-		//SampleSword[i]->Draw();
-	//}
-	//Object3d::PostDraw();
+	Frame->Draw();
+	Button_RB->Draw();
+	Button_LB->Draw();
+	Sprite::PostDraw();
 }
+
 
 void SelectSword::SwordDraw()
 {
 	Sword->Draw();
+	WeaponChangeEffect->Draw();
 }

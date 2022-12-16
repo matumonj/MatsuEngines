@@ -38,6 +38,7 @@ public:
 	//Fbxのアニメーション制御
 	void FbxAnimationControl() override;
 
+	void EnemyHPDraw()override;
 private:
 	void DamageParticleSet();
 private:

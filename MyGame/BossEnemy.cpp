@@ -93,6 +93,8 @@ void BossEnemy::Update(DebugCamera* camera)
 	//fbxアニメーション制御
 	FbxAnimationControl();
 	//座標やスケールの反映
+
+	m_fbxObject->SetColor({ 1.0f, 1.0f, 1.0f, alpha });
 	ParameterSet_Fbx(camera);
 	//攻撃後のクールタイム設定
 	AttackCoolTime();
@@ -121,12 +123,15 @@ void BossEnemy::AttackCollide()
 	{
 		if (Collision::CheckOBBCollision(playerOBB, HandSiteOBB) == true)
 		{
-			PlayerControl::GetInstance()->GetPlayer()->RecvDamage(10);
+			PlayerControl::GetInstance()->GetPlayer()->RecvDamage(7);
 		}
 	}
 
 }
+void BossEnemy::EnemyHPDraw()
+{
 
+}
 //描画処理
 void BossEnemy::Draw()
 {
@@ -158,6 +163,7 @@ void BossEnemy::Death()
 	if (f_time > m_fbxObject->GetEndTime()) {
 		alpha -= 0.01f;
 	}
+	CameraControl::GetInstance()->SetCameraState(CameraControl::RUSHSCENE);
 
 	f_time += 0.009f;
 

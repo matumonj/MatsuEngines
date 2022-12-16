@@ -51,6 +51,8 @@ public:
 	void isRespawn();
 
 	void DestroyJudg();
+
+	virtual void EnemyHPDraw()=0;
 protected:
 	//‘Ì—Íü‚è
 	float EnemyHP = 0.0f; //Œ»İ‚Ì‘Ì—Í

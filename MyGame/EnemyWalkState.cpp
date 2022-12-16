@@ -6,6 +6,7 @@
 #include"PlayerControl.h"
 #include"EnemyDeathState.h"
 
+#include"EnemyKnockState.h"
 void EnemyWalkState::Initialize(Enemy* enmey)
 {
 }
@@ -32,6 +33,10 @@ void EnemyWalkState::do_work(Enemy* enemy)
 
 	//Œü‚¢‚Ä‚é•ûŒü‚ÉˆÚ“®
 	//•à‚¢‚Ä‚¢‚é
+
+	if (enemy->GetRecvDamage2()) {
+		enemy->ChangeState_Mob(new EnemyKnockState());
+	}
 	if (enemy->GetonFlag() == true)
 	{
 		tempx = enemy->GetPosition().x;

@@ -9,6 +9,8 @@ void BossEnemyAttackBeam::Initialize(Enemy* enmey)
 
 void BossEnemyAttackBeam::Update(Enemy* enemy)
 {
+
+	enemy->SetRecvDamage2(false);
 	AltAttack::GetInstance()->ActionJudg();
 
 	if (Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) <= 70.0f)

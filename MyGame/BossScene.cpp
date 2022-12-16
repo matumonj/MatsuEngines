@@ -37,10 +37,33 @@ void BossScene::Initialize()
 		AllObjectControl.emplace_back(PlayerControl::GetInstance());
 		AllObjectControl.emplace_back(EnemyControl::GetInstance());
 	}
+	lightGroup = LightGroup::Create();
 
+	Object3d::SetLightGroup(lightGroup);
+	//lightGroup2 = LightGroup::Create();
+	// 3Dオブエクトにライトをセット
+	lightGroup->SetDirLightActive(0, false);
+	lightGroup->SetDirLightActive(1, false);
+	lightGroup->SetDirLightActive(2, false);
+
+	lightGroup->SetDirLightActive(3, false);
+	for (int i = 0; i < 4; i++) {
+		lightGroup->SetPointLightActive(i, true);
+	}
 	//ボス攻撃用->できれば移す
 	Nail::GetInstance()->ModelSet();
 	BossMap::GetInstance()->Init();
+
+	LightPos[0] = { 0,20,-100 };
+	LightPos[1] = { 75,20,0 };
+	LightPos[2] = { 0,20,100 };
+	LightPos[3] = { -75,20,0 };
+
+	lightangle[0] = 0;
+
+	lightangle[1] = 90;
+	lightangle[2] = 180;
+	lightangle[3] = 270;
 	//postEffect = new MinimapSprite();
 	//postEffect->Initialize();
 	//	dc = new DebugCamera(WinApp::window_width, WinApp::window_height);
@@ -61,6 +84,7 @@ void BossScene::Update()
 
 	if (Play)
 	{
+
 		//csvからの読み込み終わってから更新処理
 
 		if (AllObjectControl[1] != nullptr)
@@ -89,6 +113,8 @@ void BossScene::Update()
 	//csv読み込み部分(Cameraの更新後にするのでobjUpdate()挟んでから)
 	LoadParam(CameraControl::GetInstance()->GetCamera());
 
+	lightGroup->Update();
+
 	if (scenechange)
 	{
 		Feed::GetInstance()->Update_White(Feed::FEEDIN); //白くなります
@@ -100,6 +126,23 @@ void BossScene::Update()
 	else
 	{
 		c_postEffect = Default;
+	}
+	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	
+	LightUpDownT ++ ;
+
+	for (int i = 0; i < 4; i++) {
+
+		lightangle[i] += 0.1f;
+
+		LightPos[i].x = sinf(lightangle[i] * (3.14f / 180.0f)) * 90.0f;
+		LightPos[i].z = cosf(lightangle[i]  * (3.14f / 180.0f)) * 130.0f;
+
+	//	LightPos[i].y = -5 + sinf(3.14f * 2.f / 180.f *LightUpDownT )*10;
+
+		lightGroup->SetPointLightPos(i, XMFLOAT3(LightPos[i]));
+		lightGroup->SetPointLightColor(i, XMFLOAT3(1,0.5,0.5));
+		lightGroup->SetPointLightAtten(i, XMFLOAT3(pointLightAtten));
 	}
 	BossMap::GetInstance()->Upda();
 	AltAttack::GetInstance()->Upda();
@@ -154,6 +197,8 @@ void BossScene::Draw()
 		for (int i = 0; i <2; i++) {
 			EnemyControl::GetInstance()->GetSummonEnemy(i)->DamageTexDisplay_Draw();
 		}
+		PlayerControl::GetInstance()->GetPlayer()->ParticleDraw();
+
 		Sprite::PreDraw();
 		DebugTextSprite::GetInstance()->DrawAll();
 		Sprite::PostDraw();
@@ -167,6 +212,12 @@ void BossScene::Draw()
 		Feed::GetInstance()->Draw();
 		Field::GetInstance()->WarningDraw();
 		SistemConfig::GetInstance()->Draw();
+		ImGui::Begin("LightP");
+		for (int i = 0; i < 4; i++) {
+			//ImGui::SliderFloat("posY", &cpos.y, -200, 200);
+			ImGui::SliderFloat("posZ", &LightPos[i].y, -200, 200);
+		}
+		ImGui::End();
 		{
 			unsigned long current_time = timeGetTime();
 			float fps = float(count_frame) / (current_time - prev_time) * 1000;

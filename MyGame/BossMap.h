@@ -1,6 +1,7 @@
 #pragma once
 #include"Object3d.h"
 #include<memory>
+#include<array>
 #include"Particle.h"
 #include"CollisionPrimitive.h"
 class BossMap
@@ -39,6 +40,12 @@ private:
 	Line2D DamageLine;
 	bool damageLineDrawFlag;
 	DirectX::XMFLOAT2 lineendpos;
+
+	static constexpr int lanthanumSize = 12;
+
+	std::array<std::unique_ptr<Object3d>, lanthanumSize>Lanthanum;
+	std::array<DirectX::XMFLOAT3, lanthanumSize>LanthanumPos;
+	std::array<DirectX::XMFLOAT3, lanthanumSize>LanthanumScl;
 public:
 	static BossMap* GetInstance();
 	void Init();

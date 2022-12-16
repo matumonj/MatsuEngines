@@ -10,10 +10,12 @@ void BossEnemyAttackCircle::Initialize(Enemy* enmey)
 
 void BossEnemyAttackCircle::Update(Enemy* enemy)
 {
-	enemy->SetSwingMotion(true);
+
+	enemy->SetRecvDamage2(false);
+	enemy->SetRoarMotion(true);
 	CircleAttack::GetInstance()->ActionJudg();
 
-	if (Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) < 60.0f)
+	if (Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) < 90.0f)
 	{
 		CircleAttack::GetInstance()->SetDamageArea(CircleAttack::WEST, CircleAttack::SOUTH);
 		enemy->SetAttack_End(enemy->CIRCLE_1, true);

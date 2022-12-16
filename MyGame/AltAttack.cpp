@@ -160,8 +160,10 @@ void AltAttack::Rush(Area& area,Area now,Area next,float& t)
 			rushpos.z = Easing::EaseOut(t, oldp[now].z, rushimpactarea[now].z);
 		}
 	if(now!=END){
-		DamageLine.end = { rushimpactarea[next].x,rushimpactarea[next].z };
-		
+
+		if (t >= 3.0f) {
+			DamageLine.end = { rushimpactarea[next].x,rushimpactarea[next].z };
+		}
 		if (t >= 6.0f) {
 			area = next;
 

@@ -3,7 +3,8 @@
 #include"Sprite.h"
 #include<memory>
 #include"Input.h"
-
+#include<array>
+#include"Particle.h"
 class SelectSword
 {
 public:
@@ -17,56 +18,49 @@ private:
 	using XMVECTOR = DirectX::XMVECTOR;
 
 public:
-	enum SwordScale
+	enum SelectWeapon
 	{
-		SMALL,
-		NORMAL,
-		BIG
+		WAND,
+		SWORD,
+		AXE,
 	};
 
 private:
 	Input* input;
 	Sprite* SwordSample[3];
-	Sprite* WeponParamSprite[3];
+
+	Sprite* WeaponFrame[3];
 	Sprite* Frame;
-	Sprite* Equipment;
-	Sprite* NavSprite;
-	XMFLOAT3 oldcamerapos;
-	XMFLOAT2 EquipmentPos;
+
+	Sprite* Button_LB;
+	Sprite* Button_RB;
+
+	XMFLOAT2 RBPos;
+	XMFLOAT2 LBPos;
+	XMFLOAT2 RBScl;
+	XMFLOAT2 LBScl;
+	float FrameScalingTime;
 	float Alpha;
-	XMFLOAT2 Position[3] = {{200, 400}, {600, 400}, {1000, 400}};
-	XMFLOAT2 WeponParamSpritePos[3];
-	float ypos_Up = 635.0f;
-	float ypos_Center = 730.0f;
-	float ypos_Bottom = 835.0f;
-	float WeponParamSpriteAlpha[3];
-	float WeponParamSpriteEaseT[3];
-	SwordScale NowSelectSword = NORMAL;
-	SwordScale SkillSprite = SMALL;
+	XMFLOAT2 Position[3] = { {1300, 30}, {1500, 30}, {1700, 30} };
+	XMFLOAT2 Scale[3] = { { 200, 200 },{200,200},{200,200} };
+
+	XMFLOAT2 oldpos[3] = { {1300, 30}, {1500, 30}, {1700, 30} };
+	SelectWeapon NowSelectSword = SWORD;
 	int index;
+	int oldindex;
+	bool weaponscalingf;
+	float WeaponScalingETime;
+	XMFLOAT3 WeapomScl;
+	SwordBase* sample_sword[3];
 	std::unique_ptr<SwordBase> Sword;
-	bool SelectJudg;
-	bool SaveJudg;
-
+	bool SelectJudg_Right;
+	bool SelectJudg_Left;
+	bool TurnOffDrawF;
+	std::unique_ptr<Particle>WeaponChangeEffect;
 private:
-	std::unique_ptr<Object3d> PedestalObj;
-
-	std::unique_ptr<Object3d> SampleSword[3];
-
-	float RotAngle = 0;
-	XMFLOAT3 sampleSwordRot[3];
-	float RotAngle_Old[3] = {0, 120, 240};
+	float sampleSwordAlpha[3];
 	float EaseTime = 0.0f;
-	bool RotationF;
-
-	enum RotDir
-	{
-		NON,
-		RIGHT,
-		LEFT
-	};
-
-	RotDir rotDir;
+	
 public:
 	static SelectSword* GetInstance();
 	void Initialize();
@@ -78,31 +72,15 @@ public:
 	void Finalize();
 
 	void SwordDraw();
-	void PedestalDraw();
 private:
-	void SetSword(SwordScale nowsword);
+	void SetSword(SelectWeapon nowsword);
 
-	void pedestalSet();
-	void PedestalUpdate();
 
 	void SpriteSet();
 	void SpriteDraw();
 
-	void SwordRot();
-
-	void WeponParamInit();
-	void WeponParamUpdate();
-
-	void ResetEaseTime()
-	{
-		WeponParamSpriteEaseT[0] = 0;
-		WeponParamSpriteEaseT[1] = 0;
-		WeponParamSpriteEaseT[2] = 0;
-	}
 
 public:
-	void SetSelectJudg(bool f) { SelectJudg = f; }
-	bool GetSelectJudg() { return SelectJudg; }
 
 	SwordBase* GetSword() { return Sword.get(); }
 };

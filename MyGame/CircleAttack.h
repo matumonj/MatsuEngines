@@ -34,7 +34,7 @@ private:
 
 	std::vector<std::unique_ptr<Object3d>> NailObj;
 	Model* NailModel;
-	Texture* ImpactAreaTex[2];
+	Texture* ImpactAreaTex;
 	float TexAlpha = 1;
 	bool phase1, phase2, phase3, phase4;
 	int AttackCount;

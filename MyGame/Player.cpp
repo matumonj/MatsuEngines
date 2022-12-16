@@ -60,6 +60,7 @@ void Player::Initialize(DebugCamera* camera)
 	//移動処理用
 	vel /= 5.0f;
 
+
 	AttackEffect::GetIns()->Init();
 }
 
@@ -144,26 +145,8 @@ void Player::Move()
 			attackMotion = NON;
 		}
 	}
-	// ジャンプ操作
-	Jump();
-	if (!onGround)
-	{
-		falltime++;
-		if (falltime > 180)
-		{
-			Position = oldpos;
-			falltime = 0;
-		}
-	} else
-	{
-		falltime = 0;
-		savetime++;
-		if (savetime % 60 == 0)
-		{
-			oldpos = Position;
-			savetime = 0;
-		}
-	}
+
+
 }
 
 #include"mHelper.h"
@@ -209,17 +192,36 @@ void Player::Update(DebugCamera* camera)
 	RecvDamage_Cool();
 
 	Move();
-
-	if (input->TriggerButton(input->RB))
+	// ジャンプ操作
+	Jump();
+	if (!onGround)
+	{
+		falltime++;
+		if (falltime > 180)
+		{
+			Position = oldpos;
+			falltime = 0;
+		}
+	} else
+	{
+		falltime = 0;
+		savetime++;
+		if (savetime % 60 == 0)
+		{
+			oldpos = Position;
+			savetime = 0;
+		}
+	}
+	if (input->TriggerButton(input->X))
 	{
 		evasionF = true;
 	}
 	// 行列の更新など
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
 	{
-		if (Collision::GetLength(Position, { 0,-19,0 }) > 120)
+		if (Collision::GetLength(Position, { 0,-19,0 }) > 90)
 		{
-			isOldPos();
+			RecvDamage(10);
 		}
 	}
 	//回避
@@ -254,11 +256,13 @@ void Player::Draw()
 	ImGui::Text("%f", Position.z);
 	ImGui::End();
 	Draw_Fbx();
-	SelectSword::GetInstance()->SwordDraw();
 
 	AttackEffect::GetIns()->Draw();
 }
-
+void Player::ParticleDraw()
+{
+	SelectSword::GetInstance()->SwordDraw();
+}
 
 void Player::FbxAnimationControls(const AttackMotion& motiontype, const float attacktime, const float nextAnimationtime)
 {
@@ -357,6 +361,13 @@ void Player::FbxAnimationControl()
 	if (PlayerAttackState::GetInstance()->GetHitStopJudg())
 	{
 		timespeed = 0.005f;
+	}
+	else {
+		if (attackMotion != RUN) {
+			timespeed = SelectSword::GetInstance()->GetSword()->GetAnimationTime();
+		} else {
+			timespeed = 0.02f;
+		}
 	}
 	f_time += timespeed;
 	FbxAnimationControls(FIRST, AttackFirTime, AttackSecTime);

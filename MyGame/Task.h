@@ -72,8 +72,8 @@ public:
 
 	bool ClearTaskONE();
 	bool GetAllTaskClear() { return TaskAllClear; }
-	bool GetGolemDesthCount(int count) { if (GolemDestCount > count) { return true; }return false; }
-	bool GetFlogDesthCount(int count) { if (FlogDestCount > count) { return true; }return false; }
+	bool GetGolemDesthCount(int count) { if (GolemDestCount== count) { return true; }return false; }
+	bool GetFlogDesthCount(int count) { if (FlogDestCount ==count) { return true; }return false; }
 private:
 	int GolemDestCount;
 	int FlogDestCount;

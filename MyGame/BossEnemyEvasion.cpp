@@ -49,7 +49,7 @@ void BossEnemyEvasion::Update(Enemy* enemy)
 
 void BossEnemyFalter::Update(Enemy* enemy)
 {
-	enemy->SetRecvDamage(false);
+	enemy->SetRecvDamage2(false);
 	if (enemy->GetFbxTime() < enemy->GetFalterTime() + 0.3f)
 	{
 		PlayerAttackState::GetInstance()->SetHitStopJudg(true);

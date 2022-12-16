@@ -579,6 +579,12 @@
     <ClCompile Include="BossMap.cpp">
       <Filter>Game\Shader</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyKnockState.cpp">
+      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Mob</Filter>
+    </ClCompile>
+    <ClCompile Include="DropWeapon.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sprite.h">
@@ -974,8 +980,14 @@
     <ClInclude Include="BossMap.h">
       <Filter>Game\Shader</Filter>
     </ClInclude>
+    <ClInclude Include="EnemyKnockState.h">
+      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Mob</Filter>
+    </ClInclude>
+    <ClInclude Include="DropWeapon.h">
+      <Filter>Game\Shader</Filter>
+    </ClInclude>
     <ClInclude Include="UI.h">
-      <Filter>Game</Filter>
+      <Filter>Game\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

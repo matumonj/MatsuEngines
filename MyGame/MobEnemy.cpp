@@ -10,6 +10,8 @@
 #include"PlayerControl.h"
 #include<iomanip>
 #include"PlayerAttackState.h"
+#include"ImageManager.h"
+#include"mHelper.h"
 /// <summary>
 /// コンストラクタ
 /// </summary>
@@ -25,8 +27,6 @@ MobEnemy::MobEnemy()
 MobEnemy::~MobEnemy()
 {
 	Destroy(state_mob);
-	//Destroy(particleMan);
-	//delete mob, MobModel;
 }
 
 //初期化処理
@@ -40,19 +40,18 @@ void MobEnemy::Initialize(DebugCamera* camera)
 
 	m_Object = std::make_unique<Object3d>();
 	m_Object->Initialize(camera);
-	//m_Object->CreateGraphicsPipeline(L"Resources/Shader/Object3dVS.hlsl", L"Resources/Shader/Object3dPS.hlsl", L"Resources/Shader/BasicGS.hlsl");
 	
 	m_fbxObject = std::make_unique<f_Object3d>();
 	m_fbxObject->Initialize();
 	m_fbxObject->SetModel(FbxLoader::GetInstance()->LoadModelFromFile("monster_golem_demo"));
 	m_fbxObject->PlayAnimation();
 	
-	MaxHP = 50.0f;
+	MaxHP = 100.0f;
 
 	EnemyHP = MaxHP;
 	//パラメータのセット
 	Rotation = { 114.0f, 118.0f, 165.0f };
-	Scale = { 0.05f, 0.05f, 0.05f };
+	Scale = { 0.04f, 0.04f, 0.04f };
 
 	//コライダー周り
 	radius_adjustment = 0;
@@ -71,6 +70,13 @@ void MobEnemy::Initialize(DebugCamera* camera)
 	addRotRadians = 0;
 	FollowRotAngleCorrect = 180;
 
+	HPFrame[0].reset(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME1));
+	HPFrame[1].reset(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME2));
+	HPFrame[2].reset(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME3));
+	for (int i = 0; i < 3; i++) {
+		HPFrame[i]->SetAnchorPoint({ 0.0f,0.0f });
+	}
+	FrameScl.x = Percent::GetParcent(MaxHP, EnemyHP) * 2.0f;
 	ENumber = EnemyNumber::GOLEM;
 }
 
@@ -110,6 +116,36 @@ void MobEnemy::Update(DebugCamera* camera)
 
 	OBBSetParam();
 	m_fbxObject->SetFbxTime(f_time);
+
+	XMVECTOR tex2DPos[3];
+	for (int i = 0; i < 3; i++) {
+		tex2DPos[i] = { Position.x,Position.y + 12.0f,Position.z };
+		tex2DPos[i] =MatCal::PosDivi(tex2DPos[i], camera->GetViewMatrix(), false);
+		tex2DPos[i] = MatCal::PosDivi(tex2DPos[i], camera->GetProjectionMatrix(), true);
+		tex2DPos[i] = MatCal::WDivi(tex2DPos[i], false);
+		tex2DPos[i] = MatCal::PosDivi(tex2DPos[i], camera->GetViewPort(), false);
+
+		HPFrame[i]->SetPosition({ tex2DPos[i].m128_f32[0]-40.0f,tex2DPos[i].m128_f32[1]});
+	}
+	if (RecvDamagef) {
+		NowFrameX = Percent::GetParcent(MaxHP,EnemyHP)*2.0f;
+		FrameScalingETime += 0.02f;
+		FrameScl.x = Easing::EaseOut(FrameScalingETime,OldFrameX, NowFrameX);
+
+		if (FrameScalingETime >= 1.0f) {
+			RecvDamagef=false;
+		}
+	}
+
+	else {
+		OldFrameX = Percent::GetParcent(MaxHP,EnemyHP)*2.0f;
+		FrameScalingETime = 0.0f;
+	}
+	HPFrame[2]->SetSize({FrameScl.x,15 });
+	HPFrame[1]->SetSize({ 200.0f,15.0f });
+	HPFrame[0]->SetSize({ 200.0f,15.0f });
+
+
 }
 void MobEnemy::OBBSetParam()
 {
@@ -140,7 +176,7 @@ void MobEnemy::OBBSetParam()
 			{
 				if (Collision::CheckOBBCollision(playerOBB, HandSiteOBB) == true)
 				{
-					l_player->RecvDamage(10);
+					l_player->RecvDamage(5);
 				}
 			}
 		}
@@ -151,7 +187,7 @@ void MobEnemy::OBBSetParam()
 			{
 				if (Collision::CheckOBBCollision(playerOBB, HandSiteOBB) == true)
 				{
-					l_player->RecvDamage(15);
+					l_player->RecvDamage(5);
 				}
 			}
 		}
@@ -169,9 +205,19 @@ void MobEnemy::Draw()
 		Object3d::PreDraw();
 		Sword->Draw();
 		Object3d::PostDraw();
+
 	}
 }
 
+void MobEnemy::EnemyHPDraw()
+{
+
+	Sprite::PreDraw();
+	for (int i = 0; i < 3; i++) {
+		HPFrame[i]->Draw();
+	}
+	Sprite::PostDraw();
+}
 #include"ExpPointSystem.h"
 
 void MobEnemy::Death()
@@ -189,6 +235,9 @@ void MobEnemy::Death()
 	if(f_time>=m_fbxObject->GetEndTime())
 	{
 		alpha -= 0.02f;
+	}
+	if(f_time <=DeathTime+1.5f){
+		PlayerAttackState::GetInstance()->SetHitStopJudg(true);
 	}
 
 	f_time += 0.01f;

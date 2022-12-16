@@ -140,7 +140,7 @@ void ObjectManager::ParameterSet_Obj(DebugCamera* camera)
 
 void ObjectManager::ParameterSet_Fbx(DebugCamera* camera)
 {
-	m_fbxObject->SetPosition({Position.x, Position.y, Position.z});
+	m_fbxObject->SetPosition({Position.x, Position.y-1, Position.z});
 
 	m_fbxObject->SetRotation(Rotation);
 	m_fbxObject->SetScale(Scale);

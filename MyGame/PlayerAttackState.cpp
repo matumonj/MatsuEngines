@@ -44,16 +44,6 @@ void PlayerAttackState::Update()
 		/*CoolDownTime == 0*/
 		Skill = First;
 	}
-	if (CustomButton::GetInstance()->Get2AttackAction() == true && CoolDownTime == 0)
-	{
-		/*CoolDownTime == 0*/
-		Skill = Second;
-	}
-	if (CustomButton::GetInstance()->Get3AttackAction() == true && CoolDownTime == 0)
-	{
-		/*CoolDownTime == 0*/
-		Skill = Third;
-	}
 
 	if (BuffFlag)
 	{
@@ -63,59 +53,10 @@ void PlayerAttackState::Update()
 
 	ComboAction();
 
-	switch (Skill)
-	{
-	case None:
-		break;
-	case First:
-		if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL)
-		{
-			FirstAttack(EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL));
-		}
-		if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
-		{
-			FirstAttack(EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE));
-		}
-		if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
-		{
-			FirstAttack(EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS));
-		}
-		break;
-	case Second:
-		if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL)
-		{
-			SecondAttack(EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL));
-		}
-		if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
-		{
-			SecondAttack(EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE));
-		}
-		if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
-		{
-			SecondAttack(EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS));
-		}
-
-		break;
-	case Third:
-		if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL)
-		{
-			ThirdAttack(EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL));
-		}
-		if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
-		{
-			FirstAttack(EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE));
-		}
-		if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
-		{
-			FirstAttack(EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS));
-		}
-
-		break;
-	}
 	//スキルクールダウン処理
 	SkillCoolDown(CoolDownTime);
 	HitStop();
-	AttackCollision::GetInstance()->GetCol(Damage);
+	AttackCollision::GetInstance()->GetCol(SelectSword::GetInstance()->GetSword()->GetDamage());
 }
 
 void PlayerAttackState::FirstAttack(std::vector<std::unique_ptr<Enemy>>& enemy)

@@ -13,10 +13,11 @@ private:
 public:
 	void Init();
 	void Upda();
+
+	void Upda_B();
 	void Draw();
 
 	void CreateParticle(bool f, XMFLOAT3 pos) { createpos = pos; if (f&&(m_particles[ParType::NORMAL].phase ==NON|| m_particles[ParType::NORMAL].phase ==END)) m_particles[ParType::NORMAL].phase = INIT; }
-
 private:
 	enum Type {
 		NORMAL_1,
@@ -44,7 +45,7 @@ private:
 	enum ParType {
 		NORMAL,
 	};
-
+	int partype;
 	static constexpr int ParNum = 1;
 	XMFLOAT3 createpos;
 	ParParam m_particles[ParNum];
@@ -55,6 +56,10 @@ private:
 	void InitNormal(ParParam& parparam,XMFLOAT3 pos);
 	void UpadaNormal_A(ParParam& parparam);
 	void UpadaNormal_B(ParParam& parparam);
+
+public:
+	void SetParF(int type) { partype = type; for (int i = 0; i < m_particles[ParType::NORMAL].size; i++) { m_particles[ParType::NORMAL].f[i] = false; } };
+
 private:
 	bool isAryEqual(std::vector<float>num);
 };

@@ -30,21 +30,26 @@ void TutorialSprite::Initialize()
 	Texture::LoadTexture(51, L"Resources/2d/tutorialstep/targetpos2.png");
 	Sprite::LoadTexture(174, L"Resources/2d/tutorialstep/step2.png");
 	Sprite::LoadTexture(175, L"Resources/2d/tutorialstep/step3.png");
-	Sprite::LoadTexture(176, L"Resources/2d/tutorialstep/step6.png");
-	Sprite::LoadTexture(177, L"Resources/2d/tutorialstep/step7.png");
+	Sprite::LoadTexture(176, L"Resources/2d/tutorialstep/step4.png");
+	Sprite::LoadTexture(177, L"Resources/2d/tutorialstep/step5.png");
+	Sprite::LoadTexture(178, L"Resources/2d/tutorialstep/step7.png");
 	Sprite::LoadTexture(170, L"Resources/Tuto");
-
 	Sprite::LoadTexture(183, L"Resources/2d/icon/movecon.png");
 	Sprite::LoadTexture(184, L"Resources/2d/icon/motioncon.png");
 
-	movecn =Sprite::Create(183, { 10, 10 });
+	//コントローラー画像初期化
+	movecn = Sprite::Create(183, { 10, 10 });
 	Attackcon = Sprite::Create(184, { 10, 10 });
+	
 	movecn->SetAnchorPoint({ 0.5,0.5 });
 	Attackcon->SetAnchorPoint({ 0.5,0.5 });
+	
 	movecn->SetSize({ 400,400 });
 	Attackcon->SetSize({ 400,400 });
 
-	Task[HELLO] = Sprite::Create(171, { 10, 10 });
+	/// <summary>
+	/// 目標のピン画像(Ground->円 Icon->三角)
+	/// </summary>
 	TargetPoint_Ground = Texture::Create(50);
 	TargetPoint_Icon = Texture::Create(51);
 
@@ -53,38 +58,32 @@ void TutorialSprite::Initialize()
 	TargetPoint_Ground->SetAnchorPoint({ 0.5f,0.5f });
 	TargetPoint_Icon->SetAnchorPoint({ 0.5f,0.5f });
 
+	/// 各説明用テクスチャ初期化
+	Task[HELLO] = Sprite::Create(171, { 10, 10 });
 	Task[WALK] = Sprite::Create(174, { 10, 10 });
 	Task[ATTACK] = Sprite::Create(175, { 10, 10 });
-	Task[GETKEY] = Sprite::Create(176, { 10, 10 });
-	Task[CLEAR] = Sprite::Create(177, { 10, 10 });
+	Task[SELECTWEAPON] = Sprite::Create(176, { 10, 10 });
+	Task[GETKEY] = Sprite::Create(177, { 10, 10 });
+	Task[CLEAR] = Sprite::Create(178, { 10, 10 });
 
-	
+
 	targetAlpha = 1.f;
 	TargetTexSize = { 4,4,3 };
+	
 	for (int i = 0; i < TaskNum; i++)
 	{
 		Task[i]->SetAnchorPoint({ 0, 0 });
-		SpriteSizeX[i] = 1900.0f;
-		SpriteAlpha[i] = 0.0f;
-		MassageCheck[i] = false;
 		ClearTaskJudg[i] = false;
 	}
-	
-	Task[CLEAR]->SetSize({ 1000, 1000 });
+
 	AllTaskClear = false;
 	task = THELLO;
-	Jump = false;
-	Movement = 0;
 }
 
-void TutorialSprite::CheckMove_Camera_Player()
-{
-
-}
 
 void TutorialSprite::CheckAttack()
 {
-	
+
 	if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr)
 	{
 		ClearTaskJudg[ATTACK] = EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetHP() <= 0;
@@ -94,17 +93,13 @@ void TutorialSprite::CheckAttack()
 void TutorialSprite::Update()
 {
 	TargetPosTexMove();
-	conpos = { 1700,790 };
-	movecn->SetPosition(conpos);
-	Attackcon->SetPosition(conpos);
+
+	movecn->SetPosition({ 1700.f,790.f });
+	Attackcon->SetPosition({ 1700.f,790.f });
 	movecn->setcolor({ 1,1,1,movea });
 	Attackcon->setcolor({ 1,1,1,atacka });
-	if (CustomButton::GetInstance()->GetJumpAction() == true)
-	{
-		Jump = true;
-	}
-
-	//歩きとジャンプ
+	
+	//目標地点ついたら歩きタスクはクリア
 	if (Collision::GetLength({ 109.f,-30,-650.f }, PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 10.f) {
 		ClearTaskJudg[WALK] = true;
 	}
@@ -113,14 +108,15 @@ void TutorialSprite::Update()
 	AllTaskClear = ClearTaskJudg[WALK] && ClearTaskJudg[ATTACK] && ClearTaskJudg[GETKEY];
 
 	bool tEnemyDeath = EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0] == nullptr;
+
 	FenceControl::GetInstance()->SetTutorialFenceOpen(tEnemyDeath);
+
 	switch (task)
 	{
 	case THELLO:
 		SpriteAlpha[HELLO] += 0.02f;
-		Task[HELLO]->SetPosition({ 400,200 });
-		Task[HELLO]->SetSize({ 800,400 });
-
+		Task[HELLO]->SetPosition({ 540.f,0.f });
+		Task[HELLO]->SetSize({ 800.f,400.f });
 		SpriteAlpha[HELLO] = min(SpriteAlpha[HELLO], 3.f);
 		SpriteAlpha[HELLO] = max(SpriteAlpha[HELLO], 0.f);
 		//説明スプライトの拡縮
@@ -130,13 +126,10 @@ void TutorialSprite::Update()
 		break;
 
 	case TMOVE:
-
+		movea += 0.02f;
 		SpriteAlpha[HELLO] -= 0.02f;
-		CheckMove_Camera_Player();
-		if (ClearTaskJudg[WALK])
-		{
-			NextTask(t[WALK], TATTACK, ClearTaskJudg[WALK]);
-		}
+
+		NextTask(t[WALK], TATTACK, ClearTaskJudg[WALK] && targetAlpha <= 0.0f);
 
 		Ease_SpriteSize_Up(SpriteAlpha[WALK], t[WALK], WALK);
 		break;
@@ -145,16 +138,26 @@ void TutorialSprite::Update()
 		movea -= 0.02f;
 		//攻撃
 		CheckAttack();
-		if (ClearTaskJudg[ATTACK])
-		{
-			NextTask(t[ATTACK], TGETKEY, ClearTaskJudg[ATTACK]);
-		}
+
+		NextTask(t[ATTACK], TSELECTWEAPON, ClearTaskJudg[ATTACK] && targetAlpha <= 0.0f);
+
 
 		Ease_SpriteSize_Up(SpriteAlpha[ATTACK], t[ATTACK], ATTACK);
 		break;
 
+	case TSELECTWEAPON:
+
+		atacka -= 0.02f;
+
+		if (input->TriggerButton(input->RB) || input->TriggerButton(input->LB)) {
+			ClearTaskJudg[SELECTWEAPON] = true;
+		}
+		NextTask(t[SELECTWEAPON], TGETKEY, ClearTaskJudg[SELECTWEAPON] && targetAlpha <= 0.0f);
+
+		Ease_SpriteSize_Up(SpriteAlpha[SELECTWEAPON], t[SELECTWEAPON], SELECTWEAPON);
+
+		break;
 	case TGETKEY:
-		//	n//otTaskXpos[ENEMYDESTROY] += 30;
 		//セッティング
 		ClearTaskJudg[GETKEY] = ChestControl::GetInstance()->GetTutorialChest() == true;
 
@@ -163,7 +166,7 @@ void TutorialSprite::Update()
 			NextTask(t[GETKEY], TEND, ClearTaskJudg[GETKEY]);
 		}
 
-		Ease_SpriteSize_Up(SpriteSizeX[GETKEY], t[GETKEY], GETKEY);
+		Ease_SpriteSize_Up(SpriteAlpha[GETKEY], t[GETKEY], GETKEY);
 		break;
 	case TEND:
 		if (MassageCheck[CLEAR])
@@ -171,16 +174,16 @@ void TutorialSprite::Update()
 			NextTask(t[CLEAR], THELLO, false);
 		}
 
-		Ease_SpriteSize_Up(SpriteSizeX[CLEAR], t[CLEAR], CLEAR);
+		Ease_SpriteSize_Up(SpriteAlpha[CLEAR], t[CLEAR], CLEAR);
 		break;
 	default:
 		break;
 	}
-	
-	 
-	for (int i = 1; i < 5; i++)
+
+
+	for (int i = WALK; i < CLEAR+1; i++)
 	{
-		Task[i]->SetPosition(spos);
+		Task[i]->SetPosition({ 460.f,600.f });
 		Task[i]->SetSize({ 1000,300 });
 		Task[i]->setcolor({ 1,1,1,SpriteAlpha[i] });
 	}
@@ -200,38 +203,48 @@ void TutorialSprite::TargetPosTexMove()
 	MoveTime++;
 	TargetPoint_GroundRotY++;
 
-	if (ClearTaskJudg[WALK]) {
+	if (task == TMOVE && ClearTaskJudg[WALK]) {
 		TargetTexSize.x += 0.1f;
 		TargetTexSize.y += 0.1f;
 		targetAlpha -= 0.04f;
-		if (targetAlpha <= 0.f) {
-			PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(FALSE);
-		}
-		else {
-			PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(TRUE);
-		}
+
 	}
-	
-	TargetPoint_Ground->SetPosition({ 109.f,-30,-650.f });
+	if (task == TATTACK && ClearTaskJudg[ATTACK]) {
+		TargetTexSize.x += 0.1f;
+		TargetTexSize.y += 0.1f;
+		targetAlpha -= 0.04f;
+
+	}
+
+	if (task == TMOVE) {
+		TargetIconPosY = -15.0f + sinf(3.14f * 2.f / 90.f * MoveTime) * -10.0f;
+		TargetPoint_Icon->SetPosition({ 109.f,TargetIconPosY,-650.f });
+		TargetPoint_Ground->SetColor({ 1.0f,1.0f,1.0f,targetAlpha });
+		TargetPoint_Ground->SetPosition({ 109.f,-30,-650.f });
+	}
+
+	if (task == TATTACK) {
+		if (!ClearTaskJudg[ATTACK]) {
+			TargetTexSize = { 4,4,3 };
+			targetAlpha = 0.7f;
+			TargetIconPosY = -5 + sinf(3.14f * 2.f / 90.f * MoveTime) * 5;
+
+			if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr) {
+				XMFLOAT3 EPos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition();
+				TargetPoint_Icon->SetPosition({ EPos.x,TargetIconPosY,EPos.z });
+				TargetPoint_Ground->SetPosition({ EPos.x,-30,EPos.z });
+			}
+		}
+		TargetPoint_Ground->SetColor({ 1,0,0,targetAlpha });
+
+	}
+
 	TargetPoint_Ground->SetRotation({ 90,0,TargetPoint_GroundRotY });
 	TargetPoint_Ground->SetScale(TargetTexSize);
 	TargetPoint_Ground->SetBillboard(FALSE);
-	TargetPoint_Ground->SetColor({ 1,1,1,targetAlpha });
 	TargetPoint_Ground->Update(camera);
 
-	if (!ClearTaskJudg[WALK]) {
-		TargetIconPosY = -15 + sinf(3.14f * 2.f / 90.f * MoveTime) * -10;
-
-		TargetPoint_Icon->SetPosition({ 109.f,TargetIconPosY,-650.f });
-	}
-	if(!ClearTaskJudg[ATTACK]&& ClearTaskJudg[WALK]){
-		TargetIconPosY = -5 + sinf(3.14f * 2.f / 90.f * MoveTime) * 5;
-
-		if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0] == nullptr)return;
-		XMFLOAT3 EPos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition();
-		TargetPoint_Icon->SetPosition({ EPos.x,TargetIconPosY,EPos.z });
-	}
-	TargetPoint_Icon->SetRotation({ 180,0,0});
+	TargetPoint_Icon->SetRotation({ 180,0,0 });
 	TargetPoint_Icon->SetBillboard(TRUE);
 	TargetPoint_Icon->SetScale({ 3,3,3 });
 	TargetPoint_Icon->SetColor({ 1,1,1,1 });
@@ -249,19 +262,19 @@ void TutorialSprite::DrawTargetPos()
 void TutorialSprite::Draw()
 {
 	ImGui::Begin("pos");
-	ImGui::SliderFloat("x", &spos.x,0,1200);
+	ImGui::SliderFloat("x", &spos.x, 0, 1200);
 	ImGui::SliderFloat("y", &spos.y, 0, 1000);
 	ImGui::End();
 	Sprite::PreDraw();
-	
-	for (int i = 0; i < 5; i++)
+
+	for (int i = HELLO; i < CLEAR+1; i++)
 	{
 		Task[i]->Draw();
 	}
 	movecn->Draw();
 	Attackcon->Draw();
 	Sprite::PostDraw();
-	
+
 }
 
 void TutorialSprite::Ease_SpriteSize_Up(float& x, float& t, int index)
@@ -286,8 +299,6 @@ void TutorialSprite::Ease_SpriteSize_Up(float& x, float& t, int index)
 		{
 			t += 0.05f;
 		}
-		//PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(true);
-		//UI::GetInstance()->SetTurnoffUIDraw(TRUE);
 	}
 }
 

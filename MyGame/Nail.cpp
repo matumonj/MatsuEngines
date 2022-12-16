@@ -2,6 +2,7 @@
 #include"CameraControl.h"
 #include"Input.h"
 #include"ModelManager.h"
+#include <EnemyControl.h>
 
 Nail::~Nail()
 {
@@ -95,6 +96,8 @@ void Nail::HalfAttack(const HalfAttackArea& area)
 
 void Nail::CircleAttack(int area1, int area2)
 {
+	Enemy* boss = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0].get();
+
 	//東西南北のAOE中心場所　参照するなりした方がいい
 	XMFLOAT3 DirectionPos[4] = {
 		{0.0f, -18.0f, 60.0f}, {0.0f, -18.0f, -60.0f}, {60.0f, -18.0f, 0.0f}, {-60.0f, -18.0f, 0.0f}
@@ -113,32 +116,23 @@ void Nail::CircleAttack(int area1, int area2)
 		CAttack.ZN.resize(Nails.size());
 		CAttack.XN.resize(Nails.size());
 	//1つめのAOE範囲分
-		for (int i = 0; i < Nails.size() / 2; i++)
+		for (int i = 0; i < Nails.size(); i++)
 		{
-			CAttack.ZN[i] = rand() % (20 + 1 + 25) - 25;
-			CAttack.XN[i] = rand() % (20 + 1 + 25) - 25;
+			CAttack.ZN[i] = rand() % 50 - 25;
+			CAttack.XN[i] = rand() % 50- 25;
 			Nails[i]->SetPosition({
-				DirectionPos[area1].x + static_cast<float>(CAttack.XN[i])+10, MinY,
-				DirectionPos[area1].z + static_cast<float>(CAttack.ZN[i])+50
+				boss->GetPosition().x + static_cast<float>(CAttack.XN[i]), MinY,
+				boss->GetPosition().z + static_cast<float>(CAttack.ZN[i])
 			});
 		}
-	//２つめのAOE範囲分
-		for (int i = static_cast<int>(Nails.size() / 2); i < Nails.size(); i++)
-		{
-			CAttack.ZN[i] = rand() % (20 + 1 + 25) - 25 ;
-			CAttack.XN[i] = rand() % (20 + 1 + 25) - 25;
-			Nails[i]->SetPosition({
-				DirectionPos[area2].x + static_cast<float>(CAttack.XN[i])+10, MinY,
-				DirectionPos[area2].z + static_cast<float>(CAttack.ZN[i]+50)
-			});
-		}
+
 	//次のフェーズへ
 		CAttack.phase = PHASE_TWO;
 		break;
 	case PHASE_TWO:
 		if (MinY <= 20.0f)
 		{
-			MinY += 1.0f; //釘出るよ
+			MinY += 2.0f; //釘出るよ
 		}
 		else
 		{
@@ -148,16 +142,16 @@ void Nail::CircleAttack(int area1, int area2)
 		for (int i = 0; i < Nails.size(); i++)
 		{
 			Nails[i]->SetPosition({Nails[i]->GetPosition().x, MinY, Nails[i]->GetPosition().z});
-			Nails[i]->SetScale({1.5f, 3.0f, 1.5f});
+			Nails[i]->SetScale({1.5f, 3.0f+float(i) / 10.0f, 1.5f});
 		}
 		break;
 	case PHASE_THREE:
 		CAttack.WaitCount++; //釘出現してから一定時間立ったら引っ込める
-		if (CAttack.WaitCount >= 60)
+		if (CAttack.WaitCount >= 120)
 		{
 			MinY -= 1.0f;
 		}
-		if (MinY <= -30.0f)
+		if (MinY <= -50.0f)
 		{
 			CAttack.phase = NON;
 			CAttack.EndAction = true; //１連の挙動終了

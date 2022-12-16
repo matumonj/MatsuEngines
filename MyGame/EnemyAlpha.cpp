@@ -131,7 +131,10 @@ void EnemyAlpha::Death()
 	movestop = false;
 }
 
+void EnemyAlpha::EnemyHPDraw()
+{
 
+}
 void EnemyAlpha::FbxAnimationControl()
 {
 	//1ƒtƒŒ[ƒ€i‚ß‚é

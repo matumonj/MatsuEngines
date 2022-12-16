@@ -5,6 +5,8 @@
 #include"BossSpell.h"
 #include"ExpPointSystem.h"
 #include"Task.h"
+#include"DropWeapon.h"
+#include <SelectSword.h>
 UI* UI::GetInstance()
 {
 	static UI instance;
@@ -25,7 +27,9 @@ void UI::Initialize()
 	{
 		TutorialSprite::GetInstance()->Initialize();
 	}
+	DropWeapon::GtIns()->Init();
 	Task::GetInstance()->Init();
+
 }
 
 void UI::HUDUpdate(bool& hudload, DebugCamera* camera)
@@ -63,15 +67,21 @@ void UI::HUDDraw()
 			HUD::GetInstance()->EnemyHPGauge_MultiDraw();
 		}
 
-		BossSpell::GetInstance()->Draw();
+		SelectSword::GetInstance()->Draw();
 	}
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL)
 	{
+		EnemyControl::GetInstance()->HPFrameDraw();
 		TutorialSprite::GetInstance()->Draw();
 	}
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
+
+	if (!TurnOffDrawUI)
 	{
-		Task::GetInstance()->Draw();
+		if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
+		{
+			DropWeapon::GtIns()->Draw_PickTex();
+			Task::GetInstance()->Draw();
+		}
 	}
 }
 

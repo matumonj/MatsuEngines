@@ -59,7 +59,7 @@ bool AreaFence::CollideAreaFence()
 	if (Collision::CheckOBBCollision(playerOBB, AreaFenceOBB) == true)
 	{
 		Collision::SetCollideOBB(true);
-		PlayerControl::GetInstance()->GetPlayer()->isOldPos();
+		//PlayerControl::GetInstance()->GetPlayer()->isOldPos();
 		return true;
 	}
 	return false;

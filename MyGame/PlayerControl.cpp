@@ -81,6 +81,7 @@ void PlayerControl::Load(DebugCamera* camera)
 /*------------------------*/
 #include"HUD.h"
 #include"CameraControl.h"
+#include <EnemyControl.h>
 //playerの中にある移動処理とかは後でこっち持ってくる
 void PlayerControl::Update_Tutorial(DebugCamera* camera) //チュートリアル時
 {
@@ -141,7 +142,7 @@ void PlayerControl::Draw_Tutorial()
 
 void PlayerControl::Draw_Boss()
 {
-	if (player == nullptr)
+	if ( player == nullptr)
 	{
 		return;
 	}

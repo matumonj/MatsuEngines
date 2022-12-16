@@ -40,7 +40,7 @@ void Wood::Update(DebugCamera* camera)
 	m_Object->Setf(TRUE);
 	m_Object->SetFogCenter(camera->GetEye());
 	m_Object->setFog(true);
-	m_Object->SetDisLen(1000);
+	m_Object->SetDisLen(800);
 	//フィールド
 		CollideWood();
 	

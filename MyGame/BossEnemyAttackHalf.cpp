@@ -9,6 +9,8 @@ void BossEnemyAttackHalf::Initialize(Enemy* enmey)
 
 void BossEnemyAttackHalf::Update(Enemy* enemy)
 {
+
+	enemy->SetRecvDamage2(false);
 	HalfAttack::GetInstance()->ActionJudg();
 	enemy->SetRoarMotion(true);
 	//80%ˆÈ‰º‚Ì”¼–ÊUŒ‚I—¹

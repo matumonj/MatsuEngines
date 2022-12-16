@@ -40,8 +40,9 @@ void ExpPointSystem::Init()
 
 	BarPos = {381.0f, 862.0f};
 	BarFramePos = {122.0f, 830.0f};
-	BarScl = { float(EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetMaxHP()) * 6.35f, 51.0f };
-	BarFrameScl = { float(EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetMaxHP()) * 7.8f,117.0f };
+	BarScl = { Percent::GetParcent(EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetMaxHP(),
+			EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetHP()) * 15.35f, 51.0f };
+	BarFrameScl = { float(EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetMaxHP()) * 6.8f,117.0f };
 
 }
 
@@ -51,9 +52,10 @@ void ExpPointSystem::Upda()
 	if (m_BossHPFrame == nullptr)return;
 	if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0] == nullptr)return;
 	if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetRecvDamage()) {
-		NowHP = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetHP();
+		NowHP = Percent::GetParcent(EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetMaxHP(),
+			EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetHP());
 		m_EaseTime += 0.05f;
-		BarScl.x = Easing::EaseOut(m_EaseTime, OldHP*6.35f, NowHP*6.35f);
+		BarScl.x = Easing::EaseOut(m_EaseTime, OldHP*15.35f, NowHP*15.35f);
 
 		if (m_EaseTime >= 1.0f){
 			EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->SetRecvDamage(FALSE);
@@ -61,7 +63,8 @@ void ExpPointSystem::Upda()
 }
 
 else {
-		OldHP = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetHP();
+		OldHP = Percent::GetParcent(EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetMaxHP(),
+			EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetHP());
 		m_EaseTime = 0.0f;
 }
 	expBarUpda();
@@ -76,16 +79,6 @@ void ExpPointSystem::expBarUpda()
 	m_BossHPFrame->SetSize(BarFrameScl);
 }
 
-
-void ExpPointSystem::LvelUpFont_Display()
-{
-
-}
-
-void ExpPointSystem::LvelUpFont_FeedOut()
-{
-
-}
 
 void ExpPointSystem::Draw()
 {

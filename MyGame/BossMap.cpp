@@ -10,7 +10,14 @@ BossMap* BossMap::GetInstance()
 }
 void BossMap::Init()
 {
-	
+	for (int i = 0; i < lanthanumSize; i++) {
+		LanthanumPos[i] = { sinf(float(i) * 30 * (PI / 180.0f)) * 90.0f,
+			13.89,
+			cosf(float(i)*30 * (PI / 180.0f)) * 130.0f
+		};
+		LanthanumScl[i] = { 45,float(rand()%10+6),45};
+	}
+
 	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
 	for (int i = 0; i < mapHight; i++) {
 		for (int j = 0; j < mapWidth; j++) {
@@ -19,16 +26,16 @@ void BossMap::Init()
 			//フィールドにモデル割り当て
 			mapobj[i][j]->Initialize(camera);
 			mapobj[i][j]->SetModel(ModelManager::GetIns()->GetModel(ModelManager::BOX));
-			nailobj[i][j] = std::make_unique<Object3d>();
 			//フィールドにモデル割り当て
-			nailobj[i][j]->Initialize(camera);
-			nailobj[i][j]->SetModel(ModelManager::GetIns()->GetModel(ModelManager::NAIL));
-
-			//フィールドにモデル割り当て
-			nailobj[i][j]->Initialize(camera);
-			nailobj[i][j]->SetModel(ModelManager::GetIns()->GetModel(ModelManager::NAIL));
-
+			
 		}
+	}
+
+	for (int i = 0; i < lanthanumSize; i++) {
+		Lanthanum[i] = std::make_unique<Object3d>();
+		Lanthanum[i]->Initialize(camera);
+		Lanthanum[i]->SetModel(ModelManager::GetIns()->GetModel(ModelManager::LANTHANUM));
+		Lanthanum[i]->SetRotation({ 0.0f,float(i * 30),0.0f });
 	}
 }
 #include"EnemyControl.h"
@@ -69,22 +76,32 @@ void BossMap::Upda()
 		for (int j = 0; j < mapWidth; j++) {
 			if (mapSize[i][j] == DAMAGEBLOCK) {
 				blockColorETime[i][j] += 0.02f;
-			//mapobj[i][j]->SetUVf(true);
-				mapobj[i][j]->SetColor({ blockColor[i][j].x,blockColor[i][j].y,blockColor[i][j].z,0.5 });
+				//mapobj[i][j]->SetUVf(true);
+				mapobj[i][j]->SetShadowF(false);
+				mapobj[i][j]->SetColor({ blockColor[i][j].x,blockColor[i][j].y,blockColor[i][j].z,0.5});
 			} else {
 				blockColorETime[i][j] -= 0.02f;
+
+				mapobj[i][j]->SetShadowF(true);
 				mapobj[i][j]->SetUVf(false);
-				mapobj[i][j]->SetColor({ blockColor[i][j].x,blockColor[i][j].y,blockColor[i][j].z,0.5 });
+				mapobj[i][j]->SetColor({ blockColor[i][j].x,blockColor[i][j].y,blockColor[i][j].z,0.5});
 			}
 
 			blockColor[i][j].x = Easing::EaseOut(blockColorETime[i][j], 0.5f, 1.0f);
-			blockColor[i][j].y = Easing::EaseOut(blockColorETime[i][j], 0.5f, 0.0f);
-			blockColor[i][j].z = Easing::EaseOut(blockColorETime[i][j], 0.5f, 0.0f);
+			blockColor[i][j].y = Easing::EaseOut(blockColorETime[i][j], 0.5f, 0.1f);
+			blockColor[i][j].z = Easing::EaseOut(blockColorETime[i][j], 0.5f, 0.1f);
 
 			blockColorETime[i][j] = min(blockColorETime[i][j], 1.0f);
 			blockColorETime[i][j] = max(blockColorETime[i][j], 0.0f);
 
 		}
+	}
+
+	for (int i = 0; i < lanthanumSize; i++) {
+
+		Lanthanum[i]->SetPosition({ LanthanumPos[i] });
+		Lanthanum[i]->SetScale({ LanthanumScl[i] });
+		Lanthanum[i]->Update({ 1,0.7,0.7,0.6 }, camera);
 	}
 }
 
@@ -206,18 +223,23 @@ void BossMap::Draw()
 			}
 		}
 	}
+	for (int i = 0; i < lanthanumSize; i++) {
+		Lanthanum[i]->Draw();
+	}
 	Object3d::PostDraw();
 	Texture::PreDraw();
 
 	Texture::PostDraw();
 	ImGui::Begin("map");
 	ImGui::Text("%d", p);
-	ImGui::SliderFloat("posX", &lineendpos.x,-200,200);
-	//ImGui::SliderFloat("posY", &cpos.y, -200, 200);
-	ImGui::SliderFloat("posZ", &lineendpos.y, -200, 200);
+	for (int i = 0; i < lanthanumSize; i++) {
+		ImGui::SliderFloat("posX", &LanthanumPos[i].x, -200, 200);
+		//ImGui::SliderFloat("posY", &cpos.y, -200, 200);
+		ImGui::SliderFloat("posZ", &LanthanumPos[i].y, -200, 200);
 
-	ImGui::SliderFloat("sizeX", &bsize.x, 0, 10);
-	ImGui::SliderFloat("sizeY", &bsize.y, 0, 10);
-	ImGui::SliderFloat("sizeZ", &bsize.z, 0, 10);
+		ImGui::SliderFloat("sizeX", &bsize.x, 0, 10);
+		ImGui::SliderFloat("sizeY", &bsize.y, 0, 10);
+		ImGui::SliderFloat("sizeZ", &bsize.z, 0, 10);
+	}
 	ImGui::End();
 }

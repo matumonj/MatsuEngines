@@ -25,6 +25,8 @@ private:
 	std::array<XMFLOAT3, axeSize>SetPos;
 	std::array<std::unique_ptr<Particle>, axeSize>ImpactPar;
 	std::array<std::unique_ptr<Texture>, axeSize>ImpactTex;
+	std::array<std::unique_ptr<Texture>, axeSize>AxeDirectionTex;
+	float axeDirectionTexAlpha;
 	std::array<XMFLOAT3, axeSize>ImpactTexScl;
 	std::array<XMFLOAT3, axeSize>ImpactTexPos;
 	std::array<float, axeSize>ImpactTexAlpha;

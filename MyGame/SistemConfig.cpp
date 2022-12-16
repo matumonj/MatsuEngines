@@ -38,7 +38,6 @@ void SistemConfig::Initialize()
 	//SelectSprite->SetSize({600.0f, 100.0f});
 
 	CustomButton::GetInstance()->Initialize();
-	SelectSword::GetInstance()->Initialize();
 }
 
 #include"CameraControl.h"
@@ -87,16 +86,12 @@ void SistemConfig::Update()
 		{
 			if (NowSelectButton() == SWORDSELECT)
 			{
-				if (input->TriggerButton(input->B))
-				{
-					SelectSword::GetInstance()->SetSelectJudg(true);
-				}
+				
 			}
 		}
 
 		if (count > 5 && input->TriggerButton(input->START))
 		{
-			SelectSword::GetInstance()->SetSelectJudg(false);
 			CustomButton::GetInstance()->SetCustomButtonJudg(false);
 
 			PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(false);
@@ -146,9 +141,4 @@ void SistemConfig::Draw()
 	Sprite::PostDraw();
 	CustomButton::GetInstance()->Draw();
 	SelectSword::GetInstance()->Draw();*/
-}
-
-void SistemConfig::SwordPedestalDraw()
-{
-	SelectSword::GetInstance()->PedestalDraw();
 }

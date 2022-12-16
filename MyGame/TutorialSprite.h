@@ -8,7 +8,7 @@ public:
 	~TutorialSprite();
 	static TutorialSprite* GetInstance();
 private:
-	static const int TaskNum = 5;
+	static const int TaskNum = 6;
 	Sprite* Task[TaskNum];
 	Sprite* notClearTask[5];
 	Texture* TargetPoint_Ground;
@@ -41,6 +41,7 @@ private:
 		THELLO,
 		TMOVE,
 		TATTACK,
+		TSELECTWEAPON,
 		TGETKEY,
 		TEND
 	};
@@ -50,6 +51,7 @@ private:
 		HELLO,
 		WALK,
 		ATTACK,
+		SELECTWEAPON,
 		GETKEY,
 		CLEAR,
 	};

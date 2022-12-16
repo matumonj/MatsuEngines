@@ -21,7 +21,8 @@
 #include"DamageManager.h"
 #include"StoneControl.h"
 #include"GrassFieldControl.h"
-#include"SelectSword.h"
+#include "DropWeapon.h"
+#include <SelectSword.h>
 //シーンのコンストラクタ
 Tutorial::Tutorial(SceneManager* sceneManager)
 	: BaseScene(sceneManager)
@@ -62,8 +63,8 @@ void Tutorial::Initialize()
 	//ミニマップ用のカメラ　後で別のところに移す
 	//各種設定画面
 	SistemConfig::GetInstance()->Initialize();
-	SelectSword::GetInstance()->Initialize();
 
+	SelectSword::GetInstance()->Initialize();
 	
 	Sprite::LoadTexture(0, L"Resources/2d/LevelUp/debugfont.png");
 	DebugTextSprite::GetInstance()->Initialize(0);
@@ -99,7 +100,6 @@ void Tutorial::objUpdate(DebugCamera* camera)
 		UI::GetInstance()->HUDUpdate(hudload, CameraControl::GetInstance()->GetCamera());
 	}
 	//後で別ん所移す
-
 	Field::GetInstance()->Update(CameraControl::GetInstance()->GetCamera());
 }
 
@@ -218,8 +218,9 @@ void Tutorial::Draw()
 		DirectXCommon::GetInstance()->BeginDraw();
 		Field::GetInstance()->Draw();
 		MyGameDraw();
-
+		PlayerControl::GetInstance()->GetPlayer()->ParticleDraw();
 		TutorialSprite::GetInstance()->DrawTargetPos();
+	
 	//postEffect->Draw();
 		Sprite::PreDraw();
 		if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr) {

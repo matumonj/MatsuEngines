@@ -5,7 +5,7 @@
 #include"TutorialSprite.h"
 #include"SistemConfig.h"
 #include"SceneManager.h"
-
+#include"DropWeapon.h"
 #include"ChestControl.h"
 #include"PlayerControl.h"
 #include"CameraControl.h"
@@ -243,16 +243,27 @@ void EnemyControl::Update_Play(DebugCamera* camera)
 			if(enemys[PLAYSCENE][i]->GetEnemyNumber()== 0)
 			{
 				Task::GetInstance()->SetGolemDestroyCount();
-				if(Task::GetInstance()->GetGolemDesthCount(1))
+				if (Task::GetInstance()->GetGolemDesthCount(1))
+				{
+					DropWeapon::GtIns()->Drop(DropWeapon::AXE, enemys[PLAYSCENE][i]->GetPosition());
+				}
+
+				if(Task::GetInstance()->GetGolemDesthCount(2))
 				{
 					ChestControl::GetInstance()->SetChestAppearance(ChestControl::RED, { enemys[PLAYSCENE][i]->GetPosition().x,enemys[PLAYSCENE][i]->GetPosition().y+10.0f,enemys[PLAYSCENE][i]->GetPosition().z });
 				}
 			}
 			else if(enemys[PLAYSCENE][i]->GetEnemyNumber() ==1)
 			{
+				Task::GetInstance()->SetFlogDestroyCount();
+
+				if (Task::GetInstance()->GetFlogDesthCount(1))
+				{
+					DropWeapon::GtIns()->Drop(DropWeapon::SWORD, enemys[PLAYSCENE][i]->GetPosition());
+				}
 				if (Task::GetInstance()->ClearTaskONE() == true) {
-					Task::GetInstance()->SetFlogDestroyCount();
-					if (Task::GetInstance()->GetFlogDesthCount(1))
+					
+					if (Task::GetInstance()->GetFlogDesthCount(2))
 					{
 						ChestControl::GetInstance()->SetChestAppearance(ChestControl::BLUE, { enemys[PLAYSCENE][i]->GetPosition().x,enemys[PLAYSCENE][i]->GetPosition().y + 10.0f,enemys[PLAYSCENE][i]->GetPosition().z });
 					}
@@ -274,7 +285,7 @@ void EnemyControl::SummonEnemyUpdate(DebugCamera* camera)
 		SummonEPos.y += 0.1f;//徐々に上に
 		for (int i = 0; i < EnemySize; i++) {
 			if (SummonEnemys[i] == nullptr)continue;
-			if (SummonEPos.y < 10.0f) {//敵がプレイヤー座標まで現れたら
+			if (SummonEPos.y < 18.0f) {//敵がプレイヤー座標まで現れたら
 				Shieldalpha = 0.0f;
 				//下から上に出てくる際は動き止めておく
 				SummonEnemys[i]->SetMoveStop(true);
@@ -288,6 +299,8 @@ void EnemyControl::SummonEnemyUpdate(DebugCamera* camera)
 				SummonEnemys[i]->SetMoveStop(false);
 			}
 			//更新
+			SummonEnemys[i]->SetColor({ 1.0f,0.2f,0.2f,1.0f });
+
 			SummonEnemys[i]->Update(camera);
 		}
 	}
@@ -334,7 +347,7 @@ void EnemyControl::SummonEnemyUpdate(DebugCamera* camera)
 	//盾テクスチャのアルファ値の上限と下限
 	Shieldalpha = min(Shieldalpha, 1);
 	Shieldalpha = max(Shieldalpha, 0);
-	SummonEPos.y = min(SummonEPos.y, 10);
+	SummonEPos.y = min(SummonEPos.y, 18);
 }
 
 void EnemyControl::Update_Boss(DebugCamera* camera)
@@ -360,6 +373,17 @@ void EnemyControl::Update_Boss(DebugCamera* camera)
 /*------------------------*/
 /*--------描画処理---------*/
 /*------------------------*/
+void EnemyControl::HPFrameDraw()
+{
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL)
+	{
+		if (enemys[TUTORIAL][0] != nullptr)
+		{
+			enemys[TUTORIAL][0]->EnemyHPDraw();
+		}
+	}
+
+}
 #include"imgui.h"
 
 void EnemyControl::Draw_Tutorial()

@@ -20,8 +20,9 @@ public:
 		PLAYERHPFRAME_INNER,
 		PLAYERHPFRAME_BORDER,
 		//敵の体力周り
-		ENMEYHP,
-		BOSSENEMYHP,
+		
+		BOSSENEMYHP1,
+
 		BOSSENEMYHPFRAME,
 		//チュートリアル時説明スプライト
 		STARTANNOUNCE,
@@ -55,7 +56,9 @@ public:
 	enum tex2dName
 	{
 		ENMEYHP_MULTI,
-
+		ENMEYHPFRAME1=44,
+		ENMEYHPFRAME2=45,
+		ENMEYHPFRAME3=46,
 		PARTICLE,
 		SLASH,
 
@@ -69,7 +72,13 @@ public:
 public:
 	static ImageManager* GetIns(); //取得用
 
+	void Init();
 	void Load2D();
-	void LoadTex2D();
+	void LoadTex2D(const tex2dName imageName, wchar_t* fileName);
 	void Finalize();
+
+	Sprite* GetImage(tex2dName imageName) { return tex[imageName]; }
+private:
+
+	static std::map<tex2dName, Sprite*> tex; //モデル格納マップ
 };

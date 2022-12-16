@@ -16,7 +16,7 @@
 #include"BossEnemyAttackSlam.h"
 #include"BossEnemyAttackBeam.h"
 #include"BossEnemyEvasion.h"
-
+#include"Feed.h"
 void BossEnemyFollow::Initialize(Enemy* enmey)
 {
 }
@@ -25,6 +25,7 @@ void BossEnemyFollow::Initialize(Enemy* enmey)
 
 void BossEnemyFollow::Update(Enemy* enemy)
 {
+	if (Feed::GetInstance()->GetAlpha() > 0.0f)return;
 	//’ÇÕˆ—•”•ª//////////
 	//õ“G”ÍˆÍ
 	const float DetectionRange = 10.0f;
@@ -76,22 +77,23 @@ void BossEnemyFollow::Update(Enemy* enemy)
 			enemy->ChangeState_Boss(new BossEnemyAttack());
 		}
 	}
-	if (enemy->GetRecvDamage()) {
+	if (enemy->GetRecvDamage2()){
 
 		Evaprobability = rand() % 100 + 1;
 		if (Evaprobability > 10)
 		{
 			enemy->ChangeState_Boss(new BossEnemyFalter());
 		} else {
-			enemy->SetRecvDamage(false);
+			enemy->SetRecvDamage2(false);
 		}
 	}
 
 
 	/*2ˆø”F‘Ì—ÍÝ’è(Ý’è’lˆÈ‰º‚È‚Á‚½‚ç‚Rˆø”‚ÌUŒ‚‚Ö)*/
 	AttackSelect(enemy, Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) <= 30.0f, enemy->HALF_1);
+	AttackSelect(enemy, Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) <= 90.0f, enemy->CIRCLE_1);
 	AttackSelect(enemy, Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) <= 70.0f, enemy->Beam);
-	AttackSelect(enemy, Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) <= 90.0f, enemy->KNOCK);
+	AttackSelect(enemy, Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) <= 60.0f, enemy->KNOCK);
 
 	//Ž€–S
 	if (enemy->GetHP() <= 0.f)
@@ -104,6 +106,7 @@ void BossEnemyFollow::AttackSelect(Enemy* enemy, bool judg, int num)
 {
 	if (judg)
 	{
+		enemy->SetRecvDamage2(false);
 		AttackStart(enemy, num);
 		if (enemy->GetAttack_End(num) == false)
 		{
@@ -125,21 +128,25 @@ void BossEnemyFollow::AttackStart(Enemy* enemy, int num)
 	switch (num)
 	{
 	case enemy->CIRCLE_1:
+		enemy->SetRecvDamage2(false);
 		CircleAttack::GetInstance()->SetAttackPhase(true);
 		break;
 	case enemy->CIRCLE_2:
 		CircleAttack::GetInstance()->SetAttackPhase(true);
 		break;
 	case enemy->KNOCK:
+		enemy->SetRecvDamage2(false);
 		KnockAttack::GetInstance()->SetAttackPhase(true);
 		break;
 	case enemy->HALF_1:
+		enemy->SetRecvDamage2(false);
 		HalfAttack::GetInstance()->SetAttackPhase(true);
 		break;
 	case enemy->HALF_2:
 		HalfAttack::GetInstance()->SetAttackPhase(true);
 		break;
 	case enemy->Beam:
+		enemy->SetRecvDamage2(false);
 		AltAttack::GetInstance()->SetAttackPhase(true);
 		break;
 	case enemy->Slam:

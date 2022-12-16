@@ -38,7 +38,8 @@ public:
 		BIGROCK_B,
 		GRASSFIELD,
 		HOUSE,
-		SANDFIELD
+		SANDFIELD,
+		LANTHANUM
 	};
 
 	enum FBXName
