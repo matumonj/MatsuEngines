@@ -9,8 +9,8 @@ public:
 	SwordBase();
 	~SwordBase() override;
 public:
-	void Initialize(DebugCamera* camera) override;
-	void Update(DebugCamera* camera) override;
+	void Initialize() override;
+	void Update() override;
 	void Draw() override;
 	XMMATRIX GetMatrot() { return m_Object->ExtractRotationMat(); }
 	XMMATRIX GetMatWorld() { return m_Object->GetMatWorld(); }

@@ -57,7 +57,7 @@ void PlayScene::Initialize()
 /*------------------------*/
 /*--------更新処理--------*/
 /*-----------------------*/
-void PlayScene::objUpdate(DebugCamera* camera)
+void PlayScene::objUpdate()
 {
 	if (PlayGame)
 	{
@@ -67,7 +67,7 @@ void PlayScene::objUpdate(DebugCamera* camera)
 			{
 				continue;
 			}
-			AllObjectControl[i]->Update((CameraControl::GetInstance()->GetCamera()));
+			AllObjectControl[i]->Update();
 		}
 	}
 
@@ -75,7 +75,7 @@ void PlayScene::objUpdate(DebugCamera* camera)
 
 	if (CameraControl::GetInstance()->GetCamera() != nullptr)
 	{
-		Field::GetInstance()->Update((CameraControl::GetInstance()->GetCamera()));
+		Field::GetInstance()->Update();
 		UI::GetInstance()->HUDUpdate(hudload, (CameraControl::GetInstance()->GetCamera()));
 	}
 	DropWeapon::GtIns()->Upda();
@@ -96,10 +96,10 @@ void PlayScene::Update()
 	}
 
 	//オブジェクトの更新処理
-	objUpdate((CameraControl::GetInstance()->GetCamera()));
+	objUpdate();
 
 	//csv読み込み
-	LoadParam((CameraControl::GetInstance()->GetCamera()));
+	LoadParam();
 
 	//設定画面中ポストエフェクト（今は色反転のみ）
 	if (SistemConfig::GetInstance()->GetConfigJudgMent())
@@ -242,13 +242,13 @@ void PlayScene::Draw()
 /*------------------------*/
 /*--------読込処理--------*/
 /*-----------------------*/
-void PlayScene::LoadParam(DebugCamera* camera)
+void PlayScene::LoadParam()
 {
 	if (Load)
 	{
 		for (int i = 0; i < AllObjectControl.size(); i++)
 		{
-			AllObjectControl[i]->Initialize((CameraControl::GetInstance()->GetCamera()));
+			AllObjectControl[i]->Initialize();
 		}
 		//カメラをセット
 		f_Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
@@ -262,7 +262,7 @@ void PlayScene::LoadParam(DebugCamera* camera)
 			lightGroup->SetCircleShadowActive(i, true);
 		}
 		//各オブジェクト初期化
-		Field::GetInstance()->Initialize((CameraControl::GetInstance()->GetCamera()));
+		Field::GetInstance()->Initialize();
 		//カメラ挙動をプレイカットシーン
 		CameraControl::GetInstance()->SetCameraState(CameraControl::PLAYCUTSCENE);
 

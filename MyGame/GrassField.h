@@ -23,8 +23,8 @@ private:
 	XMFLOAT3 FieldRot;
 	XMFLOAT3 FieldScl;
 public:
-	void Initialize(DebugCamera* camera);
-	void Update(DebugCamera* camera);
+	void Initialize();
+	void Update();
 	void Draw();
 
 public:

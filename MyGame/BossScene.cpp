@@ -89,29 +89,29 @@ void BossScene::Update()
 
 		if (AllObjectControl[1] != nullptr)
 		{
-			AllObjectControl[1]->Update(CameraControl::GetInstance()->GetCamera());
+			AllObjectControl[1]->Update();
 		}
 		if (AllObjectControl[0] != nullptr)
 		{
-			AllObjectControl[0]->Update(CameraControl::GetInstance()->GetCamera());
+			AllObjectControl[0]->Update();
 		}
 		for (int i = 2; i < AllObjectControl.size(); i++)
 		{
 			if (AllObjectControl[i] != nullptr)
 			{
-				AllObjectControl[i]->Update(CameraControl::GetInstance()->GetCamera());
+				AllObjectControl[i]->Update();
 			}
 		}
 		Nail::GetInstance()->Update();
 		UI::GetInstance()->HUDUpdate(hudload, CameraControl::GetInstance()->GetCamera());
 	}
 
-	Field::GetInstance()->Update(CameraControl::GetInstance()->GetCamera());
+	Field::GetInstance()->Update();
 	//postEffect->SetCenterpos(HUD::GetInstance()->GetMinimapSprite()->GetPosition());
 
 	//各オブジェクトの更新処理
 	//csv読み込み部分(Cameraの更新後にするのでobjUpdate()挟んでから)
-	LoadParam(CameraControl::GetInstance()->GetCamera());
+	LoadParam();
 
 	lightGroup->Update();
 
@@ -234,13 +234,13 @@ void BossScene::Draw()
 /*------------------------*/
 /*--------読込処理--------*/
 /*-----------------------*/
-bool BossScene::LoadParam(DebugCamera* camera)
+bool BossScene::LoadParam()
 {
 	if (LoadEnemy)
 	{
 		for (int i = 0; i < AllObjectControl.size(); i++)
 		{
-			AllObjectControl[i]->Initialize(CameraControl::GetInstance()->GetCamera());
+			AllObjectControl[i]->Initialize();
 		}
 		//カメラをセット
 		f_Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
@@ -250,7 +250,7 @@ bool BossScene::LoadParam(DebugCamera* camera)
 		//カメラ挙動をボスカットシーン
 		CameraControl::GetInstance()->SetCameraState(CameraControl::BOSSCUTSCENE);
 
-		Field::GetInstance()->Initialize(CameraControl::GetInstance()->GetCamera());
+		Field::GetInstance()->Initialize();
 		ExpPointSystem::GetInstance()->Init();
 		hudload = true;
 		Play = true;

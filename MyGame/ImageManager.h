@@ -77,7 +77,7 @@ public:
 	void LoadTex2D(tex2dName imageName, wchar_t* fileName);
 	void Finalize();
 
-	Sprite* GetImage(tex2dName imageName) { return tex[imageName]; }
+	UINT GetImage(UINT image) { return image; }
 private:
 	static std::map<tex2dName, Sprite*> tex; //ƒ‚ƒfƒ‹Ši”[ƒ}ƒbƒv
 };

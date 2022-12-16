@@ -36,9 +36,9 @@ public:
 
 public:
 	//‰Šú‰»
-	void Initialize(DebugCamera* camera) override =0;
+	void Initialize() override =0;
 	//XVˆ—
-	void Update(DebugCamera* camera) override =0;
+	void Update() override =0;
 	//•`‰æˆ—
 	void Draw() override =0;
 	//€–Sˆ—

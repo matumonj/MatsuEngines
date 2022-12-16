@@ -48,7 +48,7 @@ void PlaceFence::ArgMent(DebugCamera* camera)
 			newFence = std::make_unique<AreaFence>();
 		}
 
-		newFence->Initialize(camera);
+		newFence->Initialize();
 		newFence->SetPosition(pos);
 		newFence->SetRotation(rot);
 		scl = {3, 3, 1};
@@ -62,8 +62,8 @@ void PlaceFence::ArgMent(DebugCamera* camera)
 		if (Fence != nullptr)
 		{
 			Fence->SetColor({1, 1, 1, 1});
-			Fence->Update(camera);
-			Fence->CollisionField(camera);
+			Fence->Update();
+			Fence->CollisionField();
 		}
 	}
 	if (DeleteFlag && fences.size() > 1)

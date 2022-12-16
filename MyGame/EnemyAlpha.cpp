@@ -1,4 +1,6 @@
 #include "EnemyAlpha.h"
+
+#include "CameraControl.h"
 #include"CustomButton.h"
 #include"SphereCollider.h"
 #include"CollisionManager.h"
@@ -28,8 +30,10 @@ EnemyAlpha::~EnemyAlpha()
 }
 
 //初期化処理
-void EnemyAlpha::Initialize(DebugCamera* camera)
+void EnemyAlpha::Initialize()
 {
+	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+
 	//オブジェクトの生成と初期化
 	m_Object = std::make_unique<Object3d>();
 	m_Object->Initialize(camera);
@@ -65,8 +69,10 @@ void EnemyAlpha::Initialize(DebugCamera* camera)
 }
 
 //更新処理
-void EnemyAlpha::Update(DebugCamera* camera)
+void EnemyAlpha::Update()
 {
+	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+
 	state_mob->Update(this);
 
 	if (DeathFlag && alpha > -1)
@@ -96,9 +102,9 @@ void EnemyAlpha::Update(DebugCamera* camera)
 	}
 	FbxAnimationControl();
 	AttackCoolTime();
-	ParameterSet_Fbx2(camera);
+	ParameterSet_Fbx2();
 	DamageTexDisplay();
-	CollisionField(camera);
+	CollisionField();
 
 	DamageParticleSet();
 }

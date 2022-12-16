@@ -28,7 +28,7 @@ private:
 public:
 	static GrassFieldControl* GetInstance();
 
-	void Load(DebugCamera* camera) override;
+	void Load() override;
 
 	void Finalize() override;
 
@@ -36,17 +36,17 @@ public:
 
 	GrassField* GetGrassField(int index) { return Tutorialgrassfields[index].get(); }
 private:
-	void Init_Tutorial(DebugCamera* camera) override;
+	void Init_Tutorial() override;
 
-	void Init_Play(DebugCamera* camera) override;
+	void Init_Play() override;
 
-	void Init_Boss(DebugCamera* camera) override;
+	void Init_Boss() override;
 
-	void Update_Tutorial(DebugCamera* camera) override;
+	void Update_Tutorial() override;
 
-	void Update_Play(DebugCamera* camera) override;
+	void Update_Play() override;
 
-	void Update_Boss(DebugCamera* camera) override;
+	void Update_Boss() override;
 
 	void Draw_Tutorial() override;
 

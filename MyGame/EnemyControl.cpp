@@ -8,11 +8,12 @@
 #include"DropWeapon.h"
 #include"ChestControl.h"
 #include"PlayerControl.h"
-#include"CameraControl.h"
+#include"Control.h"
 #include"KnockAttack.h"
 #include"CircleAttack.h"
 #include"HalfAttack.h"
 #include"AltAttack.h"
+#include "CameraControl.h"
 #include"DebugTxt.h"
 #include"FrontCircleAttack.h"
 
@@ -38,19 +39,19 @@ void EnemyControl::Finalize()
 /*--------読込処理---------*/
 /*----------csv-----------*/
 
-void EnemyControl::Init_Tutorial(DebugCamera* camera)
+void EnemyControl::Init_Tutorial()
 {
 	enemys.resize(BOSS + 1);
 
 	enemys[TUTORIAL].resize(1);
 	enemys[TUTORIAL][0] = std::make_unique<MobEnemy>();
-	enemys[TUTORIAL][0]->Initialize(camera);
+	enemys[TUTORIAL][0]->Initialize();
 	tutorial_pos = {100.137f, 20.5045f, -650.987f};
 	enemys[TUTORIAL][0]->SetPosition(tutorial_pos);
 	enemys[TUTORIAL][0]->SetRespawnPos(tutorial_pos);
 }
 
-void EnemyControl::Init_Play(DebugCamera* camera)
+void EnemyControl::Init_Play()
 {
 	enemys.resize(BOSS + 1);
 	file.open("Param_CSV/enemy.csv");
@@ -134,18 +135,18 @@ void EnemyControl::Init_Play(DebugCamera* camera)
 			enemys[PLAYSCENE][i] = std::make_unique<EnemyAlpha>();
 		}
 
-		enemys[PLAYSCENE][i]->Initialize(camera);
+		enemys[PLAYSCENE][i]->Initialize();
 		enemys[PLAYSCENE][i]->SetPosition(pos[i]);
 		//enemys[PLAYSCENE][i]->SetRespawnPos(pos[i]);
 	}
 }
 
-void EnemyControl::SummonEnemyInit(DebugCamera* camera)
+void EnemyControl::SummonEnemyInit()
 {
 	for (int i = 0; i < EnemySize; i++)
 	{
 		SummonEnemys[i] = std::make_unique<MobEnemy>();
-		SummonEnemys[i]->Initialize(camera);
+		SummonEnemys[i]->Initialize();
 		SummonEnemys[i]->SetPosition({0, -20, 20});
 	}
 	//敵生成フラグ
@@ -175,17 +176,17 @@ void EnemyControl::SummonEnemyInit(DebugCamera* camera)
 	Texangle[3] = 270.f;
 }
 
-void EnemyControl::Init_Boss(DebugCamera* camera)
+void EnemyControl::Init_Boss()
 {
 	enemys[BOSS].resize(1);
 	enemys[BOSS][0] = std::make_unique<BossEnemy>();
-	enemys[BOSS][0]->Initialize(camera);
+	enemys[BOSS][0]->Initialize();
 	boss_pos = {-1.0f, 10.0f, 20.987f};
 	enemys[BOSS][0]->SetPosition(boss_pos);
 
 	enemys[BOSS][0]->SetHP(enemys[BOSS][0]->GetMaxHP());
 
-	SummonEnemyInit(camera);
+	SummonEnemyInit();
 	HalfAttack::GetInstance()->Initialize();
 	KnockAttack::GetInstance()->Initialize();
 	CircleAttack::GetInstance()->Initialize();
@@ -195,14 +196,14 @@ void EnemyControl::Init_Boss(DebugCamera* camera)
 	bAttack->Init();
 }
 
-void EnemyControl::Load(DebugCamera* camera)
+void EnemyControl::Load()
 {
 }
 
 /*------------------------*/
 /*--------更新処理---------*/
 /*------------------------*/
-void EnemyControl::Update_Tutorial(DebugCamera* camera)
+void EnemyControl::Update_Tutorial()
 {
 	if (enemys[TUTORIAL][0] == nullptr)
 	{
@@ -211,7 +212,7 @@ void EnemyControl::Update_Tutorial(DebugCamera* camera)
 	if (TutorialSprite::GetInstance()->GetClearMove())
 	{
 		//enemys[EnemyType::TUTORIAL][0]->SetMoveFlag(true);
-		enemys[TUTORIAL][0]->Update(camera);
+		enemys[TUTORIAL][0]->Update();
 	}
 	if (enemys[TUTORIAL][0]->GetObjAlpha() <= 0.0f)
 	{
@@ -219,7 +220,7 @@ void EnemyControl::Update_Tutorial(DebugCamera* camera)
 	}
 }
 
-void EnemyControl::Update_Play(DebugCamera* camera)
+void EnemyControl::Update_Play()
 {
 	XMFLOAT3 pPos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 
@@ -234,13 +235,13 @@ void EnemyControl::Update_Play(DebugCamera* camera)
 			if (Collision::GetLength(pPos, enemys[PLAYSCENE][i]->GetPosition()) < 100)
 			{
 				enemys[PLAYSCENE][i]->SetMoveFlag(true);
-				enemys[PLAYSCENE][i]->Update(camera);
+				enemys[PLAYSCENE][i]->Update();
 			}
 		}
 		else
 		{
 			enemys[PLAYSCENE][i]->SetMoveFlag(true);
-			enemys[PLAYSCENE][i]->Update(camera);
+			enemys[PLAYSCENE][i]->Update();
 		}
 
 		if (enemys[PLAYSCENE][i]->GetObjAlpha() <= 0.0f)
@@ -288,8 +289,9 @@ void EnemyControl::Update_Play(DebugCamera* camera)
 	}
 }
 
-void EnemyControl::SummonEnemyUpdate(DebugCamera* camera)
+void EnemyControl::SummonEnemyUpdate()
 {
+	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
 	/*攻撃内容の処理なので後で攻撃専用のクラスに移す*/
 	if (HalfAttack::GetInstance()->SummonEnemy() == true)
 	{
@@ -328,7 +330,7 @@ void EnemyControl::SummonEnemyUpdate(DebugCamera* camera)
 			//更新
 			SummonEnemys[i]->SetColor({1.0f, 0.2f, 0.2f, 1.0f});
 
-			SummonEnemys[i]->Update(camera);
+			SummonEnemys[i]->Update();
 		}
 	}
 
@@ -391,7 +393,7 @@ void EnemyControl::SummonEnemyUpdate(DebugCamera* camera)
 	SummonEPos.y = min(SummonEPos.y, 18);
 }
 
-void EnemyControl::Update_Boss(DebugCamera* camera)
+void EnemyControl::Update_Boss()
 {
 	if (enemys[BOSS][0] == nullptr)
 	{
@@ -400,9 +402,9 @@ void EnemyControl::Update_Boss(DebugCamera* camera)
 
 	bAttack->Upda();
 
-	enemys[BOSS][0]->Update(camera);
+	enemys[BOSS][0]->Update();
 
-	SummonEnemyUpdate(camera);
+	SummonEnemyUpdate();
 	//ボスの開放処理
 	if (enemys[BOSS][0]->GetObjAlpha() <= 0)
 	{

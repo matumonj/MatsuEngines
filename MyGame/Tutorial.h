@@ -54,14 +54,14 @@ private:
 	DebugCamera* dc = nullptr;
 public:
 	void MyGameDraw();
-	void objUpdate(DebugCamera* camera);
+	void objUpdate();
 
 public:
 	XMFLOAT3 texpo = {0.0f, 0.0f, 0.0f};
 	void Initialize() override;
 	void Update() override;
 	void Draw() override;
-	bool LoadParam(DebugCamera* camera);
+	bool LoadParam();
 	void Finalize() override;
 
 private:

@@ -1,4 +1,6 @@
 #include "House.h"
+
+#include "CameraControl.h"
 #include"SphereCollider.h"
 #include"CollisionAttribute.h"
 #include"TouchableObject.h"
@@ -15,11 +17,11 @@ House::House()
 {
 }
 
-void House::Initialize(DebugCamera* camera)
+void House::Initialize()
 {
 }
 
-void House::Update(DebugCamera* camera)
+void House::Update()
 {
 }
 
@@ -32,8 +34,10 @@ bool House::CollideHouse()
 	return false;
 }
 
-void House_A::Initialize(DebugCamera* camera)
+void House_A::Initialize()
 {
+	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+
 	m_Object = std::make_unique<Object3d>();
 
 	//フィールドにモデル割り当て
@@ -46,12 +50,14 @@ void House_A::Initialize(DebugCamera* camera)
 	alpha = 1;
 }
 
-void House_A::Update(DebugCamera* camera)
+void House_A::Update()
 {
+	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+
 	m_Object->SetColor({0.4, 0.4, 0.4, 1});
 
 
-	ParameterSet_Obj(camera);
+	ParameterSet_Obj();
 	m_Object->setFog(TRUE);
 	m_Object->SetFogCenter(camera->GetEye());
 
@@ -92,8 +98,10 @@ bool House_A::CollideHouse()
 }
 
 
-void House_B::Initialize(DebugCamera* camera)
+void House_B::Initialize()
 {
+	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+
 	m_Object = std::make_unique<Object3d>();
 
 	//フィールドにモデル割り当て
@@ -105,14 +113,16 @@ void House_B::Initialize(DebugCamera* camera)
 	alpha = 1;
 }
 
-void House_B::Update(DebugCamera* camera)
+void House_B::Update()
 {
+	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+
 	m_Object->SetColor({0.4, 0.4, 0.4, 1});
 
 
 	Color = {1, 1, 1, alpha};
 
-	ParameterSet_Obj(camera);
+	ParameterSet_Obj();
 
 	//フィールド
 	CollideHouse();

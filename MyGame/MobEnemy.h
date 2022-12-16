@@ -22,10 +22,10 @@ public:
 
 public:
 	//‰Šú‰»
-	void Initialize(DebugCamera* camera) override;
+	void Initialize() override;
 
 	//XVˆ—
-	void Update(DebugCamera* camera) override;
+	void Update() override;
 
 	//•`‰æˆ—
 	void Draw() override;
@@ -46,6 +46,8 @@ private:
 	void FbxAnimeControl(const AnimationState& animestate, bool& Judg, float nowanimeTime, float nextanimetime);
 
 	void OBBSetParam();
+
+	void HPFrameScaling();
 private:
 	enum AttackType
 	{

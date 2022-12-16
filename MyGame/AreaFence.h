@@ -14,8 +14,8 @@ private:
 
 	float FencePosY_Min;
 public:
-	void Initialize(DebugCamera* camera) override;
-	void Update(DebugCamera* camera) override;
+	void Initialize() override;
+	void Update() override;
 	void Draw() override;
 
 	bool FenceYposMin();

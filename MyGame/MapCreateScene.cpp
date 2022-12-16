@@ -28,7 +28,7 @@ void MapCreateScene::ModelCreate(DebugCamera* camera)
 	postEffect = new PostEffect();
 	postEffect->Initialize();
 
-	Field::GetInstance()->Initialize(camera);
+	Field::GetInstance()->Initialize();
 
 	// ライト生成
 	lightGroup = LightGroup::Create();
@@ -46,7 +46,7 @@ void MapCreateScene::ModelCreate(DebugCamera* camera)
 #pragma region オブジェクト+ライトの更新処理
 void MapCreateScene::objUpdate(DebugCamera* camera)
 {
-	Field::GetInstance()->Update_Edit(CameraControl::GetInstance()->GetCamera());
+	Field::GetInstance()->Update_Edit();
 
 	MapCreate::GetInstance()->ObjectUpdate(CameraControl::GetInstance()->GetCamera());
 }

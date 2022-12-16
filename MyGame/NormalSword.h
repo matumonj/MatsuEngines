@@ -7,8 +7,8 @@ class NormalSword :
 public:
 	~NormalSword() override;
 public:
-	void Initialize(DebugCamera* camera) override;
-	void Update(DebugCamera* camera) override;
+	void Initialize() override;
+	void Update() override;
 	void Draw() override;
 	int bindex = 0;
 };

@@ -97,7 +97,7 @@ public:
 	void Initialize() override;
 	void Update() override;
 	void Draw() override;
-	bool LoadParam(DebugCamera* camera);
+	bool LoadParam();
 	void Finalize() override;
 
 private:

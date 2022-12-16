@@ -32,12 +32,14 @@ Field* Field::GetInstance()
 	return &instance;
 }
 
-void Field::Setplay(DebugCamera* camera)
+void Field::Setplay()
 {
 }
 
-void Field::Initialize(DebugCamera* camera)
+void Field::Initialize()
 {
+	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
 	{
 		//FieldObject->CreateGraphicsPipeline(L"Resources/Shader/Object3dVS.hlsl", L"Resources/Shader/Object3dPS.hlsl", L"Resources/Shader/BasicGS.hlsl");
@@ -85,8 +87,10 @@ void Field::Initialize(DebugCamera* camera)
 	BossName->SetSize({800, 800});
 }
 
-void Field::Update_Tutorial(DebugCamera* camera)
+void Field::Update_Tutorial()
 {
+	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+
 	if (FieldObject == nullptr)
 	{
 		return;
@@ -99,8 +103,10 @@ void Field::Update_Tutorial(DebugCamera* camera)
 	FieldObject->Update({0.2f, 0.2f, 0.2f, 1.0f}, camera);
 }
 
-void Field::Update_Play(DebugCamera* camera)
+void Field::Update_Play()
 {
+	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+
 	if (CameraControl::GetInstance()->GetCameraState_Spline() != CameraControl::PLAYCUTEND)
 	{
 		if (camera != nullptr)
@@ -130,16 +136,20 @@ void Field::Update_Play(DebugCamera* camera)
 	SetFieldUpdate(BOSSBACK, camera, {22, -70, 1010}, {1.0f, 1.0f, 1.0f}, FALSE, TRUE);
 }
 
-void Field::Update_Edit(DebugCamera* camera)
+void Field::Update_Edit()
 {
+	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+
 	FieldObject->SetPosition({0.0f, -25.0f, 0.0f});
 	FieldObject->SetFogCenter({0.0f, -20.0f, 0.0f});
 	FieldObject->SetColor({0.2f, 0.2f, 0.2f, 1.0f});
 	FieldObject->Update({0.2f, 0.2f, 0.2f, 1.0f}, camera);
 }
 
-void Field::Update_Boss(DebugCamera* camera)
+void Field::Update_Boss()
 {
+	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+
 	if (FieldObject == nullptr)
 	{
 		return;
@@ -163,19 +173,21 @@ void Field::Update_Boss(DebugCamera* camera)
 	//FieldDamageAreaCol();
 }
 
-void Field::Update(DebugCamera* camera)
+void Field::Update()
 {
+	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL)
 	{
-		Update_Tutorial(camera);
+		Update_Tutorial();
 	}
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
 	{
-		Update_Play(camera);
+		Update_Play();
 	}
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
 	{
-		Update_Boss(camera);
+		Update_Boss();
 	}
 
 	t = min(t, 2.5f);

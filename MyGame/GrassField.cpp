@@ -1,4 +1,6 @@
 #include "GrassField.h"
+
+#include "CameraControl.h"
 #include"PlayerControl.h"
 #include"ModelManager.h"
 
@@ -10,8 +12,10 @@ GrassField::~GrassField()
 {
 };
 
-void GrassField::Initialize(DebugCamera* camera)
+void GrassField::Initialize()
 {
+	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+
 	//FieldPos = { PlayerControl::GetInstance()->GetPlayer()->GetPosition() };
 	FieldRot = {0.0f, 0.0f, 0.0f};
 	FieldScl = {1.0f, 1.0f, 1.0f};
@@ -24,8 +28,10 @@ void GrassField::Initialize(DebugCamera* camera)
 	FieldScl = {1.0f, 1.0f, 1.0f};
 }
 
-void GrassField::Update(DebugCamera* camera)
+void GrassField::Update()
 {
+	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+
 	if (grass == nullptr)
 	{
 		return;

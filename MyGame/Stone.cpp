@@ -1,5 +1,7 @@
 #include "Stone.h"
 #include "Stone.h"
+
+#include "CameraControl.h"
 #include"SphereCollider.h"
 #include"CollisionAttribute.h"
 #include"TouchableObject.h"
@@ -16,11 +18,11 @@ Stone::Stone()
 {
 }
 
-void Stone::Initialize(DebugCamera* camera)
+void Stone::Initialize()
 {
 }
 
-void Stone::Update(DebugCamera* camera)
+void Stone::Update()
 {
 }
 
@@ -33,8 +35,10 @@ bool Stone::CollideStone()
 	return false;
 }
 
-void Stone_A::Initialize(DebugCamera* camera)
+void Stone_A::Initialize()
 {
+	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+
 	m_Object = std::make_unique<Object3d>();
 
 	//フィールドにモデル割り当て
@@ -47,13 +51,12 @@ void Stone_A::Initialize(DebugCamera* camera)
 	alpha = 1;
 }
 
-void Stone_A::Update(DebugCamera* camera)
+void Stone_A::Update()
 {
 	m_Object->SetColor({1, 1, 1, 1});
 
-
 	Color = {1, 1, 1, alpha};
-	ParameterSet_Obj(camera);
+	ParameterSet_Obj();
 	m_Object->Setf(TRUE);
 	m_Object->SetDisLen(170);
 	//フィールド
@@ -93,8 +96,10 @@ bool Stone_A::CollideStone()
 }
 
 
-void Stone_B::Initialize(DebugCamera* camera)
+void Stone_B::Initialize()
 {
+	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+
 	m_Object = std::make_unique<Object3d>();
 
 	//フィールドにモデル割り当て
@@ -106,14 +111,14 @@ void Stone_B::Initialize(DebugCamera* camera)
 	alpha = 1;
 }
 
-void Stone_B::Update(DebugCamera* camera)
+void Stone_B::Update()
 {
 	m_Object->SetColor({1, 1, 1, 1});
 
 
 	Color = {1, 1, 1, alpha};
 
-	ParameterSet_Obj(camera);
+	ParameterSet_Obj();
 
 	//フィールド
 	CollideStone();

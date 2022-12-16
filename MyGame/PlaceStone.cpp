@@ -52,7 +52,7 @@ void PlaceStone::ArgMent(DebugCamera* camera)
 		{
 			newStone = std::make_unique<Stone_B>();
 		}
-		newStone->Initialize(camera);
+		newStone->Initialize();
 		newStone->SetPosition(pos);
 		newStone->SetRotation(rot);
 		newStone->SetScale(scl);
@@ -73,8 +73,8 @@ void PlaceStone::ArgMent(DebugCamera* camera)
 		if (wood != nullptr)
 		{
 			wood->SetColor({1, 1, 1, 1});
-			wood->Update(camera);
-			wood->CollisionField(camera);
+			wood->Update();
+			wood->CollisionField();
 		}
 	}
 	if (DeleteFlag && stones.size() > 1)

@@ -1,5 +1,7 @@
 #pragma once
 #include "AreaFence.h"
+
+#include "CameraControl.h"
 #include"PlayerControl.h"
 #include"SceneManager.h"
 #include"Collision.h"
@@ -12,8 +14,10 @@ AreaFence::~AreaFence()
 {
 }
 
-void AreaFence::Initialize(DebugCamera* camera)
+void AreaFence::Initialize()
 {
+	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+
 	m_Object = std::make_unique<Object3d>();
 	//m_Object->CreateGraphicsPipeline(L"Resources/Shader/Object3dVS.hlsl", L"Resources/Shader/Object3dPS.hlsl", L"Resources/Shader/BasicGS.hlsl");
 	//m_Model = ModelManager::GetIns()->GetModel(ModelManager::FENCE);
@@ -26,14 +30,16 @@ void AreaFence::Initialize(DebugCamera* camera)
 	SetCollider();
 }
 
-void AreaFence::Update(DebugCamera* camera)
+void AreaFence::Update()
 {
+	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+
 	if (SceneManager::GetInstance()->GetScene() != SceneManager::MAPCREATE)
 	{
 		CollideAreaFence();
 	}
 	//フィールド
-	ParameterSet_Obj(camera);
+	ParameterSet_Obj();
 }
 
 void AreaFence::Draw()

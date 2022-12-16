@@ -18,8 +18,8 @@ protected:
 	OBB HouseOBB = {}; // = nullptr;
 	float alpha = 0.0f;
 public:
-	void Initialize(DebugCamera* camera) override;
-	void Update(DebugCamera* camera) override;
+	void Initialize() override;
+	void Update() override;
 	void Draw() override;
 	virtual bool CollideHouse();
 };
@@ -27,8 +27,8 @@ public:
 class House_A : public House
 {
 public:
-	void Initialize(DebugCamera* camera) override;
-	void Update(DebugCamera* camera) override;
+	void Initialize() override;
+	void Update() override;
 	void Draw() override;
 	bool CollideHouse() override;
 };
@@ -36,8 +36,8 @@ public:
 class House_B : public House
 {
 public:
-	void Initialize(DebugCamera* camera) override;
-	void Update(DebugCamera* camera) override;
+	void Initialize() override;
+	void Update() override;
 	void Draw() override;
 	bool CollideHouse() override;
 };

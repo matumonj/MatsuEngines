@@ -30,11 +30,11 @@ void ChestControl::Finalize()
 /*------------------------*/
 /*--------ì«çûèàóù---------*/
 /*----------csv-----------*/
-void ChestControl::Init_Tutorial(DebugCamera* camera)
+void ChestControl::Init_Tutorial()
 {
 	Tutorial_chest.resize(1);
 	Tutorial_chest[0] = std::make_unique<Chest>();
-	Tutorial_chest[0]->Initialize(camera);
+	Tutorial_chest[0]->Initialize();
 	Tutorial_chest[0]->SetPosition({115.0f, -24.0f, -576.0f});
 	Tutorial_chest[0]->SetRotation({0.0f, 90.0f, 0.0f});
 
@@ -43,7 +43,7 @@ void ChestControl::Init_Tutorial(DebugCamera* camera)
 	TutorialPchest.ChestEvent = NON; //particleMan->CreateModel();
 }
 
-void ChestControl::Init_Play(DebugCamera* camera)
+void ChestControl::Init_Play()
 {
 	//ChestMaxÇ‡í«â¡
 	file.open("Param_CSV/Chest.csv");
@@ -106,7 +106,7 @@ void ChestControl::Init_Play(DebugCamera* camera)
 	for (int i = 0; i < 4; i++)
 	{
 		chests[i] = std::make_unique<Chest>();
-		chests[i]->Initialize(camera);
+		chests[i]->Initialize();
 		chests[i]->SetRotation({0.0f, 90.0f, 0.0f});
 		chests[i]->SetPosition({990, 999, 0});
 	}
@@ -119,11 +119,11 @@ void ChestControl::Init_Play(DebugCamera* camera)
 	}
 }
 
-void ChestControl::Init_Boss(DebugCamera* camera)
+void ChestControl::Init_Boss()
 {
 }
 
-void ChestControl::Load(DebugCamera* camera)
+void ChestControl::Load()
 {
 }
 
@@ -131,13 +131,13 @@ void ChestControl::Load(DebugCamera* camera)
 /*------------------------*/
 /*--------çXêVèàóù---------*/
 /*------------------------*/
-void ChestControl::Update_Tutorial(DebugCamera* camera)
+void ChestControl::Update_Tutorial()
 {
 	if (Tutorial_chest[0] != nullptr)
 	{
 		Tutorial_chest[0]->SetColor({1.0f, 1.0f, 1.0f, 1.0f});
 		Tutorial_chest[0]->SetpColor({1.0f, 1.0f, 1.0f, 1.0f});
-		Tutorial_chest[0]->Update(camera);
+		Tutorial_chest[0]->Update();
 		GetChestEvent(Tutorial_chest[0].get(), TutorialPchest);
 
 		if (TutorialPchest.ChestEvent == END)
@@ -147,7 +147,7 @@ void ChestControl::Update_Tutorial(DebugCamera* camera)
 	}
 }
 
-void ChestControl::Update_Play(DebugCamera* camera)
+void ChestControl::Update_Play()
 {
 	chests.resize(4);
 
@@ -161,7 +161,7 @@ void ChestControl::Update_Play(DebugCamera* camera)
 		if (chests[i] != nullptr)
 		{
 			chests[i]->SetColor({1, 1, 1, 1});
-			chests[i]->Update(camera);
+			chests[i]->Update();
 			GetChestEvent(chests[i].get(), PlayPchest[i]);
 		}
 	}
@@ -189,7 +189,7 @@ void ChestControl::SetChestAppearance(Color color, XMFLOAT3 position)
 	chests[color]->SetPosition(position);
 }
 
-void ChestControl::Update_Boss(DebugCamera* camera)
+void ChestControl::Update_Boss()
 {
 }
 

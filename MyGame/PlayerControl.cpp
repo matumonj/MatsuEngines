@@ -12,14 +12,14 @@ PlayerControl* PlayerControl::GetInstance()
 	return &instance;
 }
 
-void PlayerControl::Init_Tutorial(DebugCamera* camera)
+void PlayerControl::Init_Tutorial()
 {
 	Sprite::LoadTexture(190, L"Resources/2d/damage/playerdamage.png");
 
 	DamageTex = Sprite::Create(190, {0, 0});
 	DamageTex->SetSize({1900, 1000});
 	player = std::make_unique<Player>();
-	player->Initialize(camera);
+	player->Initialize();
 
 	StartPos = {92.0f, -23.0f, -760.0f};
 
@@ -27,7 +27,7 @@ void PlayerControl::Init_Tutorial(DebugCamera* camera)
 	AttackCollision::GetInstance()->Init();
 }
 
-void PlayerControl::Init_Play(DebugCamera* camera)
+void PlayerControl::Init_Play()
 {
 	StartPos = {110.0f, -12.0f, -379.0f};
 
@@ -35,7 +35,7 @@ void PlayerControl::Init_Play(DebugCamera* camera)
 	AttackCollision::GetInstance()->Init();
 }
 
-void PlayerControl::Init_Boss(DebugCamera* camera)
+void PlayerControl::Init_Boss()
 {
 	StartPos = {-1.0f, 10.0f, -106.0f};
 	player->SetHP(player->GetMaxHP());
@@ -55,7 +55,7 @@ void PlayerControl::Finalize()
 /*------------------------*/
 /*--------読込処理---------*/
 /*----------scv----------*/
-void PlayerControl::Load(DebugCamera* camera)
+void PlayerControl::Load()
 {
 	switch (SceneManager::GetInstance()->GetScene())
 	{
@@ -83,26 +83,26 @@ void PlayerControl::Load(DebugCamera* camera)
 #include"CameraControl.h"
 #include <EnemyControl.h>
 //playerの中にある移動処理とかは後でこっち持ってくる
-void PlayerControl::Update_Tutorial(DebugCamera* camera) //チュートリアル時
+void PlayerControl::Update_Tutorial() //チュートリアル時
 {
 	if (player == nullptr)
 	{
 		return;
 	}
-	player->Update(camera);
+	player->Update();
 	DamageTexUpdate();
 }
 
-void PlayerControl::Update_Play(DebugCamera* camera) //プレイシーン時
+void PlayerControl::Update_Play() //プレイシーン時
 {
-	player->Update(camera);
+	player->Update();
 
 	DamageTexUpdate();
 }
 
-void PlayerControl::Update_Boss(DebugCamera* camera)
+void PlayerControl::Update_Boss()
 {
-	player->Update(camera);
+	player->Update();
 
 	DamageTexUpdate();
 }

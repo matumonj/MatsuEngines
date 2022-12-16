@@ -27,8 +27,10 @@ BossEnemy::~BossEnemy()
 }
 
 //初期化処理
-void BossEnemy::Initialize(DebugCamera* camera)
+void BossEnemy::Initialize()
 {
+	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+
 	m_Object = std::make_unique<Object3d>();
 	m_Object->Initialize(camera);
 	//m_Object->CreateGraphicsPipeline(L"Resources/Shader/Object3dVS.hlsl", L"Resources/Shader/Object3dPS.hlsl", L"Resources/Shader/BasicGS.hlsl");
@@ -79,8 +81,10 @@ void BossEnemy::Initialize(DebugCamera* camera)
 }
 
 //更新処理
-void BossEnemy::Update(DebugCamera* camera)
+void BossEnemy::Update()
 {
+	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+
 	et += 0.01f;
 	//行動遷移
 	state_boss->Update(this);
@@ -95,11 +99,11 @@ void BossEnemy::Update(DebugCamera* camera)
 	//座標やスケールの反映
 
 	m_fbxObject->SetColor({1.0f, 1.0f, 1.0f, alpha});
-	ParameterSet_Fbx(camera);
+	ParameterSet_Fbx();
 	//攻撃後のクールタイム設定
 	AttackCoolTime();
 	//地形当たり判定
-	CollisionField(camera);
+	CollisionField();
 	//攻撃受けたらパーティクル
 	DamageParticleSet();
 	m_fbxObject->SetFogPos({camera->GetEye()});

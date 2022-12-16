@@ -19,22 +19,23 @@ WoodControl::~WoodControl()
 	pos.clear();
 }
 
-void WoodControl::Init_Tutorial(DebugCamera* camera)
+void WoodControl::Init_Tutorial()
 {
+	
 	Tutorialwoods.resize(3);
 	Tutorialwoods[0] = std::make_unique<Wood>();
 	Tutorialwoods[1] = std::make_unique<Wood>();
 	Tutorialwoods[2] = std::make_unique<Wood>();
 	for (int i = 0; i < Tutorialwoods.size(); i++)
 	{
-		Tutorialwoods[i]->Initialize(camera);
+		Tutorialwoods[i]->Initialize();
 	}
 	Tutorialwoods[0]->SetPosition({92.0f, -28.0f, -689.0f});
 	Tutorialwoods[1]->SetPosition({70.0f, -28.0f, -700.0f});
 	Tutorialwoods[2]->SetPosition({110.0f, -28.0f, -720.0f});
 }
 
-void WoodControl::Init_Play(DebugCamera* camera)
+void WoodControl::Init_Play()
 {
 	file.open("Param_CSV/wood.csv");
 
@@ -111,12 +112,12 @@ void WoodControl::Init_Play(DebugCamera* camera)
 		{
 			woods[i] = std::make_unique<WoodB>();
 		}
-		woods[i]->Initialize(camera);
+		woods[i]->Initialize();
 		woods[i]->SetPosition(pos[i]);
 	}
 }
 
-void WoodControl::Init_Boss(DebugCamera* camera)
+void WoodControl::Init_Boss()
 {
 }
 
@@ -134,7 +135,7 @@ void WoodControl::Finalize()
 /*------------------------*/
 /*--------ì«çûèàóù---------*/
 /*---------csv-----------*/
-void WoodControl::Load(DebugCamera* camera)
+void WoodControl::Load()
 {
 	UpdateRange = 200;
 }
@@ -143,16 +144,16 @@ void WoodControl::Load(DebugCamera* camera)
 /*------------------------*/
 /*--------çXêVèàóù---------*/
 /*------------------------*/
-void WoodControl::Update_Tutorial(DebugCamera* camera)
+void WoodControl::Update_Tutorial()
 {
 	for (int i = 0; i < Tutorialwoods.size(); i++)
 	{
 		Tutorialwoods[i]->SetColor({0.0f, 1.0f, 0.0f, 1.0f});
-		Tutorialwoods[i]->Update(camera);
+		Tutorialwoods[i]->Update();
 	}
 }
 
-void WoodControl::Update_Play(DebugCamera* camera)
+void WoodControl::Update_Play()
 {
 	XMFLOAT3 pPos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 
@@ -163,11 +164,11 @@ void WoodControl::Update_Play(DebugCamera* camera)
 			continue;
 		}
 		//woods[i]->SetColor({ 0.0f,1.0f,0.0f,1.0f });
-		woods[i]->Update(camera);
+		woods[i]->Update();
 	}
 }
 
-void WoodControl::Update_Boss(DebugCamera* camera)
+void WoodControl::Update_Boss()
 {
 }
 

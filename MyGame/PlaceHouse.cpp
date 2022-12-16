@@ -48,7 +48,7 @@ void PlaceHouse::ArgMent(DebugCamera* camera)
 			newHouse = std::make_unique<House_A>();
 		}
 
-		newHouse->Initialize(camera);
+		newHouse->Initialize();
 		newHouse->SetPosition(pos);
 		newHouse->SetRotation(rot);
 		houses.push_back(std::move(newHouse));
@@ -59,8 +59,8 @@ void PlaceHouse::ArgMent(DebugCamera* camera)
 		if (huse != nullptr)
 		{
 			huse->SetColor({1, 1, 1, 1});
-			huse->Update(camera);
-			huse->CollisionField(camera);
+			huse->Update();
+			huse->CollisionField();
 		}
 	}
 	if (DeleteFlag && houses.size() > 1)

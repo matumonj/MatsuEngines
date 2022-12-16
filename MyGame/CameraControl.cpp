@@ -60,7 +60,7 @@ void CameraControl::ParamSet()
 	input = Input::GetInstance();
 }
 
-void CameraControl::Init_Tutorial(DebugCamera* camera)
+void CameraControl::Init_Tutorial()
 {
 	ParamSet();
 
@@ -70,7 +70,7 @@ void CameraControl::Init_Tutorial(DebugCamera* camera)
 	distance.y = dis.y;
 }
 
-void CameraControl::Init_Play(DebugCamera* camera)
+void CameraControl::Init_Play()
 {
 	ParamSet();
 
@@ -153,7 +153,7 @@ void CameraControl::Init_Play(DebugCamera* camera)
 	distance.y = dis.y;
 }
 
-void CameraControl::Init_Boss(DebugCamera* camera)
+void CameraControl::Init_Boss()
 {
 	ParamSet();
 	this->camera = new DebugCamera(WinApp::window_width, WinApp::window_height); //(/*input*/);
@@ -167,7 +167,7 @@ void CameraControl::Init_Boss(DebugCamera* camera)
 	distance.y = dis.y;
 }
 
-void CameraControl::Load(DebugCamera* camera)
+void CameraControl::Load()
 {
 }
 
@@ -176,7 +176,7 @@ void CameraControl::Load(DebugCamera* camera)
 /*--------XVˆ—---------*/
 /*------------------------*/
 
-void CameraControl::Update_Tutorial(DebugCamera* camera)
+void CameraControl::Update_Tutorial()
 {
 	AngleRotation();
 	this->camera->Update();
@@ -184,7 +184,7 @@ void CameraControl::Update_Tutorial(DebugCamera* camera)
 	(this->*targetTable[Tstate])();
 }
 
-void CameraControl::Update_Play(DebugCamera* camera)
+void CameraControl::Update_Play()
 {
 	AngleRotation();
 
@@ -195,7 +195,7 @@ void CameraControl::Update_Play(DebugCamera* camera)
 	(this->*targetTable[Tstate])();
 }
 
-void CameraControl::Update_Boss(DebugCamera* camera)
+void CameraControl::Update_Boss()
 {
 	AngleRotation();
 

@@ -85,7 +85,7 @@ void SelectSword::Initialize()
 	/// 武器のオブジェクト生成
 	/// </summary>
 	Sword = std::make_unique<NormalSword>();
-	Sword->Initialize(CameraControl::GetInstance()->GetCamera());
+	Sword->Initialize();
 
 	SpriteSet();
 
@@ -102,14 +102,14 @@ void SelectSword::SetSword(SelectWeapon nowsword)
 	{
 	case SWORD: //通常武器
 		Sword.reset(new NormalSword());
-		Sword->Initialize(CameraControl::GetInstance()->GetCamera());
+		Sword->Initialize();
 		break;
 
 	case AXE: //ゴーレム斧
 		if (sampleSwordAlpha[AXE] >= 1.0f)
 		{
 			Sword.reset(new BigSword());
-			Sword->Initialize(CameraControl::GetInstance()->GetCamera());
+			Sword->Initialize();
 		}
 		break;
 
@@ -118,7 +118,7 @@ void SelectSword::SetSword(SelectWeapon nowsword)
 		if (sampleSwordAlpha[AXE] >= 1.0f)
 		{
 			Sword.reset(new SmallSword());
-			Sword->Initialize(CameraControl::GetInstance()->GetCamera());
+			Sword->Initialize();
 		}
 		break;
 	default:
@@ -273,7 +273,7 @@ void SelectSword::Update()
 
 	Sword->SetScale(WeapomScl);
 	//武器オブジェクトの更新処理
-	Sword->Update(CameraControl::GetInstance()->GetCamera());
+	Sword->Update();
 
 	WeaponChangeEffect->Upda_B();
 	//武器テクスチャの更新

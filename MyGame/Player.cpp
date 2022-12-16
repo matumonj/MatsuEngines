@@ -16,6 +16,9 @@
 #include"SelectSword.h"
 #include"SceneManager.h"
 #include"HUD.h"
+
+#include"CameraControl.h"
+
 using namespace DirectX;
 
 Player::~Player()
@@ -36,8 +39,10 @@ Player* Player::Create(Model* model, DebugCamera* camera)
 	return GetInstance();
 }
 
-void Player::Initialize(DebugCamera* camera)
+void Player::Initialize()
 {
+	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+
 	StopFlag = false;
 	//オブジェクトの生成、初期化
 	m_Object = std::make_unique<Object3d>();
@@ -183,8 +188,10 @@ void Player::Evasion()
 	}
 }
 
-void Player::Update(DebugCamera* camera)
+void Player::Update()
 {
+	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+
 	if (m_Object == nullptr || m_fbxObject == nullptr)
 	{
 		return;
@@ -238,11 +245,11 @@ void Player::Update(DebugCamera* camera)
 	//fbxのタイマー処理
 	m_fbxObject->SetFbxTime(f_time);
 	//当たり判定
-	CollisionField(camera);
+	CollisionField();
 
 
-	ParameterSet_Obj(camera);
-	ParameterSet_Fbx(camera);
+	ParameterSet_Obj();
+	ParameterSet_Fbx();
 	//持つ武器の更新
 	SelectSword::GetInstance()->Update();
 	//攻撃エフェクト
@@ -390,8 +397,6 @@ XMMATRIX Player::GetMatrot()
 {
 	return m_fbxObject->GetMatrot();
 }
-
-#include"CameraControl.h"
 
 void Player::RecvDamage(int Damage)
 {

@@ -7,7 +7,7 @@ ControlBase::~ControlBase()
 /*------------------------*/
 /*--------更新処理---------*/
 /*------------------------*/
-void (ControlBase::* ControlBase::initTable[])(DebugCamera* camera) = {
+void (ControlBase::* ControlBase::initTable[])() = {
 	nullptr, //タイトル
 	&ControlBase::Init_Tutorial, //チュートリアル
 	&ControlBase::Init_Play, //プレーシーン
@@ -21,7 +21,7 @@ void (ControlBase::* ControlBase::initTable[])(DebugCamera* camera) = {
 /*--------更新処理---------*/
 /*------------------------*/
 /*scneManagerのシーン数と合わせる*/
-void (ControlBase::* ControlBase::updateTable[])(DebugCamera* camera) = {
+void (ControlBase::* ControlBase::updateTable[])() = {
 	nullptr, //タイトル
 	&ControlBase::Update_Tutorial, //チュートリアル
 	&ControlBase::Update_Play, //プレーシーン
@@ -42,16 +42,16 @@ void (ControlBase::* ControlBase::drawTable[])() = {
 
 #include"SceneManager.h"
 
-void ControlBase::Update(DebugCamera* camera)
+void ControlBase::Update()
 {
 	//シーンに応じた更新処理
-	(this->*updateTable[SceneManager::GetInstance()->GetScene()])(camera);
+	(this->*updateTable[SceneManager::GetInstance()->GetScene()])();
 }
 
-void ControlBase::Initialize(DebugCamera* camera)
+void ControlBase::Initialize()
 {
 	//シーンに応じた更新処理
-	(this->*initTable[SceneManager::GetInstance()->GetScene()])(camera);
+	(this->*initTable[SceneManager::GetInstance()->GetScene()])();
 }
 
 void ControlBase::Draw()

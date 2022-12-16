@@ -8,7 +8,7 @@ class CameraControl :
 {
 public:
 	static CameraControl* GetInstance();
-	void Load(DebugCamera* camera) override;
+	void Load() override;
 	void ParamSet();
 	void Finalize() override;
 
@@ -173,18 +173,18 @@ private:
 
 	static void (CameraControl::* targetTable[])();
 private:
-	void Init_Tutorial(DebugCamera* camera) override;
+	void Init_Tutorial() override;
 
-	void Init_Play(DebugCamera* camera) override;
+	void Init_Play() override;
 
-	void Init_Boss(DebugCamera* camera) override;
+	void Init_Boss() override;
 
 	/*更新処理*/
-	void Update_Tutorial(DebugCamera* camera) override;
+	void Update_Tutorial() override;
 
-	void Update_Play(DebugCamera* camera) override;
+	void Update_Play() override;
 
-	void Update_Boss(DebugCamera* camera) override;
+	void Update_Boss() override;
 
 	/*更新処理*/
 	void Draw_Tutorial() override;

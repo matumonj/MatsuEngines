@@ -26,18 +26,18 @@ private:
 	//
 	Texture* SearchPlayerTexture = nullptr;
 
-	void BomTexUpda(DebugCamera* camera);
+	void BomTexUpda();
 public:
 	//  void Action(Player* player);
 	/// <summary>
 	/// ‰Šú‰»
 	/// </summary>
-	void Initialize(DebugCamera* camera) override;
+	void Initialize() override;
 
 	/// <summary>
 	/// XVˆ—
 	/// </summary>
-	void Update(DebugCamera* camera) override;
+	void Update() override;
 
 	void AttackCollide();
 

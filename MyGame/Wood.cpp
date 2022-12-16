@@ -1,5 +1,7 @@
 #include "Wood.h"
 #include "Wood.h"
+
+#include "CameraControl.h"
 #include"SphereCollider.h"
 #include"CollisionAttribute.h"
 #include"TouchableObject.h"
@@ -16,8 +18,10 @@ Wood::Wood()
 {
 }
 
-void Wood::Initialize(DebugCamera* camera)
+void Wood::Initialize()
 {
+	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+
 	m_Object = std::make_unique<Object3d>();
 	//ƒ‚ƒfƒ‹Š„‚è“–‚Ä
 	m_Object->Initialize(camera);
@@ -30,13 +34,15 @@ void Wood::Initialize(DebugCamera* camera)
 
 #include"Input.h"
 
-void Wood::Update(DebugCamera* camera)
+void Wood::Update()
 {
+	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+
 	m_Object->SetColor({1.0f, 1.0f, 1.0f, 1.0f});
 
 
 	Color = {1.0f, 1.0f, 1.0f, alpha};
-	ParameterSet_Obj(camera);
+	ParameterSet_Obj();
 	m_Object->Setf(TRUE);
 	m_Object->SetFogCenter(camera->GetEye());
 	m_Object->setFog(true);

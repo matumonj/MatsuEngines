@@ -1,4 +1,6 @@
 #include "NormalSword.h"
+
+#include "CameraControl.h"
 #include"PlayerControl.h"
 #include"imgui.h"
 #include"ModelManager.h"
@@ -8,8 +10,10 @@ NormalSword::~NormalSword()
 	//	m_Object.reset();
 }
 
-void NormalSword::Initialize(DebugCamera* camera)
+void NormalSword::Initialize()
 {
+	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+
 	m_Object = std::make_unique<Object3d>();
 	m_Object->Initialize(camera);
 	//ƒ‚ƒfƒ‹Š„‚è“–‚Ä
@@ -24,8 +28,10 @@ void NormalSword::Initialize(DebugCamera* camera)
 	Rotation = {-18.0f, 18.0f, 0.0f + 11.0f};
 }
 
-void NormalSword::Update(DebugCamera* camera)
+void NormalSword::Update()
 {
+	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+
 	const int Damage_Value = 10;
 	const int CoolTime_Value = 180;
 

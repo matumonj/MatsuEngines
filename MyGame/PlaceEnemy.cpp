@@ -57,7 +57,7 @@ void PlaceEnemy::ArgMent(DebugCamera* camera)
 		{
 			newEnemy = std::make_unique<EnemyAlpha>();
 		}
-		newEnemy->Initialize(camera);
+		newEnemy->Initialize();
 		newEnemy->SetPosition(pos);
 		enemys.push_back(std::move(newEnemy));
 
@@ -69,7 +69,7 @@ void PlaceEnemy::ArgMent(DebugCamera* camera)
 		if (enemy != nullptr)
 		{
 			enemy->SetMoveStop(true);
-			enemy->Update(camera);
+			enemy->Update();
 		}
 	}
 	if (DeleteFlag && enemys.size() > 1)

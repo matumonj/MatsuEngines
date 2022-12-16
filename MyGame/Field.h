@@ -17,7 +17,7 @@ public:
 	};
 	~Field() override;
 	static Field* GetInstance();
-	void Setplay(DebugCamera* camera);
+	void Setplay();
 private:
 	TouchableObject* FieldObject = nullptr;
 	std::unique_ptr<Object3d> BossField;
@@ -63,14 +63,14 @@ private:
 	XMFLOAT3 FogCenterPos = {0.0f, 0.0f, 0.0f};
 public:
 	void SetFogCenterPos(XMFLOAT3 pos) { FogCenterPos = pos; }
-	void SetCamera(DebugCamera* camera) { dc = camera; }
-	void Initialize(DebugCamera* camera) override;
-	void Update(DebugCamera* camera) override;
+	//void SetCamera() { dc = camera; }
+	void Initialize() override;
+	void Update() override;
 
-	void Update_Tutorial(DebugCamera* camera);
-	void Update_Play(DebugCamera* camera);
-	void Update_Boss(DebugCamera* camera);
-	void Update_Edit(DebugCamera* camera);
+	void Update_Tutorial();
+	void Update_Play();
+	void Update_Boss();
+	void Update_Edit();
 
 	void Draw() override;
 	void Finalize();

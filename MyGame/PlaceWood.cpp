@@ -48,7 +48,7 @@ void PlaceWood::ArgMent(DebugCamera* camera)
 		std::unique_ptr<WoodBase> newWood;
 		newWood = std::make_unique<Wood>();
 
-		newWood->Initialize(camera);
+		newWood->Initialize();
 		newWood->SetPosition(pos);
 		woods.push_back(std::move(newWood));
 		ArgmentFlag = false;
@@ -58,7 +58,7 @@ void PlaceWood::ArgMent(DebugCamera* camera)
 		std::unique_ptr<WoodBase> newWood;
 		newWood = std::make_unique<WoodB>();
 
-		newWood->Initialize(camera);
+		newWood->Initialize();
 		newWood->SetPosition(pos);
 		woods.push_back(std::move(newWood));
 		AWoodArgmentFlag = false;
@@ -68,8 +68,8 @@ void PlaceWood::ArgMent(DebugCamera* camera)
 		if (wood != nullptr)
 		{
 			wood->SetColor({1, 1, 1, 1});
-			wood->Update(camera);
-			wood->CollisionField(camera);
+			wood->Update();
+			wood->CollisionField();
 		}
 	}
 	if (DeleteFlag && woods.size() > 1)

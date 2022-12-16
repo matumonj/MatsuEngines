@@ -1,4 +1,6 @@
 #include "SmallSword.h"
+
+#include "CameraControl.h"
 #include"PlayerControl.h"
 #include"TargetMarker.h"
 
@@ -14,8 +16,10 @@ SmallSword::~SmallSword()
 	//delete  m_Model;
 }
 
-void SmallSword::Initialize(DebugCamera* camera)
+void SmallSword::Initialize()
 {
+	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+
 	m_Object = std::make_unique<Object3d>();
 
 	m_Model = Model::CreateFromOBJ("Wand");
@@ -39,8 +43,10 @@ void SmallSword::Initialize(DebugCamera* camera)
 	TargetMarker::GetInstance()->Initialize();
 }
 
-void SmallSword::Update(DebugCamera* camera)
+void SmallSword::Update()
 {
+	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
 	{
 		TargetMarker::GetInstance()->Update_PlayScene(camera);

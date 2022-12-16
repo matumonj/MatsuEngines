@@ -33,7 +33,7 @@ void StoneControl::Finalize()
 /*--------ì«çûèàóù---------*/
 /*---------csv-----------*/
 
-void StoneControl::Init_Tutorial(DebugCamera* camera)
+void StoneControl::Init_Tutorial()
 {
 	file.open("Param_CSV/stone_tutorial.csv");
 
@@ -139,7 +139,7 @@ void StoneControl::Init_Tutorial(DebugCamera* camera)
 	for (int i = 0; i < Tutorialstones.size(); i++)
 	{
 		Tutorialstones[i] = std::make_unique<Stone_A>();
-		Tutorialstones[i]->Initialize(camera);
+		Tutorialstones[i]->Initialize();
 		Tutorialstones[i]->SetPosition(pos[i]);
 		Tutorialstones[i]->SetRotation(rot[i]);
 		Tutorialstones[i]->SetScale(scl[i]);
@@ -147,7 +147,7 @@ void StoneControl::Init_Tutorial(DebugCamera* camera)
 }
 
 
-void StoneControl::Init_Play(DebugCamera* camera)
+void StoneControl::Init_Play()
 {
 	file.open("Param_CSV/stone.csv");
 
@@ -245,7 +245,7 @@ void StoneControl::Init_Play(DebugCamera* camera)
 	for (int i = 0; i < Quantity; i++)
 	{
 		stones[i] = std::make_unique<Stone>();
-		stones[i]->Initialize(camera);
+		stones[i]->Initialize();
 		stones[i]->SetPosition(pos[i]);
 		stones[i]->SetPosition(pos[i]);
 		stones[i]->SetRotation(rot[i]);
@@ -253,11 +253,11 @@ void StoneControl::Init_Play(DebugCamera* camera)
 	}
 }
 
-void StoneControl::Init_Boss(DebugCamera* camera)
+void StoneControl::Init_Boss()
 {
 }
 
-void StoneControl::Load(DebugCamera* camera)
+void StoneControl::Load()
 {
 	UpdateRange = 200;
 }
@@ -265,12 +265,12 @@ void StoneControl::Load(DebugCamera* camera)
 /*------------------------*/
 /*--------çXêVèàóù---------*/
 /*------------------------*/
-void StoneControl::Update_Tutorial(DebugCamera* camera)
+void StoneControl::Update_Tutorial()
 {
 	for (int i = 0; i < Tutorialstones.size(); i++)
 	{
 		Tutorialstones[i]->SetColor({1.0f, 1.0f, 1.0f, 1.0f});
-		Tutorialstones[i]->Update(camera);
+		Tutorialstones[i]->Update();
 	}
 	for (int i = 0; i < Tutorialstones.size(); i++)
 	{
@@ -283,14 +283,14 @@ void StoneControl::Update_Tutorial(DebugCamera* camera)
 	}
 }
 
-void StoneControl::Update_Play(DebugCamera* camera)
+void StoneControl::Update_Play()
 {
 	for (int i = 0; i < Quantity; i++)
 	{
 		if (stones[i] != nullptr)
 		{
 			//stones[i]->SetColor({ 0.0f,1.0f,0.0f,1.0f });
-			stones[i]->Update(camera);
+			stones[i]->Update();
 		}
 		if (stones[i]->CollideStone() == true)
 		{
@@ -300,7 +300,7 @@ void StoneControl::Update_Play(DebugCamera* camera)
 	}
 }
 
-void StoneControl::Update_Boss(DebugCamera* camera)
+void StoneControl::Update_Boss()
 {
 }
 

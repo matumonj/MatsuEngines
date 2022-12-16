@@ -73,7 +73,7 @@ void Tutorial::Initialize()
 /*------------------------*/
 /*--------更新処理---------*/
 /*------------------------*/
-void Tutorial::objUpdate(DebugCamera* camera)
+void Tutorial::objUpdate()
 {
 	if (!Load && !Play)
 	{
@@ -84,23 +84,23 @@ void Tutorial::objUpdate(DebugCamera* camera)
 		//csvからの読み込み終わってから更新処理
 		if (AllObjectControl[1] != nullptr)
 		{
-			AllObjectControl[1]->Update(CameraControl::GetInstance()->GetCamera());
+			AllObjectControl[1]->Update();
 		}
 		if (AllObjectControl[0] != nullptr)
 		{
-			AllObjectControl[0]->Update(CameraControl::GetInstance()->GetCamera());
+			AllObjectControl[0]->Update();
 		}
 		for (int i = 2; i < AllObjectControl.size(); i++)
 		{
 			if (AllObjectControl[i] != nullptr)
 			{
-				AllObjectControl[i]->Update(CameraControl::GetInstance()->GetCamera());
+				AllObjectControl[i]->Update();
 			}
 		}
 		UI::GetInstance()->HUDUpdate(hudload, CameraControl::GetInstance()->GetCamera());
 	}
 	//後で別ん所移す
-	Field::GetInstance()->Update(CameraControl::GetInstance()->GetCamera());
+	Field::GetInstance()->Update();
 }
 
 void Tutorial::Update()
@@ -117,9 +117,9 @@ void Tutorial::Update()
 
 	SistemConfig::GetInstance()->Update();
 	//各オブジェクトの更新処理
-	objUpdate(CameraControl::GetInstance()->GetCamera()); //オブジェクトの更新処理
+	objUpdate(); //オブジェクトの更新処理
 	//csv読み込み部分(Cameraの更新後にするのでobjUpdate()挟んでから)
-	LoadParam(CameraControl::GetInstance()->GetCamera());
+	LoadParam();
 
 	//一定数進んだらシーンチェンジ
 	bool ArrivalJudg = PlayerControl::GetInstance()->GetPlayer()->GetPosition().z > -470.0f;
@@ -245,14 +245,14 @@ void Tutorial::Draw()
 /*------------------------*/
 /*--------読込処理--------*/
 /*-----------------------*/
-bool Tutorial::LoadParam(DebugCamera* camera)
+bool Tutorial::LoadParam()
 {
 	if (Load)
 	{
 		for (int i = 0; i < AllObjectControl.size(); i++)
 		{
 			//初期化
-			AllObjectControl[i]->Initialize(CameraControl::GetInstance()->GetCamera());
+			AllObjectControl[i]->Initialize();
 		}
 		//BossMap::GetInstance()->Init();
 		//カメラをセット
@@ -264,10 +264,10 @@ bool Tutorial::LoadParam(DebugCamera* camera)
 
 		UI::GetInstance()->Initialize();
 
-		Field::GetInstance()->Initialize(CameraControl::GetInstance()->GetCamera());
+		Field::GetInstance()->Initialize();
 
 		grassfield = std::make_unique<GrassField>();
-		grassfield->Initialize(CameraControl::GetInstance()->GetCamera());
+		grassfield->Initialize();
 		hudload = true;
 		Play = true;
 		Load = false;

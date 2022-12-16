@@ -50,5 +50,4 @@ void ImageManager::Init()
 void ImageManager::LoadTex2D(const tex2dName imageName, wchar_t* fileName)
 {
 	Sprite::LoadTexture(imageName, fileName);
-	tex[imageName] = Sprite::Create(imageName, {0, 0});
-}
+	}

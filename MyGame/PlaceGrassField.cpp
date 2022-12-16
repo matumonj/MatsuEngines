@@ -49,7 +49,7 @@ void PlaceGrassField::ArgMent(DebugCamera* camera)
 		{
 			newStone = std::make_unique<GrassField>();
 		}
-		newStone->Initialize(camera);
+		newStone->Initialize();
 		newStone->SetPosition(pos);
 		newStone->SetRotation(rot);
 		newStone->SetScale(scl);
@@ -69,7 +69,7 @@ void PlaceGrassField::ArgMent(DebugCamera* camera)
 	{
 		if (wood != nullptr)
 		{
-			wood->Update(camera);
+			wood->Update();
 			//wood->CollisionField(camera);
 		}
 	}

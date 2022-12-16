@@ -9,9 +9,12 @@
 #include"Collision.h"
 #include"PlayerControl.h"
 #include<iomanip>
+
+#include "CameraControl.h"
 #include"PlayerAttackState.h"
 #include"ImageManager.h"
 #include"mHelper.h"
+#include "SceneManager.h"
 /// <summary>
 /// コンストラクタ
 /// </summary>
@@ -27,11 +30,17 @@ MobEnemy::MobEnemy()
 MobEnemy::~MobEnemy()
 {
 	Destroy(state_mob);
+	for(int i=0;i<3;i++)
+	{
+		HPFrame[i].reset();
+	}
 }
 
 //初期化処理
-void MobEnemy::Initialize(DebugCamera* camera)
+void MobEnemy::Initialize()
 {
+	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+
 	//オブジェクトの生成と初期化
 	Sword = std::make_unique<Object3d>();
 	Sword->Initialize(camera);
@@ -70,9 +79,13 @@ void MobEnemy::Initialize(DebugCamera* camera)
 	addRotRadians = 0;
 	FollowRotAngleCorrect = 180;
 
-	HPFrame[0].reset(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME1));
-	HPFrame[1].reset(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME2));
-	HPFrame[2].reset(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME3));
+	Sprite*l_frame1= Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME1),{0,0});
+	Sprite* l_frame2 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME2), { 0,0 });
+	Sprite* l_frame3 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME3), { 0,0 });
+
+	HPFrame[0].reset(l_frame1);
+	HPFrame[1].reset(l_frame2);
+	HPFrame[2].reset(l_frame3);
 	for (int i = 0; i < 3; i++)
 	{
 		HPFrame[i]->SetAnchorPoint({0.0f, 0.0f});
@@ -81,10 +94,11 @@ void MobEnemy::Initialize(DebugCamera* camera)
 	ENumber = GOLEM;
 }
 
-#include"SceneManager.h"
 //更新処理
-void MobEnemy::Update(DebugCamera* camera)
+void MobEnemy::Update()
 {
+	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+
 	state_mob->Update(this);
 
 	if (SceneManager::GetInstance()->GetScene() != SceneManager::MAPCREATE)
@@ -93,16 +107,17 @@ void MobEnemy::Update(DebugCamera* camera)
 	}
 	if (SceneManager::GetInstance()->GetScene() != SceneManager::BOSS)
 	{
-		CollisionField(camera);
+		CollisionField();
 	}
 	FbxAnimationControl();
 
+	HPFrameScaling();
 	//EnemyPop(150);
 
 	AttackCoolTime();
 
 	DamageTexDisplay();
-	ParameterSet_Fbx(camera);
+	ParameterSet_Fbx();
 
 
 	m_fbxObject->SetColor({1.0f, 1.0f, 1.0f, alpha});
@@ -117,16 +132,22 @@ void MobEnemy::Update(DebugCamera* camera)
 	OBBSetParam();
 	m_fbxObject->SetFbxTime(f_time);
 
+}
+
+void MobEnemy::HPFrameScaling()
+{
+	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+
 	XMVECTOR tex2DPos[3];
 	for (int i = 0; i < 3; i++)
 	{
-		tex2DPos[i] = {Position.x, Position.y + 12.0f, Position.z};
+		tex2DPos[i] = { Position.x, Position.y + 12.0f, Position.z };
 		tex2DPos[i] = MatCal::PosDivi(tex2DPos[i], camera->GetViewMatrix(), false);
 		tex2DPos[i] = MatCal::PosDivi(tex2DPos[i], camera->GetProjectionMatrix(), true);
 		tex2DPos[i] = MatCal::WDivi(tex2DPos[i], false);
 		tex2DPos[i] = MatCal::PosDivi(tex2DPos[i], camera->GetViewPort(), false);
 
-		HPFrame[i]->SetPosition({tex2DPos[i].m128_f32[0] - 40.0f, tex2DPos[i].m128_f32[1]});
+		HPFrame[i]->SetPosition({ tex2DPos[i].m128_f32[0] - 40.0f, tex2DPos[i].m128_f32[1] });
 	}
 	if (RecvDamagef)
 	{
@@ -145,10 +166,11 @@ void MobEnemy::Update(DebugCamera* camera)
 		OldFrameX = Percent::GetParcent(MaxHP, EnemyHP) * 2.0f;
 		FrameScalingETime = 0.0f;
 	}
-	HPFrame[2]->SetSize({FrameScl.x, 15});
-	HPFrame[1]->SetSize({200.0f, 15.0f});
-	HPFrame[0]->SetSize({200.0f, 15.0f});
+	HPFrame[2]->SetSize({ FrameScl.x, 15 });
+	HPFrame[1]->SetSize({ 200.0f, 15.0f });
+	HPFrame[0]->SetSize({ 200.0f, 15.0f });
 }
+
 
 void MobEnemy::OBBSetParam()
 {

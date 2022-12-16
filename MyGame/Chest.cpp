@@ -1,4 +1,6 @@
 #include "Chest.h"
+
+#include "CameraControl.h"
 #include"SphereCollider.h"
 #include"CollisionAttribute.h"
 #include"TouchableObject.h"
@@ -12,8 +14,10 @@ Chest::~Chest()
 	Destroy(DefaultEffect);
 }
 
-void Chest::Initialize(DebugCamera* camera)
+void Chest::Initialize()
 {
+	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+
 	m_Object = std::make_unique<Object3d>();
 	m_Model = ModelManager::GetIns()->GetModel(ModelManager::CHEST);
 	//m_Object->CreateGraphicsPipeline(L"Resources/Shader/Object3dVS.hlsl", L"Resources/Shader/Object3dPS.hlsl", L"Resources/Shader/BasicGS.hlsl");
@@ -34,10 +38,10 @@ void Chest::Initialize(DebugCamera* camera)
 	ChestLost = false;
 }
 
-void Chest::Update(DebugCamera* camera)
+void Chest::Update()
 {
 	m_Object->SetColor({1, 1, 1, 1});
-	ParameterSet_Obj(camera);
+	ParameterSet_Obj();
 
 	//フィールド
 	//CollideWood();
@@ -63,7 +67,7 @@ void Chest::Update(DebugCamera* camera)
 
 	DefaultEffect->Update(DefaultEffect->NORMAL);
 
-	CollisionField(camera);
+	CollisionField();
 }
 
 void Chest::Draw()

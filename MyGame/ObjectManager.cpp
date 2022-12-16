@@ -1,4 +1,6 @@
 #include "ObjectManager.h"
+
+#include "CameraControl.h"
 #include"SphereCollider.h"
 #include"CollisionAttribute.h"
 #include"TouchableObject.h"
@@ -22,8 +24,10 @@ void ObjectManager::SetCollider()
 	m_Object->collider->SetAttribute(COLLISION_ATTR_ALLIES);
 }
 
-void ObjectManager::CollisionField(DebugCamera* camera)
+void ObjectManager::CollisionField()
 {
+	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+
 	// ワールド行列更新
 	m_Object->UpdateWorldMatrix();
 
@@ -134,8 +138,10 @@ void ObjectManager::CollisionField(DebugCamera* camera)
 	m_Object->Update({1, 1, 1, 1}, camera);
 }
 
-void ObjectManager::ParameterSet_Obj(DebugCamera* camera)
+void ObjectManager::ParameterSet_Obj()
 {
+	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+
 	m_Object->SetPosition({Position.x, Position.y - 3, Position.z});
 	m_Object->SetRotation(Rotation);
 	m_Object->SetScale(Scale);
@@ -144,8 +150,10 @@ void ObjectManager::ParameterSet_Obj(DebugCamera* camera)
 }
 
 
-void ObjectManager::ParameterSet_Fbx(DebugCamera* camera)
+void ObjectManager::ParameterSet_Fbx()
 {
+	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+
 	m_fbxObject->SetPosition({Position.x, Position.y - 1, Position.z});
 
 	m_fbxObject->SetRotation(Rotation);
@@ -157,8 +165,10 @@ void ObjectManager::ParameterSet_Fbx(DebugCamera* camera)
 	m_fbxObject->Updata(true);
 }
 
-void ObjectManager::ParameterSet_Fbx2(DebugCamera* camera)
+void ObjectManager::ParameterSet_Fbx2()
 {
+	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+
 	m_fbxObject->SetPosition({Position.x, Position.y, Position.z});
 
 	m_fbxObject->SetRotation(Rotation);

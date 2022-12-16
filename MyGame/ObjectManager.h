@@ -23,19 +23,19 @@ protected:
 public:
 	virtual void SetCollider();
 
-	virtual void Initialize(DebugCamera* camera) = 0;
+	virtual void Initialize() = 0;
 
-	void ParameterSet_Obj(DebugCamera* camera);
-	void ParameterSet_Fbx(DebugCamera* camera);
-	void ParameterSet_Fbx2(DebugCamera* camera);
+	void ParameterSet_Obj();
+	void ParameterSet_Fbx();
+	void ParameterSet_Fbx2();
 
-	virtual void Update(DebugCamera* camera) =0;
+	virtual void Update() =0;
 
 	void Draw_Obj();
 	void Draw_Fbx();
 
 	virtual void Draw() = 0;
-	void CollisionField(DebugCamera* camera);
+	void CollisionField();
 
 protected:
 	std::unique_ptr<Object3d> m_Object = nullptr;

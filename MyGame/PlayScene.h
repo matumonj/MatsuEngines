@@ -44,13 +44,13 @@ private:
 
 public:
 	void MyGameDraw();
-	void objUpdate(DebugCamera* camera);
+	void objUpdate();
 
 public:
 	void Initialize() override;
 	void Update() override;
 	void Draw() override;
-	void LoadParam(DebugCamera* camera);
+	void LoadParam();
 	void Finalize() override;
 
 private:

@@ -14,11 +14,11 @@ HouseControl* HouseControl::GetInstance()
 	return &instance;
 }
 
-void HouseControl::Init_Tutorial(DebugCamera* camera)
+void HouseControl::Init_Tutorial()
 {
 }
 
-void HouseControl::Init_Play(DebugCamera* camera)
+void HouseControl::Init_Play()
 {
 	file.open("Param_CSV/house.csv");
 
@@ -111,14 +111,14 @@ void HouseControl::Init_Play(DebugCamera* camera)
 	for (int i = 0; i < Quantity; i++)
 	{
 		houses[i] = std::make_unique<House_A>();
-		houses[i]->Initialize(camera);
+		houses[i]->Initialize();
 		houses[i]->SetPosition(pos[i]);
 		houses[i]->SetRotation(rot[i]);
 		//houses[i]->SetScale(scl[i]);
 	}
 }
 
-void HouseControl::Init_Boss(DebugCamera* camera)
+void HouseControl::Init_Boss()
 {
 }
 
@@ -138,7 +138,7 @@ void HouseControl::Finalize()
 /*------------------------*/
 /*--------読み込み処理---------*/
 /*-----------csv---------*/
-void HouseControl::Load(DebugCamera* camera)
+void HouseControl::Load()
 {
 }
 
@@ -146,23 +146,23 @@ void HouseControl::Load(DebugCamera* camera)
 /*------------------------*/
 /*--------更新処理---------*/
 /*------------------------*/
-void HouseControl::Update_Tutorial(DebugCamera* camera) //チュートリアル時
+void HouseControl::Update_Tutorial() //チュートリアル時
 {
 }
 
-void HouseControl::Update_Play(DebugCamera* camera) //プレイシーン時
+void HouseControl::Update_Play() //プレイシーン時
 {
 	for (int i = 0; i < Quantity; i++)
 	{
 		if (houses[i] != nullptr)
 		{
-			houses[i]->Update(camera);
+			houses[i]->Update();
 		}
 	}
 	//チュートリアルエリアの柵が開く条件
 }
 
-void HouseControl::Update_Boss(DebugCamera* camera)
+void HouseControl::Update_Boss()
 {
 }
 

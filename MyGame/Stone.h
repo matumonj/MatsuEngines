@@ -18,8 +18,8 @@ protected:
 	OBB StoneOBB = {}; // = nullptr;
 	float alpha = 0.0f;
 public:
-	void Initialize(DebugCamera* camera) override;
-	void Update(DebugCamera* camera) override;
+	void Initialize() override;
+	void Update() override;
 	void Draw() override;
 	virtual bool CollideStone();
 };
@@ -27,8 +27,8 @@ public:
 class Stone_A : public Stone
 {
 public:
-	void Initialize(DebugCamera* camera) override;
-	void Update(DebugCamera* camera) override;
+	void Initialize() override;
+	void Update() override;
 	void Draw() override;
 	bool CollideStone() override;
 };
@@ -36,8 +36,8 @@ public:
 class Stone_B : public Stone
 {
 public:
-	void Initialize(DebugCamera* camera) override;
-	void Update(DebugCamera* camera) override;
+	void Initialize() override;
+	void Update() override;
 	void Draw() override;
 	bool CollideStone() override;
 };

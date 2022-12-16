@@ -1,4 +1,6 @@
 #include "BigSword.h"
+
+#include "CameraControl.h"
 #include"PlayerControl.h"
 
 BigSword::~BigSword()
@@ -7,8 +9,10 @@ BigSword::~BigSword()
 	//delete  m_Model;
 }
 
-void BigSword::Initialize(DebugCamera* camera)
+void BigSword::Initialize()
 {
+	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+
 	m_Object = std::make_unique<Object3d>();
 
 	//ƒ‚ƒfƒ‹Š„‚è“–‚Ä
@@ -20,8 +24,10 @@ void BigSword::Initialize(DebugCamera* camera)
 	Rotation = {-20.0f, 30.0f, 15.0f};
 }
 
-void BigSword::Update(DebugCamera* camera)
+void BigSword::Update()
 {
+	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+
 	const int Damage_Value = 30;
 	const int CoolTime_Value = 180;
 

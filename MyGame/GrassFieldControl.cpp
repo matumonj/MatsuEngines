@@ -18,7 +18,7 @@ GrassFieldControl::~GrassFieldControl()
 	pos.clear();
 }
 
-void GrassFieldControl::Init_Tutorial(DebugCamera* camera)
+void GrassFieldControl::Init_Tutorial()
 {
 	file.open("Param_CSV/grass_tutorial.csv");
 
@@ -119,14 +119,14 @@ void GrassFieldControl::Init_Tutorial(DebugCamera* camera)
 	for (int i = 0; i < Tutorialgrassfields.size(); i++)
 	{
 		Tutorialgrassfields[i] = std::make_unique<GrassField>();
-		Tutorialgrassfields[i]->Initialize(camera);
+		Tutorialgrassfields[i]->Initialize();
 		Tutorialgrassfields[i]->SetPosition(pos[i]);
 		Tutorialgrassfields[i]->SetRotation(rot[i]);
 		Tutorialgrassfields[i]->SetScale(scl[i]);
 	}
 }
 
-void GrassFieldControl::Init_Play(DebugCamera* camera)
+void GrassFieldControl::Init_Play()
 {
 	file.open("Param_CSV/grass.csv");
 
@@ -222,14 +222,14 @@ void GrassFieldControl::Init_Play(DebugCamera* camera)
 	for (int i = 0; i < Tutorialgrassfields.size(); i++)
 	{
 		grassfields[i] = std::make_unique<GrassField>();
-		grassfields[i]->Initialize(camera);
+		grassfields[i]->Initialize();
 		grassfields[i]->SetPosition(pos[i]);
 		grassfields[i]->SetRotation(rot[i]);
 		grassfields[i]->SetScale(scl[i]);
 	}
 }
 
-void GrassFieldControl::Init_Boss(DebugCamera* camera)
+void GrassFieldControl::Init_Boss()
 {
 }
 
@@ -247,7 +247,7 @@ void GrassFieldControl::Finalize()
 /*------------------------*/
 /*--------ì«çûèàóù---------*/
 /*---------csv-----------*/
-void GrassFieldControl::Load(DebugCamera* camera)
+void GrassFieldControl::Load()
 {
 	UpdateRange = 200;
 }
@@ -255,28 +255,28 @@ void GrassFieldControl::Load(DebugCamera* camera)
 /*------------------------*/
 /*--------çXêVèàóù---------*/
 /*------------------------*/
-void GrassFieldControl::Update_Tutorial(DebugCamera* camera)
+void GrassFieldControl::Update_Tutorial()
 {
 	for (int i = 0; i < Tutorialgrassfields.size(); i++)
 	{
 		//Tutorialgrassfields[i]->SetColor({ 1.0f,1.0f,1.0f,1.0f });
-		Tutorialgrassfields[i]->Update(camera);
+		Tutorialgrassfields[i]->Update();
 	}
 }
 
-void GrassFieldControl::Update_Play(DebugCamera* camera)
+void GrassFieldControl::Update_Play()
 {
 	for (int i = 0; i < Quantity; i++)
 	{
 		if (grassfields[i] != nullptr)
 		{
 			//grassfields[i]->SetColor({ 0.0f,1.0f,0.0f,1.0f });
-			grassfields[i]->Update(camera);
+			grassfields[i]->Update();
 		}
 	}
 }
 
-void GrassFieldControl::Update_Boss(DebugCamera* camera)
+void GrassFieldControl::Update_Boss()
 {
 }
 
