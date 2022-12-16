@@ -6,6 +6,7 @@
 #include"CollisionPrimitive.h"
 #include"ParticleManager.h"
 #include"Particle.h"
+
 class AltAttack
 {
 public:
@@ -53,14 +54,16 @@ private:
 
 	Line2D DamageLine;
 public:
-	enum Area {
+	enum Area
+	{
 		FIR,
 		SEC,
 		THI,
 		FIU,
 		FIV,
 		END
-	}area;
+	} area;
+
 private:
 	bool atckjudg;
 	XMFLOAT3 oldp[5];
@@ -76,7 +79,7 @@ private:
 
 	void RushObjDraw();
 public:
-	XMFLOAT3 GetImpactArea(Area area) {return rushimpactarea[area]; }
+	XMFLOAT3 GetImpactArea(Area area) { return rushimpactarea[area]; }
 
 	float GetFtime(Area area) { return rushEtime[area]; }
 	Area GetNowArea() { return area; }

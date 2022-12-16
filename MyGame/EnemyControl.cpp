@@ -45,7 +45,7 @@ void EnemyControl::Init_Tutorial(DebugCamera* camera)
 	enemys[TUTORIAL].resize(1);
 	enemys[TUTORIAL][0] = std::make_unique<MobEnemy>();
 	enemys[TUTORIAL][0]->Initialize(camera);
-	tutorial_pos = { 100.137f, 20.5045f, -650.987f };
+	tutorial_pos = {100.137f, 20.5045f, -650.987f};
 	enemys[TUTORIAL][0]->SetPosition(tutorial_pos);
 	enemys[TUTORIAL][0]->SetRespawnPos(tutorial_pos);
 }
@@ -101,7 +101,8 @@ void EnemyControl::Init_Play(DebugCamera* camera)
 				std::getline(line_stream, word, ',');
 				int number = static_cast<int>(std::atof(word.c_str()));
 				Num[i] = number;
-			} else if (word.find("POP") == 0)
+			}
+			else if (word.find("POP") == 0)
 			{
 				std::getline(line_stream, word, ',');
 				float x = static_cast<float>(std::atof(word.c_str()));
@@ -112,7 +113,7 @@ void EnemyControl::Init_Play(DebugCamera* camera)
 				std::getline(line_stream, word, ',');
 				float z = static_cast<float>(std::atof(word.c_str()));
 
-				pos[i] = { x, y, z };
+				pos[i] = {x, y, z};
 				break;
 			}
 		}
@@ -141,10 +142,11 @@ void EnemyControl::Init_Play(DebugCamera* camera)
 
 void EnemyControl::SummonEnemyInit(DebugCamera* camera)
 {
-	for (int i = 0; i < EnemySize; i++) {
+	for (int i = 0; i < EnemySize; i++)
+	{
 		SummonEnemys[i] = std::make_unique<MobEnemy>();
 		SummonEnemys[i]->Initialize(camera);
-		SummonEnemys[i]->SetPosition({ 0,-20,20 });
+		SummonEnemys[i]->SetPosition({0, -20, 20});
 	}
 	//敵生成フラグ
 	summonEnemyCreate = false;
@@ -153,24 +155,24 @@ void EnemyControl::SummonEnemyInit(DebugCamera* camera)
 	//敵登場済みフラグ
 	SummonEnemysApper = false;
 
-	SummonEPos = { 1,1,1 };
+	SummonEPos = {1, 1, 1};
 	Shieldalpha = 0.0f;
 	//盾テクスチャ
 	Texture* l_shield[4];
 	Texture::LoadTexture(101, L"Resources/2d/BossAttackEffect/shield.png");
-	for (int i = 0; i < 4; i++) {
-		l_shield[i] = Texture::Create(101, { 1,1,1 }, { 0,0,0 }, { 1,1,1,1 });
+	for (int i = 0; i < 4; i++)
+	{
+		l_shield[i] = Texture::Create(101, {1, 1, 1}, {0, 0, 0}, {1, 1, 1, 1});
 		ShieldTex[i].reset(l_shield[i]);
 		ShieldTex[i]->CreateTexture();
-		ShieldTex[i]->SetAnchorPoint({ 0.5f,0.5f });
-		ShieldTex[i]->SetRotation({ 180,0,0 });
+		ShieldTex[i]->SetAnchorPoint({0.5f, 0.5f});
+		ShieldTex[i]->SetRotation({180, 0, 0});
 	}
 	//回転角
 	Texangle[0] = 0.f;
 	Texangle[1] = 90.f;
 	Texangle[2] = 180.f;
 	Texangle[3] = 270.f;
-
 }
 
 void EnemyControl::Init_Boss(DebugCamera* camera)
@@ -178,9 +180,9 @@ void EnemyControl::Init_Boss(DebugCamera* camera)
 	enemys[BOSS].resize(1);
 	enemys[BOSS][0] = std::make_unique<BossEnemy>();
 	enemys[BOSS][0]->Initialize(camera);
-	boss_pos = { -1.0f, 10.0f, 20.987f };
+	boss_pos = {-1.0f, 10.0f, 20.987f};
 	enemys[BOSS][0]->SetPosition(boss_pos);
-	
+
 	enemys[BOSS][0]->SetHP(enemys[BOSS][0]->GetMaxHP());
 
 	SummonEnemyInit(camera);
@@ -223,8 +225,12 @@ void EnemyControl::Update_Play(DebugCamera* camera)
 
 	for (int i = 0; i < Quantity; i++)
 	{
-		if (enemys[PLAYSCENE][i] == nullptr)continue;
-		if (enemys[PLAYSCENE][i]->getdeath() == false) {
+		if (enemys[PLAYSCENE][i] == nullptr)
+		{
+			continue;
+		}
+		if (enemys[PLAYSCENE][i]->getdeath() == false)
+		{
 			if (Collision::GetLength(pPos, enemys[PLAYSCENE][i]->GetPosition()) < 100)
 			{
 				enemys[PLAYSCENE][i]->SetMoveFlag(true);
@@ -233,14 +239,13 @@ void EnemyControl::Update_Play(DebugCamera* camera)
 		}
 		else
 		{
-			
-				enemys[PLAYSCENE][i]->SetMoveFlag(true);
-				enemys[PLAYSCENE][i]->Update(camera);
+			enemys[PLAYSCENE][i]->SetMoveFlag(true);
+			enemys[PLAYSCENE][i]->Update(camera);
 		}
 
 		if (enemys[PLAYSCENE][i]->GetObjAlpha() <= 0.0f)
 		{
-			if(enemys[PLAYSCENE][i]->GetEnemyNumber()== 0)
+			if (enemys[PLAYSCENE][i]->GetEnemyNumber() == 0)
 			{
 				Task::GetInstance()->SetGolemDestroyCount();
 				if (Task::GetInstance()->GetGolemDesthCount(1))
@@ -248,12 +253,16 @@ void EnemyControl::Update_Play(DebugCamera* camera)
 					DropWeapon::GtIns()->Drop(DropWeapon::AXE, enemys[PLAYSCENE][i]->GetPosition());
 				}
 
-				if(Task::GetInstance()->GetGolemDesthCount(2))
+				if (Task::GetInstance()->GetGolemDesthCount(2))
 				{
-					ChestControl::GetInstance()->SetChestAppearance(ChestControl::RED, { enemys[PLAYSCENE][i]->GetPosition().x,enemys[PLAYSCENE][i]->GetPosition().y+10.0f,enemys[PLAYSCENE][i]->GetPosition().z });
+					ChestControl::GetInstance()->SetChestAppearance(ChestControl::RED, {
+						                                                enemys[PLAYSCENE][i]->GetPosition().x,
+						                                                enemys[PLAYSCENE][i]->GetPosition().y + 10.0f,
+						                                                enemys[PLAYSCENE][i]->GetPosition().z
+					                                                });
 				}
 			}
-			else if(enemys[PLAYSCENE][i]->GetEnemyNumber() ==1)
+			else if (enemys[PLAYSCENE][i]->GetEnemyNumber() == 1)
 			{
 				Task::GetInstance()->SetFlogDestroyCount();
 
@@ -261,11 +270,16 @@ void EnemyControl::Update_Play(DebugCamera* camera)
 				{
 					DropWeapon::GtIns()->Drop(DropWeapon::SWORD, enemys[PLAYSCENE][i]->GetPosition());
 				}
-				if (Task::GetInstance()->ClearTaskONE() == true) {
-					
+				if (Task::GetInstance()->ClearTaskONE() == true)
+				{
 					if (Task::GetInstance()->GetFlogDesthCount(2))
 					{
-						ChestControl::GetInstance()->SetChestAppearance(ChestControl::BLUE, { enemys[PLAYSCENE][i]->GetPosition().x,enemys[PLAYSCENE][i]->GetPosition().y + 10.0f,enemys[PLAYSCENE][i]->GetPosition().z });
+						ChestControl::GetInstance()->SetChestAppearance(ChestControl::BLUE, {
+							                                                enemys[PLAYSCENE][i]->GetPosition().x,
+							                                                enemys[PLAYSCENE][i]->GetPosition().y +
+							                                                10.0f,
+							                                                enemys[PLAYSCENE][i]->GetPosition().z
+						                                                });
 					}
 				}
 			}
@@ -277,51 +291,74 @@ void EnemyControl::Update_Play(DebugCamera* camera)
 void EnemyControl::SummonEnemyUpdate(DebugCamera* camera)
 {
 	/*攻撃内容の処理なので後で攻撃専用のクラスに移す*/
-	if (HalfAttack::GetInstance()->SummonEnemy() == true) {
+	if (HalfAttack::GetInstance()->SummonEnemy() == true)
+	{
 		summonEnemyCreate = true;
 	}
 
-	if (summonEnemyCreate) {
-		SummonEPos.y += 0.1f;//徐々に上に
-		for (int i = 0; i < EnemySize; i++) {
-			if (SummonEnemys[i] == nullptr)continue;
-			if (SummonEPos.y < 18.0f) {//敵がプレイヤー座標まで現れたら
+	if (summonEnemyCreate)
+	{
+		SummonEPos.y += 0.1f; //徐々に上に
+		for (int i = 0; i < EnemySize; i++)
+		{
+			if (SummonEnemys[i] == nullptr)
+			{
+				continue;
+			}
+			if (SummonEPos.y < 18.0f)
+			{
+				//敵がプレイヤー座標まで現れたら
 				Shieldalpha = 0.0f;
 				//下から上に出てくる際は動き止めておく
 				SummonEnemys[i]->SetMoveStop(true);
-				SummonEnemys[i]->SetPosition({ HalfAttack::GetInstance()->GetTexPos(i).x,SummonEPos.y,HalfAttack::GetInstance()->GetTexPos(i).z });
-			} else {
+				SummonEnemys[i]->SetPosition({
+					HalfAttack::GetInstance()->GetTexPos(i).x, SummonEPos.y, HalfAttack::GetInstance()->GetTexPos(i).z
+				});
+			}
+			else
+			{
 				//盾テクスチャフェード
-				if (!SummonEnemysDeath) {
+				if (!SummonEnemysDeath)
+				{
 					Shieldalpha += 0.05f;
 				}
 				//動き止めていたのを解除
 				SummonEnemys[i]->SetMoveStop(false);
 			}
 			//更新
-			SummonEnemys[i]->SetColor({ 1.0f,0.2f,0.2f,1.0f });
+			SummonEnemys[i]->SetColor({1.0f, 0.2f, 0.2f, 1.0f});
 
 			SummonEnemys[i]->Update(camera);
 		}
 	}
 
 	//ザコ敵両方とも倒したら
-	if (SummonEnemys[0] == nullptr && SummonEnemys[1] == nullptr) {
-		Shieldalpha -= 0.02f;//盾テクスチャ消す
+	if (SummonEnemys[0] == nullptr && SummonEnemys[1] == nullptr)
+	{
+		Shieldalpha -= 0.02f; //盾テクスチャ消す
 		SummonEnemysDeath = true;
 	}
 	//盾テクスチャのアルファ値が一定以下なったらテクスチャインスタンスは消す
-	if (Shieldalpha < -1.0f) {
-		for (int i = 0; i < 4; i++) {
+	if (Shieldalpha < -1.0f)
+	{
+		for (int i = 0; i < 4; i++)
+		{
 			Destroy_unique(ShieldTex[i]);
 		}
 	}
 	//敵登場済みのフラグ=敵がプレイヤーのY座標まで上がってきたら
 	SummonEnemysApper = SummonEPos.y >= 10.0f;
 
-	for (int i = 0; i < 4; i++) {
-		if (enemys[BOSS][0] == nullptr)break;
-		if (ShieldTex[i] == nullptr)continue;
+	for (int i = 0; i < 4; i++)
+	{
+		if (enemys[BOSS][0] == nullptr)
+		{
+			break;
+		}
+		if (ShieldTex[i] == nullptr)
+		{
+			continue;
+		}
 		//テクスチャ回す
 		Texangle[i]++;
 		//中心はボス
@@ -329,15 +366,19 @@ void EnemyControl::SummonEnemyUpdate(DebugCamera* camera)
 		ShieldTexPos[i].y = enemys[BOSS][0]->GetPosition().y + 10.0f;
 		ShieldTexPos[i].z = enemys[BOSS][0]->GetPosition().z + cosf(Texangle[i] * (3.14f / 180.0f)) * 10.0f;
 
-		ShieldTex[i]->SetColor({ 1.0f,1.0f,1.0f,Shieldalpha });
-		ShieldTex[i]->SetPosition({ ShieldTexPos[i] });
-		ShieldTex[i]->SetScale({ 5.0f,5.0f,1.0f });
+		ShieldTex[i]->SetColor({1.0f, 1.0f, 1.0f, Shieldalpha});
+		ShieldTex[i]->SetPosition({ShieldTexPos[i]});
+		ShieldTex[i]->SetScale({5.0f, 5.0f, 1.0f});
 		ShieldTex[i]->Update(camera);
 	}
 
 	//ザコ敵の開放処理
-	for (int i = 0; i < 2; i++) {
-		if (SummonEnemys[i] == nullptr)continue;
+	for (int i = 0; i < 2; i++)
+	{
+		if (SummonEnemys[i] == nullptr)
+		{
+			continue;
+		}
 		if (SummonEnemys[i]->GetObjAlpha() <= 0)
 		{
 			Destroy_unique(SummonEnemys[i]);
@@ -367,7 +408,6 @@ void EnemyControl::Update_Boss(DebugCamera* camera)
 	{
 		Destroy_unique(enemys[BOSS][0]);
 	}
-
 }
 
 /*------------------------*/
@@ -382,8 +422,8 @@ void EnemyControl::HPFrameDraw()
 			enemys[TUTORIAL][0]->EnemyHPDraw();
 		}
 	}
-
 }
+
 #include"imgui.h"
 
 void EnemyControl::Draw_Tutorial()
@@ -417,17 +457,22 @@ void EnemyControl::Draw_Play()
 
 void EnemyControl::Draw_Boss()
 {
-	if (enemys[BOSS].size()==0|| enemys[BOSS][0] == nullptr)
+	if (enemys[BOSS].size() == 0 || enemys[BOSS][0] == nullptr)
 	{
 		return;
 	}
-	for (int i = 0; i < EnemySize; i++) {
-		if (SummonEnemys[i] == nullptr)continue;
+	for (int i = 0; i < EnemySize; i++)
+	{
+		if (SummonEnemys[i] == nullptr)
+		{
+			continue;
+		}
 		SummonEnemys[i]->Draw();
 	}
 	enemys[BOSS][0]->Draw();
 	Texture::PreDraw();
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < 4; i++)
+	{
 		ShieldTex[i]->Draw();
 	}
 	Texture::PostDraw();

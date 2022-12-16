@@ -3,6 +3,7 @@
 #include"Input.h"
 #include"MobEnemy.h"
 #include<array>
+
 class HalfAttack
 {
 public:
@@ -19,9 +20,10 @@ private:
 		LEFT,
 		RIGHT
 	};
+
 	static constexpr int EnemySize = 4;
-	std::array<std::unique_ptr<Texture>, EnemySize>MagicTex;
-	std::array<XMFLOAT3, EnemySize>TexScl;
+	std::array<std::unique_ptr<Texture>, EnemySize> MagicTex;
+	std::array<XMFLOAT3, EnemySize> TexScl;
 
 	AttackArea Area;
 

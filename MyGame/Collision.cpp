@@ -3,10 +3,12 @@ bool Collision::ColFlag;
 
 void Collision::SetCollideOBB(bool f) { ColFlag = f; }
 bool Collision::GetCollideOBB() { return ColFlag; }
+
 bool Collision::line2dCol(Line2D line, Point point)
 {
 	float len = (line.end.x - line.start.x);
 }
+
 /**
 * @brief 線分と円の当たり判定関数
 * @retval ture 当たり
@@ -26,7 +28,8 @@ void Collision::ConvertToNomalizeVector(XMFLOAT2& out, XMFLOAT2 in)
 	{
 		out.x = in.x / distance;
 		out.y = in.y / distance;
-	} else
+	}
+	else
 	{
 		out = XMFLOAT2(0.0f, 0.0f);
 	}
@@ -35,15 +38,14 @@ void Collision::ConvertToNomalizeVector(XMFLOAT2& out, XMFLOAT2 in)
 float Collision::CalculationVectorLength(const XMFLOAT2& vec01)
 {
 	return sqrtf((vec01.x * vec01.x) + (vec01.y * vec01.y));
-
 }
 
 bool Collision::IsCollidingLineAndCircle(Line2D line, Point circle)
 {
 	// ベクトルの作成
-	XMFLOAT2 start_to_center = XMFLOAT2(circle.x - line.start.x, circle.y - line.start.y);
-	XMFLOAT2 end_to_center = XMFLOAT2(circle.x - line.end.x, circle.y - line.end.y);
-	XMFLOAT2 start_to_end = XMFLOAT2(line.end.x - line.start.x, line.end.y - line.start.y);
+	auto start_to_center = XMFLOAT2(circle.x - line.start.x, circle.y - line.start.y);
+	auto end_to_center = XMFLOAT2(circle.x - line.end.x, circle.y - line.end.y);
+	auto start_to_end = XMFLOAT2(line.end.x - line.start.x, line.end.y - line.start.y);
 	XMFLOAT2 normal_start_to_end;
 
 	// 単位ベクトル化する
@@ -60,7 +62,7 @@ bool Collision::IsCollidingLineAndCircle(Line2D line, Point circle)
 	if (fabs(distance_projection) < 40)
 	{
 		// 始点 => 終点と始点 => 円の中心の内積を計算する
-		float dot01 = start_to_center.x * start_to_end.x+ start_to_center.y * start_to_end.y;
+		float dot01 = start_to_center.x * start_to_end.x + start_to_center.y * start_to_end.y;
 		// 始点 => 終点と終点 => 円の中心の内積を計算する
 		float dot02 = end_to_center.x * start_to_end.x + end_to_center.y * start_to_end.y;
 
@@ -74,7 +76,7 @@ bool Collision::IsCollidingLineAndCircle(Line2D line, Point circle)
 			始点 => 円の中心の長さか、終点 => 円の中心の長さが
 			円の半径よりも短かったら当たり
 		*/
-		else if (CalculationVectorLength(start_to_center) <40 ||
+		if (CalculationVectorLength(start_to_center) < 40 ||
 			CalculationVectorLength(end_to_center) < 40)
 		{
 			return true;
@@ -83,6 +85,7 @@ bool Collision::IsCollidingLineAndCircle(Line2D line, Point circle)
 
 	return false;
 }
+
 bool Collision::CheckBox2Box(const Box& box1, const Box& box2)
 {
 	/*bool judg1 = box1.LUposition.x < box2.RBposition.x;

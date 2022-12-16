@@ -2,6 +2,7 @@
 #include"EnemyControl.h"
 #include"CameraControl.h"
 #include"BossSpell.h"
+
 FrontCircleAttack* FrontCircleAttack::GetInstance()
 {
 	static FrontCircleAttack instance;

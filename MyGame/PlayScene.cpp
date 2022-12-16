@@ -63,13 +63,16 @@ void PlayScene::objUpdate(DebugCamera* camera)
 	{
 		for (int i = 0; i < AllObjectControl.size(); i++)
 		{
-			if (AllObjectControl[i] == nullptr)continue;
+			if (AllObjectControl[i] == nullptr)
+			{
+				continue;
+			}
 			AllObjectControl[i]->Update((CameraControl::GetInstance()->GetCamera()));
 		}
 	}
-	
+
 	TargetMarker::GetInstance()->Update_PlayScene(CameraControl::GetInstance()->GetCamera());
-	
+
 	if (CameraControl::GetInstance()->GetCamera() != nullptr)
 	{
 		Field::GetInstance()->Update((CameraControl::GetInstance()->GetCamera()));
@@ -86,7 +89,7 @@ void PlayScene::Update()
 	lightGroup->Update();
 
 	SistemConfig::GetInstance()->Update();
-	
+
 	if (!Load && !PlayGame)
 	{
 		Load = true;
@@ -112,10 +115,10 @@ void PlayScene::Update()
 	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 
 	lightGroup->SetCircleShadowDir(3, XMVECTOR({circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0}));
-	lightGroup->SetCircleShadowCasterPos(3, {ppos.x,ppos.y+2.0f,ppos.z});
+	lightGroup->SetCircleShadowCasterPos(3, {ppos.x, ppos.y + 2.0f, ppos.z});
 	lightGroup->SetCircleShadowAtten(3, XMFLOAT3(circleShadowAtten));
 	lightGroup->SetCircleShadowFactorAngle(3, XMFLOAT2(circleShadowFactorAngle2));
-	
+
 	for (int i = 0; i < EnemyControl::GetInstance()->GetQuentity(); i++)
 	{
 		if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i] == nullptr)
@@ -133,33 +136,33 @@ void PlayScene::Update()
 		lightGroup->SetCircleShadowAtten(i + 4, XMFLOAT3(circleShadowAtten));
 		lightGroup->SetCircleShadowFactorAngle(i + 4, XMFLOAT2(circleShadowFactorAngle));
 	}
-	if (Input::GetInstance()->TriggerButton(Input::RT)) {
+	if (Input::GetInstance()->TriggerButton(Input::RT))
+	{
 		//‰æ–Ê^‚Á”’‚È‚Á‚½‚ç
-		
-		SceneManager::GetInstance()->SetScene(SceneManager::BOSS, sceneManager_);
 
+		SceneManager::GetInstance()->SetScene(SceneManager::BOSS, sceneManager_);
 	}
 	ChangeSceneJudg();
-	
 }
 
 void PlayScene::ChangeSceneJudg()
 {
 	if (Task::GetInstance()->GetAllTaskClear())
-	
-			if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), { 17, -35, 820 }) < 30)
+
+	{
+		if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), {17, -35, 820}) < 30)
+		{
+			Feed::GetInstance()->Update_White(Feed::FEEDIN);
+			PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(TRUE);
+
+			if (Feed::GetInstance()->GetAlpha() >= 1.0f)
 			{
-				Feed::GetInstance()->Update_White(Feed::FEEDIN);
-				PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(TRUE);
+				PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(FALSE);
 
-				if (Feed::GetInstance()->GetAlpha() >= 1.0f)
-				{
-					PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(FALSE);
-
-					SceneManager::GetInstance()->SetScene(SceneManager::BOSS,sceneManager_);
-				}
+				SceneManager::GetInstance()->SetScene(SceneManager::BOSS, sceneManager_);
 			}
-
+		}
+	}
 }
 
 /*------------------------*/
@@ -167,7 +170,6 @@ void PlayScene::ChangeSceneJudg()
 /*-----------------------*/
 void PlayScene::MyGameDraw()
 {
-	
 }
 
 /*------------------------*/
@@ -197,22 +199,30 @@ void PlayScene::Draw()
 		postEffect->PostDrawScene();
 
 		DirectXCommon::GetInstance()->BeginDraw();
-		if (Field::GetInstance() != nullptr) {
+		if (Field::GetInstance() != nullptr)
+		{
 			Field::GetInstance()->Draw();
 			for (int i = 0; i < AllObjectControl.size(); i++)
 			{
-				if (AllObjectControl[i] == nullptr)continue;
+				if (AllObjectControl[i] == nullptr)
+				{
+					continue;
+				}
 				AllObjectControl[i]->Draw();
 			}
 		}
 		PlayerControl::GetInstance()->GetPlayer()->ParticleDraw();
 
 		DropWeapon::GtIns()->Draw();
-		//postEffect->Draw();
+	//postEffect->Draw();
 		Task::GetInstance()->TargetDraw();
 		PlayerControl::GetInstance()->DamageTexDraw();
-		for (int i = 0; i < EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE).size(); i++) {
-			if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i] == nullptr)continue;
+		for (int i = 0; i < EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE).size(); i++)
+		{
+			if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i] == nullptr)
+			{
+				continue;
+			}
 			EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i]->DamageTexDisplay_Draw();
 		}
 

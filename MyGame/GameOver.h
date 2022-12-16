@@ -2,15 +2,15 @@
 #include "BaseScene.h"
 #include"Sprite.h"
 #include<memory>
+
 class GameOver :
 	public BaseScene
 {
 public:
 	GameOver(SceneManager* sceneManager);
 private:
-
 public:
-	std::unique_ptr<Sprite>GameOverTex;
+	std::unique_ptr<Sprite> GameOverTex;
 	float TexAlpha;
 public:
 	void Initialize() override;
@@ -19,4 +19,3 @@ public:
 	void SpriteDraw();
 	void Finalize() override;
 };
-

@@ -10,7 +10,6 @@ void BossEnemyAttackCircle::Initialize(Enemy* enmey)
 
 void BossEnemyAttackCircle::Update(Enemy* enemy)
 {
-
 	enemy->SetRecvDamage2(false);
 	enemy->SetRoarMotion(true);
 	CircleAttack::GetInstance()->ActionJudg();

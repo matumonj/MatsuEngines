@@ -40,13 +40,13 @@ void EnemyAlpha::Initialize(DebugCamera* camera)
 	m_fbxObject->PlayAnimation();
 
 	//パラメータのセット
-	
+
 	MaxHP = 100.00f;
 	EnemyHP = MaxHP;
 	Rotation = {-110, 0, 0};
 	Scale = {0.05f, 0.05f, 0.05f};
 	radius_adjustment = 0;
-	
+
 	SetCollider();
 	//fbxアニメーション時間の設定
 	NormalAttackTime = 1.5f;
@@ -55,11 +55,11 @@ void EnemyAlpha::Initialize(DebugCamera* camera)
 	nowAttack = false;
 	nowDeath = false;
 	m_fbxObject->SetColor({1, 0, 0, alpha});
-	
+
 	addRotRadians = -180;
 	FollowRotAngleCorrect = 0;
 	//タスク用敵の種類
-	ENumber = EnemyNumber::FLOG;
+	ENumber = FLOG;
 	//状態初期化
 	state_mob->Initialize(this);
 }
@@ -133,8 +133,8 @@ void EnemyAlpha::Death()
 
 void EnemyAlpha::EnemyHPDraw()
 {
-
 }
+
 void EnemyAlpha::FbxAnimationControl()
 {
 	//1フレーム進める

@@ -65,7 +65,7 @@ void Tutorial::Initialize()
 	SistemConfig::GetInstance()->Initialize();
 
 	SelectSword::GetInstance()->Initialize();
-	
+
 	Sprite::LoadTexture(0, L"Resources/2d/LevelUp/debugfont.png");
 	DebugTextSprite::GetInstance()->Initialize(0);
 }
@@ -158,17 +158,17 @@ void Tutorial::Update()
 	lightGroup->SetCircleShadowFactorAngle(1, XMFLOAT2(circleShadowFactorAngle));
 	// BossMap::GetInstance()->Upda();
 
-if (scenechange && Feed::GetInstance()->GetAlpha() >= 1.0f)
+	if (scenechange && Feed::GetInstance()->GetAlpha() >= 1.0f)
 	{
 		//‰æ–Ê^‚Á”’‚È‚Á‚½‚ç
 		Play = false;
-		SceneManager::GetInstance()->SetScene(SceneManager::PLAY,sceneManager_);
-		}
-if (Input::GetInstance()->TriggerButton(Input::RT)) {
-	//‰æ–Ê^‚Á”’‚È‚Á‚½‚ç
-	Play = false;
-	SceneManager::GetInstance()->SetScene(SceneManager::BOSS,sceneManager_);
-	
+		SceneManager::GetInstance()->SetScene(SceneManager::PLAY, sceneManager_);
+	}
+	if (Input::GetInstance()->TriggerButton(Input::RT))
+	{
+		//‰æ–Ê^‚Á”’‚È‚Á‚½‚ç
+		Play = false;
+		SceneManager::GetInstance()->SetScene(SceneManager::BOSS, sceneManager_);
 	}
 }
 
@@ -204,7 +204,7 @@ void Tutorial::Draw()
 
 		DirectXCommon::GetInstance()->BeginDraw();
 
-		//SistemConfig::GetInstance()->Draw();
+	//SistemConfig::GetInstance()->Draw();
 		DirectXCommon::GetInstance()->EndDraw();
 
 		break;
@@ -220,15 +220,16 @@ void Tutorial::Draw()
 		MyGameDraw();
 		PlayerControl::GetInstance()->GetPlayer()->ParticleDraw();
 		TutorialSprite::GetInstance()->DrawTargetPos();
-	
+
 	//postEffect->Draw();
 		Sprite::PreDraw();
-		if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr) {
+		if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr)
+		{
 			EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->DamageTexDisplay_Draw();
 		}
-		//BossMap::GetInstance()->Draw();
+	//BossMap::GetInstance()->Draw();
 
-			DebugTextSprite::GetInstance()->DrawAll();
+		DebugTextSprite::GetInstance()->DrawAll();
 		Sprite::PostDraw();
 		PlayerControl::GetInstance()->DamageTexDraw();
 		UI::GetInstance()->HUDDraw();
@@ -287,5 +288,4 @@ void Tutorial::Finalize()
 	AllObjectControl.clear();
 	Field::GetInstance()->Finalize();
 	Destroy(postEffect);
-	
 }

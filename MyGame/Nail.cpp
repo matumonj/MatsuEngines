@@ -119,7 +119,7 @@ void Nail::CircleAttack(int area1, int area2)
 		for (int i = 0; i < Nails.size(); i++)
 		{
 			CAttack.ZN[i] = rand() % 50 - 25;
-			CAttack.XN[i] = rand() % 50- 25;
+			CAttack.XN[i] = rand() % 50 - 25;
 			Nails[i]->SetPosition({
 				boss->GetPosition().x + static_cast<float>(CAttack.XN[i]), MinY,
 				boss->GetPosition().z + static_cast<float>(CAttack.ZN[i])
@@ -138,11 +138,11 @@ void Nail::CircleAttack(int area1, int area2)
 		{
 			CAttack.phase = PHASE_THREE; //出終わったら次のフェーズへ
 		}
-		
+
 		for (int i = 0; i < Nails.size(); i++)
 		{
 			Nails[i]->SetPosition({Nails[i]->GetPosition().x, MinY, Nails[i]->GetPosition().z});
-			Nails[i]->SetScale({1.5f, 3.0f+float(i) / 10.0f, 1.5f});
+			Nails[i]->SetScale({1.5f, 3.0f + static_cast<float>(i) / 10.0f, 1.5f});
 		}
 		break;
 	case PHASE_THREE:
@@ -202,7 +202,9 @@ void Nail::ModelSet()
 void Nail::Update()
 {
 }
+
 #include"imgui.h"
+
 void Nail::Draw()
 {
 	for (int i = 0; i < Nails.size(); i++)
@@ -217,8 +219,7 @@ void Nail::Draw()
 		ImGui::Text("posy %f", Nails[0]->GetPosition().y);
 	}
 		ImGui::End();*/
-
-	}
+}
 
 void Nail::Finalize()
 {

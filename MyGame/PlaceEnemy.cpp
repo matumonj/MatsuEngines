@@ -60,7 +60,7 @@ void PlaceEnemy::ArgMent(DebugCamera* camera)
 		newEnemy->Initialize(camera);
 		newEnemy->SetPosition(pos);
 		enemys.push_back(std::move(newEnemy));
-	
+
 		ArgmentFlag = false;
 		BossArgmentFlag = false;
 	}

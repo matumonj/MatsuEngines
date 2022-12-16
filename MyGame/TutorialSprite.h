@@ -2,6 +2,7 @@
 #include"Sprite.h"
 #include"Input.h"
 #include"Texture.h"
+
 class TutorialSprite
 {
 public:
@@ -23,6 +24,7 @@ private:
 	DirectX::XMFLOAT2 spos;
 	float movea;
 	float atacka;
+
 	enum CLEARTASK
 	{
 		MOVE_CHARA,

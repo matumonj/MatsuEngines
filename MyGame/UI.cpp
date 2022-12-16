@@ -7,6 +7,7 @@
 #include"Task.h"
 #include"DropWeapon.h"
 #include <SelectSword.h>
+
 UI* UI::GetInstance()
 {
 	static UI instance;
@@ -17,7 +18,6 @@ void UI::Initialize()
 {
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
 	{
-		
 	}
 	BossSpell::GetInstance()->Initialize();
 	HUD::GetInstance()->Initialize();
@@ -29,7 +29,6 @@ void UI::Initialize()
 	}
 	DropWeapon::GtIns()->Init();
 	Task::GetInstance()->Init();
-
 }
 
 void UI::HUDUpdate(bool& hudload, DebugCamera* camera)

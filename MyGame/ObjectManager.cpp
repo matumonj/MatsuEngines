@@ -99,24 +99,31 @@ void ObjectManager::CollisionField(DebugCamera* camera)
 	RaycastHit raycastHit;
 
 	// 接地状態
-	if (onGround) {
+	if (onGround)
+	{
 		// スムーズに坂を下る為の吸着距離
 		const float adsDistance = 1.2f;
 		// 接地を維持
-		if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit, sphereCollider->GetRadius() * 2.5f + adsDistance)) {
+		if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit,
+		                                             sphereCollider->GetRadius() * 2.5f + adsDistance))
+		{
 			onGround = true;
 			Position.y -= (raycastHit.distance - sphereCollider->GetRadius() * 3.0f);
 		}
 		// 地面がないので落下
-		else {
+		else
+		{
 			onGround = false;
 			fallV = {};
 		}
 	}
 	// 落下状態
 
-	else if (fallV.m128_f32[1] <= 0.0f) {
-		if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit, sphereCollider->GetRadius() * 3.0f)) {
+	else if (fallV.m128_f32[1] <= 0.0f)
+	{
+		if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit,
+		                                             sphereCollider->GetRadius() * 3.0f))
+		{
 			// 着地
 			onGround = true;
 			Position.y -= (raycastHit.distance - sphereCollider->GetRadius() * 3.0f);
@@ -124,7 +131,6 @@ void ObjectManager::CollisionField(DebugCamera* camera)
 	}
 
 
-	
 	m_Object->Update({1, 1, 1, 1}, camera);
 }
 
@@ -140,13 +146,13 @@ void ObjectManager::ParameterSet_Obj(DebugCamera* camera)
 
 void ObjectManager::ParameterSet_Fbx(DebugCamera* camera)
 {
-	m_fbxObject->SetPosition({Position.x, Position.y-1, Position.z});
+	m_fbxObject->SetPosition({Position.x, Position.y - 1, Position.z});
 
 	m_fbxObject->SetRotation(Rotation);
 	m_fbxObject->SetScale(Scale);
-	
-		m_Object->SetPosition(Position);
-	
+
+	m_Object->SetPosition(Position);
+
 	//m_fbxObject->SetColor({1,1,1,1});
 	m_fbxObject->Updata(true);
 }

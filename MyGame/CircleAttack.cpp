@@ -24,10 +24,10 @@ void CircleAttack::Initialize()
 {
 	Texture::LoadTexture(23, L"Resources/2d/icon/enemyicon.png");
 
-		ImpactAreaTex= Texture::Create(23, {0.0f, 0.0f, 0.0f}, {100.0f, 100.0f, 1.0f}, {1.0f, 1.0f, 1.0f, 1.0f});
-		ImpactAreaTex->CreateTexture();
-		ImpactAreaTex->SetAnchorPoint({0.5f, 0.5f});
-	
+	ImpactAreaTex = Texture::Create(23, {0.0f, 0.0f, 0.0f}, {100.0f, 100.0f, 1.0f}, {1.0f, 1.0f, 1.0f, 1.0f});
+	ImpactAreaTex->CreateTexture();
+	ImpactAreaTex->SetAnchorPoint({0.5f, 0.5f});
+
 	Direction[NORTH] = {0.0f, 0.0f, 60.0f};
 	Direction[SOUTH] = {0.0f, 0.0f, -60.0f};
 	Direction[EAST] = {60.0f, 0.0f, 0.0f};
@@ -36,7 +36,7 @@ void CircleAttack::Initialize()
 
 void CircleAttack::ActionJudg()
 {
-	Enemy*boss=EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0].get();
+	Enemy* boss = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0].get();
 	switch (phase)
 	{
 	case PHASENON:
@@ -54,7 +54,7 @@ void CircleAttack::ActionJudg()
 		ProtrudeNail();
 		break;
 	case PHASEFOUR:
-		
+
 		//攻撃終了です
 		EndAttackAction();
 		break;
@@ -67,13 +67,13 @@ void CircleAttack::ActionJudg()
 		rotY = 0.0f;
 	}
 	//ダメージエリアテクスチャの各種パラメータ
-	
-		ImpactAreaTex->Update(CameraControl::GetInstance()->GetCamera());
-		ImpactAreaTex->SetScale({CircleSize.x, CircleSize.y, 3.0f});
-		ImpactAreaTex->SetRotation({90.0f, 0.0f, rotY});
-		ImpactAreaTex->SetColor({1.0f, 1.0f, 1.0f, TexAlpha});
-	
-	ImpactAreaTex->SetPosition({boss->GetPosition().x, 18,boss->GetPosition().z });
+
+	ImpactAreaTex->Update(CameraControl::GetInstance()->GetCamera());
+	ImpactAreaTex->SetScale({CircleSize.x, CircleSize.y, 3.0f});
+	ImpactAreaTex->SetRotation({90.0f, 0.0f, rotY});
+	ImpactAreaTex->SetColor({1.0f, 1.0f, 1.0f, TexAlpha});
+
+	ImpactAreaTex->SetPosition({boss->GetPosition().x, 18, boss->GetPosition().z});
 
 	//釘オブジェの更新
 	for (int i = 0; i < NailObj.size(); i++)
@@ -87,12 +87,10 @@ void CircleAttack::ActionJudg()
 
 void CircleAttack::Draw()
 {
-	
-
 	Texture::PreDraw();
-	
+
 	ImpactAreaTex->Draw();
-	
+
 	Texture::PostDraw();
 	for (int i = 0; i < NailObj.size(); i++)
 	{
@@ -120,8 +118,8 @@ void CircleAttack::PierceNail()
 {
 	TexAlpha = 1.0f;
 	BossSpell::GetInstance()->SetStartSpell(BossSpell::CIRCLE, true);
-	
-	
+
+
 	//釘生成
 	NailObj.resize(1);
 	for (int i = 0; i < NailObj.size(); i++)
@@ -133,16 +131,16 @@ void CircleAttack::PierceNail()
 	}
 	//ビルボード切る(標準がtrueなので、、)
 	ImpactAreaTex->SetBillboard(false);
-	
+
 	//Direction.y->釘のY座標と同じ
 	if (Direction[Area1].y > -17.0f)
 	{
 		Direction[Area1].y--;
 		Direction[Area2].y--;
 	}
-	else {
+	else
+	{
 		phase = PHASETWO;
-
 	}
 	//座標合わせる
 	NailObj[0]->SetPosition(Direction[Area1]);
@@ -184,10 +182,10 @@ void CircleAttack::ProtrudeNail()
 
 	NailObj[0]->SetPosition(Direction[Area1]);
 	TexAlpha -= 0.01f;
-		if (Nail::GetInstance()->GetEndAction_Circle()) {
-			phase = PHASEFOUR;
-		}
-	
+	if (Nail::GetInstance()->GetEndAction_Circle())
+	{
+		phase = PHASEFOUR;
+	}
 }
 
 void CircleAttack::EndAttackAction()
@@ -264,7 +262,7 @@ void BomAttack::Setting_DamageArea()
 	BossPos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
 
 	XMVECTOR move = {0.0f, 0.0f, 0.1f, 0.0f};
-	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(BossRotY -70));
+	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(BossRotY - 70));
 	move = XMVector3TransformNormal(move, matRot);
 	CenterPosi[0].x = BossPos.x + move.m128_f32[0] * 10;
 
@@ -416,7 +414,7 @@ void BomAttack::Draw()
 
 	Texture::PostDraw();
 
-	
+
 	////ImGui::Text("CenPs%f", CenterPosi[2].z);
 	//ImGui::Text("Phase%f", BossPos.z);
 	//ImGui::End();

@@ -9,7 +9,6 @@ void BossEnemyAttackHalf::Initialize(Enemy* enmey)
 
 void BossEnemyAttackHalf::Update(Enemy* enemy)
 {
-
 	enemy->SetRecvDamage2(false);
 	HalfAttack::GetInstance()->ActionJudg();
 	enemy->SetRoarMotion(true);
@@ -18,7 +17,7 @@ void BossEnemyAttackHalf::Update(Enemy* enemy)
 	{
 		enemy->SetAttack_End(enemy->HALF_1, true);
 	}
-	
+
 	//半面攻撃のフェーズが最後まで行ったらボスのstateを追跡に
 	if (HalfAttack::GetInstance()->GetPhaseEnd() == HalfAttack::PHASEFOUR)
 	{

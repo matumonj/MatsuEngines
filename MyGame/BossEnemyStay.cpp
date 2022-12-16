@@ -16,9 +16,9 @@ void BossEnemyStay::Update(Enemy* enemy)
 	else
 	{
 		enemy->SetRoarMotion(true);
-		if (enemy->GetFbxTime() >= enemy->GetRoarTime_End()) {
+		if (enemy->GetFbxTime() >= enemy->GetRoarTime_End())
+		{
 			enemy->ChangeState_Boss(new BossEnemyFollow());
 		}
 	}
-
 }

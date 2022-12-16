@@ -23,9 +23,9 @@ void FenceControl::Init_Tutorial(DebugCamera* camera)
 	Tutorialfence[0]->SetScale({8.39f, 10.0f, 4.0f});
 	BossGate = std::make_unique<AreaFence>();
 	BossGate->Initialize(camera);
-	BossGate->SetPosition({ 17.0f, -35.0f, 852.0f });
-	BossGate->SetRotation({ 0.0f, 0.0f, 0.0f });
-	BossGate->SetScale({ 8.39f, 10.0f, 4.0f });
+	BossGate->SetPosition({17.0f, -35.0f, 852.0f});
+	BossGate->SetRotation({0.0f, 0.0f, 0.0f});
+	BossGate->SetScale({8.39f, 10.0f, 4.0f});
 }
 
 void FenceControl::Init_Play(DebugCamera* camera)
@@ -174,8 +174,8 @@ void FenceControl::Update_Tutorial(DebugCamera* camera) //チュートリアル時
 
 void FenceControl::Update_Play(DebugCamera* camera) //プレイシーン時
 {
-	BossGateOpen = Task::GetInstance()->GetAllTaskClear() == TRUE&&
-		CameraControl::GetInstance()->GetMoveBosAreaCam()==CameraControl::TARGETPLAYER;
+	BossGateOpen = Task::GetInstance()->GetAllTaskClear() == TRUE &&
+		CameraControl::GetInstance()->GetMoveBosAreaCam() == CameraControl::TARGETPLAYER;
 
 	for (int i = 0; i < Quantity; i++)
 	{
@@ -185,14 +185,13 @@ void FenceControl::Update_Play(DebugCamera* camera) //プレイシーン時
 		}
 	}
 	//チュートリアルエリアの柵が開く条件
-	
+
 	if (BossGate != nullptr)
 	{
 		BossGate->Update(camera);
-		BossGate->SetColor({ 1.0f, 0.0f, 0.0f, 1.0f });
+		BossGate->SetColor({1.0f, 0.0f, 0.0f, 1.0f});
 	}
 	BossGate->FenceOpenCondition(BossGateOpen);
-
 }
 
 void FenceControl::Update_Boss(DebugCamera* camera)

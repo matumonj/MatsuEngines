@@ -54,7 +54,7 @@ void CameraControl::ParamSet()
 	elapsedTime = 0.0f;
 	bCamera = BOSSCUTSTART;
 	sCamera = PLAYCUTSTART;
-	mCamera = BossAreaCamera::NON; //NON;
+	mCamera = NON; //NON;
 	Tstate = PLAYER;
 	this->camera = new DebugCamera(WinApp::window_width, WinApp::window_height); //(/*input*/);
 	input = Input::GetInstance();
@@ -126,20 +126,20 @@ void CameraControl::Init_Play(DebugCamera* camera)
 				std::getline(line_stream, word, ',');
 				float z = static_cast<float>(std::atof(word.c_str()));
 
-				pos[i] = { x, y, z };
+				pos[i] = {x, y, z};
 				break;
 			}
 		}
 	}
-	points.push_back({ pos[0].x, pos[0].y, pos[0].z });
-	points.push_back({ pos[0].x, pos[0].y, pos[0].z });
+	points.push_back({pos[0].x, pos[0].y, pos[0].z});
+	points.push_back({pos[0].x, pos[0].y, pos[0].z});
 	for (int i = 1; i < Quantity - 1; i++)
 	{
-		points.push_back({ pos[i].x, pos[i].y, pos[i].z });
+		points.push_back({pos[i].x, pos[i].y, pos[i].z});
 	}
 	int quantity_end = Quantity - 1;
-	points.push_back({ pos[quantity_end].x, pos[quantity_end].y, pos[quantity_end].z });
-	points.push_back({ pos[quantity_end].x, pos[quantity_end].y, pos[quantity_end].z });
+	points.push_back({pos[quantity_end].x, pos[quantity_end].y, pos[quantity_end].z});
+	points.push_back({pos[quantity_end].x, pos[quantity_end].y, pos[quantity_end].z});
 
 	//Load_ChestPosition.resize(Quantity);
 	this->camera->SetEye(pos[0]);
@@ -231,7 +231,7 @@ void CameraControl::TargetPlayer()
 		}
 	}
 
-	this->camera->SetTarget({ PlayerControl::GetInstance()->GetPlayer()->GetPosition() });
+	this->camera->SetTarget({PlayerControl::GetInstance()->GetPlayer()->GetPosition()});
 	if (input->TiltPushStick(Input::R_RIGHT) || input->TiltPushStick(Input::R_LEFT))
 	{
 		if (input->TiltPushStick(Input::R_RIGHT))
@@ -253,20 +253,21 @@ void CameraControl::TargetPlayer()
 	}
 	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 	//	camera->SetTarget(player_shadow->GetCameraPos(angle));
-	CameraPosition = { ppos.x + distance.x, ppos.y + 6.0f, ppos.z + distance.y };
+	CameraPosition = {ppos.x + distance.x, ppos.y + 6.0f, ppos.z + distance.y};
 	camera->SetEye(CameraPosition);
 
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
 	{
-		if (Task::GetInstance()->GetAllTaskClear()&& FenceControl::GetInstance()->GetBossGateFence()->FenceYposMin() == FALSE)
+		if (Task::GetInstance()->GetAllTaskClear() && FenceControl::GetInstance()->GetBossGateFence()->FenceYposMin() ==
+			FALSE)
 		{
 			Tstate = MOVEBOSSAREA;
 		}
 	}
-	if(Tstate==PLAYER)
+	if (Tstate == PLAYER)
 	{
-		rCamera = RushAttackCamera::NON_RUSH;
-		mCamera =BossAreaCamera::NON;
+		rCamera = NON_RUSH;
+		mCamera = NON;
 	}
 	//}
 }
@@ -280,55 +281,57 @@ void CameraControl::TargetBossField()
 	switch (mCamera)
 	{
 	case NON:
-		if (FenceControl::GetInstance()->GetBossGateFence()->FenceYposMin() == FALSE) {
+		if (FenceControl::GetInstance()->GetBossGateFence()->FenceYposMin() == FALSE)
+		{
 			mCamera = FEED_BOSS;
 		}
 		break;
 	case FEED_BOSS:
 		Feed::GetInstance()->Update_Black(Feed::FEEDIN);
 		this->camera->SetTarget(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
-		if(Feed::GetInstance()->GetAlpha()>=1.0f)
+		if (Feed::GetInstance()->GetAlpha() >= 1.0f)
 		{
-			CameraPosition = { 17.0f, 15.0f, 802.0f };
+			CameraPosition = {17.0f, 15.0f, 802.0f};
 
 			mCamera = TARGETFENCE;
 		}
 		break;
 	case TARGETFENCE:
-		CameraPosition = { 17.0f, -30.0f, 720.0f };
+		CameraPosition = {17.0f, -30.0f, 720.0f};
 
-		this->camera->SetTarget({ 17.0f, -35.0f, 832.0f });
-		
-			Feed::GetInstance()->Update_Black(Feed::FEEDOUT);
-		
+		this->camera->SetTarget({17.0f, -35.0f, 832.0f});
+
+		Feed::GetInstance()->Update_Black(Feed::FEEDOUT);
+
 		if (Feed::GetInstance()->GetAlpha() <= 0.0f)
 		{
-			
 			mCamera = TARGETPLAYER;
 		}
 		break;
 	case TARGETPLAYER:
-		CameraPosition = { 17.0f, -30.0f, 720.0f };
+		CameraPosition = {17.0f, -30.0f, 720.0f};
 
-		this->camera->SetTarget({ 17.0f, -35.0f, 832.0f });
+		this->camera->SetTarget({17.0f, -35.0f, 832.0f});
 
 		if (FenceControl::GetInstance()->GetBossGateFence()->FenceYposMin() == TRUE)
 		{
 			Feed::GetInstance()->Update_Black(Feed::FEEDIN);
 		}
-		if(Feed::GetInstance()->GetAlpha() >=1.0f)
+		if (Feed::GetInstance()->GetAlpha() >= 1.0f)
 		{
 			mCamera = END_BOSS;
 		}
 		break;
 	case END_BOSS:
-	//	if (FenceControl::GetInstance()->GetBossGateFence()->FenceYposMin() == TRUE)
+		//	if (FenceControl::GetInstance()->GetBossGateFence()->FenceYposMin() == TRUE)
 		if (Feed::GetInstance()->GetAlpha() > 0.0f)
 		{
-			if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), { 17, -35, 800 }) >= 50) {
+			if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), {17, -35, 800}) >= 50)
+			{
 				Feed::GetInstance()->Update_Black(Feed::FEEDOUT);
 			}
-		}else
+		}
+		else
 		{
 			Tstate = PLAYER;
 		}
@@ -341,7 +344,6 @@ void CameraControl::TargetBossField()
 
 void CameraControl::BossDeathStart()
 {
-
 }
 
 void (CameraControl::* CameraControl::targetTable[])() = {
@@ -394,15 +396,15 @@ void CameraControl::BossSceneStart()
 	XMFLOAT3 BossPos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
 	if (point.size() == 0)
 	{
-		point.push_back({ BossPos.x, BossPos.y + 100.0f, BossPos.z - 10.0f });
-		point.push_back({ BossPos.x, BossPos.y + 100.0f, BossPos.z - 10.0f }); //上から
-		point.push_back({ BossPos.x, BossPos.y + 100.0f, BossPos.z - 50.0f }); //下へ
-		point.push_back({ BossPos.x, BossPos.y + 60.0f, BossPos.z - 10.0f }); //から右
-		point.push_back({ BossPos.x + 20.0f, BossPos.y + 40.0f, BossPos.z + 10.0f }); //後ろ回って
-		point.push_back({ BossPos.x + 0.0f, BossPos.y + 40.0f, BossPos.z + 30.0f }); //左くる
-		point.push_back({ BossPos.x - 20.0f, BossPos.y + 40.0f, BossPos.z + 10.0f });
-		point.push_back({ BossPos.x, BossPos.y + 40.0f, BossPos.z - 20.0f });
-		point.push_back({ BossPos.x, BossPos.y + 40.0f, BossPos.z - 20.0f });
+		point.push_back({BossPos.x, BossPos.y + 100.0f, BossPos.z - 10.0f});
+		point.push_back({BossPos.x, BossPos.y + 100.0f, BossPos.z - 10.0f}); //上から
+		point.push_back({BossPos.x, BossPos.y + 100.0f, BossPos.z - 50.0f}); //下へ
+		point.push_back({BossPos.x, BossPos.y + 60.0f, BossPos.z - 10.0f}); //から右
+		point.push_back({BossPos.x + 20.0f, BossPos.y + 40.0f, BossPos.z + 10.0f}); //後ろ回って
+		point.push_back({BossPos.x + 0.0f, BossPos.y + 40.0f, BossPos.z + 30.0f}); //左くる
+		point.push_back({BossPos.x - 20.0f, BossPos.y + 40.0f, BossPos.z + 10.0f});
+		point.push_back({BossPos.x, BossPos.y + 40.0f, BossPos.z - 20.0f});
+		point.push_back({BossPos.x, BossPos.y + 40.0f, BossPos.z - 20.0f});
 	}
 	switch (bCamera)
 	{
@@ -424,7 +426,9 @@ void CameraControl::BossSceneStart()
 	case BOSSCUTEND:
 
 		AttackSceneF = true;
-		if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetFbxTime() > EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetRoarTime_End()-2.8f) {
+		if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetFbxTime() > EnemyControl::GetInstance()->
+			GetEnemy(EnemyControl::BOSS)[0]->GetRoarTime_End() - 2.8f)
+		{
 			CameraPosition.z -= 1.5f;
 		}
 		Feed::GetInstance()->Update_White(Feed::FEEDIN);
@@ -441,7 +445,7 @@ void CameraControl::BossSceneStart()
 	}
 
 
-	camera->SetTarget({ BossPos.x, BossPos.y + BCutCameraHeight, BossPos.z });
+	camera->SetTarget({BossPos.x, BossPos.y + BCutCameraHeight, BossPos.z});
 	camera->SetEye(CameraPosition);
 }
 
@@ -460,15 +464,18 @@ void CameraControl::BossCutScene_Spline()
 			timerate -= 1;
 
 			startCount = static_cast<float>(GetTickCount64());
-		} else
+		}
+		else
 		{
 			timerate = 1;
 		}
 	}
-	if (startindex < 7) {
+	if (startindex < 7)
+	{
 		CameraPosition = {
 			SplinePosition(point, startindex, timerate).m128_f32[0],
-			SplinePosition(point, startindex, timerate).m128_f32[1], SplinePosition(point, startindex, timerate).m128_f32[2]
+			SplinePosition(point, startindex, timerate).m128_f32[1],
+			SplinePosition(point, startindex, timerate).m128_f32[2]
 		};
 	}
 }
@@ -484,7 +491,7 @@ void CameraControl::BossCutScene_Start(XMFLOAT3 BossPos)
 	{
 		bCamera = CAMERADOWN;
 	}
-	CameraPosition = { BossPos.x, BossPos.y + 100.0f, BossPos.z - 10.0f };
+	CameraPosition = {BossPos.x, BossPos.y + 100.0f, BossPos.z - 10.0f};
 }
 
 /*------------------------*/
@@ -519,7 +526,8 @@ void CameraControl::PlaySceneStart()
 				timerate -= 1;
 
 				startCount = static_cast<float>(GetTickCount64());
-			} else
+			}
+			else
 			{
 				timerate = 1;
 			}
@@ -529,13 +537,14 @@ void CameraControl::PlaySceneStart()
 			SplinePosition(points, startindex, timerate).m128_f32[0],
 			SplinePosition(points, startindex, timerate).m128_f32[1],
 			SplinePosition(points, startindex, timerate).m128_f32[2]
-			});
+		});
 
-		//カメラが一定距離近づいたらフェード
+	//カメラが一定距離近づいたらフェード
 		if (Collision::GetLength(camera->GetEye(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 30.0f)
 		{
 			Feed::GetInstance()->Update_Black(Feed::FEEDIN);
-		} else
+		}
+		else
 		{
 			Feed::GetInstance()->Update_Black(Feed::FEEDOUT);
 		}
@@ -559,7 +568,7 @@ void CameraControl::PlaySceneStart()
 	default:
 		break;
 	}
-	this->camera->SetTarget({ PlayerControl::GetInstance()->GetPlayer()->GetPosition() });
+	this->camera->SetTarget({PlayerControl::GetInstance()->GetPlayer()->GetPosition()});
 }
 
 /*------------------------*/
@@ -573,7 +582,7 @@ void CameraControl::ShakeCamera()
 	}
 	if (shaketime != 0)
 	{
-		shake = static_cast<float>(rand() % 5- 2);
+		shake = static_cast<float>(rand() % 5 - 2);
 		shakex = static_cast<float>(rand() % 5 - 2);
 		shakey = static_cast<float>(rand() % 5 - 2);
 		shakex -= shake;
@@ -581,51 +590,58 @@ void CameraControl::ShakeCamera()
 		shaketime--;
 		//}
 		//シェイク値を０に
-	} else if (shaketime == 0.0f)
+	}
+	else if (shaketime == 0.0f)
 	{
 		shakex = 0.0f;
 		shakey = 0.0f;
 	}
-	camera->SetEye({ CameraPosition.x + shakex, CameraPosition.y + shakey, CameraPosition.z });
+	camera->SetEye({CameraPosition.x + shakex, CameraPosition.y + shakey, CameraPosition.z});
 }
 
 void CameraControl::RushTargetBoss()
 {
 	Enemy* boss = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0].get();
 
-	if (rCamera == RushAttackCamera::NON_RUSH) {
+	if (rCamera == NON_RUSH)
+	{
 		OldPos = camera->GetEye();
-		OldTarget= camera->GetTarget();
-	
+		OldTarget = camera->GetTarget();
+
 		PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(true);
-		rCamera = RushAttackCamera::UPBOSS;
+		rCamera = UPBOSS;
 	}
-	if (rCamera == RushAttackCamera::UPBOSS) {
+	if (rCamera == UPBOSS)
+	{
 		rCameraEtime += 0.01f;
-		if (rCameraEtime < 1.0f) {
-			
+		if (rCameraEtime < 1.0f)
+		{
 			TargetPos.x = Easing::EaseOut(rCameraEtime, OldTarget.x, boss->GetPosition().x);
-			TargetPos.y = Easing::EaseOut(rCameraEtime, OldTarget.y, OldTarget.y+5);
+			TargetPos.y = Easing::EaseOut(rCameraEtime, OldTarget.y, OldTarget.y + 5);
 
 			TargetPos.z = Easing::EaseOut(rCameraEtime, OldTarget.z, boss->GetPosition().z);
 		}
-		else if(rCameraEtime>2.0f){
-			rCamera= RushAttackCamera::RETURNPLAYER;
+		else if (rCameraEtime > 2.0f)
+		{
+			rCamera = RETURNPLAYER;
 		}
 	}
-	if (rCamera == RushAttackCamera::RETURNPLAYER) {
+	if (rCamera == RETURNPLAYER)
+	{
 		rCameraEtime -= 0.01f;
 
-		if (rCameraEtime >0.0f) {
+		if (rCameraEtime > 0.0f)
+		{
 			TargetPos.y = Easing::EaseOut(rCameraEtime, OldTarget.y, OldTarget.y + 5);
 
 			TargetPos.x = Easing::EaseOut(rCameraEtime, OldTarget.x, boss->GetPosition().x);
 			TargetPos.z = Easing::EaseOut(rCameraEtime, OldTarget.z, boss->GetPosition().z);
-		} else {
+		}
+		else
+		{
 			PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(false);
 
 			Tstate = PLAYER;
-		
 		}
 	}
 

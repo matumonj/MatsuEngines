@@ -48,7 +48,7 @@ public:
 
 	void AttackCoolTime() override;
 	void FbxAnimationControl() override;
-	void EnemyHPDraw()override;
+	void EnemyHPDraw() override;
 	void Death() override;
 	//bool GetArmonGround() { return ArmonGround; }
 private:
@@ -81,6 +81,7 @@ private:
 		RSIDEWALK,
 		DEATH
 	};
+
 	NowAttackMotion nowMotion = NON;
 	void SetMotion(bool& motionStartJudg, NowAttackMotion motion, float actionStartTime, float actionEndTime);
 private:
@@ -94,5 +95,4 @@ private:
 	XMFLOAT3 WeaponRot;
 	std::unique_ptr<Object3d> Sword;
 	XMFLOAT3 swordrot;
-
 };

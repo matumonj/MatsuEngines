@@ -35,8 +35,8 @@ void BossEnemy::Initialize(DebugCamera* camera)
 	MaxHP = 260.0f;
 	EnemyHP = MaxHP;
 
-	Scale = { 0.15f, 0.1f, 0.15f };
-	Rotation = { 96.0f, 0.0f, -101.0f };
+	Scale = {0.15f, 0.1f, 0.15f};
+	Rotation = {96.0f, 0.0f, -101.0f};
 
 	m_fbxObject = std::make_unique<f_Object3d>();
 	m_fbxObject->Initialize();
@@ -60,7 +60,7 @@ void BossEnemy::Initialize(DebugCamera* camera)
 	SwingTime = 1078.00f / 60.00f;
 	SwingTime_End =
 
-		SideWalk_LeftTime = 640.00f * 2.00f / 60.00f;;
+		SideWalk_LeftTime = 640.00f * 2.00f / 60.00f;
 	SideWalk_LeftTime_End = 676.00f * 2.00f / 60.0f;
 
 	SideWalk_RightTime = 680.00f * 2.00f / 60.00f;
@@ -94,7 +94,7 @@ void BossEnemy::Update(DebugCamera* camera)
 	FbxAnimationControl();
 	//座標やスケールの反映
 
-	m_fbxObject->SetColor({ 1.0f, 1.0f, 1.0f, alpha });
+	m_fbxObject->SetColor({1.0f, 1.0f, 1.0f, alpha});
 	ParameterSet_Fbx(camera);
 	//攻撃後のクールタイム設定
 	AttackCoolTime();
@@ -102,21 +102,20 @@ void BossEnemy::Update(DebugCamera* camera)
 	CollisionField(camera);
 	//攻撃受けたらパーティクル
 	DamageParticleSet();
-	m_fbxObject->SetFogPos({ camera->GetEye() });
+	m_fbxObject->SetFogPos({camera->GetEye()});
 	m_fbxObject->SetHandBoneIndex(80);
 	m_fbxObject->SetFbxTime(f_time);
-
 }
 
 void BossEnemy::AttackCollide()
 {
 	HandSiteOBB.SetOBBParam_Pos(m_fbxObject->ExtractPositionMat(m_fbxObject->GetHandBoneMatWorld()));
 	HandSiteOBB.SetOBBParam_Rot(m_fbxObject->ExtractRotationMat(m_fbxObject->GetHandBoneMatWorld()));
-	HandSiteOBB.SetOBBParam_Scl({ 10.0f, 10.0f, 10.0f });
+	HandSiteOBB.SetOBBParam_Scl({10.0f, 10.0f, 10.0f});
 
 	playerOBB.SetOBBParam_Pos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
 	playerOBB.SetOBBParam_Rot(PlayerControl::GetInstance()->GetPlayer()->GetMatrot());
-	playerOBB.SetOBBParam_Scl({ 1.0f, 5.0f, 1.0f });
+	playerOBB.SetOBBParam_Scl({1.0f, 5.0f, 1.0f});
 
 
 	if (f_time >= NormalAttackTime + 1.0f)
@@ -126,16 +125,15 @@ void BossEnemy::AttackCollide()
 			PlayerControl::GetInstance()->GetPlayer()->RecvDamage(7);
 		}
 	}
-
 }
+
 void BossEnemy::EnemyHPDraw()
 {
-
 }
+
 //描画処理
 void BossEnemy::Draw()
 {
-	
 	if (alpha < 0)
 	{
 		return;
@@ -158,33 +156,40 @@ void BossEnemy::Death()
 		{
 			f_time = DeathMotionTime_Start;
 		}
-
 	}
-	if (f_time > m_fbxObject->GetEndTime()) {
+	if (f_time > m_fbxObject->GetEndTime())
+	{
 		alpha -= 0.01f;
 	}
 	CameraControl::GetInstance()->SetCameraState(CameraControl::RUSHSCENE);
 
 	f_time += 0.009f;
 
-	
+
 	movestop = false;
 }
 
 #include"PlayerAttackState.h"
+
 void BossEnemy::FbxAnimationControl()
 {
 	float fbxanimationTime;
-	if (DieFlag)return;
+	if (DieFlag)
+	{
+		return;
+	}
 	if (nowMotion == ROAR && f_time <= RoarTime + 0.2f)
 	{
 		fbxanimationTime = 0.006f;
 	}
-	else {
+	else
+	{
 		if (PlayerAttackState::GetInstance()->GetHitStopJudg())
 		{
 			fbxanimationTime = 0.002f;
-		} else {
+		}
+		else
+		{
 			fbxanimationTime = 0.015f;
 		}
 	}
@@ -200,13 +205,11 @@ void BossEnemy::FbxAnimationControl()
 	SetMotion(SwingFlag, SWING, SwingTime, SwingTime_End);
 	SetMotion(SideWalk_LeftMotionFlag, LSIDEWALK, SideWalk_LeftTime, SideWalk_LeftTime_End);
 	SetMotion(SideWalk_RightMotionFlag, RSIDEWALK, SideWalk_RightTime, SideWalk_RightTime_End);
-	
+
 	if (nowMotion == NON && f_time > NormalAttackTime)
 	{
 		f_time = 0.0f;
 	}
-	
-
 }
 
 void BossEnemy::SetMotion(bool& motionStartJudg, NowAttackMotion motion, float actionStartTime, float actionEndTime)
@@ -223,7 +226,6 @@ void BossEnemy::SetMotion(bool& motionStartJudg, NowAttackMotion motion, float a
 		AfterAttack = true;
 		nowMotion = NON;
 	}
-	
 }
 
 void BossEnemy::AttackCoolTime()
@@ -235,7 +237,8 @@ void BossEnemy::AttackCoolTime()
 		{
 			AfterAttack = false;
 		}
-	} else
+	}
+	else
 	{
 		cooltime = 0;
 	}

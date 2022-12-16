@@ -14,7 +14,6 @@ ExpPointSystem* ExpPointSystem::GetInstance()
 
 void ExpPointSystem::ExpPoint_Get(int point)
 {
-
 }
 
 void ExpPointSystem::ExpPoint_Los(int point)
@@ -40,33 +39,45 @@ void ExpPointSystem::Init()
 
 	BarPos = {381.0f, 862.0f};
 	BarFramePos = {122.0f, 830.0f};
-	BarScl = { Percent::GetParcent(EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetMaxHP(),
-			EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetHP()) * 15.35f, 51.0f };
-	BarFrameScl = { float(EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetMaxHP()) * 6.8f,117.0f };
-
+	BarScl = {
+		Percent::GetParcent(EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetMaxHP(),
+		                    EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetHP()) * 15.35f,
+		51.0f
+	};
+	BarFrameScl = {
+		static_cast<float>(EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetMaxHP()) * 6.8f, 117.0f
+	};
 }
 
 void ExpPointSystem::Upda()
 {
-
-	if (m_BossHPFrame == nullptr)return;
-	if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0] == nullptr)return;
-	if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetRecvDamage()) {
-		NowHP = Percent::GetParcent(EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetMaxHP(),
-			EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetHP());
-		m_EaseTime += 0.05f;
-		BarScl.x = Easing::EaseOut(m_EaseTime, OldHP*15.35f, NowHP*15.35f);
-
-		if (m_EaseTime >= 1.0f){
-			EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->SetRecvDamage(FALSE);
+	if (m_BossHPFrame == nullptr)
+	{
+		return;
 	}
-}
+	if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0] == nullptr)
+	{
+		return;
+	}
+	if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetRecvDamage())
+	{
+		NowHP = Percent::GetParcent(EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetMaxHP(),
+		                            EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetHP());
+		m_EaseTime += 0.05f;
+		BarScl.x = Easing::EaseOut(m_EaseTime, OldHP * 15.35f, NowHP * 15.35f);
 
-else {
+		if (m_EaseTime >= 1.0f)
+		{
+			EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->SetRecvDamage(FALSE);
+		}
+	}
+
+	else
+	{
 		OldHP = Percent::GetParcent(EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetMaxHP(),
-			EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetHP());
+		                            EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetHP());
 		m_EaseTime = 0.0f;
-}
+	}
 	expBarUpda();
 }
 
@@ -82,8 +93,10 @@ void ExpPointSystem::expBarUpda()
 
 void ExpPointSystem::Draw()
 {
-
-	if (m_BossHPFrame == nullptr)return;
+	if (m_BossHPFrame == nullptr)
+	{
+		return;
+	}
 	Sprite::PreDraw();
 
 	m_BossHP->Draw();

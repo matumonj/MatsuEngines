@@ -9,7 +9,6 @@ void BossEnemyAttackBeam::Initialize(Enemy* enmey)
 
 void BossEnemyAttackBeam::Update(Enemy* enemy)
 {
-
 	enemy->SetRecvDamage2(false);
 	AltAttack::GetInstance()->ActionJudg();
 

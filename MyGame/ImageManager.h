@@ -20,7 +20,7 @@ public:
 		PLAYERHPFRAME_INNER,
 		PLAYERHPFRAME_BORDER,
 		//“G‚Ì‘Ì—ÍŽü‚è
-		
+
 		BOSSENEMYHP1,
 
 		BOSSENEMYHPFRAME,
@@ -74,11 +74,10 @@ public:
 
 	void Init();
 	void Load2D();
-	void LoadTex2D(const tex2dName imageName, wchar_t* fileName);
+	void LoadTex2D(tex2dName imageName, wchar_t* fileName);
 	void Finalize();
 
 	Sprite* GetImage(tex2dName imageName) { return tex[imageName]; }
 private:
-
 	static std::map<tex2dName, Sprite*> tex; //ƒ‚ƒfƒ‹Ši”[ƒ}ƒbƒv
 };

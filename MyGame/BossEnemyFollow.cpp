@@ -17,6 +17,7 @@
 #include"BossEnemyAttackBeam.h"
 #include"BossEnemyEvasion.h"
 #include"Feed.h"
+
 void BossEnemyFollow::Initialize(Enemy* enmey)
 {
 }
@@ -25,13 +26,16 @@ void BossEnemyFollow::Initialize(Enemy* enmey)
 
 void BossEnemyFollow::Update(Enemy* enemy)
 {
-	if (Feed::GetInstance()->GetAlpha() > 0.0f)return;
+	if (Feed::GetInstance()->GetAlpha() > 0.0f)
+	{
+		return;
+	}
 	//追跡処理部分//////////
 	//索敵範囲
 	const float DetectionRange = 10.0f;
 	//プレイヤーが索敵範囲入ったら
 	bool SearchPlayer = Collision::GetLength(enemy->GetPosition(),
-		PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < DetectionRange;
+	                                         PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < DetectionRange;
 
 
 	//敵がプエレイヤーの方向く処理
@@ -40,14 +44,14 @@ void BossEnemyFollow::Update(Enemy* enemy)
 		PlayerControl::GetInstance()->GetPlayer()->GetPosition().y,
 		PlayerControl::GetInstance()->GetPlayer()->GetPosition().z
 	};
-	XMVECTOR positionB = { enemy->GetPosition().x, enemy->GetPosition().y, enemy->GetPosition().z };
+	XMVECTOR positionB = {enemy->GetPosition().x, enemy->GetPosition().y, enemy->GetPosition().z};
 	//プレイヤーと敵のベクトルの長さ(差)を求める
 	XMVECTOR SubVector = XMVectorSubtract(positionB, positionA); // positionA - positionB;
 
 	//角度の取得 プレイヤーが敵の索敵位置に入ったら向きをプレイヤーの方に
 	RotY = atan2f(SubVector.m128_f32[0], SubVector.m128_f32[2]);
 	//移動ベクトルをy軸周りの角度で回転
-	XMVECTOR move = { 0.0f, 0.0f, 0.1f, 0.0f };
+	XMVECTOR move = {0.0f, 0.0f, 0.1f, 0.0f};
 
 	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(enemy->GetRotation().y + enemy->GetRotRadians()));
 
@@ -56,13 +60,13 @@ void BossEnemyFollow::Update(Enemy* enemy)
 		enemy->GetRotation().x,
 		RotY * 60.0f + enemy->GetRotCorrect(),
 		enemy->GetRotation().z
-		});
+	});
 	if (Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) > 10)
 	{
 		enemy->SetPosition({
-				enemy->GetPosition().x + move.m128_f32[0]*5,
+				enemy->GetPosition().x + move.m128_f32[0] * 5,
 				enemy->GetPosition().y,
-				enemy->GetPosition().z + move.m128_f32[2]*5
+				enemy->GetPosition().z + move.m128_f32[2] * 5
 			}
 		);
 	}
@@ -77,13 +81,15 @@ void BossEnemyFollow::Update(Enemy* enemy)
 			enemy->ChangeState_Boss(new BossEnemyAttack());
 		}
 	}
-	if (enemy->GetRecvDamage2()){
-
+	if (enemy->GetRecvDamage2())
+	{
 		Evaprobability = rand() % 100 + 1;
 		if (Evaprobability > 10)
 		{
 			enemy->ChangeState_Boss(new BossEnemyFalter());
-		} else {
+		}
+		else
+		{
 			enemy->SetRecvDamage2(false);
 		}
 	}

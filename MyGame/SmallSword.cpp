@@ -506,7 +506,7 @@ void SmallSword::Slash::Draw()
 	Texture::PreDraw();
 	for (int i = 0; i < TexNum; i++)
 	{
-	//	InpactTex[i]->Draw();
+		//	InpactTex[i]->Draw();
 	}
 	Texture::PostDraw();
 }

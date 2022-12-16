@@ -45,7 +45,8 @@ void Enemy::RecvDamage(int Damage)
 	{
 	}
 	//PlayerAttackState::GetInstance()->SetHitStopJudg(TRUE);
-	std::unique_ptr<DamageManager>newdTex = std::make_unique<DamageManager>(XMFLOAT3(Position.x + rand() % 10 - 5, Position.y + rand() % 10 - 5, Position.z), Damage);
+	auto newdTex = std::make_unique<DamageManager>(
+		XMFLOAT3(Position.x + rand() % 10 - 5, Position.y + rand() % 10 - 5, Position.z), Damage);
 
 	dMans_.push_back(std::move(newdTex));
 
@@ -56,26 +57,32 @@ void Enemy::RecvDamage(int Damage)
 void Enemy::DamageTexDisplay()
 {
 	//ダメージスプライト生成
-	for (std::unique_ptr<DamageManager>& dTex : dMans_) {
-		dTex->DamageDisPlay(1, { 1,1,1,1 });
+	for (std::unique_ptr<DamageManager>& dTex : dMans_)
+	{
+		dTex->DamageDisPlay(1, {1, 1, 1, 1});
 	}
 
 	//アルファ値一定以下なったら破棄
-	dMans_.remove_if([](std::unique_ptr<DamageManager>& dTex) {
-		return dTex->GetAlpha() <= 0.1f; });
+	dMans_.remove_if([](std::unique_ptr<DamageManager>& dTex)
+	{
+		return dTex->GetAlpha() <= 0.1f;
+	});
 }
 
 void Enemy::DamageTexDisplay_Draw()
 {
-	if (this == nullptr)return;
-	for (std::unique_ptr<DamageManager>& dTex : dMans_) {
+	if (this == nullptr)
+	{
+		return;
+	}
+	for (std::unique_ptr<DamageManager>& dTex : dMans_)
+	{
 		dTex->Draw();
 	}
 }
 
 void Enemy::isRespawn()
 {
-	
 	//f_time = 0;
 	//DeathFlag = false;
 	//nowDeath = false;

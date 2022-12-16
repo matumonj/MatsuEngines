@@ -2,9 +2,10 @@
 #include"PlayerControl.h"
 #include"imgui.h"
 #include"ModelManager.h"
+
 NormalSword::~NormalSword()
 {
-//	m_Object.reset();
+	//	m_Object.reset();
 }
 
 void NormalSword::Initialize(DebugCamera* camera)

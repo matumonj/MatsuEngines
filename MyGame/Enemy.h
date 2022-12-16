@@ -36,11 +36,11 @@ public:
 
 public:
 	//初期化
-	virtual void Initialize(DebugCamera* camera) override=0;
+	void Initialize(DebugCamera* camera) override =0;
 	//更新処理
-	virtual void Update(DebugCamera* camera) override=0;
+	void Update(DebugCamera* camera) override =0;
 	//描画処理
-	virtual void Draw() override=0;
+	void Draw() override =0;
 	//死亡処理
 	virtual void Death() = 0;
 	//Fbx制御
@@ -52,7 +52,7 @@ public:
 
 	void DestroyJudg();
 
-	virtual void EnemyHPDraw()=0;
+	virtual void EnemyHPDraw() =0;
 protected:
 	//体力周り
 	float EnemyHP = 0.0f; //現在の体力
@@ -60,14 +60,14 @@ protected:
 	float OldHP = 0.0f; //前フレーム時の体力(HUDのイージング用)
 protected:
 	float alpha = 1.0f;
-	XMFLOAT3 RespawnPos = { 0.0f, 0.0f, 0.0f };
+	XMFLOAT3 RespawnPos = {0.0f, 0.0f, 0.0f};
 	bool RecvDamagef = false; //
 	bool RecvDamagef2 = false; //
 	bool RecvAttackHit = false;
 	bool DamageParticleCreateF = false; //攻撃受けた直後パーティクル発生フラg
 private:
 	bool MoveFlag = false;
-	XMFLOAT3 OldPos = { 0.0f, 0.0f, 0.0f };
+	XMFLOAT3 OldPos = {0.0f, 0.0f, 0.0f};
 	int DamageSize = 0;
 	XMFLOAT3 DamageTexPos = {};
 public:
@@ -210,12 +210,14 @@ protected: //攻撃の開始と終了判定用
 		bool start;
 		bool end;
 	};
+
 public:
 	enum EnemyNumber
 	{
 		GOLEM,
 		FLOG,
 	};
+
 protected:
 	int ENumber;
 	//攻撃数
@@ -279,5 +281,4 @@ protected:
 
 private:
 	std::list<std::unique_ptr<DamageManager>> dMans_;
-
 };

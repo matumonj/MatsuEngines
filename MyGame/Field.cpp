@@ -61,9 +61,8 @@ void Field::Initialize(DebugCamera* camera)
 		//ミニマップ(通常ふぃ－るど)
 		//天球
 		SetFieldModel(CELESTIALSPHERE, ModelManager::GetIns()->GetModel(ModelManager::CELESTIALSPHERE), camera);
-		
-		}
-	
+	}
+
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
 	{
 		FieldObject = TouchableObject::Create(ModelManager::GetIns()->GetModel(ModelManager::SANDFIELD), camera);
@@ -80,11 +79,10 @@ void Field::Initialize(DebugCamera* camera)
 		SetFieldModel(BOSSBACK, ModelManager::GetIns()->GetModel(ModelManager::BOSSFIELD), camera);
 	}
 	//ボスのネームプレート
-	BossName = Sprite::Create(40, { WinApp::window_width / 2, WinApp::window_height / 2 });
-	BossName->SetAnchorPoint({ 0.5f, 0.5f });
-	BossName->SetPosition({ WinApp::window_width / 2, WinApp::window_height / 2 });
-	BossName->SetSize({ 800, 800 });
-	
+	BossName = Sprite::Create(40, {WinApp::window_width / 2, WinApp::window_height / 2});
+	BossName->SetAnchorPoint({0.5f, 0.5f});
+	BossName->SetPosition({WinApp::window_width / 2, WinApp::window_height / 2});
+	BossName->SetSize({800, 800});
 }
 
 void Field::Update_Tutorial(DebugCamera* camera)
@@ -93,14 +91,12 @@ void Field::Update_Tutorial(DebugCamera* camera)
 	{
 		return;
 	}
-	FieldObject->SetPosition({ 0.0f, -25.0f, 0.0f });
-	FieldObject->SetFogCenter({ 125.0f, -25.0f, -680.0f });
+	FieldObject->SetPosition({0.0f, -25.0f, 0.0f});
+	FieldObject->SetFogCenter({125.0f, -25.0f, -680.0f});
 	FieldObject->setFog(TRUE);
-	SetFieldUpdate(CELESTIALSPHERE, camera, { 0.0f, 30.0f, 0.0f }, { 40.0f, 40.0f, 40.0f }, FALSE, TRUE);
-	FieldObject->SetColor({ 0.2f, 0.2f, 0.2f, 1.0f });
-	FieldObject->Update({ 0.2f, 0.2f, 0.2f, 1.0f }, camera);
-	
-	
+	SetFieldUpdate(CELESTIALSPHERE, camera, {0.0f, 30.0f, 0.0f}, {40.0f, 40.0f, 40.0f}, FALSE, TRUE);
+	FieldObject->SetColor({0.2f, 0.2f, 0.2f, 1.0f});
+	FieldObject->Update({0.2f, 0.2f, 0.2f, 1.0f}, camera);
 }
 
 void Field::Update_Play(DebugCamera* camera)
@@ -111,7 +107,8 @@ void Field::Update_Play(DebugCamera* camera)
 		{
 			FogCenterPos = camera->GetEye();
 		}
-	} else
+	}
+	else
 	{
 		FogCenterPos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 	}
@@ -121,25 +118,24 @@ void Field::Update_Play(DebugCamera* camera)
 		return;
 	}
 	CelestalRot += 0.1f;
-	m_object[CELESTIALSPHERE]->SetRotation({ 90.0f, CelestalRot, 180.0f });
-	SetFieldUpdate(CELESTIALSPHERE, camera, { 0.0f, 2290.0f, 0.0f }, { 30.0f, 30.0f, 30.0f }, FALSE, TRUE);
-	FieldObject->SetPosition({ 0.0f, -25.0f, 0.0f });
-	FieldObject->SetColor({ 0.2f, 0.2f, 0.2f, 1.0f });
+	m_object[CELESTIALSPHERE]->SetRotation({90.0f, CelestalRot, 180.0f});
+	SetFieldUpdate(CELESTIALSPHERE, camera, {0.0f, 2290.0f, 0.0f}, {30.0f, 30.0f, 30.0f}, FALSE, TRUE);
+	FieldObject->SetPosition({0.0f, -25.0f, 0.0f});
+	FieldObject->SetColor({0.2f, 0.2f, 0.2f, 1.0f});
 	FieldObject->SetFogCenter(FogCenterPos);
 	FieldObject->setFog(true);
-	FieldObject->Update({ 0.2f, 0.2f, 0.2f, 1.0f }, camera);
+	FieldObject->Update({0.2f, 0.2f, 0.2f, 1.0f}, camera);
 
-	m_object[BOSSBACK]->SetRotation({ 0,180,0 });
-	SetFieldUpdate(BOSSBACK, camera, { 22,-70,1010 }, { 1.0f, 1.0f, 1.0f }, FALSE, TRUE);
-
+	m_object[BOSSBACK]->SetRotation({0, 180, 0});
+	SetFieldUpdate(BOSSBACK, camera, {22, -70, 1010}, {1.0f, 1.0f, 1.0f}, FALSE, TRUE);
 }
 
 void Field::Update_Edit(DebugCamera* camera)
 {
-	FieldObject->SetPosition({ 0.0f, -25.0f, 0.0f });
-	FieldObject->SetFogCenter({ 0.0f, -20.0f, 0.0f });
-	FieldObject->SetColor({ 0.2f, 0.2f, 0.2f, 1.0f });
-	FieldObject->Update({ 0.2f, 0.2f, 0.2f, 1.0f }, camera);
+	FieldObject->SetPosition({0.0f, -25.0f, 0.0f});
+	FieldObject->SetFogCenter({0.0f, -20.0f, 0.0f});
+	FieldObject->SetColor({0.2f, 0.2f, 0.2f, 1.0f});
+	FieldObject->Update({0.2f, 0.2f, 0.2f, 1.0f}, camera);
 }
 
 void Field::Update_Boss(DebugCamera* camera)
@@ -153,15 +149,15 @@ void Field::Update_Boss(DebugCamera* camera)
 	{
 		SpriteFeed(t, feed, feedSpeed_Explanation, 2.5f);
 	}
-	
-	SetFieldUpdate(CELESTIALSPHERE, camera, { 0.0f, 30.0f, 0.0f }, { 40.0f, 40.0f, 40.0f }, FALSE, TRUE);
-	SetFieldUpdate(DAMAGEAREA, camera, { 0.0f, -19.2f, 0.0f }, { 1.0f, 1.0f, 1.0f }, TRUE, FALSE);
-	SetFieldUpdate(BOSSBACK, camera, {0,-19,0}, { 1.0f, 1.0f, 1.0f }, FALSE, TRUE);
-	FieldObject->SetPosition({ 0.0f, -19.0f, 0.0f });
+
+	SetFieldUpdate(CELESTIALSPHERE, camera, {0.0f, 30.0f, 0.0f}, {40.0f, 40.0f, 40.0f}, FALSE, TRUE);
+	SetFieldUpdate(DAMAGEAREA, camera, {0.0f, -19.2f, 0.0f}, {1.0f, 1.0f, 1.0f}, TRUE, FALSE);
+	SetFieldUpdate(BOSSBACK, camera, {0, -19, 0}, {1.0f, 1.0f, 1.0f}, FALSE, TRUE);
+	FieldObject->SetPosition({0.0f, -19.0f, 0.0f});
 	FieldObject->SetFogCenter(camera->GetEye());
 	FieldObject->setFog(TRUE);
-	FieldObject->SetColor({ 0.8f, 0.8f, 0.8f, 1.0f });
-	FieldObject->Update({ 0.8f, 0.8f, 0.8f, 1.0f }, camera);
+	FieldObject->SetColor({0.8f, 0.8f, 0.8f, 1.0f});
+	FieldObject->Update({0.8f, 0.8f, 0.8f, 1.0f}, camera);
 
 	//フィールド外周とプレイヤーの当たり判定(現時点では矩形と点)
 	//FieldDamageAreaCol();
@@ -193,8 +189,6 @@ void Field::MiniFieldDraw()
 	Object3d::PreDraw();
 	//m_object[MINI]->Draw();
 	Object3d::PostDraw();
-
-
 }
 
 #include"imgui.h"
@@ -211,16 +205,16 @@ void Field::Draw()
 
 	ImGui::SliderFloat("Posz", &BossFieldPos.z, 0, 1700);
 	ImGui::End();
-	*///	if (FieldObject == nullptr)return;
+	*/ //	if (FieldObject == nullptr)return;
 	Object3d::PreDraw();
 	if (SceneManager::GetInstance()->GetScene() != SceneManager::MAPCREATE)
 	{
 		m_object[CELESTIALSPHERE]->Draw();
 	}
 
-	
-		FieldObject->Draw();
-		if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
+
+	FieldObject->Draw();
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
 	{
 		ModelDraw_nullCheck(BOSSBACK);
 		ModelDraw_nullCheck(DAMAGEAREA);
@@ -232,9 +226,10 @@ void Field::Draw()
 	Object3d::PostDraw();
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
 	{
-		BossName->setcolor({ 1.0f, 1.0f, 1.0f, TexAlpha_BossName });
+		BossName->setcolor({1.0f, 1.0f, 1.0f, TexAlpha_BossName});
 	}
 }
+
 void Field::WarningDraw()
 {
 	Sprite::PreDraw();
@@ -245,8 +240,6 @@ void Field::WarningDraw()
 
 void Field::FieldDamageAreaCol()
 {
-
-
 }
 
 void Field::SpriteFeed(float& alpha, bool& feed, const float feedSpeed, const float MaxAlphaValue)
@@ -254,7 +247,8 @@ void Field::SpriteFeed(float& alpha, bool& feed, const float feedSpeed, const fl
 	if (feed)
 	{
 		alpha -= 0.02f;
-	} else
+	}
+	else
 	{
 		alpha += feedSpeed;
 	}
@@ -282,7 +276,7 @@ void Field::SetFieldUpdate(ObjType type, DebugCamera* camera, XMFLOAT3 Pos, XMFL
 	m_object[type]->SetScale(Scl);
 	m_object[type]->SetUVf(uvscroll);
 	m_object[type]->setFog(fog);
-	m_object[type]->Update({ 1.0f, 1.0f, 1.0f, 1.0f }, camera);
+	m_object[type]->Update({1.0f, 1.0f, 1.0f, 1.0f}, camera);
 }
 
 void Field::ModelDraw_nullCheck(ObjType type)

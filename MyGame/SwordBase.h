@@ -7,7 +7,7 @@ class SwordBase :
 {
 public:
 	SwordBase();
-	virtual ~SwordBase() override;
+	~SwordBase() override;
 public:
 	void Initialize(DebugCamera* camera) override;
 	void Update(DebugCamera* camera) override;

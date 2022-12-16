@@ -6,6 +6,7 @@
 #include"BossScene.h"
 #include"MapCreateScene.h"
 #include"TitleScene.h"
+
 class SceneManager
 {
 public:

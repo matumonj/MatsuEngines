@@ -15,14 +15,14 @@ TargetMarker* TargetMarker::GetInstance()
 
 void TargetMarker::Initialize()
 {
-		//MarkerPosition = { -10,2,0 };
+	//MarkerPosition = { -10,2,0 };
 }
 
 
 bool TargetMarker::NearGolem(std::vector<std::unique_ptr<Enemy>>& enemy, int index, float* x, float* y, float* z)
 {
 	float tempx, tempy, tempz;
-	if (enemy[index]->GetEnemyNumber()==enemy[index]->FLOG||enemy[index] == nullptr || enemy[index]->GetHP() < 0)
+	if (enemy[index]->GetEnemyNumber() == enemy[index]->FLOG || enemy[index] == nullptr || enemy[index]->GetHP() < 0)
 	{
 		return false;
 	}
@@ -83,7 +83,10 @@ int TargetMarker::NearGolemSearch(std::vector<std::unique_ptr<Enemy>>& enemy, Pl
 	//float distance;
 	for (int i = 0; i < enemy.size()/*enemynum*/; ++i)
 	{
-		if (enemy[i] == nullptr)continue;
+		if (enemy[i] == nullptr)
+		{
+			continue;
+		}
 		if (!NearGolem(enemy, i, &ex, &ey, &ez))
 		{
 			continue;
@@ -125,7 +128,10 @@ int TargetMarker::NearLizardSearch(std::vector<std::unique_ptr<Enemy>>& enemy, P
 	//float distance;
 	for (int i = 0; i < enemy.size()/*enemynum*/; ++i)
 	{
-		if (enemy[i] == nullptr)continue;
+		if (enemy[i] == nullptr)
+		{
+			continue;
+		}
 		if (!NearLizard(enemy, i, &ex, &ey, &ez))
 		{
 			continue;
@@ -153,9 +159,10 @@ int TargetMarker::NearLizardSearch(std::vector<std::unique_ptr<Enemy>>& enemy, P
 	}
 
 
-	this->nearLizard= nearindex;
+	this->nearLizard = nearindex;
 	return nearLizard;
 }
+
 int TargetMarker::NearEnemySearch(std::vector<std::unique_ptr<Enemy>>& enemy, Player* player)
 {
 	int nearindex = -1;
@@ -165,7 +172,10 @@ int TargetMarker::NearEnemySearch(std::vector<std::unique_ptr<Enemy>>& enemy, Pl
 	//float distance;
 	for (int i = 0; i < enemy.size()/*enemynum*/; ++i)
 	{
-		if (enemy[i] == nullptr)continue;
+		if (enemy[i] == nullptr)
+		{
+			continue;
+		}
 		if (!GetEnemyPosition(enemy, i, &ex, &ey, &ez))
 		{
 			continue;
@@ -211,10 +221,9 @@ void TargetMarker::Update_Tutorial(DebugCamera* camera)
 	//マーカー位置をnowTargetに合わせる
 	MarkerPosition = {ex, ey + 1, ez};
 	nowTarget = MarkerPosition;
-//if (tindex != -1) {
+	//if (tindex != -1) {
 	float rotY = EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetRotRadians();
-	
-	}
+}
 
 void TargetMarker::Update_PlayScene(DebugCamera* camera)
 {
@@ -226,10 +235,10 @@ void TargetMarker::Update_PlayScene(DebugCamera* camera)
 	                         PlayerControl::GetInstance()->GetPlayer());
 
 	lindex = NearLizardSearch(EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE),
-		PlayerControl::GetInstance()->GetPlayer());
+	                          PlayerControl::GetInstance()->GetPlayer());
 
 	gindex = NearGolemSearch(EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE),
-		PlayerControl::GetInstance()->GetPlayer());
+	                         PlayerControl::GetInstance()->GetPlayer());
 
 	if (tindex != -1)
 	{
@@ -253,7 +262,6 @@ void TargetMarker::Update_PlayScene(DebugCamera* camera)
 	if (tindex != -1)
 	{
 		float rotY = EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[tindex]->GetRotRadians();
-
 	}
 }
 

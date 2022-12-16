@@ -18,10 +18,9 @@ private:
 	using XMVECTOR = DirectX::XMVECTOR;
 
 public:
-	DamageManager(XMFLOAT3 Position,int Damage);
+	DamageManager(XMFLOAT3 Position, int Damage);
 	~DamageManager();
 private:
-
 public:
 	void Init();
 	void Upda();

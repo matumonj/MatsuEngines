@@ -23,7 +23,7 @@ private:
 	std::vector<std::unique_ptr<AreaFence>> fences;
 	std::vector<XMFLOAT3> Load_FencePosition;
 	std::vector<std::unique_ptr<AreaFence>> Tutorialfence;
-	std::unique_ptr<AreaFence>BossGate;
+	std::unique_ptr<AreaFence> BossGate;
 	XMFLOAT3 Player_OldPos;
 
 	bool TutorialFenceOpen;

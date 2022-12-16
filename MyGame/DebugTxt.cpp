@@ -218,8 +218,6 @@ void DebugTextSprite::DrawAll()
 }
 
 
-
-
 DebugTextSprite2::DebugTextSprite2()
 {
 }
@@ -244,8 +242,8 @@ void DebugTextSprite2::Initialize(UINT texnumber)
 	for (int i = 0; i < _countof(spriteDatas); i++)
 	{
 		// スプライトを生成する
-		spriteDatas[i] = Sprite::Create(texnumber, { 0, 0 });
-		spriteDatas[i]->SetAnchorPoint({ 0.5f, 0.5f });
+		spriteDatas[i] = Sprite::Create(texnumber, {0, 0});
+		spriteDatas[i]->SetAnchorPoint({0.5f, 0.5f});
 	}
 }
 
@@ -274,12 +272,12 @@ void DebugTextSprite2::Print(const std::string& text, float x, float y, float sc
 		int fontIndexX = fontIndex % fontLineCount;
 
 		// 座標計算
-		spriteDatas[spriteIndex]->SetPosition({ x + fontWidth * scale * i, y });
+		spriteDatas[spriteIndex]->SetPosition({x + fontWidth * scale * i, y});
 		spriteDatas[spriteIndex]->SetTextureRect(
-			{ static_cast<float>(fontIndexX) * fontWidth, static_cast<float>(fontIndexY) * fontHeight }, {
+			{static_cast<float>(fontIndexX) * fontWidth, static_cast<float>(fontIndexY) * fontHeight}, {
 				static_cast<float>(fontWidth), static_cast<float>(fontHeight)
 			});
-		spriteDatas[spriteIndex]->SetSize({ fontWidth * scale, fontHeight * scale });
+		spriteDatas[spriteIndex]->SetSize({fontWidth * scale, fontHeight * scale});
 
 		// 文字を１つ進める
 		spriteIndex++;

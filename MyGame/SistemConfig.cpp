@@ -51,7 +51,7 @@ void SistemConfig::Update()
 	{
 		if (input->TriggerButton(input->START))
 		{
-		//	PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(true);
+			//	PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(true);
 			//m_ConfigFlag = true;
 		}
 	}
@@ -86,7 +86,6 @@ void SistemConfig::Update()
 		{
 			if (NowSelectButton() == SWORDSELECT)
 			{
-				
 			}
 		}
 

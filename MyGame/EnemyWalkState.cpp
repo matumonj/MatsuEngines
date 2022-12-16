@@ -7,6 +7,7 @@
 #include"EnemyDeathState.h"
 
 #include"EnemyKnockState.h"
+
 void EnemyWalkState::Initialize(Enemy* enmey)
 {
 }
@@ -34,14 +35,15 @@ void EnemyWalkState::do_work(Enemy* enemy)
 	//Œü‚¢‚Ä‚é•ûŒü‚ÉˆÚ“®
 	//•à‚¢‚Ä‚¢‚é
 
-	if (enemy->GetRecvDamage2()) {
+	if (enemy->GetRecvDamage2())
+	{
 		enemy->ChangeState_Mob(new EnemyKnockState());
 	}
 	if (enemy->GetonFlag() == true)
 	{
 		tempx = enemy->GetPosition().x;
 		tempz = enemy->GetPosition().z;
-		if (!enemy->GetMoveStop()&&PlayerControl::GetInstance()->GetPlayer()->GetStopFlag() == false)
+		if (!enemy->GetMoveStop() && PlayerControl::GetInstance()->GetPlayer()->GetStopFlag() == false)
 		{
 			enemy->SetPosition({
 					enemy->GetPosition().x + move.m128_f32[0],
@@ -80,5 +82,4 @@ void EnemyWalkState::Update(Enemy* enemy)
 
 void EnemyWalkState::BacktoGround(Enemy* enemy)
 {
-	
 }

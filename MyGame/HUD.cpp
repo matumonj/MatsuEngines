@@ -52,7 +52,7 @@ void HUD::Initialize()
 	Sprite::LoadTexture(146, L"Resources/HPTex/frame2.png");
 	Sprite::LoadTexture(147, L"Resources/chestCollect1.png");
 	Sprite::LoadTexture(148, L"Resources/chestColFrame.png");
-	
+
 	TaskSprite = Sprite::Create(143, {0.0f, -200.0f});
 	TaskSprite->SetPosition({WinApp::window_width / 2, WinApp::window_height / 2});
 	TaskSprite->SetAnchorPoint({0.5, 0.5});
@@ -76,7 +76,6 @@ void HUD::Initialize()
 
 
 	PlayerHPSize = static_cast<float>(PlayerControl::GetInstance()->GetPlayer()->GetMaxHP()) * 7.0f;
-	
 }
 
 void HUD::EnemyHPGaugeInitialize()
@@ -89,8 +88,6 @@ void HUD::EnemyHPGaugeInitialize()
 
 void HUD::SkillButtonInitialize()
 {
-	
-	
 }
 
 void HUD::EnemyHPGaugeUpdate(std::vector<std::unique_ptr<Enemy>>& enemy)
@@ -111,7 +108,6 @@ void HUD::SetSkillIcon(SkillIcon icon)
 
 void HUD::SkillBottonUpdate()
 {
-
 	//各剣のクールタイム参照
 	TimeSpeed = 1.0f / SelectSword::GetInstance()->GetSword()->GetCoolTime();
 	if (CoolTime_Time >= 1.0f)
@@ -126,8 +122,8 @@ void HUD::SkillBottonUpdate()
 	{
 		CoolTime_Time += TimeSpeed;
 	}
-	
-	
+
+
 	if (RecvDamageflag)
 	{
 		easetime += 1.0f / 60.f;
@@ -198,13 +194,10 @@ void HUD::EnemyHPGauge_MultiUpdate(bool& loadf, DebugCamera* camera, std::vector
 		}
 		loadf = false;
 	}
-
-	
 }
 
 void HUD::EnemyHPGauge_MultiDraw()
 {
-	
 }
 
 void HUD::SkillBottonDraw()
@@ -265,5 +258,4 @@ void HUD::Draw()
 
 void HUD::AreaName()
 {
-
 }

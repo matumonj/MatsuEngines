@@ -4,6 +4,7 @@
 #include"ParticleManager.h"
 #include "ModelManager.h"
 #include"ImageManager.h"
+
 void MyGame::Initialize()
 {
 	Framework::Initialize();

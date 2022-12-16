@@ -142,7 +142,7 @@ public: // 静的メンバ関数
 private:
 	bool SizeVariableF = false;
 	int VariableStopT = 0;
-	XMFLOAT2 TexScale = { 0.f, 0.f };
+	XMFLOAT2 TexScale = {0.f, 0.f};
 	float alpha = 1.f;
 	// スプライトデータの配列
 	Sprite* spriteDatas[maxCharCount] = {};

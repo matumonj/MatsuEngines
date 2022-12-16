@@ -31,6 +31,6 @@ protected:
 	Audio* audio = nullptr;
 	SceneManager* sceneManger = nullptr;
 
-	
+
 	//Sprite* sprite = nullptr;
 };

@@ -45,11 +45,10 @@ void ImageManager::Init()
 	LoadTex2D(ENMEYHPFRAME1, L"Resources/2d/enemy/hpframe1.png");
 	LoadTex2D(ENMEYHPFRAME2, L"Resources/2d/enemy/hpframe2.png");
 	LoadTex2D(ENMEYHPFRAME3, L"Resources/2d/enemy/hpframe3.png");
-
 }
 
-void ImageManager::LoadTex2D(const tex2dName imageName,wchar_t* fileName)
+void ImageManager::LoadTex2D(const tex2dName imageName, wchar_t* fileName)
 {
-	Sprite::LoadTexture(imageName,fileName);
-	tex[imageName] = Sprite::Create(imageName,{0,0});
+	Sprite::LoadTexture(imageName, fileName);
+	tex[imageName] = Sprite::Create(imageName, {0, 0});
 }

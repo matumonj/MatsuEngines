@@ -96,14 +96,14 @@ void PlayerControl::Update_Tutorial(DebugCamera* camera) //チュートリアル時
 void PlayerControl::Update_Play(DebugCamera* camera) //プレイシーン時
 {
 	player->Update(camera);
-	
+
 	DamageTexUpdate();
 }
 
 void PlayerControl::Update_Boss(DebugCamera* camera)
 {
 	player->Update(camera);
-	
+
 	DamageTexUpdate();
 }
 
@@ -114,7 +114,7 @@ void PlayerControl::DamageTexUpdate()
 		dalpha = 1.0f;
 	}
 	dalpha -= 0.02f;
-	DamageTex->setcolor({ 1, 1, 1, dalpha });
+	DamageTex->setcolor({1, 1, 1, dalpha});
 	PlayerAttackState::GetInstance()->Update();
 	dalpha = max(dalpha, 0.0f);
 }
@@ -142,7 +142,7 @@ void PlayerControl::Draw_Tutorial()
 
 void PlayerControl::Draw_Boss()
 {
-	if ( player == nullptr)
+	if (player == nullptr)
 	{
 		return;
 	}
@@ -158,10 +158,8 @@ void PlayerControl::DamageTexDraw()
 
 void PlayerControl::BossFieldCol()
 {
-	if(Collision::GetLength(player->GetPosition(),{0,-10,0})>120)
+	if (Collision::GetLength(player->GetPosition(), {0, -10, 0}) > 120)
 	{
 		player->isOldPos();
 	}
-
 }
-

@@ -3,14 +3,11 @@
 #include"Enemy.h"
 
 class EnemyKnockState :
-    public EnemyState
+	public EnemyState
 {
 private:
-
-
 public:
 	void Initialize(Enemy* enemy) override;
 
 	void Update(Enemy* enemy) override;
 };
-

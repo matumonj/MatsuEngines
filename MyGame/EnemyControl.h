@@ -23,8 +23,8 @@ private:
 
 	std::vector<std::vector<std::unique_ptr<Enemy>>> enemys = {};
 
-	XMFLOAT3 tutorial_pos = { 0,0,0 };
-	XMFLOAT3 boss_pos = { 0,0,0 };
+	XMFLOAT3 tutorial_pos = {0, 0, 0};
+	XMFLOAT3 boss_pos = {0, 0, 0};
 
 	Enemy* encountEnemy = nullptr;
 private:
@@ -62,10 +62,11 @@ public:
 			return encountEnemy;
 		}
 	}
+
 	static constexpr int EnemySize = 2;
-	std::array<std::unique_ptr<Enemy>, EnemySize>SummonEnemys = {};
+	std::array<std::unique_ptr<Enemy>, EnemySize> SummonEnemys = {};
 	bool summonEnemyCreate = false;
-	XMFLOAT3 SummonEPos = { 1,1,1 };
+	XMFLOAT3 SummonEPos = {1, 1, 1};
 	bool SummonEnemysDeath;
 	bool SummonEnemysApper;
 	float Shieldalpha;
@@ -73,12 +74,12 @@ public:
 private:
 	bool ShieldCreate;
 	bool ShieldLost;
-	std::unique_ptr<Texture>ShieldTex[4];
+	std::unique_ptr<Texture> ShieldTex[4];
 	float Texangle[4];
-	std::array<XMFLOAT3, 4>ShieldTexPos;
+	std::array<XMFLOAT3, 4> ShieldTexPos;
 	float ShieldTexAlpha;
-	std::unique_ptr<BomAttack>bAttack;
-	
+	std::unique_ptr<BomAttack> bAttack;
+
 private:
 	/*çXêVèàóù*/
 	void Init_Tutorial(DebugCamera* camera) override;

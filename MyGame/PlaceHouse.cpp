@@ -7,8 +7,6 @@ void PlaceHouse::Initialize(DebugCamera* camera)
 	//Model = Model::CreateFromOBJ("huse");
 	Obj = Object3d::Create(camera);
 	Obj->SetModel(ModelManager::GetIns()->GetModel(ModelManager::HOUSE));
-
-
 }
 
 void PlaceHouse::FileWriting()
@@ -32,7 +30,6 @@ void PlaceHouse::FileWriting()
 		ofs << "SCALE" << "," << houses[i]->GetScale().x
 			<< "," << houses[i]->GetScale().y
 			<< "," << houses[i]->GetScale().z << std::endl;
-
 	}
 }
 
@@ -125,7 +122,7 @@ void PlaceHouse::ImGui_Draw()
 		ImGui::SliderFloat("rotY", &rot.y, 0, 360);
 		ImGui::SliderFloat("rotZ", &rot.z, 0, 360);
 	}
-	
+
 	ImGui::End();
 }
 

@@ -23,7 +23,7 @@ void WoodB::Initialize(DebugCamera* camera)
 	//モデル割り当て
 	m_Object->Initialize(camera);
 	m_Object->SetModel(ModelManager::GetIns()->GetModel(ModelManager::WOOD2));
-	Scale = { 9.0f, 18.0f, 9.0f };
+	Scale = {9.0f, 18.0f, 9.0f};
 	radius_adjustment = 5.0f;
 	SetCollider();
 	alpha = 1.0f;
@@ -33,10 +33,10 @@ void WoodB::Initialize(DebugCamera* camera)
 
 void WoodB::Update(DebugCamera* camera)
 {
-	m_Object->SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
+	m_Object->SetColor({1.0f, 1.0f, 1.0f, 1.0f});
 
 
-	Color = { 1.0f, 1.0f, 1.0f, alpha };
+	Color = {1.0f, 1.0f, 1.0f, alpha};
 	ParameterSet_Obj(camera);
 	m_Object->Setf(TRUE);
 	m_Object->SetFogCenter(camera->GetEye());
@@ -59,12 +59,12 @@ void WoodB::CollideWood()
 		return;
 	}
 	playerOBB.SetOBBParam_Pos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
-	playerOBB.SetOBBParam_Scl({ 1.0f, 1.0f, 1.0f });
+	playerOBB.SetOBBParam_Scl({1.0f, 1.0f, 1.0f});
 	playerOBB.SetOBBParam_Rot(PlayerControl::GetInstance()->GetPlayer()->GetMatrot());
 
 	//OBB 回転ベクトル
 	woodOBB.SetOBBParam_Pos(m_Object->GetPosition());
-	woodOBB.SetOBBParam_Scl({ 2.0f, 20.0f, 3.0f });
+	woodOBB.SetOBBParam_Scl({2.0f, 20.0f, 3.0f});
 	woodOBB.SetOBBParam_Rot(m_Object->GetMatrot());
 
 	if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), Position) < 20)
@@ -72,7 +72,6 @@ void WoodB::CollideWood()
 		if (Collision::CheckOBBCollision(playerOBB, woodOBB) == true)
 		{
 			PlayerControl::GetInstance()->GetPlayer()->isOldPos();
-			
 		}
 	}
 }

@@ -22,10 +22,9 @@ public:
 	{
 	};
 private:
-	std::vector<std::unique_ptr< House>> houses;
+	std::vector<std::unique_ptr<House>> houses;
 	std::vector<XMFLOAT3> Load_HousePosition;
 	XMFLOAT3 Player_OldPos;
-	
 
 
 public:
@@ -56,5 +55,4 @@ private:
 	void Draw_Play() override;
 
 	void Draw_Boss() override;
-
 };

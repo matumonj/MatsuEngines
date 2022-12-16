@@ -1,19 +1,21 @@
 #include "DamageManager.h"
 #include"CameraControl.h"
 
-DamageManager::DamageManager(XMFLOAT3 Position,int Damage)
+DamageManager::DamageManager(XMFLOAT3 Position, int Damage)
 {
 	this->Position = Position;
 	this->Damage = Damage;
 	DamageTex = std::make_unique<DebugTextSprite>();
 	DamageTex->Initialize(0);
 	TexAlpha = 1.0f;
-	TexSize = { 2.0f,2.0f };
+	TexSize = {2.0f, 2.0f};
 }
+
 DamageManager::~DamageManager()
 {
 	DamageTex.reset(nullptr);
 }
+
 void DamageManager::DamageDisPlay(int damage, XMFLOAT4 color)
 {
 	//テクスチャのアルファ値だのサイズだの
@@ -37,7 +39,7 @@ void DamageManager::DamageDisPlay(int damage, XMFLOAT4 color)
 	DamageTex->SetAlpha(TexAlpha);
 	//表記
 	DamageTex->Print(str.str(), tex2DPos.m128_f32[0], tex2DPos.m128_f32[1], TexSize.x);
-	
+
 
 	//TexSize.x = min(TexSize.x, 1.4f);
 	TexSize.x = max(TexSize.x, 0.8f);
@@ -45,12 +47,15 @@ void DamageManager::DamageDisPlay(int damage, XMFLOAT4 color)
 
 void DamageManager::Draw()
 {
-	if (DamageTex == nullptr)return;
+	if (DamageTex == nullptr)
+	{
+		return;
+	}
 	Sprite::PreDraw();
 	DamageTex->DrawAll();
 	Sprite::PostDraw();
-
 }
+
 XMVECTOR DamageManager::WDivi(const DirectX::XMVECTOR& pos, const DirectX::XMMATRIX& mat, const bool s)
 {
 	float x, y, z, w;

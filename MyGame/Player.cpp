@@ -51,9 +51,9 @@ void Player::Initialize(DebugCamera* camera)
 	//地形判定のコライダーセット
 	SetCollider();
 
-	Rotation = { -163.0f, -62.0f, 103.0f };
-	Position = { 0.0f, 0.0f, 0.0f };
-	Scale = { 0.02f, 0.02f, 0.02f };
+	Rotation = {-163.0f, -62.0f, 103.0f};
+	Position = {0.0f, 0.0f, 0.0f};
+	Scale = {0.02f, 0.02f, 0.02f};
 
 	//体力初期化
 	HP = MaxHP;
@@ -67,12 +67,13 @@ void Player::Initialize(DebugCamera* camera)
 //80,145
 void Player::Jump()
 {
-	if(onGround){
+	if (onGround)
+	{
 		if (CustomButton::GetInstance()->GetJumpAction())
 		{
 			onGround = false;
 			const float jumpVYFist = 0.3f;
-			fallV = { 0.0f, jumpVYFist, 0.0f, 0.0f };
+			fallV = {0.0f, jumpVYFist, 0.0f, 0.0f};
 		}
 	}
 }
@@ -84,7 +85,10 @@ void Player::Move()
 	{
 		return;
 	}
-	if (attackMotion != RUN && attackMotion != NON)return;
+	if (attackMotion != RUN && attackMotion != NON)
+	{
+		return;
+	}
 	XMFLOAT3 pos = Position;
 	XMFLOAT3 rot = Rotation;
 
@@ -101,19 +105,19 @@ void Player::Move()
 	{
 		if (input->TiltPushStick(Input::L_UP, 0.0f))
 		{
-			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{ 0, 0, vel, 0 }, angle);
+			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{0, 0, vel, 0}, angle);
 		}
 		if (input->TiltPushStick(Input::L_DOWN, 0.0f))
 		{
-			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{ 0, 0, -vel, 0 }, angle);
+			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{0, 0, -vel, 0}, angle);
 		}
 		if (input->TiltPushStick(Input::L_RIGHT, 0.0f))
 		{
-			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{ vel, 0, 0, 0 }, angle);
+			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{vel, 0, 0, 0}, angle);
 		}
 		if (input->TiltPushStick(Input::L_LEFT, 0.0f))
 		{
-			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{ -vel, 0, 0, 0 }, angle);
+			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{-vel, 0, 0, 0}, angle);
 		}
 		const float rnd_vel = 0.1f;
 		XMFLOAT3 vel{};
@@ -122,12 +126,12 @@ void Player::Move()
 		vel.y = static_cast<float>(rand()) / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
 		vel.z = static_cast<float>(rand()) / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
 		rot.y = angle + atan2f(StickX, StickY) * (180.0f / pi);
-		Rotation = { rot.x, rot.y - 63.0f, rot.z };
-		XMVECTOR move = { 0.0f, 0.0f, 0.1f, 0.0f };
+		Rotation = {rot.x, rot.y - 63.0f, rot.z};
+		XMVECTOR move = {0.0f, 0.0f, 0.1f, 0.0f};
 		XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(Rotation.y + 63.0f));
 		move = XMVector3TransformNormal(move, matRot);
 
-		Position.x += move.m128_f32[0] * movespeed ;
+		Position.x += move.m128_f32[0] * movespeed;
 		Position.z += move.m128_f32[2] * movespeed;
 		Gmove = move;
 
@@ -137,7 +141,8 @@ void Player::Move()
 		{
 			attackMotion = RUN;
 		}
-	} else
+	}
+	else
 	{
 		//スティックが倒されていなかったら待機
 		if (f_time < AttackFirTime)
@@ -145,8 +150,6 @@ void Player::Move()
 			attackMotion = NON;
 		}
 	}
-
-
 }
 
 #include"mHelper.h"
@@ -175,7 +178,7 @@ void Player::Evasion()
 	}
 	else
 	{
-		m_fbxObject->SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
+		m_fbxObject->SetColor({1.0f, 1.0f, 1.0f, 1.0f});
 		evaTime = 0.0f;
 	}
 }
@@ -202,7 +205,8 @@ void Player::Update(DebugCamera* camera)
 			Position = oldpos;
 			falltime = 0;
 		}
-	} else
+	}
+	else
 	{
 		falltime = 0;
 		savetime++;
@@ -219,7 +223,7 @@ void Player::Update(DebugCamera* camera)
 	// 行列の更新など
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
 	{
-		if (Collision::GetLength(Position, { 0,-19,0 }) > 90)
+		if (Collision::GetLength(Position, {0, -19, 0}) > 90)
 		{
 			RecvDamage(10);
 		}
@@ -234,7 +238,7 @@ void Player::Update(DebugCamera* camera)
 	//fbxのタイマー処理
 	m_fbxObject->SetFbxTime(f_time);
 	//当たり判定
-		CollisionField(camera);
+	CollisionField(camera);
 
 
 	ParameterSet_Obj(camera);
@@ -259,6 +263,7 @@ void Player::Draw()
 
 	AttackEffect::GetIns()->Draw();
 }
+
 void Player::ParticleDraw()
 {
 	SelectSword::GetInstance()->SwordDraw();
@@ -296,7 +301,7 @@ void Player::FbxAnimationControls(const AttackMotion& motiontype, const float at
 
 void Player::FbxAnimationControl()
 {
-	if (evasionF || noAttack||StopFlag)
+	if (evasionF || noAttack || StopFlag)
 	{
 		return;
 	}
@@ -306,18 +311,19 @@ void Player::FbxAnimationControl()
 	if (attackMotion == FIRST && f_time >= AttackSecTime - 0.2f)
 	{
 		AnimationEndJudg_FirstAttack = true;
-	} else if (attackMotion == SECOND && f_time >= AttackThiTime - 0.2f)
+	}
+	else if (attackMotion == SECOND && f_time >= AttackThiTime - 0.2f)
 	{
 		AnimationEndJudg_SecondAttack = true;
-
-	} else if (attackMotion == THIRD && f_time >= EvaTime_Start - 0.2f)
+	}
+	else if (attackMotion == THIRD && f_time >= EvaTime_Start - 0.2f)
 	{
 		AnimationEndJudg_ThirdAttack = true;
-
 	}
 
 	/*アニメーション遷移処理  やり方ひどいので複数アニメーション読み込んだら消す*/
-	if (attackMotion == RUN || attackMotion == NON) {
+	if (attackMotion == RUN || attackMotion == NON)
+	{
 		if (OldattackMotion == NON)
 		{
 			if (CustomButton::GetInstance()->GetAttackAction() == true)
@@ -362,10 +368,14 @@ void Player::FbxAnimationControl()
 	{
 		timespeed = 0.005f;
 	}
-	else {
-		if (attackMotion != RUN) {
+	else
+	{
+		if (attackMotion != RUN)
+		{
 			timespeed = SelectSword::GetInstance()->GetSword()->GetAnimationTime();
-		} else {
+		}
+		else
+		{
 			timespeed = 0.02f;
 		}
 	}
@@ -397,7 +407,6 @@ void Player::RecvDamage(int Damage)
 
 	if (!HUD::GetInstance()->GetRecvDamageFlag())
 	{
-
 		CameraControl::GetInstance()->ShakeCamera();
 		HUD::GetInstance()->SetRecvDamageFlag(true); //プレイヤーHPのHUD用
 	}
@@ -412,7 +421,7 @@ XMFLOAT3 Player::MoveVECTOR(XMVECTOR v, float angle)
 	XMMATRIX rot2 = {};
 	rot2 = XMMatrixRotationY(XMConvertToRadians(angle));
 	v = XMVector3TransformNormal(v, rot2);
-	XMFLOAT3 pos = { v.m128_f32[0], v.m128_f32[1], v.m128_f32[2] };
+	XMFLOAT3 pos = {v.m128_f32[0], v.m128_f32[1], v.m128_f32[2]};
 	return pos;
 }
 

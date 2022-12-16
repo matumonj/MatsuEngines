@@ -38,14 +38,14 @@ void TutorialSprite::Initialize()
 	Sprite::LoadTexture(184, L"Resources/2d/icon/motioncon.png");
 
 	//コントローラー画像初期化
-	movecn = Sprite::Create(183, { 10, 10 });
-	Attackcon = Sprite::Create(184, { 10, 10 });
-	
-	movecn->SetAnchorPoint({ 0.5,0.5 });
-	Attackcon->SetAnchorPoint({ 0.5,0.5 });
-	
-	movecn->SetSize({ 400,400 });
-	Attackcon->SetSize({ 400,400 });
+	movecn = Sprite::Create(183, {10, 10});
+	Attackcon = Sprite::Create(184, {10, 10});
+
+	movecn->SetAnchorPoint({0.5, 0.5});
+	Attackcon->SetAnchorPoint({0.5, 0.5});
+
+	movecn->SetSize({400, 400});
+	Attackcon->SetSize({400, 400});
 
 	/// <summary>
 	/// 目標のピン画像(Ground->円 Icon->三角)
@@ -55,24 +55,24 @@ void TutorialSprite::Initialize()
 
 	TargetPoint_Ground->CreateTexture();
 	TargetPoint_Icon->CreateTexture();
-	TargetPoint_Ground->SetAnchorPoint({ 0.5f,0.5f });
-	TargetPoint_Icon->SetAnchorPoint({ 0.5f,0.5f });
+	TargetPoint_Ground->SetAnchorPoint({0.5f, 0.5f});
+	TargetPoint_Icon->SetAnchorPoint({0.5f, 0.5f});
 
 	/// 各説明用テクスチャ初期化
-	Task[HELLO] = Sprite::Create(171, { 10, 10 });
-	Task[WALK] = Sprite::Create(174, { 10, 10 });
-	Task[ATTACK] = Sprite::Create(175, { 10, 10 });
-	Task[SELECTWEAPON] = Sprite::Create(176, { 10, 10 });
-	Task[GETKEY] = Sprite::Create(177, { 10, 10 });
-	Task[CLEAR] = Sprite::Create(178, { 10, 10 });
+	Task[HELLO] = Sprite::Create(171, {10, 10});
+	Task[WALK] = Sprite::Create(174, {10, 10});
+	Task[ATTACK] = Sprite::Create(175, {10, 10});
+	Task[SELECTWEAPON] = Sprite::Create(176, {10, 10});
+	Task[GETKEY] = Sprite::Create(177, {10, 10});
+	Task[CLEAR] = Sprite::Create(178, {10, 10});
 
 
 	targetAlpha = 1.f;
-	TargetTexSize = { 4,4,3 };
-	
+	TargetTexSize = {4, 4, 3};
+
 	for (int i = 0; i < TaskNum; i++)
 	{
-		Task[i]->SetAnchorPoint({ 0, 0 });
+		Task[i]->SetAnchorPoint({0, 0});
 		ClearTaskJudg[i] = false;
 	}
 
@@ -83,7 +83,6 @@ void TutorialSprite::Initialize()
 
 void TutorialSprite::CheckAttack()
 {
-
 	if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr)
 	{
 		ClearTaskJudg[ATTACK] = EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetHP() <= 0;
@@ -94,13 +93,14 @@ void TutorialSprite::Update()
 {
 	TargetPosTexMove();
 
-	movecn->SetPosition({ 1700.f,790.f });
-	Attackcon->SetPosition({ 1700.f,790.f });
-	movecn->setcolor({ 1,1,1,movea });
-	Attackcon->setcolor({ 1,1,1,atacka });
-	
+	movecn->SetPosition({1700.f, 790.f});
+	Attackcon->SetPosition({1700.f, 790.f});
+	movecn->setcolor({1, 1, 1, movea});
+	Attackcon->setcolor({1, 1, 1, atacka});
+
 	//目標地点ついたら歩きタスクはクリア
-	if (Collision::GetLength({ 109.f,-30,-650.f }, PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 10.f) {
+	if (Collision::GetLength({109.f, -30, -650.f}, PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 10.f)
+	{
 		ClearTaskJudg[WALK] = true;
 	}
 
@@ -115,12 +115,13 @@ void TutorialSprite::Update()
 	{
 	case THELLO:
 		SpriteAlpha[HELLO] += 0.02f;
-		Task[HELLO]->SetPosition({ 540.f,0.f });
-		Task[HELLO]->SetSize({ 800.f,400.f });
+		Task[HELLO]->SetPosition({540.f, 0.f});
+		Task[HELLO]->SetSize({800.f, 400.f});
 		SpriteAlpha[HELLO] = min(SpriteAlpha[HELLO], 3.f);
 		SpriteAlpha[HELLO] = max(SpriteAlpha[HELLO], 0.f);
-		//説明スプライトの拡縮
-		if (SpriteAlpha[HELLO] >= 2.0) {
+	//説明スプライトの拡縮
+		if (SpriteAlpha[HELLO] >= 2.0)
+		{
 			task = TMOVE;
 		}
 		break;
@@ -136,7 +137,7 @@ void TutorialSprite::Update()
 	case TATTACK:
 		atacka += 0.02f;
 		movea -= 0.02f;
-		//攻撃
+	//攻撃
 		CheckAttack();
 
 		NextTask(t[ATTACK], TSELECTWEAPON, ClearTaskJudg[ATTACK] && targetAlpha <= 0.0f);
@@ -149,7 +150,8 @@ void TutorialSprite::Update()
 
 		atacka -= 0.02f;
 
-		if (input->TriggerButton(input->RB) || input->TriggerButton(input->LB)) {
+		if (input->TriggerButton(input->RB) || input->TriggerButton(input->LB))
+		{
 			ClearTaskJudg[SELECTWEAPON] = true;
 		}
 		NextTask(t[SELECTWEAPON], TGETKEY, ClearTaskJudg[SELECTWEAPON] && targetAlpha <= 0.0f);
@@ -181,77 +183,80 @@ void TutorialSprite::Update()
 	}
 
 
-	for (int i = WALK; i < CLEAR+1; i++)
+	for (int i = WALK; i < CLEAR + 1; i++)
 	{
-		Task[i]->SetPosition({ 460.f,600.f });
-		Task[i]->SetSize({ 1000,300 });
-		Task[i]->setcolor({ 1,1,1,SpriteAlpha[i] });
+		Task[i]->SetPosition({460.f, 600.f});
+		Task[i]->SetSize({1000, 300});
+		Task[i]->setcolor({1, 1, 1, SpriteAlpha[i]});
 	}
 
-	Task[HELLO]->setcolor({ 1,1,1,SpriteAlpha[HELLO] });
+	Task[HELLO]->setcolor({1, 1, 1, SpriteAlpha[HELLO]});
 	movea = min(movea, 1.0f);
 	movea = max(movea, 0.0f);
 	atacka = min(atacka, 1.0f);
 	atacka = max(atacka, 0.0f);
-
 }
+
 #include"imgui.h"
 #include"CameraControl.h"
+
 void TutorialSprite::TargetPosTexMove()
 {
 	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
 	MoveTime++;
 	TargetPoint_GroundRotY++;
 
-	if (task == TMOVE && ClearTaskJudg[WALK]) {
+	if (task == TMOVE && ClearTaskJudg[WALK])
+	{
 		TargetTexSize.x += 0.1f;
 		TargetTexSize.y += 0.1f;
 		targetAlpha -= 0.04f;
-
 	}
-	if (task == TATTACK && ClearTaskJudg[ATTACK]) {
+	if (task == TATTACK && ClearTaskJudg[ATTACK])
+	{
 		TargetTexSize.x += 0.1f;
 		TargetTexSize.y += 0.1f;
 		targetAlpha -= 0.04f;
-
 	}
 
-	if (task == TMOVE) {
+	if (task == TMOVE)
+	{
 		TargetIconPosY = -15.0f + sinf(3.14f * 2.f / 90.f * MoveTime) * -10.0f;
-		TargetPoint_Icon->SetPosition({ 109.f,TargetIconPosY,-650.f });
-		TargetPoint_Ground->SetColor({ 1.0f,1.0f,1.0f,targetAlpha });
-		TargetPoint_Ground->SetPosition({ 109.f,-30,-650.f });
+		TargetPoint_Icon->SetPosition({109.f, TargetIconPosY, -650.f});
+		TargetPoint_Ground->SetColor({1.0f, 1.0f, 1.0f, targetAlpha});
+		TargetPoint_Ground->SetPosition({109.f, -30, -650.f});
 	}
 
-	if (task == TATTACK) {
-		if (!ClearTaskJudg[ATTACK]) {
-			TargetTexSize = { 4,4,3 };
+	if (task == TATTACK)
+	{
+		if (!ClearTaskJudg[ATTACK])
+		{
+			TargetTexSize = {4, 4, 3};
 			targetAlpha = 0.7f;
 			TargetIconPosY = -5 + sinf(3.14f * 2.f / 90.f * MoveTime) * 5;
 
-			if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr) {
+			if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr)
+			{
 				XMFLOAT3 EPos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition();
-				TargetPoint_Icon->SetPosition({ EPos.x,TargetIconPosY,EPos.z });
-				TargetPoint_Ground->SetPosition({ EPos.x,-30,EPos.z });
+				TargetPoint_Icon->SetPosition({EPos.x, TargetIconPosY, EPos.z});
+				TargetPoint_Ground->SetPosition({EPos.x, -30, EPos.z});
 			}
 		}
-		TargetPoint_Ground->SetColor({ 1,0,0,targetAlpha });
-
+		TargetPoint_Ground->SetColor({1, 0, 0, targetAlpha});
 	}
 
-	TargetPoint_Ground->SetRotation({ 90,0,TargetPoint_GroundRotY });
+	TargetPoint_Ground->SetRotation({90, 0, TargetPoint_GroundRotY});
 	TargetPoint_Ground->SetScale(TargetTexSize);
 	TargetPoint_Ground->SetBillboard(FALSE);
 	TargetPoint_Ground->Update(camera);
 
-	TargetPoint_Icon->SetRotation({ 180,0,0 });
+	TargetPoint_Icon->SetRotation({180, 0, 0});
 	TargetPoint_Icon->SetBillboard(TRUE);
-	TargetPoint_Icon->SetScale({ 3,3,3 });
-	TargetPoint_Icon->SetColor({ 1,1,1,1 });
+	TargetPoint_Icon->SetScale({3, 3, 3});
+	TargetPoint_Icon->SetColor({1, 1, 1, 1});
 	TargetPoint_Icon->Update(camera);
-
-
 }
+
 void TutorialSprite::DrawTargetPos()
 {
 	Texture::PreDraw();
@@ -259,6 +264,7 @@ void TutorialSprite::DrawTargetPos()
 	TargetPoint_Icon->Draw();
 	Texture::PostDraw();
 }
+
 void TutorialSprite::Draw()
 {
 	ImGui::Begin("pos");
@@ -267,14 +273,13 @@ void TutorialSprite::Draw()
 	ImGui::End();
 	Sprite::PreDraw();
 
-	for (int i = HELLO; i < CLEAR+1; i++)
+	for (int i = HELLO; i < CLEAR + 1; i++)
 	{
 		Task[i]->Draw();
 	}
 	movecn->Draw();
 	Attackcon->Draw();
 	Sprite::PostDraw();
-
 }
 
 void TutorialSprite::Ease_SpriteSize_Up(float& x, float& t, int index)
@@ -292,7 +297,8 @@ void TutorialSprite::Ease_SpriteSize_Up(float& x, float& t, int index)
 			t -= 0.05f;
 		}
 		//PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(false);
-	} else
+	}
+	else
 	{
 		x = Easing::EaseOut(t, 0, 0.7);
 		if (t <= 1.0f)

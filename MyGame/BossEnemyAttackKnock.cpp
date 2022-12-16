@@ -9,7 +9,6 @@ void BossEnemyAttackKnock::Initialize(Enemy* enmey)
 
 void BossEnemyAttackKnock::Update(Enemy* enemy)
 {
-
 	enemy->SetRecvDamage2(false);
 	KnockAttack::GetInstance()->ActionJudg();
 	if (Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) <= 90.0f)
@@ -20,12 +19,12 @@ void BossEnemyAttackKnock::Update(Enemy* enemy)
 	{
 		enemy->SetMagicAttackTime(false);
 	}
-	else {
+	else
+	{
 		enemy->SetMagicAttackTime(true);
 	}
 	if (KnockAttack::GetInstance()->GetPhase() == KnockAttack::PHASEFOUR)
 	{
-		
 		enemy->ChangeState_Boss(new BossEnemyFollow());
 	}
 }

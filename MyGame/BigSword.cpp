@@ -10,7 +10,7 @@ BigSword::~BigSword()
 void BigSword::Initialize(DebugCamera* camera)
 {
 	m_Object = std::make_unique<Object3d>();
-	
+
 	//ƒ‚ƒfƒ‹Š„‚è“–‚Ä
 	m_Object->Initialize(camera);
 	m_Object->SetModel(ModelManager::GetIns()->GetModel(ModelManager::BIGSWORD));
@@ -37,6 +37,7 @@ void BigSword::Update(DebugCamera* camera)
 }
 
 #include"imgui.h"
+
 void BigSword::Draw()
 {
 	ImGui::Begin("Rot");
@@ -45,6 +46,6 @@ void BigSword::Draw()
 
 	ImGui::SliderFloat("Z", &Rotation.z, 0, 360);
 
-	
+
 	Draw_Obj();
 }

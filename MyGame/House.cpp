@@ -40,7 +40,7 @@ void House_A::Initialize(DebugCamera* camera)
 	m_Object->Initialize(camera);
 
 	m_Object->SetModel(ModelManager::GetIns()->GetModel(ModelManager::HOUSE));
-	Scale = { 1.5, 1.5, 2.2 };
+	Scale = {1.5, 1.5, 2.2};
 	radius_adjustment = -5;
 	SetCollider();
 	alpha = 1;
@@ -48,9 +48,9 @@ void House_A::Initialize(DebugCamera* camera)
 
 void House_A::Update(DebugCamera* camera)
 {
-	m_Object->SetColor({ 0.4, 0.4, 0.4, 1 });
+	m_Object->SetColor({0.4, 0.4, 0.4, 1});
 
-	
+
 	ParameterSet_Obj(camera);
 	m_Object->setFog(TRUE);
 	m_Object->SetFogCenter(camera->GetEye());
@@ -71,12 +71,12 @@ bool House_A::CollideHouse()
 		return false;
 	}
 	playerOBB.SetOBBParam_Pos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
-	playerOBB.SetOBBParam_Scl({ 1, 1, 1 });
+	playerOBB.SetOBBParam_Scl({1, 1, 1});
 	playerOBB.SetOBBParam_Rot(PlayerControl::GetInstance()->GetPlayer()->GetMatrot());
 
 	//OBB 回転ベクトル
 	HouseOBB.SetOBBParam_Pos(m_Object->GetPosition());
-	HouseOBB.SetOBBParam_Scl({ 40, 30, 40 });
+	HouseOBB.SetOBBParam_Scl({40, 30, 40});
 	HouseOBB.SetOBBParam_Rot(m_Object->GetMatrot());
 
 	if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), Position) < 40)
@@ -99,7 +99,7 @@ void House_B::Initialize(DebugCamera* camera)
 	//フィールドにモデル割り当て
 	m_Object->Initialize(camera);
 	m_Object->SetModel(ModelManager::GetIns()->GetModel(ModelManager::BIGROCK_A));
-	Scale = { 3, 3, 3 };
+	Scale = {3, 3, 3};
 	radius_adjustment = -14;
 	SetCollider();
 	alpha = 1;
@@ -107,10 +107,10 @@ void House_B::Initialize(DebugCamera* camera)
 
 void House_B::Update(DebugCamera* camera)
 {
-	m_Object->SetColor({ 0.4, 0.4, 0.4, 1 });
+	m_Object->SetColor({0.4, 0.4, 0.4, 1});
 
 
-	Color = { 1, 1, 1, alpha };
+	Color = {1, 1, 1, alpha};
 
 	ParameterSet_Obj(camera);
 
@@ -130,12 +130,12 @@ bool House_B::CollideHouse()
 		return false;
 	}
 	playerOBB.SetOBBParam_Pos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
-	playerOBB.SetOBBParam_Scl({ 1, 1, 1 });
+	playerOBB.SetOBBParam_Scl({1, 1, 1});
 	playerOBB.SetOBBParam_Rot(PlayerControl::GetInstance()->GetPlayer()->GetMatrot());
 
 	//OBB 回転ベクトル
 	HouseOBB.SetOBBParam_Pos(m_Object->GetPosition());
-	HouseOBB.SetOBBParam_Scl({ 40, 50, 40 });
+	HouseOBB.SetOBBParam_Scl({40, 50, 40});
 	HouseOBB.SetOBBParam_Rot(m_Object->GetMatrot());
 
 	if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), Position) < 140)

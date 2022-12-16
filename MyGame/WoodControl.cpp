@@ -91,7 +91,7 @@ void WoodControl::Init_Play(DebugCamera* camera)
 				std::getline(line_stream, word, ',');
 				float z = static_cast<float>(std::atof(word.c_str()));
 
-				pos[i] = {x, y-8, z};
+				pos[i] = {x, y - 8, z};
 				break;
 			}
 		}
@@ -103,7 +103,7 @@ void WoodControl::Init_Play(DebugCamera* camera)
 	for (int i = 0; i < Quantity; i++)
 	{
 		//‰Šú‰»ˆ—
-		if (Num[i] ==1)
+		if (Num[i] == 1)
 		{
 			woods[i] = std::make_unique<Wood>();
 		}
@@ -150,7 +150,6 @@ void WoodControl::Update_Tutorial(DebugCamera* camera)
 		Tutorialwoods[i]->SetColor({0.0f, 1.0f, 0.0f, 1.0f});
 		Tutorialwoods[i]->Update(camera);
 	}
-	
 }
 
 void WoodControl::Update_Play(DebugCamera* camera)
@@ -194,9 +193,7 @@ void WoodControl::Draw_Play()
 	{
 		if (woods[i] != nullptr)
 		{
-			
-				woods[i]->Draw();
-			
+			woods[i]->Draw();
 		}
 	}
 }

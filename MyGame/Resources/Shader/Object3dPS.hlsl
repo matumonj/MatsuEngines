@@ -190,7 +190,7 @@ PSOutPut main(GSOutput input) : SV_TARGET
 	{
 		if (shadowf)
 		{
-			output.target0 = shadecolor * float4(texcolor.rgb * fc, texcolor.a) +addcol;
+			output.target0 = shadecolor * float4(texcolor.rgb * fc, texcolor.a) + addcol;
 			output.target1 = shadecolor * float4(texcolor.rgb * fc, texcolor.a) + addcol;
 		}
 	}
@@ -201,8 +201,8 @@ PSOutPut main(GSOutput input) : SV_TARGET
 	}
 	if (!shadowf)
 	{
-		output.target0 =float4(texcolor.rgb , texcolor.a)*color;
-		output.target1 =float4(texcolor.rgb, texcolor.a)*color;
+		output.target0 = float4(texcolor.rgb, texcolor.a) * color;
+		output.target1 = float4(texcolor.rgb, texcolor.a) * color;
 	}
 	return output;
 }

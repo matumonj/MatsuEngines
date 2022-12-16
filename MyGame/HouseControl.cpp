@@ -71,7 +71,7 @@ void HouseControl::Init_Play(DebugCamera* camera)
 				std::getline(line_stream, word, ',');
 				float z = static_cast<float>(std::atof(word.c_str()));
 
-				pos[i] = { x, y, z };
+				pos[i] = {x, y, z};
 				//break;
 			}
 			if (word.find("ROTATION") == 0)
@@ -85,7 +85,7 @@ void HouseControl::Init_Play(DebugCamera* camera)
 				std::getline(line_stream, word, ',');
 				float z = static_cast<float>(std::atof(word.c_str()));
 
-				rot[i] = { x, y, z };
+				rot[i] = {x, y, z};
 				//break;
 			}
 			if (word.find("SCALE") == 0)
@@ -99,7 +99,7 @@ void HouseControl::Init_Play(DebugCamera* camera)
 				std::getline(line_stream, word, ',');
 				float z = static_cast<float>(std::atof(word.c_str()));
 
-				scl[i] = { x, y, z };
+				scl[i] = {x, y, z};
 				break;
 			}
 		}
@@ -152,7 +152,6 @@ void HouseControl::Update_Tutorial(DebugCamera* camera) //チュートリアル�
 
 void HouseControl::Update_Play(DebugCamera* camera) //プレイシーン時
 {
-	
 	for (int i = 0; i < Quantity; i++)
 	{
 		if (houses[i] != nullptr)
@@ -161,8 +160,6 @@ void HouseControl::Update_Play(DebugCamera* camera) //プレイシーン時
 		}
 	}
 	//チュートリアルエリアの柵が開く条件
-
-
 }
 
 void HouseControl::Update_Boss(DebugCamera* camera)
@@ -181,12 +178,10 @@ void HouseControl::Draw_Play()
 			houses[i]->Draw();
 		}
 	}
-
 }
 
 void HouseControl::Draw_Tutorial()
 {
-
 }
 
 void HouseControl::Draw_Boss()

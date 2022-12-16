@@ -108,14 +108,15 @@ public:
 		TARGETFENCE,
 		TARGETPLAYER,
 		END_BOSS,
-
 	};
 
-	enum RushAttackCamera {
+	enum RushAttackCamera
+	{
 		NON_RUSH,
 		UPBOSS,
 		RETURNPLAYER
 	};
+
 	SplineCamera GetCameraState_Spline() { return sCamera; }
 private:
 	BossCamera bCamera;

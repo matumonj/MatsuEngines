@@ -6,6 +6,7 @@
 #include"Texture.h"
 #include"Sprite.h"
 #include<array>
+
 class MobEnemy :
 	public Enemy
 {
@@ -34,7 +35,7 @@ public:
 
 	void DamageParticleSet();
 
-	void EnemyHPDraw()override;
+	void EnemyHPDraw() override;
 private:
 	//攻撃後のクールタイム挙動
 	void AttackCoolTime() override;
@@ -64,6 +65,6 @@ private:
 public:
 	bool isendtime;
 	std::unique_ptr<Object3d> Sword;
-	std::array<std::unique_ptr<Sprite>, 3>HPFrame;
+	std::array<std::unique_ptr<Sprite>, 3> HPFrame;
 	XMFLOAT3 swordrot;
 };

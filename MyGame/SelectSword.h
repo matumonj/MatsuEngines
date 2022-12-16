@@ -5,6 +5,7 @@
 #include"Input.h"
 #include<array>
 #include"Particle.h"
+
 class SelectSword
 {
 public:
@@ -41,10 +42,10 @@ private:
 	XMFLOAT2 LBScl;
 	float FrameScalingTime;
 	float Alpha;
-	XMFLOAT2 Position[3] = { {1300, 30}, {1500, 30}, {1700, 30} };
-	XMFLOAT2 Scale[3] = { { 200, 200 },{200,200},{200,200} };
+	XMFLOAT2 Position[3] = {{1300, 30}, {1500, 30}, {1700, 30}};
+	XMFLOAT2 Scale[3] = {{200, 200}, {200, 200}, {200, 200}};
 
-	XMFLOAT2 oldpos[3] = { {1300, 30}, {1500, 30}, {1700, 30} };
+	XMFLOAT2 oldpos[3] = {{1300, 30}, {1500, 30}, {1700, 30}};
 	SelectWeapon NowSelectSword = SWORD;
 	int index;
 	int oldindex;
@@ -56,11 +57,11 @@ private:
 	bool SelectJudg_Right;
 	bool SelectJudg_Left;
 	bool TurnOffDrawF;
-	std::unique_ptr<Particle>WeaponChangeEffect;
+	std::unique_ptr<Particle> WeaponChangeEffect;
 private:
 	float sampleSwordAlpha[3];
 	float EaseTime = 0.0f;
-	
+
 public:
 	static SelectSword* GetInstance();
 	void Initialize();
@@ -81,6 +82,5 @@ private:
 
 
 public:
-
 	SwordBase* GetSword() { return Sword.get(); }
 };

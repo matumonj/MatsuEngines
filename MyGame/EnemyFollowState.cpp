@@ -3,6 +3,7 @@
 #include"EnemyAttackState.h"
 #include"EnemyDeathState.h"
 #include"EnemyKnockState.h"
+
 void EnemyFollowState::Initialize(Enemy* enmey)
 {
 }
@@ -53,7 +54,7 @@ void EnemyFollowState::Update(Enemy* enemy)
 		enemy->GetRotation().z
 	});
 
-	if (!enemy->GetMoveStop()&& PlayerControl::GetInstance()->GetPlayer()->GetStopFlag() == false)
+	if (!enemy->GetMoveStop() && PlayerControl::GetInstance()->GetPlayer()->GetStopFlag() == false)
 	{
 		if (Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) > 10)
 		{
@@ -69,7 +70,8 @@ void EnemyFollowState::Update(Enemy* enemy)
 		enemy->SetAnimeState(enemy->WALK);
 	}
 	//movement++;
-	if (enemy->GetRecvDamage2()) {
+	if (enemy->GetRecvDamage2())
+	{
 		enemy->ChangeState_Mob(new EnemyKnockState());
 	}
 	if (SearchPlayer && enemy->GetCoolTime() == 0)

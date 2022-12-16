@@ -17,10 +17,10 @@
 #include <BossMap.h>
 #include"AltAttack.h"
 #include"KnockAttack.h"
+
 BossScene::BossScene(SceneManager* sceneManager)
 	: BaseScene(sceneManager)
 {
-	
 }
 
 /*------------------------*/
@@ -47,17 +47,18 @@ void BossScene::Initialize()
 	lightGroup->SetDirLightActive(2, false);
 
 	lightGroup->SetDirLightActive(3, false);
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < 4; i++)
+	{
 		lightGroup->SetPointLightActive(i, true);
 	}
 	//ボス攻撃用->できれば移す
 	Nail::GetInstance()->ModelSet();
 	BossMap::GetInstance()->Init();
 
-	LightPos[0] = { 0,20,-100 };
-	LightPos[1] = { 75,20,0 };
-	LightPos[2] = { 0,20,100 };
-	LightPos[3] = { -75,20,0 };
+	LightPos[0] = {0, 20, -100};
+	LightPos[1] = {75, 20, 0};
+	LightPos[2] = {0, 20, 100};
+	LightPos[3] = {-75, 20, 0};
 
 	lightangle[0] = 0;
 
@@ -84,7 +85,6 @@ void BossScene::Update()
 
 	if (Play)
 	{
-
 		//csvからの読み込み終わってから更新処理
 
 		if (AllObjectControl[1] != nullptr)
@@ -128,26 +128,25 @@ void BossScene::Update()
 		c_postEffect = Default;
 	}
 	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
-	
-	LightUpDownT ++ ;
 
-	for (int i = 0; i < 4; i++) {
+	LightUpDownT ++;
 
+	for (int i = 0; i < 4; i++)
+	{
 		lightangle[i] += 0.1f;
 
 		LightPos[i].x = sinf(lightangle[i] * (3.14f / 180.0f)) * 90.0f;
-		LightPos[i].z = cosf(lightangle[i]  * (3.14f / 180.0f)) * 130.0f;
+		LightPos[i].z = cosf(lightangle[i] * (3.14f / 180.0f)) * 130.0f;
 
-	//	LightPos[i].y = -5 + sinf(3.14f * 2.f / 180.f *LightUpDownT )*10;
+		//	LightPos[i].y = -5 + sinf(3.14f * 2.f / 180.f *LightUpDownT )*10;
 
 		lightGroup->SetPointLightPos(i, XMFLOAT3(LightPos[i]));
-		lightGroup->SetPointLightColor(i, XMFLOAT3(1,0.5,0.5));
+		lightGroup->SetPointLightColor(i, XMFLOAT3(1, 0.5, 0.5));
 		lightGroup->SetPointLightAtten(i, XMFLOAT3(pointLightAtten));
 	}
 	BossMap::GetInstance()->Upda();
 	AltAttack::GetInstance()->Upda();
 }
-
 
 
 /*------------------------*/
@@ -157,8 +156,7 @@ void BossScene::MyGameDraw()
 {
 	if (Play)
 	{
-
-	Field::GetInstance()->Draw();
+		Field::GetInstance()->Draw();
 		for (int i = 0; i < AllObjectControl.size(); i++)
 		{
 			AllObjectControl[i]->Draw();
@@ -194,7 +192,8 @@ void BossScene::Draw()
 
 		EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->DamageTexDisplay_Draw();
 
-		for (int i = 0; i <2; i++) {
+		for (int i = 0; i < 2; i++)
+		{
 			EnemyControl::GetInstance()->GetSummonEnemy(i)->DamageTexDisplay_Draw();
 		}
 		PlayerControl::GetInstance()->GetPlayer()->ParticleDraw();
@@ -203,7 +202,7 @@ void BossScene::Draw()
 		DebugTextSprite::GetInstance()->DrawAll();
 		Sprite::PostDraw();
 		PlayerControl::GetInstance()->DamageTexDraw();
-	
+
 	//UI
 		if (CameraControl::GetInstance()->GetCameraState() != CameraControl::BOSSCUTSCENE)
 		{
@@ -213,14 +212,15 @@ void BossScene::Draw()
 		Field::GetInstance()->WarningDraw();
 		SistemConfig::GetInstance()->Draw();
 		ImGui::Begin("LightP");
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 4; i++)
+		{
 			//ImGui::SliderFloat("posY", &cpos.y, -200, 200);
 			ImGui::SliderFloat("posZ", &LightPos[i].y, -200, 200);
 		}
 		ImGui::End();
 		{
 			unsigned long current_time = timeGetTime();
-			float fps = float(count_frame) / (current_time - prev_time) * 1000;
+			float fps = static_cast<float>(count_frame) / (current_time - prev_time) * 1000;
 			ImGui::SliderFloat("FPS", &fps, -10, 50);
 			count_frame++;
 			ImGui::End();
@@ -229,6 +229,7 @@ void BossScene::Draw()
 		break;
 	}
 }
+
 #include"ExpPointSystem.h"
 /*------------------------*/
 /*--------読込処理--------*/

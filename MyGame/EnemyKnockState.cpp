@@ -14,9 +14,9 @@ void EnemyKnockState::Update(Enemy* enemy)
 	const float DetectionRange = 10.0f;
 
 	//ˆÚ“®ƒxƒNƒgƒ‹‚ðyŽ²Žü‚è‚ÌŠp“x‚Å‰ñ“]
-	XMVECTOR move = { 0.0f, 0.0f, 0.1f, 0.0f };
+	XMVECTOR move = {0.0f, 0.0f, 0.1f, 0.0f};
 
-	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(enemy->GetRotation().y + enemy->GetRotRadians()+180.0f));
+	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(enemy->GetRotation().y + enemy->GetRotRadians() + 180.0f));
 
 	move = XMVector3TransformNormal(move, matRot);
 
@@ -27,7 +27,8 @@ void EnemyKnockState::Update(Enemy* enemy)
 		}
 	);
 
-	if (Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) > SelectSword::GetInstance()->GetSword()->GetKnockPower()	)
+	if (Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) >
+		SelectSword::GetInstance()->GetSword()->GetKnockPower())
 	{
 		enemy->ChangeState_Mob(new EnemyFollowState());
 	}

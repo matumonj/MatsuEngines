@@ -62,11 +62,16 @@ public:
 	XMMATRIX GetMatrot();
 	//SelectSwordに使うプレイヤーの手のワールド行列
 	XMMATRIX GetHanMat() { return m_fbxObject->GetHandBoneMatWorld(); }
-	XMFLOAT3 GetHandPos() {
-		return { m_fbxObject->GetHandBoneMatWorld().r[3].m128_f32[0],
-		 m_fbxObject->GetHandBoneMatWorld().r[3].m128_f32[1],
-		 m_fbxObject->GetHandBoneMatWorld().r[3].m128_f32[2] };
+
+	XMFLOAT3 GetHandPos()
+	{
+		return {
+			m_fbxObject->GetHandBoneMatWorld().r[3].m128_f32[0],
+			m_fbxObject->GetHandBoneMatWorld().r[3].m128_f32[1],
+			m_fbxObject->GetHandBoneMatWorld().r[3].m128_f32[2]
+		};
 	}
+
 	//座標の押し戻し
 	void isOldPos()
 	{

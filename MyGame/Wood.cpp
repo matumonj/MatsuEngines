@@ -42,8 +42,7 @@ void Wood::Update(DebugCamera* camera)
 	m_Object->setFog(true);
 	m_Object->SetDisLen(800);
 	//フィールド
-		CollideWood();
-	
+	CollideWood();
 }
 
 void Wood::Draw()
@@ -72,7 +71,6 @@ void Wood::CollideWood()
 		if (Collision::CheckOBBCollision(playerOBB, woodOBB) == true)
 		{
 			l_player->isOldPos();
-			
 		}
 	}
 }
