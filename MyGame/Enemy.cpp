@@ -7,12 +7,14 @@
 #include"EnemyFollowState.h"
 #include"BossEnemyStay.h"
 #include"PlayerControl.h"
+#include"GuardianAppearState.h"
 using namespace DirectX;
 
 Enemy::Enemy()
 {
 	state_boss = new BossEnemyStay();
 	state_mob = new EnemyWalkState();
+	state_guardian = new GuardianAppearState();
 }
 
 Enemy::~Enemy()
@@ -92,7 +94,11 @@ void Enemy::EnemyPop(int HP)
 {
 }
 
-
+void Enemy::ChangeState_Guardian(GuardianState* state)
+{
+	Destroy(state_guardian);
+	state_guardian = state;
+}
 void Enemy::ChangeState_Mob(EnemyState* state)
 {
 	Destroy(state_mob);

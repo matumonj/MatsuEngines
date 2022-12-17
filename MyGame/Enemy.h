@@ -8,6 +8,7 @@
 #include"Player.h"
 #include"EnemyState.h"
 #include"BossEnemyState.h"
+#include"GuardianState.h"
 #include"Texture.h"
 #include"Destroy.h"
 #include"ObjectManager.h"
@@ -183,6 +184,7 @@ public:
 	float GetFbxTime() { return f_time; }
 	//回転行列取得(OBB用いらないかも)
 	XMMATRIX GetMatrot() { return m_fbxObject->GetMatrot(); }
+	XMMATRIX GetMatrotObj() { return m_Object->GetMatrot(); }
 	//攻撃のクールタイム
 	int GetCoolTime() { return cooltime; }
 
@@ -254,7 +256,7 @@ public:
 public: //state切り替え
 	void ChangeState_Mob(EnemyState* state);
 	void ChangeState_Boss(BossEnemyState* state);
-
+	void ChangeState_Guardian(GuardianState* state);
 public: //攻撃種類列挙
 	enum
 	{
@@ -276,9 +278,26 @@ protected:
 	bool SearchF;
 	XMFLOAT3 EaseTime_Arrow;
 protected:
+
+	GuardianState* state_guardian;
 	EnemyState* state_mob;
 	BossEnemyState* state_boss;
 
+protected:
+
+	std::array<std::unique_ptr<Sprite>, 4> HPFrame;
+
+	float NowFrameX;
+	float OldFrameX;
+
+	float OldFrameX_Inner;
+	float FrameScalingETime;
+
+
+	bool InnerFrameScalingF;
+	float FrameScalingETime_Inner;
+	XMFLOAT2 FrameScl;
+	XMFLOAT2 FrameScl_Inner;
 private:
 	std::list<std::unique_ptr<DamageManager>> dMans_;
 };

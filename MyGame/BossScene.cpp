@@ -128,7 +128,12 @@ void BossScene::Update()
 		c_postEffect = Default;
 	}
 	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	if (Input::GetInstance()->TriggerButton(Input::RT))
+	{
+		//‰æ–Ê^‚Á”’‚È‚Á‚½‚ç
 
+		SceneManager::GetInstance()->SetScene(SceneManager::TITLE, sceneManager_);
+	}
 	LightUpDownT ++;
 
 	for (int i = 0; i < 4; i++)

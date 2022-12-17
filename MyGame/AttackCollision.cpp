@@ -102,6 +102,21 @@ void AttackCollision::GetCol(int damage)
 						damage + rand() % 20 + 10);
 					HitCol = true;
 				}
+			
+			}
+		}
+
+		if (attackcolJudgTime_First || attackcolJudgTime_Second || attackcolJudgTime_Third)
+		{
+			if (EnemyControl::GetInstance()->GetGuardianEnemy() != nullptr) {
+				XMFLOAT3 epos = EnemyControl::GetInstance()->GetGuardianEnemy()->GetPosition();
+				if (Collision::CheckOBBCollision(HandObb, GuardianEnemyOBB) == true && !HitCol)
+				{
+					AttackEffect::GetIns()->SetParticle({epos.x,epos.y-10.f,epos.z});
+					EnemyControl::GetInstance()->GetGuardianEnemy()->RecvDamage(
+						damage + rand() % 20 + 10);
+					HitCol = true;
+				}
 			}
 		}
 		break;
@@ -176,7 +191,13 @@ void AttackCollision::ColOBB(ColType Enemytype)
 			EnemyOBB[i].SetOBBParam_Rot(EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetMatrot());
 			EnemyOBB[i].SetOBBParam_Scl({4.0f, 15.0f, 4.0f});
 		}
-		break;
+
+		if (EnemyControl::GetInstance()->GetGuardianEnemy() != nullptr) {
+			GuardianEnemyOBB.SetOBBParam_Pos(EnemyControl::GetInstance()->GetGuardianEnemy()->GetPosition());
+			GuardianEnemyOBB.SetOBBParam_Rot(EnemyControl::GetInstance()->GetGuardianEnemy()->GetMatrotObj());
+			GuardianEnemyOBB.SetOBBParam_Scl({ 4,15,4 });
+		}
+			break;
 
 	case BOSS:
 		BossEnemyOBB.resize(1);

@@ -40,6 +40,7 @@ void Field::Initialize()
 {
 	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
 
+	PedestalDownF = false;
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
 	{
 		//FieldObject->CreateGraphicsPipeline(L"Resources/Shader/Object3dVS.hlsl", L"Resources/Shader/Object3dPS.hlsl", L"Resources/Shader/BasicGS.hlsl");
@@ -78,6 +79,8 @@ void Field::Initialize()
 	}
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
 	{
+		pedestalpos = { -300.0f,-32,270 };
+		SetFieldModel(PEDESTAL, ModelManager::GetIns()->GetModel(ModelManager::ICECRYSTAL), camera);
 		SetFieldModel(BOSSBACK, ModelManager::GetIns()->GetModel(ModelManager::BOSSFIELD), camera);
 	}
 	//ボスのネームプレート
@@ -85,6 +88,22 @@ void Field::Initialize()
 	BossName->SetAnchorPoint({0.5f, 0.5f});
 	BossName->SetPosition({WinApp::window_width / 2, WinApp::window_height / 2});
 	BossName->SetSize({800, 800});
+}
+
+void Field::PedestalMoving()
+{
+	if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(),
+		pedestalpos) < 10)
+	{
+		PedestalDownF = true;
+	}
+	if(PedestalDownF)
+	{
+		if (pedestalpos.y > -200) {
+			pedestalpos.y-=0.2f;
+		}
+	}
+	
 }
 
 void Field::Update_Tutorial()
@@ -126,6 +145,8 @@ void Field::Update_Play()
 	CelestalRot += 0.1f;
 	m_object[CELESTIALSPHERE]->SetRotation({90.0f, CelestalRot, 180.0f});
 	SetFieldUpdate(CELESTIALSPHERE, camera, {0.0f, 2290.0f, 0.0f}, {30.0f, 30.0f, 30.0f}, FALSE, TRUE);
+	SetFieldUpdate(PEDESTAL, camera, pedestalpos, { 2,2,2 });
+
 	FieldObject->SetPosition({0.0f, -25.0f, 0.0f});
 	FieldObject->SetColor({0.2f, 0.2f, 0.2f, 1.0f});
 	FieldObject->SetFogCenter(FogCenterPos);
@@ -134,6 +155,8 @@ void Field::Update_Play()
 
 	m_object[BOSSBACK]->SetRotation({0, 180, 0});
 	SetFieldUpdate(BOSSBACK, camera, {22, -70, 1010}, {1.0f, 1.0f, 1.0f}, FALSE, TRUE);
+
+	PedestalMoving();
 }
 
 void Field::Update_Edit()
@@ -233,6 +256,7 @@ void Field::Draw()
 	}
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
 	{
+		ModelDraw_nullCheck(PEDESTAL);
 		ModelDraw_nullCheck(BOSSBACK);
 	}
 	Object3d::PostDraw();

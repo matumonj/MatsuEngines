@@ -29,10 +29,10 @@ private:
 		CELESTIALSPHERE,
 		BOSSBACK,
 		DAMAGEAREA,
-		MINI
+		PEDESTAL
 	};
 
-	const static int objNum = 4;
+	const static int objNum = 5;
 
 	Texture* playerpoint = nullptr;
 	std::vector<std::unique_ptr<Texture>> Enemyicon;
@@ -41,6 +41,9 @@ private:
 	std::unique_ptr<Object3d> BackObject = nullptr;
 	std::unique_ptr<Object3d> DamageAreaObj = nullptr;
 	std::unique_ptr<Object3d> miniObj = nullptr;
+
+	std::unique_ptr<Object3d>Pedestal;
+	XMFLOAT3 pedestalpos;
 	//Sprite
 	Sprite* Explanation = nullptr;
 	Sprite* BossName = nullptr;
@@ -76,6 +79,7 @@ public:
 	void Finalize();
 	void WarningDraw();
 
+	XMFLOAT3 GetPedestalPos() { return pedestalpos; }
 	void MiniFieldDraw();
 private:
 	void SetFieldModel(ObjType type, Model* model, DebugCamera* camera);
@@ -84,4 +88,8 @@ private:
 	void ModelDraw_nullCheck(ObjType type);
 	void SpriteFeed(float& alpha, bool& feed, float feedSpeed, float MaxAlphaValue);
 	void FieldDamageAreaCol();
+
+private:
+	bool PedestalDownF;
+	void PedestalMoving();
 };

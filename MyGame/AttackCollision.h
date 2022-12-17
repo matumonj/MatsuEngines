@@ -52,6 +52,7 @@ private:
 	std::vector<OBB> EnemyOBB;
 	std::vector<OBB> PlayEnemyOBB;
 	std::vector<OBB> BossEnemyOBB;
+	OBB GuardianEnemyOBB;
 	OBB SummonEnemyOBB[2];
 	void ColOBB(ColType Enemytype);
 };

@@ -49,6 +49,7 @@ public:
 		TUTORIAL,
 		PLAYSCENE,
 		BOSS,
+
 	};
 
 	int index = 0;
@@ -65,6 +66,7 @@ public:
 
 	static constexpr int EnemySize = 2;
 	std::array<std::unique_ptr<Enemy>, EnemySize> SummonEnemys = {};
+	std::unique_ptr<Enemy>Guardian;
 	bool summonEnemyCreate = false;
 	XMFLOAT3 SummonEPos = {1, 1, 1};
 	bool SummonEnemysDeath;
@@ -105,6 +107,8 @@ private:
 	void SummonEnemyInit();
 	void SummonEnemyUpdate();
 public:
+	Enemy* GetGuardianEnemy() { return Guardian.get(); }
+
 	bool GetSummonEnemysDeath() { return SummonEnemysDeath; }
 
 	bool GetSummonEnemysApper() { return SummonEnemysApper; }

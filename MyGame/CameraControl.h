@@ -21,6 +21,7 @@ public:
 		TUTORIAL,
 		MOVEBOSSAREA,
 		PLAYCUTSCENE,
+		GUARDIANCUTSCENE,
 		BOSSCUTSCENE,
 		RUSHSCENE,
 		ENDSCENE
@@ -110,6 +111,14 @@ public:
 		END_BOSS,
 	};
 
+	enum GuardianCamera
+	{
+		NON_GUAR,
+		FEED_GUAR,
+		PEDESTALMOVING,
+		GUARDIANAPPEAR,
+		END_GUAR
+	};
 	enum RushAttackCamera
 	{
 		NON_RUSH,
@@ -123,6 +132,7 @@ private:
 	SplineCamera sCamera;
 	BossAreaCamera mCamera;
 	RushAttackCamera rCamera;
+	GuardianCamera gcamera;
 private:
 	bool UpStage;
 	int countAreaMove;
@@ -163,6 +173,7 @@ private:
 	void BossCutScene_Spline();
 	void BossCutScene_Start(XMFLOAT3 BossPos);
 	void PlaySceneStart();
+	void GuardianCutScene();
 	void RushTargetBoss();
 	void BossDeathStart();
 private:

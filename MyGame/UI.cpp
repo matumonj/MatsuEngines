@@ -70,10 +70,10 @@ void UI::HUDDraw()
 	}
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL)
 	{
-		EnemyControl::GetInstance()->HPFrameDraw();
 		TutorialSprite::GetInstance()->Draw();
 	}
 
+	EnemyControl::GetInstance()->HPFrameDraw();
 	if (!TurnOffDrawUI)
 	{
 		if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)

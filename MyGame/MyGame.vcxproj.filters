@@ -208,6 +208,9 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
+    <Filter Include="Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian">
+      <UniqueIdentifier>{42fec9ba-2ade-4049-9988-06eb19f9e919}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sprite.cpp">
@@ -583,6 +586,33 @@
       <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Mob</Filter>
     </ClCompile>
     <ClCompile Include="DropWeapon.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="GuardianEnemy.cpp">
+      <Filter>Game\gameobject\GameObject\Enemy\Derived</Filter>
+    </ClCompile>
+    <ClCompile Include="GuardianBomState.cpp">
+      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian</Filter>
+    </ClCompile>
+    <ClCompile Include="GuardianDeathState.cpp">
+      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian</Filter>
+    </ClCompile>
+    <ClCompile Include="GuardianNAttackState.cpp">
+      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian</Filter>
+    </ClCompile>
+    <ClCompile Include="GuardianRushState.cpp">
+      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian</Filter>
+    </ClCompile>
+    <ClCompile Include="GuardianState.cpp">
+      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian</Filter>
+    </ClCompile>
+    <ClCompile Include="GuardianAppearState.cpp">
+      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian</Filter>
+    </ClCompile>
+    <ClCompile Include="GuardianFollowState.cpp">
+      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian</Filter>
+    </ClCompile>
+    <ClCompile Include="GuardianBomAttack.cpp">
       <Filter>Game</Filter>
     </ClCompile>
   </ItemGroup>
@@ -988,6 +1018,33 @@
     </ClInclude>
     <ClInclude Include="UI.h">
       <Filter>Game\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="GuardianEnemy.h">
+      <Filter>Game\gameobject\GameObject\Enemy\Derived</Filter>
+    </ClInclude>
+    <ClInclude Include="GuardianBomState.h">
+      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian</Filter>
+    </ClInclude>
+    <ClInclude Include="GuardianDeathState.h">
+      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian</Filter>
+    </ClInclude>
+    <ClInclude Include="GuardianNAttackState.h">
+      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian</Filter>
+    </ClInclude>
+    <ClInclude Include="GuardianRushState.h">
+      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian</Filter>
+    </ClInclude>
+    <ClInclude Include="GuardianState.h">
+      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian</Filter>
+    </ClInclude>
+    <ClInclude Include="GuardianFollowState.h">
+      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian</Filter>
+    </ClInclude>
+    <ClInclude Include="GuardianAppearState.h">
+      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian</Filter>
+    </ClInclude>
+    <ClInclude Include="GuardianBomAttack.h">
+      <Filter>Game\Shader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

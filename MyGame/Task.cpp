@@ -7,7 +7,7 @@
 #include"ChestControl.h"
 #include "PlayerControl.h"
 #include "TargetMarker.h"
-
+#include"Field.h"
 Task* Task::GetInstance()
 {
 	static Task ins;
@@ -22,7 +22,7 @@ void Task::Init()
 	Sprite::LoadTexture(20, L"Resources/04 ‘I‘ðŽˆ/button_select2_2.png");
 	Sprite::LoadTexture(21, L"Resources/2d/PlayTask/Task1.png");
 	Sprite::LoadTexture(22, L"Resources/2d/PlayTask/Task2.png");
-	Sprite::LoadTexture(23, L"Resources/2d/Frame/Task3.png");
+	Sprite::LoadTexture(23, L"Resources/2d/PlayTask/Task3.png");
 	Sprite::LoadTexture(24, L"Resources/2d/Frame/Task4.png");
 	Sprite::LoadTexture(25, L"Resources/2d/Frame/Task5.png");
 
@@ -106,7 +106,7 @@ void Task::Upda()
 	//•ó” oŒ»ˆÊ’u
 	Judg[TASK_ONE] = GolemDestCount > 1;
 	Judg[TASK_TWO] = FlogDestCount > 1;
-
+	Judg[TASK_THREE] = Field::GetInstance()->GetPedestalPos().y < -50.0f;
 	TaskFrame->SetPosition(FramePos);
 	TaskFrame->SetSize(FrameScl);
 
@@ -127,6 +127,8 @@ void Task::Upda()
 
 	TaskClear(TASK_ONE, TASK_TWO, Judg[TASK_ONE], 2);
 	TaskClear(TASK_TWO, TASK_THREE, Judg[TASK_TWO], 3);
+	TaskClear(TASK_THREE, TASK_FOUR, Judg[TASK_THREE], 4);
+
 	//int->string‚É
 	if (tasks == TASK_THREE)
 	{
@@ -179,6 +181,9 @@ void Task::Upda()
 	case Bossarea:
 		TargetPos = {17, -35, 820};
 		break;
+
+	case PEDESTAL:
+		TargetPos = { -300,-30,270 };
 	}
 
 	if (Judg[TASK_ONE] == false)
@@ -189,7 +194,11 @@ void Task::Upda()
 	{
 		target = COW;
 	}
-	if (Judg[TASK_TWO] == true && Judg[TASK_ONE] == true)
+	if (Judg[TASK_THREE] == false && Judg[TASK_TWO] == true)
+	{
+		target = PEDESTAL;
+	}
+	if (Judg[TASK_ONE] == true && Judg[TASK_TWO] == true&&Judg[TASK_THREE]==true)
 	{
 		target = Bossarea;
 	}

@@ -261,7 +261,7 @@ void CameraControl::TargetPlayer()
 		if (Task::GetInstance()->GetAllTaskClear() && FenceControl::GetInstance()->GetBossGateFence()->FenceYposMin() ==
 			FALSE)
 		{
-			Tstate = MOVEBOSSAREA;
+		//	Tstate = MOVEBOSSAREA;
 		}
 	}
 	if (Tstate == PLAYER)
@@ -352,6 +352,7 @@ void (CameraControl::* CameraControl::targetTable[])() = {
 	nullptr,
 	&CameraControl::TargetBossField,
 	&CameraControl::PlaySceneStart,
+	&CameraControl::GuardianCutScene,
 	&CameraControl::BossSceneStart,
 	&CameraControl::RushTargetBoss,
 	&CameraControl::BossDeathStart
@@ -569,6 +570,37 @@ void CameraControl::PlaySceneStart()
 		break;
 	}
 	this->camera->SetTarget({PlayerControl::GetInstance()->GetPlayer()->GetPosition()});
+}
+
+
+void CameraControl::GuardianCutScene()
+{
+	/*switch (gcamera)
+	{
+	case GuardianCamera::NON_GUAR:
+
+		break;
+
+	case GuardianCamera::FEED_GUAR:
+		Feed::GetInstance()->Update_Black(Feed::FEEDIN);
+		if(Feed::GetInstance()->GetAlpha()>=1.0f)
+		{
+			
+		}
+		break;
+
+	case GuardianCamera::PEDESTALMOVING:
+
+		break;
+
+	case GuardianCamera::GUARDIANAPPEAR:
+
+		break;
+
+	case GuardianCamera::END_GUAR:
+
+		break;
+	}*/
 }
 
 /*------------------------*/

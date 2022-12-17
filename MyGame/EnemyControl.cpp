@@ -16,7 +16,7 @@
 #include "CameraControl.h"
 #include"DebugTxt.h"
 #include"FrontCircleAttack.h"
-
+#include"GuardianEnemy.h"
 EnemyControl* EnemyControl::GetInstance()
 {
 	static EnemyControl instance;
@@ -139,6 +139,8 @@ void EnemyControl::Init_Play()
 		enemys[PLAYSCENE][i]->SetPosition(pos[i]);
 		//enemys[PLAYSCENE][i]->SetRespawnPos(pos[i]);
 	}
+	Guardian= std::make_unique<GuardianEnemy>();
+	Guardian->Initialize();
 }
 
 void EnemyControl::SummonEnemyInit()
@@ -276,17 +278,17 @@ void EnemyControl::Update_Play()
 					if (Task::GetInstance()->GetFlogDesthCount(2))
 					{
 						ChestControl::GetInstance()->SetChestAppearance(ChestControl::BLUE, {
-							                                                enemys[PLAYSCENE][i]->GetPosition().x,
-							                                                enemys[PLAYSCENE][i]->GetPosition().y +
-							                                                10.0f,
-							                                                enemys[PLAYSCENE][i]->GetPosition().z
-						                                                });
+							enemys[PLAYSCENE][i]->GetPosition().x,
+							enemys[PLAYSCENE][i]->GetPosition().y +10.0f,
+							enemys[PLAYSCENE][i]->GetPosition().z
+						});
 					}
 				}
 			}
 			Destroy_unique(enemys[PLAYSCENE][i]);
 		}
 	}
+	Guardian->Update();
 }
 
 void EnemyControl::SummonEnemyUpdate()
@@ -424,6 +426,27 @@ void EnemyControl::HPFrameDraw()
 			enemys[TUTORIAL][0]->EnemyHPDraw();
 		}
 	}
+	else if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
+	{
+
+		for (int i = 0; i < Quantity; i++)
+		{
+			if (enemys[PLAYSCENE][i] == nullptr)continue;
+			enemys[PLAYSCENE][i]->EnemyHPDraw();
+		}
+		if (Guardian != nullptr)
+		{
+			Guardian->EnemyHPDraw();
+		}
+	}
+	else if(SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
+	{
+		for(int i=0;i<SummonEnemys.size();i++)
+		{
+			if (SummonEnemys[i] == nullptr)continue;
+			SummonEnemys[i]->EnemyHPDraw();
+		}
+	}
 }
 
 #include"imgui.h"
@@ -455,6 +478,7 @@ void EnemyControl::Draw_Play()
 			}
 		}
 	}
+	Guardian->Draw();
 }
 
 void EnemyControl::Draw_Boss()
@@ -504,6 +528,6 @@ std::vector<std::unique_ptr<Enemy>>& EnemyControl::GetEnemy(EnemyType type)
 	{
 		return enemys[BOSS];
 	}
-
+	
 	return enemys[NON];
 }
