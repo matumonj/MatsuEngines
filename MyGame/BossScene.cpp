@@ -131,7 +131,7 @@ void BossScene::Update()
 	if (Input::GetInstance()->TriggerButton(Input::RT))
 	{
 		//‰æ–Ê^‚Á”’‚È‚Á‚½‚ç
-
+		Play = false;
 		SceneManager::GetInstance()->SetScene(SceneManager::TITLE, sceneManager_);
 	}
 	LightUpDownT ++;
@@ -159,14 +159,6 @@ void BossScene::Update()
 /*-----------------------*/
 void BossScene::MyGameDraw()
 {
-	if (Play)
-	{
-		Field::GetInstance()->Draw();
-		for (int i = 0; i < AllObjectControl.size(); i++)
-		{
-			AllObjectControl[i]->Draw();
-		}
-	}
 }
 
 /*------------------------*/
@@ -190,17 +182,24 @@ void BossScene::Draw()
 
 	case Default: //•’Ê‚Ì‚â‚Â“Á‚É‰½‚à‚©‚©‚Á‚Ä‚¢‚È‚¢
 		DirectXCommon::GetInstance()->BeginDraw();
-		MyGameDraw();
-
-		Nail::GetInstance()->Draw();
-		BossMap::GetInstance()->Draw();
-
-		EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->DamageTexDisplay_Draw();
-
-		for (int i = 0; i < 2; i++)
+		if (Play)
 		{
-			EnemyControl::GetInstance()->GetSummonEnemy(i)->DamageTexDisplay_Draw();
+			if (Field::GetInstance() != nullptr)
+			{
+				Field::GetInstance()->Draw();
+			}
+			for (int i = 0; i < AllObjectControl.size(); i++)
+			{
+				if (AllObjectControl[i] == nullptr)
+				{
+					continue;
+				}
+				AllObjectControl[i]->Draw();
+			}
+			Nail::GetInstance()->Draw();
+			BossMap::GetInstance()->Draw();
 		}
+
 		PlayerControl::GetInstance()->GetPlayer()->ParticleDraw();
 
 		Sprite::PreDraw();
@@ -269,6 +268,10 @@ bool BossScene::LoadParam()
 /*-----------------------*/
 void BossScene::Finalize()
 {
+	for (int i = 0; i < AllObjectControl.size(); i++)
+	{
+		AllObjectControl[i]->Finalize();
+	}
 	AllObjectControl.clear();
 	Field::GetInstance()->Finalize();
 }

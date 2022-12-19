@@ -11,7 +11,7 @@ void BossEnemyAttackKnock::Update(Enemy* enemy)
 {
 	enemy->SetRecvDamage2(false);
 	KnockAttack::GetInstance()->ActionJudg();
-	if (Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) <= 90.0f)
+	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= 90.0f)
 	{
 		enemy->SetAttack_End(enemy->KNOCK, true);
 	}

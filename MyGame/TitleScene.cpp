@@ -23,17 +23,17 @@ void TitleScene::Initialize()
 	// 3Dオブエクトにライトをセット
 	Object3d::SetLightGroup(lightGroup);
 
-	Sprite::LoadTexture(3, L"Resources/2d/title/titlesp.png");
-	titlesprite = Sprite::Create(3, {0.0f, 0.0f});
+	Sprite::LoadTexture(30, L"Resources/2d/title/titlesp.png");
+	titlesprite = Sprite::Create(30, {0.0f, 0.0f});
 
-	Sprite::LoadTexture(4, L"Resources/title2.png");
-	titlesprite2 = Sprite::Create(4, {0, 0.0f});
+	Sprite::LoadTexture(31, L"Resources/title2.png");
+	titlesprite2 = Sprite::Create(31, {0, 0.0f});
 
-	Sprite::LoadTexture(5, L"Resources/2d/title/gameplay.png");
-	Sprite::LoadTexture(6, L"Resources/2d/title/edit.png");
+	Sprite::LoadTexture(32, L"Resources/2d/title/gameplay.png");
+	Sprite::LoadTexture(33, L"Resources/2d/title/edit.png");
 
-	Sprite* navGameSprite = Sprite::Create(5, {0, 0.0f});
-	Sprite* navEditSprite = Sprite::Create(6, {0, 0.0f});
+	Sprite* navGameSprite = Sprite::Create(32, {0, 0.0f});
+	Sprite* navEditSprite = Sprite::Create(33, {0, 0.0f});
 
 	TitleMenu[0].reset(navGameSprite);
 

@@ -5,6 +5,7 @@
 #include "Texture.h"
 
 #include"Object3d.h"
+
 class Task
 {
 public:
@@ -90,6 +91,7 @@ public:
 		if (FlogDestCount == count) { return true; }
 		return false;
 	}
+
 	bool TaskThirdClear() { return Judg[TASK_THREE]; }
 private:
 	int GolemDestCount;

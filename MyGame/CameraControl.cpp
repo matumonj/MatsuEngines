@@ -261,7 +261,7 @@ void CameraControl::TargetPlayer()
 		if (Task::GetInstance()->GetAllTaskClear() && FenceControl::GetInstance()->GetBossGateFence()->FenceYposMin() ==
 			FALSE)
 		{
-		//	Tstate = MOVEBOSSAREA;
+			//	Tstate = MOVEBOSSAREA;
 		}
 	}
 	if (Tstate == PLAYER)
@@ -516,7 +516,7 @@ void CameraControl::PlaySceneStart()
 	case SPLINE:
 		nowCount = static_cast<float>(GetTickCount64());
 		elapsedCount = nowCount - startCount;
-		elapsedTime = elapsedCount / 1000.0f;
+		elapsedTime = elapsedCount / 10.0f;
 
 		timerate = elapsedTime / maxtime;
 		if (timerate >= 1)

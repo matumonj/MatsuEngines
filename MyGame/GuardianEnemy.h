@@ -1,7 +1,8 @@
 ﻿#pragma once
 #include"Enemy.h"
+#include"GuardianBomAttack.h"
 
-class GuardianEnemy:public Enemy
+class GuardianEnemy : public Enemy
 {
 public:
 	/// コンストラクタ
@@ -27,7 +28,7 @@ public:
 
 	void DamageParticleSet();
 
-	void EnemyHPDraw()override;
+	void EnemyHPDraw() override;
 private:
 	//攻撃後のクールタイム挙動
 	void AttackCoolTime() override;
@@ -40,15 +41,15 @@ private:
 	void HPFrameScaling();
 
 private:
+	std::unique_ptr<GuardianBomAttack> bomattack;
+
 	enum AttackType
 	{
 		BOM,
 		NORMAL,
 		RUSH,
-
 	};
 
 	float PosYMovingT;
 	AttackType atcktype;
-	
 };

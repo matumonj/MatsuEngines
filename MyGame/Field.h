@@ -4,8 +4,10 @@
 #include"Model.h"
 #include"DebugCamera.h"
 #include<memory>
+#include<array>
 #include"ObjectManager.h"
 #include"Texture.h"
+#include"CollisionPrimitive.h"
 class TouchableObject;
 class CollisionManager;
 
@@ -41,8 +43,7 @@ private:
 	std::unique_ptr<Object3d> BackObject = nullptr;
 	std::unique_ptr<Object3d> DamageAreaObj = nullptr;
 	std::unique_ptr<Object3d> miniObj = nullptr;
-
-	std::unique_ptr<Object3d>Pedestal;
+	std::unique_ptr<Object3d> Pedestal;
 	XMFLOAT3 pedestalpos;
 	//Sprite
 	Sprite* Explanation = nullptr;
@@ -50,6 +51,16 @@ private:
 	//Model
 	DirectX::XMFLOAT3 ssp = {0.0f, 0.0f, 0.0f};
 	int EnemyIconSize = 0;
+private:
+	void GuardAreaTexUpda();
+	std::array<std::unique_ptr<Texture>, 8>GuardArea;
+	std::array<XMFLOAT3, 8>GuardAreaRot;
+	std::array<float, 8>GuardAreaAngle;
+	std::array<XMFLOAT3, 8>GuardareaPos;
+	std::array<float, 8>GuardAreaAlphaEtime;
+	std::array<float, 8>GuardAreaAlpha;
+	Line2D camera_to_player;
+	std::array<Point,8> GuardAreaPoint;
 private:
 	float t = 0.0f;
 	float TexAlpha_BossName = 0.0f;
@@ -78,7 +89,7 @@ public:
 	void Draw() override;
 	void Finalize();
 	void WarningDraw();
-
+	void GuardAreaDraw();
 	XMFLOAT3 GetPedestalPos() { return pedestalpos; }
 	void MiniFieldDraw();
 private:

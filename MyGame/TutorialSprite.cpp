@@ -60,19 +60,21 @@ void TutorialSprite::Initialize()
 
 	/// 各説明用テクスチャ初期化
 	Task[HELLO] = Sprite::Create(171, {10, 10});
-	Task[WALK] = Sprite::Create(174, {10, 10});
-	Task[ATTACK] = Sprite::Create(175, {10, 10});
-	Task[SELECTWEAPON] = Sprite::Create(176, {10, 10});
-	Task[GETKEY] = Sprite::Create(177, {10, 10});
-	Task[CLEAR] = Sprite::Create(178, {10, 10});
+	Task[WALK] = Sprite::Create(174, {10.f, 10.f });
+	Task[ATTACK] = Sprite::Create(175, {10.f, 10.f });
+	Task[SELECTWEAPON] = Sprite::Create(176, {10.f, 10.f });
+	Task[GETKEY] = Sprite::Create(177, {10.f, 10.f });
+	Task[CLEAR] = Sprite::Create(178, {10.f, 10.f });
 
 
 	targetAlpha = 1.f;
-	TargetTexSize = {4, 4, 3};
+	TargetTexSize = {4.f, 4.f, 3.f };
 
 	for (int i = 0; i < TaskNum; i++)
 	{
-		Task[i]->SetAnchorPoint({0, 0});
+		SpriteAlpha[i] = 0.0f;
+		t[i] = 0.0f;
+		Task[i]->SetAnchorPoint({0.f, 0.f });
 		ClearTaskJudg[i] = false;
 	}
 
@@ -186,11 +188,11 @@ void TutorialSprite::Update()
 	for (int i = WALK; i < CLEAR + 1; i++)
 	{
 		Task[i]->SetPosition({460.f, 600.f});
-		Task[i]->SetSize({1000, 300});
-		Task[i]->setcolor({1, 1, 1, SpriteAlpha[i]});
+		Task[i]->SetSize({1000.f, 300.f });
+		Task[i]->setcolor({1.f, 1.f, 1.f, SpriteAlpha[i]});
 	}
 
-	Task[HELLO]->setcolor({1, 1, 1, SpriteAlpha[HELLO]});
+	Task[HELLO]->setcolor({1.f, 1.f, 1.f, SpriteAlpha[HELLO]});
 	movea = min(movea, 1.0f);
 	movea = max(movea, 0.0f);
 	atacka = min(atacka, 1.0f);
@@ -291,7 +293,7 @@ void TutorialSprite::Ease_SpriteSize_Up(float& x, float& t, int index)
 	}
 	if (MassageCheck[index])
 	{
-		x = Easing::EaseOut(t, 0, 0.7);
+		x = Easing::EaseOut(t, 0.f, 0.7f);
 		if (t >= 0.0f)
 		{
 			t -= 0.05f;
@@ -300,7 +302,7 @@ void TutorialSprite::Ease_SpriteSize_Up(float& x, float& t, int index)
 	}
 	else
 	{
-		x = Easing::EaseOut(t, 0, 0.7);
+		x = Easing::EaseOut(t, 0.f, 0.7f);
 		if (t <= 1.0f)
 		{
 			t += 0.05f;

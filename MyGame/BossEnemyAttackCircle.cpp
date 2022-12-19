@@ -14,7 +14,7 @@ void BossEnemyAttackCircle::Update(Enemy* enemy)
 	enemy->SetRoarMotion(true);
 	CircleAttack::GetInstance()->ActionJudg();
 
-	if (Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) < 90.0f)
+	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) < 90.0f)
 	{
 		CircleAttack::GetInstance()->SetDamageArea(CircleAttack::WEST, CircleAttack::SOUTH);
 		enemy->SetAttack_End(enemy->CIRCLE_1, true);

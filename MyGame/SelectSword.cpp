@@ -55,13 +55,13 @@ void SelectSword::SpriteSet()
 
 	//選択中の武器を指すテクスチャ
 	Frame = Sprite::Create(233, {1.0f, 1.0f});
-	Frame->SetAnchorPoint({0.5, 0.5});
+	Frame->SetAnchorPoint({0.5f, 0.5f});
 
 	//LB,RB
 	Button_RB = Sprite::Create(234, {1.0f, 1.0f});
-	Button_RB->SetAnchorPoint({0.5, 0.5});
+	Button_RB->SetAnchorPoint({0.5f, 0.5f});
 	Button_LB = Sprite::Create(235, {1.0f, 1.0f});
-	Button_LB->SetAnchorPoint({0.5, 0.5});
+	Button_LB->SetAnchorPoint({0.5f, 0.5f});
 
 	RBPos = {1830.0f, 250.f};
 	RBScl = {230.0f, 200.0f};
@@ -74,9 +74,9 @@ void SelectSword::SpriteSet()
 	sampleSwordAlpha[SWORD] = 1.0f;
 	sampleSwordAlpha[AXE] = 0.0f;
 
-	WeapomScl = {1, 1, 1};
+	WeapomScl = {1.f, 1.f, 1.f };
 	WeaponChangeEffect = std::make_unique<Particle>();
-	WeaponChangeEffect->Init();
+	WeaponChangeEffect->Init(65);
 }
 
 void SelectSword::Initialize()
@@ -190,9 +190,9 @@ void SelectSword::Update()
 			{
 				Position[i].x = Easing::EaseOut(EaseTime, oldpos[i].x, oldpos[i].x + 200);
 				//枠が右端いったら左端に
-				if (Position[i].x > 1800)
+				if (Position[i].x > 1800.f)
 				{
-					Position[i].x = 1300;
+					Position[i].x = 1300.f;
 				}
 			}
 			//イージング進める
@@ -215,9 +215,9 @@ void SelectSword::Update()
 			{
 				Position[i].x = Easing::EaseOut(EaseTime, oldpos[i].x, oldpos[i].x - 200);
 				//枠が左端行ったら右端に移動
-				if (Position[i].x < 1200)
+				if (Position[i].x < 1200.f)
 				{
-					Position[i].x = 1700;
+					Position[i].x = 1700.f;
 				}
 			}
 			//イージング進める
@@ -289,8 +289,8 @@ void SelectSword::Update()
 	FrameScalingTime++; //拡縮の周期用
 	//230と240の間で拡縮
 	Frame->SetSize({
-		230.0f + sinf(3.14f * 2.f / 90.f * FrameScalingTime) * 10,
-		230.0f + sinf(3.14f * 2.f / 90.f * FrameScalingTime) * 10
+		230.0f + sinf(3.14f * 2.f / 90.f * FrameScalingTime) * 10.f,
+		230.0f + sinf(3.14f * 2.f / 90.f * FrameScalingTime) * 10.f
 	});
 	Frame->SetPosition({1600, 130});
 

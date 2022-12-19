@@ -20,9 +20,21 @@ void AltAttack::Initialize()
 	RushSphereObj->Initialize(CameraControl::GetInstance()->GetCamera());
 
 	phase = PHASENON;
+	area = FIR;
+	for (int i = 0; i < 5; i++)
+	{
+		rushEtime[i] = 0.0f;
+	}
+	rushspherealpha = 0.0f;
+	DestTime = 0.0f;
+	RushEaseTime = 0.0f;
+	RushAttackCount = 0;
 
+	RushSphereObj->SetDestFlag(false);
+	RushSphereObj->SetDestTime(DestTime);
+	rushspherescl = {0.0f, 0.0f, 0.0f};
 	p = new Particle();
-	p->Init();
+	p->Init(64);
 }
 
 void AltAttack::CollisionParamSet()

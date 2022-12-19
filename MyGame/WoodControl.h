@@ -21,7 +21,7 @@ private:
 public:
 	static WoodControl* GetInstance();
 
-	void Load( ) override;
+	void Load() override;
 
 	void Finalize() override;
 
@@ -31,16 +31,16 @@ public:
 private:
 	void Update_Tutorial() override;
 
-	void Update_Play( ) override;
+	void Update_Play() override;
 
-	void Update_Boss( ) override;
+	void Update_Boss() override;
 
 	/*更新処理*/
-	void Init_Tutorial( ) override;
+	void Init_Tutorial() override;
 
-	void Init_Play( ) override;
+	void Init_Play() override;
 
-	void Init_Boss( ) override;
+	void Init_Boss() override;
 
 	/*更新処理*/
 	void Draw_Tutorial() override;

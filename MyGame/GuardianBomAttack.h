@@ -2,6 +2,7 @@
 #include "Texture.h"
 #include<memory>
 #include"Particle.h"
+
 class GuardianBomAttack
 {
 private:
@@ -11,10 +12,14 @@ private:
 	using XMMATRIX = DirectX::XMMATRIX;
 	using XMVECTOR = DirectX::XMVECTOR;
 public:
+	static GuardianBomAttack* GetIns();
 	void TexSet();
 	void Upda();
 	void Draw();
 
+	void SetAction(bool f) { if (phase == NON) { phase = AREASET; } }
+	bool GetPhaseEnd() { if (phase == END) { return true; } }
+	void SetActionNon() { phase = NON; }
 private:
 	enum Phase
 	{
@@ -22,15 +27,18 @@ private:
 		AREASET,
 		BOM,
 		END
-	}phase;
+	} phase;
 
 	void Phase_AreaSet();
 	void Phase_Bom();
 	void Phase_End();
 private:
-	std::unique_ptr<Texture>DamageTex;
-	std::unique_ptr<Particle>BomEffect;
+	std::unique_ptr<Texture> DamageTex;
+	std::unique_ptr<Particle> BomEffect;
 	XMFLOAT2 TexScl;
 	float TexAlpha;
+	XMFLOAT3 BossRot;
+	XMFLOAT3 BossPos;
+	XMFLOAT3 BossColor;
+	float ColorT;
 };
-

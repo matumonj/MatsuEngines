@@ -14,20 +14,20 @@ class ControlBase
 public:
 	virtual ~ControlBase();
 public:
-	virtual void Load( ) =0;
+	virtual void Load() =0;
 
-	virtual void Initialize( );
-	virtual void Update( );
+	virtual void Initialize();
+	virtual void Update();
 	virtual void Draw();
 
 
-	virtual void Update_Tutorial( ) = 0;
-	virtual void Update_Play( ) = 0;
-	virtual void Update_Boss( ) = 0;
+	virtual void Update_Tutorial() = 0;
+	virtual void Update_Play() = 0;
+	virtual void Update_Boss() = 0;
 
-	virtual void Init_Tutorial( ) = 0;
-	virtual void Init_Play( ) = 0;
-	virtual void Init_Boss( ) = 0;
+	virtual void Init_Tutorial() = 0;
+	virtual void Init_Play() = 0;
+	virtual void Init_Boss() = 0;
 
 	virtual void Draw_Tutorial() = 0;
 	virtual void Draw_Play() = 0;
@@ -36,8 +36,8 @@ public:
 
 	virtual void Finalize() = 0;
 private:
-	static void (ControlBase::* initTable[])( );
-	static void (ControlBase::* updateTable[])( );
+	static void (ControlBase::* initTable[])();
+	static void (ControlBase::* updateTable[])();
 	static void (ControlBase::* drawTable[])();
 protected:
 	template <class T>

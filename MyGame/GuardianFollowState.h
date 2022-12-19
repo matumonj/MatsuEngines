@@ -2,8 +2,9 @@
 #include "GuardianState.h"
 
 #include "Enemy.h"
+
 class GuardianFollowState :
-    public GuardianState
+	public GuardianState
 {
 public:
 	void Initialize(Enemy* enemy) override;
@@ -15,4 +16,3 @@ private:
 	float RotY;
 	void Follow(Enemy* enemy);
 };
-

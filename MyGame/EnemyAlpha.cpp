@@ -45,7 +45,7 @@ void EnemyAlpha::Initialize()
 
 	//パラメータのセット
 
-	MaxHP = 100.00f;
+	MaxHP = 100;
 	EnemyHP = MaxHP;
 	Rotation = {-110, 0, 0};
 	Scale = {0.05f, 0.05f, 0.05f};

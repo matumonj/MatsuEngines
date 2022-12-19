@@ -87,14 +87,14 @@ void HalfAttack::ActionJudg()
 		//TexAlpha = 0.5f;
 	}
 
-	MagicTex[0]->SetPosition({Boss->GetPosition().x + 20, Boss->GetPosition().y + 3, Boss->GetPosition().z});
-	MagicTex[1]->SetPosition({Boss->GetPosition().x - 20, Boss->GetPosition().y + 3, Boss->GetPosition().z});
+	MagicTex[0]->SetPosition({Boss->GetPosition().x + 20.f, Boss->GetPosition().y + 3.f, Boss->GetPosition().z});
+	MagicTex[1]->SetPosition({Boss->GetPosition().x - 20.f, Boss->GetPosition().y + 3.f, Boss->GetPosition().z});
 
 	for (int i = 0; i < EnemySize; i++)
 	{
 		MagicTex[i]->SetBillboard(FALSE);
 		MagicTex[i]->SetScale(TexScl[i]);
-		MagicTex[i]->SetRotation({90, 0, RotY});
+		MagicTex[i]->SetRotation({90.f, 0.f, RotY});
 		MagicTex[i]->SetColor({1.0f, 1.0f, 1.0f, TexAlpha});
 		MagicTex[i]->Update(CameraControl::GetInstance()->GetCamera());
 	}

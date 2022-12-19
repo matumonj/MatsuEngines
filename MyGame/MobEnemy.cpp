@@ -30,7 +30,7 @@ MobEnemy::MobEnemy()
 MobEnemy::~MobEnemy()
 {
 	Destroy(state_mob);
-	for(int i=0;i<3;i++)
+	for (int i = 0; i < 3; i++)
 	{
 		HPFrame[i].reset();
 	}
@@ -55,7 +55,7 @@ void MobEnemy::Initialize()
 	m_fbxObject->SetModel(FbxLoader::GetInstance()->LoadModelFromFile("monster_golem_demo"));
 	m_fbxObject->PlayAnimation();
 
-	MaxHP = 1000.0f;
+	MaxHP = 1000;
 
 	EnemyHP = MaxHP;
 	//パラメータのセット
@@ -79,10 +79,10 @@ void MobEnemy::Initialize()
 	addRotRadians = 0;
 	FollowRotAngleCorrect = 180;
 
-	Sprite*l_frame1= Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME1),{0,0});
-	Sprite* l_frame2 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME2), { 0,0 });
-	Sprite* l_frame3 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME4), { 0,0 });
-	Sprite* l_frame4= Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME3), { 0,0 });
+	Sprite* l_frame1 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME1), {0, 0});
+	Sprite* l_frame2 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME2), {0, 0});
+	Sprite* l_frame3 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME4), {0, 0});
+	Sprite* l_frame4 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME3), {0, 0});
 
 	HPFrame[0].reset(l_frame1);
 	HPFrame[1].reset(l_frame2);
@@ -92,7 +92,7 @@ void MobEnemy::Initialize()
 	{
 		HPFrame[i]->SetAnchorPoint({0.0f, 0.0f});
 	}
-	FrameScl.x = Percent::GetParcent(MaxHP, EnemyHP) * 2.0f;
+	FrameScl.x = Percent::GetParcent(static_cast<float>(MaxHP), static_cast<float>(EnemyHP)) * 2.0f;
 	ENumber = GOLEM;
 }
 
@@ -133,7 +133,6 @@ void MobEnemy::Update()
 
 	OBBSetParam();
 	m_fbxObject->SetFbxTime(f_time);
-
 }
 
 void MobEnemy::HPFrameScaling()
@@ -143,22 +142,22 @@ void MobEnemy::HPFrameScaling()
 	XMVECTOR tex2DPos[4];
 	for (int i = 0; i < 4; i++)
 	{
-		tex2DPos[i] = { Position.x, Position.y + 13.0f, Position.z };
+		tex2DPos[i] = {Position.x, Position.y + 13.0f, Position.z};
 		tex2DPos[i] = MatCal::PosDivi(tex2DPos[i], camera->GetViewMatrix(), false);
 		tex2DPos[i] = MatCal::PosDivi(tex2DPos[i], camera->GetProjectionMatrix(), true);
 		tex2DPos[i] = MatCal::WDivi(tex2DPos[i], false);
 		tex2DPos[i] = MatCal::PosDivi(tex2DPos[i], camera->GetViewPort(), false);
 
-		HPFrame[i]->SetPosition({ tex2DPos[i].m128_f32[0] - 80.0f, tex2DPos[i].m128_f32[1] });
+		HPFrame[i]->SetPosition({tex2DPos[i].m128_f32[0] - 80.0f, tex2DPos[i].m128_f32[1]});
 	}
 	if (RecvDamagef)
 	{
-
 		FrameScalingETime_Inner = 0.0f;
-		if (!InnerFrameScalingF) {
+		if (!InnerFrameScalingF)
+		{
 			OldFrameX_Inner = OldFrameX;
 		}
-		NowFrameX = Percent::GetParcent(MaxHP, EnemyHP) * 2.0f;
+		NowFrameX = Percent::GetParcent(static_cast<float>(MaxHP), static_cast<float>(EnemyHP)) * 2.0f;
 		FrameScalingETime += 0.05f;
 		FrameScl.x = Easing::EaseOut(FrameScalingETime, OldFrameX, NowFrameX);
 
@@ -171,17 +170,16 @@ void MobEnemy::HPFrameScaling()
 
 	else
 	{
-	
-		OldFrameX = Percent::GetParcent(MaxHP, EnemyHP) * 2.0f;
+		OldFrameX = Percent::GetParcent(float(MaxHP), float(EnemyHP)) * 2.0f;
 
 		FrameScalingETime = 0.0f;
 	}
 
-	if(InnerFrameScalingF)
+	if (InnerFrameScalingF)
 	{
 		FrameScalingETime_Inner += 0.02f;
 		FrameScl_Inner.x = Easing::EaseOut(FrameScalingETime_Inner, OldFrameX_Inner, NowFrameX);
-		if(FrameScalingETime_Inner>=1.0f)
+		if (FrameScalingETime_Inner >= 1.0f)
 		{
 			InnerFrameScalingF = false;
 		}
@@ -190,10 +188,10 @@ void MobEnemy::HPFrameScaling()
 	{
 		FrameScalingETime_Inner = 0.0f;
 	}
-	HPFrame[3]->SetSize({ FrameScl.x, 15 });
-	HPFrame[2]->SetSize({ FrameScl_Inner.x, 15.0f });
-	HPFrame[1]->SetSize({ 200.0f, 15.0f });
-	HPFrame[0]->SetSize({ 200.0f, 15.0f });
+	HPFrame[3]->SetSize({FrameScl.x, 15});
+	HPFrame[2]->SetSize({FrameScl_Inner.x, 15.0f});
+	HPFrame[1]->SetSize({200.0f, 15.0f});
+	HPFrame[0]->SetSize({200.0f, 15.0f});
 }
 
 
@@ -250,7 +248,6 @@ void MobEnemy::OBBSetParam()
 //描画処理
 void MobEnemy::Draw()
 {
-
 	if (alpha >= 0.0f)
 	{
 		Draw_Fbx();
@@ -266,7 +263,7 @@ void MobEnemy::EnemyHPDraw()
 {
 	Player* l_player = PlayerControl::GetInstance()->GetPlayer();
 
-	if (Collision::GetLength(Position, l_player->GetPosition()) > 40){return; }
+	if (Collision::GetLength(Position, l_player->GetPosition()) > 40) { return; }
 	Sprite::PreDraw();
 	for (int i = 0; i < 4; i++)
 	{

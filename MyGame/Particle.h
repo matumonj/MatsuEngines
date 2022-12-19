@@ -12,7 +12,7 @@ private:
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
 public:
-	void Init();
+	void Init(UINT num);
 	void Upda();
 
 	void Upda_B();
@@ -29,6 +29,8 @@ public:
 	}
 
 private:
+	UINT parnum;
+
 	enum Type
 	{
 		NORMAL_1,

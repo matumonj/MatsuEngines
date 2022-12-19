@@ -21,7 +21,6 @@ WoodControl::~WoodControl()
 
 void WoodControl::Init_Tutorial()
 {
-	
 	Tutorialwoods.resize(3);
 	Tutorialwoods[0] = std::make_unique<Wood>();
 	Tutorialwoods[1] = std::make_unique<Wood>();

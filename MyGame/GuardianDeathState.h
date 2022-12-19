@@ -2,12 +2,14 @@
 #include "GuardianState.h"
 
 #include "Enemy.h"
+
 class GuardianDeathState :
-    public GuardianState
+	public GuardianState
 {
 public:
 	void Initialize(Enemy* enemy) override;
 
 	void Update(Enemy* enemy) override;
+private:
+	void Death(Enemy* enemy);
 };
-

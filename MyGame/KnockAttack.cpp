@@ -29,10 +29,10 @@ KnockAttack* KnockAttack::GetInstance()
 
 void KnockAttack::Initialize()
 {
-	AxePos[0] = {50, 200, 50};
-	AxePos[1] = {-50, 200, 50};
-	AxePos[2] = {50, 200, -50};
-	AxePos[3] = {-50, 200, -50};
+	AxePos[0] = {50.f, 200.f, 50.f};
+	AxePos[1] = {-50.f, 200.f, 50.f};
+	AxePos[2] = {50.f, 200.f, -50.f};
+	AxePos[3] = {-50.f, 200.f, -50.f};
 
 	Texture* l_tex[4];
 	Texture* l_tex2[4];
@@ -55,7 +55,7 @@ void KnockAttack::Initialize()
 		AxeDirectionTex[i]->CreateTexture();
 		AxeDirectionTex[i]->SetAnchorPoint({0.5f, 0.5f});
 		ImpactPar[i] = std::make_unique<Particle>();
-		ImpactPar[i]->Init();
+		ImpactPar[i]->Init(64);
 		SetPos[i] = AxePos[i];
 	}
 	AxeRot[0] = {90.f, 180.f, 90.f};
@@ -166,9 +166,9 @@ void KnockAttack::ActionJudg()
 		for (int i = 0; i < axeSize; i++)
 		{
 			AxeObj[i]->SetPosition(AxePos[i]);
-			AxeObj[i]->SetScale({8, 4, 8});
+			AxeObj[i]->SetScale({8.f, 4.f, 8.f});
 			AxeObj[i]->SetRotation(AxeRot[i]);
-			AxeObj[i]->Update({1, 1, 1, 1}, CameraControl::GetInstance()->GetCamera());
+			AxeObj[i]->Update({1.f, 1.f, 1.f, 1.f}, CameraControl::GetInstance()->GetCamera());
 			ImpactPar[i]->CreateParticle((phase == PHASETHREE && AttackCount > 180 && AxeRot[i].x <= 10), {
 				                             AxePos[i].x + move[i].m128_f32[0] * 40.0f, 14.f,
 				                             AxePos[i].z + move[i].m128_f32[2] * 40.0f
@@ -179,22 +179,22 @@ void KnockAttack::ActionJudg()
 			damageLine[i].end = {SetPos[i].x += move[i].m128_f32[0] * 8.0f, SetPos[i].z += move[i].m128_f32[2] * 8.0f};
 			BossMap::GetInstance()->DrawDamageLine(phase == PHASETHREE && AttackCount > 380, damageLine);
 
-			AxeDirectionTex[i]->SetPosition({AxePos[i].x, 15, AxePos[i].z});
-			AxeDirectionTex[i]->SetScale({7, 7, 0});
-			AxeDirectionTex[i]->SetColor({1, 1, 1, axeDirectionTexAlpha});
+			AxeDirectionTex[i]->SetPosition({AxePos[i].x, 15.f, AxePos[i].z});
+			AxeDirectionTex[i]->SetScale({7.f, 7.f, 0.f});
+			AxeDirectionTex[i]->SetColor({1.f, 1.f, 1.f, axeDirectionTexAlpha});
 			AxeDirectionTex[i]->SetBillboard(FALSE);
 			AxeDirectionTex[i]->SetUVMove(TRUE);
 			AxeDirectionTex[i]->Update(CameraControl::GetInstance()->GetCamera());
 
 			ImpactTex[i]->SetPosition(ImpactTexPos[i]);
 			ImpactTex[i]->SetScale(ImpactTexScl[i]);
-			ImpactTex[i]->SetRotation({90, 0, 0});
-			ImpactTex[i]->SetColor({1, 1, 1, ImpactTexAlpha[i]});
+			ImpactTex[i]->SetRotation({90.f, 0.f, 0.f});
+			ImpactTex[i]->SetColor({1.f, 1.f, 1.f, ImpactTexAlpha[i]});
 			ImpactTex[i]->SetBillboard(FALSE);
 			ImpactTex[i]->Update(CameraControl::GetInstance()->GetCamera());
 		}
-		AxeDirectionTex[0]->SetRotation({90, 0, AxeRot[0].y + 180});
-		AxeDirectionTex[1]->SetRotation({90, 0, AxeRot[1].y});
+		AxeDirectionTex[0]->SetRotation({90.f, 0.f, AxeRot[0].y + 180});
+		AxeDirectionTex[1]->SetRotation({90.f, 0.f, AxeRot[1].y});
 		AxeDirectionTex[2]->SetRotation({90, 0, AxeRot[2].y});
 		AxeDirectionTex[3]->SetRotation({-90, 180, AxeRot[3].y + 180});
 	}

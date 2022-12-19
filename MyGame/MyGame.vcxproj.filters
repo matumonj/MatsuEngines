@@ -65,21 +65,6 @@
     <Filter Include="Game\2d %28DebugTxt  Sprite Texture%29\posteffect">
       <UniqueIdentifier>{3aec48ac-9748-421e-b3b2-330ac8332409}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\gameobject\Scene">
-      <UniqueIdentifier>{71571380-9e3e-4eae-8be2-8821f123a3af}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\gameobject\Scene\title,play">
-      <UniqueIdentifier>{1c29f6ca-2414-4584-bc7f-019dad1dc8ef}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\gameobject\Scene\basescene">
-      <UniqueIdentifier>{ba3e160d-6499-4593-ad7e-388c395ab9f1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\gameobject\Scene\SceneManager">
-      <UniqueIdentifier>{56fcbf9e-9fe0-4faa-aa45-1615c0d8fd02}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\gameobject\Scene\framework">
-      <UniqueIdentifier>{a1bad7c0-fa12-4aaf-8391-fafcad7f2b9f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="シェーダー">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
@@ -211,6 +196,21 @@
     <Filter Include="Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian">
       <UniqueIdentifier>{42fec9ba-2ade-4049-9988-06eb19f9e919}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Scene">
+      <UniqueIdentifier>{71571380-9e3e-4eae-8be2-8821f123a3af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scene\title,play">
+      <UniqueIdentifier>{1c29f6ca-2414-4584-bc7f-019dad1dc8ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scene\basescene">
+      <UniqueIdentifier>{ba3e160d-6499-4593-ad7e-388c395ab9f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scene\SceneManager">
+      <UniqueIdentifier>{56fcbf9e-9fe0-4faa-aa45-1615c0d8fd02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scene\framework">
+      <UniqueIdentifier>{a1bad7c0-fa12-4aaf-8391-fafcad7f2b9f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sprite.cpp">
@@ -277,22 +277,22 @@
       <Filter>Game\collision</Filter>
     </ClCompile>
     <ClCompile Include="Framework.cpp">
-      <Filter>Game\gameobject\Scene\framework</Filter>
+      <Filter>Game\Scene\framework</Filter>
     </ClCompile>
     <ClCompile Include="SceneManager.cpp">
-      <Filter>Game\gameobject\Scene\SceneManager</Filter>
+      <Filter>Game\Scene\SceneManager</Filter>
     </ClCompile>
     <ClCompile Include="MyGame.cpp">
-      <Filter>Game\gameobject\Scene\basescene</Filter>
+      <Filter>Game\Scene\basescene</Filter>
     </ClCompile>
     <ClCompile Include="PlayScene.cpp">
-      <Filter>Game\gameobject\Scene\title,play</Filter>
+      <Filter>Game\Scene\title,play</Filter>
     </ClCompile>
     <ClCompile Include="TitleScene.cpp">
-      <Filter>Game\gameobject\Scene\title,play</Filter>
+      <Filter>Game\Scene\title,play</Filter>
     </ClCompile>
     <ClCompile Include="BaseScene.cpp">
-      <Filter>Game\gameobject\Scene\basescene</Filter>
+      <Filter>Game\Scene\basescene</Filter>
     </ClCompile>
     <ClCompile Include="LightGroup.cpp">
       <Filter>Game\gameobject\light</Filter>
@@ -418,10 +418,10 @@
       <Filter>Game\gameobject\GameObject\Sword\派生</Filter>
     </ClCompile>
     <ClCompile Include="BossScene.cpp">
-      <Filter>Game\gameobject\Scene\title,play</Filter>
+      <Filter>Game\Scene\title,play</Filter>
     </ClCompile>
     <ClCompile Include="Tutorial.cpp">
-      <Filter>Game\gameobject\Scene\title,play</Filter>
+      <Filter>Game\Scene\title,play</Filter>
     </ClCompile>
     <ClCompile Include="Nail.cpp">
       <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss\AttackPattern</Filter>
@@ -684,22 +684,22 @@
       <Filter>Game\collision</Filter>
     </ClInclude>
     <ClInclude Include="Framework.h">
-      <Filter>Game\gameobject\Scene\framework</Filter>
+      <Filter>Game\Scene\framework</Filter>
     </ClInclude>
     <ClInclude Include="SceneManager.h">
-      <Filter>Game\gameobject\Scene\SceneManager</Filter>
+      <Filter>Game\Scene\SceneManager</Filter>
     </ClInclude>
     <ClInclude Include="MyGame.h">
-      <Filter>Game\gameobject\Scene\basescene</Filter>
+      <Filter>Game\Scene\basescene</Filter>
     </ClInclude>
     <ClInclude Include="TitleScene.h">
-      <Filter>Game\gameobject\Scene\title,play</Filter>
+      <Filter>Game\Scene\title,play</Filter>
     </ClInclude>
     <ClInclude Include="PlayScene.h">
-      <Filter>Game\gameobject\Scene\title,play</Filter>
+      <Filter>Game\Scene\title,play</Filter>
     </ClInclude>
     <ClInclude Include="BaseScene.h">
-      <Filter>Game\gameobject\Scene\basescene</Filter>
+      <Filter>Game\Scene\basescene</Filter>
     </ClInclude>
     <ClInclude Include="DirectionalLight.h">
       <Filter>Game\gameobject\light</Filter>
@@ -840,10 +840,10 @@
       <Filter>Game\gameobject\GameObject\Sword\派生</Filter>
     </ClInclude>
     <ClInclude Include="BossScene.h">
-      <Filter>Game\gameobject\Scene\title,play</Filter>
+      <Filter>Game\Scene\title,play</Filter>
     </ClInclude>
     <ClInclude Include="Tutorial.h">
-      <Filter>Game\gameobject\Scene\title,play</Filter>
+      <Filter>Game\Scene\title,play</Filter>
     </ClInclude>
     <ClInclude Include="Nail.h">
       <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss\AttackPattern</Filter>

@@ -49,7 +49,6 @@ public:
 		TUTORIAL,
 		PLAYSCENE,
 		BOSS,
-
 	};
 
 	int index = 0;
@@ -66,7 +65,7 @@ public:
 
 	static constexpr int EnemySize = 2;
 	std::array<std::unique_ptr<Enemy>, EnemySize> SummonEnemys = {};
-	std::unique_ptr<Enemy>Guardian;
+	std::unique_ptr<Enemy> Guardian;
 	bool summonEnemyCreate = false;
 	XMFLOAT3 SummonEPos = {1, 1, 1};
 	bool SummonEnemysDeath;

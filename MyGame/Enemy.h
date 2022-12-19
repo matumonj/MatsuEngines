@@ -55,9 +55,10 @@ public:
 
 	virtual void EnemyHPDraw() =0;
 protected:
+	bool isAlive;
 	//体力周り
-	float EnemyHP = 0.0f; //現在の体力
-	float MaxHP = 0.0f; //最大値(変動なし)
+	int EnemyHP = 0; //現在の体力
+	int MaxHP = 0; //最大値(変動なし)
 	float OldHP = 0.0f; //前フレーム時の体力(HUDのイージング用)
 protected:
 	float alpha = 1.0f;
@@ -78,6 +79,8 @@ public:
 	virtual void AttackCoolTime() = 0;
 	void SetMoveStop(bool f) { movestop = f; }
 	bool GetMoveStop() { return movestop; }
+	bool GetisAlive() { return isAlive; }
+	void SetisAlive(bool f) { isAlive = f; }
 	void DamageTexDisplay();
 	void DamageTexDisplay_Draw();
 protected:
@@ -173,9 +176,9 @@ public:
 	//地面設置状態かどうか
 	bool GetonFlag() { return onGround; }
 	//体力周り
-	float GetHP() { return EnemyHP; };
+	int GetHP() { return EnemyHP; };
 	//体力最大値
-	float GetMaxHP() { return MaxHP; }
+	int GetMaxHP() { return MaxHP; }
 	//FBXTime(死にモーションと攻撃モーションの開始フレーム取得)
 	bool GetDeathTime() { return nowDeath; }
 
@@ -205,6 +208,8 @@ public:
 	void SetAttackTime(bool f) { if (f_time < NormalAttackTime) { f_AttackFlag = f; } }
 
 	void SetRespawnPos(XMFLOAT3 position) { RespawnPos = position; }
+
+	void SetEColor(XMFLOAT4 color) { Color = color; }
 	/*ボス攻撃用 できれば移したいが、、*/
 protected: //攻撃の開始と終了判定用
 	struct Attack_SE
@@ -278,13 +283,11 @@ protected:
 	bool SearchF;
 	XMFLOAT3 EaseTime_Arrow;
 protected:
-
 	GuardianState* state_guardian;
 	EnemyState* state_mob;
 	BossEnemyState* state_boss;
 
 protected:
-
 	std::array<std::unique_ptr<Sprite>, 4> HPFrame;
 
 	float NowFrameX;

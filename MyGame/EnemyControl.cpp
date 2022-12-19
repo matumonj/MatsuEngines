@@ -17,6 +17,7 @@
 #include"DebugTxt.h"
 #include"FrontCircleAttack.h"
 #include"GuardianEnemy.h"
+
 EnemyControl* EnemyControl::GetInstance()
 {
 	static EnemyControl instance;
@@ -31,7 +32,11 @@ void EnemyControl::Finalize()
 {
 	Num.clear();
 	pos.clear();
-	enemys.clear();
+	enemys[BOSS].clear();
+	enemys[PLAYSCENE].clear();
+	enemys[TUTORIAL].clear();
+
+
 	Load_EnemyPosition.clear();
 }
 
@@ -139,7 +144,7 @@ void EnemyControl::Init_Play()
 		enemys[PLAYSCENE][i]->SetPosition(pos[i]);
 		//enemys[PLAYSCENE][i]->SetRespawnPos(pos[i]);
 	}
-	Guardian= std::make_unique<GuardianEnemy>();
+	Guardian = std::make_unique<GuardianEnemy>();
 	Guardian->Initialize();
 }
 
@@ -278,10 +283,11 @@ void EnemyControl::Update_Play()
 					if (Task::GetInstance()->GetFlogDesthCount(2))
 					{
 						ChestControl::GetInstance()->SetChestAppearance(ChestControl::BLUE, {
-							enemys[PLAYSCENE][i]->GetPosition().x,
-							enemys[PLAYSCENE][i]->GetPosition().y +10.0f,
-							enemys[PLAYSCENE][i]->GetPosition().z
-						});
+							                                                enemys[PLAYSCENE][i]->GetPosition().x,
+							                                                enemys[PLAYSCENE][i]->GetPosition().y +
+							                                                10.0f,
+							                                                enemys[PLAYSCENE][i]->GetPosition().z
+						                                                });
 					}
 				}
 			}
@@ -428,10 +434,12 @@ void EnemyControl::HPFrameDraw()
 	}
 	else if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
 	{
-
 		for (int i = 0; i < Quantity; i++)
 		{
-			if (enemys[PLAYSCENE][i] == nullptr)continue;
+			if (enemys[PLAYSCENE][i] == nullptr)
+			{
+				continue;
+			}
 			enemys[PLAYSCENE][i]->EnemyHPDraw();
 		}
 		if (Guardian != nullptr)
@@ -439,11 +447,14 @@ void EnemyControl::HPFrameDraw()
 			Guardian->EnemyHPDraw();
 		}
 	}
-	else if(SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
+	else if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
 	{
-		for(int i=0;i<SummonEnemys.size();i++)
+		for (int i = 0; i < SummonEnemys.size(); i++)
 		{
-			if (SummonEnemys[i] == nullptr)continue;
+			if (SummonEnemys[i] == nullptr)
+			{
+				continue;
+			}
 			SummonEnemys[i]->EnemyHPDraw();
 		}
 	}
@@ -483,7 +494,7 @@ void EnemyControl::Draw_Play()
 
 void EnemyControl::Draw_Boss()
 {
-	if (enemys[BOSS].size() == 0 || enemys[BOSS][0] == nullptr)
+	if (enemys.size() == 0 || enemys[BOSS].size() == 0 || enemys[BOSS][0] == nullptr)
 	{
 		return;
 	}
@@ -528,6 +539,6 @@ std::vector<std::unique_ptr<Enemy>>& EnemyControl::GetEnemy(EnemyType type)
 	{
 		return enemys[BOSS];
 	}
-	
+
 	return enemys[NON];
 }

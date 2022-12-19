@@ -20,7 +20,7 @@ private:
 
 	int mapSize[mapHight][mapWidth];
 
-	static constexpr float BlockSize = 20;
+	static constexpr float BlockSize = 20.f;
 
 	std::unique_ptr<Object3d> mapobj[mapHight][mapWidth];
 	std::unique_ptr<Object3d> nailobj[mapHight][mapWidth];
@@ -28,13 +28,13 @@ private:
 	DirectX::XMFLOAT3 nailPos[mapHight][mapWidth];
 	float nailalpha[mapHight][mapWidth] = {1};
 
-	DirectX::XMFLOAT3 cpos = {-200, 11.6, -200};
+	DirectX::XMFLOAT3 cpos = {-200.f, 11.6f, -200.f};
 	DirectX::XMFLOAT3 blockColor[mapHight][mapWidth];
 	float blockColorETime[mapHight][mapWidth];
 
-	DirectX::XMFLOAT3 bsize = {10, 4, 10};
+	DirectX::XMFLOAT3 bsize = {10.f, 4.f, 10.f};
 	int rockappertime;
-	float rockalpha = 1;
+	float rockalpha = 1.f;
 
 	Point bpoint[mapHight][mapWidth];
 	Line2D RushArea;

@@ -12,7 +12,7 @@ void BossEnemyAttackBeam::Update(Enemy* enemy)
 	enemy->SetRecvDamage2(false);
 	AltAttack::GetInstance()->ActionJudg();
 
-	if (Percent::GetParcent(enemy->GetMaxHP(), enemy->GetHP()) <= 70.0f)
+	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= 70.0f)
 	{
 		enemy->SetAttack_End(enemy->Beam, true);
 	}

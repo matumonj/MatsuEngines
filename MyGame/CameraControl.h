@@ -119,6 +119,7 @@ public:
 		GUARDIANAPPEAR,
 		END_GUAR
 	};
+
 	enum RushAttackCamera
 	{
 		NON_RUSH,

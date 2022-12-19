@@ -74,8 +74,8 @@ void PlaceHouse::Update(DebugCamera* camera)
 {
 	Obj->SetPosition(pos);
 	Obj->SetRotation(rot);
-	Obj->SetScale({1.5, 1.5, 2.2});
-	Obj->Update({1, 0, 0, 0.5}, camera);
+	Obj->SetScale({1.5f, 1.5f, 2.2f});
+	Obj->Update({1.f, 0.f, 0.f, 0.5f}, camera);
 }
 
 void PlaceHouse::Draw()

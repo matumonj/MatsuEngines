@@ -40,8 +40,8 @@ private:
 	XMFLOAT2 BarFramePos;
 	XMFLOAT2 BarFrameScl;
 	float m_EaseTime;
-	int OldHP;
-	int NowHP;
+	float OldHP;
+	float NowHP;
 public:
 	static ExpPointSystem* GetInstance();
 	void Init();

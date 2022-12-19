@@ -137,7 +137,7 @@ void Player::Move()
 		move = XMVector3TransformNormal(move, matRot);
 
 		Position.x += move.m128_f32[0] * movespeed;
-		Position.z += move.m128_f32[2] * movespeed;
+		Position.z += move.m128_f32[2] * movespeed ;
 		Gmove = move;
 
 		//いずれかのスティックが倒されていてFBXのタイムが最初の攻撃モーションのタイムより

@@ -15,11 +15,11 @@ void BossMap::Init()
 	for (int i = 0; i < lanthanumSize; i++)
 	{
 		LanthanumPos[i] = {
-			sinf(static_cast<float>(i) * 30 * (PI / 180.0f)) * 90.0f,
-			13.89,
-			cosf(static_cast<float>(i) * 30 * (PI / 180.0f)) * 130.0f
+			sinf(static_cast<float>(i) * 30.f * (PI / 180.0f)) * 90.0f,
+			13.89f,
+			cosf(static_cast<float>(i) * 30.f * (PI / 180.0f)) * 130.0f
 		};
-		LanthanumScl[i] = {45, static_cast<float>(rand() % 10 + 6), 45};
+		LanthanumScl[i] = {45.f, static_cast<float>(rand() % 10 + 6), 45};
 	}
 
 	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
@@ -71,7 +71,7 @@ void BossMap::Upda()
 
 			bpoint[i][j].x = mapobj[i][j]->GetPosition().x;
 			bpoint[i][j].y = mapobj[i][j]->GetPosition().z;
-			mapobj[i][j]->Update({1, 0, 0, 1}, camera);
+			mapobj[i][j]->Update({1.f, 0.f, 0.f, 1.f}, camera);
 		}
 	}
 
@@ -115,7 +115,7 @@ void BossMap::Upda()
 	{
 		Lanthanum[i]->SetPosition({LanthanumPos[i]});
 		Lanthanum[i]->SetScale({LanthanumScl[i]});
-		Lanthanum[i]->Update({1, 0.7, 0.7, 0.6}, camera);
+		Lanthanum[i]->Update({1.f, 0.7f, 0.7f, 0.6f}, camera);
 	}
 }
 

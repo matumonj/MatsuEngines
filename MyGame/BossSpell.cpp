@@ -26,10 +26,6 @@ BossSpell* BossSpell::GetInstance()
 
 void BossSpell::Initialize()
 {
-	Sprite::LoadTexture(50, L"Resources/Spail.png");
-	Sprite::LoadTexture(51, L"Resources/halfAttackFrame.png");
-	Sprite::LoadTexture(52, L"Resources/CircleAttackFarame.png");
-	Sprite::LoadTexture(53, L"Resources/KnockAttackFrame.png");
 	//左攻撃
 	SpellsInit(Attack[HALF_LEFT], 50, 51);
 	SpellsInit(Attack[HALF_RIGHT], 50, 51);
@@ -52,12 +48,6 @@ void BossSpell::Update()
 
 void BossSpell::Draw()
 {
-	Sprite::PreDraw();
-	for (int i = 0; i < max_attack; i++)
-	{
-		SpellsDraw(Attack[i]);
-	}
-	Sprite::PostDraw();
 }
 
 //各構造体の初期化、更新などまとめて処理する関数

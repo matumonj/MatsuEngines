@@ -14,7 +14,7 @@ void GameOver::Initialize()
 	Sprite::LoadTexture(100, L"Resources/2d/scenetex/gameover.png");
 	Sprite* l_tex = Sprite::Create(100, {0, 0});
 	GameOverTex.reset(l_tex);
-	GameOverTex->SetAnchorPoint({0.5, 0.5});
+	GameOverTex->SetAnchorPoint({0.5f, 0.5f});
 }
 
 void GameOver::Update()

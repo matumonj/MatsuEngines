@@ -8,6 +8,7 @@
 #include "PlayerControl.h"
 #include "TargetMarker.h"
 #include"Field.h"
+
 Task* Task::GetInstance()
 {
 	static Task ins;
@@ -62,6 +63,10 @@ void Task::Init()
 		navChestSprite[0]->SetAnchorPoint({0.5f, 0.5f});
 		navChestSprite[1]->SetAnchorPoint({0.5f, 0.5f});
 	}
+	for(int i=0;i<6;i++)
+	{
+		Judg[i] = false;
+	}
 	navSpriteAlpha[0] = 0.0f;
 	navSpriteAlpha[1] = 1.0f;
 	TaskMenuPos = {1230 - 200.0f, 880.0f};
@@ -97,7 +102,9 @@ void Task::Init()
 		TargetIcon[i]->CreateTexture();
 		TargetIcon[i]->SetAnchorPoint({0.5f, 1.0f});
 		TargetIcon[i]->SetRotation({180, 0, 0});
+		iconalpha[i] = 0.0f;
 	}
+	tasks = Task::TASK_ONE;
 	iconalpha[0] = 1.0f;
 }
 
@@ -148,7 +155,7 @@ void Task::Upda()
 	}
 
 	const std::string amount = "/2";
-	DebugTextSprite2::GetInstance()->Print(str.str() + amount, TaskMenuPos.x, TaskMenuPos.y, 0.8);
+	DebugTextSprite2::GetInstance()->Print(str.str() + amount, TaskMenuPos.x, TaskMenuPos.y, 0.8f);
 	int nearIndex_Golem = TargetMarker::GetInstance()->GetNearGolemIndex();
 	int nearIndex_Lizard = TargetMarker::GetInstance()->GetNearLizardIndex();
 
@@ -160,12 +167,12 @@ void Task::Upda()
 	{
 	case GOLEM:
 		TargetPos = targetenemy_Golem->GetPosition();
-		arrowcol = {0.2, 0.2, 0.9, 0.7};
+		arrowcol = {0.2f, 0.2f, 0.9f, 0.7f};
 		break;
 
 	case COW:
 		TargetPos = targetenemy_Lizard->GetPosition();
-		arrowcol = {0.9, 0.2, 0.2, 0.7};
+		arrowcol = {0.9f, 0.2f, 0.2f, 0.7f};
 		break;
 	case CHEST:
 		if (ChestControl::GetInstance()->ChestCount() == 1)
@@ -176,14 +183,14 @@ void Task::Upda()
 		{
 			TargetPos = ChestControl::GetInstance()->GetChest(ChestControl::BLUE)->GetPosition();
 		}
-		arrowcol = {0.7, 0.7, 0.1, 0.7};
+		arrowcol = {0.7f, 0.7f, 0.1f, 0.7f};
 		break;
 	case Bossarea:
-		TargetPos = {17, -35, 820};
+		TargetPos = {17.f, -35.f, 820.f};
 		break;
 
 	case PEDESTAL:
-		TargetPos = { -300,-30,270 };
+		TargetPos = {-300.f, -30.f, 270.f};
 	}
 
 	if (Judg[TASK_ONE] == false)
@@ -198,7 +205,7 @@ void Task::Upda()
 	{
 		target = PEDESTAL;
 	}
-	if (Judg[TASK_ONE] == true && Judg[TASK_TWO] == true&&Judg[TASK_THREE]==true)
+	if (Judg[TASK_ONE] == true && Judg[TASK_TWO] == true && Judg[TASK_THREE] == true)
 	{
 		target = Bossarea;
 	}
@@ -218,14 +225,14 @@ void Task::Upda()
 	//	if (enemy->GetFbxTime()< 510.000f / 60.000f) {
 	curr = 55.f;
 	TargetArrowRot = {
-		90,
-		0,
-		RotY * -curr + 180,
+		90.f,
+		0.f,
+		RotY * -curr + 180.f,
 	};
 
 	TargetArrow->SetRotation(TargetArrowRot);
 	TargetArrow->SetPosition({player->GetPosition().x, player->GetPosition().y + 0.0f, player->GetPosition().z});
-	TargetArrow->SetScale({3, 4, 3});
+	TargetArrow->SetScale({3.f, 4.f, 3.f});
 	TargetArrow->SetBillboard(FALSE);
 	TargetArrow->SetUVMove(TRUE);
 	TargetArrow->SetColor(arrowcol);
@@ -235,8 +242,8 @@ void Task::Upda()
 	for (int i = 0; i < 4; i++)
 	{
 		TargetIcon[i]->SetBillboard(TRUE);
-		TargetIcon[i]->SetColor({1, 1, 1, iconalpha[i]});
-		TargetIcon[i]->SetScale({3, 3, 3});
+		TargetIcon[i]->SetColor({1.f, 1.f, 1.f, iconalpha[i]});
+		TargetIcon[i]->SetScale({3.f, 3.f, 3.f});
 		TargetIcon[i]->SetPosition({player->GetPosition().x, player->GetPosition().y + 7.0f, player->GetPosition().z});
 
 		TargetIcon[i]->Update(CameraControl::GetInstance()->GetCamera());

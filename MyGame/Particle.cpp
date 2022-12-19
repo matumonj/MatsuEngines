@@ -1,12 +1,12 @@
 #include "Particle.h"
 #include"mHelper.h"
 
-void Particle::Init()
+void Particle::Init(UINT num)
 {
 	Texture::LoadTexture(64, L"Resources/2d/BossAttackEffect/BomParticle.png");
 	Texture::LoadTexture(65, L"Resources/2d/mainEffect/pipo-hiteffect034.png");
-	Texture* l_tex0 = Texture::Create(65);
-
+	Texture* l_tex0 = Texture::Create(num);
+	parnum = num;
 	SetParType(20, m_particles[NORMAL], l_tex0);
 }
 
@@ -51,7 +51,7 @@ void Particle::Draw()
 	{
 		m_particles[NORMAL].partex[i]->Draw();
 	}
-	Texture::PostDraw;
+	Texture::PostDraw();
 }
 
 void Particle::EndParticleUpda(ParParam& parparam)
@@ -83,7 +83,7 @@ void Particle::SetParType(int size, ParParam& parparam, Texture* tex)
 
 		for (int i = 0; i < size; i++)
 		{
-			l_tex0[i] = Texture::Create(65);
+			l_tex0[i] = Texture::Create(parnum);
 
 			parparam.partex[i].reset(l_tex0[i]);
 			parparam.partex[i]->CreateTexture();
@@ -105,7 +105,7 @@ void Particle::InitNormal(ParParam& parparam, XMFLOAT3 pos)
 		parparam.vel[i] = {pos};
 		parparam.speed[i] = 0.0f; //徐々にスピードを速く
 		parparam.alpha[i] = 0.0f;
-		parparam.angle[i] = rand() % 360;
+		parparam.angle[i] = float(rand() % 360);
 	}
 	parparam.phase = UPDA;
 }
@@ -131,13 +131,6 @@ void Particle::UpadaNormal_A(ParParam& parparam)
 
 			break;
 		}
-	}
-	for (int i = 0; i < parparam.size; i++)
-	{
-		if (!parparam.f[i])
-		{
-			continue;
-		}
 		parparam.scl[i].x += 0.1f;
 		parparam.scl[i].y += 0.1f;
 		parparam.vel[i].x += parparam.speed[i] * cos(parparam.angle[i]); //360度に広がるようにする
@@ -148,6 +141,9 @@ void Particle::UpadaNormal_A(ParParam& parparam)
 		{
 			parparam.f[i] = false;
 		}
+	}
+	for (int i = 0; i < parparam.size; i++)
+	{
 		parparam.partex[i]->SetPosition(parparam.vel[i]);
 		parparam.partex[i]->SetScale({parparam.scl[i].x, parparam.scl[i].y, 1.0f});
 		parparam.partex[i]->SetBillboard(TRUE);

@@ -77,7 +77,7 @@ bool TargetMarker::GetEnemyPosition(std::vector<std::unique_ptr<Enemy>>& enemy, 
 int TargetMarker::NearGolemSearch(std::vector<std::unique_ptr<Enemy>>& enemy, Player* player)
 {
 	int nearindex = -1;
-	float nearresult = 0;
+	float nearresult = 0.f;
 	float ex, ey, ez;
 	float tx, ty, tz;
 	//float distance;
@@ -166,7 +166,7 @@ int TargetMarker::NearLizardSearch(std::vector<std::unique_ptr<Enemy>>& enemy, P
 int TargetMarker::NearEnemySearch(std::vector<std::unique_ptr<Enemy>>& enemy, Player* player)
 {
 	int nearindex = -1;
-	float nearresult = 0;
+	float nearresult = 0.f;
 	float ex, ey, ez;
 	float tx, ty, tz;
 	//float distance;

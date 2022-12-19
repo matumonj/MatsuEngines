@@ -99,6 +99,7 @@ void Enemy::ChangeState_Guardian(GuardianState* state)
 	Destroy(state_guardian);
 	state_guardian = state;
 }
+
 void Enemy::ChangeState_Mob(EnemyState* state)
 {
 	Destroy(state_mob);

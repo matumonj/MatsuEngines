@@ -210,6 +210,7 @@ void PlayScene::Draw()
 				}
 				AllObjectControl[i]->Draw();
 			}
+			Field::GetInstance()->GuardAreaDraw();
 		}
 		PlayerControl::GetInstance()->GetPlayer()->ParticleDraw();
 

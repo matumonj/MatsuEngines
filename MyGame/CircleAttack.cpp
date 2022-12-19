@@ -32,6 +32,10 @@ void CircleAttack::Initialize()
 	Direction[SOUTH] = {0.0f, 0.0f, -60.0f};
 	Direction[EAST] = {60.0f, 0.0f, 0.0f};
 	Direction[WEST] = {-60.0f, 0.0f, 0.0f};
+
+	phase = PHASENON;
+	CircleSize = {0, 0};
+	TexAlpha = 0.0f;
 }
 
 void CircleAttack::ActionJudg()
@@ -117,8 +121,6 @@ void CircleAttack::CollisonNailPlayer()
 void CircleAttack::PierceNail()
 {
 	TexAlpha = 1.0f;
-	BossSpell::GetInstance()->SetStartSpell(BossSpell::CIRCLE, true);
-
 
 	//“B¶¬
 	NailObj.resize(1);
@@ -191,7 +193,6 @@ void CircleAttack::ProtrudeNail()
 void CircleAttack::EndAttackAction()
 {
 	TexAlpha = 0.5f;
-	BossSpell::GetInstance()->SetEndSpell(BossSpell::CIRCLE, false);
 
 	Direction[NORTH] = {0.0f, 0.0f, 60.0f};
 	Direction[SOUTH] = {0.0f, 0.0f, -60.0f};
@@ -321,7 +322,7 @@ void BomAttack::BomParticleUpda()
 				bom_particle_[j][i].TexAlpha = 1.0f;
 				bom_particle_[j][i].Speed = 0.0f;
 
-				bom_particle_[j][i].Angle = rand() % 360;
+				bom_particle_[j][i].Angle = static_cast<float>(rand() % 360);
 			}
 			bom_particle_[0][i].TexPos = CenterPosi[0];
 			bom_particle_[1][i].TexPos = CenterPosi[1];
