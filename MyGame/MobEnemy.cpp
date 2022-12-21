@@ -55,7 +55,7 @@ void MobEnemy::Initialize()
 	m_fbxObject->SetModel(FbxLoader::GetInstance()->LoadModelFromFile("monster_golem_demo"));
 	m_fbxObject->PlayAnimation();
 
-	MaxHP = 1000;
+	MaxHP = 100;
 
 	EnemyHP = MaxHP;
 	//パラメータのセット
@@ -84,10 +84,15 @@ void MobEnemy::Initialize()
 	Sprite* l_frame3 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME4), {0, 0});
 	Sprite* l_frame4 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME3), {0, 0});
 
+	Sprite* l_enemyname = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENEMYNAME_GOLEM), { 0, 0 });
+
 	HPFrame[0].reset(l_frame1);
 	HPFrame[1].reset(l_frame2);
 	HPFrame[2].reset(l_frame3);
 	HPFrame[3].reset(l_frame4);
+
+	EnemyName.reset(l_enemyname);
+
 	for (int i = 0; i < 4; i++)
 	{
 		HPFrame[i]->SetAnchorPoint({0.0f, 0.0f});
@@ -192,6 +197,11 @@ void MobEnemy::HPFrameScaling()
 	HPFrame[2]->SetSize({FrameScl_Inner.x, 15.0f});
 	HPFrame[1]->SetSize({200.0f, 15.0f});
 	HPFrame[0]->SetSize({200.0f, 15.0f});
+
+	EnemyName->SetPosition({ tex2DPos[0].m128_f32[0]-80.0f, tex2DPos[0].m128_f32[1]-30.f });
+	EnemyName->SetSize({ 200.0f,15.0f });
+	FrameScl.x = max(FrameScl.x, 0.0f);
+	FrameScl_Inner.x = max(FrameScl_Inner.x, 0.0f);
 }
 
 
@@ -213,7 +223,7 @@ void MobEnemy::OBBSetParam()
 
 	HandSiteOBB.SetOBBParam_Pos(Sword->GetMatWorld());
 	HandSiteOBB.SetOBBParam_Rot(Sword->GetMatWorld());
-	HandSiteOBB.SetOBBParam_Scl({8.0f, 30.0f, 8.0f});
+	HandSiteOBB.SetOBBParam_Scl({8.0f, 10.0f, 8.0f});
 
 	playerOBB.SetOBBParam_Pos(l_player->GetPosition());
 	playerOBB.SetOBBParam_Rot(l_player->GetMatrot());
@@ -269,6 +279,7 @@ void MobEnemy::EnemyHPDraw()
 	{
 		HPFrame[i]->Draw();
 	}
+	EnemyName->Draw();
 	Sprite::PostDraw();
 }
 

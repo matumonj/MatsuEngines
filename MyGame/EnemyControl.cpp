@@ -124,6 +124,7 @@ void EnemyControl::Init_Play()
 			}
 		}
 	}
+	//敵の数をCSV分読み込み
 	enemys[PLAYSCENE].resize(Quantity);
 
 	Load_EnemyPosition.resize(Quantity);
@@ -132,24 +133,25 @@ void EnemyControl::Init_Play()
 	{
 		//初期化処理
 		if (Num[i] == ALPHAENEMY)
-		{
+		{//ゴーレム
 			enemys[PLAYSCENE][i] = std::make_unique<MobEnemy>();
 		}
 		if (Num[i] == BETAENEMY)
-		{
+		{//トカゲ
 			enemys[PLAYSCENE][i] = std::make_unique<EnemyAlpha>();
 		}
 
 		enemys[PLAYSCENE][i]->Initialize();
 		enemys[PLAYSCENE][i]->SetPosition(pos[i]);
-		//enemys[PLAYSCENE][i]->SetRespawnPos(pos[i]);
 	}
+	//ガーディアン
 	Guardian = std::make_unique<GuardianEnemy>();
 	Guardian->Initialize();
 }
 
 void EnemyControl::SummonEnemyInit()
 {
+	//ボスが召喚するザコ敵
 	for (int i = 0; i < EnemySize; i++)
 	{
 		SummonEnemys[i] = std::make_unique<MobEnemy>();
@@ -185,15 +187,18 @@ void EnemyControl::SummonEnemyInit()
 
 void EnemyControl::Init_Boss()
 {
+	//ボス初期化
 	enemys[BOSS].resize(1);
 	enemys[BOSS][0] = std::make_unique<BossEnemy>();
 	enemys[BOSS][0]->Initialize();
 	boss_pos = {-1.0f, 10.0f, 20.987f};
+
 	enemys[BOSS][0]->SetPosition(boss_pos);
-
 	enemys[BOSS][0]->SetHP(enemys[BOSS][0]->GetMaxHP());
-
+	//ザコ敵の初期化もここで
 	SummonEnemyInit();
+
+	//各攻撃処理の初期化
 	HalfAttack::GetInstance()->Initialize();
 	KnockAttack::GetInstance()->Initialize();
 	CircleAttack::GetInstance()->Initialize();
@@ -218,7 +223,6 @@ void EnemyControl::Update_Tutorial()
 	}
 	if (TutorialSprite::GetInstance()->GetClearMove())
 	{
-		//enemys[EnemyType::TUTORIAL][0]->SetMoveFlag(true);
 		enemys[TUTORIAL][0]->Update();
 	}
 	if (enemys[TUTORIAL][0]->GetObjAlpha() <= 0.0f)
@@ -293,8 +297,24 @@ void EnemyControl::Update_Play()
 			}
 			Destroy_unique(enemys[PLAYSCENE][i]);
 		}
+		if(Guardian!=nullptr&& Guardian->GetisAlive()==FALSE&&Guardian->GetHP()<=0)
+		{
+			ChestControl::GetInstance()->SetChestAppearance(ChestControl::GREEN, {
+																		Guardian->GetPosition().x,
+																		Guardian->GetPosition().y +
+																		10.0f,
+																		Guardian->GetPosition().z
+				});
+
+		}
 	}
-	Guardian->Update();
+	if (Guardian != nullptr) {
+		Guardian->Update();
+		if (Guardian->GetObjAlpha() <= 0.0f)
+		{
+			Destroy_unique(Guardian);
+		}
+	}
 }
 
 void EnemyControl::SummonEnemyUpdate()
@@ -425,6 +445,9 @@ void EnemyControl::Update_Boss()
 /*------------------------*/
 void EnemyControl::HPFrameDraw()
 {
+	//敵のHPバー表示
+
+	//チュートリアルの敵
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL)
 	{
 		if (enemys[TUTORIAL][0] != nullptr)
@@ -432,6 +455,8 @@ void EnemyControl::HPFrameDraw()
 			enemys[TUTORIAL][0]->EnemyHPDraw();
 		}
 	}
+
+	//探索シーンのザコ敵
 	else if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
 	{
 		for (int i = 0; i < Quantity; i++)
@@ -447,6 +472,8 @@ void EnemyControl::HPFrameDraw()
 			Guardian->EnemyHPDraw();
 		}
 	}
+
+	//ボスの召喚敵
 	else if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
 	{
 		for (int i = 0; i < SummonEnemys.size(); i++)
@@ -468,6 +495,7 @@ void EnemyControl::Draw_Tutorial()
 	{
 		if (enemys[TUTORIAL][0] != nullptr)
 		{
+			//チュートリアルの移動タスククリアしたら描画
 			if (TutorialSprite::GetInstance()->GetClearMove())
 			{
 				enemys[TUTORIAL][0]->Draw();
@@ -478,18 +506,26 @@ void EnemyControl::Draw_Tutorial()
 
 void EnemyControl::Draw_Play()
 {
+	//プレイヤーの座標
 	XMFLOAT3 pPos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+
+	//探索シーンの敵描画
 	for (int i = 0; i < Quantity; i++)
 	{
 		if (enemys[PLAYSCENE][i] != nullptr)
 		{
+			//一定以上はなれたら描画切る
 			if (Collision::GetLength(pPos, enemys[PLAYSCENE][i]->GetPosition()) < 100)
 			{
 				enemys[PLAYSCENE][i]->Draw();
 			}
 		}
 	}
-	Guardian->Draw();
+	if (Guardian != nullptr) {
+		//ガーディアン描画
+		Guardian->Draw();
+	}
+
 }
 
 void EnemyControl::Draw_Boss()
@@ -498,6 +534,7 @@ void EnemyControl::Draw_Boss()
 	{
 		return;
 	}
+	//召喚敵の描画
 	for (int i = 0; i < EnemySize; i++)
 	{
 		if (SummonEnemys[i] == nullptr)
@@ -506,13 +543,20 @@ void EnemyControl::Draw_Boss()
 		}
 		SummonEnemys[i]->Draw();
 	}
+	//ボス描画
 	enemys[BOSS][0]->Draw();
+
+	//ボスの貼るシールドテクスチャ
 	Texture::PreDraw();
+
 	for (int i = 0; i < 4; i++)
 	{
 		ShieldTex[i]->Draw();
 	}
+
 	Texture::PostDraw();
+
+	//ボスの各攻撃描画
 	CircleAttack::GetInstance()->Draw();
 	HalfAttack::GetInstance()->Draw();
 	KnockAttack::GetInstance()->Draw();

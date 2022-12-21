@@ -289,7 +289,7 @@ protected:
 
 protected:
 	std::array<std::unique_ptr<Sprite>, 4> HPFrame;
-
+	std::unique_ptr<Sprite>EnemyName;
 	float NowFrameX;
 	float OldFrameX;
 

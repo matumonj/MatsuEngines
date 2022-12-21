@@ -7,6 +7,8 @@ void Particle::Init(UINT num)
 	Texture::LoadTexture(65, L"Resources/2d/mainEffect/pipo-hiteffect034.png");
 	Texture* l_tex0 = Texture::Create(num);
 	parnum = num;
+
+	BeginParColor = { 1.f,1.f,1.f,1.f };
 	SetParType(20, m_particles[NORMAL], l_tex0);
 }
 
@@ -39,10 +41,10 @@ void Particle::Draw()
 	ImGui::Begin("phase");
 	ImGui::Text("%d", m_particles[NORMAL].phase);
 	ImGui::Text("x%f y%f z%f", m_particles[NORMAL].vel[0].x, m_particles[NORMAL].vel[0].y,
-	            m_particles[NORMAL].vel[0].z);
+		m_particles[NORMAL].vel[0].z);
 	ImGui::Text("x%f y%f z%f", PlayerControl::GetInstance()->GetPlayer()->GetPosition().x,
-	            PlayerControl::GetInstance()->GetPlayer()->GetPosition().y,
-	            PlayerControl::GetInstance()->GetPlayer()->GetPosition().z);
+		PlayerControl::GetInstance()->GetPlayer()->GetPosition().y,
+		PlayerControl::GetInstance()->GetPlayer()->GetPosition().z);
 	ImGui::Text("rx%f ", m_particles[NORMAL].alpha[0]);
 
 	ImGui::End();
@@ -88,7 +90,7 @@ void Particle::SetParType(int size, ParParam& parparam, Texture* tex)
 			parparam.partex[i].reset(l_tex0[i]);
 			parparam.partex[i]->CreateTexture();
 
-			parparam.partex[i]->SetAnchorPoint({0.5f, 0.5f});
+			parparam.partex[i]->SetAnchorPoint({ 0.5f, 0.5f });
 		}
 	}
 }
@@ -101,8 +103,8 @@ void Particle::InitNormal(ParParam& parparam, XMFLOAT3 pos)
 	}
 	for (int i = 0; i < parparam.size; i++)
 	{
-		parparam.scl[i] = {2.0f, 2.0f};
-		parparam.vel[i] = {pos};
+		parparam.scl[i] = { BeginParScl };
+		parparam.vel[i] = { pos };
 		parparam.speed[i] = 0.0f; //徐々にスピードを速く
 		parparam.alpha[i] = 0.0f;
 		parparam.angle[i] = float(rand() % 360);
@@ -124,9 +126,9 @@ void Particle::UpadaNormal_A(ParParam& parparam)
 		if (!parparam.f[i])
 		{
 			parparam.vel[i] = createpos;
-			parparam.scl[i] = {2.0f, 2.0f};
-			parparam.speed[i] = 0;
-			parparam.alpha[i] = 1;
+			parparam.scl[i] = { 2.0f, 2.0f };
+			parparam.speed[i] = 0.0f;
+			parparam.alpha[i] = 1.0f;
 			parparam.f[i] = true;
 
 			break;
@@ -145,9 +147,9 @@ void Particle::UpadaNormal_A(ParParam& parparam)
 	for (int i = 0; i < parparam.size; i++)
 	{
 		parparam.partex[i]->SetPosition(parparam.vel[i]);
-		parparam.partex[i]->SetScale({parparam.scl[i].x, parparam.scl[i].y, 1.0f});
+		parparam.partex[i]->SetScale({ parparam.scl[i].x, parparam.scl[i].y, 1.0f });
 		parparam.partex[i]->SetBillboard(TRUE);
-		parparam.partex[i]->SetColor({1.f, 1.f, 1.f, parparam.alpha[i]});
+		parparam.partex[i]->SetColor({ 1.f, 1.f, 1.f, parparam.alpha[i] });
 		parparam.partex[i]->Update(CameraControl::GetInstance()->GetCamera());
 	}
 	if (isAryEqual(parparam.alpha) == true)
@@ -171,7 +173,7 @@ void Particle::UpadaNormal_B(ParParam& parparam)
 			if (!parparam.f[i])
 			{
 				parparam.vel[i] = createpos;
-				parparam.scl[i] = {1.0f, 1.0f};
+				parparam.scl[i] = { BeginParScl };
 				parparam.speed[i] = 0;
 				parparam.alpha[i] = 1;
 				parparam.f[i] = true;
@@ -190,12 +192,12 @@ void Particle::UpadaNormal_B(ParParam& parparam)
 			parparam.vel[i].x += parparam.speed[i] * cos(parparam.angle[i]); //360度に広がるようにする
 			parparam.vel[i].y += 0.1f; // parparam.speed[i] * sin(parparam.angle[i]); //360度に広がるようにする
 			parparam.speed[i] += 0.002f; //徐々にスピードを速く
-			parparam.alpha[i] -= 0.02f;
+			parparam.alpha[i] -= 0.01f;
 
 			parparam.partex[i]->SetPosition(parparam.vel[i]);
-			parparam.partex[i]->SetScale({parparam.scl[i].x, parparam.scl[i].y, 1.0f});
+			parparam.partex[i]->SetScale({ parparam.scl[i].x, parparam.scl[i].y, 1.0f });
 			parparam.partex[i]->SetBillboard(TRUE);
-			parparam.partex[i]->SetColor({1.f, 1.f, 1.f, parparam.alpha[i]});
+			parparam.partex[i]->SetColor({ BeginParColor.x,BeginParColor.y,BeginParColor.z, parparam.alpha[i] });
 			parparam.partex[i]->Update(CameraControl::GetInstance()->GetCamera());
 		}
 	}
@@ -213,7 +215,7 @@ void Particle::UpadaNormal_B(ParParam& parparam)
 			if (!parparam.f[i])
 			{
 				parparam.vel[i] = createpos;
-				parparam.scl[i] = {1.0f, 1.0f};
+				parparam.scl[i] = { 1.0f, 1.0f };
 				parparam.speed[i] = 0;
 				parparam.alpha[i] = 1;
 				parparam.f[i] = true;
@@ -235,9 +237,9 @@ void Particle::UpadaNormal_B(ParParam& parparam)
 			parparam.alpha[i] -= 0.01f;
 
 			parparam.partex[i]->SetPosition(parparam.vel[i]);
-			parparam.partex[i]->SetScale({parparam.scl[i].x, parparam.scl[i].y, 1.0f});
+			parparam.partex[i]->SetScale({ parparam.scl[i].x, parparam.scl[i].y, 1.0f });
 			parparam.partex[i]->SetBillboard(TRUE);
-			parparam.partex[i]->SetColor({1.f, 1.f, 1.f, parparam.alpha[i]});
+			parparam.partex[i]->SetColor({ BeginParColor.x,BeginParColor.y,BeginParColor.z, parparam.alpha[i] });
 			parparam.partex[i]->Update(CameraControl::GetInstance()->GetCamera());
 		}
 	}

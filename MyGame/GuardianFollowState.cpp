@@ -3,8 +3,13 @@
 #include "PlayerControl.h"
 #include"GuardianBomState.h"
 #include"GuardianDeathState.h"
-#include"GuardianBomAttack.h"
 
+#include"GuardianRushState.h"
+#include"GuardianBomAttack.h"
+#include"GuardianShotAttack.h"
+#include"mHelper.h"
+
+#define PI 3.14f
 void GuardianFollowState::Initialize(Enemy* enemy)
 {
 }
@@ -49,17 +54,31 @@ void GuardianFollowState::Follow(Enemy* enemy)
 	{
 		enemy->SetPosition({
 				enemy->GetPosition().x + move.m128_f32[0] * 2.f,
-				-20.f + sinf(3.14f * 2.f / 120.f * PosYMovingT) * 2.f,
+				-20.f + sinf(PI * 2.f / 120.f * PosYMovingT) * 2.f,
 				enemy->GetPosition().z + move.m128_f32[2] * 2.f
 			}
 		);
 	}
 
-	if (Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) > 10)
+	if (Percent::GetParcent(float(enemy->GetMaxHP()), float(enemy->GetHP())) < 70.f)
 	{
-		//	enemy->ChangeState_Guardian(new GuardianBomState());
+		if (GuardianShotAttack::GetIns()->GetisEndAttack() == false) {
+			enemy->ChangeState_Guardian(new GuardianRushState());
+		}
+	}else
+	{
+		GuardianShotAttack::GetIns()->SetisEndAttack(false);
 	}
-
+	//
+	if (Percent::GetParcent(float(enemy->GetMaxHP()), float(enemy->GetHP())) < 40.f)
+	{
+		if (GuardianBomAttack::GetIns()->GetisEndAttack() == false) {
+			enemy->ChangeState_Guardian(new GuardianBomState());
+		}
+	} else
+	{
+		GuardianBomAttack::GetIns()->SetisEndAttack(false);
+	}
 	if (enemy->GetHP() <= 0)
 	{
 		enemy->ChangeState_Guardian(new GuardianDeathState());

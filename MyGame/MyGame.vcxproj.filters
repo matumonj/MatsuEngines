@@ -615,6 +615,9 @@
     <ClCompile Include="GuardianBomAttack.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="GuardianShotAttack.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sprite.h">
@@ -1044,6 +1047,9 @@
       <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian</Filter>
     </ClInclude>
     <ClInclude Include="GuardianBomAttack.h">
+      <Filter>Game\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="GuardianShotAttack.h">
       <Filter>Game\Shader</Filter>
     </ClInclude>
   </ItemGroup>

@@ -62,14 +62,16 @@ void DropWeapon::DropWeaponBeha()
 		if (WeaponIndex == AXE)
 		{
 			WeaponObj[WeaponIndex]->SetModel(Model::CreateFromOBJ("axe"));
+			PickUpTexAlpha[AXE] = 1.0f;
 		}
 		if (WeaponIndex == SWORD)
 		{
 			WeaponObj[WeaponIndex]->SetModel(Model::CreateFromOBJ("Wand"));
+			PickUpTexAlpha[SWORD] = 1.0f;
 		}
 
 		DPhase[WeaponIndex] = UPDATE;
-		PickUpTexAlpha = 1.0f;
+		
 	}
 
 	if (DPhase[WeaponIndex] == UPDATE)
@@ -91,8 +93,12 @@ void DropWeapon::DropWeaponBeha()
 	else if (DPhase[WeaponIndex] == PICKUP)
 	{
 		WeaponChestUpTex_Alpha += 0.02f;
-		PickUpTexAlpha -= 0.02f;
-
+		if (WeaponIndex == AXE) {
+			PickUpTexAlpha[AXE] -= 0.02f;
+		}
+		if (WeaponIndex == SWORD) {
+			PickUpTexAlpha[SWORD] -= 0.02f;
+		}
 		PickUpWeaponBeha(WeaponIndex);
 
 		if (WeaponChestUpTex_Alpha >= 2.0f)
@@ -158,7 +164,7 @@ void DropWeapon::Upda()
 
 		PickUptex[i]->SetPosition({tex2DPos[i].m128_f32[0], tex2DPos[i].m128_f32[1]});
 		PickUptex[i]->SetSize({300.f, 300.f });
-		PickUptex[i]->setcolor({1.f, 1.f, 1.f, PickUpTexAlpha});
+		PickUptex[i]->setcolor({1.f, 1.f, 1.f, PickUpTexAlpha[i]});
 	}
 	WeaponChestUpdateTex->SetPosition({840.0f, 300.0f});
 	WeaponChestUpdateTex->SetSize({800.0f, 400.0f});

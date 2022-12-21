@@ -69,9 +69,10 @@ void Player::Initialize()
 	AttackEffect::GetIns()->Init();
 }
 
-//80,145
+//ジャンプ
 void Player::Jump()
 {
+	//接地時のみ
 	if (onGround)
 	{
 		if (CustomButton::GetInstance()->GetJumpAction())
@@ -204,9 +205,12 @@ void Player::Update()
 	Move();
 	// ジャンプ操作
 	Jump();
+	//落下防止
 	if (!onGround)
 	{
+		//一定時間落下状態なら最終の接地位置に戻る
 		falltime++;
+		//３秒
 		if (falltime > 180)
 		{
 			Position = oldpos;
@@ -215,6 +219,7 @@ void Player::Update()
 	}
 	else
 	{
+		//座標を一定間隔ごとに保存
 		falltime = 0;
 		savetime++;
 		if (savetime % 60 == 0)
@@ -223,6 +228,8 @@ void Player::Update()
 			savetime = 0;
 		}
 	}
+
+	//回避
 	if (input->TriggerButton(input->X))
 	{
 		evasionF = true;
@@ -410,11 +417,13 @@ void Player::RecvDamage(int Damage)
 		return;
 	}
 
+	//ダメージくらった時にカメラシェイク
 	if (!HUD::GetInstance()->GetRecvDamageFlag())
 	{
 		CameraControl::GetInstance()->ShakeCamera();
 		HUD::GetInstance()->SetRecvDamageFlag(true); //プレイヤーHPのHUD用
 	}
+
 	if (HP >= 0)
 	{
 		HP = HP - Damage;

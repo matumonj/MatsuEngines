@@ -1,6 +1,7 @@
 ﻿#include "GuardianEnemy.h"
 #include "PlayerControl.h"
 #include "CameraControl.h"
+#include "GuardianShotAttack.h"
 #include "ImageManager.h"
 #include "mHelper.h"
 
@@ -23,7 +24,7 @@ void GuardianEnemy::Initialize()
 
 	m_Object->SetModel(Model::CreateFromOBJ("Guardian"));
 
-	MaxHP = 100;
+	MaxHP = 1000;
 
 	EnemyHP = MaxHP;
 	//パラメータのセット
@@ -40,10 +41,13 @@ void GuardianEnemy::Initialize()
 	Sprite* l_frame3 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME4), {0, 0});
 	Sprite* l_frame4 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME3), {0, 0});
 
+	Sprite* l_enemyname = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENEMYNAME_GUARDIAN), { 0, 0 });
+
 	HPFrame[0].reset(l_frame1);
 	HPFrame[1].reset(l_frame2);
 	HPFrame[2].reset(l_frame3);
 	HPFrame[3].reset(l_frame4);
+	EnemyName.reset(l_enemyname);
 	for (int i = 0; i < 4; i++)
 	{
 		HPFrame[i]->SetAnchorPoint({0.0f, 0.0f});
@@ -55,8 +59,8 @@ void GuardianEnemy::Initialize()
 	DeathTime = 6.9f;
 	Position = {-300.f, -50.f, 270.f};
 	GuardianBomAttack::GetIns()->TexSet();
-
-	Color = {1, 1, 1, 1};
+	GuardianShotAttack::GetIns()->TexSet();
+	Color = {1.f, 1.f, 1.f, alpha};
 }
 
 
@@ -117,6 +121,8 @@ void GuardianEnemy::HPFrameScaling()
 	HPFrame[2]->SetSize({FrameScl_Inner.x, 15.0f});
 	HPFrame[1]->SetSize({200.0f, 15.0f});
 	HPFrame[0]->SetSize({200.0f, 15.0f});
+	EnemyName->SetPosition({ tex2DPos[0].m128_f32[0] - 80.0f, tex2DPos[0].m128_f32[1] - 30.f });
+	EnemyName->SetSize({ 200.0f,15.0f });
 }
 
 
@@ -131,6 +137,7 @@ void GuardianEnemy::Update()
 	*/
 
 
+	GuardianShotAttack::GetIns()->Upda();
 	GuardianBomAttack::GetIns()->Upda();
 	HPFrameScaling();
 	ParameterSet_Obj();
@@ -148,11 +155,18 @@ void GuardianEnemy::FbxAnimationControl()
 
 void GuardianEnemy::Death()
 {
+	
+	isAlive=FALSE;
+	alpha -= 0.02f;
+
+	SetColor({ 0.2f,0.2f,0.2f,alpha });
 }
 
 void GuardianEnemy::Draw()
 {
 	Draw_Obj();
+
+	GuardianShotAttack::GetIns()->Draw();
 	GuardianBomAttack::GetIns()->Draw();
 }
 
@@ -167,5 +181,6 @@ void GuardianEnemy::EnemyHPDraw()
 	{
 		HPFrame[i]->Draw();
 	}
+	EnemyName->Draw();
 	Sprite::PostDraw();
 }

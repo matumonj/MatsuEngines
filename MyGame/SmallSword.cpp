@@ -22,15 +22,14 @@ void SmallSword::Initialize()
 
 	m_Object = std::make_unique<Object3d>();
 
-	m_Model = Model::CreateFromOBJ("Wand");
 	//m_Object->CreateGraphicsPipeline(L"Resources/Shader/Object3dVS.hlsl", L"Resources/Shader/Object3dPS.hlsl", L"Resources/Shader/BasicGS.hlsl");
 	//ƒ‚ƒfƒ‹Š„‚è“–‚Ä
 	m_Object->Initialize(camera);
-	m_Object->SetModel(m_Model);
+	m_Object->SetModel(Model::CreateFromOBJ("Wand"));
 
-	Scale = {1, 1, 1};
+	Scale = {1.f, 1.f, 1.f};
 
-	Rotation = {0, 0 + 30, 0 + 100};
+	Rotation = {0.f, 0.f + 30.f, 0.f + 100.f};
 	animetiontime = 0.03f;
 	KnockPower = 15.0f;
 

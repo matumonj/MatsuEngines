@@ -68,6 +68,8 @@ private:
 	static constexpr int ParNum = 1;
 	XMFLOAT3 createpos;
 	ParParam m_particles[ParNum];
+	XMFLOAT2 BeginParScl;
+	XMFLOAT4 BeginParColor;
 	void SetParType(int size, ParParam& parparam, Texture* tex);
 	void ParticleUpda();
 	void EndParticleUpda(ParParam& parparam);
@@ -77,6 +79,8 @@ private:
 	void UpadaNormal_B(ParParam& parparam);
 
 public:
+	void SetParScl(XMFLOAT2 scl) { BeginParScl = scl; }
+	void SetParColor(XMFLOAT4 color) { BeginParColor =color ; }
 	void SetParF(int type)
 	{
 		partype = type;

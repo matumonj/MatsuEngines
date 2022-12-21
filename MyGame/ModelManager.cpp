@@ -25,7 +25,7 @@ void ModelManager::Initialize()
 	LoadModel(BIGSWORD, "axe");
 	LoadModel(DAMAGEAREA, "BossFieldDamageArea");
 	LoadModel(BOX, "Box");
-	LoadModel(BEAM, "BeamObj");
+	LoadModel(MISSILE, "missile");
 	LoadModel(SMALLSWORD, "Hammer");
 	LoadModel(ICECRYSTAL, "crystal");
 	LoadModel(CELESTIALSPHERE, "skydome");

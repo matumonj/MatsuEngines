@@ -18,6 +18,7 @@ void GuardianBomState::Update(Enemy* enemy)
 	);
 	if (GuardianBomAttack::GetIns()->GetPhaseEnd())
 	{
+		GuardianBomAttack::GetIns()->SetisEndAttack(TRUE);
 		enemy->ChangeState_Guardian(new GuardianFollowState());
 	}
 }

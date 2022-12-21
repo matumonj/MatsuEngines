@@ -7,7 +7,7 @@
 #include"Task.h"
 #include"DropWeapon.h"
 #include <SelectSword.h>
-
+#include"GuardianShotAttack.h"
 UI* UI::GetInstance()
 {
 	static UI instance;

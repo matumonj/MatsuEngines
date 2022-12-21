@@ -88,6 +88,10 @@ void Field::Initialize()
 			GuardArea[i]->SetAnchorPoint({ 0.5f,0.5f });
 
 			GuardAreaAngle[i] = static_cast<float>(i) * 45.f;
+			//位置の初期化
+			GuardareaPos[i].x = pedestalpos.x + sinf(GuardAreaAngle[i] * (PI / 180.0f)) * 80.0f;
+			GuardareaPos[i].z = pedestalpos.z + cosf(GuardAreaAngle[i] * (PI / 180.0f)) * 80.0f;
+
 		}
 		SetFieldModel(PEDESTAL, ModelManager::GetIns()->GetModel(ModelManager::ICECRYSTAL), camera);
 		SetFieldModel(BOSSBACK, ModelManager::GetIns()->GetModel(ModelManager::BOSSFIELD), camera);
@@ -201,8 +205,8 @@ void Field::GuardAreaTexUpda()
 		GuardAreaAngle[i]++;
 		//移動制限テクスチャの座標
 		GuardareaPos[i].y = -30.0f;
-		GuardareaPos[i].x = pedestalpos.x + sinf(GuardAreaAngle[i] * (PI / 180.0f)) * 50.0f;
-		GuardareaPos[i].z = pedestalpos.z + cosf(GuardAreaAngle[i] * (PI / 180.0f)) * 50.0f;
+		GuardareaPos[i].x = pedestalpos.x + sinf(GuardAreaAngle[i] * (PI / 180.0f)) * 80.0f;
+		GuardareaPos[i].z = pedestalpos.z + cosf(GuardAreaAngle[i] * (PI / 180.0f)) * 80.0f;
 		//移動制限テクスチャの回転値
 		GuardAreaRot[i].y = RotY[i]*60;
 		GuardAreaRot[i].x = 180.f;
@@ -232,26 +236,30 @@ void Field::GuardAreaTexUpda()
 					GuardAreaAlphaEtime[i] += 0.05f;
 				}
 			}
-			//プレイヤーの移動制限設定
-			if(Collision::GetLength(ppos,GuardareaPos[i] ) >= 90.f)
+			for (int i = 0; i < 8; i++)
 			{
-				PlayerControl::GetInstance()->GetPlayer()->isOldPos();
+				//プレイヤーの移動制限設定
+				if (Collision::GetLength(ppos, GuardareaPos[i]) <= 20.f)
+				{
+					PlayerControl::GetInstance()->GetPlayer()->isOldPos();
 				
+				}
+
 			}
-			
 		}
+		
 		//アルファ値の上下
 		GuardAreaAlpha[i] = Easing::EaseOut(GuardAreaAlphaEtime[i], 0.0f, 0.8f);
 
+		//各パラメータの更新処理
 		GuardArea[i]->SetColor({ 1.f,1.f,1.f,GuardAreaAlpha[i] });
-
 		GuardArea[i]->SetPosition(GuardareaPos[i]);
 		GuardArea[i]->SetRotation(GuardAreaRot[i]);
 		GuardArea[i]->SetScale({ 6.f,6.f,4.f });
 		GuardArea[i]->SetBillboard(FALSE);
 		GuardArea[i]->Update(camera);
 
-
+		//アルファ値の上限と下限
 		GuardAreaAlphaEtime[i] = min(GuardAreaAlphaEtime[i], 1.0f);
 		GuardAreaAlphaEtime[i] = max(GuardAreaAlphaEtime[i], 0.0f);
 	}

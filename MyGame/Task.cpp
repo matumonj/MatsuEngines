@@ -137,7 +137,7 @@ void Task::Upda()
 	TaskClear(TASK_THREE, TASK_FOUR, Judg[TASK_THREE], 4);
 
 	//int->string‚É
-	if (tasks == TASK_THREE)
+	if (ChestControl::GetInstance()->ChestCount()>3)
 	{
 		TaskAllClear = true;
 	}
