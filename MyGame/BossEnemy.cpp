@@ -34,7 +34,7 @@ void BossEnemy::Initialize()
 	m_Object = std::make_unique<Object3d>();
 	m_Object->Initialize(camera);
 	//m_Object->CreateGraphicsPipeline(L"Resources/Shader/Object3dVS.hlsl", L"Resources/Shader/Object3dPS.hlsl", L"Resources/Shader/BasicGS.hlsl");
-	MaxHP = 260;
+	MaxHP = 560;
 	EnemyHP = MaxHP;
 
 	Scale = {0.15f, 0.1f, 0.15f};

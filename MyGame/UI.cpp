@@ -59,7 +59,7 @@ void UI::HUDDraw()
 		HUD::GetInstance()->SkillBottonDraw();
 		if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
 		{
-			//ExpPointSystem::GetInstance()->Draw();
+			ExpPointSystem::GetInstance()->Draw();
 		}
 		if (TutorialSprite::GetInstance()->GetClearSetting())
 		{
