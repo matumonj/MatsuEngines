@@ -21,6 +21,7 @@
 #include"SelectSword.h"
 #include"DamageManager.h"
 #include "GameOver.h"
+#include "GuardianNAttack.h"
 #include "GuardianShotAttack.h"
 #include "HouseControl.h"
 //シーンのコンストラクタ
@@ -213,6 +214,8 @@ void PlayScene::Draw()
 			}
 
 			GuardianShotAttack::GetIns()->Draw();
+			//GuardianShotAttack::GetIns()->Draw();
+			GuardianNAttack::GetIns()->Draw();
 			Field::GetInstance()->GuardAreaDraw();
 		}
 		PlayerControl::GetInstance()->GetPlayer()->ParticleDraw();

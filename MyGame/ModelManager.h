@@ -39,7 +39,8 @@ public:
 		GRASSFIELD,
 		HOUSE,
 		SANDFIELD,
-		LANTHANUM
+		LANTHANUM,
+		BEAM
 	};
 
 	enum FBXName

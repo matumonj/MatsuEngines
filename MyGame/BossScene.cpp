@@ -198,6 +198,12 @@ void BossScene::Draw()
 			}
 			Nail::GetInstance()->Draw();
 			BossMap::GetInstance()->Draw();
+			EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->DamageTexDisplay_Draw();
+
+			for (int i = 0; i < 2; i++)
+			{
+				EnemyControl::GetInstance()->GetSummonEnemy(i)->DamageTexDisplay_Draw();
+			}
 		}
 
 		PlayerControl::GetInstance()->GetPlayer()->ParticleDraw();

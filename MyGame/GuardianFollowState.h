@@ -12,6 +12,7 @@ public:
 	void Update(Enemy* enemy) override;
 
 private:
+	int NormalAttackCount;
 	float PosYMovingT;
 	float RotY;
 	void Follow(Enemy* enemy);

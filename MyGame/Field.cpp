@@ -79,10 +79,10 @@ void Field::Initialize()
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
 	{
 		pedestalpos = { -300.0f, -32, 270 };
-		Texture::LoadTexture(12, L"Resources/2d/enemy/GuardArea.png");
+		Texture::LoadTexture(29, L"Resources/2d/enemy/GuardArea.png");
 		Texture* l_tex[8];
 		for (int i = 0; i < 8; i++) {
-			l_tex[i] = Texture::Create(12);
+			l_tex[i] = Texture::Create(29);
 			GuardArea[i].reset(l_tex[i]);
 			GuardArea[i]->CreateTexture();
 			GuardArea[i]->SetAnchorPoint({ 0.5f,0.5f });

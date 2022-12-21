@@ -211,6 +211,12 @@
     <Filter Include="Game\Scene\framework">
       <UniqueIdentifier>{a1bad7c0-fa12-4aaf-8391-fafcad7f2b9f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian\action">
+      <UniqueIdentifier>{091a996f-3da1-43e6-a301-9fe92b79c831}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian\Sequence">
+      <UniqueIdentifier>{e973b8a1-f95d-4d4b-9385-7bee98c3db0b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sprite.cpp">
@@ -558,19 +564,7 @@
     <ClCompile Include="BossEnemyEvasion.cpp">
       <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss\AttackPattern</Filter>
     </ClCompile>
-    <ClCompile Include="Task.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="WoodBase.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="WoodB.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
     <ClCompile Include="GameOver.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="House.cpp">
       <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="HouseControl.cpp">
@@ -585,38 +579,53 @@
     <ClCompile Include="EnemyKnockState.cpp">
       <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Mob</Filter>
     </ClCompile>
-    <ClCompile Include="DropWeapon.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
     <ClCompile Include="GuardianEnemy.cpp">
       <Filter>Game\gameobject\GameObject\Enemy\Derived</Filter>
     </ClCompile>
-    <ClCompile Include="GuardianBomState.cpp">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian</Filter>
-    </ClCompile>
-    <ClCompile Include="GuardianDeathState.cpp">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian</Filter>
-    </ClCompile>
-    <ClCompile Include="GuardianNAttackState.cpp">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian</Filter>
-    </ClCompile>
-    <ClCompile Include="GuardianRushState.cpp">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian</Filter>
-    </ClCompile>
     <ClCompile Include="GuardianState.cpp">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian</Filter>
-    </ClCompile>
-    <ClCompile Include="GuardianAppearState.cpp">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian</Filter>
-    </ClCompile>
-    <ClCompile Include="GuardianFollowState.cpp">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian</Filter>
-    </ClCompile>
-    <ClCompile Include="GuardianBomAttack.cpp">
-      <Filter>Game</Filter>
+      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian\action</Filter>
     </ClCompile>
     <ClCompile Include="GuardianShotAttack.cpp">
-      <Filter>Game</Filter>
+      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian\action</Filter>
+    </ClCompile>
+    <ClCompile Include="GuardianAppearState.cpp">
+      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian\Sequence</Filter>
+    </ClCompile>
+    <ClCompile Include="GuardianBomAttack.cpp">
+      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian\Sequence</Filter>
+    </ClCompile>
+    <ClCompile Include="GuardianBomState.cpp">
+      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian\Sequence</Filter>
+    </ClCompile>
+    <ClCompile Include="GuardianDeathState.cpp">
+      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian\Sequence</Filter>
+    </ClCompile>
+    <ClCompile Include="GuardianFollowState.cpp">
+      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian\Sequence</Filter>
+    </ClCompile>
+    <ClCompile Include="GuardianNAttack.cpp">
+      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian\Sequence</Filter>
+    </ClCompile>
+    <ClCompile Include="GuardianNAttackState.cpp">
+      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian\Sequence</Filter>
+    </ClCompile>
+    <ClCompile Include="GuardianRushState.cpp">
+      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian\Sequence</Filter>
+    </ClCompile>
+    <ClCompile Include="House.cpp">
+      <Filter>Game\gameobject\GameObject\house</Filter>
+    </ClCompile>
+    <ClCompile Include="WoodBase.cpp">
+      <Filter>Game\gameobject\GameObject\Wood</Filter>
+    </ClCompile>
+    <ClCompile Include="WoodB.cpp">
+      <Filter>Game\gameobject\GameObject\Wood</Filter>
+    </ClCompile>
+    <ClCompile Include="Task.cpp">
+      <Filter>Game\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="DropWeapon.cpp">
+      <Filter>Game\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -989,19 +998,7 @@
     <ClInclude Include="WinApp.h">
       <Filter>Game\collision</Filter>
     </ClInclude>
-    <ClInclude Include="Task.h">
-      <Filter>Game\Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="WoodBase.h">
-      <Filter>Game\Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="WoodB.h">
-      <Filter>Game\Shader</Filter>
-    </ClInclude>
     <ClInclude Include="GameOver.h">
-      <Filter>Game\Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="House.h">
       <Filter>Game\Shader</Filter>
     </ClInclude>
     <ClInclude Include="HouseControl.h">
@@ -1016,41 +1013,56 @@
     <ClInclude Include="EnemyKnockState.h">
       <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Mob</Filter>
     </ClInclude>
-    <ClInclude Include="DropWeapon.h">
-      <Filter>Game\Shader</Filter>
-    </ClInclude>
     <ClInclude Include="UI.h">
       <Filter>Game\UI</Filter>
     </ClInclude>
     <ClInclude Include="GuardianEnemy.h">
       <Filter>Game\gameobject\GameObject\Enemy\Derived</Filter>
     </ClInclude>
-    <ClInclude Include="GuardianBomState.h">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian</Filter>
-    </ClInclude>
-    <ClInclude Include="GuardianDeathState.h">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian</Filter>
-    </ClInclude>
-    <ClInclude Include="GuardianNAttackState.h">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian</Filter>
-    </ClInclude>
-    <ClInclude Include="GuardianRushState.h">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian</Filter>
-    </ClInclude>
     <ClInclude Include="GuardianState.h">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian</Filter>
-    </ClInclude>
-    <ClInclude Include="GuardianFollowState.h">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian</Filter>
-    </ClInclude>
-    <ClInclude Include="GuardianAppearState.h">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian</Filter>
-    </ClInclude>
-    <ClInclude Include="GuardianBomAttack.h">
-      <Filter>Game\Shader</Filter>
+      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian\action</Filter>
     </ClInclude>
     <ClInclude Include="GuardianShotAttack.h">
-      <Filter>Game\Shader</Filter>
+      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian\action</Filter>
+    </ClInclude>
+    <ClInclude Include="GuardianNAttack.h">
+      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian\action</Filter>
+    </ClInclude>
+    <ClInclude Include="GuardianBomAttack.h">
+      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian\action</Filter>
+    </ClInclude>
+    <ClInclude Include="GuardianAppearState.h">
+      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian\Sequence</Filter>
+    </ClInclude>
+    <ClInclude Include="GuardianBomState.h">
+      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian\Sequence</Filter>
+    </ClInclude>
+    <ClInclude Include="GuardianDeathState.h">
+      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian\Sequence</Filter>
+    </ClInclude>
+    <ClInclude Include="GuardianFollowState.h">
+      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian\Sequence</Filter>
+    </ClInclude>
+    <ClInclude Include="GuardianNAttackState.h">
+      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian\Sequence</Filter>
+    </ClInclude>
+    <ClInclude Include="GuardianRushState.h">
+      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian\Sequence</Filter>
+    </ClInclude>
+    <ClInclude Include="House.h">
+      <Filter>Game\gameobject\GameObject\house</Filter>
+    </ClInclude>
+    <ClInclude Include="WoodBase.h">
+      <Filter>Game\gameobject\GameObject\Wood</Filter>
+    </ClInclude>
+    <ClInclude Include="WoodB.h">
+      <Filter>Game\gameobject\GameObject\Wood</Filter>
+    </ClInclude>
+    <ClInclude Include="DropWeapon.h">
+      <Filter>Game\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Task.h">
+      <Filter>Game\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

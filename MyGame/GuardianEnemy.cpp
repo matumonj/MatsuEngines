@@ -2,6 +2,7 @@
 #include "PlayerControl.h"
 #include "CameraControl.h"
 #include "GuardianShotAttack.h"
+#include "GuardianNAttack.h"
 #include "ImageManager.h"
 #include "mHelper.h"
 
@@ -60,6 +61,7 @@ void GuardianEnemy::Initialize()
 	Position = {-300.f, -50.f, 270.f};
 	GuardianBomAttack::GetIns()->TexSet();
 	GuardianShotAttack::GetIns()->TexSet();
+	GuardianNAttack::GetIns()->TexSet();
 	Color = {1.f, 1.f, 1.f, alpha};
 }
 
@@ -139,6 +141,7 @@ void GuardianEnemy::Update()
 
 	GuardianShotAttack::GetIns()->Upda();
 	GuardianBomAttack::GetIns()->Upda();
+	GuardianNAttack::GetIns()->Upda();
 	HPFrameScaling();
 	ParameterSet_Obj();
 }
@@ -172,6 +175,7 @@ void GuardianEnemy::Draw()
 
 void GuardianEnemy::EnemyHPDraw()
 {
+	if (!isAlive)return;
 	Player* l_player = PlayerControl::GetInstance()->GetPlayer();
 
 	if (Collision::GetLength(Position, l_player->GetPosition()) > 40) { return; }

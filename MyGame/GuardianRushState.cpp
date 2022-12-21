@@ -11,6 +11,7 @@ void GuardianRushState::Update(Enemy* enemy)
 {
 
 	GuardianShotAttack::GetIns()->SetAction(true);
+	GuardianShotAttack::GetIns()->SetisEndAttack(true);
 	enemy->ChangeState_Guardian(new GuardianFollowState());
 	
 }

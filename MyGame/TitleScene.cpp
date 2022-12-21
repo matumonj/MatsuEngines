@@ -77,18 +77,13 @@ void TitleScene::Update()
 	celestal->SetScale({30.f, 30.1f, 30.1f});
 	if (Input::GetInstance()->TriggerButton(Input::B))
 	{
-		SceneManager::GetInstance()->SetScene(SceneManager::TUTORIAL, sceneManager_);
-
+	
 		//‰Ÿ‚³‚ê‚½‚ç
 		menujudg_Play = true;
 		//‰Ÿ‚³‚ê‚½‚ç
 		feedf = true;
 	}
-	if (Input::GetInstance()->TriggerButton(Input::A))
-	{
-		//‰Ÿ‚³‚ê‚½‚ç
-		SceneManager::GetInstance()->SetScene(SceneManager::MAPCREATE, sceneManager_);
-	}
+
 	if (feedf)
 	{
 		Cangle += 0.5f;

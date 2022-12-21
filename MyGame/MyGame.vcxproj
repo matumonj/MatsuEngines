@@ -177,6 +177,7 @@
     <ClCompile Include="GuardianDeathState.cpp" />
     <ClCompile Include="GuardianEnemy.cpp" />
     <ClCompile Include="GuardianFollowState.cpp" />
+    <ClCompile Include="GuardianNAttack.cpp" />
     <ClCompile Include="GuardianNAttackState.cpp" />
     <ClCompile Include="GuardianRushState.cpp" />
     <ClCompile Include="GuardianShotAttack.cpp" />
@@ -320,6 +321,7 @@
     <ClInclude Include="GuardianDeathState.h" />
     <ClInclude Include="GuardianEnemy.h" />
     <ClInclude Include="GuardianFollowState.h" />
+    <ClInclude Include="GuardianNAttack.h" />
     <ClInclude Include="GuardianNAttackState.h" />
     <ClInclude Include="GuardianRushState.h" />
     <ClInclude Include="GuardianShotAttack.h" />
