@@ -37,7 +37,7 @@ private:
 	std::array<std::unique_ptr<Object3d>, WeaponSize> WeaponObj;
 
 	std::array<std::unique_ptr<Sprite>, WeaponSize> PickUptex;
-	std::array<float,WeaponSize> PickUpTexAlpha;
+	std::array<float, WeaponSize> PickUpTexAlpha;
 
 	std::unique_ptr<Sprite> WeaponChestUpdateTex;
 	float WeaponChestUpTex_Alpha;

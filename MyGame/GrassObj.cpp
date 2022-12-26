@@ -310,7 +310,7 @@ bool GrassObj::Initialize(DebugCamera* camera)
 	this->camera = camera;
 
 	// nullptrチェック
-	
+
 
 	HRESULT result;
 
@@ -374,7 +374,7 @@ void GrassObj::Update(XMFLOAT4 color, DebugCamera* camera)
 void GrassObj::Draw()
 {
 	// nullptrチェック
-	
+
 	//assert(GrassObj::cmdList);
 	if (model == nullptr)
 	{

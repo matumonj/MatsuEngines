@@ -365,7 +365,7 @@ Sprite* Sprite::Create(UINT texNumber, XMFLOAT2 position, XMFLOAT4 color, XMFLOA
 bool Sprite::Initialize()
 {
 	// nullptrチェック
-	
+
 
 	HRESULT result = S_FALSE;
 

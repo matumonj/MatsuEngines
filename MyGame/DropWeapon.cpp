@@ -15,11 +15,11 @@ void DropWeapon::Init()
 	Sprite::LoadTexture(101, L"Resources/2d/icon/SwordPickup.png");
 	Sprite::LoadTexture(102, L"Resources/2d/icon/addweaponnav.png");
 
-	Sprite* l_Tex2 = Sprite::Create(102, {0.f, 0.f });
+	Sprite* l_Tex2 = Sprite::Create(102, {0.f, 0.f});
 	Sprite* l_Tex[WeaponSize];
 
-	l_Tex[AXE] = Sprite::Create(100, {0.f, 0.f });
-	l_Tex[SWORD] = Sprite::Create(101, {0.f, 0.f });
+	l_Tex[AXE] = Sprite::Create(100, {0.f, 0.f});
+	l_Tex[SWORD] = Sprite::Create(101, {0.f, 0.f});
 	//l_Tex[Weapon::SWORD] = Sprite::Create(102, { 0,0 });
 
 
@@ -71,7 +71,6 @@ void DropWeapon::DropWeaponBeha()
 		}
 
 		DPhase[WeaponIndex] = UPDATE;
-		
 	}
 
 	if (DPhase[WeaponIndex] == UPDATE)
@@ -93,10 +92,12 @@ void DropWeapon::DropWeaponBeha()
 	else if (DPhase[WeaponIndex] == PICKUP)
 	{
 		WeaponChestUpTex_Alpha += 0.02f;
-		if (WeaponIndex == AXE) {
+		if (WeaponIndex == AXE)
+		{
 			PickUpTexAlpha[AXE] -= 0.02f;
 		}
-		if (WeaponIndex == SWORD) {
+		if (WeaponIndex == SWORD)
+		{
 			PickUpTexAlpha[SWORD] -= 0.02f;
 		}
 		PickUpWeaponBeha(WeaponIndex);
@@ -153,7 +154,7 @@ void DropWeapon::Upda()
 		WeaponObj[i]->SetScale(WeaponObjScl[i]);
 		WeaponObj[i]->SetRotation(WeaponObjRot[i]);
 		//ƒ‚ƒfƒ‹Š„‚è“–‚Ä
-		WeaponObj[i]->Update({1.f, 1.f, 1.f, 1.f }, camera);
+		WeaponObj[i]->Update({1.f, 1.f, 1.f, 1.f}, camera);
 
 		tex2DPos[i] = {WeaponObjPos[i].x, WeaponObjPos[i].y, WeaponObjPos[i].z};
 		tex2DPos[i] = MatCal::PosDivi(tex2DPos[i], CameraControl::GetInstance()->GetCamera()->GetViewMatrix(), false);
@@ -163,7 +164,7 @@ void DropWeapon::Upda()
 		tex2DPos[i] = MatCal::PosDivi(tex2DPos[i], CameraControl::GetInstance()->GetCamera()->GetViewPort(), false);
 
 		PickUptex[i]->SetPosition({tex2DPos[i].m128_f32[0], tex2DPos[i].m128_f32[1]});
-		PickUptex[i]->SetSize({300.f, 300.f });
+		PickUptex[i]->SetSize({300.f, 300.f});
 		PickUptex[i]->setcolor({1.f, 1.f, 1.f, PickUpTexAlpha[i]});
 	}
 	WeaponChestUpdateTex->SetPosition({840.0f, 300.0f});

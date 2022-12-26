@@ -77,12 +77,12 @@ bool House_A::CollideHouse()
 		return false;
 	}
 	playerOBB.SetOBBParam_Pos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
-	playerOBB.SetOBBParam_Scl({1.f, 1.f, 1.f });
+	playerOBB.SetOBBParam_Scl({1.f, 1.f, 1.f});
 	playerOBB.SetOBBParam_Rot(PlayerControl::GetInstance()->GetPlayer()->GetMatrot());
 
 	//OBB 回転ベクトル
 	HouseOBB.SetOBBParam_Pos(m_Object->GetPosition());
-	HouseOBB.SetOBBParam_Scl({40.f, 30.f, 40.f });
+	HouseOBB.SetOBBParam_Scl({40.f, 30.f, 40.f});
 	HouseOBB.SetOBBParam_Rot(m_Object->GetMatrot());
 
 	if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), Position) < 40)
@@ -140,12 +140,12 @@ bool House_B::CollideHouse()
 		return false;
 	}
 	playerOBB.SetOBBParam_Pos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
-	playerOBB.SetOBBParam_Scl({1.f, 1.f, 1.f });
+	playerOBB.SetOBBParam_Scl({1.f, 1.f, 1.f});
 	playerOBB.SetOBBParam_Rot(PlayerControl::GetInstance()->GetPlayer()->GetMatrot());
 
 	//OBB 回転ベクトル
 	HouseOBB.SetOBBParam_Pos(m_Object->GetPosition());
-	HouseOBB.SetOBBParam_Scl({40.f, 50.f, 40.f });
+	HouseOBB.SetOBBParam_Scl({40.f, 50.f, 40.f});
 	HouseOBB.SetOBBParam_Rot(m_Object->GetMatrot());
 
 	if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), Position) < 140)

@@ -558,7 +558,7 @@ bool Object3d::Initialize(DebugCamera* camera)
 	this->camera = camera;
 
 	// nullptrチェック
-	
+
 
 	HRESULT result;
 
@@ -699,7 +699,7 @@ void Object3d::Update(XMMATRIX matworld, XMFLOAT4 color, DebugCamera* camera)
 void Object3d::Draw()
 {
 	// nullptrチェック
-	
+
 	//assert(Object3d::cmdList);
 	if (model == nullptr)
 	{

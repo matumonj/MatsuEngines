@@ -18,7 +18,6 @@ void GuardianDeathState::Death(Enemy* enemy)
 	if (pos.y < -32.0f)
 	{
 		enemy->Death();
-		
 	}
 	else
 	{

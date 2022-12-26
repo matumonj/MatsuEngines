@@ -261,7 +261,7 @@ void CameraControl::TargetPlayer()
 		if (Task::GetInstance()->GetAllTaskClear() && FenceControl::GetInstance()->GetBossGateFence()->FenceYposMin() ==
 			FALSE)
 		{
-				Tstate = MOVEBOSSAREA;
+			Tstate = MOVEBOSSAREA;
 		}
 	}
 	if (Tstate == PLAYER)
