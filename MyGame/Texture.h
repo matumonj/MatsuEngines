@@ -220,7 +220,7 @@ public: // メンバ関数
 	const XMFLOAT3& GetScale() { return scale; }
 private: // メンバ変数
 	ComPtr<ID3D12Resource> constBuff; // 定数バッファ
-	float DisplayRadius = 100;
+	float DisplayRadius = 200;
 	// 色
 	XMFLOAT4 color;
 	// ローカルスケール

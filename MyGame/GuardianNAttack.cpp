@@ -59,6 +59,9 @@ void GuardianNAttack::Upda()
 	case BEAMSMALL:
 		Phase_MakeSmall();
 		break;
+	case TEXFADE:
+		Phase_TexFade();
+		break;
 	case END:
 		Phase_End();
 		break;
@@ -66,8 +69,9 @@ void GuardianNAttack::Upda()
 
 	//各パラメータのセット
 	DamageTex->SetScale({ TexScl.x, TexScl.y, 1.f });
-	DamageTex->SetRotation({ 90.f, 0.f, 0.f });
-	DamageTex->SetColor({ 1.f, 1.f, 1.f, 1.f });
+	TexRotZ++;
+	DamageTex->SetRotation({ 90.f, 0.f, TexRotZ});
+	DamageTex->SetColor({ 1.f, 1.f, 1.f, TexAlpha});
 	DamageTex->SetBillboard(false);
 	DamageTex->Update(CameraControl::GetInstance()->GetCamera());
 
@@ -86,7 +90,11 @@ void GuardianNAttack::Phase_AreaSet()
 
 	bool nextPhase = TexAlpha > 3.f;
 	const float scalingSpeed = 0.05f;
-	const float maxScale = 8.f;
+	const float maxScale = 5.f;
+	if(TexAlpha==0.f)
+	{
+		DamageTex->SetPosition({ ppos.x, -33.f, ppos.z });
+	}
 
 	//テクスチャ拡大
 	TexScl.x += scalingSpeed;
@@ -99,7 +107,6 @@ void GuardianNAttack::Phase_AreaSet()
 	TexScl.x = min(TexScl.x, maxScale);
 	TexScl.y = min(TexScl.y, maxScale);
 
-	DamageTex->SetPosition({ ppos.x, -33.f, ppos.z });
 	if (nextPhase)
 	{
 		phase = BOM;
@@ -110,7 +117,6 @@ void GuardianNAttack::Phase_AreaSet()
 
 void GuardianNAttack::Phase_Bom()
 {
-	TexAlpha = 0.0f;
 	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 
 	XMFLOAT3 epos = EnemyControl::GetInstance()->GetGuardianEnemy()->GetPosition();
@@ -136,38 +142,54 @@ void GuardianNAttack::Phase_MakeSmall()
 {
 	XMFLOAT3 epos = EnemyControl::GetInstance()->GetGuardianEnemy()->GetPosition();
 
+	TexAlpha = 1.f;
 	scalingETime -= 0.04f;
 	if (scalingETime <=0.0f)
 	{
-		phase = END;
+		phase = Phase::TEXFADE;
 	}
 	BeamObjScl.x = Easing::EaseOut(scalingETime, 0.0f, 10.0f);
 	BeamObjScl.z = Easing::EaseOut(scalingETime, 0.0f, 10.0f);
 
-
 	BeamObjScl.x = min(BeamObjScl.x, 10.0f);
-	BeamObjScl.x = max(BeamObjScl.x, 0.0f);
 	BeamObjScl.z = min(BeamObjScl.z, 10.0f);
+
+	BeamObjScl.x = max(BeamObjScl.x, 0.0f);
 	BeamObjScl.z = max(BeamObjScl.z,0.0f);
 	
+}
+void GuardianNAttack::Phase_TexFade()
+{
+	TexAlpha -= 0.02f;
+	if (TexAlpha < 0.0f) {
+		TexScl = { 0.0f,0.0f };
+		phase = Phase::END;
+	}
 }
 
 
 void GuardianNAttack::Phase_End()
 {
 	EnemyControl::GetInstance()->GetGuardianEnemy()->SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
-	TexScl = { 0.0f,0.0f };
+	TexAlpha = 0.f;
 	scalingETime = 0.0f;
 	BeamObjScl = { 0.0f,50.0f,0.0f };
 }
-
+#include"imgui.h"
 void GuardianNAttack::Draw()
 {
-	Texture::PreDraw();
-	DamageTex->Draw();
-	Texture::PostDraw();
+	ImGui::Begin("scl");
+	ImGui::SliderFloat("x", &BeamMaxScl.x, 0.f, 6.f);
+	ImGui::SliderFloat("x", &BeamMaxScl.z, 0.f, 6.f);
+	ImGui::End();
 
 	Object3d::PreDraw();
 	normalAttackObj->Draw();
 	Object3d::PostDraw();
+
+	Texture::PreDraw();
+	DamageTex->Draw();
+	Texture::PostDraw();
+
+
 }

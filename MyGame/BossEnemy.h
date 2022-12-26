@@ -50,6 +50,7 @@ public:
 	void FbxAnimationControl() override;
 	void EnemyHPDraw() override;
 	void Death() override;
+	void Move()override;
 	//bool GetArmonGround() { return ArmonGround; }
 private:
 	bool sf;

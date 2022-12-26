@@ -9,7 +9,7 @@
 #include"GuardianShotAttack.h"
 #include"GuardianNAttack.h"
 #include"mHelper.h"
-
+#include"GuardianFalterState.h"
 #define PI 3.14f
 void GuardianFollowState::Initialize(Enemy* enemy)
 {
@@ -23,6 +23,7 @@ void GuardianFollowState::Update(Enemy* enemy)
 
 void GuardianFollowState::Follow(Enemy* enemy)
 {
+	enemy->Move();
 	//敵がプエレイヤーの方向く処理
 	XMVECTOR positionA = {
 		PlayerControl::GetInstance()->GetPlayer()->GetPosition().x,
@@ -51,31 +52,35 @@ void GuardianFollowState::Follow(Enemy* enemy)
 
 	PosYMovingT++;
 	bool dis = Collision::GetLength({ positionA.m128_f32[0],positionA.m128_f32[1],positionA.m128_f32[2] }, enemy->GetPosition()) > 10.f;
-
+	
 	if (dis&&!enemy->GetMoveStop() && PlayerControl::GetInstance()->GetPlayer()->GetStopFlag() == false)
 	{
 		enemy->SetPosition({
 				enemy->GetPosition().x + move.m128_f32[0] * 2.f,
-				-20.f + sinf(PI * 2.f / 120.f * PosYMovingT) * 2.f,
+				enemy->GetPosition().y,
 				enemy->GetPosition().z + move.m128_f32[2] * 2.f
 			}
 		);
 	}
 
-	/*if (Percent::GetParcent(float(enemy->GetMaxHP()), float(enemy->GetHP())) < 70.f)
+	if (Percent::GetParcent(float(enemy->GetMaxHP()), float(enemy->GetHP())) < 70.f)
 	{
-		if (GuardianBomAttack::GetIns()->GetisEndAttack() == false) {
-			enemy->ChangeState_Guardian(new GuardianBomState());
+		if (GuardianShotAttack::GetIns()->GetisEndAttack() == false) {
+			enemy->ChangeState_Guardian(new GuardianRushState());
 		}
 	}else
 	{
 		GuardianShotAttack::GetIns()->SetisEndAttack(false);
-	}*/
+	}
 	//
+	if (enemy->GetRecvDamage2())
+	{
+		enemy->ChangeState_Guardian(new GuardianFalterState());
+	}
 	if (Percent::GetParcent(float(enemy->GetMaxHP()), float(enemy->GetHP())) < 90.f)
 	{
-		if (GuardianShotAttack::GetIns()->GetisEndAttack() == false) {
-			enemy->ChangeState_Guardian(new GuardianRushState());
+		if (GuardianBomAttack::GetIns()->GetisEndAttack() == false) {
+			enemy->ChangeState_Guardian(new GuardianBomState());
 		}
 	} 
 	NormalAttackCount++;

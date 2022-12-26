@@ -91,7 +91,7 @@ bool Texture::InitializeDescriptorHeap()
 	result = device->CreateDescriptorHeap(&descHeapDesc, IID_PPV_ARGS(&descHeap)); //生成
 	if (FAILED(result))
 	{
-		assert(0);
+		//assert(0);
 		return false;
 	}
 
@@ -270,7 +270,7 @@ bool Texture::InitializeGraphicsPipeline()
 bool Texture::LoadTexture(UINT texnumber, const wchar_t* filename)
 {
 	// nullptrチェック
-	assert(device);
+	
 
 	HRESULT result;
 	// WICテクスチャのロード
@@ -282,7 +282,7 @@ bool Texture::LoadTexture(UINT texnumber, const wchar_t* filename)
 		&metadata, scratchImg);
 	if (FAILED(result))
 	{
-		assert(0);
+		////assert(0);
 		return false;
 	}
 
@@ -307,7 +307,7 @@ bool Texture::LoadTexture(UINT texnumber, const wchar_t* filename)
 		IID_PPV_ARGS(&texbuff[texnumber]));
 	if (FAILED(result))
 	{
-		assert(0);
+		////assert(0);
 		return false;
 	}
 
@@ -322,7 +322,7 @@ bool Texture::LoadTexture(UINT texnumber, const wchar_t* filename)
 	);
 	if (FAILED(result))
 	{
-		assert(0);
+		//assert(0);
 		return false;
 	}
 	// シェーダリソースビュー作成
@@ -391,7 +391,7 @@ void Texture::CreateTexture()
 		IID_PPV_ARGS(&vertBuff));
 	if (FAILED(result))
 	{
-		assert(0);
+		//assert(0);
 		return;
 	}
 
@@ -405,7 +405,7 @@ void Texture::CreateTexture()
 		IID_PPV_ARGS(&indexBuff));
 	if (FAILED(result))
 	{
-		assert(0);
+		//assert(0);
 		return;
 	}
 
@@ -447,7 +447,7 @@ void Texture::CreateTexture()
 bool Texture::Initialize()
 {
 	// nullptrチェック
-	assert(device);
+	
 
 	HRESULT result;
 	// 定数バッファの生成
@@ -536,8 +536,8 @@ void Texture::Draw()
 
 	// ワー
 	// nullptrチェック
-	assert(device);
-	assert(Texture::cmdList);
+	
+	//assert(Texture::cmdList);
 
 	// 頂点バッファの設定
 	cmdList->IASetVertexBuffers(0, 1, &vbView);
@@ -632,7 +632,7 @@ Texture* Texture::Create(UINT texNumber, XMFLOAT3 position, XMFLOAT3 size, XMFLO
 	if (!texture->Initialize())
 	{
 		delete texture;
-		assert(0);
+		//assert(0);
 		return nullptr;
 	}
 

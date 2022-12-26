@@ -221,20 +221,7 @@ void BossScene::Draw()
 		Feed::GetInstance()->Draw();
 		Field::GetInstance()->WarningDraw();
 		SistemConfig::GetInstance()->Draw();
-		ImGui::Begin("LightP");
-		for (int i = 0; i < 4; i++)
-		{
-			//ImGui::SliderFloat("posY", &cpos.y, -200, 200);
-			ImGui::SliderFloat("posZ", &LightPos[i].y, -200, 200);
-		}
-		ImGui::End();
-		{
-			unsigned long current_time = timeGetTime();
-			float fps = static_cast<float>(count_frame) / (current_time - prev_time) * 1000;
-			ImGui::SliderFloat("FPS", &fps, -10, 50);
-			count_frame++;
-			ImGui::End();
-		}
+		
 		DirectXCommon::GetInstance()->EndDraw();
 		break;
 	}

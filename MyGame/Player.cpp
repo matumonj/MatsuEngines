@@ -137,8 +137,8 @@ void Player::Move()
 		XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(Rotation.y + 63.0f));
 		move = XMVector3TransformNormal(move, matRot);
 
-		Position.x += move.m128_f32[0] * movespeed;
-		Position.z += move.m128_f32[2] * movespeed ;
+		Position.x += move.m128_f32[0] * movespeed*5.f;
+		Position.z += move.m128_f32[2] * movespeed*5.f ;
 		Gmove = move;
 
 		//いずれかのスティックが倒されていてFBXのタイムが最初の攻撃モーションのタイムより
@@ -266,13 +266,7 @@ void Player::Update()
 
 void Player::Draw()
 {
-	ImGui::Begin("pos");
-
-	ImGui::Text("%f", Position.x);
-	ImGui::Text("%f", Position.y);
-
-	ImGui::Text("%f", Position.z);
-	ImGui::End();
+	
 	Draw_Fbx();
 
 	AttackEffect::GetIns()->Draw();

@@ -10,13 +10,35 @@ void GuardianBomState::Update(Enemy* enemy)
 {
 	PosYMovingT++;
 	GuardianBomAttack::GetIns()->SetAction(true);
-	enemy->SetPosition({
-			enemy->GetPosition().x,
-			-20.f + sinf(3.14f * 2.f / 120.f * PosYMovingT) * 2.f,
-			enemy->GetPosition().z
-		}
-	);
+	
 	if (GuardianBomAttack::GetIns()->GetPhaseEnd())
+	{
+		DownMove(enemy);
+	}
+	else
+	{
+		UpMove(enemy);
+	}
+}
+
+void GuardianBomState::UpMove(Enemy* enemy)
+{
+	
+	DirectX::XMFLOAT3 epos=enemy->GetPosition();
+	DirectX::XMFLOAT3 erot = enemy->GetRotation();
+
+	if (epos.y > 0.f)return;
+	enemy->SetPosition({ epos.x,epos.y += 0.5f,epos.z });
+	enemy->SetRotation({ erot.x,erot.y += 0.5f,erot.z });
+}
+
+void GuardianBomState::DownMove(Enemy* enemy)
+{
+	DirectX::XMFLOAT3 epos = enemy->GetPosition();
+
+	
+	enemy->SetPosition({ epos.x,epos.y -= 0.5f,epos.z });
+	if(epos.y<-24.f)
 	{
 		GuardianBomAttack::GetIns()->SetisEndAttack(TRUE);
 		enemy->ChangeState_Guardian(new GuardianFollowState());

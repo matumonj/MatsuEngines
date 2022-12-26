@@ -47,9 +47,16 @@ void Enemy::RecvDamage(int Damage)
 	{
 	}
 	//PlayerAttackState::GetInstance()->SetHitStopJudg(TRUE);
-	auto newdTex = std::make_unique<DamageManager>(
-		XMFLOAT3(Position.x + rand() % 10 - 5, Position.y + rand() % 10 - 5, Position.z), Damage);
-
+	std::unique_ptr<DamageManager> newdTex;
+	if (ENumber == EnemyNumber::GUARDIAN)
+	{
+		newdTex = std::make_unique<DamageManager>(
+			XMFLOAT3(Position.x + rand() % 10 - 5, -10+Position.y + rand() % 10 - 5, Position.z), Damage);
+	}
+	else {
+		newdTex = std::make_unique<DamageManager>(
+			XMFLOAT3(Position.x + rand() % 10 - 5, Position.y + rand() % 10 - 5, Position.z), Damage);
+	}
 	dMans_.push_back(std::move(newdTex));
 
 	EnemyHP = EnemyHP - Damage;

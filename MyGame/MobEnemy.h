@@ -33,6 +33,7 @@ public:
 	//€–Sˆ—
 	void Death() override;
 
+	void Move()override;
 	void DamageParticleSet();
 
 	void EnemyHPDraw() override;

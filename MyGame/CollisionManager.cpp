@@ -150,7 +150,7 @@ bool CollisionManager::Raycast(const Ray& ray, unsigned short attribute, Raycast
 
 void CollisionManager::QuerySphere(const Sphere& sphere, QueryCallback* callback, unsigned short attribute)
 {
-	assert(callback);
+	//assert(callback);
 
 	std::forward_list<BaseCollider*>::iterator it;
 

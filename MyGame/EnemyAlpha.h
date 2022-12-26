@@ -39,6 +39,8 @@ public:
 	void FbxAnimationControl() override;
 
 	void EnemyHPDraw() override;
+
+	void Move()override;
 private:
 	void DamageParticleSet();
 private:

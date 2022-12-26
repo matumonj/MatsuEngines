@@ -196,12 +196,15 @@ void GuardianShotAttack::Draw()
 	if (phase != Phase::BOM)return;
 	Object3d::PreDraw();
 	for (int i = 0; i < ArmObjNum; i++) {
+
+		if (ArmShotF[i] == false)continue;
 		if (ArmObj[i] == nullptr)continue;
 		ArmObj[i]->Draw();
 	}
 	Object3d::PostDraw();
 
 	for (int i = 0; i < ArmObjNum; i++) {
+		if (ArmShotF[i] == false)continue;
 		if (ArmEffect[i] == nullptr)continue;
 		ArmEffect[i]->Draw();
 	}

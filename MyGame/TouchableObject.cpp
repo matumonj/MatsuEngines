@@ -14,7 +14,7 @@ TouchableObject* TouchableObject::Create(Model* model, DebugCamera* camera)
 	if (!instance->Initialize(model, camera))
 	{
 		delete instance;
-		assert(0);
+		//assert(0);
 	}
 
 	return instance;

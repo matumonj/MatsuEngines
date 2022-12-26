@@ -7,6 +7,7 @@ bool Collision::GetCollideOBB() { return ColFlag; }
 bool Collision::line2dCol(Line2D line, Point point)
 {
 	float len = (line.end.x - line.start.x);
+	return true;
 }
 
 /**

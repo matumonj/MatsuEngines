@@ -40,6 +40,7 @@ private:
 
 	void HPFrameScaling();
 
+	void Move()override;
 private:
 	std::unique_ptr<GuardianBomAttack> bomattack;
 

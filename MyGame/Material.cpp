@@ -14,8 +14,7 @@ ComPtr<ID3D12GraphicsCommandList> Material::cmdList = nullptr;
 void Material::StaticInitialize()
 {
 	// 再初期化チェック
-	assert(!Material::device);
-
+	
 	device = DirectXCommon::GetInstance()->GetDev();
 	cmdList = DirectXCommon::GetInstance()->GetCmdList();
 }
@@ -48,7 +47,7 @@ void Material::CreateConstantBuffer()
 		IID_PPV_ARGS(&constBuff));
 	if (FAILED(result))
 	{
-		assert(0);
+		//assert(0);
 	}
 }
 
@@ -82,7 +81,7 @@ void Material::LoadTexture(const std::string& directoryPath, CD3DX12_CPU_DESCRIP
 		&metadata, scratchImg);
 	if (FAILED(result))
 	{
-		assert(0);
+		//assert(0);
 	}
 
 	const Image* img = scratchImg.GetImage(0, 0, 0); // 生データ抽出
@@ -106,7 +105,7 @@ void Material::LoadTexture(const std::string& directoryPath, CD3DX12_CPU_DESCRIP
 		IID_PPV_ARGS(&texbuff));
 	if (FAILED(result))
 	{
-		assert(0);
+		//assert(0);
 	}
 
 	// テクスチャバッファにデータ転送
@@ -120,7 +119,7 @@ void Material::LoadTexture(const std::string& directoryPath, CD3DX12_CPU_DESCRIP
 	);
 	if (FAILED(result))
 	{
-		assert(0);
+		//assert(0);
 	}
 
 	// シェーダリソースビュー作成

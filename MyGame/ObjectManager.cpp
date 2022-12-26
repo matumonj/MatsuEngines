@@ -48,7 +48,7 @@ void ObjectManager::CollisionField()
 	m_Object->collider->Update();
 
 	auto sphereCollider = dynamic_cast<SphereCollider*>(m_Object->collider);
-	assert(sphereCollider);
+	//assert(sphereCollider);
 
 
 	// クエリーコールバッククラス

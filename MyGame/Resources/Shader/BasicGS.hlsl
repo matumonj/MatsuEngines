@@ -17,16 +17,16 @@ void main(
 )
 {
 	float3 center = {(input[0].svpos.xyz + input[1].svpos.xyz + input[2].svpos.xyz) / 3};
-	float3 posworld = mul(viewproj, mul(world, float4(center, 1.0f)));
-	float3 dist = length(cameraPos - posworld);
-	float destruction = clamp(dislen - dist, 0, 1);
+	float4 posworld = mul(viewproj, mul(world, float4(center, 1.0f)));
+	float3 dist = length(cameraPos - posworld.xyz);
+	float destruction = clamp(float3(dislen,dislen,dislen) - dist, 0.f, 1.f).x;
 	float4 offset = float4(0, 0, 0, 0);
 
 	float3 vec1 = input[1].svpos.xyz - input[0].svpos.xyz;
 	float3 vec2 = input[2].svpos.xyz - input[0].svpos.xyz;
 	float3 gnormal = normalize(cross(vec1, vec2));
 	float random = rand(center.xy);
-	float randms = random.xxx;
+	float randms = random.x;
 	[unroll]
 	for (uint i = 0; i < vnum; i++)
 	{

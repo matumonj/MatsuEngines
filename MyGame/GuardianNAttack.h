@@ -32,12 +32,14 @@ private:
 		AREASET,
 		BOM,
 		BEAMSMALL,
+		TEXFADE,
 		END
 	} phase;
 
 	void Phase_AreaSet();
 	void Phase_Bom();
 	void Phase_MakeSmall();
+	void Phase_TexFade();
 	void Phase_End();
 private:
 	std::unique_ptr<Texture> DamageTex;
@@ -46,12 +48,17 @@ private:
 	float scalingETime;
 	XMFLOAT2 TexScl;
 	float TexAlpha;
+	float TexRotZ;
+	//bossの座標
 	XMFLOAT3 BossRot;
 	XMFLOAT3 BossPos;
 	XMFLOAT3 BossColor;
 
+	//びーむの各パラメータ
 	XMFLOAT3 BeamObjPos;
 	XMFLOAT3 BeamObjScl;
+	XMFLOAT3 BeamMaxScl;
+	//アルファ値
 	float ObjAlpha;
 	float ColorT;
 

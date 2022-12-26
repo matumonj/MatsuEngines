@@ -46,11 +46,6 @@ void BigSword::Update()
 
 void BigSword::Draw()
 {
-	ImGui::Begin("Rot");
-	ImGui::SliderFloat("X", &Rotation.x, 0, 360);
-	ImGui::SliderFloat("Y", &Rotation.y, 0, 360);
-
-	ImGui::SliderFloat("Z", &Rotation.z, 0, 360);
 
 
 	Draw_Obj();

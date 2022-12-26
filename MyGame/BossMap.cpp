@@ -251,17 +251,5 @@ void BossMap::Draw()
 	Texture::PreDraw();
 
 	Texture::PostDraw();
-	ImGui::Begin("map");
-	ImGui::Text("%d", p);
-	for (int i = 0; i < lanthanumSize; i++)
-	{
-		ImGui::SliderFloat("posX", &LanthanumPos[i].x, -200, 200);
-		//ImGui::SliderFloat("posY", &cpos.y, -200, 200);
-		ImGui::SliderFloat("posZ", &LanthanumPos[i].y, -200, 200);
-
-		ImGui::SliderFloat("sizeX", &bsize.x, 0, 10);
-		ImGui::SliderFloat("sizeY", &bsize.y, 0, 10);
-		ImGui::SliderFloat("sizeZ", &bsize.z, 0, 10);
-	}
-	ImGui::End();
+	
 }

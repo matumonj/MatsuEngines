@@ -232,7 +232,10 @@ void PlayScene::Draw()
 			}
 			EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i]->DamageTexDisplay_Draw();
 		}
-
+		if(EnemyControl::GetInstance()->GetGuardianEnemy()!=nullptr)
+		{
+			EnemyControl::GetInstance()->GetGuardianEnemy()->DamageTexDisplay_Draw();
+		}
 		SistemConfig::GetInstance()->Draw();
 
 		Feed::GetInstance()->Draw();

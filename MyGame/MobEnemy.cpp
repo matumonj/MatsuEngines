@@ -143,7 +143,8 @@ void MobEnemy::Update()
 void MobEnemy::HPFrameScaling()
 {
 	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
-
+	FrameScl.x = max(FrameScl.x, 0.0f);
+	FrameScl_Inner.x = max(FrameScl_Inner.x, 0.0f);
 	XMVECTOR tex2DPos[4];
 	for (int i = 0; i < 4; i++)
 	{
@@ -164,8 +165,9 @@ void MobEnemy::HPFrameScaling()
 		}
 		NowFrameX = Percent::GetParcent(static_cast<float>(MaxHP), static_cast<float>(EnemyHP)) * 2.0f;
 		FrameScalingETime += 0.05f;
-		FrameScl.x = Easing::EaseOut(FrameScalingETime, OldFrameX, NowFrameX);
-
+		if (FrameScl.x > 0.0f) {
+			FrameScl.x = Easing::EaseOut(FrameScalingETime, OldFrameX, NowFrameX);
+		}
 		if (FrameScalingETime >= 1.0f)
 		{
 			InnerFrameScalingF = true;
@@ -183,7 +185,17 @@ void MobEnemy::HPFrameScaling()
 	if (InnerFrameScalingF)
 	{
 		FrameScalingETime_Inner += 0.02f;
-		FrameScl_Inner.x = Easing::EaseOut(FrameScalingETime_Inner, OldFrameX_Inner, NowFrameX);
+		//体力が０なったときだけEaseの終わりを０に
+		if(EnemyHP<=0)
+		{
+			FrameScl_Inner.x = Easing::EaseOut(FrameScalingETime_Inner, OldFrameX_Inner, 0.f);
+			InnerFrameScalingF = false;
+		}
+		else
+		{
+			FrameScl_Inner.x = Easing::EaseOut(FrameScalingETime_Inner, OldFrameX_Inner, NowFrameX);
+		}
+		//ゲージの減りが止まったらフラグ切る
 		if (FrameScalingETime_Inner >= 1.0f)
 		{
 			InnerFrameScalingF = false;
@@ -200,8 +212,7 @@ void MobEnemy::HPFrameScaling()
 
 	EnemyName->SetPosition({ tex2DPos[0].m128_f32[0]-80.0f, tex2DPos[0].m128_f32[1]-30.f });
 	EnemyName->SetSize({ 200.0f,15.0f });
-	FrameScl.x = max(FrameScl.x, 0.0f);
-	FrameScl_Inner.x = max(FrameScl_Inner.x, 0.0f);
+
 }
 
 
@@ -311,6 +322,10 @@ void MobEnemy::Death()
 	//	PlayerAttackState::GetInstance()->SetHitStopJudg(TRUE);
 
 	movestop = false;
+}
+
+void MobEnemy::Move()
+{
 }
 
 void MobEnemy::FbxAnimationControl()

@@ -80,14 +80,14 @@ void Field::Initialize()
 	{
 		pedestalpos = { -300.0f, -32, 270 };
 		Texture::LoadTexture(29, L"Resources/2d/enemy/GuardArea.png");
-		Texture* l_tex[8];
-		for (int i = 0; i < 8; i++) {
+		Texture* l_tex[GuardAreaSize];
+		for (int i = 0; i < GuardAreaSize; i++) {
 			l_tex[i] = Texture::Create(29);
 			GuardArea[i].reset(l_tex[i]);
 			GuardArea[i]->CreateTexture();
 			GuardArea[i]->SetAnchorPoint({ 0.5f,0.5f });
 
-			GuardAreaAngle[i] = static_cast<float>(i) * 45.f;
+			GuardAreaAngle[i] = static_cast<float>(i) * (360.f/float(GuardAreaSize));
 			//位置の初期化
 			GuardareaPos[i].x = pedestalpos.x + sinf(GuardAreaAngle[i] * (PI / 180.0f)) * 80.0f;
 			GuardareaPos[i].z = pedestalpos.z + cosf(GuardAreaAngle[i] * (PI / 180.0f)) * 80.0f;
@@ -185,18 +185,19 @@ void Field::GuardAreaTexUpda()
 	pedestalpos.y,
 	pedestalpos.z
 	};
-	XMVECTOR positionB[8];
+	XMVECTOR positionB[GuardAreaSize];
 	//プレイヤーと敵のベクトルの長さ(差)を求める
-	XMVECTOR SubVector[8];
+	XMVECTOR SubVector[GuardAreaSize];
 	//調整用
-	float RotY[8];
+	float RotY[GuardAreaSize];
 	//カメラからプレイヤーにかけての線分
 	camera_to_player.start = { camera->GetEye().x,camera->GetEye().z };
 	camera_to_player.end = { ppos.x,ppos.z };
 
 	//角度の取得 プレイヤーが敵の索敵位置に入ったら向きをプレイヤーの方に
-	for (int i = 0; i < 8; i++)
+	for (int i = 0; i < GuardAreaSize; i++)
 	{
+		if (GuardArea[i] == nullptr)continue;
 		positionB[i] = {GuardareaPos[i].x,GuardareaPos[i] .y,GuardareaPos[i] .z};
 		SubVector[i] = XMVectorSubtract(positionB[i], positionA); // positionA - positionB;
 		RotY[i] = atan2f(SubVector[i].m128_f32[0], SubVector[i].m128_f32[2]);
@@ -236,8 +237,9 @@ void Field::GuardAreaTexUpda()
 					GuardAreaAlphaEtime[i] += 0.05f;
 				}
 			}
-			for (int i = 0; i < 8; i++)
+			for (int i = 0; i < GuardAreaSize; i++)
 			{
+				if (GuardArea[i] == nullptr)continue;
 				//プレイヤーの移動制限設定
 				if (Collision::GetLength(ppos, GuardareaPos[i]) <= 20.f)
 				{
@@ -262,6 +264,15 @@ void Field::GuardAreaTexUpda()
 		//アルファ値の上限と下限
 		GuardAreaAlphaEtime[i] = min(GuardAreaAlphaEtime[i], 1.0f);
 		GuardAreaAlphaEtime[i] = max(GuardAreaAlphaEtime[i], 0.0f);
+	}
+	if(EnemyControl::GetInstance()->GetGuardianEnemy()==nullptr)
+	{
+		for(int i=0;i< GuardAreaSize;i++)
+		{
+			if (GuardAreaAlpha[i]>0.0f)continue;
+			if (GuardArea[i] == nullptr)continue;
+			Destroy_unique(GuardArea[i]);
+		}
 	}
 }
 
@@ -440,7 +451,7 @@ void Field::GuardAreaDraw()
 {
 	
 		Texture::PreDraw();
-		for (int i = 0; i < 8; i++)
+		for (int i = 0; i < GuardAreaSize; i++)
 		{
 			if (GuardArea[i] == nullptr)continue;
 			GuardArea[i]->Draw();

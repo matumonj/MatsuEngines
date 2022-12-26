@@ -70,7 +70,7 @@ bool Object3d::StaticInitialize(int window_width, int window_height, Camera* cam
 void Object3d::PreDraw()
 {
 	// PreDrawとPostDrawがペアで呼ばれていなければエラー
-	//assert(Object3d::cmdList == nullptr);
+	////assert(Object3d::cmdList == nullptr);
 
 	// コマンドリストをセット
 	//Object3d::cmdList = cmdList;
@@ -102,7 +102,7 @@ Object3d* Object3d::Create(DebugCamera* camera)
 	if (!object3d->Initialize(camera))
 	{
 		delete object3d;
-		assert(0);
+		//assert(0);
 		return nullptr;
 	}
 	float scale_val = 1;
@@ -558,7 +558,7 @@ bool Object3d::Initialize(DebugCamera* camera)
 	this->camera = camera;
 
 	// nullptrチェック
-	assert(device);
+	
 
 	HRESULT result;
 
@@ -699,8 +699,8 @@ void Object3d::Update(XMMATRIX matworld, XMFLOAT4 color, DebugCamera* camera)
 void Object3d::Draw()
 {
 	// nullptrチェック
-	assert(device);
-	assert(Object3d::cmdList);
+	
+	//assert(Object3d::cmdList);
 	if (model == nullptr)
 	{
 		return;
@@ -761,7 +761,7 @@ void Object3d::UpdateWorldMatrix()
 
 void Object3d::UpdateWorldMatrix(XMMATRIX mat)
 {
-	assert(camera);
+	//assert(camera);
 
 	//XMMATRIX matScale, matRot, matTrans;
 

@@ -27,7 +27,7 @@ bool Input::TriggerButton(XBOX Button)
 	}
 	return !(oldXinputState.Gamepad.wButtons & Button)
 		&& CheckTrigger(Button);
-	//assert(0);
+	////assert(0);
 	return false;
 }
 
@@ -42,7 +42,7 @@ bool Input::CheckTrigger(XBOX Button)
 		return XINPUT_GAMEPAD_TRIGGER_THRESHOLD < xinputState.Gamepad.bRightTrigger;
 	}
 	return xinputState.Gamepad.wButtons & Button;
-	//assert(0);
+	////assert(0);
 	return false;
 }
 

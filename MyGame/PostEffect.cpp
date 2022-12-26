@@ -46,7 +46,7 @@ void PostEffect::CreateGraphicsPipeline()
 		// エラー内容を出力ウィンドウに表示
 		OutputDebugStringA(errstr.c_str());
 
-		assert(0);
+		//assert(0);
 	}
 
 	// ピクセルシェーダの読み込みとコンパイル
@@ -72,7 +72,7 @@ void PostEffect::CreateGraphicsPipeline()
 		// エラー内容を出力ウィンドウに表示
 		OutputDebugStringA(errstr.c_str());
 
-		assert(0);
+		//assert(0);
 	}
 
 	// 頂点レイアウト
@@ -162,18 +162,18 @@ void PostEffect::CreateGraphicsPipeline()
 	// バージョン自動判定のシリアライズ
 	result = D3DX12SerializeVersionedRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1_0, &rootSigBlob,
 	                                               &errorBlob);
-	assert(SUCCEEDED(result));
+	//assert(SUCCEEDED(result));
 
 	// ルートシグネチャの生成
 	result = device->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(),
 	                                     IID_PPV_ARGS(&rootSignature));
-	assert(SUCCEEDED(result));
+	//assert(SUCCEEDED(result));
 
 	gpipeline.pRootSignature = rootSignature.Get();
 
 	// グラフィックスパイプラインの生成
 	result = device->CreateGraphicsPipelineState(&gpipeline, IID_PPV_ARGS(&pipelineState));
-	assert(SUCCEEDED(result));
+	//assert(SUCCEEDED(result));
 }
 
 void PostEffect::Initialize()
@@ -226,7 +226,7 @@ void PostEffect::Initialize()
 		//	&CD3DX12_CLEAR_VALUE(DXGI_FORMAT_R8G8B8A8_UNORM, clearColor),
 		//	IID_PPV_ARGS(&texBuff));
 
-		assert(SUCCEEDED(result));
+		//assert(SUCCEEDED(result));
 
 		//{//テクスチャを赤クリア
 		//	//要素数
@@ -245,7 +245,7 @@ void PostEffect::Initialize()
 		//	result = texBuff->WriteToSubresource(0, nullptr,
 		//		img, rowPitch, depthPitch);
 
-		//	assert(SUCCEEDED(result));
+		//	//assert(SUCCEEDED(result));
 		//	delete[]img;
 		//}
 		//変更後
@@ -268,7 +268,7 @@ void PostEffect::Initialize()
 			result = texBuff[i]->WriteToSubresource(0, nullptr,
 			                                        img, rowPitch, depthPitch);
 
-			assert(SUCCEEDED(result));
+			//assert(SUCCEEDED(result));
 			delete[]img;
 		}
 	}
@@ -279,7 +279,7 @@ void PostEffect::Initialize()
 	srvDescHeapDesc.NumDescriptors = 2;
 	//SRV用デスクリプタヒープの生成
 	result = device->CreateDescriptorHeap(&srvDescHeapDesc, IID_PPV_ARGS(&descheapSRV));
-	assert(SUCCEEDED(result));
+	//assert(SUCCEEDED(result));
 
 	//SRV設定
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{}; //設定構造体
@@ -308,7 +308,7 @@ void PostEffect::Initialize()
 	//RTV用デスクリプタヒープの生成
 	result = device->CreateDescriptorHeap(&rtvDescHeapDesc, IID_PPV_ARGS(&descHeapRTV));
 
-	assert(SUCCEEDED(result));
+	//assert(SUCCEEDED(result));
 	//変更後
 	for (int i = 0; i < 2; i++)
 	{
@@ -335,7 +335,7 @@ void PostEffect::Initialize()
 		&CD3DX12_CLEAR_VALUE(DXGI_FORMAT_D32_FLOAT, 1.0f, 0),
 		IID_PPV_ARGS(&depthBuff));
 
-	assert(SUCCEEDED(result));
+	//assert(SUCCEEDED(result));
 
 	//DSV用デスクリプタヒープ設定
 	D3D12_DESCRIPTOR_HEAP_DESC DescHeapDesc = {};
@@ -344,7 +344,7 @@ void PostEffect::Initialize()
 	//DSV用デスクリプタヒープ生成
 	result = device->CreateDescriptorHeap(&DescHeapDesc, IID_PPV_ARGS(&descHeapDSV));
 
-	assert(SUCCEEDED(result));
+	//assert(SUCCEEDED(result));
 
 	//デスクリプタヒープにDSV作成
 	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc = {};
@@ -360,7 +360,7 @@ void PostEffect::Initialize()
 		D3D12_RESOURCE_STATE_GENERIC_READ, nullptr,
 		IID_PPV_ARGS(&vertBuff));
 
-	assert(SUCCEEDED(result));
+	//assert(SUCCEEDED(result));
 
 	//頂点データ
 	VertexPosUv vertices[] = {
@@ -391,7 +391,7 @@ void PostEffect::Initialize()
 		D3D12_RESOURCE_STATE_GENERIC_READ, nullptr,
 		IID_PPV_ARGS(&constBuff));
 
-	assert(SUCCEEDED(result));
+	//assert(SUCCEEDED(result));
 	//	size = { 100,100 };
 }
 

@@ -14,8 +14,6 @@ ComPtr<ID3D12GraphicsCommandList> Mesh::cmdList = nullptr;
 
 void Mesh::StaticInitialize()
 {
-	// 再初期化チェック
-	assert(!Mesh::device);
 
 	device = DirectXCommon::GetInstance()->GetDev();
 	cmdList = DirectXCommon::GetInstance()->GetCmdList();
@@ -100,7 +98,7 @@ void Mesh::CreateBuffers()
 
 	if (FAILED(result))
 	{
-		assert(0);
+		//assert(0);
 		return;
 	}
 
@@ -115,7 +113,7 @@ void Mesh::CreateBuffers()
 		IID_PPV_ARGS(&indexBuff));
 	if (FAILED(result))
 	{
-		assert(0);
+		//assert(0);
 		return;
 	}
 

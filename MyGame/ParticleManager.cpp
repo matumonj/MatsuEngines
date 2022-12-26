@@ -75,7 +75,7 @@ ParticleManager* ParticleManager::Create(UINT texnum, const wchar_t* filename)
 	if (!object3d->Initialize(texnum))
 	{
 		delete object3d;
-		assert(0);
+		//assert(0);
 		return nullptr;
 	}
 
@@ -95,7 +95,7 @@ bool ParticleManager::InitializeDescriptorHeap()
 	result = device->CreateDescriptorHeap(&descHeapDesc, IID_PPV_ARGS(&descHeap)); //生成
 	if (FAILED(result))
 	{
-		assert(0);
+		//assert(0);
 		return false;
 	}
 
@@ -316,7 +316,7 @@ bool ParticleManager::InitializeGraphicsPipeline()
 bool ParticleManager::LoadTexture(UINT texnumber, const wchar_t* filename)
 {
 	// nullptrチェック
-	assert(device);
+	
 
 	HRESULT result;
 	// WICテクスチャのロード
@@ -328,8 +328,8 @@ bool ParticleManager::LoadTexture(UINT texnumber, const wchar_t* filename)
 		&metadata, scratchImg);
 	if (FAILED(result))
 	{
-		assert(0);
-		return false;
+		//assert(0);
+		//return false;
 	}
 
 	const Image* img = scratchImg.GetImage(0, 0, 0); // 生データ抽出
@@ -353,8 +353,8 @@ bool ParticleManager::LoadTexture(UINT texnumber, const wchar_t* filename)
 		IID_PPV_ARGS(&texbuff[texnumber]));
 	if (FAILED(result))
 	{
-		assert(0);
-		return false;
+		//assert(0);
+		//return false;
 	}
 
 	// テクスチャバッファにデータ転送
@@ -368,8 +368,8 @@ bool ParticleManager::LoadTexture(UINT texnumber, const wchar_t* filename)
 	);
 	if (FAILED(result))
 	{
-		assert(0);
-		return false;
+		//assert(0);
+		//return false;
 	}
 	// シェーダリソースビュー作成
 	cpuDescHandleSRV = CD3DX12_CPU_DESCRIPTOR_HANDLE(descHeap->GetCPUDescriptorHandleForHeapStart(), 0,
@@ -409,7 +409,7 @@ void ParticleManager::CreateModel()
 		IID_PPV_ARGS(&vertBuff));
 	if (FAILED(result))
 	{
-		assert(0);
+		//assert(0);
 		return;
 	}
 
@@ -427,7 +427,7 @@ bool ParticleManager::Initialize(UINT texnum)
 {
 	texNumber = texnum;
 	// nullptrチェック
-	assert(device);
+	
 
 	HRESULT result;
 	// 定数バッファの生成
@@ -516,8 +516,8 @@ void ParticleManager::Update(ParticleType type, XMFLOAT3 position, int lifejudg)
 void ParticleManager::Draw()
 {
 	// nullptrチェック
-	assert(device);
-	assert(ParticleManager::cmdList);
+	
+	//assert(ParticleManager::cmdList);
 
 	// 頂点バッファの設定
 	cmdList->IASetVertexBuffers(0, 1, &vbView);

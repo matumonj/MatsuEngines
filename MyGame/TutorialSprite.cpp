@@ -269,10 +269,7 @@ void TutorialSprite::DrawTargetPos()
 
 void TutorialSprite::Draw()
 {
-	ImGui::Begin("pos");
-	ImGui::SliderFloat("x", &spos.x, 0, 1200);
-	ImGui::SliderFloat("y", &spos.y, 0, 1000);
-	ImGui::End();
+	
 	Sprite::PreDraw();
 
 	for (int i = HELLO; i < CLEAR + 1; i++)

@@ -36,7 +36,7 @@ void BossEnemy::Initialize()
 	//m_Object->CreateGraphicsPipeline(L"Resources/Shader/Object3dVS.hlsl", L"Resources/Shader/Object3dPS.hlsl", L"Resources/Shader/BasicGS.hlsl");
 	MaxHP = 560;
 	EnemyHP = MaxHP;
-
+	
 	Scale = {0.15f, 0.1f, 0.15f};
 	Rotation = {96.0f, 0.0f, -101.0f};
 
@@ -171,6 +171,10 @@ void BossEnemy::Death()
 
 
 	movestop = false;
+}
+
+void BossEnemy::Move()
+{
 }
 
 #include"PlayerAttackState.h"

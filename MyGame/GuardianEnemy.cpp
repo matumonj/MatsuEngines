@@ -63,8 +63,18 @@ void GuardianEnemy::Initialize()
 	GuardianShotAttack::GetIns()->TexSet();
 	GuardianNAttack::GetIns()->TexSet();
 	Color = {1.f, 1.f, 1.f, alpha};
+
+	ENumber = EnemyNumber::GUARDIAN;
 }
 
+void GuardianEnemy::Move()
+{
+
+	PosYMovingT++;
+	
+	Position.y = -24.f + sinf(PI * 2.f / 120.f * PosYMovingT) * 2.f;
+
+}
 
 void GuardianEnemy::HPFrameScaling()
 {
@@ -138,12 +148,13 @@ void GuardianEnemy::Update()
 	Rotation.x++;
 	*/
 
-
+	DamageTexDisplay();
 	GuardianShotAttack::GetIns()->Upda();
 	GuardianBomAttack::GetIns()->Upda();
 	GuardianNAttack::GetIns()->Upda();
 	HPFrameScaling();
 	ParameterSet_Obj();
+	//Move();
 }
 
 

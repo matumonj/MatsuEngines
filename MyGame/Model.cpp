@@ -16,7 +16,6 @@ UINT Model::descriptorHandleIncrementSize = 0;
 void Model::StaticInitialize()
 {
 	// 再初期化チェック
-	assert(!Model::device);
 
 	device = DirectXCommon::GetInstance()->GetDev();
 	cmdList = DirectXCommon::GetInstance()->GetCmdList();
@@ -102,7 +101,7 @@ void Model::LoadModel(const std::string& modelname, bool smoothing)
 	// ファイルオープン失敗をチェック
 	if (file.fail())
 	{
-		assert(0);
+		//assert(0);
 	}
 
 	name = modelname;
@@ -313,7 +312,7 @@ void Model::LoadMaterial(const std::string& directoryPath, const std::string& fi
 	// ファイルオープン失敗をチェック
 	if (file.fail())
 	{
-		//	assert(0);
+		//	//assert(0);
 	}
 
 	Material* material = nullptr;
@@ -427,7 +426,7 @@ void Model::CreateDescriptorHeap()
 		result = device->CreateDescriptorHeap(&descHeapDesc, IID_PPV_ARGS(&descHeap)); //生成
 		if (FAILED(result))
 		{
-			assert(0);
+			//assert(0);
 		}
 	}
 

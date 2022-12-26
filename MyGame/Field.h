@@ -53,14 +53,15 @@ private:
 	int EnemyIconSize = 0;
 private:
 	void GuardAreaTexUpda();
-	std::array<std::unique_ptr<Texture>, 8>GuardArea;
-	std::array<XMFLOAT3, 8>GuardAreaRot;
-	std::array<float, 8>GuardAreaAngle;
-	std::array<XMFLOAT3, 8>GuardareaPos;
-	std::array<float, 8>GuardAreaAlphaEtime;
-	std::array<float, 8>GuardAreaAlpha;
+	static constexpr int GuardAreaSize = 16;
+	std::array<std::unique_ptr<Texture>, GuardAreaSize >GuardArea;
+	std::array<XMFLOAT3, GuardAreaSize >GuardAreaRot;
+	std::array<float, GuardAreaSize >GuardAreaAngle;
+	std::array<XMFLOAT3, GuardAreaSize >GuardareaPos;
+	std::array<float, GuardAreaSize >GuardAreaAlphaEtime;
+	std::array<float, GuardAreaSize >GuardAreaAlpha;
 	Line2D camera_to_player;
-	std::array<Point,8> GuardAreaPoint;
+	std::array<Point, GuardAreaSize > GuardAreaPoint;
 private:
 	float t = 0.0f;
 	float TexAlpha_BossName = 0.0f;

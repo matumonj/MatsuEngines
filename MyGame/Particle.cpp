@@ -38,16 +38,7 @@ void Particle::Upda_B()
 
 void Particle::Draw()
 {
-	ImGui::Begin("phase");
-	ImGui::Text("%d", m_particles[NORMAL].phase);
-	ImGui::Text("x%f y%f z%f", m_particles[NORMAL].vel[0].x, m_particles[NORMAL].vel[0].y,
-		m_particles[NORMAL].vel[0].z);
-	ImGui::Text("x%f y%f z%f", PlayerControl::GetInstance()->GetPlayer()->GetPosition().x,
-		PlayerControl::GetInstance()->GetPlayer()->GetPosition().y,
-		PlayerControl::GetInstance()->GetPlayer()->GetPosition().z);
-	ImGui::Text("rx%f ", m_particles[NORMAL].alpha[0]);
-
-	ImGui::End();
+	
 	Texture::PreDraw();
 	for (int i = 0; i < m_particles[NORMAL].size; i++)
 	{
@@ -79,7 +70,7 @@ void Particle::SetParType(int size, ParParam& parparam, Texture* tex)
 		parparam.speed.resize(size);
 		parparam.partex.resize(size);
 		parparam.f.resize(size);
-
+		parparam.EndParUpda.resize(size);
 		std::vector<Texture*> l_tex0;
 		l_tex0.resize(size);
 
@@ -139,7 +130,7 @@ void Particle::UpadaNormal_A(ParParam& parparam)
 		parparam.vel[i].y += parparam.speed[i] * sin(parparam.angle[i]); //360度に広がるようにする
 		parparam.speed[i] += 0.002f; //徐々にスピードを速く
 		parparam.alpha[i] -= 0.02f;
-		if (parparam.alpha[i] < 0.0f)
+		if (parparam.alpha[i] < 0.0f&&parparam.EndParUpda[i]==false)
 		{
 			parparam.f[i] = false;
 		}

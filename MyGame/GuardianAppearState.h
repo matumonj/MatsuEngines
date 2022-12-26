@@ -9,4 +9,11 @@ public:
 	void Initialize(Enemy* enemy) override;
 
 	void Update(Enemy* enemy) override;
+
+private:
+	float EaseTime;
+	bool DownF;
+	bool UpF;
+
+	void DownMove(Enemy*enemy);
 };

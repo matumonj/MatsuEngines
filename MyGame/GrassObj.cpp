@@ -89,7 +89,7 @@ GrassObj* GrassObj::Create(DebugCamera* camera)
 	if (!object3d->Initialize(camera))
 	{
 		delete object3d;
-		assert(0);
+		//assert(0);
 		return nullptr;
 	}
 	float scale_val = 1;
@@ -310,7 +310,7 @@ bool GrassObj::Initialize(DebugCamera* camera)
 	this->camera = camera;
 
 	// nullptrチェック
-	assert(device);
+	
 
 	HRESULT result;
 
@@ -374,8 +374,8 @@ void GrassObj::Update(XMFLOAT4 color, DebugCamera* camera)
 void GrassObj::Draw()
 {
 	// nullptrチェック
-	assert(device);
-	assert(GrassObj::cmdList);
+	
+	//assert(GrassObj::cmdList);
 	if (model == nullptr)
 	{
 		return;

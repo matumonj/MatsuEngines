@@ -32,7 +32,7 @@ void f_Object3d::CreateGraphicsPipeline()
 	ComPtr<ID3DBlob> psBlob; // ピクセルシェーダオブジェクト
 	ComPtr<ID3DBlob> errorBlob; // エラーオブジェクト
 
-	assert(device);
+	
 
 	// 頂点シェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
@@ -188,13 +188,15 @@ void f_Object3d::CreateGraphicsPipeline()
 	// ルートシグネチャの生成
 	result = device->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(),
 	                                     IID_PPV_ARGS(rootsignature.ReleaseAndGetAddressOf()));
-	if (FAILED(result)) { assert(0); }
+	if (FAILED(result)) { //assert(0);
+		}
 
 	gpipeline.pRootSignature = rootsignature.Get();
 
 	// グラフィックスパイプラインの生成
 	result = device->CreateGraphicsPipelineState(&gpipeline, IID_PPV_ARGS(pipelinestate.ReleaseAndGetAddressOf()));
-	if (FAILED(result)) { assert(0); }
+	if (FAILED(result)) { //assert(0);
+		}
 }
 
 void f_Object3d::Initialize()

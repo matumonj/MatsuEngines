@@ -38,7 +38,7 @@ void ChestControl::Init_Tutorial()
 	Tutorial_chest[0]->SetPosition({115.0f, -24.0f, -576.0f});
 	Tutorial_chest[0]->SetRotation({0.0f, 90.0f, 0.0f});
 
-	ParticleManager::LoadTexture(8, L"Resources/ParticleTex/normal.png");
+	//ParticleManager::LoadTexture(8, L"Resources/ParticleTex/normal.png");
 	TutorialPchest.particleMan = ParticleManager::Create(8, L"Resources/ParticleTex/normal.png");
 	TutorialPchest.ChestEvent = NON; //particleMan->CreateModel();
 }
@@ -199,11 +199,11 @@ void ChestControl::Update_Boss()
 void ChestControl::Draw_Tutorial()
 {
 	// 3Dオブジェクト描画前処理
-	ParticleManager::PreDraw();
+	//ParticleManager::PreDraw();
 	// 3Dオブクジェクトの描画
-	TutorialPchest.particleMan->Draw();
+	//TutorialPchest.particleMan->Draw();
 	// 3Dオブジェクト描画後処理
-	ParticleManager::PostDraw();
+	//ParticleManager::PostDraw();
 
 	if (Tutorial_chest[0] != nullptr)
 	{
@@ -214,16 +214,16 @@ void ChestControl::Draw_Tutorial()
 void ChestControl::Draw_Play()
 {
 	// 3Dオブジェクト描画前処理
-	ParticleManager::PreDraw();
+	//ParticleManager::PreDraw();
 	for (int i = 0; i < 4; i++)
 	{
 		if (chests[i] != nullptr)
 		{
-			PlayPchest[i].particleMan->Draw();
+		//	PlayPchest[i].particleMan->Draw();
 		}
 	}
 	// 3Dオブジェクト描画後処理
-	ParticleManager::PostDraw();
+	//ParticleManager::PostDraw();
 
 	for (int i = 0; i < 4; i++)
 	{

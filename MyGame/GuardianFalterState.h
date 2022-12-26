@@ -1,18 +1,21 @@
-#pragma once
+﻿#pragma once
 #include "GuardianState.h"
 
 #include "Enemy.h"
 
-class GuardianBomState :
+class GuardianFalterState :
 	public GuardianState
 {
 public:
 	void Initialize(Enemy* enemy) override;
 
 	void Update(Enemy* enemy) override;
-
 private:
-	void UpMove(Enemy*enemy);
-	void DownMove(Enemy* enemy);
-	float PosYMovingT;
+	void Falter(Enemy* enemy);
+
+	float shakex;
+	float shakey;
+	float shake;
+	int shaketime;
+
 };

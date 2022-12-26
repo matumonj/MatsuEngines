@@ -30,9 +30,9 @@ void Chest::Initialize()
 	radius_adjustment = 0;
 	SetCollider();
 
-	ParticleManager::LoadTexture(2, L"Resources/ParticleTex/normal.png");
-
-	DefaultEffect = ParticleManager::Create(2, L"Resources/ParticleTex/normal.png");
+	//ParticleManager::LoadTexture(2, L"Resources/ParticleTex/normal.png");
+	
+	//DefaultEffect = ParticleManager::Create(2, L"Resources/ParticleTex/normal.png");
 	//DefaultEffect->CreateModel();
 	ObjAlpha = 1.0f;
 	ChestLost = false;
@@ -60,12 +60,12 @@ void Chest::Update()
 		//追加
 		if (!ChestLost)
 		{
-			DefaultEffect->Add(120, Position, vel, acc, 3.0f, 0.0f);
+			//DefaultEffect->Add(120, Position, vel, acc, 3.0f, 0.0f);
 		}
-		DefaultEffect->SetColor(pColor);
+		//DefaultEffect->SetColor(pColor);
 	}
 
-	DefaultEffect->Update(DefaultEffect->NORMAL);
+	//DefaultEffect->Update(DefaultEffect->NORMAL);
 
 	CollisionField();
 }
@@ -74,11 +74,11 @@ void Chest::Draw()
 {
 	Draw_Obj();
 	// 3Dオブジェクト描画前処理
-	ParticleManager::PreDraw();
+	//ParticleManager::PreDraw();
 	// 3Dオブクジェクトの描画
-	DefaultEffect->Draw();
+	//DefaultEffect->Draw();
 	// 3Dオブジェクト描画後処理
-	ParticleManager::PostDraw();
+	//ParticleManager::PostDraw();
 }
 
 bool Chest::CollideChest()

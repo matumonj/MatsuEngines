@@ -184,7 +184,7 @@ bool Sprite::StaticInitialize(int window_width, int window_height)
 	                                               &errorBlob);
 	if (FAILED(result))
 	{
-		assert(0);
+		//assert(0);
 		return false;
 	}
 	// ルートシグネチャの生成
@@ -192,7 +192,7 @@ bool Sprite::StaticInitialize(int window_width, int window_height)
 	                                     IID_PPV_ARGS(&rootSignature));
 	if (FAILED(result))
 	{
-		assert(0);
+		//assert(0);
 		return false;
 	}
 
@@ -203,7 +203,7 @@ bool Sprite::StaticInitialize(int window_width, int window_height)
 
 	if (FAILED(result))
 	{
-		assert(0);
+		//assert(0);
 		return false;
 	}
 
@@ -221,7 +221,7 @@ bool Sprite::StaticInitialize(int window_width, int window_height)
 	result = device->CreateDescriptorHeap(&descHeapDesc, IID_PPV_ARGS(&descHeap)); //生成
 	if (FAILED(result))
 	{
-		assert(0);
+		//assert(0);
 		return false;
 	}
 
@@ -232,7 +232,7 @@ bool Sprite::StaticInitialize(int window_width, int window_height)
 bool Sprite::LoadTexture(UINT texnumber, const wchar_t* filename)
 {
 	// nullptrチェック
-	//assert(device);
+	//
 
 	HRESULT result;
 	// WICテクスチャのロード
@@ -244,7 +244,7 @@ bool Sprite::LoadTexture(UINT texnumber, const wchar_t* filename)
 		&metadata, scratchImg);
 	if (FAILED(result))
 	{
-		//assert(0);
+		////assert(0);
 		return false;
 	}
 
@@ -269,7 +269,7 @@ bool Sprite::LoadTexture(UINT texnumber, const wchar_t* filename)
 		IID_PPV_ARGS(&texBuff[texnumber]));
 	if (FAILED(result))
 	{
-		assert(0);
+		//assert(0);
 		return false;
 	}
 
@@ -284,7 +284,7 @@ bool Sprite::LoadTexture(UINT texnumber, const wchar_t* filename)
 	);
 	if (FAILED(result))
 	{
-		assert(0);
+		//assert(0);
 		return false;
 	}
 
@@ -354,7 +354,7 @@ Sprite* Sprite::Create(UINT texNumber, XMFLOAT2 position, XMFLOAT4 color, XMFLOA
 	if (!sprite->Initialize())
 	{
 		delete sprite;
-		assert(0);
+		//assert(0);
 		return nullptr;
 	}
 
@@ -365,7 +365,7 @@ Sprite* Sprite::Create(UINT texNumber, XMFLOAT2 position, XMFLOAT4 color, XMFLOA
 bool Sprite::Initialize()
 {
 	// nullptrチェック
-	assert(device);
+	
 
 	HRESULT result = S_FALSE;
 
@@ -379,7 +379,7 @@ bool Sprite::Initialize()
 		IID_PPV_ARGS(&vertBuff));
 	if (FAILED(result))
 	{
-		assert(0);
+		//assert(0);
 		return false;
 	}
 
@@ -401,7 +401,7 @@ bool Sprite::Initialize()
 		IID_PPV_ARGS(&constBuff));
 	if (FAILED(result))
 	{
-		assert(0);
+		//assert(0);
 		return false;
 	}
 

@@ -12,7 +12,7 @@ bool Audio::Initialize()
 	result = XAudio2Create(&xAudio2, 0, XAUDIO2_DEFAULT_PROCESSOR);
 	if FAILED(result)
 	{
-		assert(0);
+		//assert(0);
 		return false;
 	}
 
@@ -20,7 +20,7 @@ bool Audio::Initialize()
 	result = xAudio2->CreateMasteringVoice(&masterVoice);
 	if FAILED(result)
 	{
-		assert(0);
+		//assert(0);
 		return false;
 	}
 
@@ -37,7 +37,7 @@ void Audio::PlayWave(const char* filename, const float Volume)
 	// ファイルオープン失敗をチェック
 	if (file.fail())
 	{
-		assert(0);
+		//assert(0);
 	}
 
 	// RIFFヘッダーの読み込み
@@ -46,7 +46,7 @@ void Audio::PlayWave(const char* filename, const float Volume)
 	// ファイルがRIFFかチェック
 	if (strncmp(riff.chunk.id, "RIFF", 4) != 0)
 	{
-		assert(0);
+		//assert(0);
 	}
 
 	// Formatチャンクの読み込み
@@ -75,7 +75,7 @@ void Audio::PlayWave(const char* filename, const float Volume)
 	if FAILED(result)
 	{
 		delete[] pBuffer;
-		assert(0);
+		//assert(0);
 		return;
 	}
 
@@ -91,7 +91,7 @@ void Audio::PlayWave(const char* filename, const float Volume)
 	if FAILED(result)
 	{
 		delete[] pBuffer;
-		assert(0);
+		//assert(0);
 		return;
 	}
 	XAUDIO2_VOICE_STATE xaudio2state;
@@ -100,7 +100,7 @@ void Audio::PlayWave(const char* filename, const float Volume)
 	if FAILED(result)
 	{
 		delete[] pBuffer;
-		assert(0);
+		//assert(0);
 	}
 }
 
@@ -114,7 +114,7 @@ void Audio::LoopWave(const char* filename, float Volume)
 	// ファイルオープン失敗をチェック
 	if (file.fail())
 	{
-		assert(0);
+		//assert(0);
 	}
 
 	// RIFFヘッダーの読み込み
@@ -123,7 +123,7 @@ void Audio::LoopWave(const char* filename, float Volume)
 	// ファイルがRIFFかチェック
 	if (strncmp(riff.chunk.id, "RIFF", 4) != 0)
 	{
-		assert(0);
+		//assert(0);
 	}
 
 	// Formatチャンクの読み込み
@@ -152,7 +152,7 @@ void Audio::LoopWave(const char* filename, float Volume)
 	if FAILED(result)
 	{
 		delete[] pBuffer;
-		assert(0);
+		//assert(0);
 		return;
 	}
 
@@ -169,7 +169,7 @@ void Audio::LoopWave(const char* filename, float Volume)
 	if FAILED(result)
 	{
 		delete[] pBuffer;
-		assert(0);
+		//assert(0);
 		return;
 	}
 
@@ -177,6 +177,6 @@ void Audio::LoopWave(const char* filename, float Volume)
 	if FAILED(result)
 	{
 		delete[] pBuffer;
-		assert(0);
+		//assert(0);
 	}
 }

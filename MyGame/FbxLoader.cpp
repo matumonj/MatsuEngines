@@ -20,7 +20,7 @@ FbxLoader* FbxLoader::GetInstance()
 void FbxLoader::Initialize()
 {
 	//再初期化チェック
-	assert(fbxManager == nullptr);
+	//assert(fbxManager == nullptr);
 	//引数からメンバ変数に代入
 	this->device = device;
 	//FBXマネージャの生成
@@ -52,7 +52,7 @@ f_Model* FbxLoader::LoadModelFromFile(const string ModelName)
 
 	if (!fbxImporter->Initialize(fullpath.c_str(), -1, fbxManager->GetIOSettings()))
 	{
-		assert(0);
+		//assert(0);
 	}
 
 	//シーン生成
@@ -205,7 +205,7 @@ void FbxLoader::ParseMeshFaces(f_Model* f_Model, FbxMesh* fbxMesh)
 	auto& indices = f_Model->indices;
 
 	//1つファイルに複数メッシュのモデルは非対応
-	assert(indices.size() == 0);
+	//assert(indices.size() == 0);
 	//面の数
 	const int polygonCount = fbxMesh->GetPolygonCount();
 	//UVデータの数
@@ -219,14 +219,14 @@ void FbxLoader::ParseMeshFaces(f_Model* f_Model, FbxMesh* fbxMesh)
 	{
 		//面を構成する頂点の数を取得（3なら三角形ポリゴン）
 		const int polygonSize = fbxMesh->GetPolygonSize(i);
-		assert(polygonSize <= 4);
+		//assert(polygonSize <= 4);
 
 		//1頂点ずつ処理
 		for (int j = 0; j < polygonSize; j++)
 		{
 			//FBXノードのメッシュ頂点配列のインデックス
 			int index = fbxMesh->GetPolygonVertex(i, j);
-			assert(index >= 0);
+			//assert(index >= 0);
 
 			//頂点法線読込
 			f_Model::VertexPosNormalUvSkin& vertex = vertices[index];
@@ -340,7 +340,7 @@ void FbxLoader::LoadTexture(f_Model* f_Model, const std::string& fullpath)
 	result = LoadFromWICFile(wfilepath, WIC_FLAGS_NONE, &metadata, scratchImg);
 	if (FAILED(result))
 	{
-		assert(0);
+		//assert(0);
 	}
 }
 

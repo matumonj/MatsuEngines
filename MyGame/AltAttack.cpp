@@ -107,10 +107,7 @@ void AltAttack::Draw()
 	//RushParticle->Draw();
 	// 3Dオブジェクト描画後処理
 	//ParticleManager::PostDraw();
-	ImGui::Begin("Alt");
-	ImGui::Text("spherepx %f", rushpos.x);
-	ImGui::Text("spherepz %f", rushpos.z);
-	ImGui::End();
+	
 	//p->Draw();
 	RushObjDraw();
 }

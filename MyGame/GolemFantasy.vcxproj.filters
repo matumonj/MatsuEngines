@@ -603,9 +603,6 @@
     <ClCompile Include="GuardianFollowState.cpp">
       <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian\Sequence</Filter>
     </ClCompile>
-    <ClCompile Include="GuardianNAttack.cpp">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian\Sequence</Filter>
-    </ClCompile>
     <ClCompile Include="GuardianNAttackState.cpp">
       <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian\Sequence</Filter>
     </ClCompile>
@@ -626,6 +623,12 @@
     </ClCompile>
     <ClCompile Include="DropWeapon.cpp">
       <Filter>Game\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="GuardianNAttack.cpp">
+      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian\action</Filter>
+    </ClCompile>
+    <ClCompile Include="GuardianFalterState.cpp">
+      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian\Sequence</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1063,6 +1066,9 @@
     </ClInclude>
     <ClInclude Include="Task.h">
       <Filter>Game\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="GuardianFalterState.h">
+      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian\Sequence</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

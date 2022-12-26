@@ -6,7 +6,7 @@ Texture2D<float4> stex : register(t1);
 //0番スロットに設定されたサンプラー
 SamplerState smp : register(s0);
 //エントリーポイント
-PSOutPut main(VSOutput input) : SV_TARGET
+PSOutPut main(VSOutput input)
 {
 	PSOutPut output;
 	float4 texcolor1 = stex.Sample(smp, input.uv);
@@ -22,7 +22,7 @@ PSOutPut main(VSOutput input) : SV_TARGET
 	float4 nc = {0.1, 0.1, 0.1, 1}; //cameraPos付近の色
 	float4 c = {0.3, 0.3, 0.4, 1}; //
 	//cameraPosとあるが今は固定座標
-	float dist = length(cameraPos - input.worldpos);
+	float dist = length(cameraPos - input.worldpos.xyz);
 	float4 addcol = float4(lerp(nc.rgb, c.rgb, dist / 100), 0.0);
 	float3 fc = {0.1, 0.1, 0.1};
 

@@ -53,6 +53,8 @@ public:
 
 	void DestroyJudg();
 
+	virtual void Move() = 0;
+
 	virtual void EnemyHPDraw() =0;
 protected:
 	bool isAlive;
@@ -223,6 +225,7 @@ public:
 	{
 		GOLEM,
 		FLOG,
+		GUARDIAN
 	};
 
 protected:

@@ -63,7 +63,7 @@ void Task::Init()
 		navChestSprite[0]->SetAnchorPoint({0.5f, 0.5f});
 		navChestSprite[1]->SetAnchorPoint({0.5f, 0.5f});
 	}
-	for(int i=0;i<6;i++)
+	for(int i=0;i<5;i++)
 	{
 		Judg[i] = false;
 	}
@@ -283,21 +283,6 @@ void Task::Draw()
 	DebugTextSprite2::GetInstance()->DrawAll();
 	Sprite::PostDraw();
 
-	ImGui::Begin("task");
-	ImGui::SliderFloat("X", &TaskMenuPos.x, 0, 1900);
-	ImGui::SliderFloat("Y", &TaskMenuPos.y, 0, 1200);
-	ImGui::Begin("Frame");
-	ImGui::SliderFloat("FX", &navTaskPos.x, 0, 1900);
-	ImGui::SliderFloat("FY", &navTaskPos.y, 0, 1200);
-	ImGui::SliderFloat("FScaleX", &navTaskScl.x, 0, 1900);
-	ImGui::SliderFloat("FScaleY", &navTaskScl.y, 0, 1200);
-	ImGui::SliderFloat("FX32", &FramePos.x, 0, 1900);
-	ImGui::SliderFloat("FY2", &FramePos.y, 0, 1200);
-	ImGui::SliderFloat("FScaleX2", &FrameScl.x, 0, 1900);
-	ImGui::SliderFloat("FScaleY2", &FrameScl.y, 0, 1200);
-
-
-	ImGui::End();
 }
 
 void Task::TaskSequence()

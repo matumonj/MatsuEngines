@@ -141,6 +141,11 @@ void EnemyAlpha::EnemyHPDraw()
 {
 }
 
+
+void EnemyAlpha::Move()
+{
+}
+
 void EnemyAlpha::FbxAnimationControl()
 {
 	//1ƒtƒŒ[ƒ€i‚ß‚é

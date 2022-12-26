@@ -30,7 +30,7 @@ void DirectXCommon::Initialize(WinApp* winapp)
 	}
 #endif
 
-	assert(winapp);
+	//assert(winapp);
 	this->winapp = winapp;
 	//デバイスの生成
 	InitializeDevice();
@@ -291,7 +291,7 @@ bool DirectXCommon::InitImgui()
 	result = dev->CreateDescriptorHeap(&heapDesc, IID_PPV_ARGS(&imguiHeap));
 	if (FAILED(result))
 	{
-		assert(0);
+		//assert(0);
 		return false;
 	}
 

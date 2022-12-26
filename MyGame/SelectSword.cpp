@@ -314,20 +314,7 @@ void SelectSword::Update()
 
 void SelectSword::Draw()
 {
-	ImGui::Begin("index");
-	ImGui::SliderFloat("RBPosx", &RBPos.x, 0, 1900);
-	ImGui::SliderFloat("RBPosy", &RBPos.y, 0, 1000);
-	ImGui::SliderFloat("lBPosx", &LBPos.x, 0, 1900);
-	ImGui::SliderFloat("lBPosy", &LBPos.y, 0, 1900);
 
-	ImGui::Begin("scale");
-
-	ImGui::SliderFloat("RBSclx", &RBScl.x, 0, 1900);
-	ImGui::SliderFloat("RBScly", &RBScl.y, 0, 1000);
-	ImGui::SliderFloat("LBSclx", &LBScl.x, 0, 1900);
-	ImGui::SliderFloat("LBScly", &LBScl.y, 0, 1900);
-	ImGui::Text("%d", NowSelectSword);
-	ImGui::End();
 	SpriteDraw();
 }
 
