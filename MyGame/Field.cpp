@@ -11,6 +11,7 @@
 #include"ChestControl.h"
 #include "mHelper.h"
 #define PI 3.14f
+
 Field::~Field()
 {
 }
@@ -58,7 +59,6 @@ void Field::Initialize()
 		Sprite::LoadTexture(41, L"Resources/warning1.png");
 
 		FieldObject = TouchableObject::Create(ModelManager::GetIns()->GetModel(ModelManager::SANDFIELD), camera);
-
 	}
 
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY || SceneManager::GetInstance()->GetScene() ==
@@ -70,7 +70,6 @@ void Field::Initialize()
 		SetFieldModel(CELESTIALSPHERE, ModelManager::GetIns()->GetModel(ModelManager::CELESTIALSPHERE), camera);
 	}
 
-	
 
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::MAPCREATE)
 	{
@@ -78,20 +77,20 @@ void Field::Initialize()
 	}
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
 	{
-		pedestalpos = { -300.0f, -32, 270 };
+		pedestalpos = {-300.0f, -32, 270};
 		Texture::LoadTexture(29, L"Resources/2d/enemy/GuardArea.png");
 		Texture* l_tex[GuardAreaSize];
-		for (int i = 0; i < GuardAreaSize; i++) {
+		for (int i = 0; i < GuardAreaSize; i++)
+		{
 			l_tex[i] = Texture::Create(29);
 			GuardArea[i].reset(l_tex[i]);
 			GuardArea[i]->CreateTexture();
-			GuardArea[i]->SetAnchorPoint({ 0.5f,0.5f });
+			GuardArea[i]->SetAnchorPoint({0.5f, 0.5f});
 
-			GuardAreaAngle[i] = static_cast<float>(i) * (360.f/float(GuardAreaSize));
+			GuardAreaAngle[i] = static_cast<float>(i) * (360.f / static_cast<float>(GuardAreaSize));
 			//位置の初期化
 			GuardareaPos[i].x = pedestalpos.x + sinf(GuardAreaAngle[i] * (PI / 180.0f)) * 80.0f;
 			GuardareaPos[i].z = pedestalpos.z + cosf(GuardAreaAngle[i] * (PI / 180.0f)) * 80.0f;
-
 		}
 		SetFieldModel(PEDESTAL, ModelManager::GetIns()->GetModel(ModelManager::ICECRYSTAL), camera);
 		SetFieldModel(BOSSBACK, ModelManager::GetIns()->GetModel(ModelManager::BOSSFIELD), camera);
@@ -167,8 +166,8 @@ void Field::Update_Play()
 	FieldObject->setFog(true);
 	FieldObject->Update({0.2f, 0.2f, 0.2f, 1.0f}, camera);
 
-	m_object[BOSSBACK]->SetRotation({0.f, 180.f, 0.f });
-	SetFieldUpdate(BOSSBACK, camera, {22.f, -70.f, 1010.f }, {1.0f, 1.0f, 1.0f}, FALSE, TRUE);
+	m_object[BOSSBACK]->SetRotation({0.f, 180.f, 0.f});
+	SetFieldUpdate(BOSSBACK, camera, {22.f, -70.f, 1010.f}, {1.0f, 1.0f, 1.0f}, FALSE, TRUE);
 
 	GuardAreaTexUpda();
 	PedestalMoving();
@@ -176,14 +175,17 @@ void Field::Update_Play()
 
 void Field::GuardAreaTexUpda()
 {
-	if (EnemyControl::GetInstance()->GetGuardianEnemy() == nullptr)return;
+	if (EnemyControl::GetInstance()->GetGuardianEnemy() == nullptr)
+	{
+		return;
+	}
 	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
 	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 
 	XMVECTOR positionA = {
-	pedestalpos.x,
-	pedestalpos.y,
-	pedestalpos.z
+		pedestalpos.x,
+		pedestalpos.y,
+		pedestalpos.z
 	};
 	XMVECTOR positionB[GuardAreaSize];
 	//プレイヤーと敵のベクトルの長さ(差)を求める
@@ -191,14 +193,17 @@ void Field::GuardAreaTexUpda()
 	//調整用
 	float RotY[GuardAreaSize];
 	//カメラからプレイヤーにかけての線分
-	camera_to_player.start = { camera->GetEye().x,camera->GetEye().z };
-	camera_to_player.end = { ppos.x,ppos.z };
+	camera_to_player.start = {camera->GetEye().x, camera->GetEye().z};
+	camera_to_player.end = {ppos.x, ppos.z};
 
 	//角度の取得 プレイヤーが敵の索敵位置に入ったら向きをプレイヤーの方に
 	for (int i = 0; i < GuardAreaSize; i++)
 	{
-		if (GuardArea[i] == nullptr)continue;
-		positionB[i] = {GuardareaPos[i].x,GuardareaPos[i] .y,GuardareaPos[i] .z};
+		if (GuardArea[i] == nullptr)
+		{
+			continue;
+		}
+		positionB[i] = {GuardareaPos[i].x, GuardareaPos[i].y, GuardareaPos[i].z};
 		SubVector[i] = XMVectorSubtract(positionB[i], positionA); // positionA - positionB;
 		RotY[i] = atan2f(SubVector[i].m128_f32[0], SubVector[i].m128_f32[2]);
 
@@ -209,23 +214,23 @@ void Field::GuardAreaTexUpda()
 		GuardareaPos[i].x = pedestalpos.x + sinf(GuardAreaAngle[i] * (PI / 180.0f)) * 80.0f;
 		GuardareaPos[i].z = pedestalpos.z + cosf(GuardAreaAngle[i] * (PI / 180.0f)) * 80.0f;
 		//移動制限テクスチャの回転値
-		GuardAreaRot[i].y = RotY[i]*60;
+		GuardAreaRot[i].y = RotY[i] * 60;
 		GuardAreaRot[i].x = 180.f;
 
 		//衝突判定用ーー点
 		GuardAreaPoint[i].x = GuardareaPos[i].x;
 		GuardAreaPoint[i].y = GuardareaPos[i].z;
-	
+
 
 		//ガーディアン死んだら壁のアルファ値消していく
-		if(EnemyControl::GetInstance()->GetGuardianEnemy()->GetisAlive()==false)
+		if (EnemyControl::GetInstance()->GetGuardianEnemy()->GetisAlive() == false)
 		{
 			GuardAreaAlphaEtime[i] -= 0.05f;
 		}
-		else//それ以外
+		else //それ以外
 		{
 			//カメラ座標からプレイヤーの方へ線分設定して
-			if (Collision::IsCollidingLineAndCircle(camera_to_player,GuardAreaPoint[i]))
+			if (Collision::IsCollidingLineAndCircle(camera_to_player, GuardAreaPoint[i]))
 			{
 				//当たったらアルファ値下げる
 				GuardAreaAlphaEtime[i] -= 0.05f;
@@ -233,31 +238,33 @@ void Field::GuardAreaTexUpda()
 			else
 			{
 				//当たってないなら上げる
-				if (EnemyControl::GetInstance()->GetGuardianEnemy()->GetisAlive()) {
+				if (EnemyControl::GetInstance()->GetGuardianEnemy()->GetisAlive())
+				{
 					GuardAreaAlphaEtime[i] += 0.05f;
 				}
 			}
 			for (int i = 0; i < GuardAreaSize; i++)
 			{
-				if (GuardArea[i] == nullptr)continue;
+				if (GuardArea[i] == nullptr)
+				{
+					continue;
+				}
 				//プレイヤーの移動制限設定
 				if (Collision::GetLength(ppos, GuardareaPos[i]) <= 20.f)
 				{
 					PlayerControl::GetInstance()->GetPlayer()->isOldPos();
-				
 				}
-
 			}
 		}
-		
+
 		//アルファ値の上下
 		GuardAreaAlpha[i] = Easing::EaseOut(GuardAreaAlphaEtime[i], 0.0f, 0.8f);
 
 		//各パラメータの更新処理
-		GuardArea[i]->SetColor({ 1.f,1.f,1.f,GuardAreaAlpha[i] });
+		GuardArea[i]->SetColor({1.f, 1.f, 1.f, GuardAreaAlpha[i]});
 		GuardArea[i]->SetPosition(GuardareaPos[i]);
 		GuardArea[i]->SetRotation(GuardAreaRot[i]);
-		GuardArea[i]->SetScale({ 6.f,6.f,4.f });
+		GuardArea[i]->SetScale({6.f, 6.f, 4.f});
 		GuardArea[i]->SetBillboard(FALSE);
 		GuardArea[i]->Update(camera);
 
@@ -265,12 +272,18 @@ void Field::GuardAreaTexUpda()
 		GuardAreaAlphaEtime[i] = min(GuardAreaAlphaEtime[i], 1.0f);
 		GuardAreaAlphaEtime[i] = max(GuardAreaAlphaEtime[i], 0.0f);
 	}
-	if(EnemyControl::GetInstance()->GetGuardianEnemy()==nullptr)
+	if (EnemyControl::GetInstance()->GetGuardianEnemy() == nullptr)
 	{
-		for(int i=0;i< GuardAreaSize;i++)
+		for (int i = 0; i < GuardAreaSize; i++)
 		{
-			if (GuardAreaAlpha[i]>0.0f)continue;
-			if (GuardArea[i] == nullptr)continue;
+			if (GuardAreaAlpha[i] > 0.0f)
+			{
+				continue;
+			}
+			if (GuardArea[i] == nullptr)
+			{
+				continue;
+			}
 			Destroy_unique(GuardArea[i]);
 		}
 	}
@@ -301,15 +314,14 @@ void Field::Update_Boss()
 	}
 
 	//天球オブジェクト更新
-	SetFieldUpdate(CELESTIALSPHERE, camera, {0.0f, 30.0f, 0.0f}, {40.0f, 40.0f, 40.0f}, FALSE, TRUE);
+	SetFieldUpdate(CELESTIALSPHERE, camera, {0.0f, 30.0f, 0.0f}, {40.0f, 40.0f, 40.0f}, FALSE, false);
 	//外周ダメージエリア更新
 	SetFieldUpdate(DAMAGEAREA, camera, {0.0f, -19.2f, 0.0f}, {1.0f, 1.0f, 1.0f}, TRUE, FALSE);
 	//背景のコロシアム更新
-	SetFieldUpdate(BOSSBACK, camera, {0, -19, 0}, {1.0f, 1.0f, 1.0f}, FALSE, TRUE);
+	SetFieldUpdate(BOSSBACK, camera, {0, -19, 0}, {1.0f, 1.0f, 1.0f}, false, false);
 
 	FieldObject->SetPosition({0.0f, -19.0f, 0.0f});
-	FieldObject->SetFogCenter(camera->GetEye());
-	FieldObject->setFog(TRUE);
+
 	FieldObject->SetColor({0.8f, 0.8f, 0.8f, 1.0f});
 	FieldObject->Update({0.8f, 0.8f, 0.8f, 1.0f}, camera);
 
@@ -379,14 +391,12 @@ void Field::Draw()
 	{
 		ModelDraw_nullCheck(PEDESTAL);
 		ModelDraw_nullCheck(BOSSBACK);
-		
 	}
 	Object3d::PostDraw();
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
 	{
 		BossName->setcolor({1.0f, 1.0f, 1.0f, TexAlpha_BossName});
 	}
-
 }
 
 void Field::WarningDraw()
@@ -449,13 +459,14 @@ void Field::ModelDraw_nullCheck(ObjType type)
 
 void Field::GuardAreaDraw()
 {
-	
-		Texture::PreDraw();
-		for (int i = 0; i < GuardAreaSize; i++)
+	Texture::PreDraw();
+	for (int i = 0; i < GuardAreaSize; i++)
+	{
+		if (GuardArea[i] == nullptr)
 		{
-			if (GuardArea[i] == nullptr)continue;
-			GuardArea[i]->Draw();
+			continue;
 		}
-		Texture::PostDraw();
-	
+		GuardArea[i]->Draw();
+	}
+	Texture::PostDraw();
 }

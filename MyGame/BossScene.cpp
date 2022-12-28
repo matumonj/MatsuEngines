@@ -151,6 +151,8 @@ void BossScene::Update()
 	}
 	BossMap::GetInstance()->Upda();
 	AltAttack::GetInstance()->Upda();
+
+	GameOver::GetIns()->Update();
 }
 
 
@@ -221,7 +223,7 @@ void BossScene::Draw()
 		Feed::GetInstance()->Draw();
 		Field::GetInstance()->WarningDraw();
 		SistemConfig::GetInstance()->Draw();
-		
+
 		DirectXCommon::GetInstance()->EndDraw();
 		break;
 	}

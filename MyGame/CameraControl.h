@@ -127,6 +127,12 @@ public:
 		RETURNPLAYER
 	};
 
+	enum PlayerDeathCamera
+	{
+		NON_PDEATH,
+		UPDA_PDEATH,
+		END_PDEATH
+	};
 	SplineCamera GetCameraState_Spline() { return sCamera; }
 private:
 	BossCamera bCamera;
@@ -134,6 +140,7 @@ private:
 	BossAreaCamera mCamera;
 	RushAttackCamera rCamera;
 	GuardianCamera gcamera;
+	PlayerDeathCamera pdcamera;
 private:
 	bool UpStage;
 	int countAreaMove;

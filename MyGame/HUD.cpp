@@ -12,6 +12,7 @@
 #include"SelectSword.h"
 #include"PlayerControl.h"
 #include"ChestControl.h"
+#include "GameOver.h"
 
 HUD::~HUD()
 {
@@ -143,8 +144,14 @@ void HUD::SkillBottonUpdate()
 		easetime = 0.0f;
 		OldPlayerHPSize = static_cast<float>(PlayerControl::GetInstance()->GetPlayer()->GetHP());
 	}
-	PlayerHP->SetSize({PlayerHPSize, 50.0f});
+	PlayerHP->SetSize({ PlayerHPSize, 50.0f });
 
+	if(GameOver::GetIns()->GetResetF())
+	{
+		PlayerHPSize = static_cast<float>(PlayerControl::GetInstance()->GetPlayer()->GetMaxHP()) * 7.0f;
+		OldPlayerHPSize=static_cast<float>(PlayerControl::GetInstance()->GetPlayer()->GetMaxHP()) * 7.0f;
+	}
+	
 	PlayerHPFrame->SetSize({static_cast<float>(PlayerControl::GetInstance()->GetPlayer()->GetMaxHP()) * 7.0f, 50.0f});
 
 	PlayerHPFrame2->SetSize({static_cast<float>(PlayerControl::GetInstance()->GetPlayer()->GetMaxHP()) * 7.0f, 50.0f});

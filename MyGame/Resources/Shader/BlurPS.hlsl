@@ -9,7 +9,7 @@ float4 main(PSInput In) : SV_Target0
 {
 	// step-12 ボケ画像書き込み用のピクセルシェーダーを実装
 	// カメラ空間での深度値をサンプリング
-	float depth=0.0f;// = depthTexture.Sample(Sampler, In.uv);
+	float depth = 0.0f; // = depthTexture.Sample(Sampler, In.uv);
 
 	// カメラ空間での深度値が200以下ならピクセルキル
 	//      -> ボケ画像を描きこまない

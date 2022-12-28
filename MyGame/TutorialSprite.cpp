@@ -60,21 +60,21 @@ void TutorialSprite::Initialize()
 
 	/// 各説明用テクスチャ初期化
 	Task[HELLO] = Sprite::Create(171, {10, 10});
-	Task[WALK] = Sprite::Create(174, {10.f, 10.f });
-	Task[ATTACK] = Sprite::Create(175, {10.f, 10.f });
-	Task[SELECTWEAPON] = Sprite::Create(176, {10.f, 10.f });
-	Task[GETKEY] = Sprite::Create(177, {10.f, 10.f });
-	Task[CLEAR] = Sprite::Create(178, {10.f, 10.f });
+	Task[WALK] = Sprite::Create(174, {10.f, 10.f});
+	Task[ATTACK] = Sprite::Create(175, {10.f, 10.f});
+	Task[SELECTWEAPON] = Sprite::Create(176, {10.f, 10.f});
+	Task[GETKEY] = Sprite::Create(177, {10.f, 10.f});
+	Task[CLEAR] = Sprite::Create(178, {10.f, 10.f});
 
 
 	targetAlpha = 1.f;
-	TargetTexSize = {4.f, 4.f, 3.f };
+	TargetTexSize = {4.f, 4.f, 3.f};
 
 	for (int i = 0; i < TaskNum; i++)
 	{
 		SpriteAlpha[i] = 0.0f;
 		t[i] = 0.0f;
-		Task[i]->SetAnchorPoint({0.f, 0.f });
+		Task[i]->SetAnchorPoint({0.f, 0.f});
 		ClearTaskJudg[i] = false;
 	}
 
@@ -188,7 +188,7 @@ void TutorialSprite::Update()
 	for (int i = WALK; i < CLEAR + 1; i++)
 	{
 		Task[i]->SetPosition({460.f, 600.f});
-		Task[i]->SetSize({1000.f, 300.f });
+		Task[i]->SetSize({1000.f, 300.f});
 		Task[i]->setcolor({1.f, 1.f, 1.f, SpriteAlpha[i]});
 	}
 
@@ -269,7 +269,6 @@ void TutorialSprite::DrawTargetPos()
 
 void TutorialSprite::Draw()
 {
-	
 	Sprite::PreDraw();
 
 	for (int i = HELLO; i < CLEAR + 1; i++)

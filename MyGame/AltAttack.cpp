@@ -107,7 +107,7 @@ void AltAttack::Draw()
 	//RushParticle->Draw();
 	// 3Dオブジェクト描画後処理
 	//ParticleManager::PostDraw();
-	
+
 	//p->Draw();
 	RushObjDraw();
 }

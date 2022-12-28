@@ -4,6 +4,7 @@
 #include"Particle.h"
 #include"Object3d.h"
 #include<array>
+
 class GuardianBomAttack
 {
 private:
@@ -19,13 +20,20 @@ public:
 	void Draw();
 
 	void SetAction(bool f) { if (phase == NON) { phase = AREASET; } }
-	bool GetPhaseEnd() { if (phase == END) { return true; }return false; }
+
+	bool GetPhaseEnd()
+	{
+		if (phase == END) { return true; }
+		return false;
+	}
+
 	void SetActionNon() { phase = NON; }
 
 	bool GetisEndAttack() { return isEndAttack; }
 	void SetisEndAttack(bool f) { isEndAttack = f; }
 private:
 	static constexpr int ArmObjNum = 6;
+
 	enum Phase
 	{
 		NON,
@@ -42,19 +50,19 @@ private:
 	void ColPlayer();
 	void DestroyEffect();
 private:
-	std::array<std::unique_ptr<Particle>, ArmObjNum>ArmEffect;
-	std::array<std::unique_ptr<Object3d>, ArmObjNum>ArmObj;
-	std::array<XMFLOAT3, ArmObjNum>ArmRot;
-	std::array<XMFLOAT3, ArmObjNum>ArmPos;
-	std::array<bool, ArmObjNum>ArmShotF;
-	std::array<float, ArmObjNum>ArmShotSpeed;
-	std::array<float, ArmObjNum>ArmAlpha;
-	std::array<std::unique_ptr<Texture>,ArmObjNum> DamageTex;
-	std::array<std::unique_ptr<Particle>, ArmObjNum>BomEffect;
-	std::array<float, ArmObjNum>DTexAngle;
-	std::array<float, ArmObjNum>DtexAlpha;
-	std::array<bool, ArmObjNum>MissileDestFlag;
-	std::array<XMFLOAT3, ArmObjNum>DtexPos;
+	std::array<std::unique_ptr<Particle>, ArmObjNum> ArmEffect;
+	std::array<std::unique_ptr<Object3d>, ArmObjNum> ArmObj;
+	std::array<XMFLOAT3, ArmObjNum> ArmRot;
+	std::array<XMFLOAT3, ArmObjNum> ArmPos;
+	std::array<bool, ArmObjNum> ArmShotF;
+	std::array<float, ArmObjNum> ArmShotSpeed;
+	std::array<float, ArmObjNum> ArmAlpha;
+	std::array<std::unique_ptr<Texture>, ArmObjNum> DamageTex;
+	std::array<std::unique_ptr<Particle>, ArmObjNum> BomEffect;
+	std::array<float, ArmObjNum> DTexAngle;
+	std::array<float, ArmObjNum> DtexAlpha;
+	std::array<bool, ArmObjNum> MissileDestFlag;
+	std::array<XMFLOAT3, ArmObjNum> DtexPos;
 	int ShotCount = 0;
 	XMFLOAT2 TexScl;
 	float TexAlpha;

@@ -14,7 +14,6 @@ ComPtr<ID3D12GraphicsCommandList> Mesh::cmdList = nullptr;
 
 void Mesh::StaticInitialize()
 {
-
 	device = DirectXCommon::GetInstance()->GetDev();
 	cmdList = DirectXCommon::GetInstance()->GetCmdList();
 	// マテリアルの静的初期化

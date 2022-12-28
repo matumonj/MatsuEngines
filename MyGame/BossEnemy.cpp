@@ -36,7 +36,7 @@ void BossEnemy::Initialize()
 	//m_Object->CreateGraphicsPipeline(L"Resources/Shader/Object3dVS.hlsl", L"Resources/Shader/Object3dPS.hlsl", L"Resources/Shader/BasicGS.hlsl");
 	MaxHP = 560;
 	EnemyHP = MaxHP;
-	
+
 	Scale = {0.15f, 0.1f, 0.15f};
 	Rotation = {96.0f, 0.0f, -101.0f};
 
@@ -83,6 +83,7 @@ void BossEnemy::Initialize()
 //XVˆ—
 void BossEnemy::Update()
 {
+	if (m_fbxObject == nullptr)return;
 	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
 
 	et += 0.01f;
@@ -177,6 +178,10 @@ void BossEnemy::Move()
 {
 }
 
+void BossEnemy::Smoke(bool& createf)
+{
+}
+
 #include"PlayerAttackState.h"
 
 void BossEnemy::FbxAnimationControl()
@@ -253,5 +258,9 @@ void BossEnemy::AttackCoolTime()
 }
 
 void BossEnemy::DamageParticleSet()
+{
+}
+
+void BossEnemy::HPFrameInit()
 {
 }

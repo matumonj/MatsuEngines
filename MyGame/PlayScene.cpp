@@ -145,6 +145,7 @@ void PlayScene::Update()
 		SceneManager::GetInstance()->SetScene(SceneManager::BOSS, sceneManager_);
 	}
 	ChangeSceneJudg();
+	GameOver::GetIns()->Update();
 }
 
 void PlayScene::ChangeSceneJudg()
@@ -220,6 +221,7 @@ void PlayScene::Draw()
 		}
 		PlayerControl::GetInstance()->GetPlayer()->ParticleDraw();
 
+		GameOver::GetIns()->Draw_DestParticle();
 		DropWeapon::GtIns()->Draw();
 	//postEffect->Draw();
 		Task::GetInstance()->TargetDraw();
@@ -232,7 +234,7 @@ void PlayScene::Draw()
 			}
 			EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i]->DamageTexDisplay_Draw();
 		}
-		if(EnemyControl::GetInstance()->GetGuardianEnemy()!=nullptr)
+		if (EnemyControl::GetInstance()->GetGuardianEnemy() != nullptr)
 		{
 			EnemyControl::GetInstance()->GetGuardianEnemy()->DamageTexDisplay_Draw();
 		}
@@ -243,6 +245,7 @@ void PlayScene::Draw()
 		{
 			UI::GetInstance()->HUDDraw();
 		}
+		GameOver::GetIns()->Draw();
 		UI::GetInstance()->AreaNameDraw();
 		DirectXCommon::GetInstance()->EndDraw();
 		break;

@@ -251,5 +251,4 @@ void BossMap::Draw()
 	Texture::PreDraw();
 
 	Texture::PostDraw();
-	
 }

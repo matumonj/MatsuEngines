@@ -54,14 +54,14 @@ private:
 private:
 	void GuardAreaTexUpda();
 	static constexpr int GuardAreaSize = 16;
-	std::array<std::unique_ptr<Texture>, GuardAreaSize >GuardArea;
-	std::array<XMFLOAT3, GuardAreaSize >GuardAreaRot;
-	std::array<float, GuardAreaSize >GuardAreaAngle;
-	std::array<XMFLOAT3, GuardAreaSize >GuardareaPos;
-	std::array<float, GuardAreaSize >GuardAreaAlphaEtime;
-	std::array<float, GuardAreaSize >GuardAreaAlpha;
+	std::array<std::unique_ptr<Texture>, GuardAreaSize> GuardArea;
+	std::array<XMFLOAT3, GuardAreaSize> GuardAreaRot;
+	std::array<float, GuardAreaSize> GuardAreaAngle;
+	std::array<XMFLOAT3, GuardAreaSize> GuardareaPos;
+	std::array<float, GuardAreaSize> GuardAreaAlphaEtime;
+	std::array<float, GuardAreaSize> GuardAreaAlpha;
 	Line2D camera_to_player;
-	std::array<Point, GuardAreaSize > GuardAreaPoint;
+	std::array<Point, GuardAreaSize> GuardAreaPoint;
 private:
 	float t = 0.0f;
 	float TexAlpha_BossName = 0.0f;

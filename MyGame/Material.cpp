@@ -14,7 +14,7 @@ ComPtr<ID3D12GraphicsCommandList> Material::cmdList = nullptr;
 void Material::StaticInitialize()
 {
 	// 再初期化チェック
-	
+
 	device = DirectXCommon::GetInstance()->GetDev();
 	cmdList = DirectXCommon::GetInstance()->GetCmdList();
 }

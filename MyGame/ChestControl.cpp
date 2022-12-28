@@ -219,7 +219,7 @@ void ChestControl::Draw_Play()
 	{
 		if (chests[i] != nullptr)
 		{
-		//	PlayPchest[i].particleMan->Draw();
+			//	PlayPchest[i].particleMan->Draw();
 		}
 	}
 	// 3Dオブジェクト描画後処理

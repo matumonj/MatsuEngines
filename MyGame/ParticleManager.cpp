@@ -316,7 +316,7 @@ bool ParticleManager::InitializeGraphicsPipeline()
 bool ParticleManager::LoadTexture(UINT texnumber, const wchar_t* filename)
 {
 	// nullptrチェック
-	
+
 
 	HRESULT result;
 	// WICテクスチャのロード
@@ -427,7 +427,7 @@ bool ParticleManager::Initialize(UINT texnum)
 {
 	texNumber = texnum;
 	// nullptrチェック
-	
+
 
 	HRESULT result;
 	// 定数バッファの生成
@@ -516,7 +516,7 @@ void ParticleManager::Update(ParticleType type, XMFLOAT3 position, int lifejudg)
 void ParticleManager::Draw()
 {
 	// nullptrチェック
-	
+
 	//assert(ParticleManager::cmdList);
 
 	// 頂点バッファの設定

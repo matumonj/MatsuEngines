@@ -12,7 +12,7 @@ public:
 	void Update(Enemy* enemy) override;
 
 private:
-	void UpMove(Enemy*enemy);
+	void UpMove(Enemy* enemy);
 	void DownMove(Enemy* enemy);
 	float PosYMovingT;
 };

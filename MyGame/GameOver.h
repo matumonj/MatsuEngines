@@ -3,19 +3,32 @@
 #include"Sprite.h"
 #include<memory>
 
-class GameOver :
-	public BaseScene
+#include "Particle.h"
+
+class GameOver
 {
 public:
-	GameOver(SceneManager* sceneManager);
+	GameOver();
+	static GameOver* GetIns();
 private:
-public:
 	std::unique_ptr<Sprite> GameOverTex;
+	std::unique_ptr<Sprite> GameOverTexFrame;
 	float TexAlpha;
+	float AlphaEaseT;
+	bool ReStartF;
+
+	bool PlayerDestF;
+	DirectX::XMFLOAT2 FrameSize;
+	float FrameScalingT;
+	DirectX::XMFLOAT2 FramePos;
+
+	std::unique_ptr<Particle>RestartPar;
 public:
-	void Initialize() override;
-	void Update() override;
-	void Draw() override;
-	void SpriteDraw();
-	void Finalize() override;
+	void Initialize();
+	void Update();
+	void Draw();
+	void Draw_DestParticle();
+	void Finalize();
+	
+	bool GetResetF() { return ReStartF; }
 };

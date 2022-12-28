@@ -46,7 +46,5 @@ void BigSword::Update()
 
 void BigSword::Draw()
 {
-
-
 	Draw_Obj();
 }

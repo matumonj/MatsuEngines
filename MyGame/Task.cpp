@@ -8,6 +8,8 @@
 #include "PlayerControl.h"
 #include "TargetMarker.h"
 #include"Field.h"
+#include "GameOver.h"
+#include "UI.h"
 
 Task* Task::GetInstance()
 {
@@ -63,7 +65,7 @@ void Task::Init()
 		navChestSprite[0]->SetAnchorPoint({0.5f, 0.5f});
 		navChestSprite[1]->SetAnchorPoint({0.5f, 0.5f});
 	}
-	for(int i=0;i<5;i++)
+	for (int i = 0; i < 5; i++)
 	{
 		Judg[i] = false;
 	}
@@ -104,7 +106,7 @@ void Task::Init()
 		TargetIcon[i]->SetRotation({180, 0, 0});
 		iconalpha[i] = 0.0f;
 	}
-	tasks = Task::TASK_ONE;
+	tasks = TASK_ONE;
 	iconalpha[0] = 1.0f;
 }
 
@@ -137,7 +139,7 @@ void Task::Upda()
 	TaskClear(TASK_THREE, TASK_FOUR, Judg[TASK_THREE], 4);
 
 	//int->string‚É
-	if (ChestControl::GetInstance()->ChestCount()>3)
+	if (ChestControl::GetInstance()->ChestCount() > 3)
 	{
 		TaskAllClear = true;
 	}
@@ -272,19 +274,20 @@ void Task::TargetDraw()
 
 void Task::Draw()
 {
-	Sprite::PreDraw();
-	TaskFrame->Draw();
-	for (int i = 0; i < TaskNum; i++)
+	if (HUD::GetInstance()->GetPlayerHP()->GetSize().x > 0.f && PlayerControl::GetInstance()->GetPlayer()->GetHP() > 0)
 	{
-		TasksSprite[i]->Draw();
+		Sprite::PreDraw();
+		TaskFrame->Draw();
+		for (int i = 0; i < TaskNum; i++)
+		{
+			TasksSprite[i]->Draw();
+		}
+		navChestSprite[0]->Draw();
+		navChestSprite[1]->Draw();
+		DebugTextSprite2::GetInstance()->DrawAll();
+		Sprite::PostDraw();
 	}
-	navChestSprite[0]->Draw();
-	navChestSprite[1]->Draw();
-	DebugTextSprite2::GetInstance()->DrawAll();
-	Sprite::PostDraw();
-
 }
-
 void Task::TaskSequence()
 {
 	Player* l_player = PlayerControl::GetInstance()->GetPlayer();

@@ -1,4 +1,6 @@
 #include "MyGame.h"
+
+#include "GameOver.h"
 #include"SceneManager.h"
 #include"imgui.h"
 #include"ParticleManager.h"
@@ -18,6 +20,7 @@ void MyGame::Initialize()
 	sceneManger->SetnextScene(scene_);
 	ModelManager::GetIns()->Initialize();
 	ImageManager::GetIns()->Init();
+	GameOver::GetIns()->Initialize();
 }
 
 void MyGame::Update()

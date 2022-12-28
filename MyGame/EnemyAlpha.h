@@ -40,9 +40,14 @@ public:
 
 	void EnemyHPDraw() override;
 
-	void Move()override;
+	void Move() override;
+	void Smoke(bool& createf)override;
 private:
+	void HPFrameInit()override;
+	
 	void DamageParticleSet();
+
+	
 private:
 	int hindex;
 private:

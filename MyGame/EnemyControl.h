@@ -112,4 +112,7 @@ public:
 
 	bool GetSummonEnemysApper() { return SummonEnemysApper; }
 	Enemy* GetSummonEnemy(int index) { return SummonEnemys[index].get(); }
+
+public:
+	void GameOverResetParam();
 };

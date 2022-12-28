@@ -8,7 +8,7 @@ void Particle::Init(UINT num)
 	Texture* l_tex0 = Texture::Create(num);
 	parnum = num;
 
-	BeginParColor = { 1.f,1.f,1.f,1.f };
+	BeginParColor = {1.f, 1.f, 1.f, 1.f};
 	SetParType(20, m_particles[NORMAL], l_tex0);
 }
 
@@ -38,7 +38,6 @@ void Particle::Upda_B()
 
 void Particle::Draw()
 {
-	
 	Texture::PreDraw();
 	for (int i = 0; i < m_particles[NORMAL].size; i++)
 	{
@@ -81,7 +80,7 @@ void Particle::SetParType(int size, ParParam& parparam, Texture* tex)
 			parparam.partex[i].reset(l_tex0[i]);
 			parparam.partex[i]->CreateTexture();
 
-			parparam.partex[i]->SetAnchorPoint({ 0.5f, 0.5f });
+			parparam.partex[i]->SetAnchorPoint({0.5f, 0.5f});
 		}
 	}
 }
@@ -94,11 +93,11 @@ void Particle::InitNormal(ParParam& parparam, XMFLOAT3 pos)
 	}
 	for (int i = 0; i < parparam.size; i++)
 	{
-		parparam.scl[i] = { BeginParScl };
-		parparam.vel[i] = { pos };
+		parparam.scl[i] = {BeginParScl};
+		parparam.vel[i] = {pos};
 		parparam.speed[i] = 0.0f; //徐々にスピードを速く
 		parparam.alpha[i] = 0.0f;
-		parparam.angle[i] = float(rand() % 360);
+		parparam.angle[i] = static_cast<float>(rand() % 360);
 	}
 	parparam.phase = UPDA;
 }
@@ -117,7 +116,7 @@ void Particle::UpadaNormal_A(ParParam& parparam)
 		if (!parparam.f[i])
 		{
 			parparam.vel[i] = createpos;
-			parparam.scl[i] = { 2.0f, 2.0f };
+			parparam.scl[i] = {2.0f, 2.0f};
 			parparam.speed[i] = 0.0f;
 			parparam.alpha[i] = 1.0f;
 			parparam.f[i] = true;
@@ -130,7 +129,7 @@ void Particle::UpadaNormal_A(ParParam& parparam)
 		parparam.vel[i].y += parparam.speed[i] * sin(parparam.angle[i]); //360度に広がるようにする
 		parparam.speed[i] += 0.002f; //徐々にスピードを速く
 		parparam.alpha[i] -= 0.02f;
-		if (parparam.alpha[i] < 0.0f&&parparam.EndParUpda[i]==false)
+		if (parparam.alpha[i] < 0.0f && parparam.EndParUpda[i] == false)
 		{
 			parparam.f[i] = false;
 		}
@@ -138,9 +137,9 @@ void Particle::UpadaNormal_A(ParParam& parparam)
 	for (int i = 0; i < parparam.size; i++)
 	{
 		parparam.partex[i]->SetPosition(parparam.vel[i]);
-		parparam.partex[i]->SetScale({ parparam.scl[i].x, parparam.scl[i].y, 1.0f });
+		parparam.partex[i]->SetScale({parparam.scl[i].x, parparam.scl[i].y, 1.0f});
 		parparam.partex[i]->SetBillboard(TRUE);
-		parparam.partex[i]->SetColor({ 1.f, 1.f, 1.f, parparam.alpha[i] });
+		parparam.partex[i]->SetColor({1.f, 1.f, 1.f, parparam.alpha[i]});
 		parparam.partex[i]->Update(CameraControl::GetInstance()->GetCamera());
 	}
 	if (isAryEqual(parparam.alpha) == true)
@@ -164,7 +163,7 @@ void Particle::UpadaNormal_B(ParParam& parparam)
 			if (!parparam.f[i])
 			{
 				parparam.vel[i] = createpos;
-				parparam.scl[i] = { BeginParScl };
+				parparam.scl[i] = {BeginParScl};
 				parparam.speed[i] = 0;
 				parparam.alpha[i] = 1;
 				parparam.f[i] = true;
@@ -186,9 +185,9 @@ void Particle::UpadaNormal_B(ParParam& parparam)
 			parparam.alpha[i] -= 0.01f;
 
 			parparam.partex[i]->SetPosition(parparam.vel[i]);
-			parparam.partex[i]->SetScale({ parparam.scl[i].x, parparam.scl[i].y, 1.0f });
+			parparam.partex[i]->SetScale({parparam.scl[i].x, parparam.scl[i].y, 1.0f});
 			parparam.partex[i]->SetBillboard(TRUE);
-			parparam.partex[i]->SetColor({ BeginParColor.x,BeginParColor.y,BeginParColor.z, parparam.alpha[i] });
+			parparam.partex[i]->SetColor({BeginParColor.x, BeginParColor.y, BeginParColor.z, parparam.alpha[i]});
 			parparam.partex[i]->Update(CameraControl::GetInstance()->GetCamera());
 		}
 	}
@@ -206,7 +205,7 @@ void Particle::UpadaNormal_B(ParParam& parparam)
 			if (!parparam.f[i])
 			{
 				parparam.vel[i] = createpos;
-				parparam.scl[i] = { 1.0f, 1.0f };
+				parparam.scl[i] = {1.0f, 1.0f};
 				parparam.speed[i] = 0;
 				parparam.alpha[i] = 1;
 				parparam.f[i] = true;
@@ -228,9 +227,9 @@ void Particle::UpadaNormal_B(ParParam& parparam)
 			parparam.alpha[i] -= 0.01f;
 
 			parparam.partex[i]->SetPosition(parparam.vel[i]);
-			parparam.partex[i]->SetScale({ parparam.scl[i].x, parparam.scl[i].y, 1.0f });
+			parparam.partex[i]->SetScale({parparam.scl[i].x, parparam.scl[i].y, 1.0f});
 			parparam.partex[i]->SetBillboard(TRUE);
-			parparam.partex[i]->SetColor({ BeginParColor.x,BeginParColor.y,BeginParColor.z, parparam.alpha[i] });
+			parparam.partex[i]->SetColor({BeginParColor.x, BeginParColor.y, BeginParColor.z, parparam.alpha[i]});
 			parparam.partex[i]->Update(CameraControl::GetInstance()->GetCamera());
 		}
 	}

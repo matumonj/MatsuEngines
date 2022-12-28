@@ -20,7 +20,13 @@ public:
 	void Draw();
 
 	void SetAction(bool f) { if (phase == NON) { phase = AREASET; } }
-	bool GetPhaseEnd() { if (phase == END) { return true; }return false; }
+
+	bool GetPhaseEnd()
+	{
+		if (phase == END) { return true; }
+		return false;
+	}
+
 	void SetActionNon() { phase = NON; }
 
 	bool GetisEndAttack() { return isEndAttack; }
@@ -43,7 +49,7 @@ private:
 	void Phase_End();
 private:
 	std::unique_ptr<Texture> DamageTex;
-	std::unique_ptr<Object3d>normalAttackObj;
+	std::unique_ptr<Object3d> normalAttackObj;
 
 	float scalingETime;
 	XMFLOAT2 TexScl;
@@ -64,4 +70,3 @@ private:
 
 	bool isEndAttack;
 };
-

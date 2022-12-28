@@ -17,6 +17,8 @@ private:
 	XMFLOAT3 Player_OldPos;
 	Sprite* DamageTex;
 	float dalpha = 0.0f;
+
+	bool TurnoffDrawF;
 private:
 	enum
 	{
@@ -38,6 +40,8 @@ public:
 
 	void BossFieldCol();
 	void DamageTexUpdate();
+	void GameOverResetParam();
+	void TurnoffDraw(bool f) { TurnoffDrawF = f; }
 private:
 	void Init_Tutorial() override;
 

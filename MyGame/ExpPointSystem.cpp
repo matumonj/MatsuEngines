@@ -76,7 +76,8 @@ void ExpPointSystem::Upda()
 
 	else
 	{
-		OldHP = Percent::GetParcent(static_cast<float>(EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetMaxHP()),
+		OldHP = Percent::GetParcent(
+			static_cast<float>(EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetMaxHP()),
 			static_cast<float>(EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetHP()));
 		m_EaseTime = 0.0f;
 	}

@@ -17,5 +17,4 @@ private:
 	float shakey;
 	float shake;
 	int shaketime;
-
 };

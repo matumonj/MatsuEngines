@@ -14,6 +14,6 @@ private:
 	float EaseTime;
 	bool DownF;
 	bool UpF;
-
-	void DownMove(Enemy*enemy);
+	bool SmokeF;
+	void DownMove(Enemy* enemy);
 };

@@ -11,7 +11,7 @@ void GuardianNAttackState::Update(Enemy* enemy)
 {
 	PosYMovingT++;
 	GuardianNAttack::GetIns()->SetAction(true);
-	
+
 	if (GuardianNAttack::GetIns()->GetPhaseEnd())
 	{
 		GuardianNAttack::GetIns()->SetisEndAttack(TRUE);

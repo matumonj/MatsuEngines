@@ -10,6 +10,7 @@
 #include"imgui.h"
 #include"ExpPointSystem.h"
 #include"Collision.h"
+#include "ImageManager.h"
 #include"PlayerControl.h"
 #include"SceneManager.h"
 /// <summary>
@@ -29,6 +30,31 @@ EnemyAlpha::~EnemyAlpha()
 	//delete mob, MobModel;
 }
 
+
+void EnemyAlpha::HPFrameInit()
+{
+	//体力バー初期化
+	Sprite* l_frame1 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME1), { 0, 0 });
+	Sprite* l_frame2 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME2), { 0, 0 });
+	Sprite* l_frame3 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME4), { 0, 0 });
+	Sprite* l_frame4 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME3), { 0, 0 });
+
+	Sprite* l_enemyname = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENEMYNAME_GOLEM), { 0, 0 });
+
+	HPFrame[0].reset(l_frame1);
+	HPFrame[1].reset(l_frame2);
+	HPFrame[2].reset(l_frame3);
+	HPFrame[3].reset(l_frame4);
+
+	EnemyName.reset(l_enemyname);
+
+	for (int i = 0; i < 4; i++)
+	{
+		HPFrame[i]->SetAnchorPoint({ 0.0f, 0.0f });
+	}
+	FrameScl.x = Percent::GetParcent(static_cast<float>(MaxHP), static_cast<float>(EnemyHP)) * 2.0f;
+
+}
 //初期化処理
 void EnemyAlpha::Initialize()
 {
@@ -62,6 +88,8 @@ void EnemyAlpha::Initialize()
 
 	addRotRadians = -180;
 	FollowRotAngleCorrect = 0;
+
+	HPFrameInit();
 	//タスク用敵の種類
 	ENumber = FLOG;
 	//状態初期化
@@ -105,7 +133,7 @@ void EnemyAlpha::Update()
 	ParameterSet_Fbx2();
 	DamageTexDisplay();
 	CollisionField();
-
+	HPFrameUpda();
 	DamageParticleSet();
 }
 
@@ -139,12 +167,25 @@ void EnemyAlpha::Death()
 
 void EnemyAlpha::EnemyHPDraw()
 {
+	Sprite::PreDraw();
+	for (int i = 0; i < 4; i++)
+	{
+		HPFrame[i]->Draw();
+	}
+	EnemyName->Draw();
+	Sprite::PostDraw();
 }
+
 
 
 void EnemyAlpha::Move()
 {
 }
+
+void EnemyAlpha::Smoke(bool& createf)
+{
+}
+
 
 void EnemyAlpha::FbxAnimationControl()
 {

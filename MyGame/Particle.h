@@ -55,7 +55,7 @@ private:
 		std::vector<XMFLOAT2> scl = {{1.0f, 1.0f}};
 		std::vector<float> speed = {0.0f};
 		std::vector<float> alpha = {0.0f};
-		std::vector<bool>EndParUpda;
+		std::vector<bool> EndParUpda;
 		std::vector<bool> f;
 		Phase phase;
 	};
@@ -81,19 +81,22 @@ private:
 
 public:
 	void SetParScl(XMFLOAT2 scl) { BeginParScl = scl; }
-	void SetParColor(XMFLOAT4 color) { BeginParColor =color ; }
+	void SetParColor(XMFLOAT4 color) { BeginParColor = color; }
+
 	void SetParF(int type)
 	{
 		partype = type;
 		for (int i = 0; i < m_particles[NORMAL].size; i++) { m_particles[NORMAL].f[i] = false; }
 	};
+
 	void EndUpda(bool f)
 	{
-		if(f)
+		if (f)
 		{
 			for (int i = 0; i < m_particles[NORMAL].size; i++) { m_particles[NORMAL].EndParUpda[i] = f; }
 		}
 	}
+	bool GetParPhase_End() { if (m_particles[NORMAL].phase == END) { return true; }return false; }
 private:
 	bool isAryEqual(std::vector<float> num);
 };

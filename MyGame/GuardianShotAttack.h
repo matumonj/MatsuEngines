@@ -4,6 +4,7 @@
 #include<array>
 #include"Particle.h"
 #include"Sprite.h"
+
 class GuardianShotAttack
 {
 private:
@@ -19,13 +20,20 @@ public:
 	void Draw();
 
 	void SetAction(bool f) { if (phase == NON) { phase = AREASET; } }
-	bool GetPhaseEnd() { if (phase == END) { return true; }return false; }
+
+	bool GetPhaseEnd()
+	{
+		if (phase == END) { return true; }
+		return false;
+	}
+
 	void SetActionNon() { phase = NON; }
 
 	bool GetisEndAttack() { return isEndAttack; }
 	void SetisEndAttack(bool f) { isEndAttack = f; }
 private:
 	static constexpr int ArmObjNum = 5;
+
 	enum Phase
 	{
 		NON,
@@ -42,15 +50,15 @@ private:
 	void ColPlayer();
 	void DestroyEffect();
 private:
-	std::array<std::unique_ptr<Particle>, ArmObjNum>ArmEffect;
-	std::array<std::unique_ptr<Object3d>, ArmObjNum>ArmObj;
-	std::array<XMFLOAT3, ArmObjNum>ArmRot;
-	std::array<XMFLOAT3, ArmObjNum>ArmPos;
-	std::array<bool, ArmObjNum>ArmShotF;
-	std::array<float, ArmObjNum>ArmShotSpeed;
-	std::array<float, ArmObjNum>ArmAlpha;
+	std::array<std::unique_ptr<Particle>, ArmObjNum> ArmEffect;
+	std::array<std::unique_ptr<Object3d>, ArmObjNum> ArmObj;
+	std::array<XMFLOAT3, ArmObjNum> ArmRot;
+	std::array<XMFLOAT3, ArmObjNum> ArmPos;
+	std::array<bool, ArmObjNum> ArmShotF;
+	std::array<float, ArmObjNum> ArmShotSpeed;
+	std::array<float, ArmObjNum> ArmAlpha;
 	std::unique_ptr<Texture> DamageTex;
-	std::unique_ptr<Particle>PlayerDamageEffect;
+	std::unique_ptr<Particle> PlayerDamageEffect;
 	int ShotCount = 0;
 	XMFLOAT2 TexScl;
 	float TexAlpha;
@@ -67,4 +75,3 @@ private:
 	//当たったミサイルの座標保存用
 	XMFLOAT3 ColMissilePos;
 };
-

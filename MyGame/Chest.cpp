@@ -31,7 +31,7 @@ void Chest::Initialize()
 	SetCollider();
 
 	//ParticleManager::LoadTexture(2, L"Resources/ParticleTex/normal.png");
-	
+
 	//DefaultEffect = ParticleManager::Create(2, L"Resources/ParticleTex/normal.png");
 	//DefaultEffect->CreateModel();
 	ObjAlpha = 1.0f;

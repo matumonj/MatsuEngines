@@ -74,7 +74,7 @@ void SelectSword::SpriteSet()
 	sampleSwordAlpha[SWORD] = 1.0f;
 	sampleSwordAlpha[AXE] = 0.0f;
 
-	WeapomScl = {1.f, 1.f, 1.f };
+	WeapomScl = {1.f, 1.f, 1.f};
 	WeaponChangeEffect = std::make_unique<Particle>();
 	WeaponChangeEffect->Init(65);
 }
@@ -314,7 +314,6 @@ void SelectSword::Update()
 
 void SelectSword::Draw()
 {
-
 	SpriteDraw();
 }
 

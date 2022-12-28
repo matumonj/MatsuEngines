@@ -87,7 +87,7 @@ void Player::Jump()
 void Player::Move()
 {
 	//移動停止フラグと回避モーション時は動けない
-	if (StopFlag || evasionF)
+	if (StopFlag || evasionF||HP<=0)
 	{
 		return;
 	}
@@ -137,8 +137,8 @@ void Player::Move()
 		XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(Rotation.y + 63.0f));
 		move = XMVector3TransformNormal(move, matRot);
 
-		Position.x += move.m128_f32[0] * movespeed*5.f;
-		Position.z += move.m128_f32[2] * movespeed*5.f ;
+		Position.x += move.m128_f32[0] * movespeed * 5.f;
+		Position.z += move.m128_f32[2] * movespeed * 5.f;
 		Gmove = move;
 
 		//いずれかのスティックが倒されていてFBXのタイムが最初の攻撃モーションのタイムより
@@ -266,7 +266,6 @@ void Player::Update()
 
 void Player::Draw()
 {
-	
 	Draw_Fbx();
 
 	AttackEffect::GetIns()->Draw();
@@ -309,7 +308,7 @@ void Player::FbxAnimationControls(const AttackMotion& motiontype, const float at
 
 void Player::FbxAnimationControl()
 {
-	if (evasionF || noAttack || StopFlag)
+	if (evasionF || noAttack || StopFlag||HP<=0)
 	{
 		return;
 	}
@@ -410,6 +409,7 @@ void Player::RecvDamage(int Damage)
 	{
 		return;
 	}
+	
 
 	//ダメージくらった時にカメラシェイク
 	if (!HUD::GetInstance()->GetRecvDamageFlag())

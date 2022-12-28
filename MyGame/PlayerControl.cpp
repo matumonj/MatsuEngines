@@ -29,7 +29,7 @@ void PlayerControl::Init_Tutorial()
 
 void PlayerControl::Init_Play()
 {
-	StartPos = {110.0f, -12.0f, -379.0f};
+	StartPos = {110.0f, -30.0f, -379.0f};
 
 	player->SetPosition(StartPos);
 	AttackCollision::GetInstance()->Init();
@@ -57,6 +57,7 @@ void PlayerControl::Finalize()
 /*----------scv----------*/
 void PlayerControl::Load()
 {
+	//初期位置
 	switch (SceneManager::GetInstance()->GetScene())
 	{
 	case SceneManager::TUTORIAL:
@@ -74,6 +75,13 @@ void PlayerControl::Load()
 
 	player->SetPosition(StartPos);
 	AttackCollision::GetInstance()->Init();
+}
+
+void PlayerControl::GameOverResetParam()
+{
+	//死亡時の位置と体力のリセット
+	player->SetPosition(StartPos);
+	player->SetHP(player->GetMaxHP());
 }
 
 /*------------------------*/
@@ -103,7 +111,7 @@ void PlayerControl::Update_Play() //プレイシーン時
 void PlayerControl::Update_Boss()
 {
 	player->Update();
-
+	
 	DamageTexUpdate();
 }
 
@@ -124,7 +132,7 @@ void PlayerControl::DamageTexUpdate()
 /*------------------------*/
 void PlayerControl::Draw_Play()
 {
-	if (player == nullptr)
+	if (player == nullptr||TurnoffDrawF)
 	{
 		return;
 	}
@@ -151,9 +159,12 @@ void PlayerControl::Draw_Boss()
 
 void PlayerControl::DamageTexDraw()
 {
-	Sprite::PreDraw();
-	DamageTex->Draw();
-	Sprite::PostDraw();
+	if (HUD::GetInstance()->GetPlayerHP()->GetSize().x > 0.f && PlayerControl::GetInstance()->GetPlayer()->GetHP() > 0)
+	{
+		Sprite::PreDraw();
+		DamageTex->Draw();
+		Sprite::PostDraw();
+	}
 }
 
 void PlayerControl::BossFieldCol()

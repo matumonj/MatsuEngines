@@ -48,12 +48,13 @@ void Enemy::RecvDamage(int Damage)
 	}
 	//PlayerAttackState::GetInstance()->SetHitStopJudg(TRUE);
 	std::unique_ptr<DamageManager> newdTex;
-	if (ENumber == EnemyNumber::GUARDIAN)
+	if (ENumber == GUARDIAN)
 	{
 		newdTex = std::make_unique<DamageManager>(
-			XMFLOAT3(Position.x + rand() % 10 - 5, -10+Position.y + rand() % 10 - 5, Position.z), Damage);
+			XMFLOAT3(Position.x + rand() % 10 - 5, -10 + Position.y + rand() % 10 - 5, Position.z), Damage);
 	}
-	else {
+	else
+	{
 		newdTex = std::make_unique<DamageManager>(
 			XMFLOAT3(Position.x + rand() % 10 - 5, Position.y + rand() % 10 - 5, Position.z), Damage);
 	}
@@ -61,6 +62,79 @@ void Enemy::RecvDamage(int Damage)
 
 	EnemyHP = EnemyHP - Damage;
 	DamageParticleCreateF = true;
+}
+
+void Enemy::HPFrameUpda()
+{
+	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	FrameScl.x = max(FrameScl.x, 0.0f);
+	FrameScl_Inner.x = max(FrameScl_Inner.x, 0.0f);
+	XMVECTOR tex2DPos[4];
+	for (int i = 0; i < 4; i++)
+	{
+		tex2DPos[i] = { Position.x, Position.y + 13.0f, Position.z };
+		tex2DPos[i] = MatCal::PosDivi(tex2DPos[i], camera->GetViewMatrix(), false);
+		tex2DPos[i] = MatCal::PosDivi(tex2DPos[i], camera->GetProjectionMatrix(), true);
+		tex2DPos[i] = MatCal::WDivi(tex2DPos[i], false);
+		tex2DPos[i] = MatCal::PosDivi(tex2DPos[i], camera->GetViewPort(), false);
+
+		HPFrame[i]->SetPosition({ tex2DPos[i].m128_f32[0] - 80.0f, tex2DPos[i].m128_f32[1] });
+	}
+	if (RecvDamagef)
+	{
+		FrameScalingETime_Inner = 0.0f;
+		if (!InnerFrameScalingF)
+		{
+			OldFrameX_Inner = OldFrameX;
+		}
+		NowFrameX = Percent::GetParcent(static_cast<float>(MaxHP), static_cast<float>(EnemyHP)) * 2.0f;
+		FrameScalingETime += 0.05f;
+		if (FrameScl.x > 0.0f)
+		{
+			FrameScl.x = Easing::EaseOut(FrameScalingETime, OldFrameX, NowFrameX);
+		}
+		if (FrameScalingETime >= 1.0f)
+		{
+			InnerFrameScalingF = true;
+			RecvDamagef = false;
+		}
+	}
+
+	else
+	{
+		OldFrameX = Percent::GetParcent(static_cast<float>(MaxHP), static_cast<float>(EnemyHP)) * 2.0f;
+
+		FrameScalingETime = 0.0f;
+	}
+
+	if (InnerFrameScalingF)
+	{
+		FrameScalingETime_Inner += 0.02f;
+		//ëÃóÕÇ™ÇOÇ»Ç¡ÇΩÇ∆Ç´ÇæÇØEaseÇÃèIÇÌÇËÇÇOÇ…
+		if (EnemyHP <= 0)
+		{
+			FrameScl_Inner.x = Easing::EaseOut(FrameScalingETime_Inner, OldFrameX_Inner, 0.f);
+			InnerFrameScalingF = false;
+		} else
+		{
+			FrameScl_Inner.x = Easing::EaseOut(FrameScalingETime_Inner, OldFrameX_Inner, NowFrameX);
+		}
+		//ÉQÅ[ÉWÇÃå∏ÇËÇ™é~Ç‹Ç¡ÇΩÇÁÉtÉâÉOêÿÇÈ
+		if (FrameScalingETime_Inner >= 1.0f)
+		{
+			InnerFrameScalingF = false;
+		}
+	} else
+	{
+		FrameScalingETime_Inner = 0.0f;
+	}
+	HPFrame[3]->SetSize({ FrameScl.x, 15 });
+	HPFrame[2]->SetSize({ FrameScl_Inner.x, 15.0f });
+	HPFrame[1]->SetSize({ 200.0f, 15.0f });
+	HPFrame[0]->SetSize({ 200.0f, 15.0f });
+
+	EnemyName->SetPosition({ tex2DPos[0].m128_f32[0] - 80.0f, tex2DPos[0].m128_f32[1] - 30.f });
+	EnemyName->SetSize({ 200.0f, 15.0f });
 }
 
 void Enemy::DamageTexDisplay()

@@ -58,7 +58,7 @@ void main(
 	float4 randpos2 = float4(rand(pos2.xy), rand(pos2.xy), rand(pos2.xy), rand(pos2.xy));
 	float4 randpos1 = float4(rand(pos1.xy), rand(pos1.xy), rand(pos1.xy), rand(pos1.xy));
 	//‘‚ÌŒü‚«
-	float4 dir = float4(normalize(pos2 * randpos2 - pos0 * randpos1)* float4(width, width, width, width));
+	float4 dir = float4(normalize(pos2 * randpos2 - pos0 * randpos1) * float4(width, width, width, width));
 
 	//•—•\Œ»‚à‚Ç‚«GrassObj‚Ì•û‚Åuvtime‚¢‚¶‚Á‚Ä’²®
 
@@ -104,5 +104,5 @@ void main(
 		o[i].pos = mul(viewproj, mul(world, float4(o[i].pos.xyz, 1.0f)));
 		output.Append(o[i]);
 	}
-		output.RestartStrip();
+	output.RestartStrip();
 }

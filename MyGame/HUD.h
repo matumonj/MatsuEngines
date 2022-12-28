@@ -38,6 +38,7 @@ public:
 	bool GetLayOutMode();
 	void SetPosition_PlayerHP(XMFLOAT2 position);
 	void SetAnchor_PlayerHP(XMFLOAT2 position);
+	//void SetOldHP()
 	Sprite* GetPlayerHP() { return PlayerHP; }
 	Sprite* GetEnemyHP() { return EnemyHP_Border; }
 	XMFLOAT2 GetSkillButtonPosition() { return CenterPosition; }

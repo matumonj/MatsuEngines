@@ -133,11 +133,13 @@ void EnemyControl::Init_Play()
 	{
 		//初期化処理
 		if (Num[i] == ALPHAENEMY)
-		{//ゴーレム
+		{
+			//ゴーレム
 			enemys[PLAYSCENE][i] = std::make_unique<MobEnemy>();
 		}
 		if (Num[i] == BETAENEMY)
-		{//トカゲ
+		{
+			//トカゲ
 			enemys[PLAYSCENE][i] = std::make_unique<EnemyAlpha>();
 		}
 
@@ -297,18 +299,18 @@ void EnemyControl::Update_Play()
 			}
 			Destroy_unique(enemys[PLAYSCENE][i]);
 		}
-		if(Guardian!=nullptr&& Guardian->GetisAlive()==FALSE&&Guardian->GetHP()<=0)
+		if (Guardian != nullptr && Guardian->GetisAlive() == FALSE && Guardian->GetHP() <= 0)
 		{
 			ChestControl::GetInstance()->SetChestAppearance(ChestControl::GREEN, {
-																		Guardian->GetPosition().x,
-																		Guardian->GetPosition().y +
-																		10.0f,
-																		Guardian->GetPosition().z
-				});
-
+				                                                Guardian->GetPosition().x,
+				                                                Guardian->GetPosition().y +
+				                                                10.0f,
+				                                                Guardian->GetPosition().z
+			                                                });
 		}
 	}
-	if (Guardian != nullptr) {
+	if (Guardian != nullptr)
+	{
 		Guardian->Update();
 		if (Guardian->GetObjAlpha() <= 0.0f)
 		{
@@ -521,11 +523,11 @@ void EnemyControl::Draw_Play()
 			}
 		}
 	}
-	if (Guardian != nullptr) {
+	if (Guardian != nullptr)
+	{
 		//ガーディアン描画
 		Guardian->Draw();
 	}
-
 }
 
 void EnemyControl::Draw_Boss()
@@ -585,4 +587,17 @@ std::vector<std::unique_ptr<Enemy>>& EnemyControl::GetEnemy(EnemyType type)
 	}
 
 	return enemys[NON];
+}
+
+void EnemyControl::GameOverResetParam()
+{
+	//enemys[BOSS][0] = std::make_unique<BossEnemy>();
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
+	{
+		enemys[BOSS][0]->Initialize();
+		boss_pos = { -1.0f, 10.0f, 20.987f };
+
+		enemys[BOSS][0]->SetPosition(boss_pos);
+		enemys[BOSS][0]->SetHP(enemys[BOSS][0]->GetMaxHP());
+	}
 }

@@ -270,7 +270,7 @@ bool Texture::InitializeGraphicsPipeline()
 bool Texture::LoadTexture(UINT texnumber, const wchar_t* filename)
 {
 	// nullptrチェック
-	
+
 
 	HRESULT result;
 	// WICテクスチャのロード
@@ -447,7 +447,7 @@ void Texture::CreateTexture()
 bool Texture::Initialize()
 {
 	// nullptrチェック
-	
+
 
 	HRESULT result;
 	// 定数バッファの生成
@@ -536,7 +536,7 @@ void Texture::Draw()
 
 	// ワー
 	// nullptrチェック
-	
+
 	//assert(Texture::cmdList);
 
 	// 頂点バッファの設定

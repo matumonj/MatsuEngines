@@ -1,8 +1,6 @@
 #include "MobEnemy.h"
-#include"CustomButton.h"
 #include"SphereCollider.h"
 #include"CollisionManager.h"
-#include"CollisionAttribute.h"
 #include"DebugCamera.h"
 #include"mHelper.h"
 #include"imgui.h"
@@ -13,7 +11,6 @@
 #include "CameraControl.h"
 #include"PlayerAttackState.h"
 #include"ImageManager.h"
-#include"mHelper.h"
 #include "SceneManager.h"
 /// <summary>
 /// コンストラクタ
@@ -36,6 +33,30 @@ MobEnemy::~MobEnemy()
 	}
 }
 
+void MobEnemy::HPFrameInit()
+{
+	//体力バー初期化
+	Sprite* l_frame1 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME1), { 0, 0 });
+	Sprite* l_frame2 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME2), { 0, 0 });
+	Sprite* l_frame3 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME4), { 0, 0 });
+	Sprite* l_frame4 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME3), { 0, 0 });
+
+	Sprite* l_enemyname = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENEMYNAME_GOLEM), { 0, 0 });
+
+	HPFrame[0].reset(l_frame1);
+	HPFrame[1].reset(l_frame2);
+	HPFrame[2].reset(l_frame3);
+	HPFrame[3].reset(l_frame4);
+
+	EnemyName.reset(l_enemyname);
+
+	for (int i = 0; i < 4; i++)
+	{
+		HPFrame[i]->SetAnchorPoint({ 0.0f, 0.0f });
+	}
+	FrameScl.x = Percent::GetParcent(static_cast<float>(MaxHP), static_cast<float>(EnemyHP)) * 2.0f;
+
+}
 //初期化処理
 void MobEnemy::Initialize()
 {
@@ -47,6 +68,7 @@ void MobEnemy::Initialize()
 	Sword->SetModel(ModelManager::GetIns()->GetModel(ModelManager::BIGSWORD));
 	Sword->SetRotation({0, 0 + 30, 0 + 100});
 
+	//モデル初期化
 	m_Object = std::make_unique<Object3d>();
 	m_Object->Initialize(camera);
 
@@ -55,8 +77,8 @@ void MobEnemy::Initialize()
 	m_fbxObject->SetModel(FbxLoader::GetInstance()->LoadModelFromFile("monster_golem_demo"));
 	m_fbxObject->PlayAnimation();
 
+	//体力設定
 	MaxHP = 100;
-
 	EnemyHP = MaxHP;
 	//パラメータのセット
 	Rotation = {114.0f, 118.0f, 165.0f};
@@ -70,55 +92,45 @@ void MobEnemy::Initialize()
 	NormalAttackTime = 0.9f;
 	DeathTime = 6.9f;
 
+	//攻撃中と死亡モーション中のフラグ
 	nowAttack = false;
 	nowDeath = false;
 
 	//state初期化
 	state_mob->Initialize(this);
 
+	//追跡の回転角の調整用
 	addRotRadians = 0;
 	FollowRotAngleCorrect = 180;
 
-	Sprite* l_frame1 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME1), {0, 0});
-	Sprite* l_frame2 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME2), {0, 0});
-	Sprite* l_frame3 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME4), {0, 0});
-	Sprite* l_frame4 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME3), {0, 0});
+	HPFrameInit();
 
-	Sprite* l_enemyname = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENEMYNAME_GOLEM), { 0, 0 });
-
-	HPFrame[0].reset(l_frame1);
-	HPFrame[1].reset(l_frame2);
-	HPFrame[2].reset(l_frame3);
-	HPFrame[3].reset(l_frame4);
-
-	EnemyName.reset(l_enemyname);
-
-	for (int i = 0; i < 4; i++)
-	{
-		HPFrame[i]->SetAnchorPoint({0.0f, 0.0f});
-	}
-	FrameScl.x = Percent::GetParcent(static_cast<float>(MaxHP), static_cast<float>(EnemyHP)) * 2.0f;
+	//適番号：ゴーレム
 	ENumber = GOLEM;
 }
 
 //更新処理
 void MobEnemy::Update()
 {
+	//カメラのインスタンス持ってくる
 	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
 
+	//state更新
 	state_mob->Update(this);
 
 	if (SceneManager::GetInstance()->GetScene() != SceneManager::MAPCREATE)
 	{
 		m_fbxObject->SetFogPos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
 	}
+
 	if (SceneManager::GetInstance()->GetScene() != SceneManager::BOSS)
 	{
 		CollisionField();
 	}
+	//FBXアニメーション更新
 	FbxAnimationControl();
-
-	HPFrameScaling();
+	//HPバー更新
+	HPFrameUpda();
 	//EnemyPop(150);
 
 	AttackCoolTime();
@@ -127,98 +139,32 @@ void MobEnemy::Update()
 	ParameterSet_Fbx();
 
 
+	//敵の色
 	m_fbxObject->SetColor({1.0f, 1.0f, 1.0f, alpha});
+	//敵の手のボーンインデックス
 	m_fbxObject->SetHandBoneIndex(25);
+	m_fbxObject->SetFbxTime(f_time);
 
+	//持ってる斧の更新
 	Sword->Setf(FALSE);
 	Sword->SetRotation({-23, 43, 83});
 	Sword->Update(m_fbxObject->GetHandBoneMatWorld(), {1.0f, 1.0f, 1.0f, 1.0f}, camera);
 
 	HandMat = m_fbxObject->GetHandBoneMatWorld();
 
+	//斧とプレイヤーのあたり判定
 	OBBSetParam();
-	m_fbxObject->SetFbxTime(f_time);
+	
 }
 
-void MobEnemy::HPFrameScaling()
-{
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
-	FrameScl.x = max(FrameScl.x, 0.0f);
-	FrameScl_Inner.x = max(FrameScl_Inner.x, 0.0f);
-	XMVECTOR tex2DPos[4];
-	for (int i = 0; i < 4; i++)
-	{
-		tex2DPos[i] = {Position.x, Position.y + 13.0f, Position.z};
-		tex2DPos[i] = MatCal::PosDivi(tex2DPos[i], camera->GetViewMatrix(), false);
-		tex2DPos[i] = MatCal::PosDivi(tex2DPos[i], camera->GetProjectionMatrix(), true);
-		tex2DPos[i] = MatCal::WDivi(tex2DPos[i], false);
-		tex2DPos[i] = MatCal::PosDivi(tex2DPos[i], camera->GetViewPort(), false);
 
-		HPFrame[i]->SetPosition({tex2DPos[i].m128_f32[0] - 80.0f, tex2DPos[i].m128_f32[1]});
-	}
-	if (RecvDamagef)
-	{
-		FrameScalingETime_Inner = 0.0f;
-		if (!InnerFrameScalingF)
-		{
-			OldFrameX_Inner = OldFrameX;
-		}
-		NowFrameX = Percent::GetParcent(static_cast<float>(MaxHP), static_cast<float>(EnemyHP)) * 2.0f;
-		FrameScalingETime += 0.05f;
-		if (FrameScl.x > 0.0f) {
-			FrameScl.x = Easing::EaseOut(FrameScalingETime, OldFrameX, NowFrameX);
-		}
-		if (FrameScalingETime >= 1.0f)
-		{
-			InnerFrameScalingF = true;
-			RecvDamagef = false;
-		}
-	}
-
-	else
-	{
-		OldFrameX = Percent::GetParcent(float(MaxHP), float(EnemyHP)) * 2.0f;
-
-		FrameScalingETime = 0.0f;
-	}
-
-	if (InnerFrameScalingF)
-	{
-		FrameScalingETime_Inner += 0.02f;
-		//体力が０なったときだけEaseの終わりを０に
-		if(EnemyHP<=0)
-		{
-			FrameScl_Inner.x = Easing::EaseOut(FrameScalingETime_Inner, OldFrameX_Inner, 0.f);
-			InnerFrameScalingF = false;
-		}
-		else
-		{
-			FrameScl_Inner.x = Easing::EaseOut(FrameScalingETime_Inner, OldFrameX_Inner, NowFrameX);
-		}
-		//ゲージの減りが止まったらフラグ切る
-		if (FrameScalingETime_Inner >= 1.0f)
-		{
-			InnerFrameScalingF = false;
-		}
-	}
-	else
-	{
-		FrameScalingETime_Inner = 0.0f;
-	}
-	HPFrame[3]->SetSize({FrameScl.x, 15});
-	HPFrame[2]->SetSize({FrameScl_Inner.x, 15.0f});
-	HPFrame[1]->SetSize({200.0f, 15.0f});
-	HPFrame[0]->SetSize({200.0f, 15.0f});
-
-	EnemyName->SetPosition({ tex2DPos[0].m128_f32[0]-80.0f, tex2DPos[0].m128_f32[1]-30.f });
-	EnemyName->SetSize({ 200.0f,15.0f });
-
-}
 
 
 void MobEnemy::OBBSetParam()
 {
+	//プレイヤーのインスタンス引き出す
 	Player* l_player = PlayerControl::GetInstance()->GetPlayer();
+
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::MAPCREATE)
 	{
 		return;
@@ -232,23 +178,25 @@ void MobEnemy::OBBSetParam()
 		return;
 	}
 
+	//手のワールド行列から各成分抜き出し
 	HandSiteOBB.SetOBBParam_Pos(Sword->GetMatWorld());
 	HandSiteOBB.SetOBBParam_Rot(Sword->GetMatWorld());
 	HandSiteOBB.SetOBBParam_Scl({8.0f, 10.0f, 8.0f});
 
+	//プレイヤー
 	playerOBB.SetOBBParam_Pos(l_player->GetPosition());
 	playerOBB.SetOBBParam_Rot(l_player->GetMatrot());
-	playerOBB.SetOBBParam_Scl({1.0f, 9.0f, 1.0f});
+	playerOBB.SetOBBParam_Scl({3.0f, 9.0f, 3.0f});
 
 	//横薙ぎ攻撃
 	if (atcktype == SIDEAWAY)
 	{
 		//アニメーションが一定フレーム越したら
-		if (f_time >= NormalAttackTime + 1.0f)
+		if (f_time >= NormalAttackTime + 1.f)
 		{
 			if (Collision::CheckOBBCollision(playerOBB, HandSiteOBB) == true)
 			{
-				l_player->RecvDamage(5);
+				l_player->RecvDamage(80);
 			}
 		}
 	}
@@ -259,7 +207,7 @@ void MobEnemy::OBBSetParam()
 		{
 			if (Collision::CheckOBBCollision(playerOBB, HandSiteOBB) == true)
 			{
-				l_player->RecvDamage(5);
+				l_player->RecvDamage(80);
 			}
 		}
 	}
@@ -269,6 +217,7 @@ void MobEnemy::OBBSetParam()
 //描画処理
 void MobEnemy::Draw()
 {
+	//アルファ値が０なったら病が切る
 	if (alpha >= 0.0f)
 	{
 		Draw_Fbx();
@@ -284,14 +233,15 @@ void MobEnemy::EnemyHPDraw()
 {
 	Player* l_player = PlayerControl::GetInstance()->GetPlayer();
 
-	if (Collision::GetLength(Position, l_player->GetPosition()) > 40) { return; }
-	Sprite::PreDraw();
-	for (int i = 0; i < 4; i++)
-	{
-		HPFrame[i]->Draw();
+	if (Collision::GetLength(Position, l_player->GetPosition()) < 40) {
+		Sprite::PreDraw();
+		for (int i = 0; i < 4; i++)
+		{
+			HPFrame[i]->Draw();
+		}
+		EnemyName->Draw();
+		Sprite::PostDraw();
 	}
-	EnemyName->Draw();
-	Sprite::PostDraw();
 }
 
 #include"ExpPointSystem.h"
@@ -328,6 +278,10 @@ void MobEnemy::Move()
 {
 }
 
+void MobEnemy::Smoke(bool& createf)
+{
+}
+
 void MobEnemy::FbxAnimationControl()
 {
 	if (DeathFlag)
@@ -337,21 +291,24 @@ void MobEnemy::FbxAnimationControl()
 	//アニメーションスピード
 	float fbxanimationTime;
 
-	if (nowAttack)
-	{
-		//攻撃中
-		fbxanimationTime = 0.02f;
-	}
-	else
-	{
-		//歩きとか死亡時
-		fbxanimationTime = 0.01f;
-	}
-
+	
 	//ヒットストップ時
 	if (PlayerAttackState::GetInstance()->GetHitStopJudg())
 	{
 		fbxanimationTime = 0.002f;
+	}
+	else
+	{
+		if (nowAttack)
+		{
+			//攻撃中
+			fbxanimationTime = 0.015f;
+		} else
+		{
+			//歩きとか死亡時
+			fbxanimationTime = 0.01f;
+		}
+
 	}
 	//アニメーションカウント進める
 	f_time += fbxanimationTime;
@@ -360,7 +317,7 @@ void MobEnemy::FbxAnimationControl()
 	if (f_AttackFlag)
 	{
 		//50以下では横薙ぎ
-		rand_Attacktype = static_cast<float>(rand() % 100);
+		rand_Attacktype = static_cast<float>(rand() % 50);
 		if (rand_Attacktype <= 50)
 		{
 			atcktype = SIDEAWAY;
@@ -410,7 +367,7 @@ void MobEnemy::AttackCoolTime()
 	if (AfterAttack)
 	{
 		cooltime++;
-		if (cooltime > 480)
+		if (cooltime > 200)
 		{
 			AfterAttack = false;
 		}
@@ -420,3 +377,4 @@ void MobEnemy::AttackCoolTime()
 		cooltime = 0;
 	}
 }
+

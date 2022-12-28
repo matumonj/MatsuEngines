@@ -33,7 +33,9 @@ public:
 	//死亡処理
 	void Death() override;
 
-	void Move()override;
+	void Move() override;
+	void Smoke(bool& createf)override;
+
 	void DamageParticleSet();
 
 	void EnemyHPDraw() override;
@@ -41,6 +43,7 @@ private:
 	//攻撃後のクールタイム挙動
 	void AttackCoolTime() override;
 
+	void HPFrameInit() override;
 	//Fbxのアニメーション制御
 	void FbxAnimationControl() override;
 

@@ -50,7 +50,8 @@ public:
 	void FbxAnimationControl() override;
 	void EnemyHPDraw() override;
 	void Death() override;
-	void Move()override;
+	void Move() override;
+	void Smoke(bool& createf)override;
 	//bool GetArmonGround() { return ArmonGround; }
 private:
 	bool sf;
@@ -61,6 +62,7 @@ private:
 private:
 	void DamageParticleSet();
 
+	void HPFrameInit() override;
 private:
 	bool SlashF;
 	bool SlashF2;

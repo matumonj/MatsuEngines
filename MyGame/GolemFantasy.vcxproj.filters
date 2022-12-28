@@ -591,9 +591,6 @@
     <ClCompile Include="GuardianAppearState.cpp">
       <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian\Sequence</Filter>
     </ClCompile>
-    <ClCompile Include="GuardianBomAttack.cpp">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian\Sequence</Filter>
-    </ClCompile>
     <ClCompile Include="GuardianBomState.cpp">
       <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian\Sequence</Filter>
     </ClCompile>
@@ -629,6 +626,9 @@
     </ClCompile>
     <ClCompile Include="GuardianFalterState.cpp">
       <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian\Sequence</Filter>
+    </ClCompile>
+    <ClCompile Include="GuardianBomAttack.cpp">
+      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian\action</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

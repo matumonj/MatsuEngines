@@ -40,7 +40,9 @@ private:
 
 	void HPFrameScaling();
 
-	void Move()override;
+	void Move() override;
+
+	void Smoke(bool &createf)override;
 private:
 	std::unique_ptr<GuardianBomAttack> bomattack;
 
@@ -50,7 +52,10 @@ private:
 		NORMAL,
 		RUSH,
 	};
-
+	std::unique_ptr<Particle>smokepar;
 	float PosYMovingT;
 	AttackType atcktype;
+
+private:
+	void HPFrameInit() override;
 };

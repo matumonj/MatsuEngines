@@ -55,7 +55,11 @@ public:
 
 	virtual void Move() = 0;
 
+	virtual void Smoke(bool& createf)=0;
+
 	virtual void EnemyHPDraw() =0;
+
+
 protected:
 	bool isAlive;
 	//‘Ì—ÍŽü‚è
@@ -292,7 +296,7 @@ protected:
 
 protected:
 	std::array<std::unique_ptr<Sprite>, 4> HPFrame;
-	std::unique_ptr<Sprite>EnemyName;
+	std::unique_ptr<Sprite> EnemyName;
 	float NowFrameX;
 	float OldFrameX;
 
@@ -304,6 +308,10 @@ protected:
 	float FrameScalingETime_Inner;
 	XMFLOAT2 FrameScl;
 	XMFLOAT2 FrameScl_Inner;
+
+protected:
+	virtual void HPFrameInit()=0;
+	void HPFrameUpda();
 private:
 	std::list<std::unique_ptr<DamageManager>> dMans_;
 };
