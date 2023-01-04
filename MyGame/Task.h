@@ -68,6 +68,7 @@ public:
 	{
 		GOLEM,
 		COW,
+		MINIGOLEM,
 		CHEST,
 		PEDESTAL,
 		Bossarea
@@ -75,14 +76,23 @@ public:
 
 	XMFLOAT3 TargetPos;
 	void SetGolemDestroyCount() { GolemDestCount++; }
+	void SetMiniGolemDestroyCount() { MiniGolemDestCount++; }
 	void SetFlogDestroyCount() { FlogDestCount++; }
 
 	bool ClearTaskONE();
+	bool ClearTaskTwo();
+	bool ClearTaskThree();
 	bool GetAllTaskClear() { return TaskAllClear; }
 
 	bool GetGolemDesthCount(int count)
 	{
 		if (GolemDestCount == count) { return true; }
+		return false;
+	}
+
+	bool GetMiniGolemDesthCount(int count)
+	{
+		if (MiniGolemDestCount == count) { return true; }
 		return false;
 	}
 
@@ -95,6 +105,7 @@ public:
 	bool TaskThirdClear() { return Judg[TASK_THREE]; }
 private:
 	int GolemDestCount;
+	int MiniGolemDestCount;
 	int FlogDestCount;
 	void TaskClear(const Tasks& task, const Tasks& nexttask, bool clearjudg, int chestcunt);
 };

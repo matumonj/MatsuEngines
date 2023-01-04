@@ -24,5 +24,6 @@ public:
 private:
 	//Enemyのみ複数種類配置するのでまた別のフラグ用意
 	bool BossArgmentFlag;
+	bool BetaArgmentFlag;
 	std::vector<std::unique_ptr<Enemy>> enemys;
 };

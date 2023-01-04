@@ -53,7 +53,13 @@ protected:
 	//—Ž‰ºƒxƒNƒgƒ‹
 	XMVECTOR fallV = {};
 	float radius_adjustment = 0.0f;
-
+	//FBX
+	int FallGroundTime = 0;
+	int m_Number = 0;
+	bool m_AnimeLoop = false;
+	double m_AnimeTimer = 0;
+	double m_AnimeSpeed = 1;
+	bool m_AnimationStop = false;
 protected:
 	int savetime;
 	int falltime;
@@ -66,4 +72,8 @@ public:
 	void SetRotation(XMFLOAT3 rotation) { Rotation = rotation; }
 	void SetScale(XMFLOAT3 scale) { Scale = scale; }
 	void SetColor(XMFLOAT4 color) { Color = color; }
+	double GetFbxTime() { return m_fbxObject->GetFTime(); }
+	double GetAnimationTime() { return m_fbxObject->GetAnimeTime(); }
+
+	double GetFbxTimeEnd() { return m_fbxObject->GetEndTime(); }
 };

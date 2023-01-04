@@ -13,7 +13,8 @@ private:
 
 private:
 	std::unique_ptr<Sprite> m_BossHP;
-	std::unique_ptr<Sprite> m_BossHPFrame;
+	std::unique_ptr<Sprite> m_BossHPFrame; 
+	std::unique_ptr<Sprite> m_BossHPFrame2;
 private:
 	int m_ExpPoint;
 	int ol;

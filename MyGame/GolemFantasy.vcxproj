@@ -111,6 +111,10 @@
     <ClCompile Include="AreaFence.cpp" />
     <ClCompile Include="AttackCollision.cpp" />
     <ClCompile Include="AttackEffect.cpp" />
+    <ClCompile Include="BetaEnemyAttack.cpp" />
+    <ClCompile Include="BetaEnemyFollow.cpp" />
+    <ClCompile Include="BetaEnemyState.cpp" />
+    <ClCompile Include="BetaEnemyWalk.cpp" />
     <ClCompile Include="BigSword.cpp" />
     <ClCompile Include="BossEnemyAttack.cpp" />
     <ClCompile Include="BossEnemyAttackBeam.cpp" />
@@ -151,6 +155,7 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyAlpha.cpp" />
     <ClCompile Include="EnemyAttackState.cpp" />
+    <ClCompile Include="EnemyBeta.cpp" />
     <ClCompile Include="EnemyDeathState.cpp" />
     <ClCompile Include="EnemyFollowState.cpp" />
     <ClCompile Include="EnemyKnockState.cpp" />
@@ -250,6 +255,10 @@
     <ClInclude Include="AreaFence.h" />
     <ClInclude Include="AttackCollision.h" />
     <ClInclude Include="AttackEffect.h" />
+    <ClInclude Include="BetaEnemyAttack.h" />
+    <ClInclude Include="BetaEnemyFollow.h" />
+    <ClInclude Include="BetaEnemyState.h" />
+    <ClInclude Include="BetaEnemyWalk.h" />
     <ClInclude Include="BigSword.h" />
     <ClInclude Include="BossEnemyAttack.h" />
     <ClInclude Include="BossEnemyAttackBeam.h" />
@@ -296,6 +305,7 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyAlpha.h" />
     <ClInclude Include="EnemyAttackState.h" />
+    <ClInclude Include="EnemyBeta.h" />
     <ClInclude Include="EnemyDeathState.h" />
     <ClInclude Include="EnemyFollowState.h" />
     <ClInclude Include="EnemyKnockState.h" />

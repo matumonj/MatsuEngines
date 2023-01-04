@@ -1,16 +1,10 @@
 #include "Player.h"
 #include"Input.h"
-#include"DebugTxt.h"
-#include"SphereCollider.h"
 #include"TargetMarker.h"
 #include"Collision.h"
-#include"SphereCollider.h"
-#include"CollisionManager.h"
-#include"CollisionAttribute.h"
 #include"PlayerAttackState.h"
 #include"imgui.h"
 #include"WoodControl.h"
-#include"FenceControl.h"
 #include"CustomButton.h"
 #include"BigSword.h"
 #include"SelectSword.h"
@@ -50,13 +44,14 @@ void Player::Initialize()
 
 	m_fbxObject = std::make_unique<f_Object3d>();
 	m_fbxObject->Initialize();
-	m_fbxObject->SetModel(FbxLoader::GetInstance()->LoadModelFromFile("playerGolem"));
-	m_fbxObject->PlayAnimation();
+	m_fbxObject->SetModel(FbxLoader::GetInstance()->LoadModelFromFile("ko"));
+	m_fbxObject->LoadAnimation();
+	m_fbxObject->PlayAnimation(1);
 
 	//地形判定のコライダーセット
 	SetCollider();
 
-	Rotation = {-163.0f, -62.0f, 103.0f};
+	Rotation = {-90.0f, 0.0f, 0.0f};
 	Position = {0.0f, 0.0f, 0.0f};
 	Scale = {0.02f, 0.02f, 0.02f};
 
@@ -93,11 +88,11 @@ void Player::Move()
 	}
 	if (attackMotion != RUN && attackMotion != NON)
 	{
-		return;
+		//return;
 	}
 	XMFLOAT3 pos = Position;
 	XMFLOAT3 rot = Rotation;
-
+	
 	float StickX = input->GetLeftControllerX();
 	float StickY = input->GetLeftControllerY();
 	const float pi = 3.14159f;
@@ -109,22 +104,35 @@ void Player::Move()
 		input->TiltPushStick(Input::L_RIGHT, 0.0f) ||
 		input->TiltPushStick(Input::L_LEFT, 0.0f))
 	{
+		//状態を走りに
+		attackMotion = RUN;
+
+		//アニメーションを走りにセット
+		if ((!m_AnimationStop)) {
+			AnimationContol(AnimeName::RUNNING, 2,0.7, true);
+		}
+
+		//上入力
 		if (input->TiltPushStick(Input::L_UP, 0.0f))
 		{
 			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{0, 0, vel, 0}, angle);
 		}
+		//下入力
 		if (input->TiltPushStick(Input::L_DOWN, 0.0f))
 		{
 			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{0, 0, -vel, 0}, angle);
 		}
+		//右入力
 		if (input->TiltPushStick(Input::L_RIGHT, 0.0f))
 		{
 			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{vel, 0, 0, 0}, angle);
 		}
+		//左入力
 		if (input->TiltPushStick(Input::L_LEFT, 0.0f))
 		{
 			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{-vel, 0, 0, 0}, angle);
 		}
+
 		const float rnd_vel = 0.1f;
 		XMFLOAT3 vel{};
 
@@ -132,59 +140,75 @@ void Player::Move()
 		vel.y = static_cast<float>(rand()) / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
 		vel.z = static_cast<float>(rand()) / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
 		rot.y = angle + atan2f(StickX, StickY) * (180.0f / pi);
-		Rotation = {rot.x, rot.y - 63.0f, rot.z};
+
+		//プレイヤーの回転角を取る
+		Rotation = {rot.x, rot.y , rot.z};
 		XMVECTOR move = {0.0f, 0.0f, 0.1f, 0.0f};
-		XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(Rotation.y + 63.0f));
+		XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(Rotation.y));
 		move = XMVector3TransformNormal(move, matRot);
 
-		Position.x += move.m128_f32[0] * movespeed * 5.f;
+		//向いた方向に進む
+		Position.x += move.m128_f32[0] * movespeed*5.f ;
 		Position.z += move.m128_f32[2] * movespeed * 5.f;
 		Gmove = move;
 
-		//いずれかのスティックが倒されていてFBXのタイムが最初の攻撃モーションのタイムより
-		//短かったら状態をRUNに
-		if (f_time < AttackFirTime)
-		{
-			attackMotion = RUN;
-		}
 	}
 	else
 	{
-		//スティックが倒されていなかったら待機
-		if (f_time < AttackFirTime)
-		{
-			attackMotion = NON;
+		//静止時間
+		if ((!m_AnimationStop)) {
+			AnimationContol(AnimeName::IDLE, 9,1, true);
 		}
 	}
+
+	
+}
+
+void Player::ReStartSetParam()
+{
+	m_AnimationStop = false;
+	AnimationContol(AnimeName::IDLE, 8, 1.0, false);
+
+}
+
+void Player::Death()
+{
+	if (HP > 0)return;
+
+	AnimationContol(AnimeName::DEATH, 7, 1.0, false);
+
+	m_AnimationStop = true;
+
 }
 
 #include"mHelper.h"
 
 void Player::Evasion()
 {
+	if (HP <= 0)return;
+
 	if (evasionF)
 	{
+		//FBXタイムを回避モーション開始時に合わせる
+		AnimationContol(AnimeName::EVASION, 6,1.0, false);
+
+		m_AnimationStop = true;
+
+		//回避の進む距離はイージングをもとに計算
 		if (evaTime < 1.0f)
 		{
 			//プレイヤーの向いてる方向にイージングで飛ぶ
-			evaTime += 0.05f;
+			evaTime += 0.03f;
 			Position.x += Gmove.m128_f32[0] * Easing::EaseOut(evaTime, 15.0f, 0.0f);
 			Position.z += Gmove.m128_f32[2] * Easing::EaseOut(evaTime, 15.0f, 0.0f);
 		}
-		//FBXタイムを回避モーション開始時に合わせる
-		if (f_time <= EvaTime_Start)
-		{
-			f_time = EvaTime_Start;
-		}
-		if (f_time >= EvaTime_End)
+		else
 		{
 			evasionF = false;
 		}
-		f_time += 0.02f;
 	}
 	else
 	{
-		m_fbxObject->SetColor({1.0f, 1.0f, 1.0f, 1.0f});
 		evaTime = 0.0f;
 	}
 }
@@ -197,6 +221,7 @@ void Player::Update()
 	{
 		return;
 	}
+
 	//１フレーム前の座標を保存
 	oldpos = Position;
 	//攻撃受けた後のクールタイム
@@ -205,6 +230,8 @@ void Player::Update()
 	Move();
 	// ジャンプ操作
 	Jump();
+
+	Death();
 	//落下防止
 	if (!onGround)
 	{
@@ -234,7 +261,7 @@ void Player::Update()
 	{
 		evasionF = true;
 	}
-	// 行列の更新など
+	//
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
 	{
 		if (Collision::GetLength(Position, {0, -19, 0}) > 90)
@@ -250,13 +277,20 @@ void Player::Update()
 	//3d_fbx更新
 	FbxAnimationControl();
 	//fbxのタイマー処理
-	m_fbxObject->SetFbxTime(f_time);
+	//m_fbxObject->SetFbxTime(f_time);
 	//当たり判定
 	CollisionField();
 
 
 	ParameterSet_Obj();
-	ParameterSet_Fbx();
+
+	m_fbxObject->SetPosition({ Position.x, Position.y - 1, Position.z });
+	m_fbxObject->SetRotation(Rotation);
+	m_fbxObject->SetScale(Scale);
+
+	m_Object->SetPosition(Position);
+
+	m_fbxObject->Update(m_AnimeLoop, m_AnimeSpeed, m_AnimationStop);
 	//持つ武器の更新
 	SelectSword::GetInstance()->Update();
 	//攻撃エフェクト
@@ -267,7 +301,11 @@ void Player::Update()
 void Player::Draw()
 {
 	Draw_Fbx();
-
+	ImGui::Begin("fg");
+	ImGui::SliderInt("num", &hindex, 0, 27);
+	ImGui::Text("%f", Position.x);
+	ImGui::Text("%f", Position.z);
+	ImGui::End();
 	AttackEffect::GetIns()->Draw();
 }
 
@@ -276,120 +314,77 @@ void Player::ParticleDraw()
 	SelectSword::GetInstance()->SwordDraw();
 }
 
-void Player::FbxAnimationControls(const AttackMotion& motiontype, const float attacktime, const float nextAnimationtime)
+void Player::FbxAnimationControls(const AttackMotion& motiontype, const AttackMotion nextmotiontype, AnimeName name,int number)
 {
 	//複数アニメーション読み込んだらこれら消す
-	//if (evasionF)return;
+	
 	if (attackMotion == motiontype)
 	{
-		if (f_time <= attacktime)
-		{
-			f_time = attacktime;
-		}
-		if (f_time >= nextAnimationtime)
-		{
-			attackMotion = RUN;
-		}
-	}
+		//FBXタイムを回避モーション開始時に合わせる
+		AnimationContol(name, number,SelectSword::GetInstance()->GetSword()->GetAnimationTime(), false);
+		m_AnimationStop = true;
 
-	/*歩きと待機モーションどうするか*/
-	if (attackMotion == NON)
-	{
-		f_time = 0.0f;
-	}
-	if (attackMotion == RUN)
-	{
-		if (f_time >= AttackFirTime)
+		if (m_fbxObject->GetAnimeTime() >m_fbxObject->GetEndTime()-0.05)
 		{
-			f_time = 0.0f;
+			OldattackMotion = motiontype;
+			StopFlag = false;
+			attackMotion = NON;
 		}
+		else
+		{
+			StopFlag = true;
+		}
+	}
+	/*歩きと待機モーションどうするか*/
+	
+}
+
+void Player::AnimationContol(AnimeName name, int animenumber,double speed, bool loop)
+{
+	if (m_Number != animenumber) {
+
+		m_AnimeLoop = loop;
+		m_Number = animenumber;
+		m_AnimeSpeed = speed;
+		m_fbxObject->PlayAnimation(m_Number);
 	}
 }
 
 void Player::FbxAnimationControl()
 {
-	if (evasionF || noAttack || StopFlag||HP<=0)
+	if (evasionF || noAttack  || HP <= 0)
 	{
 		return;
 	}
 	float timespeed = 0.02f;
-
-
-	if (attackMotion == FIRST && f_time >= AttackSecTime - 0.2f)
+	if (StopFlag)
 	{
-		AnimationEndJudg_FirstAttack = true;
-	}
-	else if (attackMotion == SECOND && f_time >= AttackThiTime - 0.2f)
-	{
-		AnimationEndJudg_SecondAttack = true;
-	}
-	else if (attackMotion == THIRD && f_time >= EvaTime_Start - 0.2f)
-	{
-		AnimationEndJudg_ThirdAttack = true;
-	}
-
-	/*アニメーション遷移処理  やり方ひどいので複数アニメーション読み込んだら消す*/
-	if (attackMotion == RUN || attackMotion == NON)
-	{
-		if (OldattackMotion == NON)
-		{
-			if (CustomButton::GetInstance()->GetAttackAction() == true)
-			{
-				attackMotion = FIRST;
-				OldattackMotion = FIRST;
-			}
-		}
-
-		if (OldattackMotion == FIRST && AnimationEndJudg_FirstAttack)
-		{
-			if (CustomButton::GetInstance()->GetAttackAction() == true)
-			{
-				AnimationEndJudg_FirstAttack = false;
-				attackMotion = SECOND;
-				OldattackMotion = SECOND;
-			}
-		}
-
-		if (OldattackMotion == SECOND && AnimationEndJudg_SecondAttack)
-		{
-			if (CustomButton::GetInstance()->GetAttackAction() == true)
-			{
-				AnimationEndJudg_SecondAttack = false;
-				attackMotion = THIRD;
-				OldattackMotion = THIRD;
-			}
-		}
-
-
-		if (OldattackMotion == THIRD && AnimationEndJudg_ThirdAttack)
-		{
-			if (CustomButton::GetInstance()->GetAttackAction() == true)
-			{
-				AnimationEndJudg_ThirdAttack = false;
-				attackMotion = NON;
-				OldattackMotion = NON;
-			}
+		//静止時間
+		if ((!m_AnimationStop)) {
+			AnimationContol(AnimeName::IDLE, 9, 1, true);
 		}
 	}
-	if (PlayerAttackState::GetInstance()->GetHitStopJudg())
+	if (CustomButton::GetInstance()->GetAttackAction() == true && OldattackMotion == NON)
 	{
-		timespeed = 0.005f;
+		attackMotion = FIRST;
 	}
-	else
+
+	if (CustomButton::GetInstance()->GetAttackAction() == true && OldattackMotion == FIRST)
 	{
-		if (attackMotion != RUN)
-		{
-			timespeed = SelectSword::GetInstance()->GetSword()->GetAnimationTime();
-		}
-		else
-		{
-			timespeed = 0.02f;
-		}
+		attackMotion = SECOND;
 	}
-	f_time += timespeed;
-	FbxAnimationControls(FIRST, AttackFirTime, AttackSecTime);
-	FbxAnimationControls(THIRD, AttackThiTime, EvaTime_Start);
-	FbxAnimationControls(SECOND, AttackSecTime, AttackThiTime);
+	if (CustomButton::GetInstance()->GetAttackAction() == true && OldattackMotion == SECOND)
+	{
+		attackMotion = THIRD;
+	}
+	if (CustomButton::GetInstance()->GetAttackAction() == true && OldattackMotion == THIRD)
+	{
+		attackMotion = FIRST;
+	}
+	
+		FbxAnimationControls(FIRST, SECOND, AnimeName::ATTACK1, 3);
+		FbxAnimationControls(THIRD, FIRST, AnimeName::ATTACK2, 5);
+		FbxAnimationControls(SECOND, THIRD, AnimeName::ATTACK3, 8);
 }
 
 

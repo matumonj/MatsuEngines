@@ -27,6 +27,7 @@ private:
 	Texture* SearchPlayerTexture = nullptr;
 
 	void BomTexUpda();
+	void ResourcesSet();
 public:
 	//  void Action(Player* player);
 	/// <summary>
@@ -63,6 +64,22 @@ private:
 	void DamageParticleSet();
 
 	void HPFrameInit() override;
+
+
+private:
+private:
+	std::unique_ptr<Sprite> m_BossHP;
+	std::unique_ptr<Sprite> m_BossHPFrame;
+	std::unique_ptr<Sprite> m_BossHPFrame2;
+
+	XMFLOAT2 BarPos;
+	XMFLOAT2 OldBarScl;
+	XMFLOAT2 BarScl;
+	XMFLOAT2 LevelUpTexPos;
+	XMFLOAT2 BarFramePos;
+	XMFLOAT2 BarFrameScl;
+
+	void HPGaugeBoss();
 private:
 	bool SlashF;
 	bool SlashF2;

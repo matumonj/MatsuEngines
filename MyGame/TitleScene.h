@@ -47,4 +47,12 @@ public:
 	void Draw() override;
 	void SpriteDraw();
 	void Finalize() override;
+
+private:
+	void TitleTexInit();
+	void TitleTexUpda();
+	void TitleTexDraw();
+
+	void TitleFieldInit();
+	void TitleFieldUpda();
 };

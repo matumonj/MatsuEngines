@@ -37,7 +37,7 @@ void PlayerControl::Init_Play()
 
 void PlayerControl::Init_Boss()
 {
-	StartPos = {-1.0f, 10.0f, -106.0f};
+	StartPos = {-1.0f, 10.0f, -80.0f};
 	player->SetHP(player->GetMaxHP());
 	player->SetPosition(StartPos);
 	AttackCollision::GetInstance()->Init();
@@ -81,6 +81,7 @@ void PlayerControl::GameOverResetParam()
 {
 	//死亡時の位置と体力のリセット
 	player->SetPosition(StartPos);
+	player->ReStartSetParam();
 	player->SetHP(player->GetMaxHP());
 }
 

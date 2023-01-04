@@ -67,7 +67,7 @@ void EnemyWalkState::Update(Enemy* enemy)
 	do_work(enemy);
 
 	BacktoGround(enemy);
-	//enemy->SetAnimeState(enemy->WALK);
+	enemy->SetAnimeState(enemy->WALK);
 	//UŒ‚
 	if (SearchPlayer)
 	{

@@ -49,7 +49,7 @@ void GameOver::Update()
 	
 	if (ReStartF)
 	{
-		UI::GetInstance()->SetTurnoffUIDraw(true);
+		
 		PlayerAttackState::GetInstance()->SetHitStopJudg(false);
 		AlphaEaseT -= 0.01f;
 		FrameScalingT -= 0.01f;
@@ -58,15 +58,16 @@ void GameOver::Update()
 			EnemyControl::GetInstance()->GameOverResetParam();
 			PlayerControl::GetInstance()->GameOverResetParam();
 			PlayerControl::GetInstance()->TurnoffDraw(false);
+			UI::GetInstance()->SetTurnoffUIDraw(false);
 			PlayerDestF = true;
 			ReStartF = false;
 		}
 	}
 	else
 	{
-		UI::GetInstance()->SetTurnoffUIDraw(false);
+		//UI::GetInstance()->SetTurnoffUIDraw(false);
 		if (HUD::GetInstance()->GetPlayerHP()->GetSize().x <= 50.f && PlayerControl::GetInstance()->GetPlayer()->GetHP() <= 0) {
-
+			UI::GetInstance()->SetTurnoffUIDraw(true);
 			PlayerAttackState::GetInstance()->SetHitStopJudg(true);
 			FrameScalingT += 0.04f;
 			if(FrameScalingT>=1.0f)

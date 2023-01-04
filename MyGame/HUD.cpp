@@ -51,8 +51,8 @@ void HUD::Initialize()
 	Sprite::LoadTexture(144, L"Resources/HPTex/HPgauge.png");
 	Sprite::LoadTexture(145, L"Resources/HPTex/frame.png");
 	Sprite::LoadTexture(146, L"Resources/HPTex/frame2.png");
-	Sprite::LoadTexture(147, L"Resources/chestCollect1.png");
-	Sprite::LoadTexture(148, L"Resources/chestColFrame.png");
+	Sprite::LoadTexture(147, L"Resources/2d/gauge/chestCollect1.png");
+	Sprite::LoadTexture(148, L"Resources/2d/gauge/chestColFrame.png");
 
 	TaskSprite = Sprite::Create(143, {0.0f, -200.0f});
 	TaskSprite->SetPosition({WinApp::window_width / 2, WinApp::window_height / 2});

@@ -71,6 +71,8 @@ public: //メンバ関数
 	/// </summary>
 	void Updata(bool animeloop);
 	void Updata();
+	/// </summary>
+	void Update(bool Loop, double Speed, bool& Stop);
 
 	/// <summary>
 	/// 描画
@@ -87,8 +89,8 @@ public: //メンバ関数
 	/// <summary>
 	/// アニメーション
 	/// </summary>
+	void PlayAnimation(int number);
 	void PlayAnimation();
-
 protected: //メンバ変数
 	//定数バッファ
 	ComPtr<ID3D12Resource> constBuffTransform;
@@ -161,21 +163,34 @@ public: //定数
 	int bindexs = 13;
 	void SetFogPos(XMFLOAT3 pos) { fogpos = pos; }
 	void SetHandBoneIndex(int bindex) { bindexs = bindex; }
-
+	double GetFTime() { return currentTime.GetSecondDouble(); }
 private:
 	XMFLOAT3 fogpos;
 	bool nowAttack;
 	bool nowDeath;
-public:
+
+	// アニメーション用データ構造体
+	struct Animation
+	{
+		FbxAnimStack* stack;
+		FbxTakeInfo* info;
+	};
+	//アニメーションのデータ
+	std::vector<Animation> animationData;
 	bool isendtime;
 
+	double AnimationSpeed;
+public:
+	
+	void LoadAnimation();
 	void SetFbxTime(float time) { f_time = time; }
 	void SetFTime(int time) { fbxTime = time; }
 	void SetAttackFlag(bool flag) { AttackFlag = flag; }
 	void SetAttackTime(float time) { NormalAttackTime = time; }
 	void SetDeathFlag(bool flag) { DeathFlag = flag; }
 	void SetDeathTime(float time) { DeathTime = time; }
-	double GetEndTime() { return end_time; }
+	double GetEndTime() { return  endTime.GetSecondDouble(); }
+	double GetAnimeTime() { return currentTime.GetSecondDouble(); }
 	XMMATRIX GetWorld() { return matWorld; }
 
 	XMMATRIX ExtractPositionMat(XMMATRIX matworld);

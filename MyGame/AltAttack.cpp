@@ -142,7 +142,7 @@ void AltAttack::RushStart()
 	RushEaseTime += EaseC;
 
 	rushpos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
-	rushpos.y = 18;
+	rushpos.y = 8;
 	//EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->SetPosition(rushpos);
 	RushSphereObj->SetPosition(rushpos);
 
@@ -201,13 +201,17 @@ void AltAttack::RushAttack()
 
 	DamageLine.start = {Bpos.x, Bpos.z};
 
+	if (Collision::GetLength(Bpos, PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 30.f)
+	{
+		PlayerControl::GetInstance()->GetPlayer()->RecvDamage(20);
+	}
 	Rush(area, FIR, SEC, rushEtime[FIR]);
 	Rush(area, SEC, THI, rushEtime[SEC]);
 	Rush(area, THI, FIU, rushEtime[THI]);
 	Rush(area, FIU, FIV, rushEtime[FIU]);
 	Rush(area, FIV, END, rushEtime[FIV]);
 
-	rushpos.y = 18;
+	rushpos.y = 8.f;
 	EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->SetPosition(rushpos);
 	RushSphereObj->SetPosition(rushpos);
 

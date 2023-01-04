@@ -22,6 +22,7 @@ public:
 
 	int ChestCount() { return GetChestCount; }
 
+	bool NowEvent() { return nowevent; };
 	enum Color
 	{
 		RED,
@@ -51,6 +52,8 @@ private:
 	int GetChestCount = 0;
 	bool GetTutorialChestJudg;
 	int ChestMax;
+
+	bool nowevent;
 private:
 	struct ParticleParam
 	{

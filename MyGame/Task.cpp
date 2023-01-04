@@ -26,8 +26,9 @@ void Task::Init()
 	Sprite::LoadTexture(21, L"Resources/2d/PlayTask/Task1.png");
 	Sprite::LoadTexture(22, L"Resources/2d/PlayTask/Task2.png");
 	Sprite::LoadTexture(23, L"Resources/2d/PlayTask/Task3.png");
-	Sprite::LoadTexture(24, L"Resources/2d/Frame/Task4.png");
-	Sprite::LoadTexture(25, L"Resources/2d/Frame/Task5.png");
+	Sprite::LoadTexture(24, L"Resources/2d/PlayTask/Task4.png");
+	Sprite::LoadTexture(25, L"Resources/2d/Frame/Task4.png");
+	Sprite::LoadTexture(26, L"Resources/2d/Frame/Task5.png");
 
 	DebugTextSprite2::GetInstance()->Initialize(19);
 
@@ -115,10 +116,12 @@ void Task::Upda()
 	//宝箱出現位置
 	Judg[TASK_ONE] = GolemDestCount > 1;
 	Judg[TASK_TWO] = FlogDestCount > 1;
-	Judg[TASK_THREE] = Field::GetInstance()->GetPedestalPos().y < -50.0f;
+	Judg[TASK_THREE] = MiniGolemDestCount > 1;
+	Judg[TASK_FOUR] = Field::GetInstance()->GetPedestalPos().y < -50.0f;
 	TaskFrame->SetPosition(FramePos);
 	TaskFrame->SetSize(FrameScl);
 
+	//[宝箱回収]スプライト
 	for (int i = 0; i < 2; i++)
 	{
 		navChestSprite[i]->setcolor({1.f, 1.f, 1.f, navSpriteAlpha[i]});
@@ -126,43 +129,63 @@ void Task::Upda()
 		navChestSprite[i]->SetSize(navTaskScl);
 	}
 
+	//[OOを倒しましょう]スプライト
 	for (int i = 0; i < TaskNum; i++)
 	{
 		TasksSprite[i]->SetPosition(TaskPos);
 		TasksSprite[i]->SetSize(TaskScl);
 		TasksSprite[i]->setcolor({1.f, 1.f, 1.f, TaskSpriteAlpha[i]});
 	}
+
 	TasksSprite[1]->SetSize({TaskScl.x / 1.6f, TaskScl.y});
 
+	//タスククリア後の次のタスへの遷移
 	TaskClear(TASK_ONE, TASK_TWO, Judg[TASK_ONE], 2);
 	TaskClear(TASK_TWO, TASK_THREE, Judg[TASK_TWO], 3);
 	TaskClear(TASK_THREE, TASK_FOUR, Judg[TASK_THREE], 4);
+	TaskClear(TASK_FOUR, TASK_FIVE, Judg[TASK_FOUR], 5);
 
-	//int->stringに
-	if (ChestControl::GetInstance()->ChestCount() > 3)
+
+	//宝箱が五個集まったら
+	if (ChestControl::GetInstance()->ChestCount() > 4)
 	{
 		TaskAllClear = true;
 	}
 
+	//タスクに進み具合用　int->string
 	std::ostringstream str;
 	if (tasks == TASK_ONE)
-	{
+	{//タスク１->ゴーレム
 		str << std::fixed << std::setprecision(2)
 			<< GolemDestCount;
 	}
 	if (tasks == TASK_TWO)
-	{
+	{//タスク２->トカゲ
 		str << std::fixed << std::setprecision(2)
 			<< FlogDestCount;
 	}
-
+	if (tasks == TASK_THREE)
+	{//タスク３->みにゴーレム
+		str << std::fixed << std::setprecision(2)
+			<< MiniGolemDestCount;
+	}
+	//母数は２固定(後で変えるかも)
 	const std::string amount = "/2";
 	DebugTextSprite2::GetInstance()->Print(str.str() + amount, TaskMenuPos.x, TaskMenuPos.y, 0.8f);
+
+	//一番近い敵へのターゲット用
+	//ゴーレム
 	int nearIndex_Golem = TargetMarker::GetInstance()->GetNearGolemIndex();
+	//トカゲ
 	int nearIndex_Lizard = TargetMarker::GetInstance()->GetNearLizardIndex();
+	//ミニゴーレム
+	int nearIndex_MiniGolem = TargetMarker::GetInstance()->GetNearMiniGolemIndex();
 
 	Player* player = PlayerControl::GetInstance()->GetPlayer();
+
+	//探索エリアの敵配列から各エネミーごとに一番近いやつを抜き出す
 	Enemy* targetenemy_Golem = EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[nearIndex_Golem].get();
+	Enemy* targetenemy_MiniGolem = EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[nearIndex_MiniGolem].get();
 	Enemy* targetenemy_Lizard = EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[nearIndex_Lizard].get();
 
 	switch (target)
@@ -176,6 +199,10 @@ void Task::Upda()
 		TargetPos = targetenemy_Lizard->GetPosition();
 		arrowcol = {0.9f, 0.2f, 0.2f, 0.7f};
 		break;
+	case MINIGOLEM:
+		TargetPos = targetenemy_MiniGolem->GetPosition();
+		arrowcol = { 0.7f, 0.7f, 0.7f, 0.7f };
+		break;
 	case CHEST:
 		if (ChestControl::GetInstance()->ChestCount() == 1)
 		{
@@ -184,6 +211,10 @@ void Task::Upda()
 		if (ChestControl::GetInstance()->ChestCount() == 2)
 		{
 			TargetPos = ChestControl::GetInstance()->GetChest(ChestControl::BLUE)->GetPosition();
+		}
+		if (ChestControl::GetInstance()->ChestCount() == 3)
+		{
+			TargetPos = ChestControl::GetInstance()->GetChest(ChestControl::GREEN)->GetPosition();
 		}
 		arrowcol = {0.7f, 0.7f, 0.1f, 0.7f};
 		break;
@@ -205,9 +236,13 @@ void Task::Upda()
 	}
 	if (Judg[TASK_THREE] == false && Judg[TASK_TWO] == true)
 	{
+		target = MINIGOLEM;
+	}
+	if (Judg[TASK_FOUR] == false && Judg[TASK_THREE] == true)
+	{
 		target = PEDESTAL;
 	}
-	if (Judg[TASK_ONE] == true && Judg[TASK_TWO] == true && Judg[TASK_THREE] == true)
+	if (Judg[TASK_ONE] == true && Judg[TASK_TWO] == true && Judg[TASK_THREE] == true&& Judg[TASK_FOUR] == true)
 	{
 		target = Bossarea;
 	}
@@ -261,6 +296,22 @@ bool Task::ClearTaskONE()
 	return false;
 }
 
+bool Task::ClearTaskTwo()
+{
+	if (tasks == TASK_THREE)
+	{
+		return true;
+	}
+	return false;
+}
+bool Task::ClearTaskThree()
+{
+	if (tasks == TASK_FOUR)
+	{
+		return true;
+	}
+	return false;
+}
 void Task::TargetDraw()
 {
 	Texture::PreDraw();
@@ -287,6 +338,9 @@ void Task::Draw()
 		DebugTextSprite2::GetInstance()->DrawAll();
 		Sprite::PostDraw();
 	}
+	ImGui::Begin("task");
+	ImGui::Text("%d", target);
+	ImGui::End();
 }
 void Task::TaskSequence()
 {

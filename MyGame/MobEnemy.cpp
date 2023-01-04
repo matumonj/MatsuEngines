@@ -112,6 +112,7 @@ void MobEnemy::Initialize()
 //更新処理
 void MobEnemy::Update()
 {
+
 	//カメラのインスタンス持ってくる
 	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
 
@@ -317,7 +318,7 @@ void MobEnemy::FbxAnimationControl()
 	if (f_AttackFlag)
 	{
 		//50以下では横薙ぎ
-		rand_Attacktype = static_cast<float>(rand() % 50);
+		rand_Attacktype = static_cast<float>(rand() % 100);
 		if (rand_Attacktype <= 50)
 		{
 			atcktype = SIDEAWAY;

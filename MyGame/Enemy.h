@@ -130,7 +130,7 @@ public:
 		ROAR,
 		IDLE
 	};
-
+	AnimationState GetAnimeState() { return animeState; }
 	void SetAnimeState(AnimationState state) { animeState = state; }
 	int GetEnemyNumber() { return ENumber; }
 protected:
@@ -229,9 +229,12 @@ public:
 	{
 		GOLEM,
 		FLOG,
+		MINIGOLEM,
 		GUARDIAN
 	};
 
+	
+	void SetAnimationNum(int number) { m_Number = number; }
 protected:
 	int ENumber;
 	//çUåÇêî

@@ -35,10 +35,10 @@ void ChestControl::Init_Tutorial()
 	Tutorial_chest.resize(1);
 	Tutorial_chest[0] = std::make_unique<Chest>();
 	Tutorial_chest[0]->Initialize();
-	Tutorial_chest[0]->SetPosition({115.0f, -24.0f, -576.0f});
-	Tutorial_chest[0]->SetRotation({0.0f, 90.0f, 0.0f});
+	Tutorial_chest[0]->SetPosition({ 115.0f, -24.0f, -576.0f });
+	Tutorial_chest[0]->SetRotation({ 0.0f, 90.0f, 0.0f });
 
-	//ParticleManager::LoadTexture(8, L"Resources/ParticleTex/normal.png");
+	ParticleManager::LoadTexture(8, L"Resources/ParticleTex/normal.png");
 	TutorialPchest.particleMan = ParticleManager::Create(8, L"Resources/ParticleTex/normal.png");
 	TutorialPchest.ChestEvent = NON; //particleMan->CreateModel();
 }
@@ -95,7 +95,7 @@ void ChestControl::Init_Play()
 				std::getline(line_stream, word, ',');
 				float z = static_cast<float>(std::atof(word.c_str()));
 
-				pos[i] = {x, y, z};
+				pos[i] = { x, y, z };
 				break;
 			}
 		}
@@ -107,8 +107,8 @@ void ChestControl::Init_Play()
 	{
 		chests[i] = std::make_unique<Chest>();
 		chests[i]->Initialize();
-		chests[i]->SetRotation({0.0f, 90.0f, 0.0f});
-		chests[i]->SetPosition({990, 999, 0});
+		chests[i]->SetRotation({ 0.0f, 90.0f, 0.0f });
+		chests[i]->SetPosition({ 990, 999, 0 });
 	}
 
 	ParticleManager::LoadTexture(8, L"Resources/ParticleTex/normal.png");
@@ -135,15 +135,17 @@ void ChestControl::Update_Tutorial()
 {
 	if (Tutorial_chest[0] != nullptr)
 	{
-		Tutorial_chest[0]->SetColor({1.0f, 1.0f, 1.0f, 1.0f});
-		Tutorial_chest[0]->SetpColor({1.0f, 1.0f, 1.0f, 1.0f});
+		Tutorial_chest[0]->SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
+		Tutorial_chest[0]->SetpColor({ 1.0f, 1.0f, 1.0f, 1.0f });
 		Tutorial_chest[0]->Update();
 		GetChestEvent(Tutorial_chest[0].get(), TutorialPchest);
 
 		if (TutorialPchest.ChestEvent == END)
 		{
+			PlayerControl::GetInstance()->GetPlayer()->SetIdle(false);
 			GetTutorialChestJudg = true;
 		}
+		
 	}
 }
 
@@ -151,16 +153,16 @@ void ChestControl::Update_Play()
 {
 	chests.resize(4);
 
-	const XMFLOAT4 color_red = {1.0f, 0.1f, 0.1f, 0.7f};
-	const XMFLOAT4 color_green = {0.1f, 1.0f, 0.1f, 0.7f};
-	const XMFLOAT4 color_blue = {0.1f, 0.1f, 1.0f, 0.7f};
-	const XMFLOAT4 color_yellow = {1.0f, 0.2f, 0.7f, 0.7f};
+	const XMFLOAT4 color_red = { 1.0f, 0.1f, 0.1f, 0.7f };
+	const XMFLOAT4 color_green = { 0.1f, 1.0f, 0.1f, 0.7f };
+	const XMFLOAT4 color_blue = { 0.1f, 0.1f, 1.0f, 0.7f };
+	const XMFLOAT4 color_yellow = { 1.0f, 0.2f, 0.7f, 0.7f };
 
 	for (int i = 0; i < 4; i++)
 	{
 		if (chests[i] != nullptr)
 		{
-			chests[i]->SetColor({1, 1, 1, 1});
+			chests[i]->SetColor({ 1, 1, 1, 1 });
 			chests[i]->Update();
 			GetChestEvent(chests[i].get(), PlayPchest[i]);
 		}
@@ -199,11 +201,11 @@ void ChestControl::Update_Boss()
 void ChestControl::Draw_Tutorial()
 {
 	// 3Dオブジェクト描画前処理
-	//ParticleManager::PreDraw();
+	ParticleManager::PreDraw();
 	// 3Dオブクジェクトの描画
-	//TutorialPchest.particleMan->Draw();
+	TutorialPchest.particleMan->Draw();
 	// 3Dオブジェクト描画後処理
-	//ParticleManager::PostDraw();
+	ParticleManager::PostDraw();
 
 	if (Tutorial_chest[0] != nullptr)
 	{
@@ -214,16 +216,16 @@ void ChestControl::Draw_Tutorial()
 void ChestControl::Draw_Play()
 {
 	// 3Dオブジェクト描画前処理
-	//ParticleManager::PreDraw();
+	ParticleManager::PreDraw();
 	for (int i = 0; i < 4; i++)
 	{
 		if (chests[i] != nullptr)
 		{
-			//	PlayPchest[i].particleMan->Draw();
+			PlayPchest[i].particleMan->Draw();
 		}
 	}
 	// 3Dオブジェクト描画後処理
-	//ParticleManager::PostDraw();
+	ParticleManager::PostDraw();
 
 	for (int i = 0; i < 4; i++)
 	{
@@ -273,8 +275,7 @@ void ChestControl::GetChestEvent(Chest* chest, ParticleParam& pParam)
 		{
 			pParam.ChestEvent = FEEDOUT;
 		}
-	}
-	else if (pParam.ChestEvent == FEEDOUT)
+	} else if (pParam.ChestEvent == FEEDOUT)
 	{
 		pParam.pCount++;
 		if (pParam.pCount == 100)
@@ -291,14 +292,13 @@ void ChestControl::GetChestEvent(Chest* chest, ParticleParam& pParam)
 		Feed::GetInstance()->Update_Black(Feed::FEEDOUT);
 		PlayerControl::GetInstance()->GetPlayer()->SetPosition({
 			chest->GetPosition().x, Ppos.y, chest->GetPosition().z - 25.0f
-		});
-		PlayerControl::GetInstance()->GetPlayer()->SetRotation({-163.0f, -62.0f, 103.0f});
+			});
+		PlayerControl::GetInstance()->GetPlayer()->SetRotation({ -90.0f, 0.0f, 0.0f });
 		PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(true);
 		PlayerControl::GetInstance()->GetPlayer()->SetnoAttack(true);
-		CameraControl::GetInstance()->GetCamera()->SetEye({Ppos.x + 8.0f, Ppos.y + 10.0f, Ppos.z - 20.0f});
+		CameraControl::GetInstance()->GetCamera()->SetEye({ Ppos.x + 8.0f, Ppos.y + 10.0f, Ppos.z - 20.0f });
 		CameraControl::GetInstance()->GetCamera()->SetTarget(chest->GetPosition());
-	}
-	else if (pParam.ChestEvent == GETCHEST)
+	} else if (pParam.ChestEvent == GETCHEST)
 	{
 		pParam.pCount++;
 		if (pParam.pCount == 60)
@@ -308,11 +308,10 @@ void ChestControl::GetChestEvent(Chest* chest, ParticleParam& pParam)
 		}
 		PlayerControl::GetInstance()->GetPlayer()->SetPosition({
 			chest->GetPosition().x, Ppos.y, chest->GetPosition().z - 25.0f
-		});
-		CameraControl::GetInstance()->GetCamera()->SetEye({Ppos.x + 8.0f, Ppos.y + 10.0f, Ppos.z - 20.0f});
+			});
+		CameraControl::GetInstance()->GetCamera()->SetEye({ Ppos.x + 8.0f, Ppos.y + 10.0f, Ppos.z - 20.0f });
 		CameraControl::GetInstance()->GetCamera()->SetTarget(chest->GetPosition());
-	}
-	else if (pParam.ChestEvent == FEEDIN2)
+	} else if (pParam.ChestEvent == FEEDIN2)
 	{
 		Feed::GetInstance()->Update_Black(Feed::FEEDIN);
 		if (Feed::GetInstance()->GetAlpha() >= 1.0f)
@@ -325,11 +324,11 @@ void ChestControl::GetChestEvent(Chest* chest, ParticleParam& pParam)
 		}
 		PlayerControl::GetInstance()->GetPlayer()->SetPosition({
 			chest->GetPosition().x, Ppos.y, chest->GetPosition().z - 25.0f
-		});
-		CameraControl::GetInstance()->GetCamera()->SetEye({Ppos.x + 8.0f, Ppos.y + 10.0f, Ppos.z - 20.0f});
+			});
+		PlayerControl::GetInstance()->GetPlayer()->SetIdle(true);
+		CameraControl::GetInstance()->GetCamera()->SetEye({ Ppos.x + 8.0f, Ppos.y + 10.0f, Ppos.z - 20.0f });
 		CameraControl::GetInstance()->GetCamera()->SetTarget(chest->GetPosition());
-	}
-	else if (pParam.ChestEvent == FEEDOUT2)
+	} else if (pParam.ChestEvent == FEEDOUT2)
 	{
 		Feed::GetInstance()->Update_Black(Feed::FEEDOUT);
 		if (Feed::GetInstance()->GetAlpha() <= 0.0f)
@@ -338,6 +337,7 @@ void ChestControl::GetChestEvent(Chest* chest, ParticleParam& pParam)
 			GetChestCount++;
 			PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(false);
 			PlayerControl::GetInstance()->GetPlayer()->SetnoAttack(false);
+			
 			UI::GetInstance()->SetTurnoffUIDraw(false);
 			pParam.ChestEvent = END;
 		}
@@ -360,7 +360,7 @@ void ChestControl::GetChestEffect(Chest* chest, ParticleParam& pParam)
 		//追加
 		if (pParam.ParticleCreateF)
 		{
-			pParam.particlePos = {chest->GetPosition()};
+			pParam.particlePos = { chest->GetPosition() };
 			pParam.particleMan->Add(pParam.ParticleLife, pParam.particlePos, pParam.vel, pParam.acc, 3.0f, 0.0f);
 			if (i == 30 - 1)
 			{
@@ -369,7 +369,7 @@ void ChestControl::GetChestEffect(Chest* chest, ParticleParam& pParam)
 		}
 	}
 
-	pParam.particleMan->SetColor({1.0f, 0.8f, 0.2f, 0.8f});
+	pParam.particleMan->SetColor({ 1.0f, 0.8f, 0.2f, 0.8f });
 	pParam.particleMan->Update(pParam.particleMan->FOLLOW, PlayerControl::GetInstance()->GetPlayer()->GetPosition(),
-	                           120);
+		120);
 }

@@ -206,6 +206,7 @@ void BossScene::Draw()
 			{
 				EnemyControl::GetInstance()->GetSummonEnemy(i)->DamageTexDisplay_Draw();
 			}
+
 		}
 
 		PlayerControl::GetInstance()->GetPlayer()->ParticleDraw();
@@ -220,6 +221,7 @@ void BossScene::Draw()
 		{
 			UI::GetInstance()->HUDDraw();
 		}
+		GameOver::GetIns()->Draw();
 		Feed::GetInstance()->Draw();
 		Field::GetInstance()->WarningDraw();
 		SistemConfig::GetInstance()->Draw();

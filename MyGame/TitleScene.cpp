@@ -3,10 +3,8 @@
 #include"PlayScene.h"
 #include"MapCreateScene.h"
 #include"SceneManager.h"
-#include"Tutorial.h"
 #include"Feed.h"
-#include"BossScene.h"
-#include"UI.h"
+#include "ImageManager.h"
 
 TitleScene::TitleScene(SceneManager* sceneManager)
 	: BaseScene(sceneManager)
@@ -23,58 +21,21 @@ void TitleScene::Initialize()
 	// 3Dオブエクトにライトをセット
 	Object3d::SetLightGroup(lightGroup);
 
-	Sprite::LoadTexture(30, L"Resources/2d/title/titlesp.png");
-	titlesprite = Sprite::Create(30, {0.0f, 0.0f});
-
-	Sprite::LoadTexture(31, L"Resources/title2.png");
-	titlesprite2 = Sprite::Create(31, {0, 0.0f});
-
-	Sprite::LoadTexture(32, L"Resources/2d/title/gameplay.png");
-	Sprite::LoadTexture(33, L"Resources/2d/title/edit.png");
-
-	Sprite* navGameSprite = Sprite::Create(32, {0, 0.0f});
-	Sprite* navEditSprite = Sprite::Create(33, {0, 0.0f});
-
-	TitleMenu[0].reset(navGameSprite);
-
-	TitleMenu[1].reset(navEditSprite);
-	for (int i = 0; i < 2; i++)
-	{
-		menuAlpha[i] = 1.0f;
-		MenuScale[i] = {1900, 1000};
-		TitleMenu[i]->SetPosition({950, 500});
-		TitleMenu[i]->SetSize({1900, 1000});
-		TitleMenu[i]->SetAnchorPoint({0.5, 0.5});
-	}
 	Feed::GetInstance()->initialize();
 
-	camera = new DebugCamera(WinApp::window_width, WinApp::window_height);
-
-	field = std::make_unique<Object3d>();
-	field->SetModel(ModelManager::GetIns()->GetModel(ModelManager::FIELD));
-	field->Initialize(camera);
-	celestal = std::make_unique<Object3d>();
-	celestal->SetModel(ModelManager::GetIns()->GetModel(ModelManager::CELESTIALSPHERE));
-	celestal->Initialize(camera);
-
-	Feed::GetInstance()->initialize();
+	//フィールド
+	TitleFieldInit();
+	//タイトルスプライト
+	TitleTexInit();
 }
 
 /*------------------------*/
 /*-------更新処理--------*/
 /*-----------------------*/
 #include"mHelper.h"
-#include"Feed.h"
 
 void TitleScene::Update()
 {
-	FieldRotY += 0.1f;
-	field->SetRotation({0.0f, 0.0f, 0.0f});
-	field->SetScale({0.15f, 0.15f, 0.15f});
-	field->SetFogCenter(FogPos);
-	field->setFog(TRUE);
-	celestal->SetRotation({0.0f, 0.0f, 0.0f});
-	celestal->SetScale({30.f, 30.1f, 30.1f});
 	if (Input::GetInstance()->TriggerButton(Input::B))
 	{
 		SceneManager::GetInstance()->SetScene(SceneManager::TUTORIAL, sceneManager_);
@@ -84,7 +45,10 @@ void TitleScene::Update()
 		//押されたら
 		feedf = true;
 	}
-
+	if (Input::GetInstance()->TriggerButton(Input::A))
+	{
+		SceneManager::GetInstance()->SetScene(SceneManager::MAPCREATE, sceneManager_);
+	}
 	if (feedf)
 	{
 		Cangle += 0.5f;
@@ -104,16 +68,19 @@ void TitleScene::Update()
 	}
 
 
+	//画面真っ白になったらシーン切り替え
 	if (Feed::GetInstance()->GetAlpha() >= 1.0f)
 	{
 		SceneManager::GetInstance()->SetScene(SceneManager::TUTORIAL, sceneManager_);
 	}
-	//titlesprite2->SetRotation(180);165
+
+	//360言ったら０にリセット
 	if (Cangle >= 360.0f)
 	{
 		Cangle = 0.0f;
 	}
 
+	//カメラがフィールド中心に回るように
 	if (!BackCam)
 	{
 		CameraPos.x = sinf(Cangle * (PI / 180.0f)) * 40.0f;
@@ -121,37 +88,19 @@ void TitleScene::Update()
 	}
 	else
 	{
+		//カメラのｚ座標を引く
 		CameraPos.y--;
 	}
 
-	TitleMenu[0]->SetSize(MenuScale[0]);
-	TitleMenu[1]->SetSize(MenuScale[1]);
+	//スプライト
+	TitleTexUpda();
+	//フィールド
+	TitleFieldUpda();
 
-	TitleMenu[0]->setcolor({1.0f, 1.0f, 1.0f, menuAlpha[0]});
-	TitleMenu[1]->setcolor({1.0f, 1.0f, 1.0f, menuAlpha[1]});
-
-
-	if (menujudg_Play)
-	{
-		MenuScale[0].x += 20.0f;
-		MenuScale[0].y += 20.0f;
-		menuAlpha[0] -= 0.02f;
-		menuAlpha[1] = 0.0f;
-	}
-	if (menujudg_Edit)
-	{
-		MenuScale[1].x += 20.0f;
-		MenuScale[1].y += 20.0f;
-		menuAlpha[1] -= 0.02f;
-		menuAlpha[0] = 0.0f;
-	}
+	//カメラ更新(後で移す)
 	camera->SetEye({CameraPos.x, 2.0f, CameraPos.y});
 	camera->SetTarget({0.0f, 0.0f, 0.0f});
 	camera->Update();
-	titlesprite->SetSize({WinApp::window_width / 2, WinApp::window_height});
-	titlesprite2->SetSize({WinApp::window_width, WinApp::window_height});
-	field->Update({0.6f, 0.6f, 0.6f, 1.0f}, camera);
-	celestal->Update({0.6f, 0.6f, 0.6f, 1.0f}, camera);
 	//	DebugTextSprite::GetInstance()->Print("aa", 0, 0, 2);
 }
 
@@ -160,19 +109,23 @@ void TitleScene::Update()
 /*-----------------------*/
 void TitleScene::SpriteDraw()
 {
+	//モデル描画
 	Object3d::PreDraw();
 	celestal->Draw();
 	field->Draw();
 	Object3d::PostDraw();
 
+	//スプライト描画
 	titlesprite->setcolor({1.0f, 1.0f, 1.0f, 0.5f});
 	titlesprite2->setcolor({1.0f, 1.0f, 1.0f, 0.5f});
+
 	Sprite::PreDraw();
 	titlesprite2->Draw();
 	titlesprite->Draw();
 	TitleMenu[0]->Draw();
 	DebugTextSprite::GetInstance()->DrawAll();
 	Sprite::PostDraw();
+
 	Feed::GetInstance()->Draw();
 }
 
@@ -196,4 +149,95 @@ void TitleScene::Finalize()
 	delete lightGroup;
 	delete camera;
 	delete titlesprite, titlesprite2;
+}
+
+void TitleScene::TitleTexInit()
+{
+	titlesprite = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::TITLE1), { 0.0f, 0.0f });
+	
+	titlesprite2 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::TITLE2), { 0, 0.0f });
+
+	Sprite* navGameSprite = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::GAMEPLAY), { 0, 0.0f });
+	Sprite* navEditSprite = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::GAMEPLAY), { 0, 0.0f });
+
+	TitleMenu[0].reset(navGameSprite);
+
+	TitleMenu[1].reset(navEditSprite);
+	for (int i = 0; i < 2; i++)
+	{
+		menuAlpha[i] = 1.0f;
+		MenuScale[i] = { 1900, 1000 };
+		TitleMenu[i]->SetPosition({ 950, 500 });
+		TitleMenu[i]->SetSize({ 1900, 1000 });
+		TitleMenu[i]->SetAnchorPoint({ 0.5, 0.5 });
+	}
+
+}
+
+void TitleScene::TitleTexUpda()
+{
+
+	TitleMenu[0]->SetSize(MenuScale[0]);
+	TitleMenu[1]->SetSize(MenuScale[1]);
+
+	TitleMenu[0]->setcolor({ 1.0f, 1.0f, 1.0f, menuAlpha[0] });
+	TitleMenu[1]->setcolor({ 1.0f, 1.0f, 1.0f, menuAlpha[1] });
+
+
+	if (menujudg_Play)
+	{
+		MenuScale[0].x += 20.0f;
+		MenuScale[0].y += 20.0f;
+		menuAlpha[0] -= 0.02f;
+		menuAlpha[1] = 0.0f;
+	}
+	if (menujudg_Edit)
+	{
+		MenuScale[1].x += 20.0f;
+		MenuScale[1].y += 20.0f;
+		menuAlpha[1] -= 0.02f;
+		menuAlpha[0] = 0.0f;
+	}
+	titlesprite->SetSize({ WinApp::window_width / 2, WinApp::window_height });
+	titlesprite2->SetSize({ WinApp::window_width, WinApp::window_height });
+
+}
+
+void TitleScene::TitleTexDraw()
+{
+}
+
+void TitleScene::TitleFieldInit()
+{
+	camera = new DebugCamera(WinApp::window_width, WinApp::window_height);
+
+	field = std::make_unique<Object3d>();
+	field->SetModel(ModelManager::GetIns()->GetModel(ModelManager::FIELD));
+	field->Initialize(camera);
+	celestal = std::make_unique<Object3d>();
+	celestal->SetModel(ModelManager::GetIns()->GetModel(ModelManager::CELESTIALSPHERE));
+	celestal->Initialize(camera);
+
+}
+
+void TitleScene::TitleFieldUpda()
+{
+	//フィールドくるくる回す
+	FieldRotY += 0.1f;
+
+	//パラメータをセット(地形)
+	field->SetRotation({ 0.0f, 0.0f, 0.0f });
+	field->SetScale({ 0.15f, 0.15f, 0.15f });
+	field->SetFogCenter(FogPos);
+	field->setFog(TRUE);
+
+	//パラメータをセット(天球)
+	celestal->SetRotation({ 0.0f, 0.0f, 0.0f });
+	celestal->SetScale({ 30.f, 30.1f, 30.1f });
+
+	//更新処理
+	field->Update({ 0.6f, 0.6f, 0.6f, 1.0f }, camera);
+	celestal->Update({ 0.6f, 0.6f, 0.6f, 1.0f }, camera);
+
+
 }

@@ -3,6 +3,7 @@
 #include "PlaceEnemy.h"
 #include"MobEnemy.h"
 #include"EnemyAlpha.h"
+#include "EnemyBeta.h"
 #include"imgui.h"
 
 void PlaceEnemy::Initialize(DebugCamera* camera)
@@ -46,7 +47,7 @@ void PlaceEnemy::FileWriting()
 
 void PlaceEnemy::ArgMent(DebugCamera* camera)
 {
-	if (ArgmentFlag || BossArgmentFlag)
+	if (ArgmentFlag || BossArgmentFlag||BetaArgmentFlag)
 	{
 		std::unique_ptr<Enemy> newEnemy;
 		if (ArgmentFlag)
@@ -57,12 +58,17 @@ void PlaceEnemy::ArgMent(DebugCamera* camera)
 		{
 			newEnemy = std::make_unique<EnemyAlpha>();
 		}
+		if (BetaArgmentFlag)
+		{
+			newEnemy = std::make_unique<EnemyBeta>();
+		}
 		newEnemy->Initialize();
 		newEnemy->SetPosition(pos);
 		enemys.push_back(std::move(newEnemy));
 
 		ArgmentFlag = false;
 		BossArgmentFlag = false;
+		BetaArgmentFlag = false;
 	}
 	for (std::unique_ptr<Enemy>& enemy : enemys)
 	{
@@ -122,6 +128,8 @@ void PlaceEnemy::ImGui_Draw()
 	ImGui::SameLine();
 	if (ImGui::Button("CammaEnemy", ImVec2(90, 50)))
 	{
+		BetaArgmentFlag = true;
+		Number.push_back(3);
 	}
 	ImGui::SameLine();
 

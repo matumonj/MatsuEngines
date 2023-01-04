@@ -32,23 +32,21 @@ void AttackCollision::Update()
 
 void AttackCollision::GetCol(int damage)
 {
+	//剣のOBBパラメータ
 	HandObb.SetOBBParam_Pos(PlayerControl::GetInstance()->GetPlayer()->GetHanMat());
 	HandObb.SetOBBParam_Rot(SelectSword::GetInstance()->GetSword()->GetMatrot());
-	HandObb.SetOBBParam_Scl({2.0f, 10.0f, 2.0f});
+	HandObb.SetOBBParam_Scl({3.0f, 8.0f, 3.0f});
 
-	bool attackcolJudgTime_First = PlayerControl::GetInstance()->GetPlayer()->GetFbxTime() >
-		PlayerControl::GetInstance()->GetPlayer()->GetFbxTime_FirstAtack() + 0.2f && PlayerControl::GetInstance()->
-		GetPlayer()->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->FIRST;
+	//プレイヤーのインスタンス取得
+	Player* l_player = PlayerControl::GetInstance()->GetPlayer();
 
-	bool attackcolJudgTime_Second = PlayerControl::GetInstance()->GetPlayer()->GetFbxTime() >
-		PlayerControl::GetInstance()->GetPlayer()->GetFbxTime_SecondAtack() + 0.2f && PlayerControl::GetInstance()->
-		GetPlayer()->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->SECOND;
+	bool attackcolJudgTime_First = l_player->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->FIRST&&l_player->GetFbxTime()>0.3f;
 
-	bool attackcolJudgTime_Third = PlayerControl::GetInstance()->GetPlayer()->GetFbxTime() >
-		PlayerControl::GetInstance()->GetPlayer()->GetFbxTime_ThirdAtack() + 0.5f && PlayerControl::GetInstance()->
-		GetPlayer()->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->THIRD;
+	bool attackcolJudgTime_Second =l_player->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->SECOND && l_player->GetFbxTime() > 0.3f;
 
-	if (PlayerControl::GetInstance()->GetPlayer()->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->RUN ||
+	bool attackcolJudgTime_Third =l_player->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->THIRD && l_player->GetFbxTime() > 0.3f;
+
+	if (
 		PlayerControl::GetInstance()->GetPlayer()->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->NON)
 	{
 		attackCol[0] = false;
@@ -79,7 +77,7 @@ void AttackCollision::GetCol(int damage)
 
 	case SceneManager::PLAY:
 		ColOBB(PLAY);
-		XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+		XMFLOAT3 ppos = l_player->GetPosition();
 		for (int i = 0; i < EnemyOBB.size(); i++)
 		{
 			if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i] == nullptr)
@@ -175,7 +173,7 @@ void AttackCollision::ColOBB(ColType Enemytype)
 			EnemyOBB[0].
 				SetOBBParam_Pos(EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition());
 			EnemyOBB[0].SetOBBParam_Rot(EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetMatrot());
-			EnemyOBB[0].SetOBBParam_Scl({4.0f, 15.0f, 4.0f});
+			EnemyOBB[0].SetOBBParam_Scl({2.0f, 15.0f, 2.0f});
 		}
 		break;
 	case PLAY:

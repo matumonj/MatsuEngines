@@ -2,19 +2,17 @@
 #include"MobEnemy.h"
 #include"BossEnemy.h"
 #include"EnemyAlpha.h"
+#include"EnemyBeta.h"
 #include"TutorialSprite.h"
-#include"SistemConfig.h"
 #include"SceneManager.h"
 #include"DropWeapon.h"
 #include"ChestControl.h"
 #include"PlayerControl.h"
-#include"Control.h"
 #include"KnockAttack.h"
 #include"CircleAttack.h"
 #include"HalfAttack.h"
 #include"AltAttack.h"
 #include "CameraControl.h"
-#include"DebugTxt.h"
 #include"FrontCircleAttack.h"
 #include"GuardianEnemy.h"
 
@@ -132,17 +130,21 @@ void EnemyControl::Init_Play()
 	for (int i = 0; i < Quantity; i++)
 	{
 		//èâä˙âªèàóù
-		if (Num[i] == ALPHAENEMY)
+		if (Num[i] == GOLEMENEMY)
 		{
 			//ÉSÅ[ÉåÉÄ
 			enemys[PLAYSCENE][i] = std::make_unique<MobEnemy>();
 		}
-		if (Num[i] == BETAENEMY)
+		if (Num[i] == ALPHAENEMY)
 		{
 			//ÉgÉJÉQ
 			enemys[PLAYSCENE][i] = std::make_unique<EnemyAlpha>();
 		}
-
+		if (Num[i] == BETAENEMY)
+		{
+			//ÉgÉJÉQ
+			enemys[PLAYSCENE][i] = std::make_unique<EnemyBeta>();
+		}
 		enemys[PLAYSCENE][i]->Initialize();
 		enemys[PLAYSCENE][i]->SetPosition(pos[i]);
 	}
@@ -193,19 +195,14 @@ void EnemyControl::Init_Boss()
 	enemys[BOSS].resize(1);
 	enemys[BOSS][0] = std::make_unique<BossEnemy>();
 	enemys[BOSS][0]->Initialize();
-	boss_pos = {-1.0f, 10.0f, 20.987f};
+	boss_pos = {-1.0f, 9.0f, 80.987f};
 
 	enemys[BOSS][0]->SetPosition(boss_pos);
 	enemys[BOSS][0]->SetHP(enemys[BOSS][0]->GetMaxHP());
 	//ÉUÉRìGÇÃèâä˙âªÇ‡Ç±Ç±Ç≈
 	SummonEnemyInit();
 
-	//äeçUåÇèàóùÇÃèâä˙âª
-	HalfAttack::GetInstance()->Initialize();
-	KnockAttack::GetInstance()->Initialize();
-	CircleAttack::GetInstance()->Initialize();
-	AltAttack::GetInstance()->Initialize();
-	FrontCircleAttack::GetInstance()->Initialize();
+
 	bAttack = std::make_unique<BomAttack>();
 	bAttack->Init();
 }
@@ -280,10 +277,7 @@ void EnemyControl::Update_Play()
 			{
 				Task::GetInstance()->SetFlogDestroyCount();
 
-				if (Task::GetInstance()->GetFlogDesthCount(1))
-				{
-					DropWeapon::GtIns()->Drop(DropWeapon::SWORD, enemys[PLAYSCENE][i]->GetPosition());
-				}
+				
 				if (Task::GetInstance()->ClearTaskONE() == true)
 				{
 					if (Task::GetInstance()->GetFlogDesthCount(2))
@@ -297,11 +291,32 @@ void EnemyControl::Update_Play()
 					}
 				}
 			}
+			//
+			else if (enemys[PLAYSCENE][i]->GetEnemyNumber() == 2)
+			{
+				Task::GetInstance()->SetMiniGolemDestroyCount();
+				if (Task::GetInstance()->GetMiniGolemDesthCount(1))
+				{
+					DropWeapon::GtIns()->Drop(DropWeapon::SWORD, enemys[PLAYSCENE][i]->GetPosition());
+				}
+				if (Task::GetInstance()->ClearTaskTwo() == true)
+				{
+					if (Task::GetInstance()->GetMiniGolemDesthCount(2))
+					{
+						ChestControl::GetInstance()->SetChestAppearance(ChestControl::GREEN, {
+																			enemys[PLAYSCENE][i]->GetPosition().x,
+																			enemys[PLAYSCENE][i]->GetPosition().y +
+																			10.0f,
+																			enemys[PLAYSCENE][i]->GetPosition().z
+							});
+					}
+				}
+			}
 			Destroy_unique(enemys[PLAYSCENE][i]);
 		}
 		if (Guardian != nullptr && Guardian->GetisAlive() == FALSE && Guardian->GetHP() <= 0)
 		{
-			ChestControl::GetInstance()->SetChestAppearance(ChestControl::GREEN, {
+			ChestControl::GetInstance()->SetChestAppearance(ChestControl::YELLOW, {
 				                                                Guardian->GetPosition().x,
 				                                                Guardian->GetPosition().y +
 				                                                10.0f,
@@ -485,6 +500,9 @@ void EnemyControl::HPFrameDraw()
 				continue;
 			}
 			SummonEnemys[i]->EnemyHPDraw();
+		}
+		if (enemys[BOSS].size()>0&& enemys[BOSS][0]!=nullptr) {
+			enemys[BOSS][0]->EnemyHPDraw();
 		}
 	}
 }

@@ -36,7 +36,7 @@ public:
 	void RecvDamage(int Damage);
 	//受攻撃後再度攻撃食らうまで
 	void RecvDamage_Cool();
-
+	void ReStartSetParam();
 private:
 	Input* input = Input::GetInstance();
 	//fbxtime制御
@@ -48,6 +48,8 @@ private:
 	//移動処理まとめ
 	void Move();
 
+
+	void Death();
 private:
 	//回避フラグ
 	bool evasionF = false;
@@ -104,12 +106,13 @@ private:
 	//teisi
 	bool StopFlag;
 	//
-	int FallGroundTime = 0;
+	
 public:
 	void SetHP(int HP) { this->HP = HP; }
 	int GetHP() { return HP; }
 	int GetMaxHP() { return MaxHP; }
 	bool GetStopFlag() { return StopFlag; };
+
 private:
 	float vel = 0.0f;
 	bool jumpflag = false;
@@ -122,8 +125,6 @@ private:
 public:
 	XMVECTOR GetPlayerMove() { return Gmove; }
 	void Setangle(float angle) { this->angle = angle; }
-
-	float GetFbxTime() { return f_time; }
 
 	bool GetNowAttack() { return nowattack; }
 
@@ -138,7 +139,7 @@ public:
 
 	AttackMotion GetAttackType() { return attackMotion; }
 	AttackMotion GetAttackTypeOld() { return OldattackMotion; }
-	void FbxAnimationControls(const AttackMotion& motiiontype, float attacktime = 0, float nextAnimation = 0);
+	
 	void SetnoAttack(bool f) { noAttack = f; }
 	bool GetnoAttack() { return noAttack; }
 private:
@@ -156,23 +157,28 @@ private:
 	bool nowSecAttack = false;
 	bool AttackFlag = false;
 	bool nowattack = false;
-	//各アニメーションのスタート時間
-	const float AttackThiTime = 238.00f / 60.00f;
-	const float AttackSecTime = 138.00f / 60.00f;
-	const float AttackFirTime = 35.00f / 60.00f;
-
-	const float EvaTime_Start = 428.00f / 60.00f;
-	const float EvaTime_End = 496.00f / 60.00f;
-
-	const float DeathTime = 20.1f;
 
 	float f_time = 0.0f;
 
 	//手のボーンインデックス
-	int hindex = 35;
-
+	int hindex = 21;
 public:
-	float GetFbxTime_FirstAtack() { return AttackFirTime; }
-	float GetFbxTime_SecondAtack() { return AttackSecTime; }
-	float GetFbxTime_ThirdAtack() { return AttackThiTime; }
+	enum AnimeName
+	{
+		IDLE,
+		RUNNING,
+		ATTACK1,
+		ATTACK2,
+		ATTACK3,
+		EVASION,
+		DEATH
+	};
+	AttackMotion GetAnimeType() { return attackMotion; }
+	void SetIdle(bool f) { idlef = f; }
+private:
+	AnimeName animationName;
+
+	bool idlef;
+	void AnimationContol(AnimeName name, int animenumber,double speed,bool loop);
+	void FbxAnimationControls(const AttackMotion& motiiontype, const AttackMotion nextmotiontype, AnimeName name, int number);
 };

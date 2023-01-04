@@ -47,8 +47,18 @@ void ImageManager::Init()
 	LoadTex2D(ENMEYHPFRAME3, L"Resources/2d/enemy/hpframe3.png");
 	LoadTex2D(ENMEYHPFRAME4, L"Resources/2d/enemy/hpframe4.png");
 	LoadTex2D(ENEMYNAME_GOLEM, L"Resources/2d/enemy/name_golem.png");
+	LoadTex2D(ENEMYNAME_MINIGOLEM, L"Resources/2d/enemy/name_puchigolem.png");
 	LoadTex2D(ENEMYNAME_LIZARD, L"Resources/2d/enemy/name_lizard.png");
 	LoadTex2D(ENEMYNAME_GUARDIAN, L"Resources/2d/enemy/name_guardian.png");
+
+	LoadTex2D(TITLE1, L"Resources/2d/title/titlesp.png");
+	LoadTex2D(TITLE2, L"Resources/title2.png");
+
+	LoadTex2D(GAMEPLAY, L"Resources/2d/title/gameplay.png");
+
+	LoadTex2D(BOSSHPFRAME, L"Resources/HPTex/frame3.png");
+	LoadTex2D(BOSSHPFRAMEINNER, L"Resources/HPTex/yellow.png");
+	LoadTex2D(BOSSHPFRAMEINNER2, L"Resources/HPTex/red.png");
 }
 
 void ImageManager::LoadTex2D(const tex2dName imageName, wchar_t* fileName)

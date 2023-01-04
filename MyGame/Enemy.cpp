@@ -38,8 +38,18 @@ void Enemy::RecvDamage(int Damage)
 	{
 		return;
 	}
-
-	RecvDamagef2 = true;
+	if(ENumber==MINIGOLEM)
+	{
+		if(animeState==IDLE)
+		{
+			RecvDamagef2 = true;
+		}
+	}
+	else
+	{
+		RecvDamagef2 = true;
+	}
+	
 	RecvDamagef = true;
 	DamageSize = Damage;
 	DamageTexPos = Position;
@@ -80,8 +90,14 @@ void Enemy::HPFrameUpda()
 
 		HPFrame[i]->SetPosition({ tex2DPos[i].m128_f32[0] - 80.0f, tex2DPos[i].m128_f32[1] });
 	}
+	
 	if (RecvDamagef)
 	{
+		if (FrameScalingETime >= 1.0f)
+		{
+			InnerFrameScalingF = true;
+			RecvDamagef = false;
+		}
 		FrameScalingETime_Inner = 0.0f;
 		if (!InnerFrameScalingF)
 		{
@@ -93,11 +109,8 @@ void Enemy::HPFrameUpda()
 		{
 			FrameScl.x = Easing::EaseOut(FrameScalingETime, OldFrameX, NowFrameX);
 		}
-		if (FrameScalingETime >= 1.0f)
-		{
-			InnerFrameScalingF = true;
-			RecvDamagef = false;
-		}
+	
+	
 	}
 
 	else
@@ -106,7 +119,15 @@ void Enemy::HPFrameUpda()
 
 		FrameScalingETime = 0.0f;
 	}
+	if (EnemyHP <= 0)
+	{
+		if (FrameScl_Inner.x > 0.f) {
+			FrameScalingETime_Inner += 0.02f;
+		}
+		FrameScl_Inner.x = Easing::EaseOut(FrameScalingETime_Inner, OldFrameX_Inner, 0.f);
+		InnerFrameScalingF = false;
 
+	}
 	if (InnerFrameScalingF)
 	{
 		FrameScalingETime_Inner += 0.02f;
@@ -126,7 +147,8 @@ void Enemy::HPFrameUpda()
 		}
 	} else
 	{
-		FrameScalingETime_Inner = 0.0f;
+		//FrameScalingETime_Inner = 0.0f;
+
 	}
 	HPFrame[3]->SetSize({ FrameScl.x, 15 });
 	HPFrame[2]->SetSize({ FrameScl_Inner.x, 15.0f });
@@ -136,6 +158,7 @@ void Enemy::HPFrameUpda()
 	EnemyName->SetPosition({ tex2DPos[0].m128_f32[0] - 80.0f, tex2DPos[0].m128_f32[1] - 30.f });
 	EnemyName->SetSize({ 200.0f, 15.0f });
 }
+
 
 void Enemy::DamageTexDisplay()
 {

@@ -217,6 +217,12 @@
     <Filter Include="Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian\Sequence">
       <UniqueIdentifier>{e973b8a1-f95d-4d4b-9385-7bee98c3db0b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\gameobject\GameObject\Enemy\Derived\beta">
+      <UniqueIdentifier>{02b0bf61-6aca-47ef-894a-04e2214669e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\GameObject\Enemy\EnemyAttackSequence\beta">
+      <UniqueIdentifier>{f4a48d6b-c967-49f6-917b-5d69db34b8a6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sprite.cpp">
@@ -629,6 +635,21 @@
     </ClCompile>
     <ClCompile Include="GuardianBomAttack.cpp">
       <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian\action</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBeta.cpp">
+      <Filter>Game\gameobject\GameObject\Enemy\Derived\beta</Filter>
+    </ClCompile>
+    <ClCompile Include="BetaEnemyState.cpp">
+      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\beta</Filter>
+    </ClCompile>
+    <ClCompile Include="BetaEnemyFollow.cpp">
+      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\beta</Filter>
+    </ClCompile>
+    <ClCompile Include="BetaEnemyWalk.cpp">
+      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\beta</Filter>
+    </ClCompile>
+    <ClCompile Include="BetaEnemyAttack.cpp">
+      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\beta</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1069,6 +1090,21 @@
     </ClInclude>
     <ClInclude Include="GuardianFalterState.h">
       <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian\Sequence</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBeta.h">
+      <Filter>Game\gameobject\GameObject\Enemy\Derived\beta</Filter>
+    </ClInclude>
+    <ClInclude Include="BetaEnemyState.h">
+      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\beta</Filter>
+    </ClInclude>
+    <ClInclude Include="BetaEnemyFollow.h">
+      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\beta</Filter>
+    </ClInclude>
+    <ClInclude Include="BetaEnemyWalk.h">
+      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\beta</Filter>
+    </ClInclude>
+    <ClInclude Include="BetaEnemyAttack.h">
+      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\beta</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -39,7 +39,7 @@ void EnemyAlpha::HPFrameInit()
 	Sprite* l_frame3 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME4), { 0, 0 });
 	Sprite* l_frame4 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME3), { 0, 0 });
 
-	Sprite* l_enemyname = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENEMYNAME_GOLEM), { 0, 0 });
+	Sprite* l_enemyname = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENEMYNAME_LIZARD), { 0, 0 });
 
 	HPFrame[0].reset(l_frame1);
 	HPFrame[1].reset(l_frame2);
@@ -115,7 +115,7 @@ void EnemyAlpha::Update()
 
 		HandSiteOBB.SetOBBParam_Pos(m_fbxObject->GetWorld());
 		HandSiteOBB.SetOBBParam_Rot(m_fbxObject->GetWorld());
-		HandSiteOBB.SetOBBParam_Scl({25.0f, 200.0f, 250.0f});
+		HandSiteOBB.SetOBBParam_Scl({5.0f, 20.0f, 5.0f});
 
 		playerOBB.SetOBBParam_Pos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
 		playerOBB.SetOBBParam_Rot(PlayerControl::GetInstance()->GetPlayer()->GetMatrot());
@@ -167,13 +167,17 @@ void EnemyAlpha::Death()
 
 void EnemyAlpha::EnemyHPDraw()
 {
+	Player* l_player = PlayerControl::GetInstance()->GetPlayer();
+
 	Sprite::PreDraw();
-	for (int i = 0; i < 4; i++)
-	{
-		HPFrame[i]->Draw();
+	if (Collision::GetLength(Position, l_player->GetPosition()) < 40) {
+		for (int i = 0; i < 4; i++)
+		{
+			HPFrame[i]->Draw();
+		}
+		EnemyName->Draw();
+		Sprite::PostDraw();
 	}
-	EnemyName->Draw();
-	Sprite::PostDraw();
 }
 
 

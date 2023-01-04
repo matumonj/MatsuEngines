@@ -37,6 +37,7 @@ void ModelManager::Initialize()
 	LoadModel(SANDFIELD, "Sandfield");
 	LoadModel(LANTHANUM, "lanthanum");
 	LoadModel(BEAM, "BeamObj");
+	LoadModel(THROWROCK, "throwrock");
 }
 
 void ModelManager::LoadModel(const ModelName modelName, std::string fileName)

@@ -307,7 +307,105 @@ void f_Object3d::Updata(bool animeloop)
 	constBuffSkin->Unmap(0, nullptr);
 }
 
+void f_Object3d::Update(bool Loop, double Speed, bool& Stop)
+{
 
+	XMMATRIX matScale, matRot, matTrans;
+
+	//スケール、回転、平行移動行列の計算
+	matScale = XMMatrixScaling(scale.x, scale.y, scale.z);
+	matRot = XMMatrixIdentity();
+	matRot *= XMMatrixRotationZ(XMConvertToRadians(rotation.z));
+	matRot *= XMMatrixRotationX(XMConvertToRadians(rotation.x));
+	matRot *= XMMatrixRotationY(XMConvertToRadians(rotation.y));
+	matTrans = XMMatrixTranslation(position.x, position.y, position.z);
+
+	//ワールド行列の合成
+	matWorld = XMMatrixIdentity();	//変形をリセット
+	matWorld *= matScale;			//ワールド行列にスケーリングを反映
+	matWorld *= matRot;				//ワールド行列に回転を反映
+	matWorld *= matTrans;			//ワールド行列に平行移動を反映
+
+	//ビュープロジェクション行列
+	const XMMATRIX& matViewProjection = camera->GetViewProjectionMatrix();
+	//モデルのメッシュトランスフォーム
+	const XMMATRIX& modelTransform = model->GetModelTransform();
+	//カメラ座標
+	const XMFLOAT3& cameraPos = camera->GetEye();
+
+	HRESULT result;
+	//定数バッファへのデータ転送
+	ConstBufferDataTransform* constMap = nullptr;
+	result = constBuffTransform->Map(0, nullptr, (void**)&constMap);
+	
+		if (SUCCEEDED(result))
+		{
+			constMap->color = this->color;
+			constMap->viewproj = matViewProjection;
+			constMap->world = matWorld;
+			constMap->cameraPos = fogpos;
+			constBuffTransform->Unmap(0, nullptr);
+		
+	}
+
+	//ボーン配列
+	std::vector<f_Model::Bone>& bones = model->GetBones();
+
+	//アニメーション
+
+	if (isPlay) {
+		//1フレーム進める
+		AnimationSpeed += frameTime.GetSecondDouble() * double(Speed);
+
+		//最後まで再生したら先頭に戻す
+		if (Loop) {
+			if (AnimationSpeed > endTime.GetSecondDouble()) {
+				AnimationSpeed = startTime.GetSecondDouble();
+			}
+		} else {
+			if (AnimationSpeed > endTime.GetSecondDouble()) {
+				isPlay = false;
+				if (Stop) {
+
+					Stop = false;
+				}
+			}
+		}
+
+		currentTime.SetSecondDouble(AnimationSpeed);
+	}
+	//定数バッファへデータ転送
+	ConstBufferDataSkin* constMapSkin = nullptr;
+	result = constBuffSkin->Map(0, nullptr, (void**)&constMapSkin);
+	for (int i = 0; i < bones.size(); i++) {
+		//今の姿勢
+		XMMATRIX matCurrentPose;
+		//今の姿勢行列を取得
+		FbxAMatrix fbxCurrentPose = bones[i].fbxCluster->GetLink()->EvaluateGlobalTransform(currentTime);
+		//XMMATRIXに変換
+		FbxLoader::ConvertMatrixFromFbx(&matCurrentPose, fbxCurrentPose);
+		//合成してスキニング行列に
+		constMapSkin->bones[i] = bones[i].invInitialPose * matCurrentPose;
+	}
+
+
+	//IKEFbxLoader::ConvertMatrixFromFbx(&hRot, bones[BoneNumber].fbxCluster->GetLink()->EvaluateGlobalTransform(currentTime));
+	//XMMATRIX matRot2 = XMMatrixIdentity();
+	//matRot2 *= XMMatrixRotationZ(XMConvertToRadians((float)PosNode2[0]));
+	//matRot2 *= XMMatrixRotationX(XMConvertToRadians((float)PosNode2[1]));
+	//matRot2 *= XMMatrixRotationY(XMConvertToRadians((float)PosNode2[2]));
+
+	//RotMat = matRot2;
+	//rot = hRot * matWorld;
+
+	int num = bindexs;
+	FbxLoader::ConvertMatrixFromFbx(&HandMatWorld,
+		bones[num].fbxCluster->GetLink()->EvaluateGlobalTransform(currentTime));
+
+	HandMatWorld = HandMatWorld * matWorld;
+
+	constBuffSkin->Unmap(0, nullptr);
+}
 void f_Object3d::Updata()
 {
 	//スケール、回転、平行移動行列の計算
@@ -425,7 +523,26 @@ void f_Object3d::PlayAnimation()
 	//再生中状態にする
 	isPlay = true;
 }
-
+void f_Object3d::PlayAnimation(int number)
+{
+	FbxScene* fbxScene = model->GetFbxScene();
+	//0番のアニメーション取得
+	//FbxAnimStack* animstack = fbxScene->GetSrcObject<FbxAnimStack>(2);
+	//アニメーションの変更
+	fbxScene->SetCurrentAnimationStack(animationData[number].stack);
+	////アニメーションの名前取得
+	//const char* animstackname = animstack->GetName();
+	////アニメーションの時間取得
+	//FbxTakeInfo* takeinfo = fbxScene->GetTakeInfo(animstackname);
+	//開始時間取得
+	startTime = animationData[number].info->mLocalTimeSpan.GetStart();
+	//終了時間取得
+	endTime = animationData[number].info->mLocalTimeSpan.GetStop();
+	//開始時間に合わせる
+	AnimationSpeed = startTime.GetSecondDouble();
+	//再生中状態にする
+	isPlay = true;
+}
 XMMATRIX f_Object3d::ExtractRotationMat(XMMATRIX matworld)
 {
 	XMMATRIX mOffset = ExtractPositionMat(matworld);
@@ -449,6 +566,26 @@ XMMATRIX f_Object3d::ExtractScaleMat(XMMATRIX matworld)
 			matworld.r[2].m128_f32[0], matworld.r[2].m128_f32[1], matworld.r[2].m128_f32[2]
 		}).m128_f32[0]
 	);
+}
+
+void f_Object3d::LoadAnimation()
+{
+	FbxScene* fbxScene = model->GetFbxScene();
+	//アニメーションカウント
+	int AnimationCount = fbxScene->GetSrcObjectCount<FbxAnimStack>();
+	for (int i = 0; i < AnimationCount; i++)
+	{
+		//仮データ
+		Animation tempData;
+		//i番のアニメーション取得
+		tempData.stack = fbxScene->GetSrcObject<FbxAnimStack>(i);
+		//アニメーションの名前を取得
+		const char* animstackname = tempData.stack->GetName();
+		//アニメーションの時間情報
+		tempData.info = fbxScene->GetTakeInfo(animstackname);
+		//仮データを実データに入れる
+		animationData.push_back(tempData);
+	}
 }
 
 XMMATRIX f_Object3d::ExtractPositionMat(XMMATRIX matworld)

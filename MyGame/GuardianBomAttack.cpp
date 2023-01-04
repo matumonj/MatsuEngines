@@ -91,7 +91,7 @@ void GuardianBomAttack::Upda()
 	TexRotZ++;
 	for (int i = 0; i < ArmObjNum; i++)
 	{
-		DamageTex[i]->SetScale({5.f, 5.f, 5.f});
+		DamageTex[i]->SetScale({10.f, 10.f, 10.f});
 		DamageTex[i]->SetPosition(DtexPos[i]);
 		DamageTex[i]->SetRotation({90.f, 0.f, TexRotZ});
 		DamageTex[i]->SetBillboard(FALSE);
@@ -305,7 +305,7 @@ void GuardianBomAttack::DestroyEffect()
 
 		if (MissileDestFlag[i])
 		{
-			BomEffect[i]->SetParF(1);
+			BomEffect[i]->SetParF(1)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 ;
 			BomEffect[i]->CreateParticle(MissileDestFlag[i], {ArmPos[i].x,-38.f,ArmPos[i].z});
 			Destroy_unique(ArmObj[i]);
 			MissileDestFlag[i] = false;

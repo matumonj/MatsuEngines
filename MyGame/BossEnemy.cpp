@@ -1,14 +1,20 @@
 #include "BossEnemy.h"
 
+#include "AltAttack.h"
 #include "CameraControl.h"
+#include "CircleAttack.h"
 #include"CustomButton.h"
 #include"SphereCollider.h"
 #include"CollisionManager.h"
 #include"CollisionAttribute.h"
 #include"DebugCamera.h"
+#include "FrontCircleAttack.h"
+#include "HalfAttack.h"
+#include "ImageManager.h"
 #include"mHelper.h"
 #include"PlayerControl.h"
 #include"imgui.h"
+#include "KnockAttack.h"
 
 /// <summary>
 /// コンストラクタ
@@ -17,6 +23,7 @@ using namespace DirectX;
 
 BossEnemy::BossEnemy()
 {
+	ResourcesSet();
 }
 
 /// <summary>
@@ -26,13 +33,33 @@ BossEnemy::~BossEnemy()
 {
 }
 
+void BossEnemy::ResourcesSet()
+{
+	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+
+	//モデルセット
+	m_Object = std::make_unique<Object3d>();
+	m_Object->Initialize(camera);
+
+	m_fbxObject = std::make_unique<f_Object3d>();
+	m_fbxObject->Initialize();
+	m_fbxObject->SetModel(ModelManager::GetIns()->GetFBXModel(ModelManager::BOSS));
+	m_fbxObject->PlayAnimation();
+	
+	Sprite* l_Bar = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::BOSSHPFRAMEINNER), { 0, 0 });
+	Sprite* BossHPFrame = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::BOSSHPFRAME), { 0, 0 });
+	Sprite* BossHPFrame_Inner = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::BOSSHPFRAMEINNER2), { 0, 0 });;
+	m_BossHP.reset(l_Bar);
+	m_BossHPFrame.reset(BossHPFrame);
+	m_BossHPFrame2.reset(BossHPFrame_Inner);
+
+}
+
 //初期化処理
 void BossEnemy::Initialize()
 {
 	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
 
-	m_Object = std::make_unique<Object3d>();
-	m_Object->Initialize(camera);
 	//m_Object->CreateGraphicsPipeline(L"Resources/Shader/Object3dVS.hlsl", L"Resources/Shader/Object3dPS.hlsl", L"Resources/Shader/BasicGS.hlsl");
 	MaxHP = 560;
 	EnemyHP = MaxHP;
@@ -40,10 +67,6 @@ void BossEnemy::Initialize()
 	Scale = {0.15f, 0.1f, 0.15f};
 	Rotation = {96.0f, 0.0f, -101.0f};
 
-	m_fbxObject = std::make_unique<f_Object3d>();
-	m_fbxObject->Initialize();
-	m_fbxObject->SetModel(ModelManager::GetIns()->GetFBXModel(ModelManager::BOSS));
-	m_fbxObject->PlayAnimation();
 	radius_adjustment = 0;
 	AttackTime = 51.000f / 60.000f;
 	cooltime = 0;
@@ -78,6 +101,24 @@ void BossEnemy::Initialize()
 	addRotRadians = -111.0f;
 	SetCollider();
 	state_boss->Initialize(this);
+
+
+	
+	m_BossHP->SetSize({ 0, 20 });
+	m_BossHPFrame->SetSize({ 600, 50 });
+	m_BossHP->SetAnchorPoint({ 0.0f, 0.0f });
+	m_BossHPFrame->SetAnchorPoint({ 0.0f, 0.5f });
+
+	BarPos = { 381.0f, 862.0f };
+	BarFramePos = { 122.0f, 830.0f };
+	FrameScl.x = Percent::GetParcent(static_cast<float>(MaxHP), static_cast<float>(EnemyHP)) *17.0f;
+
+	//各攻撃処理の初期化
+	HalfAttack::GetInstance()->Initialize();
+	KnockAttack::GetInstance()->Initialize();
+	CircleAttack::GetInstance()->Initialize();
+	AltAttack::GetInstance()->Initialize();
+	FrontCircleAttack::GetInstance()->Initialize();
 }
 
 //更新処理
@@ -104,10 +145,12 @@ void BossEnemy::Update()
 	//攻撃後のクールタイム設定
 	AttackCoolTime();
 	//地形当たり判定
-	CollisionField();
+	//CollisionField();
 	//攻撃受けたらパーティクル
 	DamageParticleSet();
-	m_fbxObject->SetFogPos({camera->GetEye()});
+
+	HPGaugeBoss();
+	//m_fbxObject->SetFogPos({camera->GetEye()});
 	m_fbxObject->SetHandBoneIndex(80);
 	m_fbxObject->SetFbxTime(f_time);
 }
@@ -134,6 +177,19 @@ void BossEnemy::AttackCollide()
 
 void BossEnemy::EnemyHPDraw()
 {
+	if (m_fbxObject == nullptr||
+		m_BossHPFrame == nullptr)
+	{
+		return;
+	}
+	Sprite::PreDraw();
+	
+	m_BossHPFrame2->Draw();
+
+	m_BossHP->Draw();
+	m_BossHPFrame->Draw();
+
+	Sprite::PostDraw();
 }
 
 //描画処理
@@ -263,4 +319,70 @@ void BossEnemy::DamageParticleSet()
 
 void BossEnemy::HPFrameInit()
 {
+}
+
+void BossEnemy::HPGaugeBoss()
+{
+	if (RecvDamagef)
+	{
+		if (FrameScalingETime >= 1.0f)
+		{
+			InnerFrameScalingF = true;
+			RecvDamagef = false;
+		}
+		FrameScalingETime_Inner = 0.0f;
+		if (!InnerFrameScalingF)
+		{
+			OldFrameX_Inner = OldFrameX;
+		}
+		NowFrameX = Percent::GetParcent(static_cast<float>(MaxHP), static_cast<float>(EnemyHP)) *17.0f;
+		FrameScalingETime += 0.05f;
+		if (FrameScl.x > 0.0f)
+		{
+			FrameScl.x = Easing::EaseOut(FrameScalingETime, OldFrameX, NowFrameX);
+		}
+
+
+	}
+
+	else
+	{
+		OldFrameX = Percent::GetParcent(static_cast<float>(MaxHP), static_cast<float>(EnemyHP)) *17.0f;
+
+		FrameScalingETime = 0.0f;
+	}
+	if (EnemyHP <= 0)
+	{
+		if (FrameScl_Inner.x > 0.f) {
+			FrameScalingETime_Inner += 0.02f;
+		}
+		FrameScl_Inner.x = Easing::EaseOut(FrameScalingETime_Inner, OldFrameX_Inner, 0.f);
+		InnerFrameScalingF = false;
+
+	}
+	if (InnerFrameScalingF)
+	{
+		FrameScalingETime_Inner += 0.02f;
+		//体力が０なったときだけEaseの終わりを０に
+		if (EnemyHP <= 0)
+		{
+			FrameScl_Inner.x = Easing::EaseOut(FrameScalingETime_Inner, OldFrameX_Inner, 0.f);
+			InnerFrameScalingF = false;
+		} else
+		{
+			FrameScl_Inner.x = Easing::EaseOut(FrameScalingETime_Inner, OldFrameX_Inner, NowFrameX);
+		}
+		//ゲージの減りが止まったらフラグ切る
+		if (FrameScalingETime_Inner >= 1.0f)
+		{
+			InnerFrameScalingF = false;
+		}
+	}
+	m_BossHP->SetSize({ FrameScl.x, 51.f});
+	m_BossHPFrame2->SetSize({ FrameScl_Inner.x, 51.0f });
+	m_BossHPFrame->SetSize({ 1800.0f, 117.0f });
+	
+	m_BossHP->SetPosition({ 181.0f, 862.0f });
+	m_BossHPFrame2->SetPosition({ 181.0f, 862.0f });
+	m_BossHPFrame->SetPosition( { 122.0f, 830.0f });
 }

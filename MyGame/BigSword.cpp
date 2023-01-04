@@ -36,7 +36,7 @@ void BigSword::Update()
 	m_Object->Setf(FALSE);
 	//フィールド
 	m_Object->SetRotation(Rotation);
-	animetiontime = 0.02f;
+	animetiontime = 0.8f;
 	KnockPower = 40.0f;
 	m_Object->SetScale(Scale);
 	m_Object->Update(PlayerControl::GetInstance()->GetPlayer()->GetHanMat(), {1, 1, 1, 1}, camera);

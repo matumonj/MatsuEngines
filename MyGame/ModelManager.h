@@ -40,7 +40,8 @@ public:
 		HOUSE,
 		SANDFIELD,
 		LANTHANUM,
-		BEAM
+		BEAM,
+		THROWROCK
 	};
 
 	enum FBXName

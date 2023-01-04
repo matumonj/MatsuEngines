@@ -1,9 +1,4 @@
 #include "ControlBase.h"
-#include<fstream>
-#include<string>
-#include<sstream>
-#include<ostream>
-#include <iostream>
 #include"Enemy.h"
 #include"DebugCamera.h"
 #include<memory>
@@ -30,8 +25,9 @@ private:
 private:
 	enum
 	{
-		ALPHAENEMY = 1,
-		BETAENEMY = 2,
+		GOLEMENEMY = 1,
+		ALPHAENEMY = 2,
+		BETAENEMY=3
 	};
 
 public:
