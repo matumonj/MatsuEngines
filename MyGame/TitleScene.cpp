@@ -49,27 +49,11 @@ void TitleScene::Update()
 	{
 		SceneManager::GetInstance()->SetScene(SceneManager::MAPCREATE, sceneManager_);
 	}
-	if (feedf)
-	{
-		Cangle += 0.5f;
-		float cameratocenter_x = sqrtf((CameraPos.x - 16.0f) * (CameraPos.x - 16.0f));
-		if (cameratocenter_x < 1.0f && CameraPos.y < -30.0f)
-		{
-			BackCam = true;
-		}
-	}
-	else
-	{
-		Cangle += 0.1f;
-	}
-	if (CameraPos.y <= -40.0f)
-	{
-		Feed::GetInstance()->Update_White(Feed::FEEDIN);
-	}
+	
 
 
 	//画面真っ白になったらシーン切り替え
-	if (Feed::GetInstance()->GetAlpha() >= 1.0f)
+	if (ChangeScene()==true)
 	{
 		SceneManager::GetInstance()->SetScene(SceneManager::TUTORIAL, sceneManager_);
 	}
@@ -102,6 +86,34 @@ void TitleScene::Update()
 	camera->SetTarget({0.0f, 0.0f, 0.0f});
 	camera->Update();
 	//	DebugTextSprite::GetInstance()->Print("aa", 0, 0, 2);
+}
+
+bool TitleScene::ChangeScene()
+{
+	if (feedf)
+	{
+		Cangle += 0.5f;
+		float cameratocenter_x = sqrtf((CameraPos.x - 16.0f) * (CameraPos.x - 16.0f));
+		if (cameratocenter_x < 1.0f && CameraPos.y < -30.0f)
+		{
+			BackCam = true;
+		}
+	} else
+	{
+		Cangle += 0.1f;
+	}
+	if (CameraPos.y <= -40.0f)
+	{
+		Feed::GetInstance()->Update_White(Feed::FEEDIN);
+	}
+
+	//画面真っ白になったらシーン切り替え
+	if (Feed::GetInstance()->GetAlpha() >= 1.0f)
+	{
+		return true;
+	}
+	return false;
+
 }
 
 /*------------------------*/

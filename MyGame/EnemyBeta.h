@@ -51,7 +51,7 @@ private:
 	bool isendtime;
 	std::unique_ptr<Object3d> Sword;
 	int rand_Attacktype;
-
+	int hindex;
 	enum AttackNumber
 	{
 		IDLE,
@@ -60,6 +60,9 @@ private:
 	}attackNum;
 
 	int attackindex;
+
+	XMMATRIX AttackHand_Right;
+	XMFLOAT3 RightHandPos;
 private:
 	std::unique_ptr<Object3d>ThrowRockObj;
 
@@ -74,6 +77,8 @@ private:
 	bool destF;
 	bool turnoffdrawF;
 
+	void AttackCol_Rock();
+	void AttackCol_Sideway();
 	void PickRock();
 	void AnimationContol(AnimationState name, int animenumber, double speed, bool loop);
 	void FbxAnimationControls(AnimationState motiontype, int number);

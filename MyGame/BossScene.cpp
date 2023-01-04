@@ -17,6 +17,7 @@
 #include <BossMap.h>
 #include"AltAttack.h"
 #include"KnockAttack.h"
+#include "Nail.h"
 
 BossScene::BossScene(SceneManager* sceneManager)
 	: BaseScene(sceneManager)

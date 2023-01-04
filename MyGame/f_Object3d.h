@@ -163,6 +163,8 @@ public: //íËêî
 	int bindexs = 13;
 	void SetFogPos(XMFLOAT3 pos) { fogpos = pos; }
 	void SetHandBoneIndex(int bindex) { bindexs = bindex; }
+	void GetBoneIndexMat(int index,XMMATRIX& matworld);
+	
 	double GetFTime() { return currentTime.GetSecondDouble(); }
 private:
 	XMFLOAT3 fogpos;

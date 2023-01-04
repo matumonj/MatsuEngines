@@ -3,25 +3,15 @@
 #include"Audio.h"
 #include"Sprite.h"
 #include"Input.h"
-#include"WinApp.h"
 #include"Particle.h"
-#include"Object3d.h"
-#include"Model.h"
 #include"Collision.h"
-#include"DebugTxt.h"
 #include"LightGroup.h"
-#include"DebugCamera.h"
 #include"DirectXCommon.h"
-#include "FbxLoader.h"
-#include "f_Object3d.h"
-#include"Texture.h"
 #include"PostEffect.h"
 #include"Enemy.h"
 #include"Effects.h"
-#include"AttackCollision.h"
 #include"TargetMarker.h"
 #include"ControlBase.h"
-#include"Nail.h"
 #include"CircleAttack.h"
 #pragma comment(lib,"winmm.lib")
 class CollisionManager;
@@ -47,7 +37,6 @@ public:
 	Input* input;
 	Particle* p;
 	bool scenechange;
-	unsigned long prev_time = timeGetTime();
 	int count_frame = 0;
 	std::unique_ptr<BomAttack> bAttack;
 private:

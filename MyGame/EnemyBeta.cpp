@@ -68,6 +68,7 @@ void EnemyBeta::Initialize()
 	m_Object = std::make_unique<Object3d>();
 	m_Object->Initialize(camera);
 
+	//FBX周りの初期化
 	m_fbxObject = std::make_unique<f_Object3d>();
 	m_fbxObject->Initialize();
 	m_fbxObject->SetModel(FbxLoader::GetInstance()->LoadModelFromFile("puchigolem"));
@@ -78,7 +79,6 @@ void EnemyBeta::Initialize()
 	ThrowRockObj = std::make_unique<Object3d>();
 	ThrowRockObj->Initialize(camera);
 	ThrowRockObj->SetModel(ModelManager::GetIns()->GetModel(ModelManager::THROWROCK));
-
 	ThrowRockObj->SetScale({ 2.f,2.f,2.f });
 
 	//パラメータのセット
@@ -139,14 +139,15 @@ void EnemyBeta::Update()
 	m_fbxObject->SetFogPos(camera->GetEye());
 	m_fbxObject->Update(m_AnimeLoop, m_AnimeSpeed, m_AnimationStop);
 
-	m_fbxObject->SetHandBoneIndex(19);
+	m_fbxObject->SetHandBoneIndex(hindex);
 	//石オブジェの更新
 	ThrowRockObj->SetPosition(RockPos);
 	ThrowRockObj->Update({ 1.f,1.f,1.f,1.f }, camera);
-
 	//被ダメ表記
 	DamageTexDisplay();
 	DamageParticleSet();
+
+	AttackCol_Sideway();
 	//地形当たり判定
 	CollisionField();
 	//体力表記
@@ -170,7 +171,14 @@ void EnemyBeta::Draw()
 		//エフェクトパーティクル
 		DestRock->Draw();
 	}
+	ImGui::Begin("hand");
+	ImGui::SliderInt("index", &hindex,0,30);
+	ImGui::End();
+}
 
+void EnemyBeta::Smoke(bool& createf)
+{
+	
 }
 
 void EnemyBeta::Death()
@@ -215,8 +223,54 @@ void EnemyBeta::Move()
 {
 }
 
-void EnemyBeta::Smoke(bool& createf)
+void EnemyBeta::AttackCol_Rock()
 {
+	//石とプレイヤーのあたりはんてい
+	XMFLOAT3 l_playerpos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	const bool ColPlayer = Collision::GetLength(RockPos, l_playerpos) < 5.f;
+	const bool ColGround = RockPos.y <= -32.f;
+
+	if (ColPlayer)
+	{
+		if (turnoffdrawF == false && tmotion != PICK) {
+			destF = true;
+		}
+	}
+	if (destF)
+	{
+		turnoffdrawF = true;
+		//PlayerControl::GetInstance()->GetPlayer()->RecvDamage(10);
+		DestRock->SetParF(1);
+		DestRock->CreateParticle(destF, { RockPos });
+		destF = false;
+	}
+	DestRock->Upda_B();
+}
+
+void EnemyBeta::AttackCol_Sideway()
+{
+	//攻撃状態でない時
+	if (animeState != ATTACK1)return;
+	//アニメーション番号が横振り以外のとき
+	if (attackindex != 3)return;
+
+	//右手とプレイヤーのあたりはんてい
+	XMFLOAT3 l_playerpos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	//FBXボーンから座標を取る
+	constexpr int boneindex = 10;
+	constexpr float disrange = 10.f;
+	constexpr int damage = 10;
+
+	m_fbxObject->GetBoneIndexMat(boneindex, AttackHand_Right);
+	RightHandPos = { AttackHand_Right.r[3].m128_f32[0],AttackHand_Right.r[3].m128_f32[1],AttackHand_Right.r[3].m128_f32[2] };
+
+	//判定条件
+	const bool ColPlayer = Collision::GetLength(RightHandPos, l_playerpos) <disrange;
+
+	if(ColPlayer)
+	{
+		PlayerControl::GetInstance()->GetPlayer()->RecvDamage(damage);
+	}
 }
 
 
@@ -236,7 +290,7 @@ void EnemyBeta::PickRock()
 		{
 			tmotion = THROW;
 		}
-		RockPos = GetHandPos();
+		RockPos =GetHandPos();
 	}
 	if (tmotion == THROW)
 	{
@@ -310,26 +364,7 @@ void EnemyBeta::AttackMotion()
 	}
 	PickRock();
 
-	//石とプレイヤーのあたりはんてい
-	XMFLOAT3 l_playerpos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
-	const bool ColPlayer = Collision::GetLength(RockPos, l_playerpos) < 5.f;
-	const bool ColGround = RockPos.y <= -32.f;
-
-	if (ColPlayer)
-	{
-		if (turnoffdrawF == false && tmotion != PICK) {
-			destF = true;
-		}
-	}
-	if (destF)
-	{
-		turnoffdrawF = true;
-		//PlayerControl::GetInstance()->GetPlayer()->RecvDamage(10);
-		DestRock->SetParF(1);
-		DestRock->CreateParticle(destF, { RockPos });
-		destF = false;
-	}
-	DestRock->Upda_B();
+	AttackCol_Rock();
 }
 
 
@@ -361,6 +396,5 @@ XMFLOAT3 EnemyBeta::GetHandPos()
 	return XMFLOAT3({ m_fbxObject->GetHandBoneMatWorld().r[3].m128_f32[0],// GetPosition().x;
 	m_fbxObject->GetHandBoneMatWorld().r[3].m128_f32[1], // GetPosition().x;
 	m_fbxObject->GetHandBoneMatWorld().r[3].m128_f32[2] // GetPosition().x;
-
 		});
 }

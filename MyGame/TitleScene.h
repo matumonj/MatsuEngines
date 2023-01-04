@@ -53,6 +53,7 @@ private:
 	void TitleTexUpda();
 	void TitleTexDraw();
 
+	bool ChangeScene();
 	void TitleFieldInit();
 	void TitleFieldUpda();
 };

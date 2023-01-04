@@ -2,27 +2,12 @@
 #include"BaseScene.h"
 #include"Audio.h"
 #include"Sprite.h"
-#include"Input.h"
-#include"WinApp.h"
-
-#include"Object3d.h"
-#include"Model.h"
-#include"Collision.h"
-#include"DebugTxt.h"
 #include"LightGroup.h"
 #include"DebugCamera.h"
-#include "FbxLoader.h"
-#include "f_Object3d.h"
-#include"Texture.h"
 #include"PostEffect.h"
-#include"Enemy.h"
-#include"AttackCollision.h"
-#include"TargetMarker.h"
 #include"ControlBase.h"
-#include"ParticleManager.h"
 #pragma comment(lib,"winmm.lib")
 #include"GrassField.h"
-#include"GrassObj.h"
 class CollisionManager;
 class Player;
 
@@ -44,10 +29,6 @@ private: // エイリアス
 	using XMVECTOR = XMVECTOR;
 
 private:
-	const float window_width = 1900.0f;
-	const float window_height = 1020.0f;
-	static const int DebugTextSpriteTexNumber = 0;
-
 	bool scenechange = false;
 	bool feedflag = false;
 	PostEffect* postEffect = nullptr;
@@ -55,7 +36,8 @@ private:
 public:
 	void MyGameDraw();
 	void objUpdate();
-
+	void LightSet();
+	void LightUpdate();
 public:
 	XMFLOAT3 texpo = {0.0f, 0.0f, 0.0f};
 	void Initialize() override;
@@ -98,6 +80,7 @@ private:
 	bool Play = false;
 	bool hudload = false;
 	bool Load = false;
+
 	std::vector<ControlBase*> AllObjectControl;
 	std::unique_ptr<GrassField> grassfield;
 };

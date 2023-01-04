@@ -34,19 +34,14 @@ Tutorial::Tutorial(SceneManager* sceneManager)
 /*------------------------*/
 void Tutorial::Initialize()
 {
-	// ライト生成
-	lightGroup = LightGroup::Create();
-	//lightGroup2 = LightGroup::Create();
+	//ライト初期化
+	LightSet();
 	// 3Dオブエクトにライトをセット
 	Object3d::SetLightGroup(lightGroup);
 	GrassObj::SetLightGroup(lightGroup);
-	lightGroup->SetDirLightActive(0, true);
-	lightGroup->SetDirLightActive(1, true);
-	lightGroup->SetPointLightActive(0, false);
-	lightGroup->SetPointLightActive(1, false);
-	lightGroup->SetCircleShadowActive(0, true);
-	lightGroup->SetCircleShadowActive(1, true);
+
 	Texture::LoadTexture(47, L"Resources/df.png");
+	/*オブジェクト初期化*/
 	{
 		AllObjectControl.emplace_back(CameraControl::GetInstance()); //Camera
 		AllObjectControl.emplace_back(EnemyControl::GetInstance()); //Enemy
@@ -67,7 +62,21 @@ void Tutorial::Initialize()
 	SelectSword::GetInstance()->Initialize();
 
 	Sprite::LoadTexture(0, L"Resources/2d/LevelUp/debugfont.png");
+
 	DebugTextSprite::GetInstance()->Initialize(0);
+}
+
+void Tutorial::LightSet()
+{
+	// ライト生成
+	lightGroup = LightGroup::Create();
+
+	lightGroup->SetDirLightActive(0, true);
+	lightGroup->SetDirLightActive(1, true);
+	lightGroup->SetPointLightActive(0, false);
+	lightGroup->SetPointLightActive(1, false);
+	lightGroup->SetCircleShadowActive(0, true);
+	lightGroup->SetCircleShadowActive(1, true);
 }
 
 /*------------------------*/
@@ -121,6 +130,7 @@ void Tutorial::Update()
 	//csv読み込み部分(Cameraの更新後にするのでobjUpdate()挟んでから)
 	LoadParam();
 
+	LightUpdate();
 	//一定数進んだらシーンチェンジ
 	bool ArrivalJudg = PlayerControl::GetInstance()->GetPlayer()->GetPosition().z > -470.0f;
 	if (ArrivalJudg)
@@ -141,35 +151,34 @@ void Tutorial::Update()
 		c_postEffect = Default;
 	}
 
-	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
-	if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr)
-	{
-		lightGroup->SetCircleShadowDir(0, XMVECTOR({circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0}));
-		lightGroup->SetCircleShadowCasterPos(0, {
-			                                     EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->
-			                                     GetPosition()
-		                                     });
-		lightGroup->SetCircleShadowAtten(0, XMFLOAT3(circleShadowAtten));
-		lightGroup->SetCircleShadowFactorAngle(0, XMFLOAT2(circleShadowFactorAngle2));
-	}
-	lightGroup->SetCircleShadowDir(1, XMVECTOR({circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0}));
-	lightGroup->SetCircleShadowCasterPos(1, {ppos});
-	lightGroup->SetCircleShadowAtten(1, XMFLOAT3(circleShadowAtten));
-	lightGroup->SetCircleShadowFactorAngle(1, XMFLOAT2(circleShadowFactorAngle));
-	// BossMap::GetInstance()->Upda();
-
 	if (scenechange && Feed::GetInstance()->GetAlpha() >= 1.0f)
 	{
 		//画面真っ白なったら
 		Play = false;
 		SceneManager::GetInstance()->SetScene(SceneManager::PLAY, sceneManager_);
 	}
-	if (Input::GetInstance()->TriggerButton(Input::RT))
+	
+}
+
+void Tutorial::LightUpdate()
+{
+
+	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr)
 	{
-		//画面真っ白なったら
-		Play = false;
-		SceneManager::GetInstance()->SetScene(SceneManager::BOSS, sceneManager_);
+		lightGroup->SetCircleShadowDir(0, XMVECTOR({ circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0 }));
+		lightGroup->SetCircleShadowCasterPos(0, {
+												 EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->
+												 GetPosition()
+			});
+		lightGroup->SetCircleShadowAtten(0, XMFLOAT3(circleShadowAtten));
+		lightGroup->SetCircleShadowFactorAngle(0, XMFLOAT2(circleShadowFactorAngle2));
 	}
+	lightGroup->SetCircleShadowDir(1, XMVECTOR({ circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0 }));
+	lightGroup->SetCircleShadowCasterPos(1, { ppos });
+	lightGroup->SetCircleShadowAtten(1, XMFLOAT3(circleShadowAtten));
+	lightGroup->SetCircleShadowFactorAngle(1, XMFLOAT2(circleShadowFactorAngle));
+
 }
 
 /*------------------------*/
@@ -212,7 +221,6 @@ void Tutorial::Draw()
 	case Default: //普通のやつ特に何もかかっていない
 
 		postEffect->PreDrawScene();
-	//Field::GetInstance()->MiniFieldDraw();
 		postEffect->PostDrawScene();
 
 		DirectXCommon::GetInstance()->BeginDraw();
@@ -221,7 +229,7 @@ void Tutorial::Draw()
 		PlayerControl::GetInstance()->GetPlayer()->ParticleDraw();
 		TutorialSprite::GetInstance()->DrawTargetPos();
 
-	//postEffect->Draw();
+		//postEffect->Draw();
 		Sprite::PreDraw();
 		if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr)
 		{

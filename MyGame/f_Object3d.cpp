@@ -402,6 +402,7 @@ void f_Object3d::Update(bool Loop, double Speed, bool& Stop)
 	FbxLoader::ConvertMatrixFromFbx(&HandMatWorld,
 		bones[num].fbxCluster->GetLink()->EvaluateGlobalTransform(currentTime));
 
+	
 	HandMatWorld = HandMatWorld * matWorld;
 
 	constBuffSkin->Unmap(0, nullptr);
@@ -476,9 +477,17 @@ void f_Object3d::Updata()
 	FbxLoader::ConvertMatrixFromFbx(&HandMatWorld,
 	                                bones[num].fbxCluster->GetLink()->EvaluateGlobalTransform(currentTime));
 
+
 	constBuffSkin->Unmap(0, nullptr);
 }
+void f_Object3d::GetBoneIndexMat(int index,XMMATRIX &matworld)
+{
+	FbxLoader::ConvertMatrixFromFbx(&matworld,
+		model->GetBones()[index].fbxCluster->GetLink()->EvaluateGlobalTransform(currentTime));
 
+	matworld = matworld * matWorld;
+
+}
 void f_Object3d::Draw()
 {
 	//ƒ‚ƒfƒ‹‚ÌŠ„‚è“–‚Ä‚ª‚È‚¯‚ê‚Î•`‰æ‚µ‚È‚¢

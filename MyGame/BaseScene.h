@@ -1,17 +1,4 @@
 #pragma once
-#include<d3d12.h>
-#include<d3dx12.h>
-#include<dxgi1_6.h>
-#include<vector>
-#include<string>
-#include<DirectXMath.h>
-#include<d3dcompiler.h>
-#include<dinput.h>
-#include<dinput.h>
-
-#include<DirectXTex.h>
-#include<wrl.h>
-#include"DirectXCommon.h"
 #pragma comment(lib,"d3dcompiler.lib")
 #pragma comment(lib,"d3d12.lib")
 
@@ -29,6 +16,7 @@ public:
 	virtual void Update() = 0;
 	virtual void Draw() = 0;
 	virtual void Finalize() = 0;
+
 	//virtual void SpriteDraw(ID3D12GraphicsCommandList* cmdList) = 0;
 protected:
 	SceneManager* sceneManager_ = nullptr;
