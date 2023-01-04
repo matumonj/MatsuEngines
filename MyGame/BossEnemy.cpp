@@ -45,14 +45,14 @@ void BossEnemy::ResourcesSet()
 	m_fbxObject->Initialize();
 	m_fbxObject->SetModel(ModelManager::GetIns()->GetFBXModel(ModelManager::BOSS));
 	m_fbxObject->PlayAnimation();
-	
-	Sprite* l_Bar = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::BOSSHPFRAMEINNER), { 0, 0 });
-	Sprite* BossHPFrame = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::BOSSHPFRAME), { 0, 0 });
-	Sprite* BossHPFrame_Inner = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::BOSSHPFRAMEINNER2), { 0, 0 });;
+
+	Sprite* l_Bar = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::BOSSHPFRAMEINNER), {0, 0});
+	Sprite* BossHPFrame = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::BOSSHPFRAME), {0, 0});
+	Sprite* BossHPFrame_Inner = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::BOSSHPFRAMEINNER2),
+	                                           {0, 0});
 	m_BossHP.reset(l_Bar);
 	m_BossHPFrame.reset(BossHPFrame);
 	m_BossHPFrame2.reset(BossHPFrame_Inner);
-
 }
 
 //‰Šú‰»ˆ—
@@ -103,15 +103,14 @@ void BossEnemy::Initialize()
 	state_boss->Initialize(this);
 
 
-	
-	m_BossHP->SetSize({ 0, 20 });
-	m_BossHPFrame->SetSize({ 600, 50 });
-	m_BossHP->SetAnchorPoint({ 0.0f, 0.0f });
-	m_BossHPFrame->SetAnchorPoint({ 0.0f, 0.5f });
+	m_BossHP->SetSize({0, 20});
+	m_BossHPFrame->SetSize({600, 50});
+	m_BossHP->SetAnchorPoint({0.0f, 0.0f});
+	m_BossHPFrame->SetAnchorPoint({0.0f, 0.5f});
 
-	BarPos = { 381.0f, 862.0f };
-	BarFramePos = { 122.0f, 830.0f };
-	FrameScl.x = Percent::GetParcent(static_cast<float>(MaxHP), static_cast<float>(EnemyHP)) *17.0f;
+	BarPos = {381.0f, 862.0f};
+	BarFramePos = {122.0f, 830.0f};
+	FrameScl.x = Percent::GetParcent(static_cast<float>(MaxHP), static_cast<float>(EnemyHP)) * 17.0f;
 
 	//ŠeUŒ‚ˆ—‚Ì‰Šú‰»
 	HalfAttack::GetInstance()->Initialize();
@@ -124,7 +123,10 @@ void BossEnemy::Initialize()
 //XVˆ—
 void BossEnemy::Update()
 {
-	if (m_fbxObject == nullptr)return;
+	if (m_fbxObject == nullptr)
+	{
+		return;
+	}
 	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
 
 	et += 0.01f;
@@ -177,13 +179,13 @@ void BossEnemy::AttackCollide()
 
 void BossEnemy::EnemyHPDraw()
 {
-	if (m_fbxObject == nullptr||
+	if (m_fbxObject == nullptr ||
 		m_BossHPFrame == nullptr)
 	{
 		return;
 	}
 	Sprite::PreDraw();
-	
+
 	m_BossHPFrame2->Draw();
 
 	m_BossHP->Draw();
@@ -335,30 +337,28 @@ void BossEnemy::HPGaugeBoss()
 		{
 			OldFrameX_Inner = OldFrameX;
 		}
-		NowFrameX = Percent::GetParcent(static_cast<float>(MaxHP), static_cast<float>(EnemyHP)) *17.0f;
+		NowFrameX = Percent::GetParcent(static_cast<float>(MaxHP), static_cast<float>(EnemyHP)) * 17.0f;
 		FrameScalingETime += 0.05f;
 		if (FrameScl.x > 0.0f)
 		{
 			FrameScl.x = Easing::EaseOut(FrameScalingETime, OldFrameX, NowFrameX);
 		}
-
-
 	}
 
 	else
 	{
-		OldFrameX = Percent::GetParcent(static_cast<float>(MaxHP), static_cast<float>(EnemyHP)) *17.0f;
+		OldFrameX = Percent::GetParcent(static_cast<float>(MaxHP), static_cast<float>(EnemyHP)) * 17.0f;
 
 		FrameScalingETime = 0.0f;
 	}
 	if (EnemyHP <= 0)
 	{
-		if (FrameScl_Inner.x > 0.f) {
+		if (FrameScl_Inner.x > 0.f)
+		{
 			FrameScalingETime_Inner += 0.02f;
 		}
 		FrameScl_Inner.x = Easing::EaseOut(FrameScalingETime_Inner, OldFrameX_Inner, 0.f);
 		InnerFrameScalingF = false;
-
 	}
 	if (InnerFrameScalingF)
 	{
@@ -368,7 +368,8 @@ void BossEnemy::HPGaugeBoss()
 		{
 			FrameScl_Inner.x = Easing::EaseOut(FrameScalingETime_Inner, OldFrameX_Inner, 0.f);
 			InnerFrameScalingF = false;
-		} else
+		}
+		else
 		{
 			FrameScl_Inner.x = Easing::EaseOut(FrameScalingETime_Inner, OldFrameX_Inner, NowFrameX);
 		}
@@ -378,11 +379,11 @@ void BossEnemy::HPGaugeBoss()
 			InnerFrameScalingF = false;
 		}
 	}
-	m_BossHP->SetSize({ FrameScl.x, 51.f});
-	m_BossHPFrame2->SetSize({ FrameScl_Inner.x, 51.0f });
-	m_BossHPFrame->SetSize({ 1800.0f, 117.0f });
-	
-	m_BossHP->SetPosition({ 181.0f, 862.0f });
-	m_BossHPFrame2->SetPosition({ 181.0f, 862.0f });
-	m_BossHPFrame->SetPosition( { 122.0f, 830.0f });
+	m_BossHP->SetSize({FrameScl.x, 51.f});
+	m_BossHPFrame2->SetSize({FrameScl_Inner.x, 51.0f});
+	m_BossHPFrame->SetSize({1800.0f, 117.0f});
+
+	m_BossHP->SetPosition({181.0f, 862.0f});
+	m_BossHPFrame2->SetPosition({181.0f, 862.0f});
+	m_BossHPFrame->SetPosition({122.0f, 830.0f});
 }

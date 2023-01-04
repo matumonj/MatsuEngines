@@ -277,7 +277,7 @@ void EnemyControl::Update_Play()
 			{
 				Task::GetInstance()->SetFlogDestroyCount();
 
-				
+
 				if (Task::GetInstance()->ClearTaskONE() == true)
 				{
 					if (Task::GetInstance()->GetFlogDesthCount(2))
@@ -304,11 +304,11 @@ void EnemyControl::Update_Play()
 					if (Task::GetInstance()->GetMiniGolemDesthCount(2))
 					{
 						ChestControl::GetInstance()->SetChestAppearance(ChestControl::GREEN, {
-																			enemys[PLAYSCENE][i]->GetPosition().x,
-																			enemys[PLAYSCENE][i]->GetPosition().y +
-																			10.0f,
-																			enemys[PLAYSCENE][i]->GetPosition().z
-							});
+							                                                enemys[PLAYSCENE][i]->GetPosition().x,
+							                                                enemys[PLAYSCENE][i]->GetPosition().y +
+							                                                10.0f,
+							                                                enemys[PLAYSCENE][i]->GetPosition().z
+						                                                });
 					}
 				}
 			}
@@ -501,7 +501,8 @@ void EnemyControl::HPFrameDraw()
 			}
 			SummonEnemys[i]->EnemyHPDraw();
 		}
-		if (enemys[BOSS].size()>0&& enemys[BOSS][0]!=nullptr) {
+		if (enemys[BOSS].size() > 0 && enemys[BOSS][0] != nullptr)
+		{
 			enemys[BOSS][0]->EnemyHPDraw();
 		}
 	}
@@ -613,7 +614,7 @@ void EnemyControl::GameOverResetParam()
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
 	{
 		enemys[BOSS][0]->Initialize();
-		boss_pos = { -1.0f, 10.0f, 20.987f };
+		boss_pos = {-1.0f, 10.0f, 20.987f};
 
 		enemys[BOSS][0]->SetPosition(boss_pos);
 		enemys[BOSS][0]->SetHP(enemys[BOSS][0]->GetMaxHP());

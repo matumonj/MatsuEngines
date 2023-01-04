@@ -96,7 +96,13 @@ public:
 			for (int i = 0; i < m_particles[NORMAL].size; i++) { m_particles[NORMAL].EndParUpda[i] = f; }
 		}
 	}
-	bool GetParPhase_End() { if (m_particles[NORMAL].phase == END) { return true; }return false; }
+
+	bool GetParPhase_End()
+	{
+		if (m_particles[NORMAL].phase == END) { return true; }
+		return false;
+	}
+
 private:
 	bool isAryEqual(std::vector<float> num);
 };

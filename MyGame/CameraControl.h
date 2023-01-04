@@ -133,6 +133,7 @@ public:
 		UPDA_PDEATH,
 		END_PDEATH
 	};
+
 	SplineCamera GetCameraState_Spline() { return sCamera; }
 private:
 	BossCamera bCamera;

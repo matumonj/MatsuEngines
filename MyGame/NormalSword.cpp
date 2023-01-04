@@ -42,7 +42,7 @@ void NormalSword::Update()
 	m_Object->SetDestFlag(FALSE);
 	m_Object->SetRotation(Rotation);
 
-	
+
 	m_Object->Update(PlayerControl::GetInstance()->GetPlayer()->GetHanMat(), {1.0f, 1.0f, 1.0f, 1.0f}, camera);
 }
 

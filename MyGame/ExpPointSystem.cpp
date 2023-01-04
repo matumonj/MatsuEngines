@@ -23,24 +23,19 @@ void ExpPointSystem::ExpPoint_Los(int point)
 
 void ExpPointSystem::Init()
 {
-	
 }
 
 void ExpPointSystem::Upda()
 {
-
 }
 
 void ExpPointSystem::expBarUpda()
 {
-
 }
 
 
 void ExpPointSystem::Draw()
 {
-
-
 	//ImGui::Begin("BossHP");
 	//ImGui::SliderFloat("BarX", &BarScl.x, 0, 1900);
 	//ImGui::SliderFloat("BarY", &BarScl.y, 0, 1000);

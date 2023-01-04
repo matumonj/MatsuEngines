@@ -47,7 +47,7 @@ void PlaceEnemy::FileWriting()
 
 void PlaceEnemy::ArgMent(DebugCamera* camera)
 {
-	if (ArgmentFlag || BossArgmentFlag||BetaArgmentFlag)
+	if (ArgmentFlag || BossArgmentFlag || BetaArgmentFlag)
 	{
 		std::unique_ptr<Enemy> newEnemy;
 		if (ArgmentFlag)

@@ -40,11 +40,14 @@ void AttackCollision::GetCol(int damage)
 	//プレイヤーのインスタンス取得
 	Player* l_player = PlayerControl::GetInstance()->GetPlayer();
 
-	bool attackcolJudgTime_First = l_player->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->FIRST&&l_player->GetFbxTime()>0.3f;
+	bool attackcolJudgTime_First = l_player->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->FIRST &&
+		l_player->GetFbxTime() > 0.3f;
 
-	bool attackcolJudgTime_Second =l_player->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->SECOND && l_player->GetFbxTime() > 0.3f;
+	bool attackcolJudgTime_Second = l_player->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->SECOND &&
+		l_player->GetFbxTime() > 0.3f;
 
-	bool attackcolJudgTime_Third =l_player->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->THIRD && l_player->GetFbxTime() > 0.3f;
+	bool attackcolJudgTime_Third = l_player->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->THIRD &&
+		l_player->GetFbxTime() > 0.3f;
 
 	if (
 		PlayerControl::GetInstance()->GetPlayer()->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->NON)

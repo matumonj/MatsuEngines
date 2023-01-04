@@ -25,8 +25,8 @@ void Chest::Initialize()
 	m_Object->Initialize(camera);
 	m_Object->SetModel(m_Model);
 	//ps0 = new OBBCollision();
-	Scale = { 30, 30, 30 };
-	Rotation = { 0, 90, 0 };
+	Scale = {30, 30, 30};
+	Rotation = {0, 90, 0};
 	radius_adjustment = 0;
 	SetCollider();
 
@@ -40,7 +40,7 @@ void Chest::Initialize()
 
 void Chest::Update()
 {
-	m_Object->SetColor({ 1, 1, 1, 1 });
+	m_Object->SetColor({1, 1, 1, 1});
 	ParameterSet_Obj();
 
 	//フィールド

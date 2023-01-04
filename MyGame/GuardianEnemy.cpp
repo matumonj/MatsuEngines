@@ -19,12 +19,12 @@ GuardianEnemy::~GuardianEnemy()
 void GuardianEnemy::HPFrameInit()
 {
 	//HPバー初期化
-	Sprite* l_frame1 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME1), { 0, 0 });
-	Sprite* l_frame2 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME2), { 0, 0 });
-	Sprite* l_frame3 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME4), { 0, 0 });
-	Sprite* l_frame4 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME3), { 0, 0 });
+	Sprite* l_frame1 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME1), {0, 0});
+	Sprite* l_frame2 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME2), {0, 0});
+	Sprite* l_frame3 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME4), {0, 0});
+	Sprite* l_frame4 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME3), {0, 0});
 
-	Sprite* l_enemyname = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENEMYNAME_GUARDIAN), { 0, 0 });
+	Sprite* l_enemyname = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENEMYNAME_GUARDIAN), {0, 0});
 
 	HPFrame[0].reset(l_frame1);
 	HPFrame[1].reset(l_frame2);
@@ -33,11 +33,11 @@ void GuardianEnemy::HPFrameInit()
 	EnemyName.reset(l_enemyname);
 	for (int i = 0; i < 4; i++)
 	{
-		HPFrame[i]->SetAnchorPoint({ 0.0f, 0.0f });
+		HPFrame[i]->SetAnchorPoint({0.0f, 0.0f});
 	}
 	FrameScl.x = Percent::GetParcent(static_cast<float>(MaxHP), static_cast<float>(EnemyHP)) * 2.0f;
-
 }
+
 void GuardianEnemy::Initialize()
 {
 	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
@@ -74,9 +74,8 @@ void GuardianEnemy::Initialize()
 	Texture::LoadTexture(68, L"Resources/2d/BossAttackEffect/missileeffect.png");
 	smokepar = std::make_unique<Particle>();
 	smokepar->Init(64);
-	smokepar->SetParScl({ 1.f, 1.f });
-	smokepar->SetParColor({ 1.f, 1.f, 1.f, 1.f });
-
+	smokepar->SetParScl({1.f, 1.f});
+	smokepar->SetParColor({1.f, 1.f, 1.f, 1.f});
 }
 
 void GuardianEnemy::Move()
@@ -89,10 +88,9 @@ void GuardianEnemy::Move()
 void GuardianEnemy::Smoke(bool& createf)
 {
 	smokepar->SetParF(1);
-	smokepar->CreateParticle(createf, { Position.x,-32.f,Position.z});
+	smokepar->CreateParticle(createf, {Position.x, -32.f, Position.z});
 	createf = false;
 }
-
 
 
 void GuardianEnemy::Update()

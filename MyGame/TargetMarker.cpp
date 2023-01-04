@@ -40,7 +40,8 @@ bool TargetMarker::NearGolem(std::vector<std::unique_ptr<Enemy>>& enemy, int ind
 bool TargetMarker::NearMiniGolem(std::vector<std::unique_ptr<Enemy>>& enemy, int index, float* x, float* y, float* z)
 {
 	float tempx, tempy, tempz;
-	if (enemy[index]->GetEnemyNumber() != enemy[index]->MINIGOLEM || enemy[index] == nullptr || enemy[index]->GetHP() < 0)
+	if (enemy[index]->GetEnemyNumber() != enemy[index]->MINIGOLEM || enemy[index] == nullptr || enemy[index]->GetHP() <
+		0)
 	{
 		return false;
 	}
@@ -59,7 +60,7 @@ bool TargetMarker::NearMiniGolem(std::vector<std::unique_ptr<Enemy>>& enemy, int
 bool TargetMarker::NearLizard(std::vector<std::unique_ptr<Enemy>>& enemy, int index, float* x, float* y, float* z)
 {
 	float tempx, tempy, tempz;
-	if (enemy[index]->GetEnemyNumber() != enemy[index]->FLOG|| enemy[index] == nullptr || enemy[index]->GetHP() < 0)
+	if (enemy[index]->GetEnemyNumber() != enemy[index]->FLOG || enemy[index] == nullptr || enemy[index]->GetHP() < 0)
 	{
 		return false;
 	}
@@ -76,7 +77,6 @@ bool TargetMarker::NearLizard(std::vector<std::unique_ptr<Enemy>>& enemy, int in
 
 bool TargetMarker::GetEnemyPosition(std::vector<std::unique_ptr<Enemy>>& enemy, int index, float* x, float* y, float* z)
 {
-
 	return true;
 }
 
@@ -292,7 +292,7 @@ void TargetMarker::Update_PlayScene(DebugCamera* camera)
 	gindex = NearGolemSearch(EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE),
 	                         PlayerControl::GetInstance()->GetPlayer());
 	mindex = NearMiniGolemSearch(EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE),
-		PlayerControl::GetInstance()->GetPlayer());
+	                             PlayerControl::GetInstance()->GetPlayer());
 
 	if (tindex != -1)
 	{

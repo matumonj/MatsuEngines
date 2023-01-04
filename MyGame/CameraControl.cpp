@@ -217,79 +217,79 @@ void CameraControl::AngleRotation()
 void CameraControl::TargetPlayer()
 {
 	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
-	
-		//OldCameraPos = camera->GetEye();
-		//OldCameratarget = camera->GetTarget();
-		//	encountGuardian = START;
-		//	Tstate=ENCOUNTGUARDIAN;
-		//}
-		//else {
-		if (AttackSceneF)
-		{
-			Feed::GetInstance()->Update_White(Feed::FEEDOUT);
-			if (Feed::GetInstance()->GetAlpha() <= 0.0f)
-			{
-				AttackSceneF = false;
-			}
-		}
 
-		this->camera->SetTarget({ PlayerControl::GetInstance()->GetPlayer()->GetPosition() });
-		if (input->TiltPushStick(Input::R_RIGHT) || input->TiltPushStick(Input::R_LEFT))
+	//OldCameraPos = camera->GetEye();
+	//OldCameratarget = camera->GetTarget();
+	//	encountGuardian = START;
+	//	Tstate=ENCOUNTGUARDIAN;
+	//}
+	//else {
+	if (AttackSceneF)
+	{
+		Feed::GetInstance()->Update_White(Feed::FEEDOUT);
+		if (Feed::GetInstance()->GetAlpha() <= 0.0f)
 		{
-			if (input->TiltPushStick(Input::R_RIGHT))
-			{
-				angle += 1.0f;
-				charaAngle += 1.0f;
-				PlayerControl::GetInstance()->GetPlayer()->Setangle(charaAngle);
-			}
-			if (input->TiltPushStick(Input::R_LEFT))
-			{
-				angle -= 1.0f;
-				charaAngle -= 1.0f;
-				PlayerControl::GetInstance()->GetPlayer()->Setangle(charaAngle);
-			}
-			dis.x = sinf(angle * (PI / 180.0f)) * 30.0f;
-			dis.y = cosf(angle * (PI / 180.0f)) * 30.0f;
-			distance.x = dis.x;
-			distance.y = dis.y;
+			AttackSceneF = false;
 		}
-		if (PlayerControl::GetInstance()->GetPlayer()->GetHP() < 0)
-		{
-			if (pdcamera == NON_PDEATH) {
-				CameraPosition = { ppos.x,ppos.y + 30.f,ppos.z - 10.f };
-				pdcamera = UPDA_PDEATH;
-			}
-			if(pdcamera==UPDA_PDEATH)
-			{
-				CameraPosition.x += 0.02f;
-				CameraPosition.y -= 0.02f;
-			}
-		}
-		else
-		{
-			pdcamera = NON_PDEATH;
-			CameraPosition = { ppos.x + distance.x, ppos.y + 6.0f, ppos.z + distance.y };
-
-		}
-		//	camera->SetTarget(player_shadow->GetCameraPos(angle));
-		camera->SetEye(CameraPosition);
-
-		if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
-		{
-			if (Task::GetInstance()->GetAllTaskClear() && FenceControl::GetInstance()->GetBossGateFence()->FenceYposMin() ==
-				FALSE)
-			{
-				Tstate = MOVEBOSSAREA;
-			}
-		}
-		if (Tstate == PLAYER)
-		{
-			sCamera = SplineCamera::PLAYCUTSTART;
-			rCamera = NON_RUSH;
-			mCamera = NON;
-		}
-		//}
 	}
+
+	this->camera->SetTarget({PlayerControl::GetInstance()->GetPlayer()->GetPosition()});
+	if (input->TiltPushStick(Input::R_RIGHT) || input->TiltPushStick(Input::R_LEFT))
+	{
+		if (input->TiltPushStick(Input::R_RIGHT))
+		{
+			angle += 1.0f;
+			charaAngle += 1.0f;
+			PlayerControl::GetInstance()->GetPlayer()->Setangle(charaAngle);
+		}
+		if (input->TiltPushStick(Input::R_LEFT))
+		{
+			angle -= 1.0f;
+			charaAngle -= 1.0f;
+			PlayerControl::GetInstance()->GetPlayer()->Setangle(charaAngle);
+		}
+		dis.x = sinf(angle * (PI / 180.0f)) * 30.0f;
+		dis.y = cosf(angle * (PI / 180.0f)) * 30.0f;
+		distance.x = dis.x;
+		distance.y = dis.y;
+	}
+	if (PlayerControl::GetInstance()->GetPlayer()->GetHP() < 0)
+	{
+		if (pdcamera == NON_PDEATH)
+		{
+			CameraPosition = {ppos.x, ppos.y + 30.f, ppos.z - 10.f};
+			pdcamera = UPDA_PDEATH;
+		}
+		if (pdcamera == UPDA_PDEATH)
+		{
+			CameraPosition.x += 0.02f;
+			CameraPosition.y -= 0.02f;
+		}
+	}
+	else
+	{
+		pdcamera = NON_PDEATH;
+		CameraPosition = {ppos.x + distance.x, ppos.y + 6.0f, ppos.z + distance.y};
+	}
+	//	camera->SetTarget(player_shadow->GetCameraPos(angle));
+	camera->SetEye(CameraPosition);
+
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
+	{
+		if (Task::GetInstance()->GetAllTaskClear() && FenceControl::GetInstance()->GetBossGateFence()->FenceYposMin() ==
+			FALSE)
+		{
+			Tstate = MOVEBOSSAREA;
+		}
+	}
+	if (Tstate == PLAYER)
+	{
+		sCamera = PLAYCUTSTART;
+		rCamera = NON_RUSH;
+		mCamera = NON;
+	}
+	//}
+}
 
 /*------------------------*/
 /*--------ターゲット---------*/

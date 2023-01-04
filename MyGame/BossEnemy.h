@@ -52,7 +52,7 @@ public:
 	void EnemyHPDraw() override;
 	void Death() override;
 	void Move() override;
-	void Smoke(bool& createf)override;
+	void Smoke(bool& createf) override;
 	//bool GetArmonGround() { return ArmonGround; }
 private:
 	bool sf;

@@ -22,13 +22,13 @@ private:
 	float FrameScalingT;
 	DirectX::XMFLOAT2 FramePos;
 
-	std::unique_ptr<Particle>RestartPar;
+	std::unique_ptr<Particle> RestartPar;
 public:
 	void Initialize();
 	void Update();
 	void Draw();
 	void Draw_DestParticle();
 	void Finalize();
-	
+
 	bool GetResetF() { return ReStartF; }
 };
