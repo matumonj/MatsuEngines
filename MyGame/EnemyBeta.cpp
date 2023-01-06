@@ -32,12 +32,12 @@ EnemyBeta::~EnemyBeta()
 void EnemyBeta::HPFrameInit()
 {
 	//体力バー初期化
-	Sprite* l_frame1 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME1), { 0, 0 });
-	Sprite* l_frame2 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME2), { 0, 0 });
-	Sprite* l_frame3 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME4), { 0, 0 });
-	Sprite* l_frame4 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME3), { 0, 0 });
+	Sprite* l_frame1 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME1), {0, 0});
+	Sprite* l_frame2 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME2), {0, 0});
+	Sprite* l_frame3 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME4), {0, 0});
+	Sprite* l_frame4 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME3), {0, 0});
 
-	Sprite* l_enemyname = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENEMYNAME_MINIGOLEM), { 0, 0 });
+	Sprite* l_enemyname = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENEMYNAME_MINIGOLEM), {0, 0});
 
 	//フレーム
 	HPFrame[0].reset(l_frame1);
@@ -49,16 +49,17 @@ void EnemyBeta::HPFrameInit()
 
 	for (int i = 0; i < 4; i++)
 	{
-		HPFrame[i]->SetAnchorPoint({ 0.0f, 0.0f });
+		HPFrame[i]->SetAnchorPoint({0.0f, 0.0f});
 	}
 	FrameScl.x = Percent::GetParcent(static_cast<float>(MaxHP), static_cast<float>(EnemyHP)) * 2.0f;
 
 	//投石爆発時のエフェクト
 	DestRock = std::make_unique<Particle>();
 	DestRock->Init(64);
-	DestRock->SetParScl({ 2.f, 2.f });
-	DestRock->SetParColor({ 1.f, 1.f, 1.f, 1.f });
+	DestRock->SetParScl({2.f, 2.f});
+	DestRock->SetParColor({1.f, 1.f, 1.f, 1.f});
 }
+
 //初期化処理
 void EnemyBeta::Initialize()
 {
@@ -79,15 +80,15 @@ void EnemyBeta::Initialize()
 	ThrowRockObj = std::make_unique<Object3d>();
 	ThrowRockObj->Initialize(camera);
 	ThrowRockObj->SetModel(ModelManager::GetIns()->GetModel(ModelManager::THROWROCK));
-	ThrowRockObj->SetScale({ 2.f,2.f,2.f });
+	ThrowRockObj->SetScale({2.f, 2.f, 2.f});
 
 	//パラメータのセット
 	//体力
 	MaxHP = 100;
 	EnemyHP = MaxHP;
 
-	Rotation = { 0.f, 0.f, 0.f };
-	Scale = { 0.025f, 0.025f, 0.025f };
+	Rotation = {0.f, 0.f, 0.f};
+	Scale = {0.025f, 0.025f, 0.025f};
 	radius_adjustment = 0;
 
 	SetCollider();
@@ -97,7 +98,7 @@ void EnemyBeta::Initialize()
 
 	nowAttack = false;
 	nowDeath = false;
-	m_fbxObject->SetColor({ 1, 0, 0, alpha });
+	m_fbxObject->SetColor({1, 0, 0, alpha});
 
 	addRotRadians = 0.f;
 	FollowRotAngleCorrect = 180.f;
@@ -120,7 +121,7 @@ void EnemyBeta::Update()
 	{
 		alpha -= 0.005f;
 	}
-	m_fbxObject->SetColor({ 1, 0, 0, alpha });
+	m_fbxObject->SetColor({1, 0, 0, alpha});
 
 	//アニメーションのセット
 	FbxAnimationControls(WALK, 1);
@@ -133,16 +134,16 @@ void EnemyBeta::Update()
 	AttackMotion();
 
 	m_Object->SetPosition(Position);
-	m_fbxObject->SetPosition({ Position.x, Position.y - 1, Position.z });
+	m_fbxObject->SetPosition({Position.x, Position.y - 1, Position.z});
 	m_fbxObject->SetRotation(Rotation);
 	m_fbxObject->SetScale(Scale);
 	m_fbxObject->SetFogPos(camera->GetEye());
 	m_fbxObject->Update(m_AnimeLoop, m_AnimeSpeed, m_AnimationStop);
 
-	m_fbxObject->SetHandBoneIndex(hindex);
+	m_fbxObject->SetHandBoneIndex(19);
 	//石オブジェの更新
 	ThrowRockObj->SetPosition(RockPos);
-	ThrowRockObj->Update({ 1.f,1.f,1.f,1.f }, camera);
+	ThrowRockObj->Update({1.f, 1.f, 1.f, 1.f}, camera);
 	//被ダメ表記
 	DamageTexDisplay();
 	DamageParticleSet();
@@ -152,7 +153,6 @@ void EnemyBeta::Update()
 	CollisionField();
 	//体力表記
 	HPFrameUpda();
-
 }
 
 //描画処理
@@ -163,7 +163,8 @@ void EnemyBeta::Draw()
 		//モデル
 		Draw_Fbx();
 		Object3d::PreDraw();
-		if (!turnoffdrawF) {
+		if (!turnoffdrawF)
+		{
 			//石
 			ThrowRockObj->Draw();
 		}
@@ -172,13 +173,12 @@ void EnemyBeta::Draw()
 		DestRock->Draw();
 	}
 	ImGui::Begin("hand");
-	ImGui::SliderInt("index", &hindex,0,30);
+	ImGui::SliderInt("index", &hindex, 0, 30);
 	ImGui::End();
 }
 
 void EnemyBeta::Smoke(bool& createf)
 {
-	
 }
 
 void EnemyBeta::Death()
@@ -206,7 +206,8 @@ void EnemyBeta::EnemyHPDraw()
 	bool TurnoffDrawJudg = Collision::GetLength(Position, l_player->GetPosition()) < 40.f;
 
 	Sprite::PreDraw();
-	if (TurnoffDrawJudg) {
+	if (TurnoffDrawJudg)
+	{
 		for (int i = 0; i < HPFrame.size(); i++)
 		{
 			HPFrame[i]->Draw();
@@ -214,9 +215,7 @@ void EnemyBeta::EnemyHPDraw()
 		EnemyName->Draw();
 	}
 	Sprite::PostDraw();
-
 }
-
 
 
 void EnemyBeta::Move()
@@ -232,7 +231,8 @@ void EnemyBeta::AttackCol_Rock()
 
 	if (ColPlayer)
 	{
-		if (turnoffdrawF == false && tmotion != PICK) {
+		if (turnoffdrawF == false && tmotion != PICK)
+		{
 			destF = true;
 		}
 	}
@@ -241,7 +241,7 @@ void EnemyBeta::AttackCol_Rock()
 		turnoffdrawF = true;
 		//PlayerControl::GetInstance()->GetPlayer()->RecvDamage(10);
 		DestRock->SetParF(1);
-		DestRock->CreateParticle(destF, { RockPos });
+		DestRock->CreateParticle(destF, {RockPos});
 		destF = false;
 	}
 	DestRock->Upda_B();
@@ -250,9 +250,15 @@ void EnemyBeta::AttackCol_Rock()
 void EnemyBeta::AttackCol_Sideway()
 {
 	//攻撃状態でない時
-	if (animeState != ATTACK1)return;
+	if (animeState != ATTACK1)
+	{
+		return;
+	}
 	//アニメーション番号が横振り以外のとき
-	if (attackindex != 3)return;
+	if (attackindex != 3)
+	{
+		return;
+	}
 
 	//右手とプレイヤーのあたりはんてい
 	XMFLOAT3 l_playerpos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
@@ -262,12 +268,14 @@ void EnemyBeta::AttackCol_Sideway()
 	constexpr int damage = 10;
 
 	m_fbxObject->GetBoneIndexMat(boneindex, AttackHand_Right);
-	RightHandPos = { AttackHand_Right.r[3].m128_f32[0],AttackHand_Right.r[3].m128_f32[1],AttackHand_Right.r[3].m128_f32[2] };
+	RightHandPos = {
+		AttackHand_Right.r[3].m128_f32[0], AttackHand_Right.r[3].m128_f32[1], AttackHand_Right.r[3].m128_f32[2]
+	};
 
 	//判定条件
-	const bool ColPlayer = Collision::GetLength(RightHandPos, l_playerpos) <disrange;
+	const bool ColPlayer = Collision::GetLength(RightHandPos, l_playerpos) < disrange;
 
-	if(ColPlayer)
+	if (ColPlayer)
 	{
 		PlayerControl::GetInstance()->GetPlayer()->RecvDamage(damage);
 	}
@@ -276,8 +284,14 @@ void EnemyBeta::AttackCol_Sideway()
 
 void EnemyBeta::PickRock()
 {
-	if (animeState != ATTACK1)return;
-	if (attackindex != 0)return;
+	if (animeState != ATTACK1)
+	{
+		return;
+	}
+	if (attackindex != 0)
+	{
+		return;
+	}
 	if (tmotion == NON && m_fbxObject->GetAnimeTime() > 1.3 && m_fbxObject->GetAnimeTime() < 2.5)
 	{
 		tmotion = PICK;
@@ -290,14 +304,15 @@ void EnemyBeta::PickRock()
 		{
 			tmotion = THROW;
 		}
-		RockPos =GetHandPos();
+		RockPos = GetHandPos();
 	}
 	if (tmotion == THROW)
 	{
-		XMVECTOR move = { 0.0f, 0.0f, 0.1f, 0.0f };
+		XMVECTOR move = {0.0f, 0.0f, 0.1f, 0.0f};
 		XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(Rotation.y));
 		move = XMVector3TransformNormal(move, matRot);
-		if (!destF) {
+		if (!destF)
+		{
 			//向いた方向に進む
 			RockPos.y -= 0.2f;
 			RockPos.x += move.m128_f32[0] * 5.f;
@@ -308,28 +323,31 @@ void EnemyBeta::PickRock()
 			turnoffdrawF = false;
 			tmotion = NON;
 		}
-
 	}
-
 }
 
 void EnemyBeta::AnimationContol(AnimationState name, int animenumber, double speed, bool loop)
 {
-	if (m_Number != animenumber) {
-
+	if (m_Number != animenumber)
+	{
 		m_AnimeLoop = loop;
 		m_Number = animenumber;
 		m_AnimeSpeed = speed;
 		m_fbxObject->PlayAnimation(m_Number);
 	}
 }
+
 void EnemyBeta::FbxAnimationControls(AnimationState motiontype, int number)
 {
-	if (DeathFlag)return;
+	if (DeathFlag)
+	{
+		return;
+	}
 	if (animeState == WALK && motiontype == WALK)
 	{
 		AnimationContol(WALK, number, 1.0, true);
-	} else if (animeState != WALK && animeState == motiontype)
+	}
+	else if (animeState != WALK && animeState == motiontype)
 	{
 		//FBXタイムを回避モーション開始時に合わせる
 		AnimationContol(motiontype, number, 0.8, false);
@@ -339,11 +357,14 @@ void EnemyBeta::FbxAnimationControls(AnimationState motiontype, int number)
 
 void EnemyBeta::AttackMotion()
 {
-	if (animeState == AnimationState::ATTACK1 && attackNum == IDLE) {
+	if (animeState == ATTACK1 && attackNum == IDLE)
+	{
 		if (Collision::GetLength(Position, PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 13.f)
 		{
 			attackNum = SIDEWAY;
-		} else {
+		}
+		else
+		{
 			attackNum = THROWRROCK;
 		}
 	}
@@ -354,7 +375,8 @@ void EnemyBeta::AttackMotion()
 		{
 			attackNum = IDLE;
 		}
-	} else if (attackNum == SIDEWAY)
+	}
+	else if (attackNum == SIDEWAY)
 	{
 		attackindex = 3;
 		if (GetAnimationTime() >= GetFbxTimeEnd() - 0.3f)
@@ -381,7 +403,8 @@ void EnemyBeta::AttackCoolTime()
 		{
 			AfterAttack = false;
 		}
-	} else
+	}
+	else
 	{
 		cooltime = 0;
 	}
@@ -393,8 +416,9 @@ void EnemyBeta::DamageParticleSet()
 
 XMFLOAT3 EnemyBeta::GetHandPos()
 {
-	return XMFLOAT3({ m_fbxObject->GetHandBoneMatWorld().r[3].m128_f32[0],// GetPosition().x;
-	m_fbxObject->GetHandBoneMatWorld().r[3].m128_f32[1], // GetPosition().x;
-	m_fbxObject->GetHandBoneMatWorld().r[3].m128_f32[2] // GetPosition().x;
-		});
+	return XMFLOAT3({
+		m_fbxObject->GetHandBoneMatWorld().r[3].m128_f32[0], // GetPosition().x;
+		m_fbxObject->GetHandBoneMatWorld().r[3].m128_f32[1], // GetPosition().x;
+		m_fbxObject->GetHandBoneMatWorld().r[3].m128_f32[2] // GetPosition().x;
+	});
 }

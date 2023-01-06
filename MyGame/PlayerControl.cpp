@@ -98,12 +98,16 @@ void PlayerControl::Update_Tutorial() //チュートリアル時
 	{
 		return;
 	}
+
+	PlayerAttackState::GetInstance()->Update();
 	player->Update();
 	DamageTexUpdate();
 }
 
 void PlayerControl::Update_Play() //プレイシーン時
 {
+
+	PlayerAttackState::GetInstance()->Update();
 	player->Update();
 
 	DamageTexUpdate();
@@ -111,8 +115,9 @@ void PlayerControl::Update_Play() //プレイシーン時
 
 void PlayerControl::Update_Boss()
 {
+	PlayerAttackState::GetInstance()->Update();
 	player->Update();
-	
+
 	DamageTexUpdate();
 }
 
@@ -124,7 +129,6 @@ void PlayerControl::DamageTexUpdate()
 	}
 	dalpha -= 0.02f;
 	DamageTex->setcolor({1, 1, 1, dalpha});
-	PlayerAttackState::GetInstance()->Update();
 	dalpha = max(dalpha, 0.0f);
 }
 
@@ -133,7 +137,7 @@ void PlayerControl::DamageTexUpdate()
 /*------------------------*/
 void PlayerControl::Draw_Play()
 {
-	if (player == nullptr||TurnoffDrawF)
+	if (player == nullptr || TurnoffDrawF)
 	{
 		return;
 	}
@@ -160,7 +164,7 @@ void PlayerControl::Draw_Boss()
 
 void PlayerControl::DamageTexDraw()
 {
-	if (HUD::GetInstance()->GetPlayerHP()->GetSize().x > 0.f && PlayerControl::GetInstance()->GetPlayer()->GetHP() > 0)
+	if (HUD::GetInstance()->GetPlayerHP()->GetSize().x > 0.f && GetInstance()->GetPlayer()->GetHP() > 0)
 	{
 		Sprite::PreDraw();
 		DamageTex->Draw();

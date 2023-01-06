@@ -23,6 +23,7 @@ public:
 	int ChestCount() { return GetChestCount; }
 
 	bool NowEvent() { return nowevent; };
+
 	enum Color
 	{
 		RED,

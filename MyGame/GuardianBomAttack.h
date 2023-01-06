@@ -18,6 +18,7 @@ public:
 	void TexSet();
 	void Upda();
 	void Draw();
+	void Finalize();
 
 	void SetAction(bool f) { if (phase == NON) { phase = AREASET; } }
 

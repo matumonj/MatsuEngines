@@ -16,6 +16,7 @@ public:
 private:
 	std::vector<XMFLOAT3> Load_EnemyPosition = {};
 
+	std::vector<int>rescount = {};
 	std::vector<std::vector<std::unique_ptr<Enemy>>> enemys = {};
 
 	XMFLOAT3 tutorial_pos = {0, 0, 0};
@@ -59,6 +60,7 @@ public:
 		}
 	}
 
+private:
 	static constexpr int EnemySize = 2;
 	std::array<std::unique_ptr<Enemy>, EnemySize> SummonEnemys = {};
 	std::unique_ptr<Enemy> Guardian;
@@ -68,6 +70,9 @@ public:
 	bool SummonEnemysApper;
 	float Shieldalpha;
 
+public:
+	void GuardianCreate();
+	void GuardianReset();
 private:
 	bool ShieldCreate;
 	bool ShieldLost;

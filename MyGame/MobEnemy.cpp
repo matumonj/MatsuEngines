@@ -36,12 +36,12 @@ MobEnemy::~MobEnemy()
 void MobEnemy::HPFrameInit()
 {
 	//体力バー初期化
-	Sprite* l_frame1 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME1), { 0, 0 });
-	Sprite* l_frame2 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME2), { 0, 0 });
-	Sprite* l_frame3 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME4), { 0, 0 });
-	Sprite* l_frame4 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME3), { 0, 0 });
+	Sprite* l_frame1 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME1), {0, 0});
+	Sprite* l_frame2 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME2), {0, 0});
+	Sprite* l_frame3 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME4), {0, 0});
+	Sprite* l_frame4 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME3), {0, 0});
 
-	Sprite* l_enemyname = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENEMYNAME_GOLEM), { 0, 0 });
+	Sprite* l_enemyname = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENEMYNAME_GOLEM), {0, 0});
 
 	HPFrame[0].reset(l_frame1);
 	HPFrame[1].reset(l_frame2);
@@ -52,11 +52,11 @@ void MobEnemy::HPFrameInit()
 
 	for (int i = 0; i < 4; i++)
 	{
-		HPFrame[i]->SetAnchorPoint({ 0.0f, 0.0f });
+		HPFrame[i]->SetAnchorPoint({0.0f, 0.0f});
 	}
 	FrameScl.x = Percent::GetParcent(static_cast<float>(MaxHP), static_cast<float>(EnemyHP)) * 2.0f;
-
 }
+
 //初期化処理
 void MobEnemy::Initialize()
 {
@@ -95,7 +95,7 @@ void MobEnemy::Initialize()
 	//攻撃中と死亡モーション中のフラグ
 	nowAttack = false;
 	nowDeath = false;
-
+	DeathFlag = false;
 	//state初期化
 	state_mob->Initialize(this);
 
@@ -107,12 +107,12 @@ void MobEnemy::Initialize()
 
 	//適番号：ゴーレム
 	ENumber = GOLEM;
+
 }
 
 //更新処理
 void MobEnemy::Update()
 {
-
 	//カメラのインスタンス持ってくる
 	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
 
@@ -155,10 +155,7 @@ void MobEnemy::Update()
 
 	//斧とプレイヤーのあたり判定
 	OBBSetParam();
-	
 }
-
-
 
 
 void MobEnemy::OBBSetParam()
@@ -234,7 +231,8 @@ void MobEnemy::EnemyHPDraw()
 {
 	Player* l_player = PlayerControl::GetInstance()->GetPlayer();
 
-	if (Collision::GetLength(Position, l_player->GetPosition()) < 40) {
+	if (Collision::GetLength(Position, l_player->GetPosition()) < 40)
+	{
 		Sprite::PreDraw();
 		for (int i = 0; i < 4; i++)
 		{
@@ -292,7 +290,7 @@ void MobEnemy::FbxAnimationControl()
 	//アニメーションスピード
 	float fbxanimationTime;
 
-	
+
 	//ヒットストップ時
 	if (PlayerAttackState::GetInstance()->GetHitStopJudg())
 	{
@@ -304,12 +302,12 @@ void MobEnemy::FbxAnimationControl()
 		{
 			//攻撃中
 			fbxanimationTime = 0.015f;
-		} else
+		}
+		else
 		{
 			//歩きとか死亡時
 			fbxanimationTime = 0.01f;
 		}
-
 	}
 	//アニメーションカウント進める
 	f_time += fbxanimationTime;
@@ -378,4 +376,3 @@ void MobEnemy::AttackCoolTime()
 		cooltime = 0;
 	}
 }
-

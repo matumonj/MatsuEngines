@@ -163,8 +163,8 @@ public: //定数
 	int bindexs = 13;
 	void SetFogPos(XMFLOAT3 pos) { fogpos = pos; }
 	void SetHandBoneIndex(int bindex) { bindexs = bindex; }
-	void GetBoneIndexMat(int index,XMMATRIX& matworld);
-	
+	void GetBoneIndexMat(int index, XMMATRIX& matworld);
+
 	double GetFTime() { return currentTime.GetSecondDouble(); }
 private:
 	XMFLOAT3 fogpos;
@@ -177,13 +177,13 @@ private:
 		FbxAnimStack* stack;
 		FbxTakeInfo* info;
 	};
+
 	//アニメーションのデータ
 	std::vector<Animation> animationData;
 	bool isendtime;
 
 	double AnimationSpeed;
 public:
-	
 	void LoadAnimation();
 	void SetFbxTime(float time) { f_time = time; }
 	void SetFTime(int time) { fbxTime = time; }
@@ -191,7 +191,7 @@ public:
 	void SetAttackTime(float time) { NormalAttackTime = time; }
 	void SetDeathFlag(bool flag) { DeathFlag = flag; }
 	void SetDeathTime(float time) { DeathTime = time; }
-	double GetEndTime() { return  endTime.GetSecondDouble(); }
+	double GetEndTime() { return endTime.GetSecondDouble(); }
 	double GetAnimeTime() { return currentTime.GetSecondDouble(); }
 	XMMATRIX GetWorld() { return matWorld; }
 

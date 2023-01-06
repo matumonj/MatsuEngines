@@ -55,11 +55,15 @@ public:
 
 	virtual void Move() = 0;
 
-	virtual void Smoke(bool& createf)=0;
+	virtual void Smoke(bool& createf) =0;
 
 	virtual void EnemyHPDraw() =0;
 
-
+public:
+	void Respawn();
+	int GetRespawnCount() { return RespawnCount; }
+	void ResetRespawnCount() { RespawnCount = 0; }
+	bool RespawnJudg() { if (RespawnCount > RespawnCountMax) { return true; }return false; }
 protected:
 	bool isAlive;
 	//体力周り
@@ -81,7 +85,7 @@ private:
 public:
 	//攻撃受けた直後の判定用
 	void RecvDamage(int Damage);
-	void EnemyPop(int HP);
+
 	virtual void AttackCoolTime() = 0;
 	void SetMoveStop(bool f) { movestop = f; }
 	bool GetMoveStop() { return movestop; }
@@ -102,8 +106,9 @@ protected:
 	int onGroundTime = 0;
 	bool AfterAttack = false;
 
-	int PopCount = 0; //リスポーンカウント
+	int RespawnCount = 0; //リスポーンカウント
 
+	int RespawnCountMax;
 	bool movestop = false;
 protected:
 	//FBXTime周りの変数
@@ -130,6 +135,7 @@ public:
 		ROAR,
 		IDLE
 	};
+
 	AnimationState GetAnimeState() { return animeState; }
 	void SetAnimeState(AnimationState state) { animeState = state; }
 	int GetEnemyNumber() { return ENumber; }
@@ -215,6 +221,8 @@ public:
 
 	void SetRespawnPos(XMFLOAT3 position) { RespawnPos = position; }
 
+	void SetRespawnCountMax(int count) { RespawnCountMax = count; }
+
 	void SetEColor(XMFLOAT4 color) { Color = color; }
 	/*ボス攻撃用 できれば移したいが、、*/
 protected: //攻撃の開始と終了判定用
@@ -233,7 +241,7 @@ public:
 		GUARDIAN
 	};
 
-	
+
 	void SetAnimationNum(int number) { m_Number = number; }
 protected:
 	int ENumber;
@@ -313,7 +321,7 @@ protected:
 	XMFLOAT2 FrameScl_Inner;
 
 protected:
-	virtual void HPFrameInit()=0;
+	virtual void HPFrameInit() =0;
 	void HPFrameUpda();
 private:
 	std::list<std::unique_ptr<DamageManager>> dMans_;

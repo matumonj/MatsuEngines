@@ -8,7 +8,9 @@ void EnemyRespawnState::Initialize(Enemy* enmey)
 void EnemyRespawnState::Update(Enemy* enemy)
 {
 	//リスポーン
-	//enemy->isRespawn();
+	enemy->Respawn();
 	//状態を待機状態に
-	enemy->ChangeState_Mob(new EnemyStayState());
+	if (enemy->RespawnJudg() == true) {
+		enemy->ChangeState_Mob(new EnemyStayState());
+	}
 }

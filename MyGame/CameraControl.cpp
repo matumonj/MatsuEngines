@@ -473,7 +473,7 @@ void CameraControl::BossCutScene_Spline()
 {
 	nowCount = static_cast<float>(GetTickCount64());
 	elapsedCount = nowCount - startCount;
-	elapsedTime = elapsedCount / 350.0f;
+	elapsedTime = elapsedCount / 10.0f;
 
 	timerate = elapsedTime / maxtime;
 	if (timerate >= 1)

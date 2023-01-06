@@ -207,7 +207,6 @@ void BossScene::Draw()
 			{
 				EnemyControl::GetInstance()->GetSummonEnemy(i)->DamageTexDisplay_Draw();
 			}
-
 		}
 
 		PlayerControl::GetInstance()->GetPlayer()->ParticleDraw();

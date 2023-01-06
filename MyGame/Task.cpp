@@ -155,17 +155,20 @@ void Task::Upda()
 	//タスクに進み具合用　int->string
 	std::ostringstream str;
 	if (tasks == TASK_ONE)
-	{//タスク１->ゴーレム
+	{
+		//タスク１->ゴーレム
 		str << std::fixed << std::setprecision(2)
 			<< GolemDestCount;
 	}
 	if (tasks == TASK_TWO)
-	{//タスク２->トカゲ
+	{
+		//タスク２->トカゲ
 		str << std::fixed << std::setprecision(2)
 			<< FlogDestCount;
 	}
 	if (tasks == TASK_THREE)
-	{//タスク３->みにゴーレム
+	{
+		//タスク３->みにゴーレム
 		str << std::fixed << std::setprecision(2)
 			<< MiniGolemDestCount;
 	}
@@ -185,7 +188,8 @@ void Task::Upda()
 
 	//探索エリアの敵配列から各エネミーごとに一番近いやつを抜き出す
 	Enemy* targetenemy_Golem = EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[nearIndex_Golem].get();
-	Enemy* targetenemy_MiniGolem = EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[nearIndex_MiniGolem].get();
+	Enemy* targetenemy_MiniGolem = EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[nearIndex_MiniGolem].
+		get();
 	Enemy* targetenemy_Lizard = EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[nearIndex_Lizard].get();
 
 	switch (target)
@@ -201,7 +205,7 @@ void Task::Upda()
 		break;
 	case MINIGOLEM:
 		TargetPos = targetenemy_MiniGolem->GetPosition();
-		arrowcol = { 0.7f, 0.7f, 0.7f, 0.7f };
+		arrowcol = {0.7f, 0.7f, 0.7f, 0.7f};
 		break;
 	case CHEST:
 		if (ChestControl::GetInstance()->ChestCount() == 1)
@@ -241,8 +245,12 @@ void Task::Upda()
 	if (Judg[TASK_FOUR] == false && Judg[TASK_THREE] == true)
 	{
 		target = PEDESTAL;
+		if(PlayerControl::GetInstance()->GetPlayer()->GetHP()<=0)
+		{
+			Judg[TASK_THREE] = false;
+		}
 	}
-	if (Judg[TASK_ONE] == true && Judg[TASK_TWO] == true && Judg[TASK_THREE] == true&& Judg[TASK_FOUR] == true)
+	if (Judg[TASK_ONE] == true && Judg[TASK_TWO] == true && Judg[TASK_THREE] == true && Judg[TASK_FOUR] == true)
 	{
 		target = Bossarea;
 	}
@@ -304,6 +312,7 @@ bool Task::ClearTaskTwo()
 	}
 	return false;
 }
+
 bool Task::ClearTaskThree()
 {
 	if (tasks == TASK_FOUR)
@@ -312,6 +321,7 @@ bool Task::ClearTaskThree()
 	}
 	return false;
 }
+
 void Task::TargetDraw()
 {
 	Texture::PreDraw();
@@ -342,6 +352,7 @@ void Task::Draw()
 	ImGui::Text("%d", target);
 	ImGui::End();
 }
+
 void Task::TaskSequence()
 {
 	Player* l_player = PlayerControl::GetInstance()->GetPlayer();

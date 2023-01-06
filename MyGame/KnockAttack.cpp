@@ -6,6 +6,13 @@
 #include"BossSpell.h"
 #include"BossMap.h"
 
+KnockAttack::KnockAttack()
+{
+	Texture::LoadTexture(30, L"Resources/2d/attackeffect/inpact.png");
+	Texture::LoadTexture(31, L"Resources/2d/damage/HammerDamageArea.png");
+	
+}
+
 KnockAttack::~KnockAttack()
 {
 	//delete KnockTex;
@@ -36,15 +43,13 @@ void KnockAttack::Initialize()
 
 	Texture* l_tex[4];
 	Texture* l_tex2[4];
-	Texture::LoadTexture(30, L"Resources/2d/attackeffect/inpact.png");
-	Texture::LoadTexture(31, L"Resources/2d/damage/HammerDamageArea.png");
-
+	
 	for (int i = 0; i < axeSize; i++)
 	{
 		AxeObj[i] = std::make_unique<Object3d>();
-		AxeObj[i]->SetModel(ModelManager::GetIns()->GetModel(ModelManager::SMALLSWORD));
 		AxeObj[i]->Initialize(CameraControl::GetInstance()->GetCamera());
-
+		AxeObj[i]->SetModel(ModelManager::GetIns()->GetModel(ModelManager::SMALLSWORD));
+		
 		l_tex[i] = Texture::Create(30);
 		l_tex2[i] = Texture::Create(31);
 		ImpactTex[i].reset(l_tex[i]);
@@ -58,10 +63,15 @@ void KnockAttack::Initialize()
 		ImpactPar[i]->Init(64);
 		SetPos[i] = AxePos[i];
 	}
-	AxeRot[0] = {90.f, 180.f, 90.f};
-	AxeRot[1] = {90.f, 90.f, 90.f};
-	AxeRot[2] = {90.f, 270.f, 90.f};
-	AxeRot[3] = {90.f, 0.f, 90.f};
+	AxeRot[0] = {0.f, 180.f, 90.f};
+	AxeRot[1] = {0.f, 90.f, 90.f};
+	AxeRot[2] = {0.f, 270.f, 90.f};
+	AxeRot[3] = {0.f, 0.f, 90.f};
+
+	AxePosDownEtime = 0.f;
+	AttackCount = 0;
+	axeDirectionTexAlpha = 0.f;
+	phase = Phase::PHASENON;
 }
 
 void KnockAttack::ActionJudg()
@@ -87,7 +97,7 @@ void KnockAttack::ActionJudg()
 
 		for (int i = 0; i < axeSize; i++)
 		{
-			AxePos[i].y = Easing::EaseOut(AxePosDownEtime, 200.f, 70);
+			AxePos[i].y = Easing::EaseOut(AxePosDownEtime, 200.f, 20);
 		}
 		for (int i = 0; i < axeSize; i++)
 		{
@@ -135,8 +145,7 @@ void KnockAttack::ActionJudg()
 				AxePos[i].x += move[i].m128_f32[0] * 6.0f;
 				AxePos[i].z += move[i].m128_f32[2] * 6.0f;
 				AxePos[i].y = 10.f;
-				AxeRot[i].x = 0 + sinf(3.14f * 2.f / 30.f * AxePosDownEtime) * -70;
-
+				
 				if (AttackCount > 800)
 				{
 					phase = PHASEFOUR;

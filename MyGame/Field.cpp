@@ -77,7 +77,6 @@ void Field::Initialize()
 	}
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
 	{
-		pedestalpos = {-300.0f, -32, 270};
 		Texture::LoadTexture(29, L"Resources/2d/enemy/GuardArea.png");
 		Texture* l_tex[GuardAreaSize];
 		for (int i = 0; i < GuardAreaSize; i++)
@@ -92,6 +91,7 @@ void Field::Initialize()
 			GuardareaPos[i].x = pedestalpos.x + sinf(GuardAreaAngle[i] * (PI / 180.0f)) * 80.0f;
 			GuardareaPos[i].z = pedestalpos.z + cosf(GuardAreaAngle[i] * (PI / 180.0f)) * 80.0f;
 		}
+		pedestalpos = { -300.0f, -32, 270 };
 		SetFieldModel(PEDESTAL, ModelManager::GetIns()->GetModel(ModelManager::ICECRYSTAL), camera);
 		SetFieldModel(BOSSBACK, ModelManager::GetIns()->GetModel(ModelManager::BOSSFIELD), camera);
 	}
@@ -104,17 +104,26 @@ void Field::Initialize()
 
 void Field::PedestalMoving()
 {
-	if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(),
-	                         pedestalpos) < 10)
-	{
-		PedestalDownF = true;
-	}
-	if (PedestalDownF)
-	{
-		if (pedestalpos.y > -200)
+	//if (PlayerControl::GetInstance()->GetPlayer()->GetHP() <= 0)return;
+	//if (Task::GetInstance()->TaskThClear())
+	//{
+		if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(),
+			pedestalpos) < 10)
 		{
-			pedestalpos.y -= 0.2f;
+			PedestalDownF = true;
 		}
+		if (PedestalDownF)
+		{
+			if (pedestalpos.y > -200)
+			{
+				pedestalpos.y -= 0.2f;
+			}
+		}
+	//}
+
+		if (PlayerControl::GetInstance()->GetPlayer()->GetHP() <= 0) {
+		PedestalDownF = false;
+		pedestalpos = { -300.0f, -32, 270 };
 	}
 }
 

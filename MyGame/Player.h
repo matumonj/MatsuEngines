@@ -106,7 +106,7 @@ private:
 	//teisi
 	bool StopFlag;
 	//
-	
+
 public:
 	void SetHP(int HP) { this->HP = HP; }
 	int GetHP() { return HP; }
@@ -139,7 +139,7 @@ public:
 
 	AttackMotion GetAttackType() { return attackMotion; }
 	AttackMotion GetAttackTypeOld() { return OldattackMotion; }
-	
+
 	void SetnoAttack(bool f) { noAttack = f; }
 	bool GetnoAttack() { return noAttack; }
 private:
@@ -173,12 +173,13 @@ public:
 		EVASION,
 		DEATH
 	};
+
 	AttackMotion GetAnimeType() { return attackMotion; }
 	void SetIdle(bool f) { idlef = f; }
 private:
 	AnimeName animationName;
 
 	bool idlef;
-	void AnimationContol(AnimeName name, int animenumber,double speed,bool loop);
-	void FbxAnimationControls(const AttackMotion& motiiontype, const AttackMotion nextmotiontype, AnimeName name, int number);
+	void AnimationContol(AnimeName name, int animenumber, double speed, bool loop);
+	void FbxAnimationControls(const AttackMotion& motiiontype, AttackMotion nextmotiontype, AnimeName name, int number);
 };

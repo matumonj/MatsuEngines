@@ -17,8 +17,10 @@ void EnemyAttackState::Update(Enemy* enemy)
 
 	//アニメーション再生終わったら待機（今はミニゴーレムのみ）
 	//複数アニメーション対応次第切り替えてく
-	if (enemy->GetEnemyNumber() == enemy->MINIGOLEM) {
-		if (enemy->GetAnimationTime() >= enemy->GetFbxTimeEnd() - 0.3f) {
+	if (enemy->GetEnemyNumber() == enemy->MINIGOLEM)
+	{
+		if (enemy->GetAnimationTime() >= enemy->GetFbxTimeEnd() - 0.3f)
+		{
 			enemy->ChangeState_Mob(new EnemyStayState());
 		}
 	}

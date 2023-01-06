@@ -88,6 +88,7 @@ void EnemyControl::Init_Play()
 	}
 	Num.resize(Quantity);
 	pos.resize(Quantity);
+	rescount.resize(Quantity);
 	for (int i = 0; i < Quantity; i++)
 	{
 		while (std::getline(popcom, line))
@@ -100,12 +101,19 @@ void EnemyControl::Init_Play()
 			{
 				continue;
 			}
-			if (word.find("Number") == 0)
+			if (word.find("Wait") == 0)
+			{
+				std::getline(line_stream, word, ',');
+				int count = static_cast<int>(std::atof(word.c_str()));
+				rescount[i] = count;
+			}
+			else if (word.find("Number") == 0)
 			{
 				std::getline(line_stream, word, ',');
 				int number = static_cast<int>(std::atof(word.c_str()));
 				Num[i] = number;
 			}
+			
 			else if (word.find("POP") == 0)
 			{
 				std::getline(line_stream, word, ',');
@@ -147,6 +155,8 @@ void EnemyControl::Init_Play()
 		}
 		enemys[PLAYSCENE][i]->Initialize();
 		enemys[PLAYSCENE][i]->SetPosition(pos[i]);
+		enemys[PLAYSCENE][i]->SetRespawnPos(pos[i]);
+		enemys[PLAYSCENE][i]->SetRespawnCountMax(rescount[i]);
 	}
 	//ÉKÅ[ÉfÉBÉAÉì
 	Guardian = std::make_unique<GuardianEnemy>();
@@ -161,6 +171,7 @@ void EnemyControl::SummonEnemyInit()
 		SummonEnemys[i] = std::make_unique<MobEnemy>();
 		SummonEnemys[i]->Initialize();
 		SummonEnemys[i]->SetPosition({0, -20, 20});
+
 	}
 	//ìGê∂ê¨ÉtÉâÉO
 	summonEnemyCreate = false;
@@ -254,7 +265,7 @@ void EnemyControl::Update_Play()
 			enemys[PLAYSCENE][i]->Update();
 		}
 
-		if (enemys[PLAYSCENE][i]->GetObjAlpha() <= 0.0f)
+		if (enemys[PLAYSCENE][i]->GetObjAlpha() <= 0.0f&& enemys[PLAYSCENE][i]->GetRespawnCount()==0)
 		{
 			if (enemys[PLAYSCENE][i]->GetEnemyNumber() == 0)
 			{
@@ -312,7 +323,7 @@ void EnemyControl::Update_Play()
 					}
 				}
 			}
-			Destroy_unique(enemys[PLAYSCENE][i]);
+			//Destroy_unique(enemys[PLAYSCENE][i]);
 		}
 		if (Guardian != nullptr && Guardian->GetisAlive() == FALSE && Guardian->GetHP() <= 0)
 		{
@@ -331,7 +342,31 @@ void EnemyControl::Update_Play()
 		{
 			Destroy_unique(Guardian);
 		}
+
+	
 	}
+	
+
+}
+
+void EnemyControl::GuardianCreate()
+{
+	Guardian.reset(new GuardianEnemy());
+	Guardian->Initialize();
+	
+}
+
+void EnemyControl::GuardianReset()
+{
+	if (Guardian != nullptr)
+	{
+		
+			if (PlayerControl::GetInstance()->GetPlayer()->GetHP() <= 0)
+			{
+				Destroy_unique(Guardian);
+			}
+		
+	} 
 }
 
 void EnemyControl::SummonEnemyUpdate()
@@ -616,7 +651,23 @@ void EnemyControl::GameOverResetParam()
 		enemys[BOSS][0]->Initialize();
 		boss_pos = {-1.0f, 10.0f, 20.987f};
 
+		for (int i = 0; i < EnemySize; i++)
+		{
+			SummonEnemys[i]->Initialize();
+
+			SummonEnemys[i]->SetPosition({ 0, -20, 20 });
+		}
+		//ìGê∂ê¨ÉtÉâÉO
+		summonEnemyCreate = false;
+		//ìGéÄñSÉtÉâÉO
+		SummonEnemysDeath = false;
+		//ìGìoèÍçœÇ›ÉtÉâÉO
+		SummonEnemysApper = false;
+
+		SummonEPos = { 1, 1, 1 };
+		Shieldalpha = 0.0f;
 		enemys[BOSS][0]->SetPosition(boss_pos);
 		enemys[BOSS][0]->SetHP(enemys[BOSS][0]->GetMaxHP());
 	}
+
 }

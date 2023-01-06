@@ -10,6 +10,7 @@
 class KnockAttack
 {
 public:
+	KnockAttack();
 	~KnockAttack();
 private:
 	using XMFLOAT2 = DirectX::XMFLOAT2;

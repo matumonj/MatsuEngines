@@ -175,7 +175,7 @@ void ObjectManager::ParameterSet_Fbx2()
 	m_fbxObject->SetScale(Scale);
 	if (m_Object != nullptr)
 	{
-		m_Object->SetPosition({ Position.x,Position.y-1.f,Position.z });
+		m_Object->SetPosition({Position.x, Position.y - 1.f, Position.z});
 	}
 	//m_fbxObject->SetColor({1,1,1,1});
 	m_fbxObject->Updata();

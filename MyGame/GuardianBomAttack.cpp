@@ -11,6 +11,23 @@ GuardianBomAttack* GuardianBomAttack::GetIns()
 	return &ins;
 }
 
+void GuardianBomAttack::Finalize()
+{
+	for (int i = 0; i < ArmObjNum; i++)
+	{
+		DamageTex[i].reset(nullptr);
+	}
+	for (int i = 0; i < ArmObjNum; i++)
+	{
+		ArmObj[i].reset(nullptr);
+		
+		ArmEffect[i].reset(nullptr);
+	
+		//ミサイル爆発時のエフェクト
+		BomEffect[i].reset(nullptr);
+	}
+}
+
 void GuardianBomAttack::TexSet()
 {
 	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
@@ -60,7 +77,15 @@ void GuardianBomAttack::TexSet()
 		BomEffect[i]->Init(66);
 		BomEffect[i]->SetParScl({2.f, 2.f});
 		BomEffect[i]->SetParColor({1.f, 1.f, 1.f, 1.f});
+
+		ArmShotF[i] = false;
+		MissileDestFlag[i] = false;
+
+		isEndAttack = false;
+		DestroyEffectF = false;
 	}
+
+	phase = NON;
 }
 
 void GuardianBomAttack::Upda()
@@ -305,8 +330,8 @@ void GuardianBomAttack::DestroyEffect()
 
 		if (MissileDestFlag[i])
 		{
-			BomEffect[i]->SetParF(1)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 ;
-			BomEffect[i]->CreateParticle(MissileDestFlag[i], {ArmPos[i].x,-38.f,ArmPos[i].z});
+			BomEffect[i]->SetParF(1);
+			BomEffect[i]->CreateParticle(MissileDestFlag[i], {ArmPos[i].x, -38.f, ArmPos[i].z});
 			Destroy_unique(ArmObj[i]);
 			MissileDestFlag[i] = false;
 		}

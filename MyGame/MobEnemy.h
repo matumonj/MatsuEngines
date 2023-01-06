@@ -34,7 +34,7 @@ public:
 	void Death() override;
 
 	void Move() override;
-	void Smoke(bool& createf)override;
+	void Smoke(bool& createf) override;
 
 	void DamageParticleSet();
 

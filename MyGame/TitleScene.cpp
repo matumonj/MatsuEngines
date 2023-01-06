@@ -49,11 +49,10 @@ void TitleScene::Update()
 	{
 		SceneManager::GetInstance()->SetScene(SceneManager::MAPCREATE, sceneManager_);
 	}
-	
 
 
 	//画面真っ白になったらシーン切り替え
-	if (ChangeScene()==true)
+	if (ChangeScene() == true)
 	{
 		SceneManager::GetInstance()->SetScene(SceneManager::TUTORIAL, sceneManager_);
 	}
@@ -98,7 +97,8 @@ bool TitleScene::ChangeScene()
 		{
 			BackCam = true;
 		}
-	} else
+	}
+	else
 	{
 		Cangle += 0.1f;
 	}
@@ -113,7 +113,6 @@ bool TitleScene::ChangeScene()
 		return true;
 	}
 	return false;
-
 }
 
 /*------------------------*/
@@ -165,12 +164,12 @@ void TitleScene::Finalize()
 
 void TitleScene::TitleTexInit()
 {
-	titlesprite = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::TITLE1), { 0.0f, 0.0f });
-	
-	titlesprite2 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::TITLE2), { 0, 0.0f });
+	titlesprite = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::TITLE1), {0.0f, 0.0f});
 
-	Sprite* navGameSprite = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::GAMEPLAY), { 0, 0.0f });
-	Sprite* navEditSprite = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::GAMEPLAY), { 0, 0.0f });
+	titlesprite2 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::TITLE2), {0, 0.0f});
+
+	Sprite* navGameSprite = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::GAMEPLAY), {0, 0.0f});
+	Sprite* navEditSprite = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::GAMEPLAY), {0, 0.0f});
 
 	TitleMenu[0].reset(navGameSprite);
 
@@ -178,22 +177,20 @@ void TitleScene::TitleTexInit()
 	for (int i = 0; i < 2; i++)
 	{
 		menuAlpha[i] = 1.0f;
-		MenuScale[i] = { 1900, 1000 };
-		TitleMenu[i]->SetPosition({ 950, 500 });
-		TitleMenu[i]->SetSize({ 1900, 1000 });
-		TitleMenu[i]->SetAnchorPoint({ 0.5, 0.5 });
+		MenuScale[i] = {1900, 1000};
+		TitleMenu[i]->SetPosition({950, 500});
+		TitleMenu[i]->SetSize({1900, 1000});
+		TitleMenu[i]->SetAnchorPoint({0.5, 0.5});
 	}
-
 }
 
 void TitleScene::TitleTexUpda()
 {
-
 	TitleMenu[0]->SetSize(MenuScale[0]);
 	TitleMenu[1]->SetSize(MenuScale[1]);
 
-	TitleMenu[0]->setcolor({ 1.0f, 1.0f, 1.0f, menuAlpha[0] });
-	TitleMenu[1]->setcolor({ 1.0f, 1.0f, 1.0f, menuAlpha[1] });
+	TitleMenu[0]->setcolor({1.0f, 1.0f, 1.0f, menuAlpha[0]});
+	TitleMenu[1]->setcolor({1.0f, 1.0f, 1.0f, menuAlpha[1]});
 
 
 	if (menujudg_Play)
@@ -210,9 +207,8 @@ void TitleScene::TitleTexUpda()
 		menuAlpha[1] -= 0.02f;
 		menuAlpha[0] = 0.0f;
 	}
-	titlesprite->SetSize({ WinApp::window_width / 2, WinApp::window_height });
-	titlesprite2->SetSize({ WinApp::window_width, WinApp::window_height });
-
+	titlesprite->SetSize({WinApp::window_width / 2, WinApp::window_height});
+	titlesprite2->SetSize({WinApp::window_width, WinApp::window_height});
 }
 
 void TitleScene::TitleTexDraw()
@@ -229,7 +225,6 @@ void TitleScene::TitleFieldInit()
 	celestal = std::make_unique<Object3d>();
 	celestal->SetModel(ModelManager::GetIns()->GetModel(ModelManager::CELESTIALSPHERE));
 	celestal->Initialize(camera);
-
 }
 
 void TitleScene::TitleFieldUpda()
@@ -238,18 +233,16 @@ void TitleScene::TitleFieldUpda()
 	FieldRotY += 0.1f;
 
 	//パラメータをセット(地形)
-	field->SetRotation({ 0.0f, 0.0f, 0.0f });
-	field->SetScale({ 0.15f, 0.15f, 0.15f });
+	field->SetRotation({0.0f, 0.0f, 0.0f});
+	field->SetScale({0.15f, 0.15f, 0.15f});
 	field->SetFogCenter(FogPos);
 	field->setFog(TRUE);
 
 	//パラメータをセット(天球)
-	celestal->SetRotation({ 0.0f, 0.0f, 0.0f });
-	celestal->SetScale({ 30.f, 30.1f, 30.1f });
+	celestal->SetRotation({0.0f, 0.0f, 0.0f});
+	celestal->SetScale({30.f, 30.1f, 30.1f});
 
 	//更新処理
-	field->Update({ 0.6f, 0.6f, 0.6f, 1.0f }, camera);
-	celestal->Update({ 0.6f, 0.6f, 0.6f, 1.0f }, camera);
-
-
+	field->Update({0.6f, 0.6f, 0.6f, 1.0f}, camera);
+	celestal->Update({0.6f, 0.6f, 0.6f, 1.0f}, camera);
 }

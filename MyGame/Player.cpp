@@ -82,7 +82,7 @@ void Player::Jump()
 void Player::Move()
 {
 	//移動停止フラグと回避モーション時は動けない
-	if (StopFlag || evasionF||HP<=0)
+	if (StopFlag || evasionF || HP <= 0)
 	{
 		return;
 	}
@@ -92,7 +92,7 @@ void Player::Move()
 	}
 	XMFLOAT3 pos = Position;
 	XMFLOAT3 rot = Rotation;
-	
+
 	float StickX = input->GetLeftControllerX();
 	float StickY = input->GetLeftControllerY();
 	const float pi = 3.14159f;
@@ -108,8 +108,9 @@ void Player::Move()
 		attackMotion = RUN;
 
 		//アニメーションを走りにセット
-		if ((!m_AnimationStop)) {
-			AnimationContol(AnimeName::RUNNING, 2,0.7, true);
+		if ((!m_AnimationStop))
+		{
+			AnimationContol(RUNNING, 2, 0.7, true);
 		}
 
 		//上入力
@@ -142,55 +143,57 @@ void Player::Move()
 		rot.y = angle + atan2f(StickX, StickY) * (180.0f / pi);
 
 		//プレイヤーの回転角を取る
-		Rotation = {rot.x, rot.y , rot.z};
+		Rotation = {rot.x, rot.y, rot.z};
 		XMVECTOR move = {0.0f, 0.0f, 0.1f, 0.0f};
 		XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(Rotation.y));
 		move = XMVector3TransformNormal(move, matRot);
 
 		//向いた方向に進む
-		Position.x += move.m128_f32[0] * movespeed*5.f ;
+		Position.x += move.m128_f32[0] * movespeed * 5.f;
 		Position.z += move.m128_f32[2] * movespeed * 5.f;
 		Gmove = move;
-
 	}
 	else
 	{
 		//静止時間
-		if ((!m_AnimationStop)) {
-			AnimationContol(AnimeName::IDLE, 9,1, true);
+		if ((!m_AnimationStop))
+		{
+			AnimationContol(IDLE, 9, 1, true);
 		}
 	}
-
-	
 }
 
 void Player::ReStartSetParam()
 {
 	m_AnimationStop = false;
-	AnimationContol(AnimeName::IDLE, 8, 1.0, false);
-
+	AnimationContol(IDLE, 8, 1.0, false);
 }
 
 void Player::Death()
 {
-	if (HP > 0)return;
+	if (HP > 0)
+	{
+		return;
+	}
 
-	AnimationContol(AnimeName::DEATH, 7, 1.0, false);
+	AnimationContol(DEATH, 7, 1.0, false);
 
 	m_AnimationStop = true;
-
 }
 
 #include"mHelper.h"
 
 void Player::Evasion()
 {
-	if (HP <= 0)return;
+	if (HP <= 0)
+	{
+		return;
+	}
 
 	if (evasionF)
 	{
 		//FBXタイムを回避モーション開始時に合わせる
-		AnimationContol(AnimeName::EVASION, 6,1.0, false);
+		AnimationContol(EVASION, 6, 1.0, false);
 
 		m_AnimationStop = true;
 
@@ -284,7 +287,7 @@ void Player::Update()
 
 	ParameterSet_Obj();
 
-	m_fbxObject->SetPosition({ Position.x, Position.y - 1, Position.z });
+	m_fbxObject->SetPosition({Position.x, Position.y - 1, Position.z});
 	m_fbxObject->SetRotation(Rotation);
 	m_fbxObject->SetScale(Scale);
 
@@ -314,17 +317,20 @@ void Player::ParticleDraw()
 	SelectSword::GetInstance()->SwordDraw();
 }
 
-void Player::FbxAnimationControls(const AttackMotion& motiontype, const AttackMotion nextmotiontype, AnimeName name,int number)
+void Player::FbxAnimationControls(const AttackMotion& motiontype, const AttackMotion nextmotiontype, AnimeName name,
+                                  int number)
 {
 	//複数アニメーション読み込んだらこれら消す
 	
+	
 	if (attackMotion == motiontype)
 	{
+		
 		//FBXタイムを回避モーション開始時に合わせる
-		AnimationContol(name, number,SelectSword::GetInstance()->GetSword()->GetAnimationTime(), false);
+		AnimationContol(name, number, SelectSword::GetInstance()->GetSword()->GetAnimationTime(), false);
 		m_AnimationStop = true;
 
-		if (m_fbxObject->GetAnimeTime() >m_fbxObject->GetEndTime()-0.05)
+		if (m_fbxObject->GetAnimeTime() > m_fbxObject->GetEndTime() - 0.05)
 		{
 			OldattackMotion = motiontype;
 			StopFlag = false;
@@ -336,23 +342,29 @@ void Player::FbxAnimationControls(const AttackMotion& motiontype, const AttackMo
 		}
 	}
 	/*歩きと待機モーションどうするか*/
-	
 }
 
-void Player::AnimationContol(AnimeName name, int animenumber,double speed, bool loop)
+void Player::AnimationContol(AnimeName name, int animenumber, double speed, bool loop)
 {
-	if (m_Number != animenumber) {
+	if (PlayerAttackState::GetInstance()->GetHitStopJudg() == true)
+	{
+		m_AnimeSpeed = 0.3;
+	} else {
+		m_AnimeSpeed = speed;
+	}
 
+	if (m_Number != animenumber)
+	{
 		m_AnimeLoop = loop;
 		m_Number = animenumber;
-		m_AnimeSpeed = speed;
+		
 		m_fbxObject->PlayAnimation(m_Number);
 	}
 }
 
 void Player::FbxAnimationControl()
 {
-	if (evasionF || noAttack  || HP <= 0)
+	if (evasionF || noAttack || HP <= 0)
 	{
 		return;
 	}
@@ -360,8 +372,9 @@ void Player::FbxAnimationControl()
 	if (StopFlag)
 	{
 		//静止時間
-		if ((!m_AnimationStop)) {
-			AnimationContol(AnimeName::IDLE, 9, 1, true);
+		if ((!m_AnimationStop))
+		{
+			AnimationContol(IDLE, 9, 1, true);
 		}
 	}
 	if (CustomButton::GetInstance()->GetAttackAction() == true && OldattackMotion == NON)
@@ -381,10 +394,10 @@ void Player::FbxAnimationControl()
 	{
 		attackMotion = FIRST;
 	}
-	
-		FbxAnimationControls(FIRST, SECOND, AnimeName::ATTACK1, 3);
-		FbxAnimationControls(THIRD, FIRST, AnimeName::ATTACK2, 5);
-		FbxAnimationControls(SECOND, THIRD, AnimeName::ATTACK3, 8);
+
+	FbxAnimationControls(FIRST, SECOND, ATTACK1, 3);
+	FbxAnimationControls(THIRD, FIRST, ATTACK2, 5);
+	FbxAnimationControls(SECOND, THIRD, ATTACK3, 8);
 }
 
 
@@ -404,7 +417,7 @@ void Player::RecvDamage(int Damage)
 	{
 		return;
 	}
-	
+
 
 	//ダメージくらった時にカメラシェイク
 	if (!HUD::GetInstance()->GetRecvDamageFlag())

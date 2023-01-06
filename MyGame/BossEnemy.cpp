@@ -118,6 +118,20 @@ void BossEnemy::Initialize()
 	CircleAttack::GetInstance()->Initialize();
 	AltAttack::GetInstance()->Initialize();
 	FrontCircleAttack::GetInstance()->Initialize();
+	CircleAttack::GetInstance()->SetAttackPhase(true);
+
+	CircleAttack::GetInstance()->SetAttackPhase(false);
+	KnockAttack::GetInstance()->SetAttackPhase(false);
+	HalfAttack::GetInstance()->SetAttackPhase(false);
+	HalfAttack::GetInstance()->SetAttackPhase(false);
+	AltAttack::GetInstance()->SetAttackPhase(false);
+	FrontCircleAttack::GetInstance()->SetAttackPhase(false);
+
+	for(int i=0;i<7;i++)
+	{
+		SetAttack_Start(i, false);
+		SetAttack_End(i, false);
+	}
 }
 
 //XVˆ—

@@ -13,6 +13,7 @@ void EnemyStayState::Initialize(Enemy* enemy)
 
 void EnemyStayState::Update(Enemy* enemy)
 {
+	enemy->ResetRespawnCount();
 	enemy->SetAnimeState(enemy->WALK);
 	float RandMove = static_cast<float>(rand() % 90 + 40);
 	if (StayCount == 0)

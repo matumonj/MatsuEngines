@@ -9,7 +9,7 @@ void GuardianAppearState::Initialize(Enemy* enemy)
 void GuardianAppearState::Update(Enemy* enemy)
 {
 	DirectX::XMFLOAT3 epos = enemy->GetPosition();
-	if (Task::GetInstance()->TaskThirdClear() == false)
+	if (Task::GetInstance()->TaskFourClear()== false)
 	{
 		return;
 	}

@@ -3,6 +3,7 @@
 #include"Object3d.h"
 #include "Particle.h"
 #include"Player.h"
+
 class EnemyBeta :
 	public Enemy
 {
@@ -38,42 +39,44 @@ public:
 	void EnemyHPDraw() override;
 
 	void Move() override;
-	void Smoke(bool& createf)override;
+	void Smoke(bool& createf) override;
 private:
-	void HPFrameInit()override;
+	void HPFrameInit() override;
 
 	void DamageParticleSet();
 
 	XMFLOAT3 GetHandPos();
-	
+
 private:
 	bool nowAttack;
 	bool isendtime;
 	std::unique_ptr<Object3d> Sword;
 	int rand_Attacktype;
 	int hindex;
+
 	enum AttackNumber
 	{
 		IDLE,
 		THROWRROCK,
 		SIDEWAY,
-	}attackNum;
+	} attackNum;
 
 	int attackindex;
 
 	XMMATRIX AttackHand_Right;
 	XMFLOAT3 RightHandPos;
 private:
-	std::unique_ptr<Object3d>ThrowRockObj;
+	std::unique_ptr<Object3d> ThrowRockObj;
 
 	enum ThrowMotion
 	{
 		NON,
 		PICK,
 		THROW
-	}tmotion;
+	} tmotion;
+
 	XMFLOAT3 RockPos;
-	std::unique_ptr<Particle>DestRock;
+	std::unique_ptr<Particle> DestRock;
 	bool destF;
 	bool turnoffdrawF;
 
@@ -85,4 +88,3 @@ private:
 
 	void AttackMotion();
 };
-

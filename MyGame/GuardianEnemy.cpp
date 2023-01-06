@@ -13,6 +13,15 @@ GuardianEnemy::GuardianEnemy()
 
 GuardianEnemy::~GuardianEnemy()
 {
+	for(int i=0;i<HPFrame.size();i++)
+	{
+		HPFrame[i].reset(nullptr);
+	}
+	smokepar.reset(nullptr);
+	m_Object.reset(nullptr);
+
+	GuardianBomAttack::GetIns()->Finalize();
+	GuardianShotAttack::GetIns()->Finalize();
 }
 
 
@@ -150,7 +159,7 @@ void GuardianEnemy::EnemyHPDraw()
 	if (Collision::GetLength(Position, l_player->GetPosition()) > 40) { return; }
 
 	Sprite::PreDraw();
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < HPFrame.size(); i++)
 	{
 		HPFrame[i]->Draw();
 	}

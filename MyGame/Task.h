@@ -102,7 +102,12 @@ public:
 		return false;
 	}
 
+	bool TaskFourClear() { return Judg[TASK_FOUR]; }
 	bool TaskThirdClear() { return Judg[TASK_THREE]; }
+
+	bool TaskFirstClear() { return Judg[TASK_ONE]; }
+
+	void GuardianRset();
 private:
 	int GolemDestCount;
 	int MiniGolemDestCount;

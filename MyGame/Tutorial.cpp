@@ -157,28 +157,28 @@ void Tutorial::Update()
 		Play = false;
 		SceneManager::GetInstance()->SetScene(SceneManager::PLAY, sceneManager_);
 	}
-	
+	if(Input::GetInstance()->TriggerButton(Input::RT))
+	SceneManager::GetInstance()->SetScene(SceneManager::BOSS, sceneManager_);
+
 }
 
 void Tutorial::LightUpdate()
 {
-
 	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 	if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr)
 	{
-		lightGroup->SetCircleShadowDir(0, XMVECTOR({ circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0 }));
+		lightGroup->SetCircleShadowDir(0, XMVECTOR({circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0}));
 		lightGroup->SetCircleShadowCasterPos(0, {
-												 EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->
-												 GetPosition()
-			});
+			                                     EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->
+			                                     GetPosition()
+		                                     });
 		lightGroup->SetCircleShadowAtten(0, XMFLOAT3(circleShadowAtten));
 		lightGroup->SetCircleShadowFactorAngle(0, XMFLOAT2(circleShadowFactorAngle2));
 	}
-	lightGroup->SetCircleShadowDir(1, XMVECTOR({ circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0 }));
-	lightGroup->SetCircleShadowCasterPos(1, { ppos });
+	lightGroup->SetCircleShadowDir(1, XMVECTOR({circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0}));
+	lightGroup->SetCircleShadowCasterPos(1, {ppos});
 	lightGroup->SetCircleShadowAtten(1, XMFLOAT3(circleShadowAtten));
 	lightGroup->SetCircleShadowFactorAngle(1, XMFLOAT2(circleShadowFactorAngle));
-
 }
 
 /*------------------------*/
@@ -229,7 +229,7 @@ void Tutorial::Draw()
 		PlayerControl::GetInstance()->GetPlayer()->ParticleDraw();
 		TutorialSprite::GetInstance()->DrawTargetPos();
 
-		//postEffect->Draw();
+	//postEffect->Draw();
 		Sprite::PreDraw();
 		if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr)
 		{

@@ -11,6 +11,19 @@ GuardianShotAttack* GuardianShotAttack::GetIns()
 	return &ins;
 }
 
+void GuardianShotAttack::Finalize()
+{
+	DamageTex.reset(nullptr);
+	for (int i = 0; i < ArmObjNum; i++)
+	{
+		ArmObj[i].reset(nullptr);
+		ArmEffect[i].reset(nullptr);
+	}
+	PlayerDamageEffect.reset(nullptr);
+
+}
+
+
 void GuardianShotAttack::TexSet()
 {
 	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
@@ -32,6 +45,7 @@ void GuardianShotAttack::TexSet()
 		ArmObj[i]->Initialize(camera);
 		ArmObj[i]->SetModel(ModelManager::GetIns()->GetModel(ModelManager::MISSILE));
 		ArmAlpha[i] = 1.f;
+		ArmShotF[i] = false;
 
 		ArmEffect[i] = std::make_unique<Particle>();
 		ArmEffect[i]->Init(64);
@@ -45,6 +59,10 @@ void GuardianShotAttack::TexSet()
 	PlayerDamageEffect->Init(64);
 	PlayerDamageEffect->SetParScl({2.f, 2.f});
 	PlayerDamageEffect->SetParColor({1.f, 0.2f, 0.2f, 1.f});
+
+	DestroyEffectF = false;
+	isEndAttack = false;
+	phase = NON;
 }
 
 void GuardianShotAttack::Upda()

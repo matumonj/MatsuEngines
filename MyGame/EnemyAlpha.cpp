@@ -34,12 +34,12 @@ EnemyAlpha::~EnemyAlpha()
 void EnemyAlpha::HPFrameInit()
 {
 	//‘Ì—Íƒo[‰Šú‰»
-	Sprite* l_frame1 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME1), { 0, 0 });
-	Sprite* l_frame2 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME2), { 0, 0 });
-	Sprite* l_frame3 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME4), { 0, 0 });
-	Sprite* l_frame4 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME3), { 0, 0 });
+	Sprite* l_frame1 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME1), {0, 0});
+	Sprite* l_frame2 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME2), {0, 0});
+	Sprite* l_frame3 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME4), {0, 0});
+	Sprite* l_frame4 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENMEYHPFRAME3), {0, 0});
 
-	Sprite* l_enemyname = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENEMYNAME_LIZARD), { 0, 0 });
+	Sprite* l_enemyname = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::ENEMYNAME_LIZARD), {0, 0});
 
 	HPFrame[0].reset(l_frame1);
 	HPFrame[1].reset(l_frame2);
@@ -50,11 +50,11 @@ void EnemyAlpha::HPFrameInit()
 
 	for (int i = 0; i < 4; i++)
 	{
-		HPFrame[i]->SetAnchorPoint({ 0.0f, 0.0f });
+		HPFrame[i]->SetAnchorPoint({0.0f, 0.0f});
 	}
 	FrameScl.x = Percent::GetParcent(static_cast<float>(MaxHP), static_cast<float>(EnemyHP)) * 2.0f;
-
 }
+
 //‰Šú‰»ˆ—
 void EnemyAlpha::Initialize()
 {
@@ -170,7 +170,8 @@ void EnemyAlpha::EnemyHPDraw()
 	Player* l_player = PlayerControl::GetInstance()->GetPlayer();
 
 	Sprite::PreDraw();
-	if (Collision::GetLength(Position, l_player->GetPosition()) < 40) {
+	if (Collision::GetLength(Position, l_player->GetPosition()) < 40)
+	{
 		for (int i = 0; i < 4; i++)
 		{
 			HPFrame[i]->Draw();
@@ -179,7 +180,6 @@ void EnemyAlpha::EnemyHPDraw()
 		Sprite::PostDraw();
 	}
 }
-
 
 
 void EnemyAlpha::Move()
