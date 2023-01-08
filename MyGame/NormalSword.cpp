@@ -23,7 +23,8 @@ void NormalSword::Initialize()
 	Damage = 20;
 
 	animetiontime = 1.6f;
-	KnockPower = 20.0f;
+	KnockPower = 15.0f;
+	SwordObbScl = { 2.5f,2.5f,4.f };
 
 	Rotation = {0.0f, 0.0f, 0.0f + 66.0f};
 	m_Object->SetScale(Scale);

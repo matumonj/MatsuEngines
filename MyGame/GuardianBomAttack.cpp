@@ -116,7 +116,7 @@ void GuardianBomAttack::Upda()
 	TexRotZ++;
 	for (int i = 0; i < ArmObjNum; i++)
 	{
-		DamageTex[i]->SetScale({10.f, 10.f, 10.f});
+		DamageTex[i]->SetScale({5.f, 5.f, 5.f});
 		DamageTex[i]->SetPosition(DtexPos[i]);
 		DamageTex[i]->SetRotation({90.f, 0.f, TexRotZ});
 		DamageTex[i]->SetBillboard(FALSE);

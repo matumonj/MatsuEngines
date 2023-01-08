@@ -194,7 +194,7 @@ void MobEnemy::OBBSetParam()
 		{
 			if (Collision::CheckOBBCollision(playerOBB, HandSiteOBB) == true)
 			{
-				l_player->RecvDamage(80);
+				l_player->RecvDamage(10);
 			}
 		}
 	}
@@ -229,6 +229,7 @@ void MobEnemy::Draw()
 
 void MobEnemy::EnemyHPDraw()
 {
+	if (alpha <= 0.f)return;
 	Player* l_player = PlayerControl::GetInstance()->GetPlayer();
 
 	if (Collision::GetLength(Position, l_player->GetPosition()) < 40)

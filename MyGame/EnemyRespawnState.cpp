@@ -1,5 +1,6 @@
 #include "EnemyRespawnState.h"
 #include"EnemyStayState.h"
+#include "PlayerControl.h"
 
 void EnemyRespawnState::Initialize(Enemy* enmey)
 {
@@ -7,6 +8,7 @@ void EnemyRespawnState::Initialize(Enemy* enmey)
 
 void EnemyRespawnState::Update(Enemy* enemy)
 {
+	
 	//リスポーン
 	enemy->Respawn();
 	//状態を待機状態に

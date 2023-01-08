@@ -145,7 +145,8 @@ void KnockAttack::ActionJudg()
 				AxePos[i].x += move[i].m128_f32[0] * 6.0f;
 				AxePos[i].z += move[i].m128_f32[2] * 6.0f;
 				AxePos[i].y = 10.f;
-				
+
+				AxeRot[i].x += 6.f;
 				if (AttackCount > 800)
 				{
 					phase = PHASEFOUR;

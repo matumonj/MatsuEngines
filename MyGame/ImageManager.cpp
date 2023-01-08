@@ -38,6 +38,14 @@ void ImageManager::Load2D()
 	Sprite::LoadTexture(CHESTCOUNT, L"Resources/chestCollect1.png");
 	Sprite::LoadTexture(CHESTCOUNT_FRAME, L"Resources/2d/Expadian.png");
 	Sprite::LoadTexture(STITLE, L"Resources/chestColFrame.png");
+
+	Sprite::LoadTexture(GAMECLEAR_G, L"Resources/2d/ClearTex/g.png");
+	Sprite::LoadTexture(GAMECLEAR_A, L"Resources/2d/ClearTex/a.png");
+	Sprite::LoadTexture(GAMECLEAR_M, L"Resources/2d/ClearTex/m.png");
+	Sprite::LoadTexture(GAMECLEAR_E, L"Resources/2d/ClearTex/e.png");
+	Sprite::LoadTexture(GAMECLEAR_C, L"Resources/2d/ClearTex/c.png");
+	Sprite::LoadTexture(GAMECLEAR_L, L"Resources/2d/ClearTex/l.png");
+	Sprite::LoadTexture(GAMECLEAR_R, L"Resources/2d/ClearTex/r.png");
 }
 
 void ImageManager::Init()

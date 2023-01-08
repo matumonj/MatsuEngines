@@ -47,8 +47,9 @@ void WoodB::Update()
 	m_Object->Setf(TRUE);
 	m_Object->SetFogCenter(camera->GetEye());
 	m_Object->setFog(true);
+	m_Object->Setppos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
 
-	m_Object->SetDisLen(800);
+	m_Object->SetDisLen(300);
 	//フィールド
 	CollideWood();
 }

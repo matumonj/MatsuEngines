@@ -53,7 +53,7 @@ void GuardianNAttack::Upda()
 		break;
 
 	case BOM:
-		PlayerControl::GetInstance()->GetPlayer()->RecvDamage(50);
+		//PlayerControl::GetInstance()->GetPlayer()->RecvDamage(50);
 		Phase_Bom();
 		break;
 

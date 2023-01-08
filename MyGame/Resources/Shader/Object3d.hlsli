@@ -1,3 +1,4 @@
+
 cbuffer cbuff0 : register(b0)
 {
 float4 color;
@@ -14,8 +15,9 @@ bool destF;
 float3 ks5;
 float desttime;
 bool shadowf;
-float3 ks6;
+float3 playerpos;
 float dislen;
+
 };
 
 cbuffer cbuff1 : register(b1)
@@ -74,6 +76,17 @@ struct CircleShadow
 	uint active;
 };
 
+struct Point
+{
+	float x;
+	float y;
+};
+
+struct Line2D
+{
+	float2 start;
+	float2 end;
+};
 cbuffer cbuff2 : register(b2)
 {
 float3 ambientColor;

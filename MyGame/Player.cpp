@@ -12,6 +12,7 @@
 #include"HUD.h"
 
 #include"CameraControl.h"
+#include "EnemyControl.h"
 
 using namespace DirectX;
 
@@ -97,7 +98,27 @@ void Player::Move()
 	float StickY = input->GetLeftControllerY();
 	const float pi = 3.14159f;
 	const float STICK_MAX = 32768.0f;
+	if (TargetMarker::GetInstance()->GetNearIndex() != -1 && EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE).size() > 0) {
+		nearindex = TargetMarker::GetInstance()->GetNearIndex();
+		Enemy* NearEnemy = EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[nearindex].get();
 
+
+		//敵がプエレイヤーの方向く処理
+		XMVECTOR positionA = {
+		Position.x,Position.y,Position.z
+		};
+		XMVECTOR positionB = { NearEnemy->GetPosition().x, NearEnemy->GetPosition().y,  NearEnemy->GetPosition().z };
+		//プレイヤーと敵のベクトルの長さ(差)を求める
+		XMVECTOR SubVector = XMVectorSubtract(positionA, positionB); // positionA - positionB;
+
+		//角度の取得 プレイヤーが敵の索敵位置に入ったら向きをプレイヤーの方に
+		RotY = atan2f(SubVector.m128_f32[0], SubVector.m128_f32[2]);
+		if (CustomButton::GetInstance()->GetAttackAction() &&
+			Collision::GetLength(Position, NearEnemy->GetPosition()) < 30.f) {
+			Rotation.y = RotY * 60+180.f;
+		}
+
+	}
 	//スティックの移動処理
 	if (input->TiltPushStick(Input::L_UP, 0.0f) ||
 		input->TiltPushStick(Input::L_DOWN, 0.0f) ||
@@ -143,14 +164,15 @@ void Player::Move()
 		rot.y = angle + atan2f(StickX, StickY) * (180.0f / pi);
 
 		//プレイヤーの回転角を取る
-		Rotation = {rot.x, rot.y, rot.z};
+		Rotation = { rot.x, rot.y, rot.z };
+		
 		XMVECTOR move = {0.0f, 0.0f, 0.1f, 0.0f};
 		XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(Rotation.y));
 		move = XMVector3TransformNormal(move, matRot);
 
 		//向いた方向に進む
-		Position.x += move.m128_f32[0] * movespeed * 5.f;
-		Position.z += move.m128_f32[2] * movespeed * 5.f;
+		Position.x += move.m128_f32[0] * movespeed;
+		Position.z += move.m128_f32[2] * movespeed ;
 		Gmove = move;
 	}
 	else
@@ -246,8 +268,7 @@ void Player::Update()
 			Position = oldpos;
 			falltime = 0;
 		}
-	}
-	else
+	} else
 	{
 		//座標を一定間隔ごとに保存
 		falltime = 0;
@@ -267,7 +288,7 @@ void Player::Update()
 	//
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
 	{
-		if (Collision::GetLength(Position, {0, -19, 0}) > 90)
+		if (Collision::GetLength(Position, { 0, -19, 0 }) > 90)
 		{
 			RecvDamage(10);
 		}
@@ -287,7 +308,7 @@ void Player::Update()
 
 	ParameterSet_Obj();
 
-	m_fbxObject->SetPosition({Position.x, Position.y - 1, Position.z});
+	m_fbxObject->SetPosition({ Position.x, Position.y - 1, Position.z });
 	m_fbxObject->SetRotation(Rotation);
 	m_fbxObject->SetScale(Scale);
 
@@ -298,6 +319,9 @@ void Player::Update()
 	SelectSword::GetInstance()->Update();
 	//攻撃エフェクト
 	AttackEffect::GetIns()->Upda();
+
+
+	
 }
 
 

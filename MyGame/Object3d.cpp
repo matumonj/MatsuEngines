@@ -8,6 +8,7 @@
 #include"BaseCollider.h"
 #include"CollisionManager.h"
 #include"DirectXCommon.h"
+#include "PlayerControl.h"
 #pragma comment(lib, "d3dcompiler.lib")
 using namespace std;
 using namespace DirectX;
@@ -624,7 +625,7 @@ void Object3d::Update(XMFLOAT4 color, DebugCamera* camera)
 	constMap->destTime = DestTime;
 	constMap->shadowf = shadowf;
 
-	constMap->ks6 = {};
+	constMap->playerpos = ppos;// PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 	constMap->dislen = dislen;
 	// 定数バッファへデータ転送
 	//ConstBufferDataB0* constMap = nullptr;

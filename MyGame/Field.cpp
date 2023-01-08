@@ -169,6 +169,7 @@ void Field::Update_Play()
 	SetFieldUpdate(CELESTIALSPHERE, camera, {0.0f, 2290.0f, 0.0f}, {30.0f, 30.0f, 30.0f}, FALSE, TRUE);
 	SetFieldUpdate(PEDESTAL, camera, pedestalpos, {2, 2, 2});
 
+	FieldObject->Setf(true);
 	FieldObject->SetPosition({0.0f, -25.0f, 0.0f});
 	FieldObject->SetColor({0.2f, 0.2f, 0.2f, 1.0f});
 	FieldObject->SetFogCenter(FogCenterPos);
@@ -188,6 +189,7 @@ void Field::GuardAreaTexUpda()
 	{
 		return;
 	}
+	Input* input = Input::GetInstance();
 	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
 	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 
@@ -261,9 +263,19 @@ void Field::GuardAreaTexUpda()
 				//プレイヤーの移動制限設定
 				if (Collision::GetLength(ppos, GuardareaPos[i]) <= 20.f)
 				{
-					PlayerControl::GetInstance()->GetPlayer()->isOldPos();
+					if (input->TiltPushStick(Input::L_UP, 0.0f) ||
+						input->TiltPushStick(Input::L_DOWN, 0.0f) ||
+						input->TiltPushStick(Input::L_RIGHT, 0.0f) ||
+						input->TiltPushStick(Input::L_LEFT, 0.0f))
+					{
+						if (Collision::IsCollidingLineAndCircle(camera_to_player, GuardAreaPoint[i]))
+						{
+							GuardAreaAlphaEtime[i] = 1.f;
+						}
+					}
+						PlayerControl::GetInstance()->GetPlayer()->isOldPos();
+					}
 				}
-			}
 		}
 
 		//アルファ値の上下

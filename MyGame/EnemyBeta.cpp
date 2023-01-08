@@ -134,7 +134,7 @@ void EnemyBeta::Update()
 	AttackMotion();
 
 	m_Object->SetPosition(Position);
-	m_fbxObject->SetPosition({Position.x, Position.y - 1, Position.z});
+	m_fbxObject->SetPosition({Position.x, Position.y - 3.f, Position.z});
 	m_fbxObject->SetRotation(Rotation);
 	m_fbxObject->SetScale(Scale);
 	m_fbxObject->SetFogPos(camera->GetEye());
@@ -190,6 +190,10 @@ void EnemyBeta::Death()
 			DeathFlag = true;
 		}
 	}
+	if (m_fbxObject->GetAnimeTime() >= m_fbxObject->GetEndTime() - 0.3f)
+	{
+		alpha -= 0.02f;
+	}
 	movestop = false;
 }
 
@@ -199,6 +203,7 @@ void EnemyBeta::FbxAnimationControl()
 
 void EnemyBeta::EnemyHPDraw()
 {
+	if (alpha <= 0.f)return;
 	//プレイヤーのインスタンス取得
 	Player* l_player = PlayerControl::GetInstance()->GetPlayer();
 

@@ -58,7 +58,10 @@ void Stone_A::Update()
 	Color = {1, 1, 1, alpha};
 	ParameterSet_Obj();
 	m_Object->Setf(TRUE);
-	m_Object->SetDisLen(170);
+	m_Object->Setppos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
+	//m_Object->setFog(true);
+
+	m_Object->SetDisLen(4000);
 	//フィールド
 	CollideStone();
 }

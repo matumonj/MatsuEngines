@@ -26,7 +26,7 @@ void Wood::Initialize()
 	//モデル割り当て
 	m_Object->Initialize(camera);
 	m_Object->SetModel(ModelManager::GetIns()->GetModel(ModelManager::WOOD));
-	Scale = {12.0f, 9.0f, 12.0f};
+	Scale = {15.0f, 12.0f, 15.0f};
 	radius_adjustment = 2.0f;
 	SetCollider();
 	alpha = 1.0f;
@@ -44,8 +44,16 @@ void Wood::Update()
 	Color = {1.0f, 1.0f, 1.0f, alpha};
 	ParameterSet_Obj();
 	m_Object->Setf(TRUE);
-	m_Object->SetFogCenter(camera->GetEye());
-	m_Object->setFog(true);
+	//m_Object->SetFogCenter(camera->GetEye());
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
+		m_Object->setFog(true);
+	}
+	else
+	{
+		m_Object->setFog(false);
+	}
+	m_Object->Setppos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
+
 	m_Object->SetDisLen(800);
 	//フィールド
 	CollideWood();

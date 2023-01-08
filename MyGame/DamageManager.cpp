@@ -1,6 +1,6 @@
 #include "DamageManager.h"
 #include"CameraControl.h"
-
+#include <algorithm>
 DamageManager::DamageManager(XMFLOAT3 Position, int Damage)
 {
 	this->Position = Position;
@@ -8,7 +8,7 @@ DamageManager::DamageManager(XMFLOAT3 Position, int Damage)
 	DamageTex = std::make_unique<DebugTextSprite>();
 	DamageTex->Initialize(0);
 	TexAlpha = 1.0f;
-	TexSize = {2.0f, 2.0f};
+	TexSize = {float(Damage)/15.0f, float(Damage) / 15.f };
 }
 
 DamageManager::~DamageManager()
@@ -30,12 +30,27 @@ void DamageManager::DamageDisPlay(int damage, XMFLOAT4 color)
 	str << std::fixed << std::setprecision(2)
 		<< Damage;
 	//3D->2D•ÏŠ· 3ˆø”Á‚·
-	XMVECTOR tex2DPos = {Position.x, Position.y + 10, Position.z};
+	XMVECTOR tex2DPos = {Position.x, Position.y +5.f, Position.z};
 	tex2DPos = PosDivi(tex2DPos, CameraControl::GetInstance()->GetCamera()->GetViewMatrix(), false);
 	tex2DPos = PosDivi(tex2DPos, CameraControl::GetInstance()->GetCamera()->GetProjectionMatrix(), true);
 	tex2DPos = WDivi(tex2DPos, false);
 	tex2DPos = PosDivi(tex2DPos, CameraControl::GetInstance()->GetCamera()->GetViewPort(), false);
 
+	if (Damage >= 40.f) {
+		DamageTex->SetColor({ 1.f,0.2f,0.2f });
+	}
+	else if(Damage<40&&Damage>=35.f)
+	{
+		DamageTex->SetColor({ 1.f,0.5f,0.5f });
+	}
+	else if (Damage < 35&& Damage >= 30.f)
+	{
+		DamageTex->SetColor({ 1.f,0.7f,0.7f });
+	}
+	else if (Damage < 30 && Damage >= 0.f)
+	{
+		DamageTex->SetColor({ 1.f,1.f,1.f });
+	}
 	DamageTex->SetAlpha(TexAlpha);
 	//•\‹L
 	DamageTex->Print(str.str(), tex2DPos.m128_f32[0], tex2DPos.m128_f32[1], TexSize.x);

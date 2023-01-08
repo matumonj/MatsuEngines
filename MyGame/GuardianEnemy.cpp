@@ -56,7 +56,7 @@ void GuardianEnemy::Initialize()
 
 	m_Object->SetModel(Model::CreateFromOBJ("Guardian"));
 
-	MaxHP = 1000;
+	MaxHP = 400;
 
 	EnemyHP = MaxHP;
 	//パラメータのセット

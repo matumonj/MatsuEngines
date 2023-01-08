@@ -188,6 +188,7 @@ void Nail::NailAmountSet(int amount)
 		Nails[i]->Initialize(CameraControl::GetInstance()->GetCamera());
 		Nails[i]->SetModel(Nailmodel);
 	}
+	CAttack.WaitCount = 0;
 }
 
 void Nail::ModelSet()

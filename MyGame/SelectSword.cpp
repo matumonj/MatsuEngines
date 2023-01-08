@@ -30,6 +30,7 @@ void SelectSword::Finalize()
 
 void SelectSword::SpriteSet()
 {
+	Sprite::LoadTexture(228, L"Resources/2d/icon/SelectWeaponWood.png");
 	Sprite::LoadTexture(229, L"Resources/2d/icon/SelectWeaponSword.png");
 
 	Sprite::LoadTexture(230, L"Resources/2d/icon/SelectWeaponAxe.png");
@@ -42,8 +43,8 @@ void SelectSword::SpriteSet()
 	/// <summary>
 	/// ïêäÌSpriteê∂ê¨
 	/// </summary>
-	SwordSample[WAND] = Sprite::Create(231, {1.0f, 1.0f});
-	SwordSample[SWORD] = Sprite::Create(232, {1.0f, 1.0f});
+	SwordSample[WAND] = Sprite::Create(232, {1.0f, 1.0f});
+	SwordSample[SWORD] = Sprite::Create(228, {1.0f, 1.0f});
 	SwordSample[AXE] = Sprite::Create(230, {1.0f, 1.0f});
 
 	/// <summary>
@@ -268,6 +269,10 @@ void SelectSword::Update()
 	if (DropWeapon::GtIns()->PickUpWeapon(DropWeapon::AXE) == true)
 	{
 		sampleSwordAlpha[AXE] += 0.02f;
+	}
+	if (DropWeapon::GtIns()->PickUpWeapon(DropWeapon::SWORD) == true)
+	{
+		sampleSwordAlpha[WAND] += 0.02f;
 	}
 	WeaponChangeEffect->CreateParticle(WeapomScl.x <= 0.0f, PlayerControl::GetInstance()->GetPlayer()->GetHandPos());
 

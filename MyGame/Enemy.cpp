@@ -159,6 +159,7 @@ void Enemy::HPFrameUpda()
 }
 void Enemy::Respawn()
 {
+	
 	RespawnCount++;
 
 	if (RespawnJudg() == true) {
@@ -181,6 +182,16 @@ void Enemy::Respawn()
 	}
 }
 
+bool Enemy::RespawnJudg()
+{
+	bool respawnjudg = Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), Position) > 80.f;
+
+	if (RespawnCount > RespawnCountMax&&respawnjudg)
+	{
+		return true;
+	}
+	return false;
+}
 
 void Enemy::DamageTexDisplay()
 {

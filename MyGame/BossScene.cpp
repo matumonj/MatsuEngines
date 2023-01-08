@@ -29,7 +29,7 @@ BossScene::BossScene(SceneManager* sceneManager)
 /*-----------------------*/
 void BossScene::Initialize()
 {
-	DebugTxt::GetInstance()->Initialize(47);
+	//DebugTxt::GetInstance()->Initialize(47);
 	//各オブジェクトの初期化
 	if (AllObjectControl.size() == 0)
 	{

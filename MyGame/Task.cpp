@@ -173,9 +173,10 @@ void Task::Upda()
 			<< MiniGolemDestCount;
 	}
 	//•ê”‚Í‚QŒÅ’è(Œã‚Å•Ï‚¦‚é‚©‚à)
-	const std::string amount = "/2";
-	DebugTextSprite2::GetInstance()->Print(str.str() + amount, TaskMenuPos.x, TaskMenuPos.y, 0.8f);
-
+	if (target != PEDESTAL) {
+		const std::string amount = "/2";
+		DebugTextSprite2::GetInstance()->Print(str.str() + amount, TaskMenuPos.x, TaskMenuPos.y, 0.8f);
+	}
 	//ˆê”Ô‹ß‚¢“G‚Ö‚Ìƒ^[ƒQƒbƒg—p
 	//ƒS[ƒŒƒ€
 	int nearIndex_Golem = TargetMarker::GetInstance()->GetNearGolemIndex();
@@ -200,10 +201,12 @@ void Task::Upda()
 		break;
 
 	case COW:
+		TaskScl.y = 223.f;
 		TargetPos = targetenemy_Lizard->GetPosition();
 		arrowcol = {0.9f, 0.2f, 0.2f, 0.7f};
 		break;
 	case MINIGOLEM:
+		TaskScl = { 404.f,205.f };
 		TargetPos = targetenemy_MiniGolem->GetPosition();
 		arrowcol = {0.7f, 0.7f, 0.7f, 0.7f};
 		break;
@@ -349,7 +352,9 @@ void Task::Draw()
 		Sprite::PostDraw();
 	}
 	ImGui::Begin("task");
-	ImGui::Text("%d", target);
+	ImGui::SliderFloat("tasksclx", &TaskScl.x,0,1000);
+	ImGui::SliderFloat("taskscly", &TaskScl.y, 0, 1000);
+
 	ImGui::End();
 }
 

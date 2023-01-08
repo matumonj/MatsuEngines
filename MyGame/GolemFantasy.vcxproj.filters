@@ -651,6 +651,9 @@
     <ClCompile Include="BetaEnemyAttack.cpp">
       <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\beta</Filter>
     </ClCompile>
+    <ClCompile Include="ClearScene.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sprite.h">
@@ -1105,6 +1108,9 @@
     </ClInclude>
     <ClInclude Include="BetaEnemyAttack.h">
       <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\beta</Filter>
+    </ClInclude>
+    <ClInclude Include="ClearScene.h">
+      <Filter>Game\Shader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

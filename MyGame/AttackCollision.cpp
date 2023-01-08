@@ -35,7 +35,7 @@ void AttackCollision::GetCol(int damage)
 	//剣のOBBパラメータ
 	HandObb.SetOBBParam_Pos(PlayerControl::GetInstance()->GetPlayer()->GetHanMat());
 	HandObb.SetOBBParam_Rot(SelectSword::GetInstance()->GetSword()->GetMatrot());
-	HandObb.SetOBBParam_Scl({3.0f, 8.0f, 3.0f});
+	HandObb.SetOBBParam_Scl(SelectSword::GetInstance()->GetSword()->GetSwordObbScl());
 
 	//プレイヤーのインスタンス取得
 	Player* l_player = PlayerControl::GetInstance()->GetPlayer();

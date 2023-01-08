@@ -63,7 +63,8 @@ public:
 	void Respawn();
 	int GetRespawnCount() { return RespawnCount; }
 	void ResetRespawnCount() { RespawnCount = 0; }
-	bool RespawnJudg() { if (RespawnCount > RespawnCountMax) { return true; }return false; }
+	bool RespawnJudg();//
+
 protected:
 	bool isAlive;
 	//‘Ì—ÍŽü‚è

@@ -109,13 +109,13 @@ void EnemyAlpha::Update()
 	}
 	m_fbxObject->SetColor({1, 0, 0, alpha});
 
-	if (!DeathFlag && SceneManager::GetInstance()->GetScene() != SceneManager::MAPCREATE)
+	if (alpha>0.f && SceneManager::GetInstance()->GetScene() != SceneManager::MAPCREATE)
 	{
 		m_fbxObject->SetFogPos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
 
 		HandSiteOBB.SetOBBParam_Pos(m_fbxObject->GetWorld());
 		HandSiteOBB.SetOBBParam_Rot(m_fbxObject->GetWorld());
-		HandSiteOBB.SetOBBParam_Scl({5.0f, 20.0f, 5.0f});
+		HandSiteOBB.SetOBBParam_Scl({2.0f, 2.0f, 2.0f});
 
 		playerOBB.SetOBBParam_Pos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
 		playerOBB.SetOBBParam_Rot(PlayerControl::GetInstance()->GetPlayer()->GetMatrot());
@@ -153,12 +153,12 @@ void EnemyAlpha::Death()
 {
 	if (!DeathFlag)
 	{
-		ExpPointSystem::GetInstance()->ExpPoint_Get(10);
 		//f_time = DeathTime;
 		//if (f_time > DeathTime) {
 		DeathFlag = true;
 		//EnemyHP = MaxHP;
 	}
+	alpha -= 0.02f;
 	//if (f_time < DeathTime) {
 	//f_time = DeathTime;
 	//	}
@@ -167,6 +167,7 @@ void EnemyAlpha::Death()
 
 void EnemyAlpha::EnemyHPDraw()
 {
+	if (alpha <= 0.f)return;
 	Player* l_player = PlayerControl::GetInstance()->GetPlayer();
 
 	Sprite::PreDraw();

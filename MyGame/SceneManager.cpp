@@ -1,5 +1,7 @@
 #include "SceneManager.h"
 
+#include "ClearScene.h"
+
 SceneManager* SceneManager::GetInstance()
 {
 	static SceneManager instance;
@@ -29,6 +31,10 @@ void SceneManager::SetScene(NowScene scene, SceneManager* scman)
 	if (scene == TITLE)
 	{
 		nextscene = new TitleScene(scman); //次のシーンのインスタンス生成
+	}
+	if (scene == GAMECLEAR)
+	{
+		nextscene = new ClearScene(scman); //次のシーンのインスタンス生成
 	}
 	scman->SetnextScene(nextscene);
 }

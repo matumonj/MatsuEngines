@@ -29,9 +29,10 @@ void SmallSword::Initialize()
 
 	Scale = {1.f, 1.f, 1.f};
 
-	Rotation = {0.f, 0.f + 30.f, 0.f + 100.f};
-	animetiontime = 0.03f;
-	KnockPower = 15.0f;
+	Rotation = {16.f, 0.f , 230.f};
+	animetiontime = 1.5f;
+	KnockPower = 5.0f;
+	SwordObbScl = { 3.f,3.f,4.f };
 
 	Damage = 10;
 	Bliz = std::make_unique<Blizzard>();
@@ -68,6 +69,12 @@ void SmallSword::Draw()
 	Bliz->Draw();
 	SlashArea->Draw();
 	TargetMarker::GetInstance()->Draw();
+
+	ImGui::Begin("rot");
+	ImGui::SliderFloat("rotx", &Rotation.x, 0, 360);
+	ImGui::SliderFloat("roty", &Rotation.y, 0, 360);
+	ImGui::SliderFloat("rotz", &Rotation.z, 0, 360);
+	ImGui::End();
 }
 
 #include"PlayerAttackState.h"

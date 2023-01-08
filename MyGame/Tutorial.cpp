@@ -40,7 +40,7 @@ void Tutorial::Initialize()
 	Object3d::SetLightGroup(lightGroup);
 	GrassObj::SetLightGroup(lightGroup);
 
-	Texture::LoadTexture(47, L"Resources/df.png");
+	//Texture::LoadTexture(47, L"Resources/df.png");
 	/*オブジェクト初期化*/
 	{
 		AllObjectControl.emplace_back(CameraControl::GetInstance()); //Camera

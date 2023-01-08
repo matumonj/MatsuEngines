@@ -21,7 +21,7 @@ public:
 	{
 		SWORD,
 		AXE,
-		//	WAND
+		WAND
 	};
 
 	enum DropPhase

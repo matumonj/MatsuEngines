@@ -209,7 +209,7 @@ void DebugTextSprite::DrawAll()
 	// 全ての文字のスプライトについて
 	for (int i = 0; i < spriteIndex; i++)
 	{
-		spriteDatas[i]->setcolor({1, 1, 1, alpha});
+		spriteDatas[i]->setcolor({color.x, color.y, color.z, alpha});
 		// スプライト描画
 		spriteDatas[i]->Draw();
 	}

@@ -46,7 +46,7 @@ public: // サブクラス
 		XMFLOAT3 ks5;
 		float destTime;
 		bool shadowf;
-		XMFLOAT3 ks6;
+		XMFLOAT3 playerpos;
 		float dislen;
 	};
 
@@ -291,7 +291,9 @@ public:
 private:
 	XMMATRIX matScale, matRot, matTrans;
 	XMFLOAT2 time;
+	XMFLOAT3 ppos;
 public:
+	void Setppos(XMFLOAT3 pos) { ppos = pos; }
 	/// <summary>
 	/// モデルを取得
 	/// </summary>

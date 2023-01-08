@@ -277,6 +277,12 @@ void ChestControl::GetChestEvent(Chest* chest, ParticleParam& pParam)
 	}
 	else if (pParam.ChestEvent == FEEDOUT)
 	{
+		if(Input::GetInstance()->TriggerButton(Input::Y))
+		{
+			chest->SetChestLost(true);
+			pParam.pCount = 0;
+			pParam.ChestEvent = FEEDIN2;
+		}
 		pParam.pCount++;
 		if (pParam.pCount == 100)
 		{
@@ -301,6 +307,11 @@ void ChestControl::GetChestEvent(Chest* chest, ParticleParam& pParam)
 	}
 	else if (pParam.ChestEvent == GETCHEST)
 	{
+		if (Input::GetInstance()->TriggerButton(Input::Y))
+		{
+			pParam.pCount = 0;
+			pParam.ChestEvent = FEEDIN2;
+		}
 		pParam.pCount++;
 		if (pParam.pCount == 60)
 		{

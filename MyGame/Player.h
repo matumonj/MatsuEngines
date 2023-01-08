@@ -162,6 +162,10 @@ private:
 
 	//手のボーンインデックス
 	int hindex = 21;
+	float RotY;
+	int nearindex;
+	Enemy* NearEnemy;
+
 public:
 	enum AnimeName
 	{

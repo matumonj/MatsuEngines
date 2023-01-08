@@ -35,11 +35,13 @@ public:
 		BOSSNAME,
 		FIELDNAME,
 		//スキルボタン
-		SKILL_1,
-		SKILL_2,
-		SKILL_3,
-		SKILL_4,
-		COOLDOWN,
+		GAMECLEAR_G,
+		GAMECLEAR_A,
+		GAMECLEAR_M,
+		GAMECLEAR_E ,
+		GAMECLEAR_C,
+		GAMECLEAR_L,
+		GAMECLEAR_R,
 		//コンフィグ周り
 		CONFIG_CUSBUTON,
 		CONFIG_SELSWORD,
@@ -50,7 +52,9 @@ public:
 		CHESTCOUNT,
 		CHESTCOUNT_FRAME,
 		//
-		STITLE
+		STITLE,
+
+		
 	};
 
 	enum tex2dName
