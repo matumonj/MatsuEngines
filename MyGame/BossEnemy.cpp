@@ -155,7 +155,7 @@ void BossEnemy::Update()
 	//fbxアニメーション制御
 	FbxAnimationControl();
 	//座標やスケールの反映
-
+	KnockAttack::GetInstance()->ActionJudg();
 	m_fbxObject->SetColor({1.0f, 1.0f, 1.0f, alpha});
 	ParameterSet_Fbx();
 	//攻撃後のクールタイム設定

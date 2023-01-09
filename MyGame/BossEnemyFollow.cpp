@@ -114,6 +114,7 @@ void BossEnemyFollow::Update(Enemy* enemy)
 	{
 		enemy->ChangeState_Boss(new BossEnemyDeath());
 	}
+	//KnockAttack::GetInstance()->SetAttackPhase(false);
 }
 
 void BossEnemyFollow::AttackSelect(Enemy* enemy, bool judg, int num)
@@ -150,8 +151,11 @@ void BossEnemyFollow::AttackStart(Enemy* enemy, int num)
 		break;
 	case enemy->KNOCK:
 		enemy->SetRecvDamage2(false);
-		KnockAttack::GetInstance()->SetAttackPhase(true);
-		break;
+		if (enemy->GetAttack_End(enemy->KNOCK) == false)
+		{
+			KnockAttack::GetInstance()->SetAttackPhase(true);
+		}
+			break;
 	case enemy->HALF_1:
 		enemy->SetRecvDamage2(false);
 		HalfAttack::GetInstance()->SetAttackPhase(true);

@@ -25,6 +25,8 @@ void ClearScene::Initialize()
 	
 	//タイトルスプライト
 	TitleTexInit();
+	feedf = false;
+
 }
 
 /*------------------------*/
@@ -34,6 +36,13 @@ void ClearScene::Initialize()
 
 void ClearScene::Update()
 {
+	if(!feedf)
+	{
+		if(Feed::GetInstance()->GetAlpha()>0.f)
+		{
+			Feed::GetInstance()->Update_White(Feed::FEEDOUT);
+		}
+	}
 	if (Input::GetInstance()->TriggerButton(Input::B))
 	{
 		//SceneManager::GetInstance()->SetScene(SceneManager::TUTORIAL, sceneManager_);
@@ -43,18 +52,13 @@ void ClearScene::Update()
 		//押されたら
 		feedf = true;
 	}
-	if (Input::GetInstance()->TriggerButton(Input::A))
+	if (feedf)
 	{
-		SceneManager::GetInstance()->SetScene(SceneManager::MAPCREATE, sceneManager_);
+		Feed::GetInstance()->Update_White(Feed::FEEDIN);
+		if (Feed::GetInstance()->GetAlpha() >= 1.0f) {
+			SceneManager::GetInstance()->SetScene(SceneManager::TITLE, sceneManager_);
+		}
 	}
-
-
-	//画面真っ白になったらシーン切り替え
-	if (ChangeScene() == true)
-	{
-		SceneManager::GetInstance()->SetScene(SceneManager::TUTORIAL, sceneManager_);
-	}
-
 	//360言ったら０にリセット
 	if (Cangle >= 360.0f)
 	{
@@ -117,7 +121,7 @@ void ClearScene::SpriteDraw()
 	{
 		cleartex[i]->Draw();
 	}
-	//titlesprite->Draw();
+	titlesprite->Draw();
 	Sprite::PostDraw();
 
 	Feed::GetInstance()->Draw();
@@ -128,10 +132,7 @@ void ClearScene::Draw()
 	//ポストエフェクトの描画
 	DirectXCommon::GetInstance()->BeginDraw(); //描画コマンドの上らへんに
 	SpriteDraw();
-	ImGui::Begin("pos");
-	ImGui::SliderFloat("x", &texpos[0].x, 0, 1900);
-	ImGui::SliderFloat("y", &texpos[0].y, 0, 1900);
-	ImGui::End();
+
 	DirectXCommon::GetInstance()->EndDraw();
 }
 
@@ -143,12 +144,12 @@ void ClearScene::Finalize()
 {
 	//delete postEffect;
 	delete lightGroup;
-	delete titlesprite;
+	//delete titlesprite;
 }
 
 void ClearScene::TitleTexInit()
 {
-	titlesprite = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::TITLE1), { 0.0f, 0.0f });
+	titlesprite = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::CLEARBACK), { 0.0f, 0.0f });
 
 	std::array<Sprite*, 9>l_cleratex;
 	l_cleratex[0] = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::GAMECLEAR_G), {0, 0.0f});
@@ -172,20 +173,28 @@ void ClearScene::TitleTexInit()
 		texalpha[i] = 1.0f;
 		MenuScale[i] = { 1900, 1000 };
 		cleartex[i]->SetPosition(texpos[i]);
-		//cleartex[i]->SetSize({ 300, 300 });
+		cleartex[i]->SetSize({ 300, 300 });
 		cleartex[i]->SetAnchorPoint({ 0.5, 0.5 });
 	}
 }
 
 void ClearScene::TitleTexUpda()
 {
-	
+	texangle[0] += 1.f;
 	for(int i=0;i<cleartex.size();i++)
 	{
 		cleartex[i]->SetSize({ 300.f,300.f });
+		
+		if (i != 0&& texangle[i - 1] > 10.f) {
+			texangle[i] += 1.f;
+		}
+		texpos[i].x = 200.f + float(i) * 200.f;
+		texpos[i].y = 400.f + sinf(PI * 2.f / 120.f * texangle[i]) * 100.f;
 		cleartex[i]->SetPosition(texpos[i]);
 		//cleartex[i]->SetPosition({ texpos[i] });
+
 		cleartex[i]->setcolor({ 1.f,1.f,1.f,1 });
+
 	}
 	if (menujudg_Play)
 	{
@@ -201,7 +210,7 @@ void ClearScene::TitleTexUpda()
 		//menuAlpha[1] -= 0.02f;
 		//menuAlpha[0] = 0.0f;
 	}
-	titlesprite->SetSize({ WinApp::window_width / 2, WinApp::window_height });
+	titlesprite->SetSize({ WinApp::window_width, WinApp::window_height });
 }
 
 void ClearScene::TitleTexDraw()

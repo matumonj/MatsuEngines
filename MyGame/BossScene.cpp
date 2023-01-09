@@ -154,6 +154,8 @@ void BossScene::Update()
 	AltAttack::GetInstance()->Upda();
 
 	GameOver::GetIns()->Update();
+
+	ChangeScene();
 }
 
 
@@ -191,13 +193,15 @@ void BossScene::Draw()
 			{
 				Field::GetInstance()->Draw();
 			}
-			for (int i = 0; i < AllObjectControl.size(); i++)
-			{
-				if (AllObjectControl[i] == nullptr)
+			if (Feed::GetInstance()->GetAlpha() < 1.0f) {
+				for (int i = 0; i < AllObjectControl.size(); i++)
 				{
-					continue;
+					if (AllObjectControl[i] == nullptr)
+					{
+						continue;
+					}
+					AllObjectControl[i]->Draw();
 				}
-				AllObjectControl[i]->Draw();
 			}
 			Nail::GetInstance()->Draw();
 			BossMap::GetInstance()->Draw();
@@ -211,6 +215,7 @@ void BossScene::Draw()
 
 		PlayerControl::GetInstance()->GetPlayer()->ParticleDraw();
 
+		GameOver::GetIns()->Draw_DestParticle();
 		Sprite::PreDraw();
 		DebugTextSprite::GetInstance()->DrawAll();
 		Sprite::PostDraw();
@@ -271,4 +276,28 @@ void BossScene::Finalize()
 	}
 	AllObjectControl.clear();
 	Field::GetInstance()->Finalize();
+}
+
+
+void BossScene::ChangeScene()
+{
+	XMFLOAT3 ClearStagePos = { 0,0,0 };
+
+	bool nextscenejudg = Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(),
+		ClearStagePos) < 10.f;
+
+	if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0] == nullptr)
+	{
+		if (Input::GetInstance()->TriggerButton(Input::GetInstance()->Y))
+		{
+			feedend = true;
+		}
+		if(feedend)
+		{
+			Feed::GetInstance()->Update_White(Feed::FEEDIN);
+			if (Feed::GetInstance()->GetAlpha() >= 1.0f) {
+				SceneManager::GetInstance()->SetScene(SceneManager::GAMECLEAR, sceneManager_);
+			}
+		}
+	}
 }

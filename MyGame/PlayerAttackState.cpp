@@ -56,7 +56,22 @@ void PlayerAttackState::Update()
 	//スキルクールダウン処理
 	SkillCoolDown(CoolDownTime);
 	HitStop();
-	AttackCollision::GetInstance()->GetCol(SelectSword::GetInstance()->GetSword()->GetDamage());
+	Player* l_player = PlayerControl::GetInstance()->GetPlayer();
+
+	int DefaultDamage;
+	if(l_player->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->SECOND)
+	{
+		DefaultDamage = 20;
+	}
+	if (l_player->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->SECOND)
+	{
+		DefaultDamage = 30;
+	}
+	if (l_player->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->SECOND)
+	{
+		DefaultDamage = 10;
+	}
+	AttackCollision::GetInstance()->GetCol(DefaultDamage+SelectSword::GetInstance()->GetSword()->GetDamage());
 }
 
 void PlayerAttackState::FirstAttack(std::vector<std::unique_ptr<Enemy>>& enemy)

@@ -27,6 +27,9 @@ MobEnemy::MobEnemy()
 MobEnemy::~MobEnemy()
 {
 	Destroy(state_mob);
+	Destroy_unique(Sword);
+	//Destroy_unique(m_fbxObject);
+
 	for (int i = 0; i < 3; i++)
 	{
 		HPFrame[i].reset();

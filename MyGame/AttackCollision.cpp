@@ -71,7 +71,7 @@ void AttackCollision::GetCol(int damage)
 					AttackEffect::GetIns()->SetParticle(
 						EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition());
 					EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->RecvDamage(
-						damage + rand() % 20 + 10);
+						damage + rand() % 8 + 1);
 					HitCol = true;
 				}
 			}
@@ -100,7 +100,7 @@ void AttackCollision::GetCol(int damage)
 					AttackEffect::GetIns()->SetParticle(
 						EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetPosition());
 					EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i]->RecvDamage(
-						damage + rand() % 20 + 10);
+						damage + rand() % 8+ 1);
 					HitCol = true;
 				}
 			}
@@ -137,7 +137,7 @@ void AttackCollision::GetCol(int damage)
 						GetSummonEnemysDeath() == true)
 					{
 						EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->RecvDamage(
-							damage + rand() % 20 + 10);
+							damage + rand() % 30 + 20);
 					}
 					else if (EnemyControl::GetInstance()->GetSummonEnemysApper() == true)
 					{
@@ -221,7 +221,7 @@ void AttackCollision::ColOBB(ColType Enemytype)
 			BossEnemyOBB[0].
 				SetOBBParam_Pos(EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition());
 			BossEnemyOBB[0].SetOBBParam_Rot(EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetMatrot());
-			BossEnemyOBB[0].SetOBBParam_Scl({4.0f, 2.0f, 4.0f});
+			BossEnemyOBB[0].SetOBBParam_Scl({4.0f, 20.0f, 4.0f});
 		}
 		break;
 	default:

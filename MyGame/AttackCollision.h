@@ -48,7 +48,7 @@ private:
 		PLAY,
 		BOSS
 	};
-
+	
 	std::vector<OBB> EnemyOBB;
 	std::vector<OBB> PlayEnemyOBB;
 	std::vector<OBB> BossEnemyOBB;

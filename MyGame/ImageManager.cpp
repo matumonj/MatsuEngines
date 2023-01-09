@@ -39,13 +39,7 @@ void ImageManager::Load2D()
 	Sprite::LoadTexture(CHESTCOUNT_FRAME, L"Resources/2d/Expadian.png");
 	Sprite::LoadTexture(STITLE, L"Resources/chestColFrame.png");
 
-	Sprite::LoadTexture(GAMECLEAR_G, L"Resources/2d/ClearTex/g.png");
-	Sprite::LoadTexture(GAMECLEAR_A, L"Resources/2d/ClearTex/a.png");
-	Sprite::LoadTexture(GAMECLEAR_M, L"Resources/2d/ClearTex/m.png");
-	Sprite::LoadTexture(GAMECLEAR_E, L"Resources/2d/ClearTex/e.png");
-	Sprite::LoadTexture(GAMECLEAR_C, L"Resources/2d/ClearTex/c.png");
-	Sprite::LoadTexture(GAMECLEAR_L, L"Resources/2d/ClearTex/l.png");
-	Sprite::LoadTexture(GAMECLEAR_R, L"Resources/2d/ClearTex/r.png");
+	
 }
 
 void ImageManager::Init()
@@ -67,6 +61,15 @@ void ImageManager::Init()
 	LoadTex2D(BOSSHPFRAME, L"Resources/HPTex/frame3.png");
 	LoadTex2D(BOSSHPFRAMEINNER, L"Resources/HPTex/yellow.png");
 	LoadTex2D(BOSSHPFRAMEINNER2, L"Resources/HPTex/red.png");
+	LoadTex2D(GAMECLEAR_G, L"Resources/2d/ClearTex/g.png");
+	LoadTex2D(GAMECLEAR_A, L"Resources/2d/ClearTex/a.png");
+	LoadTex2D(GAMECLEAR_M, L"Resources/2d/ClearTex/m.png");
+	LoadTex2D(GAMECLEAR_E, L"Resources/2d/ClearTex/e.png");
+	LoadTex2D(GAMECLEAR_C, L"Resources/2d/ClearTex/c.png");
+	LoadTex2D(GAMECLEAR_L, L"Resources/2d/ClearTex/l.png");
+	LoadTex2D(GAMECLEAR_R, L"Resources/2d/ClearTex/r.png");
+	LoadTex2D(CLEARBACK, L"Resources/skydome/beautiful_tree-beautiful_natural_landscape_wallpaper_1366x768.jpg");
+
 }
 
 void ImageManager::LoadTex2D(const tex2dName imageName, wchar_t* fileName)

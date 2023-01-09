@@ -88,10 +88,13 @@ void KnockAttack::ActionJudg()
 		{
 			phase = PHASETWO;
 		}
+		EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->SetMagicAttackTime(true);
 	}
 
 	if (phase == PHASETWO)
 	{
+				EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->SetMagicAttackTime(true);
+	
 		AttackCount = 0;
 		AxePosDownEtime += 0.02f;
 

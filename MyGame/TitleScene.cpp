@@ -38,8 +38,8 @@ void TitleScene::Update()
 {
 	if (Input::GetInstance()->TriggerButton(Input::B))
 	{
-		SceneManager::GetInstance()->SetScene(SceneManager::GAMECLEAR, sceneManager_);
-
+		//SceneManager::GetInstance()->SetScene(SceneManager::TUTORIAL, sceneManager_);
+//
 		//‰Ÿ‚³‚ê‚½‚ç
 		menujudg_Play = true;
 		//‰Ÿ‚³‚ê‚½‚ç

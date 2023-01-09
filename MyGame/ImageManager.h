@@ -35,13 +35,11 @@ public:
 		BOSSNAME,
 		FIELDNAME,
 		//スキルボタン
-		GAMECLEAR_G,
-		GAMECLEAR_A,
-		GAMECLEAR_M,
-		GAMECLEAR_E ,
-		GAMECLEAR_C,
-		GAMECLEAR_L,
-		GAMECLEAR_R,
+		SKILL_1,
+		SKILL_2,
+		SKILL_3,
+		SKILL_4,
+		COOLDOWN,
 		//コンフィグ周り
 		CONFIG_CUSBUTON,
 		CONFIG_SELSWORD,
@@ -54,7 +52,6 @@ public:
 		//
 		STITLE,
 
-		
 	};
 
 	enum tex2dName
@@ -84,6 +81,15 @@ public:
 		TITLE1,
 		TITLE2,
 		GAMEPLAY,
+
+		GAMECLEAR_G = 27,
+		GAMECLEAR_A = 28,
+		GAMECLEAR_M = 29,
+		GAMECLEAR_E = 30,
+		GAMECLEAR_C = 31,
+		GAMECLEAR_L = 32,
+		GAMECLEAR_R = 33,
+		CLEARBACK
 	};
 
 public:

@@ -90,6 +90,9 @@ public:
 	void Finalize() override;
 
 private:
+	bool feedend;
+	void ChangeScene();
+private:
 	bool LoadEnemy;
 	std::vector<ControlBase*> AllObjectControl;
 };
