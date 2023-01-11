@@ -32,7 +32,7 @@ void DropWeapon::Init()
 	WeaponChestUpdateTex->SetAnchorPoint({0.5f, 0.5f});
 
 	pickEffect = std::make_unique<Particle>();
-	pickEffect->Init(64);
+	pickEffect->Init(65);
 }
 
 void DropWeapon::Drop(Weapon weapon, XMFLOAT3 droppos)

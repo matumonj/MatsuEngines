@@ -27,7 +27,7 @@ void Task::Init()
 	Sprite::LoadTexture(22, L"Resources/2d/PlayTask/Task2.png");
 	Sprite::LoadTexture(23, L"Resources/2d/PlayTask/Task3.png");
 	Sprite::LoadTexture(24, L"Resources/2d/PlayTask/Task4.png");
-	Sprite::LoadTexture(25, L"Resources/2d/Frame/Task4.png");
+	Sprite::LoadTexture(28, L"Resources/2d/Frame/Task4.png");
 	Sprite::LoadTexture(26, L"Resources/2d/Frame/Task5.png");
 
 	DebugTextSprite2::GetInstance()->Initialize(19);
@@ -38,7 +38,7 @@ void Task::Init()
 	TasksSprite[TASK_TWO].reset(Sprite::Create(22, {0, 0}));
 	TasksSprite[TASK_THREE].reset(Sprite::Create(23, {0, 0}));
 	TasksSprite[TASK_FOUR].reset(Sprite::Create(24, {0, 0}));
-	TasksSprite[TASK_FIVE].reset(Sprite::Create(25, {0, 0}));
+	TasksSprite[TASK_FIVE].reset(Sprite::Create(28, {0, 0}));
 
 	//˜g‚ÌˆÊ’u‘å‚«‚³
 

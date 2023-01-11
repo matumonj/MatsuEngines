@@ -166,6 +166,7 @@ void PlayerControl::DamageTexDraw()
 {
 	if (HUD::GetInstance()->GetPlayerHP()->GetSize().x > 0.f && GetInstance()->GetPlayer()->GetHP() > 0)
 	{
+		player->DamageTexDraw();
 		Sprite::PreDraw();
 		DamageTex->Draw();
 		Sprite::PostDraw();

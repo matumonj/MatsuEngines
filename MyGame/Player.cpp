@@ -83,13 +83,13 @@ void Player::Jump()
 void Player::Move()
 {
 	//移動停止フラグと回避モーション時は動けない
-	if (StopFlag || evasionF || HP <= 0)
+	if (evasionF|| StopFlag ||  HP <= 0)
 	{
 		return;
 	}
 	if (attackMotion != RUN && attackMotion != NON)
 	{
-		//return;
+	//	return;
 	}
 	XMFLOAT3 pos = Position;
 	XMFLOAT3 rot = Rotation;
@@ -171,8 +171,8 @@ void Player::Move()
 		move = XMVector3TransformNormal(move, matRot);
 
 		//向いた方向に進む
-		Position.x += move.m128_f32[0] * movespeed;
-		Position.z += move.m128_f32[2] * movespeed ;
+		Position.x += move.m128_f32[0] * movespeed*5;
+		Position.z += move.m128_f32[2] * movespeed *5;
 		Gmove = move;
 	}
 	else
@@ -215,7 +215,7 @@ void Player::Evasion()
 	if (evasionF)
 	{
 		//FBXタイムを回避モーション開始時に合わせる
-		AnimationContol(EVASION, 6, 1.0, false);
+		AnimationContol(EVASION, 6, 1.0,false);
 
 		m_AnimationStop = true;
 
@@ -229,8 +229,16 @@ void Player::Evasion()
 		}
 		else
 		{
-			evasionF = false;
+			if (m_fbxObject->GetAnimeTime() >= m_fbxObject->GetEndTime()-0.3f) {
+				//attackMotion = NON;
+				AnimationContol(IDLE, 9, 1, false);
+				m_AnimationStop = false;
+
+				//StopFlag = false;
+				evasionF = false;
+			}
 		}
+		
 	}
 	else
 	{
@@ -290,11 +298,16 @@ void Player::Update()
 	{
 		if (Collision::GetLength(Position, { 0, -19, 0 }) > 90)
 		{
-			RecvDamage(10);
+			if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0] != nullptr)
+			{
+				RecvDamage(10);
+			}
 		}
 	}
 	//回避
 	Evasion();
+
+	DamageTexDisplay();
 	//手のボーン位置設定
 	m_fbxObject->SetHandBoneIndex(hindex);
 	m_fbxObject->SetFogPos(Position);
@@ -340,7 +353,13 @@ void Player::ParticleDraw()
 {
 	SelectSword::GetInstance()->SwordDraw();
 }
-
+void Player::DamageTexDraw()
+{
+	for (std::unique_ptr<DamageManager>& dTex : dMans_)
+	{
+		dTex->Draw();
+	}
+}
 void Player::FbxAnimationControls(const AttackMotion& motiontype, const AttackMotion nextmotiontype, AnimeName name,
                                   int number)
 {
@@ -453,9 +472,30 @@ void Player::RecvDamage(int Damage)
 	if (HP >= 0)
 	{
 		HP = HP - Damage;
+		std::unique_ptr<DamageManager> newdTex;
+		
+			newdTex = std::make_unique<DamageManager>(
+				XMFLOAT3(Position.x, Position.y + rand() % 5 -2, Position.z), Damage);
+		
+		dMans_.push_back(std::move(newdTex));
+
 	}
 }
 
+void Player::DamageTexDisplay()
+{
+	//ダメージスプライト生成
+	for (std::unique_ptr<DamageManager>& dTex : dMans_)
+	{
+		dTex->DamageDisPlay_Green(1, { 1, 1, 1, 1 });
+	}
+
+	//アルファ値一定以下なったら破棄
+	dMans_.remove_if([](std::unique_ptr<DamageManager>& dTex)
+		{
+			return dTex->GetAlpha() <= 0.1f;
+		});
+}
 XMFLOAT3 Player::MoveVECTOR(XMVECTOR v, float angle)
 {
 	XMMATRIX rot2 = {};

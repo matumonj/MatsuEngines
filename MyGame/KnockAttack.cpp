@@ -179,7 +179,7 @@ void KnockAttack::ActionJudg()
 		for (int i = 0; i < axeSize; i++)
 		{
 			AxeObj[i]->SetPosition(AxePos[i]);
-			AxeObj[i]->SetScale({8.f, 4.f, 8.f});
+			AxeObj[i]->SetScale({8.f, 8.f, 8.f});
 			AxeObj[i]->SetRotation(AxeRot[i]);
 			AxeObj[i]->Update({1.f, 1.f, 1.f, 1.f}, CameraControl::GetInstance()->GetCamera());
 			ImpactPar[i]->CreateParticle((phase == PHASETHREE && AttackCount > 180 && AxeRot[i].x <= 10), {

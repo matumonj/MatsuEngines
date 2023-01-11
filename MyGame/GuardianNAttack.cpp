@@ -137,6 +137,10 @@ void GuardianNAttack::Phase_Bom()
 	BeamObjScl.z = min(BeamObjScl.z, 10.0f);
 	BeamObjScl.z = max(BeamObjScl.z, 0.0f);
 
+	if(Collision::GetLength(ppos,BeamObjPos)<15.f)
+	{
+		PlayerControl::GetInstance()->GetPlayer()->RecvDamage(5);
+	}
 	normalAttackObj->SetPosition(DamageTex->GetPosition());
 }
 

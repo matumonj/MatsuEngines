@@ -140,7 +140,7 @@ void PlayScene::Update()
 	{
 		//‰æ–Ê^‚Á”’‚È‚Á‚½‚ç
 
-		SceneManager::GetInstance()->SetScene(SceneManager::BOSS, sceneManager_);
+		//SceneManager::GetInstance()->SetScene(SceneManager::BOSS, sceneManager_);
 	}
 	ChangeSceneJudg();
 	GameOver::GetIns()->Update();

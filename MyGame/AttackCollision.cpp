@@ -41,13 +41,13 @@ void AttackCollision::GetCol(int damage)
 	Player* l_player = PlayerControl::GetInstance()->GetPlayer();
 
 	bool attackcolJudgTime_First = l_player->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->FIRST &&
-		l_player->GetFbxTime() > 0.3f;
+		l_player->GetAnimationTime() > 0.3f;
 
 	bool attackcolJudgTime_Second = l_player->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->SECOND &&
-		l_player->GetFbxTime() > 0.3f;
+		l_player->GetAnimationTime() > 0.3f;
 
 	bool attackcolJudgTime_Third = l_player->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->THIRD &&
-		l_player->GetFbxTime() > 0.3f;
+		l_player->GetAnimationTime() > 0.8f;
 
 	if (
 		PlayerControl::GetInstance()->GetPlayer()->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->NON)
@@ -88,7 +88,7 @@ void AttackCollision::GetCol(int damage)
 				continue;
 			}
 			if (Collision::GetLength(EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetPosition(),
-			                         ppos) > 40)
+			                         ppos) > 80)
 			{
 				continue;
 			}
@@ -137,7 +137,7 @@ void AttackCollision::GetCol(int damage)
 						GetSummonEnemysDeath() == true)
 					{
 						EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->RecvDamage(
-							damage + rand() % 30 + 20);
+							damage + rand() % 8+ 2);
 					}
 					else if (EnemyControl::GetInstance()->GetSummonEnemysApper() == true)
 					{
@@ -221,7 +221,7 @@ void AttackCollision::ColOBB(ColType Enemytype)
 			BossEnemyOBB[0].
 				SetOBBParam_Pos(EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition());
 			BossEnemyOBB[0].SetOBBParam_Rot(EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetMatrot());
-			BossEnemyOBB[0].SetOBBParam_Scl({4.0f, 20.0f, 4.0f});
+			BossEnemyOBB[0].SetOBBParam_Scl({8.0f, 20.0f, 8.0f});
 		}
 		break;
 	default:

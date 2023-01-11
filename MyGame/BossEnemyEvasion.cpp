@@ -23,7 +23,7 @@ void BossEnemyEvasion::Update(Enemy* enemy)
 	enemy->SetRecvDamage(false);
 	enemy->SetEvaMotionTime(true);
 	//õ“G”ÍˆÍ
-	const float DetectionRange = 10.0f;
+	const float DetectionRange = 25.0f;
 
 	//ˆÚ“®ƒxƒNƒgƒ‹‚ðyŽ²Žü‚è‚ÌŠp“x‚Å‰ñ“]
 	XMVECTOR move = {0.0f, 0.0f, 0.1f, 0.0f};
@@ -33,13 +33,13 @@ void BossEnemyEvasion::Update(Enemy* enemy)
 	move = XMVector3TransformNormal(move, matRot);
 
 	enemy->SetPosition({
-			enemy->GetPosition().x + move.m128_f32[0] * 3,
+			enemy->GetPosition().x + move.m128_f32[0] * 10,
 			enemy->GetPosition().y,
-			enemy->GetPosition().z + move.m128_f32[2] * 3
+			enemy->GetPosition().z + move.m128_f32[2] * 10
 		}
 	);
 
-	if (Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) > 20)
+	if (Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) > 40)
 	{
 		enemy->ChangeState_Boss(new BossEnemyFollow());
 	}

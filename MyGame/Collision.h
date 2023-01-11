@@ -18,13 +18,13 @@ public:
 
 	static bool ColFlag;
 public:
-	static bool line2dCol(Line2D line, Point point);
+	static bool line2dCol(Line2D line, Point point, float dis);
 	static void SetCollideOBB(bool f);
 	static bool GetCollideOBB();
 	static float CalculationVertexLength(const XMFLOAT2& pos01, const XMFLOAT2& pos02);
 	static void ConvertToNomalizeVector(XMFLOAT2& out, XMFLOAT2 in);
 	static float CalculationVectorLength(const XMFLOAT2& vec01);
-	static bool IsCollidingLineAndCircle(Line2D line, Point circle);
+	static bool IsCollidingLineAndCircle(Line2D line, Point circle, float dis);
 	/// <summary>
 	/// ì_Ç∆ê¸ï™ÇÃãóó£ÇãÅÇﬂÇÈ
 	/// </summary>

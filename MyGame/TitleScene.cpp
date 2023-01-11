@@ -38,8 +38,8 @@ void TitleScene::Update()
 {
 	if (Input::GetInstance()->TriggerButton(Input::B))
 	{
-		//SceneManager::GetInstance()->SetScene(SceneManager::TUTORIAL, sceneManager_);
-//
+		SceneManager::GetInstance()->SetScene(SceneManager::TUTORIAL, sceneManager_);
+
 		//押されたら
 		menujudg_Play = true;
 		//押されたら
@@ -54,7 +54,7 @@ void TitleScene::Update()
 	//画面真っ白になったらシーン切り替え
 	if (ChangeScene() == true)
 	{
-		SceneManager::GetInstance()->SetScene(SceneManager::TUTORIAL, sceneManager_);
+		SceneManager::GetInstance()->SetScene(SceneManager::TUTORIAL,sceneManager_);
 	}
 
 	//360言ったら０にリセット

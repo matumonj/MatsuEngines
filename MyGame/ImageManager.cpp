@@ -58,9 +58,9 @@ void ImageManager::Init()
 
 	LoadTex2D(GAMEPLAY, L"Resources/2d/title/gameplay.png");
 
-	LoadTex2D(BOSSHPFRAME, L"Resources/HPTex/frame3.png");
-	LoadTex2D(BOSSHPFRAMEINNER, L"Resources/HPTex/yellow.png");
-	LoadTex2D(BOSSHPFRAMEINNER2, L"Resources/HPTex/red.png");
+	LoadTex2D(BOSSHPFRAME, L"Resources/09 パワーゲージ/gauge_frame2.png");
+	LoadTex2D(BOSSHPFRAMEINNER, L"Resources/09 パワーゲージ/gauge_base_or2.png");
+	LoadTex2D(BOSSHPFRAMEINNER2, L"Resources/09 パワーゲージ/gauge_base_bl.png");
 	LoadTex2D(GAMECLEAR_G, L"Resources/2d/ClearTex/g.png");
 	LoadTex2D(GAMECLEAR_A, L"Resources/2d/ClearTex/a.png");
 	LoadTex2D(GAMECLEAR_M, L"Resources/2d/ClearTex/m.png");

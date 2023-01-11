@@ -208,7 +208,7 @@ void MobEnemy::OBBSetParam()
 		{
 			if (Collision::CheckOBBCollision(playerOBB, HandSiteOBB) == true)
 			{
-				l_player->RecvDamage(80);
+				l_player->RecvDamage(10);
 			}
 		}
 	}

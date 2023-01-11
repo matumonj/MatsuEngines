@@ -241,7 +241,7 @@ void Field::GuardAreaTexUpda()
 		else //それ以外
 		{
 			//カメラ座標からプレイヤーの方へ線分設定して
-			if (Collision::IsCollidingLineAndCircle(camera_to_player, GuardAreaPoint[i]))
+			if (Collision::IsCollidingLineAndCircle(camera_to_player, GuardAreaPoint[i],30.f))
 			{
 				//当たったらアルファ値下げる
 				GuardAreaAlphaEtime[i] -= 0.05f;
@@ -268,7 +268,7 @@ void Field::GuardAreaTexUpda()
 						input->TiltPushStick(Input::L_RIGHT, 0.0f) ||
 						input->TiltPushStick(Input::L_LEFT, 0.0f))
 					{
-						if (Collision::IsCollidingLineAndCircle(camera_to_player, GuardAreaPoint[i]))
+						if (Collision::IsCollidingLineAndCircle(camera_to_player, GuardAreaPoint[i],30.f))
 						{
 							GuardAreaAlphaEtime[i] = 1.f;
 						}
@@ -335,12 +335,13 @@ void Field::Update_Boss()
 	}
 
 	//天球オブジェクト更新
-	SetFieldUpdate(CELESTIALSPHERE, camera, {0.0f, 30.0f, 0.0f}, {40.0f, 40.0f, 40.0f}, FALSE, true);
+	SetFieldUpdate(CELESTIALSPHERE, camera, {0.0f, 30.0f, 0.0f}, {40.0f, 40.0f, 40.0f}, FALSE,false);
+	m_object[BOSSBACK]->SetColor({ 0.6f,0.6f,0.6f,1 });
 	//外周ダメージエリア更新
 	SetFieldUpdate(DAMAGEAREA, camera, {0.0f, -19.2f, 0.0f}, {1.0f, 1.0f, 1.0f}, TRUE, FALSE);
 	//背景のコロシアム更新
-	SetFieldUpdate(BOSSBACK, camera, {0, -19, 0}, {1.0f, 1.0f, 1.0f}, false, true);
-
+	SetFieldUpdate(BOSSBACK, camera, {0, -19, 0}, {1.0f, 1.0f, 1.0f}, false,false);
+	
 	FieldObject->SetPosition({0.0f, -19.0f, 0.0f});
 
 	FieldObject->SetColor({0.8f, 0.8f, 0.8f, 1.0f});

@@ -43,7 +43,7 @@ void BossScene::Initialize()
 	Object3d::SetLightGroup(lightGroup);
 	//lightGroup2 = LightGroup::Create();
 	// 3Dオブエクトにライトをセット
-	lightGroup->SetDirLightActive(0, false);
+	lightGroup->SetDirLightActive(0, true);
 	lightGroup->SetDirLightActive(1, false);
 	lightGroup->SetDirLightActive(2, false);
 
@@ -281,14 +281,17 @@ void BossScene::Finalize()
 
 void BossScene::ChangeScene()
 {
-	XMFLOAT3 ClearStagePos = { 0,0,0 };
+	XMFLOAT3 ClearStagePos = { 0.f,-30.f,75.f };
 
 	bool nextscenejudg = Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(),
 		ClearStagePos) < 10.f;
 
 	if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0] == nullptr)
 	{
-		if (Input::GetInstance()->TriggerButton(Input::GetInstance()->Y))
+		Play = false;
+		SceneManager::GetInstance()->SetScene(SceneManager::GAMECLEAR, sceneManager_);
+	}
+	/*	if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(),ClearStagePos)<5.f)
 		{
 			feedend = true;
 		}
@@ -299,5 +302,5 @@ void BossScene::ChangeScene()
 				SceneManager::GetInstance()->SetScene(SceneManager::GAMECLEAR, sceneManager_);
 			}
 		}
-	}
+	}*/
 }

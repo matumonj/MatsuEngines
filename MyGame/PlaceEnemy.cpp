@@ -37,6 +37,19 @@ void PlaceEnemy::FileWriting()
 
 	for (int i = 0; i < enemys.size(); i++)
 	{
+		if(Number[i]==1)
+		{
+			ofs << "//ƒS[ƒŒƒ€"<< std::endl;
+		}
+		else if(Number[i]==2)
+		{
+			ofs << "//ƒgƒJƒQ" << std::endl;
+		}
+		else if(Number[i]==3)
+		{
+			ofs << "//ƒ~ƒjƒS[ƒŒƒ€"<< std::endl;
+		}
+
 		ofs << "Wait" << "," << 120 << std::endl;
 		ofs << "Number" << "," << Number[i] << std::endl;
 		ofs << "POP" << "," << enemys[i]->GetPosition().x

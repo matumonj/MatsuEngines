@@ -4,7 +4,7 @@ bool Collision::ColFlag;
 void Collision::SetCollideOBB(bool f) { ColFlag = f; }
 bool Collision::GetCollideOBB() { return ColFlag; }
 
-bool Collision::line2dCol(Line2D line, Point point)
+bool Collision::line2dCol(Line2D line, Point point, float dis)
 {
 	float len = (line.end.x - line.start.x);
 	return true;
@@ -41,7 +41,7 @@ float Collision::CalculationVectorLength(const XMFLOAT2& vec01)
 	return sqrtf((vec01.x * vec01.x) + (vec01.y * vec01.y));
 }
 
-bool Collision::IsCollidingLineAndCircle(Line2D line, Point circle)
+bool Collision::IsCollidingLineAndCircle(Line2D line, Point circle,float dis)
 {
 	// ベクトルの作成
 	auto start_to_center = XMFLOAT2(circle.x - line.start.x, circle.y - line.start.y);
@@ -60,7 +60,7 @@ bool Collision::IsCollidingLineAndCircle(Line2D line, Point circle)
 	float distance_projection = start_to_center.x * normal_start_to_end.y - normal_start_to_end.x * start_to_center.y;
 
 	// 射影の長さが半径よりも小さい
-	if (fabs(distance_projection) < 40)
+	if (fabs(distance_projection) < dis)
 	{
 		// 始点 => 終点と始点 => 円の中心の内積を計算する
 		float dot01 = start_to_center.x * start_to_end.x + start_to_center.y * start_to_end.y;
@@ -77,8 +77,8 @@ bool Collision::IsCollidingLineAndCircle(Line2D line, Point circle)
 			始点 => 円の中心の長さか、終点 => 円の中心の長さが
 			円の半径よりも短かったら当たり
 		*/
-		if (CalculationVectorLength(start_to_center) < 40 ||
-			CalculationVectorLength(end_to_center) < 40)
+		if (CalculationVectorLength(start_to_center) < dis ||
+			CalculationVectorLength(end_to_center) <dis)
 		{
 			return true;
 		}

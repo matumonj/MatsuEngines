@@ -99,7 +99,7 @@ void BossMap::Upda()
 
 				mapobj[i][j]->SetShadowF(true);
 				mapobj[i][j]->SetUVf(false);
-				mapobj[i][j]->SetColor({blockColor[i][j].x, blockColor[i][j].y, blockColor[i][j].z, 0.5});
+				mapobj[i][j]->SetColor({blockColor[i][j].x, blockColor[i][j].y, blockColor[i][j].z,1.f});
 			}
 
 			blockColor[i][j].x = Easing::EaseOut(blockColorETime[i][j], 0.5f, 1.0f);
@@ -127,7 +127,7 @@ void BossMap::DrawDamageLine(bool atckjudg, Line2D line)
 		{
 			if (atckjudg)
 			{
-				if (Collision::IsCollidingLineAndCircle(line, bpoint[i][j]) == true)
+				if (Collision::IsCollidingLineAndCircle(line, bpoint[i][j],40.f) == true)
 				{
 					mapSize[i][j] = DAMAGEBLOCK;
 				}
@@ -147,6 +147,8 @@ void BossMap::DrawDamageLine(bool atckjudg, Line2D line)
 
 void BossMap::DrawDamageLine(bool atckjudg, Line2D line[4])
 {
+	if (AltAttack::GetInstance()->GetPhaseEnd() == AltAttack::PHASETWO ||
+		AltAttack::GetInstance()->GetPhaseEnd() == AltAttack::PHASETHREE)return;
 	for (int i = 0; i < mapHight; i++)
 	{
 		for (int j = 0; j < mapWidth; j++)
@@ -155,7 +157,7 @@ void BossMap::DrawDamageLine(bool atckjudg, Line2D line[4])
 			{
 				for (int k = 0; k < 4; k++)
 				{
-					if (Collision::IsCollidingLineAndCircle(line[k], bpoint[i][j]) == true)
+					if (Collision::IsCollidingLineAndCircle(line[k], bpoint[i][j],20.f) == true)
 					{
 						mapSize[i][j] = DAMAGEBLOCK;
 					}

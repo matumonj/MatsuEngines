@@ -97,7 +97,7 @@ void EnemyControl::Init_Play()
 			std::string word;
 			std::getline(line_stream, word, ',');
 
-			if (word.find("//") == 0)
+			if (word.find("//ゴーレム") == 0|| word.find("//ミニゴーレム") == 0|| word.find("//トカゲ") == 0)
 			{
 				continue;
 			}

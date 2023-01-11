@@ -289,6 +289,9 @@ void EnemyBeta::AttackCol_Sideway()
 
 void EnemyBeta::PickRock()
 {
+	//右手とプレイヤーのあたりはんてい
+	XMFLOAT3 l_playerpos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+
 	if (animeState != ATTACK1)
 	{
 		return;
@@ -313,15 +316,21 @@ void EnemyBeta::PickRock()
 	}
 	if (tmotion == THROW)
 	{
+		if (Collision::GetLength(l_playerpos, RockPos) < 20.f)
+		{
+			if (!turnoffdrawF) {
+				PlayerControl::GetInstance()->GetPlayer()->RecvDamage(10);
+			}
+		}
 		XMVECTOR move = {0.0f, 0.0f, 0.1f, 0.0f};
 		XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(Rotation.y));
 		move = XMVector3TransformNormal(move, matRot);
 		if (!destF)
 		{
 			//向いた方向に進む
-			RockPos.y -= 0.2f;
-			RockPos.x += move.m128_f32[0] * 5.f;
-			RockPos.z += move.m128_f32[2] * 5.f;
+			RockPos.y -= 0.1f;
+			RockPos.x += move.m128_f32[0] * 7.f;
+			RockPos.z += move.m128_f32[2] * 7.f;
 		}
 		if (GetAnimationTime() >= GetFbxTimeEnd() - 0.3f)
 		{
@@ -389,9 +398,11 @@ void EnemyBeta::AttackMotion()
 			attackNum = IDLE;
 		}
 	}
-	PickRock();
+	if (SceneManager::GetInstance()->GetScene() != SceneManager::MAPCREATE) {
+		PickRock();
 
-	AttackCol_Rock();
+		AttackCol_Rock();
+	}
 }
 
 

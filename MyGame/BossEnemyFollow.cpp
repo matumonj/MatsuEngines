@@ -61,12 +61,12 @@ void BossEnemyFollow::Update(Enemy* enemy)
 		RotY * 60.0f + enemy->GetRotCorrect(),
 		enemy->GetRotation().z
 	});
-	if (Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) > 10)
+	if (Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) > 15.f)
 	{
 		enemy->SetPosition({
-				enemy->GetPosition().x + move.m128_f32[0] * 5,
+				enemy->GetPosition().x + move.m128_f32[0] * 3,
 				enemy->GetPosition().y,
-				enemy->GetPosition().z + move.m128_f32[2] * 5
+				enemy->GetPosition().z + move.m128_f32[2] * 3
 			}
 		);
 	}
@@ -74,7 +74,7 @@ void BossEnemyFollow::Update(Enemy* enemy)
 	//////////////////////////////////////////////////////////////
 
 	//•’Ê‚ÌUŒ‚
-	if (Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 15)
+	if (Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 17.f)
 	{
 		if (enemy->GetCoolTime() == 0)
 		{
@@ -91,6 +91,12 @@ void BossEnemyFollow::Update(Enemy* enemy)
 		else
 		{
 			enemy->SetRecvDamage2(false);
+		}
+	}
+	if (enemy->GetFbxTime()< 422.000f / 60.000f&& CustomButton::GetInstance()->GetAttackAction()) {
+		Evaprobability = rand() % 100 + 1;
+		if (Evaprobability % 2 == 0) {
+			enemy->ChangeState_Boss(new BossEnemyEvasion());
 		}
 	}
 

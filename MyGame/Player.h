@@ -10,6 +10,7 @@
 #include"Input.h"
 #include"SwordBase.h"
 #include"AttackEffect.h"
+#include"DamageManager.h"
 class Enemy;
 class TargetMarker;
 
@@ -106,13 +107,14 @@ private:
 	//teisi
 	bool StopFlag;
 	//
-
+	std::list<std::unique_ptr<DamageManager>> dMans_;
 public:
 	void SetHP(int HP) { this->HP = HP; }
 	int GetHP() { return HP; }
 	int GetMaxHP() { return MaxHP; }
 	bool GetStopFlag() { return StopFlag; };
-
+	void DamageTexDisplay();
+	void DamageTexDraw();
 private:
 	float vel = 0.0f;
 	bool jumpflag = false;

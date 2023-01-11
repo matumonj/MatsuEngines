@@ -50,10 +50,10 @@ private:
 	LightGroup* lightGroup = nullptr;
 	float ambientColor0[3] = {1.0f, 1.0f, 1.0f};
 	// Œõü•ûŒü‰Šú’l
-	float lightDir0[3] = {0.0f, 0.0f, 1.0f};
+	float lightDir0[3] = {1.0f, 0.0f, 1.0f};
 	float lightColor0[3] = {1.0f, 0.0f, 0.0f};
 
-	float lightDir1[3] = {0.0f, 1.0f, 0.0f};
+	float lightDir1[3] = {1.0f, 1.0f, 0.0f};
 	float lightColor1[3] = {0.0f, 1.0f, 0.0f};
 
 	float lightDir2[3] = {1.0f, 0.0f, 0.0f};

@@ -59,17 +59,17 @@ void PlayerAttackState::Update()
 	Player* l_player = PlayerControl::GetInstance()->GetPlayer();
 
 	int DefaultDamage;
-	if(l_player->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->SECOND)
+	if(l_player->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->FIRST)
 	{
-		DefaultDamage = 20;
-	}
-	if (l_player->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->SECOND)
-	{
-		DefaultDamage = 30;
+		DefaultDamage = 5;
 	}
 	if (l_player->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->SECOND)
 	{
 		DefaultDamage = 10;
+	}
+	if (l_player->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->THIRD)
+	{
+		DefaultDamage = 20;
 	}
 	AttackCollision::GetInstance()->GetCol(DefaultDamage+SelectSword::GetInstance()->GetSword()->GetDamage());
 }

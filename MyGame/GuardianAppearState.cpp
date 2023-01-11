@@ -1,5 +1,6 @@
 #include "GuardianAppearState.h"
 #include"GuardianFollowState.h"
+#include "PlayerControl.h"
 #include"Task.h"
 
 void GuardianAppearState::Initialize(Enemy* enemy)
@@ -15,6 +16,7 @@ void GuardianAppearState::Update(Enemy* enemy)
 	}
 	if (UpF && !DownF)
 	{
+		PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(true);
 		if (enemy->GetPosition().y > 10.f)
 		{
 			DownF = true;
@@ -42,10 +44,15 @@ void GuardianAppearState::DownMove(Enemy* enemy)
 
 	if (EaseTime >= 1.f)
 	{
+		PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(false);
 		SmokeF = true;
 		enemy->Smoke(SmokeF);
 		enemy->SetisAlive(TRUE);
 		enemy->ChangeState_Guardian(new GuardianFollowState());
+	}
+	else
+	{
+		PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(true);
 	}
 	enemy->SetPosition({epos.x, Easing::EaseOut(EaseTime, 30.f, -20.f), epos.z});
 }

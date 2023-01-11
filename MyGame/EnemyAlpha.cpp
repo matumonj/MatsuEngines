@@ -113,16 +113,9 @@ void EnemyAlpha::Update()
 	{
 		m_fbxObject->SetFogPos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
 
-		HandSiteOBB.SetOBBParam_Pos(m_fbxObject->GetWorld());
-		HandSiteOBB.SetOBBParam_Rot(m_fbxObject->GetWorld());
-		HandSiteOBB.SetOBBParam_Scl({2.0f, 2.0f, 2.0f});
-
-		playerOBB.SetOBBParam_Pos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
-		playerOBB.SetOBBParam_Rot(PlayerControl::GetInstance()->GetPlayer()->GetMatrot());
-		playerOBB.SetOBBParam_Scl({1.0f, 5.0f, 1.0f});
-
+		
 		//if (f_time >= NormalAttackTime + 1.0f) {
-		if (Collision::CheckOBBCollision(playerOBB, HandSiteOBB) == true)
+		if (Collision::GetLength(Position,PlayerControl::GetInstance()->GetPlayer()->GetPosition())<10.f)
 		{
 			PlayerControl::GetInstance()->GetPlayer()->RecvDamage(10);
 		}

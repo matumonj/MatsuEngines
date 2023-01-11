@@ -51,6 +51,7 @@ void BossEnemy::ResourcesSet()
 	Sprite* BossHPFrame_Inner = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::BOSSHPFRAMEINNER2),
 	                                           {0, 0});
 	m_BossHP.reset(l_Bar);
+	m_BossHP->SetAnchorPoint({ 0.f,0.0f });
 	m_BossHPFrame.reset(BossHPFrame);
 	m_BossHPFrame2.reset(BossHPFrame_Inner);
 }
@@ -66,7 +67,7 @@ void BossEnemy::Initialize()
 
 	Scale = {0.15f, 0.1f, 0.15f};
 	Rotation = {96.0f, 0.0f, -101.0f};
-
+	
 	radius_adjustment = 0;
 	AttackTime = 51.000f / 60.000f;
 	cooltime = 0;
@@ -110,7 +111,7 @@ void BossEnemy::Initialize()
 
 	BarPos = {381.0f, 862.0f};
 	BarFramePos = {122.0f, 830.0f};
-	FrameScl.x = Percent::GetParcent(static_cast<float>(MaxHP), static_cast<float>(EnemyHP)) * 17.0f;
+	FrameScl.x = Percent::GetParcent(static_cast<float>(MaxHP), static_cast<float>(EnemyHP)) *17.0f;
 
 	//各攻撃処理の初期化
 	HalfAttack::GetInstance()->Initialize();
@@ -156,8 +157,16 @@ void BossEnemy::Update()
 	FbxAnimationControl();
 	//座標やスケールの反映
 	KnockAttack::GetInstance()->ActionJudg();
+
 	m_fbxObject->SetColor({1.0f, 1.0f, 1.0f, alpha});
-	ParameterSet_Fbx();
+	m_fbxObject->SetPosition({ Position.x, Position.y+1.4f, Position.z });
+	m_fbxObject->SetRotation(Rotation);
+	m_fbxObject->SetScale(Scale);
+
+	m_Object->SetPosition(Position);
+
+	//m_fbxObject->SetColor({1,1,1,1});
+	m_fbxObject->Updata(true);
 	//攻撃後のクールタイム設定
 	AttackCoolTime();
 	//地形当たり判定
@@ -173,20 +182,15 @@ void BossEnemy::Update()
 
 void BossEnemy::AttackCollide()
 {
-	HandSiteOBB.SetOBBParam_Pos(m_fbxObject->ExtractPositionMat(m_fbxObject->GetHandBoneMatWorld()));
-	HandSiteOBB.SetOBBParam_Rot(m_fbxObject->ExtractRotationMat(m_fbxObject->GetHandBoneMatWorld()));
-	HandSiteOBB.SetOBBParam_Scl({10.0f, 10.0f, 10.0f});
-
-	playerOBB.SetOBBParam_Pos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
-	playerOBB.SetOBBParam_Rot(PlayerControl::GetInstance()->GetPlayer()->GetMatrot());
-	playerOBB.SetOBBParam_Scl({1.0f, 5.0f, 1.0f});
-
-
-	if (f_time >= NormalAttackTime + 1.0f)
+	if (f_time >=SwingTime+0.2f)
 	{
-		if (Collision::CheckOBBCollision(playerOBB, HandSiteOBB) == true)
+		if (Collision::GetLength({ m_fbxObject->GetHandBoneMatWorld().r[3].m128_f32[0],
+		m_fbxObject->GetHandBoneMatWorld().r[3].m128_f32[1],
+		m_fbxObject->GetHandBoneMatWorld().r[3].m128_f32[2] },
+			PlayerControl::GetInstance()->GetPlayer()->GetPosition()
+		) < 10.f)
 		{
-			PlayerControl::GetInstance()->GetPlayer()->RecvDamage(7);
+			PlayerControl::GetInstance()->GetPlayer()->RecvDamage(5);
 		}
 	}
 }
@@ -215,6 +219,9 @@ void BossEnemy::Draw()
 	{
 		return;
 	}
+	Object3d::PreDraw();
+	//Sword->Draw();
+	Object3d::PostDraw();
 	Draw_Fbx();
 	// 3Dオブジェクト描画前処理
 	// 3Dオブジェクト描画前処理
@@ -351,7 +358,7 @@ void BossEnemy::HPGaugeBoss()
 		{
 			OldFrameX_Inner = OldFrameX;
 		}
-		NowFrameX = Percent::GetParcent(static_cast<float>(MaxHP), static_cast<float>(EnemyHP)) * 17.0f;
+		NowFrameX = Percent::GetParcent(static_cast<float>(MaxHP), static_cast<float>(EnemyHP)) *17.0f;
 		FrameScalingETime += 0.05f;
 		if (FrameScl.x > 0.0f)
 		{
@@ -361,7 +368,7 @@ void BossEnemy::HPGaugeBoss()
 
 	else
 	{
-		OldFrameX = Percent::GetParcent(static_cast<float>(MaxHP), static_cast<float>(EnemyHP)) * 17.0f;
+		OldFrameX = Percent::GetParcent(static_cast<float>(MaxHP), static_cast<float>(EnemyHP)) *17.0f;
 
 		FrameScalingETime = 0.0f;
 	}
@@ -393,11 +400,11 @@ void BossEnemy::HPGaugeBoss()
 			InnerFrameScalingF = false;
 		}
 	}
-	m_BossHP->SetSize({FrameScl.x, 51.f});
-	m_BossHPFrame2->SetSize({FrameScl_Inner.x, 51.0f});
+	m_BossHP->SetSize({FrameScl.x, 110.f});
+	m_BossHPFrame2->SetSize({FrameScl_Inner.x, 110.0f});
 	m_BossHPFrame->SetSize({1800.0f, 117.0f});
 
-	m_BossHP->SetPosition({181.0f, 862.0f});
-	m_BossHPFrame2->SetPosition({181.0f, 862.0f});
+	m_BossHP->SetPosition({135.0f, 832.0f});
+	m_BossHPFrame2->SetPosition({135.0f, 832.0f});
 	m_BossHPFrame->SetPosition({122.0f, 830.0f});
 }

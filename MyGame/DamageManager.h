@@ -27,6 +27,7 @@ public:
 	void Draw();
 
 	void DamageDisPlay(int damage, XMFLOAT4 color);
+	void DamageDisPlay_Green(int damage, XMFLOAT4 color);
 	void SetTexSize(float size) { TexSize.x = size; }
 	void SetAlpha(float alpha) { TexAlpha = alpha; }
 	float GetAlpha() { return TexAlpha; }

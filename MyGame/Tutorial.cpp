@@ -60,10 +60,7 @@ void Tutorial::Initialize()
 	SistemConfig::GetInstance()->Initialize();
 
 	SelectSword::GetInstance()->Initialize();
-
-	Sprite::LoadTexture(0, L"Resources/2d/LevelUp/debugfont.png");
-
-	DebugTextSprite::GetInstance()->Initialize(0);
+	
 }
 
 void Tutorial::LightSet()
@@ -108,7 +105,7 @@ void Tutorial::objUpdate()
 		}
 		UI::GetInstance()->HUDUpdate(hudload, CameraControl::GetInstance()->GetCamera());
 	}
-	//後で別ん所移す
+	//後で別所移す
 	Field::GetInstance()->Update();
 }
 
@@ -228,15 +225,12 @@ void Tutorial::Draw()
 		MyGameDraw();
 		PlayerControl::GetInstance()->GetPlayer()->ParticleDraw();
 		TutorialSprite::GetInstance()->DrawTargetPos();
-
-	//postEffect->Draw();
+		
 		Sprite::PreDraw();
 		if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr)
 		{
 			EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->DamageTexDisplay_Draw();
 		}
-	//BossMap::GetInstance()->Draw();
-
 		DebugTextSprite::GetInstance()->DrawAll();
 		Sprite::PostDraw();
 		PlayerControl::GetInstance()->DamageTexDraw();
@@ -262,7 +256,6 @@ bool Tutorial::LoadParam()
 			//初期化
 			AllObjectControl[i]->Initialize();
 		}
-		//BossMap::GetInstance()->Init();
 		//カメラをセット
 		f_Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
 		//グラフィックパイプライン生成

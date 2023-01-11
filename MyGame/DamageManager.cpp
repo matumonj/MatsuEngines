@@ -45,11 +45,11 @@ void DamageManager::DamageDisPlay(int damage, XMFLOAT4 color)
 	}
 	else if (Damage < 35&& Damage >= 30.f)
 	{
-		DamageTex->SetColor({ 1.f,0.7f,0.7f });
+		DamageTex->SetColor({ 1.f,0.6f,0.6f });
 	}
 	else if (Damage < 30 && Damage >= 0.f)
 	{
-		DamageTex->SetColor({ 1.f,1.f,1.f });
+		DamageTex->SetColor({ 1.f,0.7f,0.7f });
 	}
 	DamageTex->SetAlpha(TexAlpha);
 	//表記
@@ -59,7 +59,35 @@ void DamageManager::DamageDisPlay(int damage, XMFLOAT4 color)
 	//TexSize.x = min(TexSize.x, 1.4f);
 	TexSize.x = max(TexSize.x, 0.8f);
 }
+void DamageManager::DamageDisPlay_Green(int damage, XMFLOAT4 color)
+{
+	//テクスチャのアルファ値だのサイズだの
+	TexSize.x -= 0.04f;
+	TexSize.y -= 0.04f;
+	if (TexSize.x < 0.9f)
+	{
+		TexAlpha -= 0.01f;
+	}
+	//int->stringに
+	std::ostringstream str;
+	str << std::fixed << std::setprecision(2)
+		<< Damage;
+	//3D->2D変換 3引数消す
+	XMVECTOR tex2DPos = { Position.x, Position.y + 5.f, Position.z };
+	tex2DPos = PosDivi(tex2DPos, CameraControl::GetInstance()->GetCamera()->GetViewMatrix(), false);
+	tex2DPos = PosDivi(tex2DPos, CameraControl::GetInstance()->GetCamera()->GetProjectionMatrix(), true);
+	tex2DPos = WDivi(tex2DPos, false);
+	tex2DPos = PosDivi(tex2DPos, CameraControl::GetInstance()->GetCamera()->GetViewPort(), false);
 
+	DamageTex->SetColor({ 0.9f, 0.9f, 0.9f });
+	DamageTex->SetAlpha(TexAlpha);
+	//表記
+	DamageTex->Print(str.str(), tex2DPos.m128_f32[0], tex2DPos.m128_f32[1], TexSize.x);
+
+
+	//TexSize.x = min(TexSize.x, 1.4f);
+	TexSize.x = max(TexSize.x, 0.8f);
+}
 void DamageManager::Draw()
 {
 	if (DamageTex == nullptr)

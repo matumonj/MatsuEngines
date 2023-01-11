@@ -65,7 +65,7 @@ void GuardianBomAttack::TexSet()
 		//à íuÇÃèâä˙âª
 		DtexPos[i].x = Gpos.x + sinf(DTexAngle[i] * (PI / 180.0f)) * 20.0f;
 		DtexPos[i].z = Gpos.z + cosf(DTexAngle[i] * (PI / 180.0f)) * 20.0f;
-		DtexPos[i].y = -30.f;
+		DtexPos[i].y = -31.f;
 
 		DtexAlpha[i] = 0.0f;
 
@@ -110,12 +110,16 @@ void GuardianBomAttack::Upda()
 		break;
 
 	case END:
+
 		Phase_End();
+
 		break;
 	}
 	TexRotZ++;
 	for (int i = 0; i < ArmObjNum; i++)
 	{
+
+		BomEffect[i]->Upda_B();
 		DamageTex[i]->SetScale({5.f, 5.f, 5.f});
 		DamageTex[i]->SetPosition(DtexPos[i]);
 		DamageTex[i]->SetRotation({90.f, 0.f, TexRotZ});
@@ -226,7 +230,7 @@ void GuardianBomAttack::Phase_Bom()
 	XMFLOAT3 epos = EnemyControl::GetInstance()->GetGuardianEnemy()->GetPosition();
 	ShotCount++;
 	ArmShot();
-	if (DtexAlpha[ArmObjNum - 1] <= 0.0f && ArmObj[ArmObjNum - 1] == nullptr)
+	if ( DtexAlpha[ArmObjNum - 1] <= 0.0f &&ArmObj[ArmObjNum - 1] == nullptr)
 	{
 		phase = END;
 	}

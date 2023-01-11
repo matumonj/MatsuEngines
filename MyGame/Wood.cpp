@@ -47,13 +47,14 @@ void Wood::Update()
 	//m_Object->SetFogCenter(camera->GetEye());
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
 		m_Object->setFog(true);
+		m_Object->Setppos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
+
 	}
 	else
 	{
 		m_Object->setFog(false);
 	}
-	m_Object->Setppos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
-
+	
 	m_Object->SetDisLen(800);
 	//フィールド
 	CollideWood();
