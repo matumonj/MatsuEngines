@@ -176,7 +176,7 @@ void PlayerAttackState::HitStop()
 	if (HitStopJudg)
 	{
 		HitStopTime++;
-		if (HitStopTime > 60)
+		if (HitStopTime > 90)
 		{
 			HitStopJudg = false;
 		}

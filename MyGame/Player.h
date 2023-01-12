@@ -38,7 +38,13 @@ public:
 	//óUŒ‚ŒãÄ“xUŒ‚H‚ç‚¤‚Ü‚Å
 	void RecvDamage_Cool();
 	void ReStartSetParam();
+	void DamageJump(bool judg, float knockpower);
+
+	bool GetOnGround() { return onGround; }
+	void SetDamageEva(bool f) { DamageEvaF = f; }
+	bool GetDamageEva() { return DamageEvaF; }
 private:
+	bool DamageEvaF;
 	Input* input = Input::GetInstance();
 	//fbxtime§Œä
 	void FbxAnimationControl();

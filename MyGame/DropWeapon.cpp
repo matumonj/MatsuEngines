@@ -196,10 +196,11 @@ void DropWeapon::Draw_PickTex()
 
 	Sprite::PreDraw();
 
-	if (Collision::GetLength(WeaponObjPos[WeaponIndex], PPos) < 60)
-	{
+	
 		for (int i = 0; i < WeaponSize; i++)
 		{
+			if (Collision::GetLength(WeaponObjPos[i], PPos) < 60)
+			{
 			if (WeaponObj[i] == nullptr)
 			{
 				continue;

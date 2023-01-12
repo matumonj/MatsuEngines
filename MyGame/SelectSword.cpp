@@ -149,30 +149,36 @@ void SelectSword::Update()
 		//右に移動
 		if (input->TriggerButton(input->RB))
 		{
-			if (index == 2)
+
+			if (SceneManager::GetInstance()->GetScene() != SceneManager::TUTORIAL)
 			{
-				//最大値行ったら最初に戻る
-				index = 0;
-			}
-			else
-			{
-				index++;
+				if (index == 2)
+				{
+					//最大値行ったら最初に戻る
+					index = 0;
+				} else
+				{
+
+					index++;
 			}
 			SelectJudg_Right = true;
+		}
 		}
 		//左に移動
 		if (input->TriggerButton(input->LB))
 		{
-			if (index == 0)
+			if (SceneManager::GetInstance()->GetScene() != SceneManager::TUTORIAL)
 			{
-				//最小値行ったら一番最後に
-				index = 2;
+				if (index == 0)
+				{
+					//最小値行ったら一番最後に
+					index = 2;
+				} else
+				{
+					index--;
+				}
+				SelectJudg_Left = true;
 			}
-			else
-			{
-				index--;
-			}
-			SelectJudg_Left = true;
 		}
 	}
 

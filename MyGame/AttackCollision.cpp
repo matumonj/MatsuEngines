@@ -41,13 +41,13 @@ void AttackCollision::GetCol(int damage)
 	Player* l_player = PlayerControl::GetInstance()->GetPlayer();
 
 	bool attackcolJudgTime_First = l_player->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->FIRST &&
-		l_player->GetAnimationTime() > 0.3f;
+		l_player->GetAnimationTime() > 0.4f;
 
 	bool attackcolJudgTime_Second = l_player->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->SECOND &&
-		l_player->GetAnimationTime() > 0.3f;
+		l_player->GetAnimationTime() > 0.6f;
 
 	bool attackcolJudgTime_Third = l_player->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->THIRD &&
-		l_player->GetAnimationTime() > 0.8f;
+		l_player->GetAnimationTime() > 0.9f;
 
 	if (
 		PlayerControl::GetInstance()->GetPlayer()->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->NON)
@@ -115,7 +115,7 @@ void AttackCollision::GetCol(int damage)
 				{
 					AttackEffect::GetIns()->SetParticle({epos.x, epos.y - 10.f, epos.z});
 					EnemyControl::GetInstance()->GetGuardianEnemy()->RecvDamage(
-						damage + rand() % 20 + 10);
+						damage + rand() % 8 + 1);
 					HitCol = true;
 				}
 			}
@@ -137,7 +137,7 @@ void AttackCollision::GetCol(int damage)
 						GetSummonEnemysDeath() == true)
 					{
 						EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->RecvDamage(
-							damage + rand() % 8+ 2);
+							damage + rand() % 8 + 1);
 					}
 					else if (EnemyControl::GetInstance()->GetSummonEnemysApper() == true)
 					{
@@ -153,7 +153,8 @@ void AttackCollision::GetCol(int damage)
 					}
 					if (Collision::CheckOBBCollision(HandObb, SummonEnemyOBB[i]) == true && !attackCol[i])
 					{
-						EnemyControl::GetInstance()->GetSummonEnemy(i)->RecvDamage(damage + rand() % 20 + 10);
+						EnemyControl::GetInstance()->GetSummonEnemy(i)->RecvDamage(
+							damage + rand() % 8 + 1);
 						attackCol[i] = true;
 					}
 				}
@@ -190,7 +191,13 @@ void AttackCollision::ColOBB(ColType Enemytype)
 			EnemyOBB[i].SetOBBParam_Pos(
 				EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetPosition());
 			EnemyOBB[i].SetOBBParam_Rot(EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetMatrot());
-			EnemyOBB[i].SetOBBParam_Scl({4.0f, 15.0f, 4.0f});
+			if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetEnemyNumber() == 3)
+			{
+
+				EnemyOBB[i].SetOBBParam_Scl({11.0f, 15.0f, 11.0f });
+			} else {
+				EnemyOBB[i].SetOBBParam_Scl({ 7.0f, 15.0f, 7.0f });
+			}
 		}
 
 		if (EnemyControl::GetInstance()->GetGuardianEnemy() != nullptr)

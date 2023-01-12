@@ -112,9 +112,9 @@ void CircleAttack::CollisonNailPlayer()
 {
 	const int Damage = 20;
 
-	if (Collision::GetLength(NailObj[0]->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 30)
+	if (Collision::GetLength(NailObj[0]->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 300)
 	{
-		PlayerControl::GetInstance()->GetPlayer()->RecvDamage(Damage);
+		//PlayerControl::GetInstance()->GetPlayer()->RecvDamage(300);
 	}
 }
 
@@ -182,6 +182,25 @@ void CircleAttack::ProtrudeNail()
 	Direction[Area1].y++;
 	Direction[Area2].y++;
 
+	XMFLOAT3 Bpos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
+	//float Ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition().x;
+	XMFLOAT3 Ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	XMFLOAT3 Oldpos;
+	bool col = Collision::GetLength(Direction[Area1], Bpos) < 100.f;
+	if (col)
+	{
+		PlayerControl::GetInstance()->GetPlayer()->SetDamageEva(true);
+
+		PlayerControl::GetInstance()->GetPlayer()->DamageJump(col, 1.3f);
+	
+		PlayerControl::GetInstance()->GetPlayer()->RecvDamage(20);
+	} else
+	{
+		Oldpos = Ppos;
+	}
+	
+
+	if(PlayerControl::GetInstance()->GetPlayer()->GetOnGround())
 	NailObj[0]->SetPosition(Direction[Area1]);
 	TexAlpha -= 0.01f;
 	if (Nail::GetInstance()->GetEndAction_Circle())

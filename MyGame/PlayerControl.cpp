@@ -31,6 +31,8 @@ void PlayerControl::Init_Play()
 {
 	StartPos = {110.0f, -30.0f, -379.0f};
 
+	player->SetHP(player->GetMaxHP());
+
 	player->SetPosition(StartPos);
 	AttackCollision::GetInstance()->Init();
 }

@@ -174,9 +174,18 @@ void HalfAttack::DamageJudg_Left()
 void HalfAttack::DamageJudg_Right()
 {
 	float Bpos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition().x;
-	float Ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition().x;
-	if (Ppos <= Bpos)
+	//float Ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition().x;
+	XMFLOAT3 Ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	XMFLOAT3 Oldpos;
+	bool col = Collision::GetLength(MagicTex[0]->GetPosition(), Ppos) < 20.f;
+	if (true)
 	{
+		PlayerControl::GetInstance()->GetPlayer()->SetDamageEva(true);
+		PlayerControl::GetInstance()->GetPlayer()->DamageJump(col, 1.3f);
 		PlayerControl::GetInstance()->GetPlayer()->RecvDamage(20);
+	}
+	else
+	{
+		Oldpos = Ppos;
 	}
 }

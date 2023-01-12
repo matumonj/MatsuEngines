@@ -199,7 +199,7 @@ public:
 	//現在の経過フレーム
 	float GetFbxTime() { return f_time; }
 	//回転行列取得(OBB用いらないかも)
-	XMMATRIX GetMatrot() { return m_fbxObject->GetMatrot(); }
+	XMMATRIX GetMatrot() { return m_fbxObject->ExtractRotationMat(m_fbxObject->GetWorld()); }
 	XMMATRIX GetMatrotObj() { return m_Object->GetMatrot(); }
 	//攻撃のクールタイム
 	int GetCoolTime() { return cooltime; }

@@ -58,7 +58,16 @@ void Field::Initialize()
 		Sprite::LoadTexture(40, L"Resources/BossName.png");
 		Sprite::LoadTexture(41, L"Resources/warning1.png");
 
+		Texture::LoadTexture(67, L"Resources/2d/tutorialstep/targetpos.png");
+		Texture* l_tex = Texture::Create(67);
+		cleartex.reset(l_tex);
+		
+		cleartex->CreateTexture();
+		cleartex->SetAnchorPoint({ 0.5f, 0.5f });
+
+		
 		FieldObject = TouchableObject::Create(ModelManager::GetIns()->GetModel(ModelManager::SANDFIELD), camera);
+
 	}
 
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY || SceneManager::GetInstance()->GetScene() ==
@@ -105,8 +114,8 @@ void Field::Initialize()
 void Field::PedestalMoving()
 {
 	//if (PlayerControl::GetInstance()->GetPlayer()->GetHP() <= 0)return;
-	//if (Task::GetInstance()->TaskThClear())
-	//{
+	if (Task::GetInstance()->TaskThirdClear())
+	{
 		if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(),
 			pedestalpos) < 10)
 		{
@@ -119,7 +128,7 @@ void Field::PedestalMoving()
 				pedestalpos.y -= 0.2f;
 			}
 		}
-	//}
+	}
 
 		if (PlayerControl::GetInstance()->GetPlayer()->GetHP() <= 0) {
 		PedestalDownF = false;
@@ -347,6 +356,13 @@ void Field::Update_Boss()
 	FieldObject->SetColor({0.8f, 0.8f, 0.8f, 1.0f});
 	FieldObject->Update({0.8f, 0.8f, 0.8f, 1.0f}, camera);
 
+	
+	cleartex->SetPosition({ 0,17,75 });
+	cleartex->SetRotation({ 90,0,0 });
+	cleartex->SetScale({ 3,3,3 });
+	cleartex->SetBillboard(false);
+	cleartex->SetColor({ 1,1,1,1 });
+	cleartex->Update(camera);
 	//フィールド外周とプレイヤーの当たり判定(現時点では矩形と点)
 	//FieldDamageAreaCol();
 }
@@ -408,6 +424,7 @@ void Field::Draw()
 	{
 		ModelDraw_nullCheck(BOSSBACK);
 		ModelDraw_nullCheck(DAMAGEAREA);
+
 	}
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
 	{
@@ -415,18 +432,23 @@ void Field::Draw()
 		ModelDraw_nullCheck(BOSSBACK);
 	}
 	Object3d::PostDraw();
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
-	{
-		BossName->setcolor({1.0f, 1.0f, 1.0f, TexAlpha_BossName});
-	}
+	
 }
 
 void Field::WarningDraw()
 {
-	Sprite::PreDraw();
-	BossName->Draw();
-	//Explanation->Draw();
-	Sprite::PostDraw();
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
+	{
+
+		Texture::PreDraw();
+		if (cleartex != nullptr) {
+			if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0] == nullptr) {
+				cleartex->Draw();
+			}
+		}
+		Texture::PostDraw();
+		//BossName->setcolor({ 1.0f, 1.0f, 1.0f, TexAlpha_BossName });
+	}
 }
 
 void Field::FieldDamageAreaCol()

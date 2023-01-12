@@ -52,13 +52,7 @@ void ClearScene::Update()
 		//‰Ÿ‚³‚ê‚½‚ç
 		feedf = true;
 	}
-	if (feedf)
-	{
-		Feed::GetInstance()->Update_White(Feed::FEEDIN);
-		if (Feed::GetInstance()->GetAlpha() >= 1.0f) {
-			SceneManager::GetInstance()->SetScene(SceneManager::TITLE, sceneManager_);
-		}
-	}
+	
 	//360Œ¾‚Á‚½‚ç‚O‚ÉƒŠƒZƒbƒg
 	if (Cangle >= 360.0f)
 	{

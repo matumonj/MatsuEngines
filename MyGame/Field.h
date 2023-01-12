@@ -20,6 +20,8 @@ public:
 	~Field() override;
 	static Field* GetInstance();
 	void Setplay();
+
+	XMFLOAT3 GetClearTexpos() { return cleartex->GetPosition(); }
 private:
 	TouchableObject* FieldObject = nullptr;
 	std::unique_ptr<Object3d> BossField;
@@ -62,6 +64,8 @@ private:
 	std::array<float, GuardAreaSize> GuardAreaAlpha;
 	Line2D camera_to_player;
 	std::array<Point, GuardAreaSize> GuardAreaPoint;
+	std::unique_ptr<Texture>cleartex;
+	float cleartexrot;
 private:
 	float t = 0.0f;
 	float TexAlpha_BossName = 0.0f;

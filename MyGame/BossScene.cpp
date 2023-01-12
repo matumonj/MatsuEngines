@@ -16,6 +16,8 @@
 #include "GameOver.h"
 #include <BossMap.h>
 #include"AltAttack.h"
+#include "FrontCircleAttack.h"
+#include "HalfAttack.h"
 #include"KnockAttack.h"
 #include "Nail.h"
 
@@ -115,11 +117,7 @@ void BossScene::Update()
 	LoadParam();
 
 	lightGroup->Update();
-
-	if (scenechange)
-	{
-		Feed::GetInstance()->Update_White(Feed::FEEDIN); //”’‚­‚È‚è‚Ü‚·
-	}
+	
 	if (SistemConfig::GetInstance()->GetConfigJudgMent())
 	{
 		c_postEffect = Blur;
@@ -205,6 +203,12 @@ void BossScene::Draw()
 			}
 			Nail::GetInstance()->Draw();
 			BossMap::GetInstance()->Draw();
+
+			CircleAttack::GetInstance()->Draw();
+			HalfAttack::GetInstance()->Draw();
+			KnockAttack::GetInstance()->Draw();
+			AltAttack::GetInstance()->Draw();
+			FrontCircleAttack::GetInstance()->Draw();
 			EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->DamageTexDisplay_Draw();
 
 			for (int i = 0; i < 2; i++)
@@ -213,6 +217,7 @@ void BossScene::Draw()
 			}
 		}
 
+		Field::GetInstance()->WarningDraw();
 		PlayerControl::GetInstance()->GetPlayer()->ParticleDraw();
 
 		GameOver::GetIns()->Draw_DestParticle();
@@ -228,7 +233,6 @@ void BossScene::Draw()
 		}
 		GameOver::GetIns()->Draw();
 		Feed::GetInstance()->Draw();
-		Field::GetInstance()->WarningDraw();
 		SistemConfig::GetInstance()->Draw();
 
 		DirectXCommon::GetInstance()->EndDraw();
@@ -281,15 +285,22 @@ void BossScene::Finalize()
 
 void BossScene::ChangeScene()
 {
-	XMFLOAT3 ClearStagePos = { 0.f,-30.f,75.f };
+	XMFLOAT3 ClearStagePos = Field::GetInstance()->GetClearTexpos();
 
-	bool nextscenejudg = Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(),
-		ClearStagePos) < 10.f;
+	bool nextscenejudg = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]==nullptr&&
+		Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(),
+		ClearStagePos) < 15.f;
 
-	if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0] == nullptr)
+	if (nextscenejudg)
 	{
-		Play = false;
-		SceneManager::GetInstance()->SetScene(SceneManager::GAMECLEAR, sceneManager_);
+		PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(true);
+		//SceneManager::GetInstance()->SetScene(SceneManager::GAMECLEAR, sceneManager_);
+		Feed::GetInstance()->Update_White(Feed::FEEDIN);
+		if (Feed::GetInstance()->GetAlpha() >= 1.0f) {
+
+			Play = false;
+			SceneManager::GetInstance()->SetScene(SceneManager::GAMECLEAR, sceneManager_);
+		}
 	}
 	/*	if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(),ClearStagePos)<5.f)
 		{

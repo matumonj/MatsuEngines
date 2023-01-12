@@ -58,9 +58,11 @@ void House_A::Update()
 
 
 	ParameterSet_Obj();
-	m_Object->setFog(TRUE);
-	m_Object->SetFogCenter(camera->GetEye());
-
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
+	{
+		m_Object->setFog(TRUE);
+		m_Object->SetFogCenter(camera->GetEye());
+	}
 	//フィールド
 	CollideHouse();
 }

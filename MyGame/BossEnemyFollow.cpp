@@ -84,7 +84,7 @@ void BossEnemyFollow::Update(Enemy* enemy)
 	if (enemy->GetRecvDamage2())
 	{
 		Evaprobability = rand() % 100 + 1;
-		if (Evaprobability > 10)
+		if (Evaprobability > 60)
 		{
 			enemy->ChangeState_Boss(new BossEnemyFalter());
 		}
@@ -93,13 +93,15 @@ void BossEnemyFollow::Update(Enemy* enemy)
 			enemy->SetRecvDamage2(false);
 		}
 	}
-	if (enemy->GetFbxTime()< 422.000f / 60.000f&& CustomButton::GetInstance()->GetAttackAction()) {
-		Evaprobability = rand() % 100 + 1;
-		if (Evaprobability % 2 == 0) {
-			enemy->ChangeState_Boss(new BossEnemyEvasion());
+	if (Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 17.f)
+	{
+		if (enemy->GetFbxTime() < 422.000f / 60.000f && CustomButton::GetInstance()->GetAttackAction()) {
+			Evaprobability = rand() % 100 + 1;
+			if (Evaprobability <= 30) {
+				enemy->ChangeState_Boss(new BossEnemyEvasion());
+			}
 		}
 	}
-
 
 	/*2ˆø”F‘Ì—Íİ’è(İ’è’lˆÈ‰º‚È‚Á‚½‚ç‚Rˆø”‚ÌUŒ‚‚Ö)*/
 	AttackSelect(

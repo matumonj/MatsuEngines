@@ -534,7 +534,9 @@ void EnemyControl::HPFrameDraw()
 			{
 				continue;
 			}
-			SummonEnemys[i]->EnemyHPDraw();
+			if (SummonEnemys[i]->GetPosition().y > 17.f) {
+				SummonEnemys[i]->EnemyHPDraw();
+			}
 		}
 		if (enemys[BOSS].size() > 0 && enemys[BOSS][0] != nullptr)
 		{
@@ -613,11 +615,6 @@ void EnemyControl::Draw_Boss()
 	Texture::PostDraw();
 
 	//ƒ{ƒX‚ÌŠeUŒ‚•`‰æ
-	CircleAttack::GetInstance()->Draw();
-	HalfAttack::GetInstance()->Draw();
-	KnockAttack::GetInstance()->Draw();
-	AltAttack::GetInstance()->Draw();
-	FrontCircleAttack::GetInstance()->Draw();
 	if (bAttack != nullptr)
 	{
 		bAttack->Draw();

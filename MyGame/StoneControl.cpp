@@ -92,7 +92,7 @@ void StoneControl::Init_Tutorial()
 				std::getline(line_stream, word, ',');
 				float z = static_cast<float>(std::atof(word.c_str()));
 
-				pos[i] = {x, y, z};
+				pos[i] = {x, y-2.f, z};
 			}
 			if (word.find("ROTATION") == 0)
 			{

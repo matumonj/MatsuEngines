@@ -62,7 +62,7 @@ void BossEnemy::Initialize()
 	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
 
 	//m_Object->CreateGraphicsPipeline(L"Resources/Shader/Object3dVS.hlsl", L"Resources/Shader/Object3dPS.hlsl", L"Resources/Shader/BasicGS.hlsl");
-	MaxHP = 560;
+	MaxHP = 660;
 	EnemyHP = MaxHP;
 
 	Scale = {0.15f, 0.1f, 0.15f};
@@ -404,7 +404,7 @@ void BossEnemy::HPGaugeBoss()
 	m_BossHPFrame2->SetSize({FrameScl_Inner.x, 110.0f});
 	m_BossHPFrame->SetSize({1800.0f, 117.0f});
 
-	m_BossHP->SetPosition({135.0f, 832.0f});
+	m_BossHP->SetPosition({145.0f, 832.0f});
 	m_BossHPFrame2->SetPosition({135.0f, 832.0f});
 	m_BossHPFrame->SetPosition({122.0f, 830.0f});
 }

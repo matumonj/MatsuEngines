@@ -1,4 +1,7 @@
 #include "Player.h"
+
+#include <algorithm>
+
 #include"Input.h"
 #include"TargetMarker.h"
 #include"Collision.h"
@@ -78,18 +81,30 @@ void Player::Jump()
 			fallV = {0.0f, jumpVYFist, 0.0f, 0.0f};
 		}
 	}
+	
 }
+//ジャンプ
+void Player::DamageJump(bool judg,float knockpower)
+{
+	//接地時のみ
+	if (onGround)
+	{
+			onGround = false;
+		const float jumpVYFist = 1.3f;
+			fallV = { 0.0f, jumpVYFist, 0.0f, 0.0f };
+	}
 
+}
 void Player::Move()
 {
 	//移動停止フラグと回避モーション時は動けない
-	if (evasionF|| StopFlag ||  HP <= 0)
+	if (evasionF || StopFlag || HP <= 0 || DamageEvaF)
 	{
 		return;
 	}
 	if (attackMotion != RUN && attackMotion != NON)
 	{
-	//	return;
+		//	return;
 	}
 	XMFLOAT3 pos = Position;
 	XMFLOAT3 rot = Rotation;
@@ -115,7 +130,7 @@ void Player::Move()
 		RotY = atan2f(SubVector.m128_f32[0], SubVector.m128_f32[2]);
 		if (CustomButton::GetInstance()->GetAttackAction() &&
 			Collision::GetLength(Position, NearEnemy->GetPosition()) < 30.f) {
-			Rotation.y = RotY * 60+180.f;
+			Rotation.y = RotY * 60 + 180.f;
 		}
 
 	}
@@ -137,22 +152,22 @@ void Player::Move()
 		//上入力
 		if (input->TiltPushStick(Input::L_UP, 0.0f))
 		{
-			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{0, 0, vel, 0}, angle);
+			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{ 0, 0, vel, 0 }, angle);
 		}
 		//下入力
 		if (input->TiltPushStick(Input::L_DOWN, 0.0f))
 		{
-			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{0, 0, -vel, 0}, angle);
+			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{ 0, 0, -vel, 0 }, angle);
 		}
 		//右入力
 		if (input->TiltPushStick(Input::L_RIGHT, 0.0f))
 		{
-			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{vel, 0, 0, 0}, angle);
+			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{ vel, 0, 0, 0 }, angle);
 		}
 		//左入力
 		if (input->TiltPushStick(Input::L_LEFT, 0.0f))
 		{
-			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{-vel, 0, 0, 0}, angle);
+			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{ -vel, 0, 0, 0 }, angle);
 		}
 
 		const float rnd_vel = 0.1f;
@@ -165,17 +180,16 @@ void Player::Move()
 
 		//プレイヤーの回転角を取る
 		Rotation = { rot.x, rot.y, rot.z };
-		
-		XMVECTOR move = {0.0f, 0.0f, 0.1f, 0.0f};
+
+		XMVECTOR move = { 0.0f, 0.0f, 0.1f, 0.0f };
 		XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(Rotation.y));
 		move = XMVector3TransformNormal(move, matRot);
 
 		//向いた方向に進む
-		Position.x += move.m128_f32[0] * movespeed*5;
-		Position.z += move.m128_f32[2] * movespeed *5;
+		Position.x += move.m128_f32[0] * movespeed * 5;
+		Position.z += move.m128_f32[2] * movespeed * 5;
 		Gmove = move;
-	}
-	else
+	} else
 	{
 		//静止時間
 		if ((!m_AnimationStop))
@@ -183,6 +197,16 @@ void Player::Move()
 			AnimationContol(IDLE, 9, 1, true);
 		}
 	}
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
+	{
+		Position.x = std::clamp(Position.x, -615.f, 600.f);
+		Position.z = std::clamp(Position.z, -385.f, 822.f);
+	}
+	else if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
+	{
+
+	}
+
 }
 
 void Player::ReStartSetParam()
@@ -207,7 +231,7 @@ void Player::Death()
 
 void Player::Evasion()
 {
-	if (HP <= 0)
+	if (HP <= 0||DamageEvaF||StopFlag)
 	{
 		return;
 	}
@@ -287,9 +311,24 @@ void Player::Update()
 			savetime = 0;
 		}
 	}
+	if (DamageEvaF)
+	{
+		//FBXタイムを回避モーション開始時に合わせる
+		AnimationContol(DEATH, 7, 15.0, false);
+	//	m_AnimeLoop = true;
+		m_AnimationStop = true;
 
+
+		if (onGround&&m_fbxObject->GetAnimeTime() >= m_fbxObject->GetEndTime() - 0.3f) {
+			//attackMotion = NON;
+			AnimationContol(IDLE, 9, 1, false);
+			m_AnimationStop = false;
+
+			DamageEvaF= false;
+		}
+	}
 	//回避
-	if (input->TriggerButton(input->X))
+	if (input->TriggerButton(input->X)&&StopFlag==false)
 	{
 		evasionF = true;
 	}
@@ -407,7 +446,7 @@ void Player::AnimationContol(AnimeName name, int animenumber, double speed, bool
 
 void Player::FbxAnimationControl()
 {
-	if (evasionF || noAttack || HP <= 0)
+	if (evasionF || noAttack || HP <= 0||DamageEvaF)
 	{
 		return;
 	}

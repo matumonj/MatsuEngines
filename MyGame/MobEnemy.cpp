@@ -180,9 +180,9 @@ void MobEnemy::OBBSetParam()
 	}
 
 	//手のワールド行列から各成分抜き出し
-	HandSiteOBB.SetOBBParam_Pos(Sword->GetMatWorld());
-	HandSiteOBB.SetOBBParam_Rot(Sword->GetMatWorld());
-	HandSiteOBB.SetOBBParam_Scl({8.0f, 10.0f, 8.0f});
+	HandSiteOBB.SetOBBParam_Pos(Sword->ExtractPositionMat());
+	HandSiteOBB.SetOBBParam_Rot(Sword->ExtractRotationMat());
+	HandSiteOBB.SetOBBParam_Scl({10.0f, 10.0f, 8.0f});
 
 	//プレイヤー
 	playerOBB.SetOBBParam_Pos(l_player->GetPosition());
