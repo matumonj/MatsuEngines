@@ -120,7 +120,11 @@ void main(
 		}
 		if (destF)
 		{
-			element.svpos.xyz = center + (element.svpos.xyz - center) * (1 - desttime * 1.0);
+			//element.svpos.xyz = center + (element.svpos.xyz - center) * (1 - destruction * 1.0);
+		//mul(viewproj, element.svpos);
+
+			input[i].svpos.xyz += gnormal * (desttime);
+			element.svpos = input[i].svpos;
 		}
 		else if (!destF && !gsflag)
 		{

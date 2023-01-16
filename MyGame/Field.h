@@ -50,6 +50,9 @@ private:
 	//Sprite
 	Sprite* Explanation = nullptr;
 	Sprite* BossName = nullptr;
+	bool destf;
+	float destt=100;
+	float KoloiamAlpha = 1.f;
 	//Model
 	DirectX::XMFLOAT3 ssp = {0.0f, 0.0f, 0.0f};
 	int EnemyIconSize = 0;

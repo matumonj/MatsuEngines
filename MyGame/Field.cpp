@@ -1,4 +1,7 @@
 #include "Field.h"
+
+#include <algorithm>
+
 #include"CameraControl.h"
 #include"TouchableObject.h"
 #include"CollisionManager.h"
@@ -349,6 +352,31 @@ void Field::Update_Boss()
 	//外周ダメージエリア更新
 	SetFieldUpdate(DAMAGEAREA, camera, {0.0f, -19.2f, 0.0f}, {1.0f, 1.0f, 1.0f}, TRUE, FALSE);
 	//背景のコロシアム更新
+	if(Input::GetInstance()->TriggerButton(Input::Y))
+	{
+		destf = true;
+	}
+	if (Input::GetInstance()->TriggerButton(Input::X))
+	{
+		destf = false;
+	}
+	if(destf)
+	{
+		KoloiamAlpha -= 0.01f;
+		destt -= 2.1f;
+		
+	}
+	else
+	{
+		KoloiamAlpha += 0.01f;
+		destt += 2.1f;
+	}
+	destt = std::clamp(destt, -1000.f, 0.f);
+	KoloiamAlpha = std::clamp(KoloiamAlpha, 0.f, 1.f);
+
+	m_object[BOSSBACK]->SetColor({ 1,1,1,KoloiamAlpha });
+	m_object[BOSSBACK]->SetDestFlag(true);
+	m_object[BOSSBACK]->SetDestTime(destt);
 	SetFieldUpdate(BOSSBACK, camera, {0, -19, 0}, {1.0f, 1.0f, 1.0f}, false,false);
 	
 	FieldObject->SetPosition({0.0f, -19.0f, 0.0f});
@@ -422,7 +450,7 @@ void Field::Draw()
 	FieldObject->Draw();
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
 	{
-		//ModelDraw_nullCheck(BOSSBACK);
+		ModelDraw_nullCheck(BOSSBACK);
 		ModelDraw_nullCheck(DAMAGEAREA);
 
 	}
