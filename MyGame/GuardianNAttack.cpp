@@ -82,6 +82,7 @@ void GuardianNAttack::Upda()
 	normalAttackObj->SetRotation({180.0f, 0.0f, 0.0f});
 	normalAttackObj->SetScale(BeamObjScl);
 	normalAttackObj->Update({1.f, 1.f, 1.f, 0.5f}, camera);
+	
 	TexAlpha = max(TexAlpha, 0.f);
 }
 
@@ -137,7 +138,7 @@ void GuardianNAttack::Phase_Bom()
 	BeamObjScl.z = min(BeamObjScl.z, 10.0f);
 	BeamObjScl.z = max(BeamObjScl.z, 0.0f);
 
-	if(Collision::GetLength(ppos,BeamObjPos)<15.f)
+	if (Collision::GetLength(ppos, normalAttackObj->GetPosition()) < 14.f)
 	{
 		PlayerControl::GetInstance()->GetPlayer()->RecvDamage(5);
 	}
@@ -146,8 +147,13 @@ void GuardianNAttack::Phase_Bom()
 
 void GuardianNAttack::Phase_MakeSmall()
 {
-	XMFLOAT3 epos = EnemyControl::GetInstance()->GetGuardianEnemy()->GetPosition();
+	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 
+	XMFLOAT3 epos = EnemyControl::GetInstance()->GetGuardianEnemy()->GetPosition();
+	if (Collision::GetLength(ppos, normalAttackObj->GetPosition()) < 14.f)
+	{
+		PlayerControl::GetInstance()->GetPlayer()->RecvDamage(5);
+	}
 	TexAlpha = 1.f;
 	scalingETime -= 0.04f;
 	if (scalingETime <= 0.0f)

@@ -89,7 +89,7 @@ int TargetMarker::NearGolemSearch(std::vector<std::unique_ptr<Enemy>>& enemy, Pl
 	//float distance;
 	for (int i = 0; i < enemy.size()/*enemynum*/; ++i)
 	{
-		if (enemy[i] == nullptr)
+		if (enemy[i] == nullptr||enemy[i]->getdeath())
 		{
 			continue;
 		}
@@ -133,7 +133,7 @@ int TargetMarker::NearMiniGolemSearch(std::vector<std::unique_ptr<Enemy>>& enemy
 	//float distance;
 	for (int i = 0; i < enemy.size()/*enemynum*/; ++i)
 	{
-		if (enemy[i] == nullptr)
+		if (enemy[i] == nullptr || enemy[i]->getdeath())
 		{
 			continue;
 		}
@@ -178,7 +178,7 @@ int TargetMarker::NearLizardSearch(std::vector<std::unique_ptr<Enemy>>& enemy, P
 	//float distance;
 	for (int i = 0; i < enemy.size()/*enemynum*/; ++i)
 	{
-		if (enemy[i] == nullptr)
+		if (enemy[i] == nullptr || enemy[i]->getdeath())
 		{
 			continue;
 		}
@@ -222,7 +222,7 @@ int TargetMarker::NearEnemySearch(std::vector<std::unique_ptr<Enemy>>& enemy, Pl
 	//float distance;
 	for (int i = 0; i < enemy.size()/*enemynum*/; ++i)
 	{
-		if (enemy[i] == nullptr)
+		if (enemy[i] == nullptr || enemy[i]->getdeath())
 		{
 			continue;
 		}
@@ -301,17 +301,17 @@ void TargetMarker::Update_PlayScene(DebugCamera* camera)
 	}
 	if (lindex != -1)
 	{
-		NearLizard(EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE), tindex, &ex, &ey, &ez);
+		NearLizard(EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE), lindex, &ex, &ey, &ez);
 		//{ enemy[0]->GetPosition().x ,0, enemy[0]->GetPosition().z };
 	}
 	if (gindex != -1)
 	{
-		NearGolem(EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE), tindex, &ex, &ey, &ez);
+		NearGolem(EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE), gindex, &ex, &ey, &ez);
 		//{ enemy[0]->GetPosition().x ,0, enemy[0]->GetPosition().z };
 	}
 	if (mindex != -1)
 	{
-		NearMiniGolem(EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE), tindex, &ex, &ey, &ez);
+		NearMiniGolem(EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE), mindex, &ex, &ey, &ez);
 		//{ enemy[0]->GetPosition().x ,0, enemy[0]->GetPosition().z };
 	}
 	//マーカー位置をnowTargetに合わせる

@@ -116,7 +116,7 @@ void SelectSword::SetSword(SelectWeapon nowsword)
 
 	case WAND: //‰Š‚Ìñ
 
-		if (sampleSwordAlpha[AXE] >= 1.0f)
+		if (sampleSwordAlpha[WAND] >= 1.0f)
 		{
 			Sword.reset(new SmallSword());
 			Sword->Initialize();

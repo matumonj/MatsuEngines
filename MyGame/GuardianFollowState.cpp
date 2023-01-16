@@ -79,7 +79,11 @@ void GuardianFollowState::Follow(Enemy* enemy)
 	//
 	if (enemy->GetRecvDamage2())
 	{
-		enemy->ChangeState_Guardian(new GuardianFalterState());
+		Evaprobability = rand() % 100 + 1;
+		if (Evaprobability <= 30) {
+			enemy->ChangeState_Guardian(new GuardianFalterState());
+		}
+		
 	}
 	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) < 90.f)
 	{

@@ -19,12 +19,13 @@ void ModelManager::Initialize()
 	LoadModel(CHEST, "chest");
 	LoadModel(FENCE, "Fence");
 	LoadFBXModel(PLAYER, "playerGolem");
-	LoadFBXModel(BOSS, "BossGolem");
+	LoadFBXModel(BOSS, "boss");
 	LoadModel(SPHERE, "sphere");
 	LoadModel(NAIL, "Nail");
 	LoadModel(BIGSWORD, "axe");
 	LoadModel(DAMAGEAREA, "BossFieldDamageArea");
 	LoadModel(BOX, "Box");
+	LoadModel(PLACEBOX, "placebox");
 	LoadModel(MISSILE, "missile");
 	LoadModel(SMALLSWORD, "Hammer");
 	LoadModel(ICECRYSTAL, "crystal");

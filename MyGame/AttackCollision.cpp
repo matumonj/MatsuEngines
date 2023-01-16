@@ -212,7 +212,7 @@ void AttackCollision::ColOBB(ColType Enemytype)
 		BossEnemyOBB.resize(1);
 		for (int i = 0; i < 2; i++)
 		{
-			if (EnemyControl::GetInstance()->GetSummonEnemy(i) == nullptr)
+			if (EnemyControl::GetInstance()->GetSummonEnemy(i) == nullptr|| EnemyControl::GetInstance()->GetSummonEnemy(i) == nullptr || EnemyControl::GetInstance()->GetSummonEnemy(i)->GetPosition().y < 15)
 			{
 				continue;
 			}

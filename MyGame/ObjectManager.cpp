@@ -36,7 +36,7 @@ void ObjectManager::CollisionField()
 	{
 		// ‰ºŒü‚«‰Á‘¬“x
 		const float fallAcc = -0.01f;
-		const float fallVYMin = -0.3f;
+		const float fallVYMin = -0.8f;
 		// ‰Á‘¬
 		fallV.m128_f32[1] = max(fallV.m128_f32[1] + fallAcc, fallVYMin);
 		// ˆÚ“®

@@ -43,6 +43,11 @@ HUD* HUD::GetInstance()
 	static HUD instance;
 	return &instance;
 }
+void HUD::playerini()
+{
+	PlayerHPSize = static_cast<float>(PlayerControl::GetInstance()->GetPlayer()->GetMaxHP()) * 7.0f;
+
+}
 
 void HUD::Initialize()
 {

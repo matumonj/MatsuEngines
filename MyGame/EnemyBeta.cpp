@@ -144,6 +144,12 @@ void EnemyBeta::Update()
 	//石オブジェの更新
 	ThrowRockObj->SetPosition(RockPos);
 	ThrowRockObj->Update({1.f, 1.f, 1.f, 1.f}, camera);
+	if (EnemyHP > 0) {
+		if (animeState == AnimationState::DEATH)
+		{
+			animeState = AnimationState::WALK;
+		}
+	}
 	//被ダメ表記
 	DamageTexDisplay();
 	DamageParticleSet();
@@ -269,7 +275,7 @@ void EnemyBeta::AttackCol_Sideway()
 	XMFLOAT3 l_playerpos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 	//FBXボーンから座標を取る
 	constexpr int boneindex = 10;
-	constexpr float disrange = 10.f;
+	constexpr float disrange = 20.f;
 	constexpr int damage = 10;
 
 	m_fbxObject->GetBoneIndexMat(boneindex, AttackHand_Right);
@@ -353,6 +359,7 @@ void EnemyBeta::AnimationContol(AnimationState name, int animenumber, double spe
 
 void EnemyBeta::FbxAnimationControls(AnimationState motiontype, int number)
 {
+	
 	if (DeathFlag)
 	{
 		return;

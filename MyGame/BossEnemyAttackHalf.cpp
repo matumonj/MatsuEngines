@@ -2,7 +2,7 @@
 #include"BossEnemyFollow.h"
 #include"HalfAttack.h"
 #include"mHelper.h"
-
+#include"BossEnemy.h"
 void BossEnemyAttackHalf::Initialize(Enemy* enmey)
 {
 }
@@ -11,7 +11,7 @@ void BossEnemyAttackHalf::Update(Enemy* enemy)
 {
 	enemy->SetRecvDamage2(false);
 	HalfAttack::GetInstance()->ActionJudg();
-	enemy->SetRoarMotion(true);
+	enemy->SetAnimation(BossEnemy::NowAttackMotion::BROAR, 1.f, false);
 	//80%ˆÈ‰º‚Ì”¼–ÊUŒ‚I—¹
 	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= 30.0f)
 	{

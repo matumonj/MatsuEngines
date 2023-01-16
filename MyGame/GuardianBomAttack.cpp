@@ -110,7 +110,7 @@ void GuardianBomAttack::Upda()
 		break;
 
 	case END:
-
+		
 		Phase_End();
 
 		break;
@@ -118,7 +118,7 @@ void GuardianBomAttack::Upda()
 	TexRotZ++;
 	for (int i = 0; i < ArmObjNum; i++)
 	{
-
+		if (BomEffect[i] == nullptr)continue;
 		BomEffect[i]->Upda_B();
 		DamageTex[i]->SetScale({5.f, 5.f, 5.f});
 		DamageTex[i]->SetPosition(DtexPos[i]);
@@ -238,6 +238,11 @@ void GuardianBomAttack::Phase_Bom()
 
 void GuardianBomAttack::Phase_End()
 {
+	for (int i = 0; i < ArmObjNum; i++)
+	{
+		BomEffect[i].reset();
+		ArmEffect[i].reset();
+	}
 	EnemyControl::GetInstance()->GetGuardianEnemy()->SetColor({1.0f, 1.0f, 1.0f, 1.0f});
 }
 
@@ -300,10 +305,16 @@ void GuardianBomAttack::ColPlayer()
 			continue;
 		}
 
+		if (Collision::GetLength(ppos, ArmPos[i]) < 10.f)
+		{
+			PlayerControl::GetInstance()->GetPlayer()->RecvDamage(10);
+			MissileDestFlag[i] = true;
+		}
 		if (ArmPos[i].y < -32)
 		{
 			MissileDestFlag[i] = true;
 		}
+
 		if (Collision::GetLength(ArmPos[i], {-300.0f, -32, 270}) > 90)
 		{
 			ArmAlpha[i] -= 0.05f;

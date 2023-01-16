@@ -202,11 +202,15 @@ void EnemyControl::SummonEnemyInit()
 
 void EnemyControl::Init_Boss()
 {
+	o = new Particle();
+	o->Init(65);
+	o->SetParColor({ 1,1,1,1 });
+	o->SetParScl({ 2,2 });
 	//ボス初期化
 	enemys[BOSS].resize(1);
 	enemys[BOSS][0] = std::make_unique<BossEnemy>();
 	enemys[BOSS][0]->Initialize();
-	boss_pos = {-1.0f, 9.0f, 80.987f};
+	boss_pos = {-1.0f, 14.75f, 80.987f};
 
 	enemys[BOSS][0]->SetPosition(boss_pos);
 	enemys[BOSS][0]->SetHP(enemys[BOSS][0]->GetMaxHP());
@@ -479,7 +483,8 @@ void EnemyControl::Update_Boss()
 	{
 		return;
 	}
-
+	o->CreateParticle(true, enemys[BOSS][0]->GetPosition());
+	o->Bleath();
 	bAttack->Upda();
 
 	enemys[BOSS][0]->Update();
@@ -603,7 +608,7 @@ void EnemyControl::Draw_Boss()
 	}
 	//ボス描画
 	enemys[BOSS][0]->Draw();
-
+	o->Draw();
 	//ボスの貼るシールドテクスチャ
 	Texture::PreDraw();
 
@@ -646,7 +651,7 @@ void EnemyControl::GameOverResetParam()
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
 	{
 		enemys[BOSS][0]->Initialize();
-		boss_pos = {-1.0f, 10.0f, 20.987f};
+		boss_pos = {-1.0f, 14.75f, 20.987f};
 
 		for (int i = 0; i < EnemySize; i++)
 		{

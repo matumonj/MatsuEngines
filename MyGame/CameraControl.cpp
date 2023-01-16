@@ -446,19 +446,17 @@ void CameraControl::BossSceneStart()
 	case BOSSCUTEND:
 
 		AttackSceneF = true;
-		if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetFbxTime() > EnemyControl::GetInstance()->
-			GetEnemy(EnemyControl::BOSS)[0]->GetRoarTime_End() - 2.8f)
-		{
-			CameraPosition.z -= 1.5f;
-		}
-		Feed::GetInstance()->Update_White(Feed::FEEDIN);
-		if (Feed::GetInstance()->GetAlpha() >= 0.9f)
-		{
-			PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(false);
+		
+				CameraPosition.z -= 1.5f;
 
-			Tstate = PLAYER;
-		}
+				Feed::GetInstance()->Update_White(Feed::FEEDIN);
+				if (Feed::GetInstance()->GetAlpha() >= 0.9f)
+				{
+					PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(false);
 
+					Tstate = PLAYER;
+				}
+			
 		break;
 	default:
 		break;
@@ -473,7 +471,7 @@ void CameraControl::BossCutScene_Spline()
 {
 	nowCount = static_cast<float>(GetTickCount64());
 	elapsedCount = nowCount - startCount;
-	elapsedTime = elapsedCount / 30.0f;
+	elapsedTime = elapsedCount / 3.0f;
 
 	timerate = elapsedTime / maxtime;
 	if (timerate >= 1)

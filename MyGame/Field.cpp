@@ -344,7 +344,7 @@ void Field::Update_Boss()
 	}
 
 	//天球オブジェクト更新
-	SetFieldUpdate(CELESTIALSPHERE, camera, {0.0f, 30.0f, 0.0f}, {40.0f, 40.0f, 40.0f}, FALSE,false);
+	SetFieldUpdate(CELESTIALSPHERE, camera, {0.0f, 30.0f, 0.0f}, {40.0f, 40.0f, 40.0f}, FALSE,true);
 	m_object[BOSSBACK]->SetColor({ 0.6f,0.6f,0.6f,1 });
 	//外周ダメージエリア更新
 	SetFieldUpdate(DAMAGEAREA, camera, {0.0f, -19.2f, 0.0f}, {1.0f, 1.0f, 1.0f}, TRUE, FALSE);
@@ -422,7 +422,7 @@ void Field::Draw()
 	FieldObject->Draw();
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
 	{
-		ModelDraw_nullCheck(BOSSBACK);
+		//ModelDraw_nullCheck(BOSSBACK);
 		ModelDraw_nullCheck(DAMAGEAREA);
 
 	}

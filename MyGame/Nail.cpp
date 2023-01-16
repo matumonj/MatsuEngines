@@ -4,6 +4,8 @@
 #include"ModelManager.h"
 #include <EnemyControl.h>
 
+#include "PlayerControl.h"
+
 Nail::~Nail()
 {
 	//delete Nailmodel;
@@ -21,6 +23,7 @@ void Nail::HalfAttack(const HalfAttackArea& area)
 	{
 		HAttack.phase = PHASE_ONE;
 	}
+
 	switch (HAttack.phase)
 	{
 	case PHASE_ONE:
@@ -59,7 +62,7 @@ void Nail::HalfAttack(const HalfAttackArea& area)
 		{
 			Nails[i]->SetPosition({Nails[i]->GetPosition().x, MinY, Nails[i]->GetPosition().z});
 		}
-
+		
 		HAttack.WaitCount = 0;
 		break;
 	case PHASE_THREE:
@@ -106,7 +109,11 @@ void Nail::CircleAttack(int area1, int area2)
 	{
 		CAttack.phase = PHASE_ONE;
 	}
+	XMFLOAT3 Bpos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
+	//float Ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition().x;
+	XMFLOAT3 Ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 
+	bool col = Collision::GetLength(Ppos, Bpos) < 30.f;
 	switch (CAttack.phase)
 	{
 	case PHASE_ONE:
@@ -132,6 +139,16 @@ void Nail::CircleAttack(int area1, int area2)
 	case PHASE_TWO:
 		if (MinY <= 20.0f)
 		{
+			if (CAttack.phase == PHASE_TWO) {
+			if (col)
+				{
+					PlayerControl::GetInstance()->GetPlayer()->SetDamageEva(true);
+
+					PlayerControl::GetInstance()->GetPlayer()->DamageJump(col, 1.3f);
+
+					PlayerControl::GetInstance()->GetPlayer()->RecvDamage(5);
+				}
+			}
 			MinY += 2.0f; //ìBèoÇÈÇÊ
 		}
 		else

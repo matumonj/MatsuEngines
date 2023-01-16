@@ -5,6 +5,7 @@
 #include<array>
 
 #include "CircleAttack.h"
+#include "Particle.h"
 
 class EnemyControl :
 	public ControlBase
@@ -14,6 +15,7 @@ public:
 	{
 	};
 private:
+	Particle* o;
 	std::vector<XMFLOAT3> Load_EnemyPosition = {};
 
 	std::vector<int>rescount = {};

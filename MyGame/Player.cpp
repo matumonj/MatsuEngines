@@ -113,27 +113,7 @@ void Player::Move()
 	float StickY = input->GetLeftControllerY();
 	const float pi = 3.14159f;
 	const float STICK_MAX = 32768.0f;
-	if (TargetMarker::GetInstance()->GetNearIndex() != -1 && EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE).size() > 0) {
-		nearindex = TargetMarker::GetInstance()->GetNearIndex();
-		Enemy* NearEnemy = EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[nearindex].get();
-
-
-		//敵がプエレイヤーの方向く処理
-		XMVECTOR positionA = {
-		Position.x,Position.y,Position.z
-		};
-		XMVECTOR positionB = { NearEnemy->GetPosition().x, NearEnemy->GetPosition().y,  NearEnemy->GetPosition().z };
-		//プレイヤーと敵のベクトルの長さ(差)を求める
-		XMVECTOR SubVector = XMVectorSubtract(positionA, positionB); // positionA - positionB;
-
-		//角度の取得 プレイヤーが敵の索敵位置に入ったら向きをプレイヤーの方に
-		RotY = atan2f(SubVector.m128_f32[0], SubVector.m128_f32[2]);
-		if (CustomButton::GetInstance()->GetAttackAction() &&
-			Collision::GetLength(Position, NearEnemy->GetPosition()) < 30.f) {
-			Rotation.y = RotY * 60 + 180.f;
-		}
-
-	}
+	
 	//スティックの移動処理
 	if (input->TiltPushStick(Input::L_UP, 0.0f) ||
 		input->TiltPushStick(Input::L_DOWN, 0.0f) ||
@@ -186,8 +166,8 @@ void Player::Move()
 		move = XMVector3TransformNormal(move, matRot);
 
 		//向いた方向に進む
-		Position.x += move.m128_f32[0] * movespeed * 5;
-		Position.z += move.m128_f32[2] * movespeed * 5;
+		Position.x += move.m128_f32[0] * movespeed*2;
+		Position.z += move.m128_f32[2] * movespeed *2;
 		Gmove = move;
 	} else
 	{
@@ -327,6 +307,28 @@ void Player::Update()
 			DamageEvaF= false;
 		}
 	}
+
+	if (TargetMarker::GetInstance()->GetNearIndex() != -1 && EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE).size() > 0) {
+		nearindex = TargetMarker::GetInstance()->GetNearIndex();
+		Enemy* NearEnemy = EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[nearindex].get();
+
+
+		//敵がプエレイヤーの方向く処理
+		XMVECTOR positionA = {
+		Position.x,Position.y,Position.z
+		};
+		XMVECTOR positionB = { NearEnemy->GetPosition().x, NearEnemy->GetPosition().y,  NearEnemy->GetPosition().z };
+		//プレイヤーと敵のベクトルの長さ(差)を求める
+		XMVECTOR SubVector = XMVectorSubtract(positionA, positionB); // positionA - positionB;
+
+		//角度の取得 プレイヤーが敵の索敵位置に入ったら向きをプレイヤーの方に
+		RotY = atan2f(SubVector.m128_f32[0], SubVector.m128_f32[2]);
+		if (CustomButton::GetInstance()->GetAttackAction() &&
+			Collision::GetLength(Position, NearEnemy->GetPosition()) < 30.f) {
+			Rotation.y = RotY * 60 + 180.f;
+		}
+
+	}
 	//回避
 	if (input->TriggerButton(input->X)&&StopFlag==false)
 	{
@@ -382,7 +384,7 @@ void Player::Draw()
 	Draw_Fbx();
 	ImGui::Begin("fg");
 	ImGui::SliderInt("num", &hindex, 0, 27);
-	ImGui::Text("%f", Position.x);
+	ImGui::Text("%d", TargetMarker::GetInstance()->GetNearIndex());
 	ImGui::Text("%f", Position.z);
 	ImGui::End();
 	AttackEffect::GetIns()->Draw();

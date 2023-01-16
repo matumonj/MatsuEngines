@@ -31,7 +31,7 @@ void SmallSword::Initialize()
 
 	Rotation = {16.f, 0.f , 230.f};
 	animetiontime = 1.5f;
-	KnockPower = 5.0f;
+	KnockPower = 9.0f;
 	SwordObbScl = { 3.f,3.f,4.f };
 
 	Damage = 10;

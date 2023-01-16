@@ -191,6 +191,9 @@ void BossScene::Draw()
 			{
 				Field::GetInstance()->Draw();
 			}
+			Nail::GetInstance()->Draw();
+			BossMap::GetInstance()->Draw();
+
 			if (Feed::GetInstance()->GetAlpha() < 1.0f) {
 				for (int i = 0; i < AllObjectControl.size(); i++)
 				{
@@ -201,9 +204,7 @@ void BossScene::Draw()
 					AllObjectControl[i]->Draw();
 				}
 			}
-			Nail::GetInstance()->Draw();
-			BossMap::GetInstance()->Draw();
-
+		
 			CircleAttack::GetInstance()->Draw();
 			HalfAttack::GetInstance()->Draw();
 			KnockAttack::GetInstance()->Draw();
@@ -289,7 +290,7 @@ void BossScene::ChangeScene()
 
 	bool nextscenejudg = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]==nullptr&&
 		Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(),
-		ClearStagePos) < 15.f;
+		ClearStagePos) < 5.f;
 
 	if (nextscenejudg)
 	{

@@ -184,7 +184,7 @@ void Enemy::Respawn()
 
 bool Enemy::RespawnJudg()
 {
-	bool respawnjudg = Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), Position) > 80.f;
+	bool respawnjudg = Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), Position) > 180.f;
 
 	if (RespawnCount > RespawnCountMax&&respawnjudg)
 	{
@@ -243,4 +243,15 @@ void Enemy::ChangeState_Boss(BossEnemyState* state)
 {
 	Destroy(state_boss);
 	state_boss = state;
+}
+
+void Enemy::SetAnimation(int number, bool loop,double speed)
+{
+	if (m_Number != number)
+	{
+		m_AnimeLoop = loop;
+		m_Number = number;
+		m_AnimeSpeed = speed;
+		m_fbxObject->PlayAnimation(m_Number);
+	}
 }

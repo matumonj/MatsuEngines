@@ -15,5 +15,6 @@ private:
 	int NormalAttackCount;
 	float PosYMovingT;
 	float RotY;
+	int Evaprobability;
 	void Follow(Enemy* enemy);
 };

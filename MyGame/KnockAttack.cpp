@@ -5,6 +5,7 @@
 #include"mHelper.h"
 #include"BossSpell.h"
 #include"BossMap.h"
+#include <BossEnemy.h>
 
 KnockAttack::KnockAttack()
 {
@@ -88,12 +89,12 @@ void KnockAttack::ActionJudg()
 		{
 			phase = PHASETWO;
 		}
-		EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->SetMagicAttackTime(true);
+		EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->SetAnimation(BossEnemy::NowAttackMotion::MAGIC, 1.f, false);
 	}
 
 	if (phase == PHASETWO)
 	{
-				EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->SetMagicAttackTime(true);
+				EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->SetAnimation(BossEnemy::NowAttackMotion::MAGIC,1.f,false);
 	
 		AttackCount = 0;
 		AxePosDownEtime += 0.02f;
@@ -178,6 +179,10 @@ void KnockAttack::ActionJudg()
 	{
 		for (int i = 0; i < axeSize; i++)
 		{
+			if(Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(),AxePos[i])<20.f)
+			{
+				PlayerControl::GetInstance()->GetPlayer()->RecvDamage(10);
+			}
 			AxeObj[i]->SetPosition(AxePos[i]);
 			AxeObj[i]->SetScale({8.f, 8.f, 8.f});
 			AxeObj[i]->SetRotation(AxeRot[i]);

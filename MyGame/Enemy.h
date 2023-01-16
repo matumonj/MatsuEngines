@@ -148,20 +148,7 @@ protected:
 	float FollowRotAngleCorrect;
 
 	//各アニメーションの開始タイム
-	float MagicAttackTime = 0.0f;
-	float FalterTime = 0.0f;
-	float FalterTime_End;
-	float RoarTime;
-	float RoarTime_End;
-	float SwingTime;
-	float SwingTime_End;
-	float IdleTime;
-	float IdleTime_End;
-	float SideWalk_LeftTime;
-	float SideWalk_LeftTime_End;
-	float SideWalk_RightTime;
-	float SideWalk_RightTime_End;
-
+	
 	float DeathMotionTime_Start;
 	float DeathMotionTime_End;
 	float EvaTime = 0.0f;
@@ -253,23 +240,9 @@ protected:
 public:
 	bool getdie() { return DieFlag; }
 	bool getdeath() { return DeathFlag; }
-	void SetSwingMotion(bool f) { if (f_time < SwingTime) { SwingFlag = f; } }
+	
 
-	void SetFalterMotion(bool f) { if (f_time < FalterTime) { FalterFlag = f; } }
-	void SetRoarMotion(bool f) { if (f_time > RoarTime_End) { RoarMotionFlag = f; } }
-	void SetDeathMotion(bool f) { if (f_time < DeathMotionTime_Start) { DieFlag = f; } }
-	//
-	void SetRSideWalkMotion(bool f) { if (f_time > SideWalk_RightTime) { SideWalk_RightMotionFlag = f; } }
-	void SetLSideWalkMotion(bool f) { if (f_time < SideWalk_LeftTime) { SideWalk_LeftMotionFlag = f; } }
-
-	//
-	void SetIdleMotion(bool f) { if (f_time < IdleTime) { IdleMotionFlag = f; } }
-	float GetFalterTime_End() { return FalterTime_End; }
-	float GetFalterTime() { return FalterTime; }
-	float GetRoarTime_End() { return RoarTime_End; }
-	void SetMagicAttackTime(bool f) { if (f_time < MagicAttackTime) { MagicMotionStart = f; } }
-	void SetEvaMotionTime(bool f) { if (f_time < EvaTime) { EvaMotionStart = f; } }
-
+	void SetAnimation(int number, bool loop, double speed);
 	bool GetAttack_Start(int Num) { return Attack[Num].start; }
 	bool GetAttack_End(int Num) { return Attack[Num].end; }
 
@@ -281,6 +254,25 @@ public: //state切り替え
 	void ChangeState_Mob(EnemyState* state);
 	void ChangeState_Boss(BossEnemyState* state);
 	void ChangeState_Guardian(GuardianState* state);
+
+	enum NowAttackMotion
+	{
+		BIDLE=7,
+		BROAR=4,
+		BNORMAL=0,
+		BNORMAL2 = 3,
+		MAGIC=1,
+		SWING=2,
+		EVASION,
+		FALTER=6,
+		BWALK=8,
+		BDEATH=5
+	};
+
+	NowAttackMotion GetNowMotion() { return attackNum; }
+protected:
+	NowAttackMotion attackNum = NowAttackMotion::BIDLE;
+
 public: //攻撃種類列挙
 	enum
 	{

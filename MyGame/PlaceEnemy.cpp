@@ -10,7 +10,7 @@ void PlaceEnemy::Initialize(DebugCamera* camera)
 {
 	//Model = Model::CreateFromOBJ("box");
 	Obj = Object3d::Create(camera);
-	Obj->SetModel(ModelManager::GetIns()->GetModel(ModelManager::BOX));
+	Obj->SetModel(ModelManager::GetIns()->GetModel(ModelManager::PLACEBOX));
 }
 
 bool PlaceEnemy::ErrorJudg()
@@ -102,8 +102,8 @@ void PlaceEnemy::ArgMent(DebugCamera* camera)
 void PlaceEnemy::Update(DebugCamera* camera)
 {
 	Obj->SetPosition(pos);
-	Obj->SetScale({2, 3, 2});
-	Obj->SetColor({1, 0, 0, 0.5f});
+	Obj->SetScale({8, 6, 8});
+	Obj->SetColor({1, 1, 1, 0.5f});
 	Obj->Update({1, 0, 0, 0.5}, camera);
 }
 
@@ -155,7 +155,7 @@ void PlaceEnemy::ImGui_Draw()
 	static int lc = 1;
 	ImGui::ListBox("list\n(ki)", &lc, l, IM_ARRAYSIZE(l), 4);
 	{
-		ImGui::SliderFloat("posX", &pos.x, -300, 300);
+		ImGui::SliderFloat("posX", &pos.x, -500, 500);
 		ImGui::SliderFloat("posY", &pos.y, -300, 300);
 		ImGui::SliderFloat("posZ", &pos.z, -800, 800);
 	}

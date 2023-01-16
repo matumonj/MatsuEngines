@@ -20,6 +20,7 @@ PSOutPut main(GSOutput input)
 	//cameraPos‚Æ‚ ‚é‚ª¡‚ÍŒÅ’èÀ•W
 	float dist = length(cameraPos - input.worldpos.xyz);
 	float4 addcol = float4(lerp(nc.rgb, c.rgb, dist / 500), 0.0);
+	
 	float3 fc = {0.1, 0.1, 0.1};
 
 	// Œõ‘ò“x
@@ -202,8 +203,8 @@ PSOutPut main(GSOutput input)
 	{
 		if (shadowf)
 		{
-			output.target0 = shadecolor * float4(texcolor.rgb * fc, texcolor.a) + addcol;
-			output.target1 = shadecolor * float4(texcolor.rgb * fc, texcolor.a) + addcol;
+			output.target0 = shadecolor * float4(texcolor.rgb *smoothstep(120.f, -60.f, input.worldpos.y), texcolor.a) + addcol;
+			output.target1 = shadecolor * float4(texcolor.rgb * smoothstep(120.f, -60.f, input.worldpos.y), texcolor.a) + addcol;
 		}
 	}
 	else

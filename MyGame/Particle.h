@@ -14,7 +14,7 @@ private:
 public:
 	void Init(UINT num);
 	void Upda();
-
+	void Bleath();
 	void Upda_B();
 	void Draw();
 
@@ -27,14 +27,22 @@ public:
 			m_particles[NORMAL].phase = INIT;
 		}
 	}
-
+	void BCreateParticle(bool f, XMFLOAT3 pos)
+	{
+		createpos = pos;
+		if (f && (m_particles[BLEATH].phase == NON || m_particles[
+			BLEATH].phase == END))
+		{
+			m_particles[BLEATH].phase = INIT;
+		}
+	}
 private:
 	UINT parnum;
 
 	enum Type
 	{
 		NORMAL_1,
-		NORMAL_2
+		BLEATH
 	} type;
 
 	enum Phase
@@ -66,7 +74,7 @@ private:
 	};
 
 	int partype;
-	static constexpr int ParNum = 1;
+	static constexpr int ParNum = 2;
 	XMFLOAT3 createpos;
 	ParParam m_particles[ParNum];
 	XMFLOAT2 BeginParScl;
@@ -78,7 +86,14 @@ private:
 	void InitNormal(ParParam& parparam, XMFLOAT3 pos);
 	void UpadaNormal_A(ParParam& parparam);
 	void UpadaNormal_B(ParParam& parparam);
-
+	void UpadaBleath(ParParam& parparam);
+	void Charge(ParParam& parparam);
+	enum BleathPhase {
+		BNON,
+		BCHARGE,
+		BBLEATH,
+		BEND
+	}bPhase;
 public:
 	void SetParScl(XMFLOAT2 scl) { BeginParScl = scl; }
 	void SetParColor(XMFLOAT4 color) { BeginParColor = color; }

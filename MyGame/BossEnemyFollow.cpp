@@ -17,7 +17,7 @@
 #include"BossEnemyAttackBeam.h"
 #include"BossEnemyEvasion.h"
 #include"Feed.h"
-
+#include"BossEnemy.h"
 void BossEnemyFollow::Initialize(Enemy* enmey)
 {
 }
@@ -30,6 +30,7 @@ void BossEnemyFollow::Update(Enemy* enemy)
 	{
 		return;
 	}
+	enemy->SetAnimation(BossEnemy::NowAttackMotion::BWALK , 1.f, true);
 	//’ÇÕˆ—•”•ª//////////
 	//õ“G”ÍˆÍ
 	const float DetectionRange = 10.0f;
@@ -58,7 +59,7 @@ void BossEnemyFollow::Update(Enemy* enemy)
 	move = XMVector3TransformNormal(move, matRot);
 	enemy->SetRotation({
 		enemy->GetRotation().x,
-		RotY * 60.0f + enemy->GetRotCorrect(),
+		RotY * 60.0f ,
 		enemy->GetRotation().z
 	});
 	if (Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) > 15.f)
@@ -76,8 +77,7 @@ void BossEnemyFollow::Update(Enemy* enemy)
 	//•’Ê‚ÌUŒ‚
 	if (Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 17.f)
 	{
-		if (enemy->GetCoolTime() == 0)
-		{
+		if (enemy->GetCoolTime() == 0) {
 			enemy->ChangeState_Boss(new BossEnemyAttack());
 		}
 	}

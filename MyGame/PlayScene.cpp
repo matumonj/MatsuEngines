@@ -61,6 +61,8 @@ void PlayScene::objUpdate()
 {
 	if (PlayGame)
 	{
+
+		
 		for (int i = 0; i < AllObjectControl.size(); i++)
 		{
 			if (AllObjectControl[i] == nullptr)
@@ -70,7 +72,6 @@ void PlayScene::objUpdate()
 			AllObjectControl[i]->Update();
 		}
 	}
-
 	TargetMarker::GetInstance()->Update_PlayScene(CameraControl::GetInstance()->GetCamera());
 
 	if (CameraControl::GetInstance()->GetCamera() != nullptr)
@@ -261,6 +262,8 @@ void PlayScene::LoadParam()
 		{
 			AllObjectControl[i]->Initialize();
 		}
+		HUD::GetInstance()->playerini();
+		PlayerControl::GetInstance()->GetPlayer()->SetHP(PlayerControl::GetInstance()->GetPlayer()->GetMaxHP());
 		//カメラをセット
 		f_Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
 		//グラフィックパイプライン生成

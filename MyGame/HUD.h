@@ -9,6 +9,7 @@ class HUD
 {
 public:
 	~HUD();
+	void playerini();
 	static HUD* GetInstance();
 private:
 	// DirectX::‚ğÈ—ª

@@ -44,7 +44,8 @@ void BossEnemy::ResourcesSet()
 	m_fbxObject = std::make_unique<f_Object3d>();
 	m_fbxObject->Initialize();
 	m_fbxObject->SetModel(ModelManager::GetIns()->GetFBXModel(ModelManager::BOSS));
-	m_fbxObject->PlayAnimation();
+	m_fbxObject->LoadAnimation();
+	m_fbxObject->PlayAnimation(1);
 
 	Sprite* l_Bar = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::BOSSHPFRAMEINNER), {0, 0});
 	Sprite* BossHPFrame = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::BOSSHPFRAME), {0, 0});
@@ -62,47 +63,21 @@ void BossEnemy::Initialize()
 	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
 
 	//m_Object->CreateGraphicsPipeline(L"Resources/Shader/Object3dVS.hlsl", L"Resources/Shader/Object3dPS.hlsl", L"Resources/Shader/BasicGS.hlsl");
-	MaxHP = 660;
+	MaxHP = 690;
 	EnemyHP = MaxHP;
 
-	Scale = {0.15f, 0.1f, 0.15f};
-	Rotation = {96.0f, 0.0f, -101.0f};
+	Scale = {0.2f, 0.2f, 0.2f};
+	Rotation = {180.0f, 0.0f, -181.0f};
 	
 	radius_adjustment = 0;
-	AttackTime = 51.000f / 60.000f;
-	cooltime = 0;
-	NormalAttackTime = 51.000f / 60.000f;
-	AttackTime_End = 215.000f / 60.000f;
-	MagicAttackTime = 216.000f / 60.00f;
-	MagicAttackTime_End = 360.000f / 60.000f;
-	EvaTime = 370.000f / 60.000f;
-	EvaTime_End = 422.000f / 60.000f;
-	FalterTime = 428.00f / 60.00f;
-	FalterTime_End = 524.00f / 60.00f;
-	RoarTime = 528.00f / 60.00f;
-	RoarTime_End = 700.00f / 60.00f;
-	IdleTime = 708.00f / 60.00f;
-	IdleTime_End = 1066.00f / 60.00f;
-	SwingTime = 1078.00f / 60.00f;
-	SwingTime_End =
-
-		SideWalk_LeftTime = 640.00f * 2.00f / 60.00f;
-	SideWalk_LeftTime_End = 676.00f * 2.00f / 60.0f;
-
-	SideWalk_RightTime = 680.00f * 2.00f / 60.00f;
-	SideWalk_RightTime_End = 715.00f * 2.00f / 60.00f;
-
-	DeathMotionTime_Start = 720.00f * 2.00f / 60.00f;
-
-	DeathTime = 4.9f;
+cooltime = 0;
+	
 	DeathFlag = false;
-	f_time = 0.0f;
 
-	FollowRotAngleCorrect = -85.0f;
-	addRotRadians = -111.0f;
+	//FollowRotAngleCorrect = -85.0f;
+	addRotRadians = 180.f;
 	SetCollider();
 	state_boss->Initialize(this);
-
 
 	m_BossHP->SetSize({0, 20});
 	m_BossHPFrame->SetSize({600, 50});
@@ -154,7 +129,7 @@ void BossEnemy::Update()
 
 	AttackCollide();
 	//fbxアニメーション制御
-	FbxAnimationControl();
+	//FbxAnimationControl();
 	//座標やスケールの反映
 	KnockAttack::GetInstance()->ActionJudg();
 
@@ -166,7 +141,9 @@ void BossEnemy::Update()
 	m_Object->SetPosition(Position);
 
 	//m_fbxObject->SetColor({1,1,1,1});
-	m_fbxObject->Updata(true);
+
+	//m_fbxObject->PlayAnimation(m_Number);
+	m_fbxObject->Update(m_AnimeLoop, m_AnimeSpeed, m_AnimationStop);
 	//攻撃後のクールタイム設定
 	AttackCoolTime();
 	//地形当たり判定
@@ -176,13 +153,12 @@ void BossEnemy::Update()
 
 	HPGaugeBoss();
 	//m_fbxObject->SetFogPos({camera->GetEye()});
-	m_fbxObject->SetHandBoneIndex(80);
-	m_fbxObject->SetFbxTime(f_time);
+	m_fbxObject->SetHandBoneIndex(0);
 }
 
 void BossEnemy::AttackCollide()
 {
-	if (f_time >=SwingTime+0.2f)
+	if (f_time >0.2f)
 	{
 		if (Collision::GetLength({ m_fbxObject->GetHandBoneMatWorld().r[3].m128_f32[0],
 		m_fbxObject->GetHandBoneMatWorld().r[3].m128_f32[1],
@@ -223,6 +199,14 @@ void BossEnemy::Draw()
 	//Sword->Draw();
 	Object3d::PostDraw();
 	Draw_Fbx();
+	float P = float(GetFbxTimeEnd());
+	ImGui::Begin("bossp");
+	ImGui::SliderFloat("Rotx", &Rotation.y,0,360);
+	ImGui::SliderFloat("Roty", &addRotRadians, 0, 360);
+	ImGui::SliderFloat("Rotz", &FollowRotAngleCorrect, 0, 360);
+	ImGui::SliderFloat("time", &P, -30, 30);
+	ImGui::End();
+
 	// 3Dオブジェクト描画前処理
 	// 3Dオブジェクト描画前処理
 }
@@ -263,65 +247,9 @@ void BossEnemy::Smoke(bool& createf)
 
 #include"PlayerAttackState.h"
 
-void BossEnemy::FbxAnimationControl()
-{
-	float fbxanimationTime;
-	if (DieFlag)
-	{
-		return;
-	}
-	if (nowMotion == ROAR && f_time <= RoarTime + 0.2f)
-	{
-		fbxanimationTime = 0.006f;
-	}
-	else
-	{
-		if (PlayerAttackState::GetInstance()->GetHitStopJudg())
-		{
-			fbxanimationTime = 0.002f;
-		}
-		else
-		{
-			fbxanimationTime = 0.015f;
-		}
-	}
-	f_time += fbxanimationTime;
-	//ヒットストップ時
-
-	SetMotion(f_AttackFlag, NORMAL, NormalAttackTime, AttackTime_End);
-	SetMotion(MagicMotionStart, MAGIC, MagicAttackTime, MagicAttackTime_End);
-	SetMotion(EvaMotionStart, EVASION, EvaTime, EvaTime_End);
-	SetMotion(FalterFlag, FALTER, FalterTime, FalterTime_End);
-	SetMotion(IdleMotionFlag, IDLE, IdleTime, IdleTime_End);
-	SetMotion(RoarMotionFlag, ROAR, RoarTime, RoarTime_End);
-	SetMotion(SwingFlag, SWING, SwingTime, SwingTime_End);
-	SetMotion(SideWalk_LeftMotionFlag, LSIDEWALK, SideWalk_LeftTime, SideWalk_LeftTime_End);
-	SetMotion(SideWalk_RightMotionFlag, RSIDEWALK, SideWalk_RightTime, SideWalk_RightTime_End);
-
-	if (nowMotion == NON && f_time > NormalAttackTime)
-	{
-		f_time = 0.0f;
-	}
-}
-
-void BossEnemy::SetMotion(bool& motionStartJudg, NowAttackMotion motion, float actionStartTime, float actionEndTime)
-{
-	if (motionStartJudg)
-	{
-		nowMotion = motion;
-		f_time = actionStartTime;
-		motionStartJudg = false;
-	}
-
-	if (nowMotion == motion && (f_time >= actionEndTime))
-	{
-		AfterAttack = true;
-		nowMotion = NON;
-	}
-}
-
 void BossEnemy::AttackCoolTime()
 {
+	
 	if (AfterAttack)
 	{
 		cooltime++;
@@ -332,8 +260,16 @@ void BossEnemy::AttackCoolTime()
 	}
 	else
 	{
+		if (m_Number == BNORMAL)
+		{
+			AfterAttack = true;
+		}
 		cooltime = 0;
 	}
+}
+
+void BossEnemy::FbxAnimationControl()
+{
 }
 
 void BossEnemy::DamageParticleSet()
@@ -408,3 +344,5 @@ void BossEnemy::HPGaugeBoss()
 	m_BossHPFrame2->SetPosition({135.0f, 832.0f});
 	m_BossHPFrame->SetPosition({122.0f, 830.0f});
 }
+
+

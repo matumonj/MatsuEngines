@@ -3,15 +3,15 @@
 #include "CameraControl.h"
 #include"CircleAttack.h"
 #include"mHelper.h"
-
+#include"BossEnemy.h"
 void BossEnemyAttackCircle::Initialize(Enemy* enmey)
 {
 }
 
 void BossEnemyAttackCircle::Update(Enemy* enemy)
 {
-	enemy->SetRecvDamage2(false);
-	enemy->SetRoarMotion(true);
+	enemy->SetRecvDamage2(false); 
+	enemy->SetAnimation(BossEnemy::NowAttackMotion::MAGIC, 1.f, false);
 	CircleAttack::GetInstance()->ActionJudg();
 
 	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) < 90.0f)

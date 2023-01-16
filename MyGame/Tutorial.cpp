@@ -154,7 +154,7 @@ void Tutorial::Update()
 		Play = false;
 		SceneManager::GetInstance()->SetScene(SceneManager::PLAY, sceneManager_);
 	}
-	if(Input::GetInstance()->TriggerButton(Input::RT))
+	if(Input::GetInstance()->TriggerButton(Input::START))
 	SceneManager::GetInstance()->SetScene(SceneManager::BOSS, sceneManager_);
 
 }

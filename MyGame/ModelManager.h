@@ -41,7 +41,8 @@ public:
 		SANDFIELD,
 		LANTHANUM,
 		BEAM,
-		THROWROCK
+		THROWROCK,
+		PLACEBOX
 	};
 
 	enum FBXName

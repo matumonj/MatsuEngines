@@ -21,7 +21,6 @@ void BossEnemyFalter::Initialize(Enemy* enmey)
 void BossEnemyEvasion::Update(Enemy* enemy)
 {
 	enemy->SetRecvDamage(false);
-	enemy->SetEvaMotionTime(true);
 	//õ“G”ÍˆÍ
 	const float DetectionRange = 25.0f;
 
@@ -50,13 +49,5 @@ void BossEnemyEvasion::Update(Enemy* enemy)
 void BossEnemyFalter::Update(Enemy* enemy)
 {
 	enemy->SetRecvDamage2(false);
-	if (enemy->GetFbxTime() < enemy->GetFalterTime() + 0.3f)
-	{
-		PlayerAttackState::GetInstance()->SetHitStopJudg(true);
-	}
-	enemy->SetFalterMotion(true);
-	if (enemy->GetFbxTime() > enemy->GetFalterTime_End() - 0.3f)
-	{
-		enemy->ChangeState_Boss(new BossEnemyFollow());
-	}
+	
 }

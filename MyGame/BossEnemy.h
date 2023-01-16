@@ -86,28 +86,9 @@ private:
 	int hand = 21;
 	float et;
 	const int ParticleSize = 20;
-private:
-	enum NowAttackMotion
-	{
-		NON,
-		ROAR,
-		NORMAL,
-		MAGIC,
-		SWING,
-		EVASION,
-		FALTER,
-		IDLE,
-		LSIDEWALK,
-		RSIDEWALK,
-		DEATH
-	};
-
-	NowAttackMotion nowMotion = NON;
+public:
 	void SetMotion(bool& motionStartJudg, NowAttackMotion motion, float actionStartTime, float actionEndTime);
 private:
-	float MagicAttackTime_Start;
-	float MagicAttackTime_End;
-	float EvaTime_End;
 	int hind;
 	bool isendtime;
 	int particleLife = 320;
@@ -115,4 +96,11 @@ private:
 	XMFLOAT3 WeaponRot;
 	std::unique_ptr<Object3d> Sword;
 	XMFLOAT3 swordrot;
+
+private:
+	int attackindex;
+		void AnimationContol( int animenumber, double speed, bool loop);
+		void FbxAnimationControls(NowAttackMotion motiontype, int number);
+
+		void AttackMotion();
 };
