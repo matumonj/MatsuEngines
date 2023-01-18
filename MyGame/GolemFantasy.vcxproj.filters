@@ -134,30 +134,6 @@
     <Filter Include="Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Mob">
       <UniqueIdentifier>{506af174-ebed-4cae-93f8-e0534a0ee714}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss">
-      <UniqueIdentifier>{03ed31c6-4630-4966-9fda-66b80c317f82}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss\AttackPattern">
-      <UniqueIdentifier>{c83847d2-65dc-444a-ac0b-10be1dc5ee3c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss\AttackPattern\FirstHalf">
-      <UniqueIdentifier>{2ed3641d-8ebe-40f6-814e-efefe807737c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss\AttackPattern\FirstHalf\Sequence">
-      <UniqueIdentifier>{bdb8748a-af21-4e5e-b269-97f63a83b3f6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss\AttackPattern\FirstHalf\Action">
-      <UniqueIdentifier>{f45bf99b-b140-4da5-ac78-312ed692bce7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss\AttackPattern\SecondHalf">
-      <UniqueIdentifier>{9fc05f87-29b3-45cd-aaa9-a71bae9ad6ed}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss\AttackPattern\SecondHalf\Action">
-      <UniqueIdentifier>{39652be0-e727-4160-a478-3daeab95fdb6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss\AttackPattern\SecondHalf\Sequence">
-      <UniqueIdentifier>{20191d69-8eea-4a71-8563-3466169c2c59}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\gameobject\GameObject\Enemy\Base">
       <UniqueIdentifier>{ffb227aa-a1e9-49e1-a3c2-fa58367f9f19}</UniqueIdentifier>
     </Filter>
@@ -222,6 +198,30 @@
     </Filter>
     <Filter Include="Game\シェーダー\PostEffect">
       <UniqueIdentifier>{ef7f1cef-7a15-4b1c-8cef-8bc69ccc595a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\GameObject\Boss">
+      <UniqueIdentifier>{03ed31c6-4630-4966-9fda-66b80c317f82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\GameObject\Boss\AttackPattern">
+      <UniqueIdentifier>{c83847d2-65dc-444a-ac0b-10be1dc5ee3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\GameObject\Boss\AttackPattern\FirstHalf">
+      <UniqueIdentifier>{2ed3641d-8ebe-40f6-814e-efefe807737c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\GameObject\Boss\AttackPattern\FirstHalf\Sequence">
+      <UniqueIdentifier>{bdb8748a-af21-4e5e-b269-97f63a83b3f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\GameObject\Boss\AttackPattern\FirstHalf\Action">
+      <UniqueIdentifier>{f45bf99b-b140-4da5-ac78-312ed692bce7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\GameObject\Boss\AttackPattern\SecondHalf">
+      <UniqueIdentifier>{9fc05f87-29b3-45cd-aaa9-a71bae9ad6ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\GameObject\Boss\AttackPattern\SecondHalf\Action">
+      <UniqueIdentifier>{39652be0-e727-4160-a478-3daeab95fdb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\GameObject\Boss\AttackPattern\SecondHalf\Sequence">
+      <UniqueIdentifier>{20191d69-8eea-4a71-8563-3466169c2c59}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -436,10 +436,10 @@
       <Filter>Game\Scene\title,play</Filter>
     </ClCompile>
     <ClCompile Include="Nail.cpp">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss\AttackPattern</Filter>
+      <Filter>Game\gameobject\GameObject\Boss\AttackPattern</Filter>
     </ClCompile>
     <ClCompile Include="BossState.cpp">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss\AttackPattern</Filter>
+      <Filter>Game\gameobject\GameObject\Boss\AttackPattern</Filter>
     </ClCompile>
     <ClCompile Include="EnemyAttackState.cpp">
       <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Mob</Filter>
@@ -457,19 +457,19 @@
       <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Mob</Filter>
     </ClCompile>
     <ClCompile Include="BossEnemyAttack.cpp">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss</Filter>
+      <Filter>Game\gameobject\GameObject\Boss</Filter>
     </ClCompile>
     <ClCompile Include="BossEnemyFollow.cpp">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss</Filter>
+      <Filter>Game\gameobject\GameObject\Boss</Filter>
     </ClCompile>
     <ClCompile Include="BossEnemyState.cpp">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss</Filter>
+      <Filter>Game\gameobject\GameObject\Boss</Filter>
     </ClCompile>
     <ClCompile Include="BossEnemyDeath.cpp">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss</Filter>
+      <Filter>Game\gameobject\GameObject\Boss</Filter>
     </ClCompile>
     <ClCompile Include="BossSpell.cpp">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss\AttackPattern</Filter>
+      <Filter>Game\gameobject\GameObject\Boss\AttackPattern</Filter>
     </ClCompile>
     <ClCompile Include="SelectSword.cpp">
       <Filter>Game\UI\Config</Filter>
@@ -487,40 +487,40 @@
       <Filter>Game\2d %28DebugTxt  Sprite Texture%29\Particle</Filter>
     </ClCompile>
     <ClCompile Include="BossEnemyStay.cpp">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss</Filter>
+      <Filter>Game\gameobject\GameObject\Boss</Filter>
     </ClCompile>
     <ClCompile Include="CircleAttack.cpp">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss\AttackPattern\FirstHalf\Action</Filter>
+      <Filter>Game\gameobject\GameObject\Boss\AttackPattern\FirstHalf\Action</Filter>
     </ClCompile>
     <ClCompile Include="KnockAttack.cpp">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss\AttackPattern\FirstHalf\Action</Filter>
+      <Filter>Game\gameobject\GameObject\Boss\AttackPattern\FirstHalf\Action</Filter>
     </ClCompile>
     <ClCompile Include="HalfAttack.cpp">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss\AttackPattern\FirstHalf\Action</Filter>
+      <Filter>Game\gameobject\GameObject\Boss\AttackPattern\FirstHalf\Action</Filter>
     </ClCompile>
     <ClCompile Include="BossEnemyAttackCircle.cpp">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss\AttackPattern\FirstHalf\Sequence</Filter>
+      <Filter>Game\gameobject\GameObject\Boss\AttackPattern\FirstHalf\Sequence</Filter>
     </ClCompile>
     <ClCompile Include="BossEnemyAttackHalf.cpp">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss\AttackPattern\FirstHalf\Sequence</Filter>
+      <Filter>Game\gameobject\GameObject\Boss\AttackPattern\FirstHalf\Sequence</Filter>
     </ClCompile>
     <ClCompile Include="BossEnemyAttackKnock.cpp">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss\AttackPattern\FirstHalf\Sequence</Filter>
+      <Filter>Game\gameobject\GameObject\Boss\AttackPattern\FirstHalf\Sequence</Filter>
     </ClCompile>
     <ClCompile Include="AltAttack.cpp">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss\AttackPattern\SecondHalf\Action</Filter>
+      <Filter>Game\gameobject\GameObject\Boss\AttackPattern\SecondHalf\Action</Filter>
     </ClCompile>
     <ClCompile Include="EnemyRespawnState.cpp">
       <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Mob</Filter>
     </ClCompile>
     <ClCompile Include="FrontCircleAttack.cpp">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss\AttackPattern\SecondHalf\Action</Filter>
+      <Filter>Game\gameobject\GameObject\Boss\AttackPattern\SecondHalf\Action</Filter>
     </ClCompile>
     <ClCompile Include="BossEnemyAttackBeam.cpp">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss\AttackPattern\SecondHalf\Sequence</Filter>
+      <Filter>Game\gameobject\GameObject\Boss\AttackPattern\SecondHalf\Sequence</Filter>
     </ClCompile>
     <ClCompile Include="BossEnemyAttackSlam.cpp">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss\AttackPattern\SecondHalf\Sequence</Filter>
+      <Filter>Game\gameobject\GameObject\Boss\AttackPattern\SecondHalf\Sequence</Filter>
     </ClCompile>
     <ClCompile Include="Stone.cpp">
       <Filter>Game\gameobject\GameObject\Stone</Filter>
@@ -568,7 +568,7 @@
       <Filter>Game\UI\HUD</Filter>
     </ClCompile>
     <ClCompile Include="BossEnemyEvasion.cpp">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss\AttackPattern</Filter>
+      <Filter>Game\gameobject\GameObject\Boss\AttackPattern</Filter>
     </ClCompile>
     <ClCompile Include="GameOver.cpp">
       <Filter>Game</Filter>
@@ -655,13 +655,19 @@
       <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="BleathAttack.cpp">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss\AttackPattern\SecondHalf</Filter>
+      <Filter>Game\gameobject\GameObject\Boss\AttackPattern\SecondHalf</Filter>
     </ClCompile>
     <ClCompile Include="BossEnemyAttackBleath.cpp">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss\AttackPattern\FirstHalf\Sequence</Filter>
+      <Filter>Game\gameobject\GameObject\Boss\AttackPattern\FirstHalf\Sequence</Filter>
     </ClCompile>
     <ClCompile Include="Particle.cpp">
       <Filter>Game\2d %28DebugTxt  Sprite Texture%29\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="BossEnemyAttackBrzBeam.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="BronzeAttack.cpp">
+      <Filter>Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -894,10 +900,10 @@
       <Filter>Game\Scene\title,play</Filter>
     </ClInclude>
     <ClInclude Include="Nail.h">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss\AttackPattern</Filter>
+      <Filter>Game\gameobject\GameObject\Boss\AttackPattern</Filter>
     </ClInclude>
     <ClInclude Include="BossState.h">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss\AttackPattern</Filter>
+      <Filter>Game\gameobject\GameObject\Boss\AttackPattern</Filter>
     </ClInclude>
     <ClInclude Include="EnemyAttackState.h">
       <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Mob</Filter>
@@ -915,19 +921,19 @@
       <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Mob</Filter>
     </ClInclude>
     <ClInclude Include="BossEnemyAttack.h">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss</Filter>
+      <Filter>Game\gameobject\GameObject\Boss</Filter>
     </ClInclude>
     <ClInclude Include="BossEnemyFollow.h">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss</Filter>
+      <Filter>Game\gameobject\GameObject\Boss</Filter>
     </ClInclude>
     <ClInclude Include="BossEnemyState.h">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss</Filter>
+      <Filter>Game\gameobject\GameObject\Boss</Filter>
     </ClInclude>
     <ClInclude Include="BossEnemyDeath.h">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss</Filter>
+      <Filter>Game\gameobject\GameObject\Boss</Filter>
     </ClInclude>
     <ClInclude Include="BossSpell.h">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss\AttackPattern</Filter>
+      <Filter>Game\gameobject\GameObject\Boss\AttackPattern</Filter>
     </ClInclude>
     <ClInclude Include="FieldCollision.h">
       <Filter>Game\collision</Filter>
@@ -945,40 +951,40 @@
       <Filter>Game\2d %28DebugTxt  Sprite Texture%29\Particle</Filter>
     </ClInclude>
     <ClInclude Include="BossEnemyStay.h">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss</Filter>
+      <Filter>Game\gameobject\GameObject\Boss</Filter>
     </ClInclude>
     <ClInclude Include="CircleAttack.h">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss\AttackPattern\FirstHalf\Action</Filter>
+      <Filter>Game\gameobject\GameObject\Boss\AttackPattern\FirstHalf\Action</Filter>
     </ClInclude>
     <ClInclude Include="KnockAttack.h">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss\AttackPattern\FirstHalf\Action</Filter>
+      <Filter>Game\gameobject\GameObject\Boss\AttackPattern\FirstHalf\Action</Filter>
     </ClInclude>
     <ClInclude Include="HalfAttack.h">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss\AttackPattern\FirstHalf\Action</Filter>
+      <Filter>Game\gameobject\GameObject\Boss\AttackPattern\FirstHalf\Action</Filter>
     </ClInclude>
     <ClInclude Include="BossEnemyAttackCircle.h">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss\AttackPattern\FirstHalf\Sequence</Filter>
+      <Filter>Game\gameobject\GameObject\Boss\AttackPattern\FirstHalf\Sequence</Filter>
     </ClInclude>
     <ClInclude Include="BossEnemyAttackHalf.h">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss\AttackPattern\FirstHalf\Sequence</Filter>
+      <Filter>Game\gameobject\GameObject\Boss\AttackPattern\FirstHalf\Sequence</Filter>
     </ClInclude>
     <ClInclude Include="BossEnemyAttackKnock.h">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss\AttackPattern\FirstHalf\Sequence</Filter>
+      <Filter>Game\gameobject\GameObject\Boss\AttackPattern\FirstHalf\Sequence</Filter>
     </ClInclude>
     <ClInclude Include="AltAttack.h">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss\AttackPattern\SecondHalf\Action</Filter>
+      <Filter>Game\gameobject\GameObject\Boss\AttackPattern\SecondHalf\Action</Filter>
     </ClInclude>
     <ClInclude Include="EnemyRespawnState.h">
       <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Mob</Filter>
     </ClInclude>
     <ClInclude Include="FrontCircleAttack.h">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss\AttackPattern\SecondHalf\Action</Filter>
+      <Filter>Game\gameobject\GameObject\Boss\AttackPattern\SecondHalf\Action</Filter>
     </ClInclude>
     <ClInclude Include="BossEnemyAttackBeam.h">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss\AttackPattern\SecondHalf\Sequence</Filter>
+      <Filter>Game\gameobject\GameObject\Boss\AttackPattern\SecondHalf\Sequence</Filter>
     </ClInclude>
     <ClInclude Include="BossEnemyAttackSlam.h">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss\AttackPattern\SecondHalf\Sequence</Filter>
+      <Filter>Game\gameobject\GameObject\Boss\AttackPattern\SecondHalf\Sequence</Filter>
     </ClInclude>
     <ClInclude Include="PlayerControl.h">
       <Filter>Game\gameobject\Control</Filter>
@@ -1029,7 +1035,7 @@
       <Filter>Game\UI\HUD</Filter>
     </ClInclude>
     <ClInclude Include="BossEnemyEvasion.h">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss\AttackPattern</Filter>
+      <Filter>Game\gameobject\GameObject\Boss\AttackPattern</Filter>
     </ClInclude>
     <ClInclude Include="WinApp.h">
       <Filter>Game\collision</Filter>
@@ -1122,13 +1128,19 @@
       <Filter>Game\Shader</Filter>
     </ClInclude>
     <ClInclude Include="BleathAttack.h">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss\AttackPattern\SecondHalf</Filter>
+      <Filter>Game\gameobject\GameObject\Boss\AttackPattern\SecondHalf</Filter>
     </ClInclude>
     <ClInclude Include="BossEnemyAttackBleath.h">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Boss\AttackPattern\FirstHalf\Sequence</Filter>
+      <Filter>Game\gameobject\GameObject\Boss\AttackPattern\FirstHalf\Sequence</Filter>
     </ClInclude>
     <ClInclude Include="Particle.h">
       <Filter>Game\2d %28DebugTxt  Sprite Texture%29\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="BronzeAttack.h">
+      <Filter>Game\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="BossEnemyAttackBrzBeam.h">
+      <Filter>Game\Shader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

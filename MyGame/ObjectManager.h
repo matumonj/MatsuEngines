@@ -28,6 +28,7 @@ public:
 	void ParameterSet_Obj();
 	void ParameterSet_Fbx();
 	void ParameterSet_Fbx2();
+	void ParameterSet_Fbx3();
 
 	virtual void Update() =0;
 

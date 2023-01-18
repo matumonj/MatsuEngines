@@ -64,7 +64,6 @@ void Player::Initialize()
 	//移動処理用
 	vel /= 5.0f;
 
-
 	AttackEffect::GetIns()->Init();
 }
 
@@ -81,7 +80,23 @@ void Player::Jump()
 			fallV = {0.0f, jumpVYFist, 0.0f, 0.0f};
 		}
 	}
-	
+
+
+	if (DamageEvaF)
+	{
+		//FBXタイムを回避モーション開始時に合わせる
+		AnimationContol(DEATH, 7, 15.0, false);
+		m_AnimationStop = true;
+
+
+		if (onGround && m_fbxObject->GetAnimeTime() >= m_fbxObject->GetEndTime() - 0.3f) {
+			//attackMotion = NON;
+			AnimationContol(IDLE, 9, 1, false);
+			m_AnimationStop = false;
+
+			DamageEvaF = false;
+		}
+	}
 }
 //ジャンプ
 void Player::DamageJump(bool judg,float knockpower)
@@ -89,9 +104,9 @@ void Player::DamageJump(bool judg,float knockpower)
 	//接地時のみ
 	if (onGround)
 	{
-			onGround = false;
+		onGround = false;
 		const float jumpVYFist = 1.3f;
-			fallV = { 0.0f, jumpVYFist, 0.0f, 0.0f };
+		fallV = { 0.0f, jumpVYFist, 0.0f, 0.0f };
 	}
 
 }
@@ -177,14 +192,18 @@ void Player::Move()
 			AnimationContol(IDLE, 9, 1, true);
 		}
 	}
+
+	//探索ステージでの移動制限
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
 	{
 		Position.x = std::clamp(Position.x, -615.f, 600.f);
 		Position.z = std::clamp(Position.z, -385.f, 822.f);
 	}
+	//ボスエリアでの移動制限
 	else if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
 	{
-
+	//	Position.x = std::clamp(Position.x, -90.f, 90.f);
+		//Position.z = std::clamp(Position.z, -90.f, 90.f);
 	}
 
 }
@@ -197,11 +216,12 @@ void Player::ReStartSetParam()
 
 void Player::Death()
 {
+	//死亡時
 	if (HP > 0)
 	{
 		return;
 	}
-
+	//アニメーションを死亡に
 	AnimationContol(DEATH, 7, 1.0, false);
 
 	m_AnimationStop = true;
@@ -211,9 +231,17 @@ void Player::Death()
 
 void Player::Evasion()
 {
+	//回避時
+	//例外設定
 	if (HP <= 0||DamageEvaF||StopFlag)
 	{
 		return;
+	}
+
+	//回避
+	if (input->TriggerButton(input->X) && StopFlag == false)
+	{
+		evasionF = true;
 	}
 
 	if (evasionF)
@@ -234,11 +262,9 @@ void Player::Evasion()
 		else
 		{
 			if (m_fbxObject->GetAnimeTime() >= m_fbxObject->GetEndTime()-0.3f) {
-				//attackMotion = NON;
 				AnimationContol(IDLE, 9, 1, false);
 				m_AnimationStop = false;
-
-				//StopFlag = false;
+				
 				evasionF = false;
 			}
 		}
@@ -252,8 +278,10 @@ void Player::Evasion()
 
 void Player::Update()
 {
+	//カメラのインスタンス取得
 	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
 
+	//例外設定
 	if (m_Object == nullptr || m_fbxObject == nullptr)
 	{
 		return;
@@ -264,54 +292,19 @@ void Player::Update()
 	//攻撃受けた後のクールタイム
 	RecvDamage_Cool();
 
+	//移動
 	Move();
 	// ジャンプ操作
 	Jump();
-
+	//死亡
 	Death();
-	//落下防止
-	if (!onGround)
-	{
-		//一定時間落下状態なら最終の接地位置に戻る
-		falltime++;
-		//３秒
-		if (falltime > 180)
-		{
-			Position = oldpos;
-			falltime = 0;
-		}
-	} else
-	{
-		//座標を一定間隔ごとに保存
-		falltime = 0;
-		savetime++;
-		if (savetime % 60 == 0)
-		{
-			oldpos = Position;
-			savetime = 0;
-		}
-	}
-	if (DamageEvaF)
-	{
-		//FBXタイムを回避モーション開始時に合わせる
-		AnimationContol(DEATH, 7, 15.0, false);
-	//	m_AnimeLoop = true;
-		m_AnimationStop = true;
 
 
-		if (onGround&&m_fbxObject->GetAnimeTime() >= m_fbxObject->GetEndTime() - 0.3f) {
-			//attackMotion = NON;
-			AnimationContol(IDLE, 9, 1, false);
-			m_AnimationStop = false;
-
-			DamageEvaF= false;
-		}
-	}
-
+	//攻撃時プレイヤーが一番近い敵向くように
 	if (TargetMarker::GetInstance()->GetNearIndex() != -1 && EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE).size() > 0) {
+		//一番近い敵の配列インデックス取る
 		nearindex = TargetMarker::GetInstance()->GetNearIndex();
 		Enemy* NearEnemy = EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[nearindex].get();
-
 
 		//敵がプエレイヤーの方向く処理
 		XMVECTOR positionA = {
@@ -329,12 +322,7 @@ void Player::Update()
 		}
 
 	}
-	//回避
-	if (input->TriggerButton(input->X)&&StopFlag==false)
-	{
-		evasionF = true;
-	}
-	//
+	
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
 	{
 		if (Collision::GetLength(Position, { 0, -19, 0 }) > 90)
@@ -347,28 +335,20 @@ void Player::Update()
 	}
 	//回避
 	Evasion();
-
+	//プレイヤーに対しての被ダメージ表記
 	DamageTexDisplay();
 	//手のボーン位置設定
 	m_fbxObject->SetHandBoneIndex(hindex);
 	m_fbxObject->SetFogPos(Position);
 	//3d_fbx更新
 	FbxAnimationControl();
-	//fbxのタイマー処理
-	//m_fbxObject->SetFbxTime(f_time);
 	//当たり判定
 	CollisionField();
 
-
+	//オブジェクトの更新
 	ParameterSet_Obj();
+	ParameterSet_Fbx3();
 
-	m_fbxObject->SetPosition({ Position.x, Position.y - 1, Position.z });
-	m_fbxObject->SetRotation(Rotation);
-	m_fbxObject->SetScale(Scale);
-
-	m_Object->SetPosition(Position);
-
-	m_fbxObject->Update(m_AnimeLoop, m_AnimeSpeed, m_AnimationStop);
 	//持つ武器の更新
 	SelectSword::GetInstance()->Update();
 	//攻撃エフェクト

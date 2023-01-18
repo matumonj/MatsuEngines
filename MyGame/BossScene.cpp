@@ -5,14 +5,11 @@
 #include"SistemConfig.h"
 #include"EnemyControl.h"
 #include"WoodControl.h"
-#include"FenceControl.h"
-#include"ChestControl.h"
 #include"CameraControl.h"
 #include"UI.h"
 #include"PlayScene.h"
 #include"Feed.h"
 #include"PlayerControl.h"
-#include"DamageManager.h"
 #include "GameOver.h"
 #include <BossMap.h>
 #include"AltAttack.h"
@@ -20,6 +17,8 @@
 #include "HalfAttack.h"
 #include"KnockAttack.h"
 #include "Nail.h"
+#include"BossUltAttack.h"
+#include "BronzeAttack.h"
 
 BossScene::BossScene(SceneManager* sceneManager)
 	: BaseScene(sceneManager)
@@ -45,29 +44,15 @@ void BossScene::Initialize()
 	Object3d::SetLightGroup(lightGroup);
 	//lightGroup2 = LightGroup::Create();
 	// 3Dオブエクトにライトをセット
-	lightGroup->SetDirLightActive(0, true);
-	lightGroup->SetDirLightActive(1, false);
-	lightGroup->SetDirLightActive(2, false);
-
-	lightGroup->SetDirLightActive(3, false);
-	for (int i = 0; i < 4; i++)
-	{
-		lightGroup->SetPointLightActive(i, true);
-	}
+	lightGroup->SetDirLightActive(20, true);
+	lightGroup->SetDirLightActive(1, true);
+	lightGroup->SetCircleShadowActive(20, true);
+	lightGroup->SetCircleShadowActive(1, true);
+	
 	//ボス攻撃用->できれば移す
 	Nail::GetInstance()->ModelSet();
 	BossMap::GetInstance()->Init();
-
-	LightPos[0] = {0, 20, -100};
-	LightPos[1] = {75, 20, 0};
-	LightPos[2] = {0, 20, 100};
-	LightPos[3] = {-75, 20, 0};
-
-	lightangle[0] = 0;
-
-	lightangle[1] = 90;
-	lightangle[2] = 180;
-	lightangle[3] = 270;
+	
 	//postEffect = new MinimapSprite();
 	//postEffect->Initialize();
 	//	dc = new DebugCamera(WinApp::window_width, WinApp::window_height);
@@ -108,7 +93,7 @@ void BossScene::Update()
 		Nail::GetInstance()->Update();
 		UI::GetInstance()->HUDUpdate(hudload, CameraControl::GetInstance()->GetCamera());
 	}
-
+	BossUltAttack::GetIns()->Upda();
 	Field::GetInstance()->Update();
 	//postEffect->SetCenterpos(HUD::GetInstance()->GetMinimapSprite()->GetPosition());
 
@@ -133,21 +118,17 @@ void BossScene::Update()
 		Play = false;
 		SceneManager::GetInstance()->SetScene(SceneManager::TITLE, sceneManager_);
 	}
-	LightUpDownT ++;
+		lightGroup->SetCircleShadowCasterPos(20,PlayerControl::GetInstance()->GetPlayer()->GetPosition());
+		lightGroup->SetCircleShadowAtten(20, XMFLOAT3(circleShadowAtten));
+		lightGroup->SetCircleShadowDir(20, XMVECTOR({ circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0 }));
+		lightGroup->SetCircleShadowFactorAngle(20, XMFLOAT2(circleShadowFactorAngle2));
 
-	for (int i = 0; i < 4; i++)
-	{
-		lightangle[i] += 0.1f;
-
-		LightPos[i].x = sinf(lightangle[i] * (3.14f / 180.0f)) * 90.0f;
-		LightPos[i].z = cosf(lightangle[i] * (3.14f / 180.0f)) * 130.0f;
-
-		//	LightPos[i].y = -5 + sinf(3.14f * 2.f / 180.f *LightUpDownT )*10;
-
-		lightGroup->SetPointLightPos(i, XMFLOAT3(LightPos[i]));
-		lightGroup->SetPointLightColor(i, XMFLOAT3(1, 0.5, 0.5));
-		lightGroup->SetPointLightAtten(i, XMFLOAT3(pointLightAtten));
-	}
+		lightGroup->SetCircleShadowFactorAngle(1, XMFLOAT2(circleShadowFactorAngle2));
+		XMFLOAT3 bpos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
+		lightGroup->SetCircleShadowCasterPos(1, { bpos.x,bpos.y,bpos.z });
+		lightGroup->SetCircleShadowAtten(1, XMFLOAT3(circleShadowAtten));
+		lightGroup->SetCircleShadowDir(1, XMVECTOR({ circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0 }));
+		
 	BossMap::GetInstance()->Upda();
 	AltAttack::GetInstance()->Upda();
 
@@ -187,6 +168,11 @@ void BossScene::Draw()
 		DirectXCommon::GetInstance()->BeginDraw();
 		if (Play)
 		{
+			ImGui::Begin("light");
+			ImGui::SliderFloat("attenx", &circleShadowAtten[0], -10, 10);
+			ImGui::SliderFloat("atteny", &circleShadowAtten[1], -10, 10);
+			ImGui::SliderFloat("attenz", &circleShadowAtten[2], -10, 10);
+			ImGui::End();
 			if (Field::GetInstance() != nullptr)
 			{
 				Field::GetInstance()->Draw();
@@ -210,6 +196,8 @@ void BossScene::Draw()
 			KnockAttack::GetInstance()->Draw();
 			AltAttack::GetInstance()->Draw();
 			FrontCircleAttack::GetInstance()->Draw();
+			BossUltAttack::GetIns()->Draw();
+			BronzeAttack::GetIns()->Draw();
 			EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->DamageTexDisplay_Draw();
 
 			for (int i = 0; i < 2; i++)

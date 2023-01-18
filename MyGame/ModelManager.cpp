@@ -36,15 +36,18 @@ void ModelManager::Initialize()
 	LoadModel(BIGROCK_B, "crystal");
 	LoadModel(GRASSFIELD, "GrassField");
 	LoadModel(SANDFIELD, "Sandfield");
+	LoadModel(SKYMAP, "BackGround");
 	LoadModel(LANTHANUM, "lanthanum");
 	LoadModel(BEAM, "BeamObj");
 	LoadModel(THROWROCK, "throwrock");
+	LoadModel(BEAM2, "BossBeam");
+	LoadModel(TOWER, "SkyBack");
 }
 
 void ModelManager::LoadModel(const ModelName modelName, std::string fileName)
 {
 	model[modelName] = new Model();
-	model[modelName] = Model::CreateFromOBJ(fileName);
+	model[modelName] = Model::CreateFromOBJ(fileName,true);
 }
 
 void ModelManager::LoadFBXModel(const FBXName modelName, std::string fileName)

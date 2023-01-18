@@ -34,6 +34,7 @@ PSOutPut main(GSOutput input)
 	// シェーディングによる色
 	float4 shadecolor = float4(ambientColor * ambient, m_alpha);
 	// 丸影
+
 	for (int cnum = 0; cnum < CIRCLESHADOW_NUM; cnum++)
 	{
 		if (circleShadows[cnum].active)
@@ -69,6 +70,7 @@ PSOutPut main(GSOutput input)
 		}
 	}
 	// 平行光源
+	if (shadowf){
 	for (int dnum = 0; dnum < 3; dnum++)
 	{
 		if (dirLights[dnum].active)
@@ -86,6 +88,7 @@ PSOutPut main(GSOutput input)
 			shadecolor.rgb += (diffuse + specular) * dirLights[dnum].lightcolor;
 		}
 	}
+		}
 
 	// 点光源
 	for (int pnum = 0; pnum < 3; pnum++)
@@ -203,8 +206,8 @@ PSOutPut main(GSOutput input)
 	{
 		if (shadowf)
 		{
-			output.target0 = shadecolor * float4(texcolor.rgb *smoothstep(120.f, -60.f, input.worldpos.y), texcolor.a) + addcol;
-			output.target1 = shadecolor * float4(texcolor.rgb * smoothstep(120.f, -60.f, input.worldpos.y), texcolor.a) + addcol;
+			output.target0 = shadecolor * float4(texcolor.rgb , texcolor.a) + addcol;
+			output.target1 = shadecolor * float4(texcolor.rgb, texcolor.a) + addcol;
 		}
 	}
 	else
@@ -214,8 +217,8 @@ PSOutPut main(GSOutput input)
 	}
 	if (!shadowf)
 	{
-		output.target0 = float4(texcolor.rgb, texcolor.a) * color;
-		output.target1 = float4(texcolor.rgb, texcolor.a) * color;
+		output.target0 = shadecolor * float4(texcolor.rgb, texcolor.a) * color;
+		output.target1 = shadecolor * float4(texcolor.rgb, texcolor.a) * color;
 	}
 	return output;
 }

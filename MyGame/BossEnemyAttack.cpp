@@ -10,7 +10,19 @@ void BossEnemyAttack::Initialize(Enemy* enmey)
 
 void BossEnemyAttack::Update(Enemy* enemy)
 {
-	enemy->SetAnimation(BossEnemy::NowAttackMotion::BNORMAL , false, 1.0);
+	
+	if(randmotion<40)
+	{
+		enemy->SetAnimation(BossEnemy::NowAttackMotion::BNORMAL, false, 1.0);
+	}
+	else if(randmotion<80)
+	{
+		enemy->SetAnimation(BossEnemy::NowAttackMotion::BNORMAL2, false, 1.0);
+	}
+	else
+	{
+		enemy->SetAnimation(BossEnemy::NowAttackMotion::SWING, false, 1.0);
+	}
 	//PlayerControl::GetInstance()->GetPlayer()->RecvDamage(2);
 	if (CameraControl::GetInstance()->GetCameraState() == CameraControl::BOSSCUTSCENE)
 	{
@@ -22,14 +34,20 @@ void BossEnemyAttack::Update(Enemy* enemy)
 		if (enemy->GetAnimationTime() >= enemy->GetFbxTimeEnd() - 0.1) {
 			if (Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) > 17.f)
 			{
-				enemy->ChangeState_Boss(new BossEnemyFollow());
+				randmotion = 0;
+					enemy->ChangeState_Boss(new BossEnemyFollow());
 			}
 			else
 			{
-				enemy->ChangeState_Boss(new BossEnemyStay());
+				randmotion = 0;
+					enemy->ChangeState_Boss(new BossEnemyStay());
 			}
 		}
-
+		else {
+			if (randmotion == 0) {
+				randmotion = rand() % 100 + 1;
+			}
+		}
 	//	}
 		
 	}

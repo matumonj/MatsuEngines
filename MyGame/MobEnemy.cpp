@@ -77,7 +77,7 @@ void MobEnemy::Initialize()
 
 	m_fbxObject = std::make_unique<f_Object3d>();
 	m_fbxObject->Initialize();
-	m_fbxObject->SetModel(FbxLoader::GetInstance()->LoadModelFromFile("boss"));
+	m_fbxObject->SetModel(FbxLoader::GetInstance()->LoadModelFromFile("monster_golem_demo"));
 	m_fbxObject->PlayAnimation();
 
 	//‘Ì—Íİ’è

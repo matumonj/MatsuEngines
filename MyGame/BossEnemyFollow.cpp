@@ -86,7 +86,7 @@ void BossEnemyFollow::Update(Enemy* enemy)
 		Evaprobability = rand() % 100 + 1;
 		if (Evaprobability > 60)
 		{
-			enemy->ChangeState_Boss(new BossEnemyFalter());
+			//enemy->ChangeState_Boss(new BossEnemyFalter());
 		}
 		else
 		{
@@ -95,10 +95,10 @@ void BossEnemyFollow::Update(Enemy* enemy)
 	}
 	if (Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 17.f)
 	{
-		if (enemy->GetFbxTime() < 422.000f / 60.000f && CustomButton::GetInstance()->GetAttackAction()) {
+		if (CustomButton::GetInstance()->GetAttackAction()) {
 			Evaprobability = rand() % 100 + 1;
 			if (Evaprobability <= 30) {
-				enemy->ChangeState_Boss(new BossEnemyEvasion());
+			//	enemy->ChangeState_Boss(new BossEnemyEvasion());
 			}
 		}
 	}
@@ -122,6 +122,38 @@ void BossEnemyFollow::Update(Enemy* enemy)
 	{
 		enemy->ChangeState_Boss(new BossEnemyDeath());
 	}
+	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= 90.0f)
+	{
+		if (CircleAttack::GetInstance()->GetPhaseEnd() != CircleAttack::PHASEFOUR)
+		{
+			if (enemy->GetAttack_End(enemy->CIRCLE_1) == false) {
+				//CircleAttack::GetInstance()->SetAttackPhase(true);
+				enemy->ChangeState_Boss(new BossEnemyAttackCircle());
+			}
+		}
+	}
+	//
+	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= 70.0f)
+	{
+		if (AltAttack::GetInstance()->GetPhaseEnd() != AltAttack::PHASEFOUR)
+		{
+			if (enemy->GetAttack_End(enemy->Beam) == false) {
+				AltAttack::GetInstance()->SetAttackPhase(true);
+				enemy->ChangeState_Boss(new BossEnemyAttackBeam());
+			}
+		}
+	}
+	//
+	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= 60.0f)
+	{
+		if (KnockAttack::GetInstance()->GetPhase() != KnockAttack::PHASEFOUR)
+		{
+			if (enemy->GetAttack_End(enemy->Beam) == false) {
+				KnockAttack::GetInstance()->SetAttackPhase(true);
+				enemy->ChangeState_Boss(new BossEnemyAttackKnock());
+			}
+		}
+	}
 	//KnockAttack::GetInstance()->SetAttackPhase(false);
 }
 
@@ -130,20 +162,10 @@ void BossEnemyFollow::AttackSelect(Enemy* enemy, bool judg, int num)
 	if (judg)
 	{
 		enemy->SetRecvDamage2(false);
-		AttackStart(enemy, num);
-		if (enemy->GetAttack_End(num) == false)
-		{
-			enemy->SetAttack_Start(num, true);
-		}
-		else
-		{
-			enemy->SetAttack_Start(num, false);
-		}
-		if (enemy->GetAttack_Start(num))
-		{
+		//AttackStart(enemy, num);
+	
 			AttackType(enemy, num);
 		}
-	}
 }
 
 void BossEnemyFollow::AttackStart(Enemy* enemy, int num)
@@ -152,11 +174,9 @@ void BossEnemyFollow::AttackStart(Enemy* enemy, int num)
 	{
 	case enemy->CIRCLE_1:
 		enemy->SetRecvDamage2(false);
-		CircleAttack::GetInstance()->SetAttackPhase(true);
+		
 		break;
-	case enemy->CIRCLE_2:
-		CircleAttack::GetInstance()->SetAttackPhase(true);
-		break;
+
 	case enemy->KNOCK:
 		enemy->SetRecvDamage2(false);
 		if (enemy->GetAttack_End(enemy->KNOCK) == false)
@@ -188,15 +208,12 @@ void BossEnemyFollow::AttackType(Enemy* enemy, int num)
 	switch (num)
 	{
 	case enemy->CIRCLE_1:
-		if (CircleAttack::GetInstance()->GetPhaseEnd() != CircleAttack::PHASEFOUR)
-		{
-			enemy->ChangeState_Boss(new BossEnemyAttackCircle());
-		}
+		
 		break;
 	case enemy->CIRCLE_2:
 		if (CircleAttack::GetInstance()->GetPhaseEnd() != CircleAttack::PHASEFOUR)
 		{
-			enemy->ChangeState_Boss(new BossEnemyAttackCircle());
+			//5enemy->ChangeState_Boss(new BossEnemyAttackCircle());
 		}
 		break;
 	case enemy->KNOCK:

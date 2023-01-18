@@ -15,7 +15,8 @@
 #include"PlayerControl.h"
 #include"imgui.h"
 #include "KnockAttack.h"
-
+#include"BossUltAttack.h"
+#include"BronzeAttack.h"
 /// <summary>
 /// コンストラクタ
 /// </summary>
@@ -66,7 +67,7 @@ void BossEnemy::Initialize()
 	MaxHP = 690;
 	EnemyHP = MaxHP;
 
-	Scale = {0.2f, 0.2f, 0.2f};
+	Scale = {0.1f, 0.1f, 0.1f};
 	Rotation = {180.0f, 0.0f, -181.0f};
 	
 	radius_adjustment = 0;
@@ -94,7 +95,7 @@ cooltime = 0;
 	CircleAttack::GetInstance()->Initialize();
 	AltAttack::GetInstance()->Initialize();
 	FrontCircleAttack::GetInstance()->Initialize();
-	CircleAttack::GetInstance()->SetAttackPhase(true);
+	BossUltAttack::GetIns()->TexSet();
 
 	CircleAttack::GetInstance()->SetAttackPhase(false);
 	KnockAttack::GetInstance()->SetAttackPhase(false);
@@ -102,7 +103,7 @@ cooltime = 0;
 	HalfAttack::GetInstance()->SetAttackPhase(false);
 	AltAttack::GetInstance()->SetAttackPhase(false);
 	FrontCircleAttack::GetInstance()->SetAttackPhase(false);
-
+	BronzeAttack::GetIns()->Init();
 	for(int i=0;i<7;i++)
 	{
 		SetAttack_Start(i, false);
@@ -154,6 +155,9 @@ void BossEnemy::Update()
 	HPGaugeBoss();
 	//m_fbxObject->SetFogPos({camera->GetEye()});
 	m_fbxObject->SetHandBoneIndex(0);
+	CircleAttack::GetInstance()->ActionJudg();
+	KnockAttack::GetInstance()->ActionJudg();
+	BronzeAttack::GetIns()->Upda();
 }
 
 void BossEnemy::AttackCollide()

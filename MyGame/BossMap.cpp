@@ -1,5 +1,6 @@
 #include "BossMap.h"
 #include"CameraControl.h"
+#include "Field.h"
 #include"PlayerControl.h"
 #include"imgui.h"
 #include"mHelper.h"
@@ -97,14 +98,14 @@ void BossMap::Upda()
 			{
 				blockColorETime[i][j] -= 0.02f;
 
-				mapobj[i][j]->SetShadowF(true);
+				mapobj[i][j]->SetShadowF(false);
 				mapobj[i][j]->SetUVf(false);
 				mapobj[i][j]->SetColor({blockColor[i][j].x, blockColor[i][j].y, blockColor[i][j].z,1.f});
 			}
 
-			blockColor[i][j].x = Easing::EaseOut(blockColorETime[i][j], 0.5f, 1.0f);
-			blockColor[i][j].y = Easing::EaseOut(blockColorETime[i][j], 0.5f, 0.1f);
-			blockColor[i][j].z = Easing::EaseOut(blockColorETime[i][j], 0.5f, 0.1f);
+			blockColor[i][j].x = Easing::EaseOut(blockColorETime[i][j], 1.0f, 1.0f);
+			blockColor[i][j].y = Easing::EaseOut(blockColorETime[i][j], 1.0f, 0.1f);
+			blockColor[i][j].z = Easing::EaseOut(blockColorETime[i][j], 1.0f, 0.1f);
 
 			blockColorETime[i][j] = min(blockColorETime[i][j], 1.0f);
 			blockColorETime[i][j] = max(blockColorETime[i][j], 0.0f);
@@ -236,18 +237,13 @@ void BossMap::Draw()
 		for (int j = 0; j < mapWidth; j++)
 		{
 			mapobj[i][j]->Draw();
-			if (mapSize[i][j] == DAMAGEBLOCK)
-			{
-				if (nailalpha[i][j] > 0.0f)
-				{
-					//nailobj[i][j]->Draw();
-				}
-			}
 		}
 	}
-	for (int i = 0; i < lanthanumSize; i++)
-	{
-		Lanthanum[i]->Draw();
+	if (Field::GetInstance()->GetnextStageF() == false) {
+		for (int i = 0; i < lanthanumSize; i++)
+		{
+			Lanthanum[i]->Draw();
+		}
 	}
 	Object3d::PostDraw();
 	Texture::PreDraw();

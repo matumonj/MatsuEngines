@@ -42,7 +42,10 @@ public:
 		LANTHANUM,
 		BEAM,
 		THROWROCK,
-		PLACEBOX
+		PLACEBOX,
+		SKYMAP,
+		BEAM2,
+		TOWER
 	};
 
 	enum FBXName

@@ -249,13 +249,13 @@ protected: // ƒƒ“ƒo•Ï”
 	bool setef = false;
 	bool uvf = false;
 	float uvtime;
-
+	XMFLOAT3 centerpos={-70.f,0.f,0.f};
 	bool DestF = false;
 	float DestTime = 0;
 public:
 	void SetDestFlag(bool f) { DestF = f; }
 	void SetDestTime(float t) { DestTime = t; }
-
+	void SetCenter(XMFLOAT3 pos) { centerpos = pos; }
 	void setFog(bool f) { setef = f; }
 	void SetUVf(bool f) { uvf = f; }
 	void setr(bool f) { rf = f; }

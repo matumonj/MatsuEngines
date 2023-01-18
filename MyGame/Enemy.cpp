@@ -1,10 +1,6 @@
 #include "Enemy.h"
 #include"mHelper.h"
 #include"EnemyWalkState.h"
-#include"EnemyAttackState.h"
-#include"EnemyStayState.h"
-#include"EnemyFollowState.h"
-#include"EnemyFollowState.h"
 #include"BossEnemyStay.h"
 #include"PlayerControl.h"
 #include"GuardianAppearState.h"
@@ -12,6 +8,7 @@ using namespace DirectX;
 
 Enemy::Enemy()
 {
+	//状態の初期化
 	state_boss = new BossEnemyStay();
 	state_mob = new EnemyWalkState();
 	state_guardian = new GuardianAppearState();
@@ -19,8 +16,10 @@ Enemy::Enemy()
 
 Enemy::~Enemy()
 {
+	//状態の破棄
 	Destroy(state_mob);
 	Destroy(state_boss);
+	Destroy(state_guardian);
 }
 
 
@@ -34,6 +33,8 @@ void Enemy::Action()
 
 void Enemy::RecvDamage(int Damage)
 {
+	//被ダメージ時の行動
+	//例外処理
 	if (this == nullptr || EnemyHP < 0)
 	{
 		return;
@@ -51,48 +52,60 @@ void Enemy::RecvDamage(int Damage)
 	}
 
 	RecvDamagef = true;
-	DamageSize = Damage;
-	DamageTexPos = Position;
-	if (EnemyHP <= 10)
-	{
-	}
-	//PlayerAttackState::GetInstance()->SetHitStopJudg(TRUE);
-	std::unique_ptr<DamageManager> newdTex;
-	if (ENumber == GUARDIAN)
-	{
-		newdTex = std::make_unique<DamageManager>(
-			XMFLOAT3(Position.x + rand() % 10 - 5, -10 + Position.y + rand() % 10 - 5, Position.z), Damage);
-	}
-	else
-	{
-		newdTex = std::make_unique<DamageManager>(
-			XMFLOAT3(Position.x + rand() % 10 - 5, Position.y + rand() % 10 - 5, Position.z), Damage);
-	}
-	dMans_.push_back(std::move(newdTex));
 
+	/*ダメージテクスチャの表示*/
+	{
+		DamageSize = Damage;
+		DamageTexPos = Position;
+		std::unique_ptr<DamageManager> newdTex;
+		//ガーディアンのみ座標高いのでずらす
+		if (ENumber == GUARDIAN)
+		{
+			//インスタンス生成
+			newdTex = std::make_unique<DamageManager>(
+				XMFLOAT3(Position.x + rand() % 10 - 5, -10 + Position.y + rand() % 10 - 5, Position.z), Damage);
+		}
+		else
+		{
+			//インスタンス生成
+			newdTex = std::make_unique<DamageManager>(
+				XMFLOAT3(Position.x + rand() % 10 - 5, Position.y + rand() % 10 - 5, Position.z), Damage);
+		}
+		//リストに追加
+		dMans_.push_back(std::move(newdTex));
+	}
+	/*----------------------*/
+
+	//体力減らす
 	EnemyHP = EnemyHP - Damage;
+	//ダメージパーティクル表示
 	DamageParticleCreateF = true;
 }
 
 void Enemy::HPFrameUpda()
 {
+	//カメラのインスタンス取得
 	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
-	FrameScl.x = max(FrameScl.x, 0.0f);
-	FrameScl_Inner.x = max(FrameScl_Inner.x, 0.0f);
+	//2D->3D変換用
 	XMVECTOR tex2DPos[4];
+
 	for (int i = 0; i < 4; i++)
 	{
+		//w除算で座標を２D変換
 		tex2DPos[i] = {Position.x, Position.y + 13.0f, Position.z};
 		tex2DPos[i] = MatCal::PosDivi(tex2DPos[i], camera->GetViewMatrix(), false);
 		tex2DPos[i] = MatCal::PosDivi(tex2DPos[i], camera->GetProjectionMatrix(), true);
 		tex2DPos[i] = MatCal::WDivi(tex2DPos[i], false);
 		tex2DPos[i] = MatCal::PosDivi(tex2DPos[i], camera->GetViewPort(), false);
 
+		//座標セット
 		HPFrame[i]->SetPosition({tex2DPos[i].m128_f32[0] - 80.0f, tex2DPos[i].m128_f32[1]});
 	}
 
+	//被ダメージ時
 	if (RecvDamagef)
 	{
+		//イージング終了時各フラグ切る
 		if (FrameScalingETime >= 1.0f)
 		{
 			InnerFrameScalingF = true;
@@ -103,8 +116,11 @@ void Enemy::HPFrameUpda()
 		{
 			OldFrameX_Inner = OldFrameX;
 		}
+		//敵の体力最大値から現在の体力の割合
 		NowFrameX = Percent::GetParcent(static_cast<float>(MaxHP), static_cast<float>(EnemyHP)) * 2.0f;
+		//イージング開始
 		FrameScalingETime += 0.05f;
+		//体力ゲージが0.0切れてない時ゲージ減ってく
 		if (FrameScl.x > 0.0f)
 		{
 			FrameScl.x = Easing::EaseOut(FrameScalingETime, OldFrameX, NowFrameX);
@@ -145,22 +161,27 @@ void Enemy::HPFrameUpda()
 			InnerFrameScalingF = false;
 		}
 	}
-	else
-	{
-		//FrameScalingETime_Inner = 0.0f;
-	}
+
+	/*0->黒枠 1->白枠 2->ゲージ外 3->ゲージ内*/
 	HPFrame[3]->SetSize({FrameScl.x, 15});
 	HPFrame[2]->SetSize({FrameScl_Inner.x, 15.0f});
 	HPFrame[1]->SetSize({200.0f, 15.0f});
 	HPFrame[0]->SetSize({200.0f, 15.0f});
 
+	//敵の名前表示
 	EnemyName->SetPosition({tex2DPos[0].m128_f32[0] - 80.0f, tex2DPos[0].m128_f32[1] - 30.f});
 	EnemyName->SetSize({200.0f, 15.0f});
+
+	//体力バーの横サイズ最大値
+	FrameScl.x = max(FrameScl.x, 0.0f);
+	FrameScl_Inner.x = max(FrameScl_Inner.x, 0.0f);
+
 }
 void Enemy::Respawn()
 {
-	
+	//リスポーンカウント
 	RespawnCount++;
+
 
 	if (RespawnJudg() == true) {
 		  EvaMotionStart = false;
@@ -198,7 +219,7 @@ void Enemy::DamageTexDisplay()
 	//ダメージスプライト生成
 	for (std::unique_ptr<DamageManager>& dTex : dMans_)
 	{
-		dTex->DamageDisPlay(1, {1, 1, 1, 1});
+		dTex->DamageDisPlay(1, {1.f, 1.f, 1.f, 1.f});
 	}
 
 	//アルファ値一定以下なったら破棄

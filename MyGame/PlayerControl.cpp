@@ -137,6 +137,7 @@ void PlayerControl::DamageTexUpdate()
 /*------------------------*/
 /*--------•`‰æˆ—---------*/
 /*------------------------*/
+/*“¯‚¶ˆ—‚ª•À‚ñ‚Å‚µ‚Ü‚Á‚Ä‚¢‚é...*/
 void PlayerControl::Draw_Play()
 {
 	if (player == nullptr || TurnoffDrawF)

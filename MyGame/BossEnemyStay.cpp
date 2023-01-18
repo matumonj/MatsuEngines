@@ -15,13 +15,14 @@ void BossEnemyStay::Update(Enemy* enemy)
 	if (CameraControl::GetInstance()->GetCameraState() == CameraControl::PLAYER) {
 		if (Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 18.f) {
 			if (enemy->GetCoolTime() == 0) {
-				enemy->ChangeState_Boss(new BossEnemyAttack());
+				//enemy->ChangeState_Boss(new BossEnemyAttack());
 			}
 			
 		}
 		else{
-			enemy->ChangeState_Boss(new BossEnemyAttack());
+			
 		}
+		enemy->ChangeState_Boss(new BossEnemyFollow());
 	}
 	
 		if (CameraControl::GetInstance()->GetAttackSceneF() == false)

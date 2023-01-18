@@ -51,8 +51,19 @@ private:
 	Sprite* Explanation = nullptr;
 	Sprite* BossName = nullptr;
 	bool destf;
-	float destt=100;
+	XMFLOAT3 DestCenter;
+	float destt=0;
+
+	bool SkyMapDestF;
+	float SkyMapDestT=1000.f;
+
 	float KoloiamAlpha = 1.f;
+	std::array<std::unique_ptr<Object3d>,4>SkyMap;
+	//後半フェーズの塔オブジェ
+	std::array<std::unique_ptr<Object3d>, 8>SkyBack;
+	std::array<XMFLOAT3, 8>SkyBackPos;
+	std::array<float, 8>SkyBackEaseT;
+	bool MapChange;
 	//Model
 	DirectX::XMFLOAT3 ssp = {0.0f, 0.0f, 0.0f};
 	int EnemyIconSize = 0;
@@ -94,6 +105,8 @@ public:
 	void Update_Boss();
 	void Update_Edit();
 
+	void SetnextStageF(bool f) { nextStageF = f; }
+	bool GetnextStageF() { return nextStageF; }
 	void Draw() override;
 	void Finalize();
 	void WarningDraw();
@@ -108,6 +121,10 @@ private:
 	void SpriteFeed(float& alpha, bool& feed, float feedSpeed, float MaxAlphaValue);
 	void FieldDamageAreaCol();
 
+
+bool nextStageF;
+	void BossFieldSet_PhaseOne();
+	void BossFieldSet_PhaseTwo();
 private:
 	bool PedestalDownF;
 	void PedestalMoving();

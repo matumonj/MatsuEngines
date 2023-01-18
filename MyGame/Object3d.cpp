@@ -590,7 +590,7 @@ void Object3d::Update(XMFLOAT4 color, DebugCamera* camera)
 {
 	if (uvf)
 	{
-		uvtime += 0.005f;
+		uvtime += 0.015f;
 		if (uvtime > 1.0f)
 		{
 			uvtime = 0.0f;
@@ -621,7 +621,7 @@ void Object3d::Update(XMFLOAT4 color, DebugCamera* camera)
 	constMap->time = uvtime;
 	constMap->ks4 = {0, 0, 0};
 	constMap->destF = DestF;
-	constMap->ks5 = {0, 0, 0};
+	constMap->ks5 = centerpos;
 	constMap->destTime = DestTime;
 	constMap->shadowf = shadowf;
 
@@ -676,7 +676,7 @@ void Object3d::Update(XMMATRIX matworld, XMFLOAT4 color, DebugCamera* camera)
 	constMap->time = uvtime;
 	constMap->ks4 = {0, 0, 0};
 	constMap->destF = DestF;
-	constMap->ks5 = {0, 0, 0};
+	constMap->ks5 = centerpos;
 	constMap->destTime = DestTime;
 	constMap->shadowf = shadowf;
 	// 定数バッファへデータ転送

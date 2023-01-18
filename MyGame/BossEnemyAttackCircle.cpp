@@ -11,16 +11,16 @@ void BossEnemyAttackCircle::Initialize(Enemy* enmey)
 void BossEnemyAttackCircle::Update(Enemy* enemy)
 {
 	enemy->SetRecvDamage2(false); 
-	enemy->SetAnimation(BossEnemy::NowAttackMotion::MAGIC, 1.f, false);
-	CircleAttack::GetInstance()->ActionJudg();
-
+	enemy->SetAnimation(BossEnemy::NowAttackMotion::MAGIC, false,1.f);
+	CircleAttack::GetInstance()->SetAttackPhase(true);
 	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) < 90.0f)
 	{
 		CircleAttack::GetInstance()->SetDamageArea(CircleAttack::WEST, CircleAttack::SOUTH);
 		enemy->SetAttack_End(enemy->CIRCLE_1, true);
 	}
 
-	if (CircleAttack::GetInstance()->GetPhaseEnd() == CircleAttack::PHASEFOUR)
+	if (enemy->GetAnimationTime() >= enemy->GetFbxTimeEnd() - 0.1)
+
 	{
 		enemy->ChangeState_Boss(new BossEnemyFollow());
 	}

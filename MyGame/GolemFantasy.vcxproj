@@ -122,6 +122,7 @@
     <ClCompile Include="BossEnemyAttack.cpp" />
     <ClCompile Include="BossEnemyAttackBeam.cpp" />
     <ClCompile Include="BossEnemyAttackBleath.cpp" />
+    <ClCompile Include="BossEnemyAttackBrzBeam.cpp" />
     <ClCompile Include="BossEnemyAttackCircle.cpp" />
     <ClCompile Include="BossEnemyAttackHalf.cpp" />
     <ClCompile Include="BossEnemyAttackKnock.cpp" />
@@ -136,6 +137,7 @@
     <ClCompile Include="BossSpell.cpp" />
     <ClCompile Include="BossState.cpp" />
     <ClCompile Include="BossUltAttack.cpp" />
+    <ClCompile Include="BronzeAttack.cpp" />
     <ClCompile Include="CameraControl.cpp" />
     <ClCompile Include="Chest.cpp" />
     <ClCompile Include="ChestControl.cpp" />
@@ -270,6 +272,7 @@
     <ClInclude Include="BossEnemyAttack.h" />
     <ClInclude Include="BossEnemyAttackBeam.h" />
     <ClInclude Include="BossEnemyAttackBleath.h" />
+    <ClInclude Include="BossEnemyAttackBrzBeam.h" />
     <ClInclude Include="BossEnemyAttackCircle.h" />
     <ClInclude Include="BossEnemyAttackHalf.h" />
     <ClInclude Include="BossEnemyAttackKnock.h" />
@@ -284,6 +287,7 @@
     <ClInclude Include="BossSpell.h" />
     <ClInclude Include="BossState.h" />
     <ClInclude Include="BossUltAttack.h" />
+    <ClInclude Include="BronzeAttack.h" />
     <ClInclude Include="CameraControl.h" />
     <ClInclude Include="Chest.h" />
     <ClInclude Include="ChestControl.h" />

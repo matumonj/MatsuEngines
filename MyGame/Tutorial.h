@@ -67,7 +67,6 @@ private:
 	float circleShadowFactorAngle2[2] = {1.0f, 6.0f};
 	float fighterPos[3] = {1.0f, 0.0f, 0.0f};
 public:
-	XMFLOAT3 efkposition = {-50.0f, -10.0f, 90.0f};
 	//エフェクト用(ただプログラムでつくれるものはプログラムで作る方がいい　多用はいくない)
 	int c_postEffect = Default;
 private:

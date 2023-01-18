@@ -84,6 +84,8 @@ void TitleScene::Update()
 	camera->SetEye({CameraPos.x, 2.0f, CameraPos.y});
 	camera->SetTarget({0.0f, 0.0f, 0.0f});
 	camera->Update();
+	SceneManager::GetInstance()->SetScene(SceneManager::TUTORIAL, sceneManager_);
+
 	//	DebugTextSprite::GetInstance()->Print("aa", 0, 0, 2);
 }
 

@@ -66,7 +66,7 @@ private:
 
 	float circleShadowDir[3] = {0.0f, -1.0f, 0.0f};
 	float circleShadowPos[3] = {1.0f, 2.0f, 0.0f};
-	float circleShadowAtten[3] = {0.2f, 0.0f, 0.0f};
+	float circleShadowAtten[3] = {0.2f, 10.0f, 10.0f};
 	float circleShadowFactorAngle[2] = {1.0f, 3.0f};
 	float circleShadowFactorAngle2[2] = {1.0f, 6.0f};
 

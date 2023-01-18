@@ -72,14 +72,18 @@ protected:
 	int MaxHP = 0; //最大値(変動なし)
 	float OldHP = 0.0f; //前フレーム時の体力(HUDのイージング用)
 protected:
+	//オブジェのアルファ値
 	float alpha = 1.0f;
+	//リスポーン地点
 	XMFLOAT3 RespawnPos = {0.0f, 0.0f, 0.0f};
-	bool RecvDamagef = false; //
-	bool RecvDamagef2 = false; //
-	bool RecvAttackHit = false;
+	bool RecvDamagef = false; //HUD用
+	bool RecvDamagef2 = false; //挙動判定用
+	bool RecvAttackHit = false;//
 	bool DamageParticleCreateF = false; //攻撃受けた直後パーティクル発生フラg
 private:
+	//動けるかどうか
 	bool MoveFlag = false;
+	//１フレーム前の座標
 	XMFLOAT3 OldPos = {0.0f, 0.0f, 0.0f};
 	int DamageSize = 0;
 	XMFLOAT3 DamageTexPos = {};
@@ -234,7 +238,7 @@ public:
 protected:
 	int ENumber;
 	//攻撃数
-	static const int AtckNum = 7;
+	static const int AtckNum = 8;
 	Attack_SE Attack[AtckNum];
 
 public:
@@ -282,7 +286,8 @@ public: //攻撃種類列挙
 		HALF_1,
 		HALF_2,
 		Slam,
-		Beam
+		Beam,
+		BRONZEATTACK
 	};
 
 	/*/////	ここまで////////*/

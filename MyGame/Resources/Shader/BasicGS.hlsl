@@ -122,14 +122,16 @@ void main(
 		{
 			//element.svpos.xyz = center + (element.svpos.xyz - center) * (1 - destruction * 1.0);
 		//mul(viewproj, element.svpos);
-
-			input[i].svpos.xyz += gnormal * (desttime);
-			element.svpos = input[i].svpos;
+		//	if (element.svpos.x<destcenter.x) {
+				input[i].svpos.xy += gnormal * (desttime /2);
+				element.svpos =  input[i].svpos;
+		//	}
 		}
 		else if (!destF && !gsflag)
 		{
 			element.svpos = input[i].svpos;
 		}
+		//element.worldpos= mul(world, input[i].svpos);
 		element.normal = input[i].normal;
 		element.uv = input[i].uv;
 

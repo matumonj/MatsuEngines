@@ -12,7 +12,7 @@ float3 ks3;
 float time;
 float3 ks4;
 bool destF;
-float3 ks5;
+float3 destcenter;
 float desttime;
 bool shadowf;
 float3 playerpos;
@@ -116,7 +116,7 @@ struct PSOutPut
 struct g2f
 {
 	float4 pos : SV_POSITION;
-	float4 col : COLOR;
+	//float4 col : COLOR;
 	float4 wo : POSITION; // ÉèÅ[ÉãÉhç¿ïW
 	float3 normal:NORMAL;
 	float2 uv:TEXCOORD;
