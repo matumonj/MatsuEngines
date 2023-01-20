@@ -1,6 +1,6 @@
 #include "BossEnemy.h"
 
-#include "AltAttack.h"
+#include "RushAttack.h"
 #include "CameraControl.h"
 #include "CircleAttack.h"
 #include"SphereCollider.h"
@@ -61,8 +61,7 @@ void BossEnemy::ResourcesSet()
 	Sword = std::make_unique<Object3d>();
 	Sword->Initialize(camera);
 	Sword->SetModel(ModelManager::GetIns()->GetModel(ModelManager::BOSSWEAPON));
-	Sword->SetRotation({ 0, 0 + 30, 0 + 100 });
-
+	swordrot={326.f,198.f,297.f};
 	Sword->SetScale({ 9,9,9 });
 
 }
@@ -72,7 +71,6 @@ void BossEnemy::Initialize()
 {
 	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
 
-	//m_Object->CreateGraphicsPipeline(L"Resources/Shader/Object3dVS.hlsl", L"Resources/Shader/Object3dPS.hlsl", L"Resources/Shader/BasicGS.hlsl");
 	MaxHP = 690;
 	EnemyHP = MaxHP;
 
@@ -102,7 +100,7 @@ cooltime = 0;
 	HalfAttack::GetInstance()->Initialize();
 	KnockAttack::GetInstance()->Initialize();
 	CircleAttack::GetInstance()->Initialize();
-	AltAttack::GetInstance()->Initialize();
+	RushAttack::GetInstance()->Initialize();
 	FrontCircleAttack::GetInstance()->Initialize();
 	UltAttack::GetIns()->TexSet();
 
@@ -110,7 +108,7 @@ cooltime = 0;
 	KnockAttack::GetInstance()->SetAttackPhase(false);
 	HalfAttack::GetInstance()->SetAttackPhase(false);
 	HalfAttack::GetInstance()->SetAttackPhase(false);
-	AltAttack::GetInstance()->SetAttackPhase(false);
+	RushAttack::GetInstance()->SetAttackPhase(false);
 	FrontCircleAttack::GetInstance()->SetAttackPhase(false);
 	BronzeAttack::GetIns()->Init();
 	for(int i=0;i<7;i++)
@@ -149,25 +147,19 @@ void BossEnemy::Update()
 	m_fbxObject->SetScale(Scale);
 
 	m_Object->SetPosition(Position);
-
-	//m_fbxObject->SetColor({1,1,1,1});
-
-	//m_fbxObject->PlayAnimation(m_Number);
+	
 	m_fbxObject->Update(m_AnimeLoop, m_AnimeSpeed, m_AnimationStop);
 	//攻撃後のクールタイム設定
 	AttackCoolTime();
-	//地形当たり判定
-	//CollisionField();
 	//攻撃受けたらパーティクル
 	DamageParticleSet();
 	//持ってる斧の更新
 	m_fbxObject->SetHandBoneIndex(hind);
 
 	HPGaugeBoss();
-	//m_fbxObject->SetFogPos({camera->GetEye()});
-	m_fbxObject->SetHandBoneIndex(18);
 	//持ってる斧の更新
 	Sword->Setf(FALSE);
+	Sword->SetRotation(swordrot);
 	Sword->Update(handmat_left, { 1.0f, 1.0f, 1.0f, 1.0f }, camera);
 
 	CircleAttack::GetInstance()->ActionJudg();
@@ -183,7 +175,7 @@ void BossEnemy::AttackCollide()
 	handmat_right.r[3].m128_f32[0], handmat_right.r[3].m128_f32[1], handmat_right.r[3].m128_f32[2]
 	};
 	//左
-	m_fbxObject->GetBoneIndexMat(43, handmat_left);
+	m_fbxObject->GetBoneIndexMat(55, handmat_left);
 	HandPos_Left = {
 		handmat_left.r[3].m128_f32[0], handmat_left.r[3].m128_f32[1], handmat_left.r[3].m128_f32[2]
 	};
@@ -248,15 +240,15 @@ void BossEnemy::Draw()
 	Draw_Fbx();
 	float P = float(GetFbxTimeEnd());
 	ImGui::Begin("bossp");
-	ImGui::SliderFloat("Rotx", &Rotation.y,0,360);
-	ImGui::SliderFloat("Roty", &addRotRadians, 0, 360);
-	ImGui::SliderFloat("Rotz", &FollowRotAngleCorrect, 0, 360);
+	ImGui::SliderFloat("Rotx", &swordrot.x,0,360);
+	ImGui::SliderFloat("Roty", &swordrot.y, 0, 360);
+	ImGui::SliderFloat("Rotz", &swordrot.z, 0, 360);
 	ImGui::SliderFloat("time", &P, -30, 30);
 	ImGui::End();
 
 	ImGui::Begin("bone");
 	//43 18
-	ImGui::SliderInt("indx", &hind, 0, 45);
+	ImGui::SliderInt("indx", &hind, 0, 95);
 	ImGui::End();
 	// 3Dオブジェクト描画前処理
 	// 3Dオブジェクト描画前処理

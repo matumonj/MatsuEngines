@@ -38,23 +38,8 @@ void PlayerAttackState::ComboAction()
 void PlayerAttackState::Update()
 {
 	AttackCollision::GetInstance()->Update();
-
-	if (CustomButton::GetInstance()->GetAttackAction() == true && CoolDownTime == 0)
-	{
-		/*CoolDownTime == 0*/
-		Skill = First;
-	}
-
-	if (BuffFlag)
-	{
-		//バフ継続時間
-		BuffTime++;
-	}
-
+	
 	ComboAction();
-
-	//スキルクールダウン処理
-	SkillCoolDown(CoolDownTime);
 	HitStop();
 	Player* l_player = PlayerControl::GetInstance()->GetPlayer();
 
@@ -127,27 +112,6 @@ void PlayerAttackState::ThirdAttack(std::vector<std::unique_ptr<Enemy>>& enemy)
 	DetailAttack(enemy, 120);
 }
 
-
-void PlayerAttackState::BuffAction()
-{
-	//普通の攻撃の25%をバフ値に
-	const int Magnification = Damage / 4;
-
-	if (BuffTime <= BuffTimeMax)
-	{
-		//効果時間は20秒
-		if (Skill != None)
-		{
-			Damage += Magnification;
-		}
-	}
-	else if (BuffTime > BuffTimeMax)
-	{
-		BuffTime = 0;
-		BuffFlag = false;
-	}
-}
-
 void PlayerAttackState::SkillCoolDown(int& cooltime)
 {
 	cooltime--;
@@ -157,36 +121,32 @@ void PlayerAttackState::SkillCoolDown(int& cooltime)
 
 void PlayerAttackState::DetailAttack(std::vector<std::unique_ptr<Enemy>>& enemy, int cooltime)
 {
-	//if (enemy[0] == nullptr)return;
-	//クールタイムを設定
-	CoolDownTime = SelectSword::GetInstance()->GetSword()->GetCoolTime();
-	//バフがかかっていた場合
-	if (BuffFlag)
-	{
-		BuffAction();
-	}
-
+	
 	Skill = None;
 }
 
 #include"CameraControl.h"
-
+void PlayerAttackState::SetHitStopJudg(bool f, int time)
+{
+	HitStopTime = time;
+	HitStopJudg = f;
+}
 void PlayerAttackState::HitStop()
 {
 	if (HitStopJudg)
 	{
-		HitStopTime++;
-		if (HitStopTime > 90)
+		HitStopCount++;
+		if (HitStopCount > HitStopTime)
 		{
 			HitStopJudg = false;
 		}
-		if (HitStopTime < 20)
+		if (HitStopCount < 20)
 		{
 			CameraControl::GetInstance()->ShakeCamera();
 		}
 	}
 	else
 	{
-		HitStopTime = 0;
+		HitStopCount = 0;
 	}
 }

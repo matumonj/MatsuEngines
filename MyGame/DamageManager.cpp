@@ -1,6 +1,9 @@
 #include "DamageManager.h"
 #include"CameraControl.h"
 #include <algorithm>
+
+#include "PlayerAttackState.h"
+
 DamageManager::DamageManager(XMFLOAT3 Position, int Damage)
 {
 	this->Position = Position;
@@ -23,7 +26,7 @@ void DamageManager::DamageDisPlay(int damage, XMFLOAT4 color)
 	TexSize.y -= 0.04f;
 	if (TexSize.x < 0.9f)
 	{
-		TexAlpha -= 0.01f;
+		TexAlpha -= 0.006f;
 	}
 	//int->string‚É
 	std::ostringstream str;
@@ -53,8 +56,11 @@ void DamageManager::DamageDisPlay(int damage, XMFLOAT4 color)
 	}
 	DamageTex->SetAlpha(TexAlpha);
 	//•\‹L
+	if (PlayerAttackState::GetInstance()->GetHitStopJudg()) {
+		DamageTex->Print("Critical!", tex2DPos.m128_f32[0], tex2DPos.m128_f32[1] - 70.f, TexSize.x/2.f);
+	}
 	DamageTex->Print(str.str(), tex2DPos.m128_f32[0], tex2DPos.m128_f32[1], TexSize.x);
-
+	
 
 	//TexSize.x = min(TexSize.x, 1.4f);
 	TexSize.x = max(TexSize.x, 0.8f);

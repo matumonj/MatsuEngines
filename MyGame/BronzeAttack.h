@@ -64,7 +64,7 @@ private:
 	std::array < XMFLOAT3, 5> BeamObjScl;
 	std::array < XMFLOAT3, 5> BeamMaxScl;
 
-	static constexpr int spheresize = 20;
+	static constexpr int spheresize = 30;
 	std::array<std::unique_ptr<Object3d>, spheresize>chargesphere;
 	std::array<float, spheresize>chargesphereangle;
 	std::array<bool, spheresize>chargespheremoveF;

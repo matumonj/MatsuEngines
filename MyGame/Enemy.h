@@ -1,18 +1,11 @@
 #pragma once
-#include <wrl.h>
-#include <d3d12.h>
-#include <d3dx12.h>
 #include <DirectXMath.h>
-#include"DebugCamera.h"
-#include"Input.h"
 #include"Player.h"
 #include"EnemyState.h"
 #include"BossEnemyState.h"
 #include"GuardianState.h"
-#include"Texture.h"
 #include"Destroy.h"
 #include"ObjectManager.h"
-#include"ParticleManager.h"
 #include"DebugTxt.h"
 #include<list>
 #include"Task.h"
@@ -303,7 +296,18 @@ protected:
 	GuardianState* state_guardian;
 	EnemyState* state_mob;
 	BossEnemyState* state_boss;
+protected:
+		//óºéËÇÃçsóÒ
+		XMMATRIX handmat_right;
+		XMMATRIX handmat_left;
 
+		//óºéËÇÃç¿ïW
+		XMFLOAT3 HandPos_Right;//18
+		XMFLOAT3 HandPos_Left;//43
+
+public:
+	XMFLOAT3 HandRightPos() { return HandPos_Right; }
+	XMFLOAT3 HandLeftPos() { return HandPos_Left;; }
 protected:
 	std::array<std::unique_ptr<Sprite>, 4> HPFrame;
 	std::unique_ptr<Sprite> EnemyName;

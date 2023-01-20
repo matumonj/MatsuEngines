@@ -7,18 +7,17 @@
 #include"WoodControl.h"
 #include"CameraControl.h"
 #include"UI.h"
-#include"PlayScene.h"
 #include"Feed.h"
 #include"PlayerControl.h"
 #include "GameOver.h"
 #include <BossMap.h>
-#include"AltAttack.h"
+#include"RushAttack.h"
+#include "BronzeAttack.h"
 #include "FrontCircleAttack.h"
 #include "HalfAttack.h"
-#include"KnockAttack.h"
+#include "KnockAttack.h"
 #include "Nail.h"
 #include"UltAttack.h"
-#include "BronzeAttack.h"
 
 BossScene::BossScene(SceneManager* sceneManager)
 	: BaseScene(sceneManager)
@@ -40,7 +39,6 @@ void BossScene::Initialize()
 	lightGroup = LightGroup::Create();
 
 	Object3d::SetLightGroup(lightGroup);
-	//lightGroup2 = LightGroup::Create();
 	// 3Dオブエクトにライトをセット
 	lightGroup->SetDirLightActive(0, true);
 	lightGroup->SetDirLightActive(1, true);
@@ -54,7 +52,6 @@ void BossScene::Initialize()
 	postEffect = new PostEffect();
 	postEffect->Initialize();
 	input = Input::GetInstance();
-	//	dc = new DebugCamera(WinApp::window_width, WinApp::window_height);
 }
 
 /*------------------------*/
@@ -127,7 +124,7 @@ void BossScene::Update()
 		lightGroup->SetCircleShadowDir(1, XMVECTOR({ circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0 }));
 		
 	BossMap::GetInstance()->Upda();
-	AltAttack::GetInstance()->Upda();
+	RushAttack::GetInstance()->Upda();
 
 	GameOver::GetIns()->Update();
 
@@ -190,6 +187,13 @@ void BossScene::MyGameDraw()
 				AllObjectControl[i]->Draw();
 			}
 		}
+		CircleAttack::GetInstance()->Draw();
+		HalfAttack::GetInstance()->Draw();
+		KnockAttack::GetInstance()->Draw();
+		RushAttack::GetInstance()->Draw();
+		FrontCircleAttack::GetInstance()->Draw();
+		UltAttack::GetIns()->Draw();
+		BronzeAttack::GetIns()->Draw();
 }
 
 /*------------------------*/

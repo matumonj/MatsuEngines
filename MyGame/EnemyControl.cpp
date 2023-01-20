@@ -11,7 +11,6 @@
 #include"CircleAttack.h"
 #include"HalfAttack.h"
 #include "CameraControl.h"
-#include"FrontCircleAttack.h"
 #include"GuardianEnemy.h"
 
 EnemyControl* EnemyControl::GetInstance()
@@ -19,6 +18,11 @@ EnemyControl* EnemyControl::GetInstance()
 	static EnemyControl instance;
 
 	return &instance;
+}
+
+EnemyControl::~EnemyControl()
+{
+	
 }
 
 /*------------------------*/
@@ -200,10 +204,6 @@ void EnemyControl::SummonEnemyInit()
 
 void EnemyControl::Init_Boss()
 {
-	o = new Particle();
-	o->Init(65);
-	o->SetParColor({ 1,1,1,1 });
-	o->SetParScl({ 2,2 });
 	//ボス初期化
 	enemys[BOSS].resize(1);
 	enemys[BOSS][0] = std::make_unique<BossEnemy>();
@@ -481,8 +481,6 @@ void EnemyControl::Update_Boss()
 	{
 		return;
 	}
-	o->CreateParticle(true, enemys[BOSS][0]->GetPosition());
-	o->Bleath();
 	bAttack->Upda();
 
 	enemys[BOSS][0]->Update();
@@ -606,7 +604,6 @@ void EnemyControl::Draw_Boss()
 	}
 	//ボス描画
 	enemys[BOSS][0]->Draw();
-	o->Draw();
 	//ボスの貼るシールドテクスチャ
 	Texture::PreDraw();
 

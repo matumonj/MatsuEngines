@@ -17,6 +17,7 @@ void ModelManager::Initialize()
 	LoadModel(WOOD, "wood");
 	LoadModel(WOOD2, "wood2");
 	LoadModel(CHEST, "chest");
+	LoadModel(BIGROCK_B, "crystal");
 	LoadModel(FENCE, "Fence");
 	LoadFBXModel(PLAYER, "playerGolem");
 	LoadFBXModel(BOSS, "boss");

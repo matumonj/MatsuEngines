@@ -1,19 +1,17 @@
-#include "AltAttack.h"
+#include "RushAttack.h"
 #include"EnemyControl.h"
 #include"CameraControl.h"
 #include"PlayerControl.h"
 #include"mHelper.h"
-#include"BossSpell.h"
-#include"Destroy.h"
 #include"BossMap.h"
 
-AltAttack* AltAttack::GetInstance()
+RushAttack* RushAttack::GetInstance()
 {
-	static AltAttack ins;
+	static RushAttack ins;
 	return &ins;
 }
 
-void AltAttack::Initialize()
+void RushAttack::Initialize()
 {
 	RushSphereObj = std::make_unique<Object3d>();
 	RushSphereObj->SetModel(ModelManager::GetIns()->GetModel(ModelManager::SPHERE));
@@ -37,11 +35,11 @@ void AltAttack::Initialize()
 	p->Init(64);
 }
 
-void AltAttack::CollisionParamSet()
+void RushAttack::CollisionParamSet()
 {
 }
 
-void AltAttack::ActionJudg()
+void RushAttack::ActionJudg()
 {
 	CollisionParamSet();
 
@@ -61,7 +59,7 @@ void AltAttack::ActionJudg()
 		break;
 	case PHASETHREE:
 
-		RushAttack();
+		RushMoving();
 		break;
 	case PHASEFOUR:
 
@@ -77,7 +75,7 @@ void AltAttack::ActionJudg()
 	RushEaseTime = max(RushEaseTime, 0.0f);
 }
 
-void AltAttack::Upda()
+void RushAttack::Upda()
 {
 	Enemy* boss = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0].get();
 	if (boss == nullptr)
@@ -100,7 +98,7 @@ void AltAttack::Upda()
 
 #include"imgui.h"
 
-void AltAttack::Draw()
+void RushAttack::Draw()
 {
 	//ParticleManager::PreDraw();
 	// 3Dオブクジェクトの描画
@@ -113,7 +111,7 @@ void AltAttack::Draw()
 }
 
 
-void AltAttack::RushObjDraw()
+void RushAttack::RushObjDraw()
 {
 	if (RushSphereObj == nullptr)
 	{
@@ -127,7 +125,7 @@ void AltAttack::RushObjDraw()
 	Object3d::PostDraw();
 }
 
-void AltAttack::RushStart()
+void RushAttack::RushStart()
 {
 	//atckjudg = true;
 	rushspherealpha = 0.8f;
@@ -158,7 +156,7 @@ void AltAttack::RushStart()
 }
 
 
-void AltAttack::Rush(Area& area, Area now, Area next, float& t)
+void RushAttack::Rush(Area& area, Area now, Area next, float& t)
 {
 	XMFLOAT3 Bpos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
 
@@ -188,7 +186,7 @@ void AltAttack::Rush(Area& area, Area now, Area next, float& t)
 	}
 }
 
-void AltAttack::RushAttack()
+void RushAttack::RushMoving()
 {
 	rushimpactarea[FIR] = {0, -14.75, -100};
 	rushimpactarea[SEC] = {0, -14.75, 100};
@@ -211,7 +209,7 @@ void AltAttack::RushAttack()
 	Rush(area, FIU, FIV, rushEtime[FIU]);
 	Rush(area, FIV, END, rushEtime[FIV]);
 
-	rushpos.y = 8.f;
+	rushpos.y = 14.75f;
 	EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->SetPosition(rushpos);
 	RushSphereObj->SetPosition(rushpos);
 
@@ -227,13 +225,13 @@ void AltAttack::RushAttack()
 	}
 }
 
-void AltAttack::RushParamReset()
+void RushAttack::RushParamReset()
 {
 	RushEaseTime = 0.0f;
 	RushAttackCount = 0;
 }
 
-void AltAttack::Finalize()
+void RushAttack::Finalize()
 {
 	//vector<Texture*>EnergieSphere
 	RushSphereObj.release();

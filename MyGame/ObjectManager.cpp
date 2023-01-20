@@ -5,7 +5,6 @@
 #include"CollisionAttribute.h"
 #include"TouchableObject.h"
 #include"CollisionManager.h"
-#include"Collision.h"
 #include"Destroy.h"
 #include "SceneManager.h"
 
@@ -13,7 +12,6 @@ ObjectManager::~ObjectManager()
 {
 	Destroy_unique(m_Object);
 	Destroy_unique(m_fbxObject);
-	//Destroy(m_Model);
 	Destroy(m_fbxModel);
 }
 

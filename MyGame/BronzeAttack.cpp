@@ -106,38 +106,51 @@ void BronzeAttack::Upda()
 
 void BronzeAttack::SphereMoving()
 {
-	XMFLOAT3 bpos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
-
-	for(int i=0;i<chargesphere.size();i++)
+	XMFLOAT3 bpos_right ={EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->HandRightPos()};
+	XMFLOAT3 bpos_left = { EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->HandLeftPos() };
+	for(int i=0;i<15;i++)
 	{
 		if(chargespheremoveF[i])
 		{
 			chargesphereangle[i]++;
-			chargespherepos[i].z++;
-			if(Collision::GetLength(chargespherepos[i],MagicTex->GetPosition())<5.f)
+			chargespherepos[i].z+=2.f;
+			if(Collision::GetLength(chargespherepos[i],MagicTex->GetPosition())<15.f)
 			{
 				chargespheremoveF[i] = false;
 			}
 		}
 		else
 		{
-			chargespherepos[i] = { bpos.x + float(rand() % 5), bpos.y+float(rand()%8), bpos.z};
+			chargespherepos[i] = { bpos_right.x ,bpos_right.y, bpos_right.z};
 
-			if(i!=0)
-			{
-				if (chargespherepos[i-1].z > 10.f) {
-					chargespheremoveF[i] = true;
-				} 
-			}
-			chargespheremoveF[0] = true;
+			
+			chargespheremoveF[i] = true;
 			break;
 		}
 	}
+	//
+	for (int i = 15; i < chargesphere.size() ; i++)
+	{
+		if (chargespheremoveF[i])
+		{
+			chargesphereangle[i]++;
+			chargespherepos[i].z-=2.f;
+			if (Collision::GetLength(chargespherepos[i], { bpos_left.x,14.75f,-90.f}) < 15.f)
+			{
+				chargespheremoveF[i] = false;
+			}
+		} else
+		{
+			chargespherepos[i] = { bpos_left.x ,bpos_left.y , bpos_left.z };
 
+			chargespheremoveF[i] = true;
+			break;
+		}
+	}
 	for(int i=0;i<chargesphere.size();i++)
 	{
 		chargesphere[i]->SetPosition(chargespherepos[i]);
-		chargesphere[i]->SetColor({ 1.f,1.f,1.f,0.3f });
+		chargesphere[i]->SetColor({ 1.f,1.f,1.f,0.8f });
 		chargesphere[i]->SetScale({ 1.f,1.f,1.f });
 		chargesphere[i]->Update({ 1.f,1.f,1.f,1.f }, CameraControl::GetInstance()->GetCamera());
 	}

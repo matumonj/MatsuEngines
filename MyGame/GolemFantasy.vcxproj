@@ -109,12 +109,11 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AltAttack.cpp" />
+    <ClCompile Include="RushAttack.cpp" />
     <ClCompile Include="AreaFence.cpp" />
     <ClCompile Include="AttackCollision.cpp" />
     <ClCompile Include="AttackEffect.cpp" />
     <ClCompile Include="BetaEnemyAttack.cpp" />
-    <ClCompile Include="BetaEnemyFollow.cpp" />
     <ClCompile Include="BetaEnemyState.cpp" />
     <ClCompile Include="BetaEnemyWalk.cpp" />
     <ClCompile Include="BigSword.cpp" />
@@ -260,12 +259,11 @@
     <ClCompile Include="WoodControl.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AltAttack.h" />
+    <ClInclude Include="RushAttack.h" />
     <ClInclude Include="AreaFence.h" />
     <ClInclude Include="AttackCollision.h" />
     <ClInclude Include="AttackEffect.h" />
     <ClInclude Include="BetaEnemyAttack.h" />
-    <ClInclude Include="BetaEnemyFollow.h" />
     <ClInclude Include="BetaEnemyState.h" />
     <ClInclude Include="BetaEnemyWalk.h" />
     <ClInclude Include="BigSword.h" />

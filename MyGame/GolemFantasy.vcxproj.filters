@@ -153,9 +153,6 @@
     <Filter Include="Game\Scene">
       <UniqueIdentifier>{71571380-9e3e-4eae-8be2-8821f123a3af}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Scene\title,play">
-      <UniqueIdentifier>{1c29f6ca-2414-4584-bc7f-019dad1dc8ef}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\Scene\basescene">
       <UniqueIdentifier>{ba3e160d-6499-4593-ad7e-388c395ab9f1}</UniqueIdentifier>
     </Filter>
@@ -222,6 +219,9 @@
     </Filter>
     <Filter Include="Game\gameobject\GameObject\Boss\AttackPattern\SecondHalf\Sequence">
       <UniqueIdentifier>{20191d69-8eea-4a71-8563-3466169c2c59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scene\GameScene">
+      <UniqueIdentifier>{1c29f6ca-2414-4584-bc7f-019dad1dc8ef}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -298,10 +298,10 @@
       <Filter>Game\Scene\basescene</Filter>
     </ClCompile>
     <ClCompile Include="PlayScene.cpp">
-      <Filter>Game\Scene\title,play</Filter>
+      <Filter>Game\Scene\GameScene</Filter>
     </ClCompile>
     <ClCompile Include="TitleScene.cpp">
-      <Filter>Game\Scene\title,play</Filter>
+      <Filter>Game\Scene\GameScene</Filter>
     </ClCompile>
     <ClCompile Include="BaseScene.cpp">
       <Filter>Game\Scene\basescene</Filter>
@@ -430,10 +430,10 @@
       <Filter>Game\gameobject\GameObject\Sword\派生</Filter>
     </ClCompile>
     <ClCompile Include="BossScene.cpp">
-      <Filter>Game\Scene\title,play</Filter>
+      <Filter>Game\Scene\GameScene</Filter>
     </ClCompile>
     <ClCompile Include="Tutorial.cpp">
-      <Filter>Game\Scene\title,play</Filter>
+      <Filter>Game\Scene\GameScene</Filter>
     </ClCompile>
     <ClCompile Include="Nail.cpp">
       <Filter>Game\gameobject\GameObject\Boss\AttackPattern</Filter>
@@ -507,7 +507,7 @@
     <ClCompile Include="BossEnemyAttackKnock.cpp">
       <Filter>Game\gameobject\GameObject\Boss\AttackPattern\FirstHalf\Sequence</Filter>
     </ClCompile>
-    <ClCompile Include="AltAttack.cpp">
+    <ClCompile Include="RushAttack.cpp">
       <Filter>Game\gameobject\GameObject\Boss\AttackPattern\SecondHalf\Action</Filter>
     </ClCompile>
     <ClCompile Include="EnemyRespawnState.cpp">
@@ -639,9 +639,6 @@
     <ClCompile Include="BetaEnemyState.cpp">
       <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\beta</Filter>
     </ClCompile>
-    <ClCompile Include="BetaEnemyFollow.cpp">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\beta</Filter>
-    </ClCompile>
     <ClCompile Include="BetaEnemyWalk.cpp">
       <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\beta</Filter>
     </ClCompile>
@@ -750,10 +747,10 @@
       <Filter>Game\Scene\basescene</Filter>
     </ClInclude>
     <ClInclude Include="TitleScene.h">
-      <Filter>Game\Scene\title,play</Filter>
+      <Filter>Game\Scene\GameScene</Filter>
     </ClInclude>
     <ClInclude Include="PlayScene.h">
-      <Filter>Game\Scene\title,play</Filter>
+      <Filter>Game\Scene\GameScene</Filter>
     </ClInclude>
     <ClInclude Include="BaseScene.h">
       <Filter>Game\Scene\basescene</Filter>
@@ -897,10 +894,10 @@
       <Filter>Game\gameobject\GameObject\Sword\派生</Filter>
     </ClInclude>
     <ClInclude Include="BossScene.h">
-      <Filter>Game\Scene\title,play</Filter>
+      <Filter>Game\Scene\GameScene</Filter>
     </ClInclude>
     <ClInclude Include="Tutorial.h">
-      <Filter>Game\Scene\title,play</Filter>
+      <Filter>Game\Scene\GameScene</Filter>
     </ClInclude>
     <ClInclude Include="Nail.h">
       <Filter>Game\gameobject\GameObject\Boss\AttackPattern</Filter>
@@ -974,7 +971,7 @@
     <ClInclude Include="BossEnemyAttackKnock.h">
       <Filter>Game\gameobject\GameObject\Boss\AttackPattern\FirstHalf\Sequence</Filter>
     </ClInclude>
-    <ClInclude Include="AltAttack.h">
+    <ClInclude Include="RushAttack.h">
       <Filter>Game\gameobject\GameObject\Boss\AttackPattern\SecondHalf\Action</Filter>
     </ClInclude>
     <ClInclude Include="EnemyRespawnState.h">
@@ -1113,9 +1110,6 @@
       <Filter>Game\gameobject\GameObject\Enemy\Derived\beta</Filter>
     </ClInclude>
     <ClInclude Include="BetaEnemyState.h">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\beta</Filter>
-    </ClInclude>
-    <ClInclude Include="BetaEnemyFollow.h">
       <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\beta</Filter>
     </ClInclude>
     <ClInclude Include="BetaEnemyWalk.h">

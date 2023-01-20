@@ -48,7 +48,8 @@ void BossEnemyAttackBrzBeam::TurnCenter(Enemy* enemy)
 		});
 	if (Collision::GetLength(enemy->GetPosition(),{0.f,0.f,0.f}) > 15.f)
 	{
-		positionA = { 0,0,-50 };
+
+		positionA = { 0.f,0.f,0.f };
 		enemy->SetAnimation(BossEnemy::NowAttackMotion::BWALK, true,1.f);
 		enemy->SetPosition({
 				enemy->GetPosition().x + move.m128_f32[0] * 3,
@@ -59,9 +60,8 @@ void BossEnemyAttackBrzBeam::TurnCenter(Enemy* enemy)
 	}
 	else
 	{
-		positionA = { 0.f,0.f,0.f };
+		positionA = { 0,0,-50 };
 		enemy->SetAnimation(BossEnemy::NowAttackMotion::CHARGE, true,1.f);
-
 	}
 }
 

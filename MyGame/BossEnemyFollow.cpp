@@ -3,11 +3,9 @@
 #include"PlayerControl.h"
 #include"CameraControl.h"
 #include"BossEnemyAttack.h"
-#include"BossEnemyAttackCircle.h"
 #include"BossEnemyAttackknock.h"
-#include"BossEnemyAttackhalf.h"
 #include"mHelper.h"
-#include"AltAttack.h"
+#include"RushAttack.h"
 #include"FrontCircleAttack.h"
 #include"HalfAttack.h"
 #include"CircleAttack.h"
@@ -15,11 +13,11 @@
 #include"KnockAttack.h"
 #include"BossEnemyAttackSlam.h"
 #include"BossEnemyAttackBeam.h"
-#include"BossEnemyEvasion.h"
 #include"Feed.h"
 #include"BossEnemy.h"
 #include "BossEnemyAttackBrzBeam.h"
 #include "BossEnemyAttackUlt.h"
+#include "BossEnemyEvasion.h"
 #include "BronzeAttack.h"
 #include "UltAttack.h"
 
@@ -86,7 +84,7 @@ void BossEnemyFollow::Update(Enemy* enemy)
 		Evaprobability = rand() % 100 + 1;
 		if (Evaprobability > 60)
 		{
-			//enemy->ChangeState_Boss(new BossEnemyFalter());
+			enemy->ChangeState_Boss(new BossEnemyFalter());
 		}
 		else
 		{
@@ -126,10 +124,10 @@ void BossEnemyFollow::Update(Enemy* enemy)
 	//
 	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= 70.0f)
 	{
-		if (AltAttack::GetInstance()->GetPhaseEnd() != AltAttack::PHASEFOUR)
+		if (RushAttack::GetInstance()->GetPhaseEnd() != RushAttack::PHASEFOUR)
 		{
 			if (enemy->GetAttack_End(enemy->Beam) == false) {
-				AltAttack::GetInstance()->SetAttackPhase(true);
+				RushAttack::GetInstance()->SetAttackPhase(true);
 				enemy->ChangeState_Boss(new BossEnemyAttackBeam());
 			}
 		}
@@ -174,11 +172,8 @@ void BossEnemyFollow::AttackSelect(Enemy* enemy, bool judg, int num)
 {
 	if (judg)
 	{
-		enemy->SetRecvDamage2(false);
-		//AttackStart(enemy, num);
-	
-			AttackType(enemy, num);
-		}
+		AttackType(enemy, num);
+	}
 }
 
 void BossEnemyFollow::AttackStart(Enemy* enemy, int num)
@@ -203,7 +198,7 @@ void BossEnemyFollow::AttackStart(Enemy* enemy, int num)
 		break;
 	case enemy->Beam:
 		enemy->SetRecvDamage2(false);
-		AltAttack::GetInstance()->SetAttackPhase(true);
+		RushAttack::GetInstance()->SetAttackPhase(true);
 		break;
 	case enemy->Slam:
 		FrontCircleAttack::GetInstance()->SetAttackPhase(true);
@@ -240,7 +235,7 @@ void BossEnemyFollow::AttackType(Enemy* enemy, int num)
 		break;
 
 	case enemy->Beam:
-		if (AltAttack::GetInstance()->GetPhaseEnd() != AltAttack::PHASEFOUR)
+		if (RushAttack::GetInstance()->GetPhaseEnd() != RushAttack::PHASEFOUR)
 		{
 			enemy->ChangeState_Boss(new BossEnemyAttackBeam());
 		}

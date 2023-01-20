@@ -1,13 +1,7 @@
 #include "BossEnemyEvasion.h"
-#include "BossEnemyEvasion.h"
 #include"PlayerControl.h"
 #include"CameraControl.h"
 #include"BossEnemyAttack.h"
-#include"BossEnemyAttackCircle.h"
-#include"BossEnemyAttackknock.h"
-#include"BossEnemyAttackhalf.h"
-#include"mHelper.h"
-#include"BossEnemyDeath.h"
 #include"BossEnemyFollow.h"
 
 void BossEnemyEvasion::Initialize(Enemy* enmey)
@@ -49,5 +43,11 @@ void BossEnemyEvasion::Update(Enemy* enemy)
 void BossEnemyFalter::Update(Enemy* enemy)
 {
 	enemy->SetRecvDamage2(false);
-	
+	enemy->SetAnimation(BossEnemy::NowAttackMotion::FALTER,false, 0.4);
+
+	PlayerAttackState::GetInstance()->SetHitStopJudg(true,120);
+	if(enemy->GetAnimationTime()>=enemy->GetFbxTimeEnd()-0.1f)
+	{
+		enemy->ChangeState_Boss(new BossEnemyFollow());
+	}
 }

@@ -89,16 +89,9 @@ private:
 public:
 	void SetMotion(bool& motionStartJudg, NowAttackMotion motion, float actionStartTime, float actionEndTime);
 private:
-	XMMATRIX handmat_right;
-	XMMATRIX handmat_left;
-
-	XMFLOAT3 HandPos_Right;//18
-	XMFLOAT3 HandPos_Left;//43
+	
 	int hind;
 	bool isendtime;
-	int particleLife = 320;
-	XMFLOAT3 particlePos;
-	XMFLOAT3 WeaponRot;
 	std::unique_ptr<Object3d> Sword;
 	XMFLOAT3 swordrot;
 

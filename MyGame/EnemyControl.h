@@ -11,11 +11,8 @@ class EnemyControl :
 	public ControlBase
 {
 public:
-	~EnemyControl() override
-	{
-	};
+	~EnemyControl() override;
 private:
-	Particle* o;
 	std::vector<XMFLOAT3> Load_EnemyPosition = {};
 
 	std::vector<int>rescount = {};

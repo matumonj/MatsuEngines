@@ -64,7 +64,7 @@ void BossMap::Init()
 }
 
 #include"EnemyControl.h"
-#include"AltAttack.h"
+#include"RushAttack.h"
 
 void BossMap::Upda()
 {
@@ -167,8 +167,8 @@ void BossMap::DrawDamageLine(bool atckjudg, Line2D line)
 
 void BossMap::DrawDamageLine(bool atckjudg, Line2D line[4])
 {
-	if (AltAttack::GetInstance()->GetPhaseEnd() == AltAttack::PHASETWO ||
-		AltAttack::GetInstance()->GetPhaseEnd() == AltAttack::PHASETHREE)return;
+	if (RushAttack::GetInstance()->GetPhaseEnd() == RushAttack::PHASETWO ||
+		RushAttack::GetInstance()->GetPhaseEnd() == RushAttack::PHASETHREE)return;
 	for (int i = 0; i < mapHight; i++)
 	{
 		for (int j = 0; j < mapWidth; j++)

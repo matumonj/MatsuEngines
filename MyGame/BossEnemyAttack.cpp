@@ -4,13 +4,26 @@
 #include"CameraControl.h"
 #include"PlayerControl.h"
 #include"BossEnemy.h"
+#include "BossEnemyEvasion.h"
+
 void BossEnemyAttack::Initialize(Enemy* enmey)
 {
 }
 
 void BossEnemyAttack::Update(Enemy* enemy)
 {
-	
+	int Evaprobability;
+	if (enemy->GetRecvDamage2())
+	{
+		Evaprobability = rand() % 100 + 1;
+		if (Evaprobability > 60)
+		{
+			enemy->ChangeState_Boss(new BossEnemyFalter());
+		} else
+		{
+			enemy->SetRecvDamage2(false);
+		}
+	}
 	if(randmotion<40)
 	{
 		enemy->SetAnimation(BossEnemy::NowAttackMotion::BNORMAL, false, 1.0);
@@ -48,7 +61,5 @@ void BossEnemyAttack::Update(Enemy* enemy)
 				randmotion = rand() % 100 + 1;
 			}
 		}
-	//	}
-		
 	}
 }

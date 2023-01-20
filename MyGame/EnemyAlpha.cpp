@@ -137,9 +137,6 @@ void EnemyAlpha::Draw()
 	{
 		Draw_Fbx();
 	}
-	ParticleManager::PreDraw();
-	// 3Dオブジェクト描画後処理
-	ParticleManager::PostDraw();
 }
 
 void EnemyAlpha::Death()

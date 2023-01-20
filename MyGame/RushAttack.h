@@ -7,7 +7,7 @@
 #include"ParticleManager.h"
 #include"Particle.h"
 
-class AltAttack
+class RushAttack
 {
 public:
 private:
@@ -43,7 +43,7 @@ private:
 	float angleRush;
 	int RushAttackCount = 0;
 public:
-	static AltAttack* GetInstance();
+	static RushAttack* GetInstance();
 	void Initialize();
 	void ActionJudg();
 	void Upda();
@@ -71,7 +71,7 @@ private:
 	float DestTime;
 
 	void Rush(Area& area, Area now, Area next, float& t);
-	void RushAttack();
+	void RushMoving();
 	void CollisionParamSet();
 
 	void RushStart();

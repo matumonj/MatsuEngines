@@ -1,7 +1,5 @@
 #include "Field.h"
-
 #include <algorithm>
-
 #include"CameraControl.h"
 #include"TouchableObject.h"
 #include"CollisionManager.h"
@@ -11,7 +9,6 @@
 #include"CollisionPrimitive.h"
 #include"PlayerControl.h"
 #include"EnemyControl.h"
-#include"ChestControl.h"
 #include "mHelper.h"
 #include"UltAttack.h"
 #include "Feed.h"
@@ -538,12 +535,7 @@ void Field::Draw()
 			m_object[CELESTIALSPHERE]->Draw();
 		}
 
-	
-		else{
-			//ModelDraw_nullCheck(BOSSBACK);
-
-			ModelDraw_nullCheck(DAMAGEAREA);
-		}	ModelDraw_nullCheck(BOSSBACK);
+	if (destt<100) { ModelDraw_nullCheck(BOSSBACK); }
 
 	}
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)

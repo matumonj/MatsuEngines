@@ -53,7 +53,9 @@ void GameOver::Update()
 		if (AlphaEaseT <= 0.0f)
 		{
 			EnemyControl::GetInstance()->GameOverResetParam();
-			EnemyControl::GetInstance()->GuardianCreate();
+			if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
+				EnemyControl::GetInstance()->GuardianCreate();
+			}
 			PlayerControl::GetInstance()->GameOverResetParam();
 			PlayerControl::GetInstance()->TurnoffDraw(false);
 			UI::GetInstance()->SetTurnoffUIDraw(false);
@@ -77,7 +79,9 @@ void GameOver::Update()
 			if (AlphaEaseT >= 1.0f && Input::GetInstance()->TriggerButton(Input::B))
 			{
 				PlayerControl::GetInstance()->TurnoffDraw(true);
-				EnemyControl::GetInstance()->GuardianReset();
+				if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
+					EnemyControl::GetInstance()->GuardianReset();
+				}
 				PlayerDestF = true;
 				ReStartF = true;
 			}

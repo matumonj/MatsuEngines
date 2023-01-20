@@ -63,11 +63,10 @@ private:
 	int SecondAttackDamage = 15;
 	int ThirdAttackDamage = 20;
 	int ComboBonus = 10;
-	int CoolDownTime = 0;
 	int HitStopTime;
+	int HitStopCount;
 	int HitStopJudg;
-	int BufCoolDownTime = 0;
-	int BuffTime = 0;
+	
 	bool BuffFlag;
 	const int BuffTimeMax = 1200;
 	std::vector<std::unique_ptr<Enemy>> enemys;
@@ -75,8 +74,7 @@ public:
 	static PlayerAttackState* GetInstance();
 	AttackSkill GetSkill() { return OldSkill; }
 	AttackSkill GetNowSkill() { return Skill; }
-	void SetHitStopJudg(bool f) { HitStopJudg = f; }
+	void SetHitStopJudg(bool f, int time = 90);
 	bool GetHitStopJudg() { return HitStopJudg; }
-	int GetCoolTime() { return CoolDownTime; };
 	void HitStop();
 };
