@@ -29,6 +29,10 @@ void ClearScene::Initialize()
 
 }
 
+void ClearScene::LightUpdate()
+{
+
+}
 /*------------------------*/
 /*-------XVˆ—--------*/
 /*-----------------------*/
@@ -146,8 +150,8 @@ void ClearScene::TitleTexInit()
 	titlesprite = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::CLEARBACK), { 0.0f, 0.0f });
 
 	std::array<Sprite*, 9>l_cleratex;
-	l_cleratex[0] = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::GAMECLEAR_G), {0, 0.0f});
-	l_cleratex[1] = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::GAMECLEAR_A) , { 0, 0.0f });
+	l_cleratex[0] = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::GAMECLEAR_G), { 0, 0.0f });
+	l_cleratex[1] = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::GAMECLEAR_A), { 0, 0.0f });
 	l_cleratex[2] = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::GAMECLEAR_M), { 0, 0.0f });
 	l_cleratex[3] = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::GAMECLEAR_E), { 0, 0.0f });
 	l_cleratex[4] = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::GAMECLEAR_C), { 0, 0.0f });
@@ -157,7 +161,7 @@ void ClearScene::TitleTexInit()
 	l_cleratex[8] = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::GAMECLEAR_R), { 0, 0.0f });
 
 
-	for(int i=0;i<cleartex.size();i++)
+	for (int i = 0; i < cleartex.size(); i++)
 	{
 		cleartex[i].reset(l_cleratex[i]);
 	}
@@ -172,6 +176,10 @@ void ClearScene::TitleTexInit()
 	}
 }
 
+void ClearScene::MyGameDraw()
+{
+
+}
 void ClearScene::TitleTexUpda()
 {
 	texangle[0] += 1.f;

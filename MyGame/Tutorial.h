@@ -32,12 +32,9 @@ private:
 	bool scenechange = false;
 	bool feedflag = false;
 	PostEffect* postEffect = nullptr;
-	DebugCamera* dc = nullptr;
 public:
-	void MyGameDraw();
 	void objUpdate();
 	void LightSet();
-	void LightUpdate();
 public:
 	XMFLOAT3 texpo = {0.0f, 0.0f, 0.0f};
 	void Initialize() override;
@@ -45,11 +42,12 @@ public:
 	void Draw() override;
 	bool LoadParam();
 	void Finalize() override;
+	void MyGameDraw()override;
+	void SpriteDraw()override;
 
+	void LightUpdate()override;
 private:
 	bool feedout = true;
-	
-	float fighterPos[3] = {1.0f, 0.0f, 0.0f};
 public:
 	//エフェクト用(ただプログラムでつくれるものはプログラムで作る方がいい　多用はいくない)
 	int c_postEffect = Default;
@@ -64,6 +62,5 @@ private:
 	bool hudload = false;
 	bool Load = false;
 
-	std::vector<ControlBase*> AllObjectControl;
 	std::unique_ptr<GrassField> grassfield;
 };

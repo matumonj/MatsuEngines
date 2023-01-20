@@ -49,9 +49,10 @@ public:
 	void Initialize() override;
 	void Update() override;
 	void Draw() override;
-	void SpriteDraw();
 	void Finalize() override;
-
+	void LightUpdate()override;
+	void SpriteDraw()override;
+	void MyGameDraw()override;
 private:
 	void TitleTexInit();
 	void TitleTexUpda();

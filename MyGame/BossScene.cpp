@@ -30,23 +30,21 @@ BossScene::BossScene(SceneManager* sceneManager)
 /*-----------------------*/
 void BossScene::Initialize()
 {
-	//DebugTxt::GetInstance()->Initialize(47);
 	//各オブジェクトの初期化
-	if (AllObjectControl.size() == 0)
-	{
-		//各オブジェクトインスタンスぶちこむ
-		AllObjectControl.emplace_back(CameraControl::GetInstance());
-		AllObjectControl.emplace_back(PlayerControl::GetInstance());
-		AllObjectControl.emplace_back(EnemyControl::GetInstance());
-	}
+	
+	//各オブジェクトインスタンスぶちこむ
+	AllObjectControl.emplace_back(CameraControl::GetInstance());
+	AllObjectControl.emplace_back(PlayerControl::GetInstance());
+	AllObjectControl.emplace_back(EnemyControl::GetInstance());
+	
 	lightGroup = LightGroup::Create();
 
 	Object3d::SetLightGroup(lightGroup);
 	//lightGroup2 = LightGroup::Create();
 	// 3Dオブエクトにライトをセット
-	lightGroup->SetDirLightActive(20, true);
+	lightGroup->SetDirLightActive(0, true);
 	lightGroup->SetDirLightActive(1, true);
-	lightGroup->SetCircleShadowActive(20, true);
+	lightGroup->SetCircleShadowActive(0, true);
 	lightGroup->SetCircleShadowActive(1, true);
 	
 	//ボス攻撃用->できれば移す
@@ -117,10 +115,10 @@ void BossScene::Update()
 		Play = false;
 		SceneManager::GetInstance()->SetScene(SceneManager::TITLE, sceneManager_);
 	}
-		lightGroup->SetCircleShadowCasterPos(20,PlayerControl::GetInstance()->GetPlayer()->GetPosition());
-		lightGroup->SetCircleShadowAtten(20, XMFLOAT3(circleShadowAtten));
-		lightGroup->SetCircleShadowDir(20, XMVECTOR({ circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0 }));
-		lightGroup->SetCircleShadowFactorAngle(20, XMFLOAT2(circleShadowFactorAngle2));
+		lightGroup->SetCircleShadowCasterPos(0,PlayerControl::GetInstance()->GetPlayer()->GetPosition());
+		lightGroup->SetCircleShadowAtten(0, XMFLOAT3(circleShadowAtten));
+		lightGroup->SetCircleShadowDir(0, XMVECTOR({ circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0 }));
+		lightGroup->SetCircleShadowFactorAngle(0, XMFLOAT2(circleShadowFactorAngle2));
 
 		lightGroup->SetCircleShadowFactorAngle(1, XMFLOAT2(circleShadowFactorAngle2));
 		XMFLOAT3 bpos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
@@ -140,8 +138,58 @@ void BossScene::Update()
 /*------------------------*/
 /*--------描画処理--------*/
 /*-----------------------*/
+
+void BossScene::SpriteDraw()
+{
+	EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->DamageTexDisplay_Draw();
+
+	for (int i = 0; i < 2; i++)
+	{
+		EnemyControl::GetInstance()->GetSummonEnemy(i)->DamageTexDisplay_Draw();
+	}
+
+	Field::GetInstance()->WarningDraw();
+	PlayerControl::GetInstance()->GetPlayer()->ParticleDraw();
+
+	GameOver::GetIns()->Draw_DestParticle();
+	Sprite::PreDraw();
+	DebugTextSprite::GetInstance()->DrawAll();
+	Sprite::PostDraw();
+	PlayerControl::GetInstance()->DamageTexDraw();
+
+	//UI
+	if (CameraControl::GetInstance()->GetCameraState() != CameraControl::BOSSCUTSCENE)
+	{
+		UI::GetInstance()->HUDDraw();
+	}
+	GameOver::GetIns()->Draw();
+	Feed::GetInstance()->Draw();
+	SistemConfig::GetInstance()->Draw();
+
+}
+
 void BossScene::MyGameDraw()
 {
+	if (!Play)return;
+
+	if (Field::GetInstance() != nullptr)
+	{
+		Field::GetInstance()->Draw();
+	}
+
+		Nail::GetInstance()->Draw();
+		BossMap::GetInstance()->Draw();
+
+		if (Feed::GetInstance()->GetAlpha() < 1.0f) {
+			for (int i = 0; i < AllObjectControl.size(); i++)
+			{
+				if (AllObjectControl[i] == nullptr)
+				{
+					continue;
+				}
+				AllObjectControl[i]->Draw();
+			}
+		}
 }
 
 /*------------------------*/
@@ -154,105 +202,21 @@ void BossScene::Draw()
 	{
 	case Blur: //ぼかし　描画準違うだけ
 		postEffect->PreDrawScene();
-		if (Play)
-		{
-			if (Field::GetInstance() != nullptr)
-			{
-				Field::GetInstance()->Draw();
-			}
-
-				Nail::GetInstance()->Draw();
-				BossMap::GetInstance()->Draw();
-
-				if (Feed::GetInstance()->GetAlpha() < 1.0f) {
-					for (int i = 0; i < AllObjectControl.size(); i++)
-					{
-						if (AllObjectControl[i] == nullptr)
-						{
-							continue;
-						}
-						AllObjectControl[i]->Draw();
-					}
-				}
-			
-		}
+		MyGameDraw();
 		postEffect->PostDrawScene();
 		
-			DirectXCommon::GetInstance()->BeginDraw();
-	//設定画面
-		
-		SistemConfig::GetInstance()->Draw();
-		
-		
-postEffect->Draw();
-
-
+		DirectXCommon::GetInstance()->BeginDraw();
+		postEffect->Draw();
 		//UI
-		if (CameraControl::GetInstance()->GetCameraState() != CameraControl::BOSSCUTSCENE)
-		{
-			UI::GetInstance()->HUDDraw();
-		}
-		GameOver::GetIns()->Draw();
-		Feed::GetInstance()->Draw();
-		SistemConfig::GetInstance()->Draw();
-
+		SpriteDraw();
 		DirectXCommon::GetInstance()->EndDraw();
 		break;
 
 	case Default: //普通のやつ特に何もかかっていない
 	
 		DirectXCommon::GetInstance()->BeginDraw();
-		if (Play)
-		{
-				Field::GetInstance()->Draw();
-			
-			Nail::GetInstance()->Draw();
-			BossMap::GetInstance()->Draw();
-
-			if (Feed::GetInstance()->GetAlpha() < 1.0f) {
-				for (int i = 0; i < AllObjectControl.size(); i++)
-				{
-					if (AllObjectControl[i] == nullptr)
-					{
-						continue;
-					}
-					AllObjectControl[i]->Draw();
-				}
-			}
-		
-			CircleAttack::GetInstance()->Draw();
-			HalfAttack::GetInstance()->Draw();
-			KnockAttack::GetInstance()->Draw();
-			AltAttack::GetInstance()->Draw();
-			FrontCircleAttack::GetInstance()->Draw();
-			UltAttack::GetIns()->Draw();
-			BronzeAttack::GetIns()->Draw();
-			EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->DamageTexDisplay_Draw();
-
-			for (int i = 0; i < 2; i++)
-			{
-				EnemyControl::GetInstance()->GetSummonEnemy(i)->DamageTexDisplay_Draw();
-			}
-		}
-
-		Field::GetInstance()->WarningDraw();
-		PlayerControl::GetInstance()->GetPlayer()->ParticleDraw();
-
-		GameOver::GetIns()->Draw_DestParticle();
-		Sprite::PreDraw();
-		DebugTextSprite::GetInstance()->DrawAll();
-		Sprite::PostDraw();
-		PlayerControl::GetInstance()->DamageTexDraw();
-
-	//UI
-		if (CameraControl::GetInstance()->GetCameraState() != CameraControl::BOSSCUTSCENE)
-		{
-			UI::GetInstance()->HUDDraw();
-		}
-		GameOver::GetIns()->Draw();
-		Feed::GetInstance()->Draw();
-		SistemConfig::GetInstance()->Draw();
-
+		MyGameDraw();
+		SpriteDraw();
 		DirectXCommon::GetInstance()->EndDraw();
 		break;
 	}
@@ -331,4 +295,9 @@ void BossScene::ChangeScene()
 			}
 		}
 	}*/
+}
+
+void BossScene::LightUpdate()
+{
+
 }

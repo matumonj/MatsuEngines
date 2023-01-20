@@ -37,18 +37,16 @@ void PlayScene::Initialize()
 	lightGroup = LightGroup::Create();
 	Object3d::SetLightGroup(lightGroup);
 
-	if (AllObjectControl.size() == 0)
-	{
-		//カメラ一番上に　他のControlがカメラを引数にしてるから
-		AllObjectControl.push_back(CameraControl::GetInstance());
-		AllObjectControl.push_back(EnemyControl::GetInstance());
-		AllObjectControl.push_back(PlayerControl::GetInstance());
-		AllObjectControl.push_back(ChestControl::GetInstance());
-		AllObjectControl.push_back(HouseControl::GetInstance());
-		AllObjectControl.push_back(WoodControl::GetInstance());
-		AllObjectControl.push_back(FenceControl::GetInstance());
-	}
-
+	/*オブジェクトごとのインスタンスを格納*/
+		//カメラ一番上に
+		AllObjectControl.emplace_back(CameraControl::GetInstance());
+		AllObjectControl.emplace_back(EnemyControl::GetInstance());
+		AllObjectControl.emplace_back(PlayerControl::GetInstance());
+		AllObjectControl.emplace_back(ChestControl::GetInstance());
+		AllObjectControl.emplace_back(HouseControl::GetInstance());
+		AllObjectControl.emplace_back(WoodControl::GetInstance());
+		AllObjectControl.emplace_back(FenceControl::GetInstance());
+	
 	//ポストエフェクト初期化
 	postEffect = new PostEffect();
 	postEffect->Initialize();
@@ -61,8 +59,6 @@ void PlayScene::objUpdate()
 {
 	if (PlayGame)
 	{
-
-		
 		for (int i = 0; i < AllObjectControl.size(); i++)
 		{
 			if (AllObjectControl[i] == nullptr)
@@ -147,6 +143,10 @@ void PlayScene::Update()
 	GameOver::GetIns()->Update();
 }
 
+void PlayScene::LightUpdate()
+{
+
+}
 void PlayScene::ChangeSceneJudg()
 {
 	if (Task::GetInstance()->GetAllTaskClear())
@@ -172,6 +172,54 @@ void PlayScene::ChangeSceneJudg()
 /*-----------------------*/
 void PlayScene::MyGameDraw()
 {
+	if (Field::GetInstance() != nullptr)
+	{
+		Field::GetInstance()->Draw();
+		for (int i = 0; i < AllObjectControl.size(); i++)
+		{
+			if (AllObjectControl[i] == nullptr)
+			{
+				continue;
+			}
+			AllObjectControl[i]->Draw();
+		}
+
+		GuardianShotAttack::GetIns()->Draw();
+		GuardianNAttack::GetIns()->Draw();
+		Field::GetInstance()->GuardAreaDraw();
+	}
+	PlayerControl::GetInstance()->GetPlayer()->ParticleDraw();
+
+	GameOver::GetIns()->Draw_DestParticle();
+}
+
+void PlayScene::SpriteDraw()
+{
+	DropWeapon::GtIns()->Draw();
+	//postEffect->Draw();
+	Task::GetInstance()->TargetDraw();
+	PlayerControl::GetInstance()->DamageTexDraw();
+	for (int i = 0; i < EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE).size(); i++)
+	{
+		if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i] == nullptr)
+		{
+			continue;
+		}
+		EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i]->DamageTexDisplay_Draw();
+	}
+	if (EnemyControl::GetInstance()->GetGuardianEnemy() != nullptr)
+	{
+		EnemyControl::GetInstance()->GetGuardianEnemy()->DamageTexDisplay_Draw();
+	}
+	SistemConfig::GetInstance()->Draw();
+
+	Feed::GetInstance()->Draw();
+	if (Feed::GetInstance()->GetAlpha() <= 0.0f)
+	{
+		UI::GetInstance()->HUDDraw();
+	}
+	GameOver::GetIns()->Draw();
+	UI::GetInstance()->AreaNameDraw();
 }
 
 /*------------------------*/
@@ -184,68 +232,23 @@ void PlayScene::Draw()
 	{
 	case Blur: //ぼかし　描画準違うだけ
 		postEffect->PreDrawScene();
-	//MyGameDraw();
+		//MyGameDraw();
 		postEffect->PostDrawScene();
 
 		DirectXCommon::GetInstance()->BeginDraw();
 		postEffect->Draw();
-
-		SistemConfig::GetInstance()->Draw();
-
+		SpriteDraw();
 		DirectXCommon::GetInstance()->EndDraw();
 		break;
 
 	case Default: //普通のやつ特に何もかかっていない
-		postEffect->PreDrawScene();
-		Field::GetInstance()->MiniFieldDraw();
-		postEffect->PostDrawScene();
+		//postEffect->PreDrawScene();
+		//postEffect->Draw();
+		//postEffect->PostDrawScene();
 
 		DirectXCommon::GetInstance()->BeginDraw();
-		if (Field::GetInstance() != nullptr)
-		{
-			Field::GetInstance()->Draw();
-			for (int i = 0; i < AllObjectControl.size(); i++)
-			{
-				if (AllObjectControl[i] == nullptr)
-				{
-					continue;
-				}
-				AllObjectControl[i]->Draw();
-			}
-
-			GuardianShotAttack::GetIns()->Draw();
-			//GuardianShotAttack::GetIns()->Draw();
-			GuardianNAttack::GetIns()->Draw();
-			Field::GetInstance()->GuardAreaDraw();
-		}
-		PlayerControl::GetInstance()->GetPlayer()->ParticleDraw();
-
-		GameOver::GetIns()->Draw_DestParticle();
-		DropWeapon::GtIns()->Draw();
-	//postEffect->Draw();
-		Task::GetInstance()->TargetDraw();
-		PlayerControl::GetInstance()->DamageTexDraw();
-		for (int i = 0; i < EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE).size(); i++)
-		{
-			if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i] == nullptr)
-			{
-				continue;
-			}
-			EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i]->DamageTexDisplay_Draw();
-		}
-		if (EnemyControl::GetInstance()->GetGuardianEnemy() != nullptr)
-		{
-			EnemyControl::GetInstance()->GetGuardianEnemy()->DamageTexDisplay_Draw();
-		}
-		SistemConfig::GetInstance()->Draw();
-
-		Feed::GetInstance()->Draw();
-		if (Feed::GetInstance()->GetAlpha() <= 0.0f)
-		{
-			UI::GetInstance()->HUDDraw();
-		}
-		GameOver::GetIns()->Draw();
-		UI::GetInstance()->AreaNameDraw();
+		MyGameDraw();
+		SpriteDraw();
 		DirectXCommon::GetInstance()->EndDraw();
 		break;
 	}

@@ -97,21 +97,23 @@ void MapCreateScene::Update()
 	MapCreate::GetInstance()->ObjectArgment(CameraControl::GetInstance()->GetCamera());
 	//シーンチェンジ
 
-	if (Input::GetInstance()->TriggerKey(DIK_R))
-	{
-		//押されたら
-		//BaseScene* scene = new PlayScene(sceneManager_);//次のシーンのインスタンス生成
-		//sceneManager_->SetnextScene(scene);//シーンのセット
-	}
 }
 #pragma endregion
 
+void MapCreateScene::LightUpdate()
+{
 
+}
 //sプライと以外の描画
 void MapCreateScene::MyGameDraw()
 {
 	Field::GetInstance()->Draw();
 	MapCreate::GetInstance()->ObjectDraw();
+}
+
+void MapCreateScene::SpriteDraw()
+{
+
 }
 #pragma endregion
 //↓に入る

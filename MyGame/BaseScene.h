@@ -6,6 +6,7 @@
 #pragma comment(lib,"dinput8.lib")
 #pragma comment(lib,"dxguid.lib")
 #include "LightGroup.h"
+#include <ControlBase.h>
 class SceneManager;
 
 class BaseScene
@@ -19,6 +20,11 @@ public:
 	virtual void Finalize() = 0;
 
 protected:
+	virtual void MyGameDraw()=0;
+	virtual void SpriteDraw() = 0;
+	virtual void LightUpdate()=0;
+protected:
+	//ŒõŒ¹î•ñ
 	LightGroup* lightGroup = nullptr;
 	float ambientColor0[3] = { 1.0f, 1.0f, 1.0f };
 	// Œõü•ûŒü‰Šú’l
@@ -42,6 +48,9 @@ protected:
 	float circleShadowFactorAngle[2] = { 1.0f, 3.0f };
 	float circleShadowFactorAngle2[2] = { 1.0f, 6.0f };
 	//virtual void SpriteDraw(ID3D12GraphicsCommandList* cmdList) = 0;
+
+protected:
+	std::vector<ControlBase*> AllObjectControl;
 protected:
 	SceneManager* sceneManager_ = nullptr;
 };

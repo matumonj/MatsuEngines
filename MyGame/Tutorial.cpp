@@ -194,6 +194,25 @@ void Tutorial::MyGameDraw()
 	}
 }
 
+void Tutorial::SpriteDraw()
+{
+	PlayerControl::GetInstance()->GetPlayer()->ParticleDraw();
+	TutorialSprite::GetInstance()->DrawTargetPos();
+
+	Sprite::PreDraw();
+	if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr)
+	{
+		EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->DamageTexDisplay_Draw();
+	}
+	DebugTextSprite::GetInstance()->DrawAll();
+	Sprite::PostDraw();
+	PlayerControl::GetInstance()->DamageTexDraw();
+	UI::GetInstance()->HUDDraw();
+	Feed::GetInstance()->Draw();
+	SistemConfig::GetInstance()->Draw();
+
+}
+
 /*------------------------*/
 /*--------•`‰æˆ—---------*/
 /*---------‚Ü‚Æ‚ß---------*/
@@ -221,21 +240,7 @@ void Tutorial::Draw()
 		DirectXCommon::GetInstance()->BeginDraw();
 		Field::GetInstance()->Draw();
 		MyGameDraw();
-		PlayerControl::GetInstance()->GetPlayer()->ParticleDraw();
-		TutorialSprite::GetInstance()->DrawTargetPos();
-		
-		Sprite::PreDraw();
-		if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr)
-		{
-			EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->DamageTexDisplay_Draw();
-		}
-		DebugTextSprite::GetInstance()->DrawAll();
-		Sprite::PostDraw();
-		PlayerControl::GetInstance()->DamageTexDraw();
-		UI::GetInstance()->HUDDraw();
-		Feed::GetInstance()->Draw();
-		SistemConfig::GetInstance()->Draw();
-
+		SpriteDraw();
 		DirectXCommon::GetInstance()->EndDraw();
 
 		break;

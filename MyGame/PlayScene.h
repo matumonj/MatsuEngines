@@ -32,7 +32,6 @@ private:
 	PostEffect* postEffect = nullptr;
 
 public:
-	void MyGameDraw();
 	void objUpdate();
 
 public:
@@ -40,8 +39,10 @@ public:
 	void Update() override;
 	void Draw() override;
 	void LoadParam();
+	void LightUpdate()override;
 	void Finalize() override;
-
+	void MyGameDraw()override;
+	void SpriteDraw()override;
 private:
 	void ChangeSceneJudg();
 public:
@@ -56,9 +57,4 @@ private:
 
 	bool hudload;
 	bool Load;
-private:
-
-	float fighterPos[3] = {1, 0.0f, 0};
-	DebugCamera* dc;
-	std::vector<ControlBase*> AllObjectControl;
 };

@@ -64,7 +64,7 @@ void TitleScene::Update()
 	}
 
 	//カメラがフィールド中心に回るように
-	if (!BackCam)
+	if (!CameraBackF)
 	{
 		CameraPos.x = sinf(Cangle * (PI / 180.0f)) * 40.0f;
 		CameraPos.y = cosf(Cangle * (PI / 180.0f)) * 40.0f;
@@ -86,9 +86,19 @@ void TitleScene::Update()
 	camera->Update();
 	SceneManager::GetInstance()->SetScene(SceneManager::TUTORIAL, sceneManager_);
 
-	//	DebugTextSprite::GetInstance()->Print("aa", 0, 0, 2);
 }
 
+
+
+void TitleScene::MyGameDraw()
+{
+	//モデル描画
+	Object3d::PreDraw();
+	celestal->Draw();
+	field->Draw();
+	Object3d::PostDraw();
+
+}
 bool TitleScene::ChangeScene()
 {
 	if (feedf)
@@ -97,7 +107,7 @@ bool TitleScene::ChangeScene()
 		float cameratocenter_x = sqrtf((CameraPos.x - 16.0f) * (CameraPos.x - 16.0f));
 		if (cameratocenter_x < 1.0f && CameraPos.y < -30.0f)
 		{
-			BackCam = true;
+			CameraBackF = true;
 		}
 	}
 	else
@@ -122,18 +132,11 @@ bool TitleScene::ChangeScene()
 /*-----------------------*/
 void TitleScene::SpriteDraw()
 {
-	//モデル描画
-	Object3d::PreDraw();
-	celestal->Draw();
-	field->Draw();
-	Object3d::PostDraw();
-
+	
 	//スプライト描画
 	titlesprite->setcolor({1.0f, 1.0f, 1.0f, 0.5f});
-	titlesprite2->setcolor({1.0f, 1.0f, 1.0f, 0.5f});
 
 	Sprite::PreDraw();
-	titlesprite2->Draw();
 	titlesprite->Draw();
 	TitleMenu[0]->Draw();
 	DebugTextSprite::GetInstance()->DrawAll();
@@ -146,6 +149,7 @@ void TitleScene::Draw()
 {
 	//ポストエフェクトの描画
 	DirectXCommon::GetInstance()->BeginDraw(); //描画コマンドの上らへんに
+	MyGameDraw();
 	SpriteDraw();
 	DirectXCommon::GetInstance()->EndDraw();
 }
@@ -160,22 +164,20 @@ void TitleScene::Finalize()
 	celestal.release();
 	//delete postEffect;
 	delete lightGroup;
-	delete camera;
-	delete titlesprite, titlesprite2;
+	Destroy_unique(camera);
+	Destroy_unique(titlesprite);
 }
 
 void TitleScene::TitleTexInit()
 {
-	titlesprite = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::TITLE1), {0.0f, 0.0f});
-
-	titlesprite2 = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::TITLE2), {0, 0.0f});
+	titlesprite.reset(Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::TITLE1), {0.0f, 0.0f}));
 
 	Sprite* navGameSprite = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::GAMEPLAY), {0, 0.0f});
 	Sprite* navEditSprite = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::GAMEPLAY), {0, 0.0f});
 
 	TitleMenu[0].reset(navGameSprite);
-
 	TitleMenu[1].reset(navEditSprite);
+
 	for (int i = 0; i < 2; i++)
 	{
 		menuAlpha[i] = 1.0f;
@@ -210,7 +212,6 @@ void TitleScene::TitleTexUpda()
 		menuAlpha[0] = 0.0f;
 	}
 	titlesprite->SetSize({WinApp::window_width / 2, WinApp::window_height});
-	titlesprite2->SetSize({WinApp::window_width, WinApp::window_height});
 }
 
 void TitleScene::TitleTexDraw()
@@ -219,14 +220,16 @@ void TitleScene::TitleTexDraw()
 
 void TitleScene::TitleFieldInit()
 {
-	camera = new DebugCamera(WinApp::window_width, WinApp::window_height);
+	camera = std::make_unique<DebugCamera>(WinApp::window_width, WinApp::window_height);
 
+	//地形
 	field = std::make_unique<Object3d>();
 	field->SetModel(ModelManager::GetIns()->GetModel(ModelManager::FIELD));
-	field->Initialize(camera);
+	field->Initialize(camera.get());
+	//天球
 	celestal = std::make_unique<Object3d>();
 	celestal->SetModel(ModelManager::GetIns()->GetModel(ModelManager::CELESTIALSPHERE));
-	celestal->Initialize(camera);
+	celestal->Initialize(camera.get());
 }
 
 void TitleScene::TitleFieldUpda()
@@ -237,14 +240,17 @@ void TitleScene::TitleFieldUpda()
 	//パラメータをセット(地形)
 	field->SetRotation({0.0f, 0.0f, 0.0f});
 	field->SetScale({0.15f, 0.15f, 0.15f});
-	field->SetFogCenter(FogPos);
-	field->setFog(TRUE);
-
+	
 	//パラメータをセット(天球)
 	celestal->SetRotation({0.0f, 0.0f, 0.0f});
 	celestal->SetScale({30.f, 30.1f, 30.1f});
 
 	//更新処理
-	field->Update({0.6f, 0.6f, 0.6f, 1.0f}, camera);
-	celestal->Update({0.6f, 0.6f, 0.6f, 1.0f}, camera);
+	field->Update({0.6f, 0.6f, 0.6f, 1.0f}, camera.get());
+	celestal->Update({0.6f, 0.6f, 0.6f, 1.0f}, camera.get());
+}
+
+void TitleScene::LightUpdate()
+{
+
 }

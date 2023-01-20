@@ -56,7 +56,6 @@ private: //“_ŒõŒ¹
 
 public:
 	void ModelCreate(DebugCamera* camera);
-	void MyGameDraw();
 	void objUpdate(DebugCamera* camera);
 
 public:
@@ -64,8 +63,10 @@ public:
 	void Update() override;
 	void Draw() override;
 
-	void SpriteDraw();
 	void ImGuiDraw();
+	void LightUpdate()override;
+	void SpriteDraw()override;
+	void MyGameDraw()override;
 	void Finalize() override;
 
 private:

@@ -31,7 +31,6 @@ private: // エイリアス
 
 public:
 	Input* input;
-	Particle* p;
 	bool scenechange;
 	int count_frame = 0;
 	std::unique_ptr<BomAttack> bAttack;
@@ -42,9 +41,6 @@ private:
 	bool Play;
 	bool hudload;
 
-	float lightangle[5];
-	XMFLOAT3 LightPos[5];
-	XMFLOAT3 LightScl;
 private:
 	enum
 	{
@@ -53,18 +49,17 @@ private:
 	};
 
 public:
-	void MyGameDraw();
-
 	void Initialize() override;
 	void Update() override;
 	void Draw() override;
 	bool LoadParam();
 	void Finalize() override;
-
+	void LightUpdate()override;
+	void MyGameDraw()override;
+	void SpriteDraw()override;
 private:
 	bool feedend;
 	void ChangeScene();
 private:
 	bool LoadEnemy;
-	std::vector<ControlBase*> AllObjectControl;
 };
