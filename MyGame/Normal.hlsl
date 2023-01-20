@@ -1,4 +1,4 @@
-#include"PostEffectTest.hlsli"
+#include"Normal.hlsli"
 //Texture2D<float4> bokeTexture : register(t1);  // ボケ画像
 //Texture2D<float4> depthTexture : register(t0); // 深度テクスチャ
 Texture2D<float4> tex : register(t0); // ボケ画像
@@ -72,7 +72,7 @@ float4 main(Output input) : SV_TARGET
 
 	float4 feed = {0.5, 0.5, 0.5, 1};
 	//	col = feed;
-	
+
 	// ブルーム
 	col.rgb += bloom(smp, input.uv);
 

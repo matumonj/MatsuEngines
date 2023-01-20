@@ -3,10 +3,7 @@
 #include "AltAttack.h"
 #include "CameraControl.h"
 #include "CircleAttack.h"
-#include"CustomButton.h"
 #include"SphereCollider.h"
-#include"CollisionManager.h"
-#include"CollisionAttribute.h"
 #include"DebugCamera.h"
 #include "FrontCircleAttack.h"
 #include "HalfAttack.h"
@@ -15,7 +12,7 @@
 #include"PlayerControl.h"
 #include"imgui.h"
 #include "KnockAttack.h"
-#include"BossUltAttack.h"
+#include"UltAttack.h"
 #include"BronzeAttack.h"
 /// <summary>
 /// コンストラクタ
@@ -32,6 +29,9 @@ BossEnemy::BossEnemy()
 /// </summary>
 BossEnemy::~BossEnemy()
 {
+	Destroy_unique(m_Object);
+	Destroy_unique(m_fbxObject);
+
 }
 
 void BossEnemy::ResourcesSet()
@@ -56,6 +56,15 @@ void BossEnemy::ResourcesSet()
 	m_BossHP->SetAnchorPoint({ 0.f,0.0f });
 	m_BossHPFrame.reset(BossHPFrame);
 	m_BossHPFrame2.reset(BossHPFrame_Inner);
+
+	//オブジェクトの生成と初期化
+	Sword = std::make_unique<Object3d>();
+	Sword->Initialize(camera);
+	Sword->SetModel(ModelManager::GetIns()->GetModel(ModelManager::BOSSWEAPON));
+	Sword->SetRotation({ 0, 0 + 30, 0 + 100 });
+
+	Sword->SetScale({ 9,9,9 });
+
 }
 
 //初期化処理
@@ -95,7 +104,7 @@ cooltime = 0;
 	CircleAttack::GetInstance()->Initialize();
 	AltAttack::GetInstance()->Initialize();
 	FrontCircleAttack::GetInstance()->Initialize();
-	BossUltAttack::GetIns()->TexSet();
+	UltAttack::GetIns()->TexSet();
 
 	CircleAttack::GetInstance()->SetAttackPhase(false);
 	KnockAttack::GetInstance()->SetAttackPhase(false);
@@ -109,6 +118,7 @@ cooltime = 0;
 		SetAttack_Start(i, false);
 		SetAttack_End(i, false);
 	}
+
 }
 
 //更新処理
@@ -118,6 +128,7 @@ void BossEnemy::Update()
 	{
 		return;
 	}
+
 	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
 
 	et += 0.01f;
@@ -132,8 +143,6 @@ void BossEnemy::Update()
 	//fbxアニメーション制御
 	//FbxAnimationControl();
 	//座標やスケールの反映
-	KnockAttack::GetInstance()->ActionJudg();
-
 	m_fbxObject->SetColor({1.0f, 1.0f, 1.0f, alpha});
 	m_fbxObject->SetPosition({ Position.x, Position.y+1.4f, Position.z });
 	m_fbxObject->SetRotation(Rotation);
@@ -151,10 +160,16 @@ void BossEnemy::Update()
 	//CollisionField();
 	//攻撃受けたらパーティクル
 	DamageParticleSet();
+	//持ってる斧の更新
+	m_fbxObject->SetHandBoneIndex(hind);
 
 	HPGaugeBoss();
 	//m_fbxObject->SetFogPos({camera->GetEye()});
-	m_fbxObject->SetHandBoneIndex(0);
+	m_fbxObject->SetHandBoneIndex(18);
+	//持ってる斧の更新
+	Sword->Setf(FALSE);
+	Sword->Update(handmat_left, { 1.0f, 1.0f, 1.0f, 1.0f }, camera);
+
 	CircleAttack::GetInstance()->ActionJudg();
 	KnockAttack::GetInstance()->ActionJudg();
 	BronzeAttack::GetIns()->Upda();
@@ -162,15 +177,42 @@ void BossEnemy::Update()
 
 void BossEnemy::AttackCollide()
 {
-	if (f_time >0.2f)
+	//右手のボーン座標取る
+	m_fbxObject->GetBoneIndexMat(18,handmat_right);
+	HandPos_Right = {
+	handmat_right.r[3].m128_f32[0], handmat_right.r[3].m128_f32[1], handmat_right.r[3].m128_f32[2]
+	};
+	//左
+	m_fbxObject->GetBoneIndexMat(43, handmat_left);
+	HandPos_Left = {
+		handmat_left.r[3].m128_f32[0], handmat_left.r[3].m128_f32[1], handmat_left.r[3].m128_f32[2]
+	};
+	if (m_Number==NowAttackMotion::BNORMAL)
 	{
-		if (Collision::GetLength({ m_fbxObject->GetHandBoneMatWorld().r[3].m128_f32[0],
-		m_fbxObject->GetHandBoneMatWorld().r[3].m128_f32[1],
-		m_fbxObject->GetHandBoneMatWorld().r[3].m128_f32[2] },
+		if (Collision::GetLength(HandPos_Right,
 			PlayerControl::GetInstance()->GetPlayer()->GetPosition()
 		) < 10.f)
 		{
 			PlayerControl::GetInstance()->GetPlayer()->RecvDamage(5);
+		}
+	}
+	//武器
+	if (m_Number == NowAttackMotion::BNORMAL2 || m_Number == NowAttackMotion::SWING)
+	{
+		//手のワールド行列から各成分抜き出し
+		HandSiteOBB.SetOBBParam_Pos(Sword->ExtractPositionMat());
+		HandSiteOBB.SetOBBParam_Rot(Sword->ExtractRotationMat());
+		HandSiteOBB.SetOBBParam_Scl({ 5.0f, 6.0f, 10.0f });
+		//プレイヤーのインスタンス引き出
+		Player* l_player = PlayerControl::GetInstance()->GetPlayer();
+
+		playerOBB.SetOBBParam_Pos(l_player->GetPosition());
+		playerOBB.SetOBBParam_Rot(l_player->GetMatrot());
+		playerOBB.SetOBBParam_Scl({ 3.0f, 9.0f, 3.0f });
+
+		if (Collision::CheckOBBCollision(playerOBB, HandSiteOBB) == true)
+		{
+			l_player->RecvDamage(10);
 		}
 	}
 }
@@ -199,8 +241,9 @@ void BossEnemy::Draw()
 	{
 		return;
 	}
+	// 3Dオブジェクト描画前処理
 	Object3d::PreDraw();
-	//Sword->Draw();
+	Sword->Draw();
 	Object3d::PostDraw();
 	Draw_Fbx();
 	float P = float(GetFbxTimeEnd());
@@ -211,6 +254,10 @@ void BossEnemy::Draw()
 	ImGui::SliderFloat("time", &P, -30, 30);
 	ImGui::End();
 
+	ImGui::Begin("bone");
+	//43 18
+	ImGui::SliderInt("indx", &hind, 0, 45);
+	ImGui::End();
 	// 3Dオブジェクト描画前処理
 	// 3Dオブジェクト描画前処理
 }

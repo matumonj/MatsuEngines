@@ -148,7 +148,7 @@ void MobEnemy::Update()
 	//敵の手のボーンインデックス
 	m_fbxObject->SetHandBoneIndex(25);
 	m_fbxObject->SetFbxTime(f_time);
-
+	m_fbxObject->SetHandBoneIndex(HandIndex);
 	//持ってる斧の更新
 	Sword->Setf(FALSE);
 	Sword->SetRotation({-23, 43, 83});

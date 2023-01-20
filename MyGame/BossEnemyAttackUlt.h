@@ -1,13 +1,11 @@
 #pragma once
 #include "BossEnemyState.h"
-
-class BossEnemyAttackBeam :
-	public BossEnemyState
+class BossEnemyAttackUlt :
+    public BossEnemyState
 {
 public:
 	void Initialize(Enemy* enemy) override;
 
 	void Update(Enemy* enemy) override;
-
-
 };
+

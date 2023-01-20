@@ -7,6 +7,8 @@
 
 class BossMap
 {
+public:
+	~BossMap();
 private:
 	enum Map
 	{

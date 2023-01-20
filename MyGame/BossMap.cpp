@@ -4,12 +4,29 @@
 #include"PlayerControl.h"
 #include"imgui.h"
 #include"mHelper.h"
+#include "UltAttack.h"
 
 BossMap* BossMap::GetInstance()
 {
 	static BossMap ins;
 	return &ins;
 }
+
+BossMap::~BossMap()
+{
+	for (int i = 0; i < mapHight; i++)
+	{
+		for (int j = 0; j < mapWidth; j++)
+		{
+			Destroy_unique(mapobj[i][j]);
+		}
+	}
+	for (int i = 0; i < lanthanumSize; i++)
+	{
+		Destroy_unique(Lanthanum[i]);
+	}
+}
+
 
 void BossMap::Init()
 {
@@ -114,9 +131,11 @@ void BossMap::Upda()
 
 	for (int i = 0; i < lanthanumSize; i++)
 	{
-		Lanthanum[i]->SetPosition({LanthanumPos[i]});
-		Lanthanum[i]->SetScale({LanthanumScl[i]});
-		Lanthanum[i]->Update({1.f, 0.7f, 0.7f, 0.6f}, camera);
+		if (UltAttack::GetIns()->GetFieldDestG() == false) {
+			Lanthanum[i]->SetPosition({ LanthanumPos[i] });
+			Lanthanum[i]->SetScale({ LanthanumScl[i] });
+			Lanthanum[i]->Update({ 1.f, 0.7f, 0.7f, 0.6f }, camera);
+		}
 	}
 }
 
@@ -239,10 +258,10 @@ void BossMap::Draw()
 			mapobj[i][j]->Draw();
 		}
 	}
-	if (Field::GetInstance()->GetnextStageF() == false) {
+	if (UltAttack::GetIns()->GetFieldDestG()==false) {
 		for (int i = 0; i < lanthanumSize; i++)
 		{
-			Lanthanum[i]->Draw();
+			//Lanthanum[i]->Draw();
 		}
 	}
 	Object3d::PostDraw();

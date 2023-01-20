@@ -45,7 +45,8 @@ public:
 		PLACEBOX,
 		SKYMAP,
 		BEAM2,
-		TOWER
+		TOWER,
+		BOSSWEAPON
 	};
 
 	enum FBXName

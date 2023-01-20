@@ -17,7 +17,8 @@ float desttime;
 bool shadowf;
 float3 playerpos;
 float dislen;
-
+float3 pd5;
+bool bloomf;
 };
 
 cbuffer cbuff1 : register(b1)

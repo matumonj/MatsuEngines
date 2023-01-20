@@ -179,6 +179,7 @@ void KnockAttack::ActionJudg()
 	{
 		for (int i = 0; i < axeSize; i++)
 		{
+			if (AxeObj[i] == nullptr)continue;
 			if(Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(),AxePos[i])<20.f)
 			{
 				PlayerControl::GetInstance()->GetPlayer()->RecvDamage(10);

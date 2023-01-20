@@ -17,11 +17,11 @@ void BossEnemyAttack::Update(Enemy* enemy)
 	}
 	else if(randmotion<80)
 	{
-		enemy->SetAnimation(BossEnemy::NowAttackMotion::BNORMAL2, false, 1.0);
+		enemy->SetAnimation(BossEnemy::NowAttackMotion::SWING, false, 1.0);
 	}
 	else
 	{
-		enemy->SetAnimation(BossEnemy::NowAttackMotion::SWING, false, 1.0);
+		enemy->SetAnimation(BossEnemy::NowAttackMotion::BNORMAL2, false, 1.0);
 	}
 	//PlayerControl::GetInstance()->GetPlayer()->RecvDamage(2);
 	if (CameraControl::GetInstance()->GetCameraState() == CameraControl::BOSSCUTSCENE)

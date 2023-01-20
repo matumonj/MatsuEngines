@@ -18,6 +18,11 @@
 #include"BossEnemyEvasion.h"
 #include"Feed.h"
 #include"BossEnemy.h"
+#include "BossEnemyAttackBrzBeam.h"
+#include "BossEnemyAttackUlt.h"
+#include "BronzeAttack.h"
+#include "UltAttack.h"
+
 void BossEnemyFollow::Initialize(Enemy* enmey)
 {
 }
@@ -32,11 +37,6 @@ void BossEnemyFollow::Update(Enemy* enemy)
 	}
 	enemy->SetAnimation(BossEnemy::NowAttackMotion::BWALK , 1.f, true);
 	//’ÇÕˆ—•”•ª//////////
-	//õ“G”ÍˆÍ
-	const float DetectionRange = 10.0f;
-	//ƒvƒŒƒCƒ„[‚ªõ“G”ÍˆÍ“ü‚Á‚½‚ç
-	bool SearchPlayer = Collision::GetLength(enemy->GetPosition(),
-	                                         PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < DetectionRange;
 
 
 	//“G‚ªƒvƒGƒŒƒCƒ„[‚Ì•ûŒü‚­ˆ—
@@ -105,8 +105,8 @@ void BossEnemyFollow::Update(Enemy* enemy)
 
 	/*2ˆø”F‘Ì—ÍÝ’è(Ý’è’lˆÈ‰º‚È‚Á‚½‚ç‚Rˆø”‚ÌUŒ‚‚Ö)*/
 	AttackSelect(
-		enemy, Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= 30.0f,
-		enemy->HALF_1);
+		enemy, Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= 50.0f,
+		enemy->ULT);
 	AttackSelect(
 		enemy, Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= 90.0f,
 		enemy->CIRCLE_1);
@@ -122,16 +122,7 @@ void BossEnemyFollow::Update(Enemy* enemy)
 	{
 		enemy->ChangeState_Boss(new BossEnemyDeath());
 	}
-	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= 90.0f)
-	{
-		if (CircleAttack::GetInstance()->GetPhaseEnd() != CircleAttack::PHASEFOUR)
-		{
-			if (enemy->GetAttack_End(enemy->CIRCLE_1) == false) {
-				//CircleAttack::GetInstance()->SetAttackPhase(true);
-				enemy->ChangeState_Boss(new BossEnemyAttackCircle());
-			}
-		}
-	}
+
 	//
 	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= 70.0f)
 	{
@@ -148,9 +139,31 @@ void BossEnemyFollow::Update(Enemy* enemy)
 	{
 		if (KnockAttack::GetInstance()->GetPhase() != KnockAttack::PHASEFOUR)
 		{
-			if (enemy->GetAttack_End(enemy->Beam) == false) {
+			if (enemy->GetAttack_End(enemy->KNOCK) == false) {
 				KnockAttack::GetInstance()->SetAttackPhase(true);
 				enemy->ChangeState_Boss(new BossEnemyAttackKnock());
+			}
+		}
+	}
+
+	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= 50.0f)
+	{
+		if (UltAttack::GetIns()->GetPhase() != UltAttack::END)
+		{
+			if (enemy->GetAttack_End(enemy->ULT) == false) {
+				UltAttack::GetIns()->SetAction(true);
+				enemy->ChangeState_Boss(new BossEnemyAttackUlt());
+			}
+		}
+	}
+
+	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= 90.0f)
+	{
+		if (BronzeAttack::GetIns()->GetPhase() != BronzeAttack::END)
+		{
+			if (enemy->GetAttack_End(enemy->BRONZEATTACK) == false) {
+				BronzeAttack::GetIns()->SetAction(true);
+				enemy->ChangeState_Boss(new BossEnemyAttackBrzBeam());
 			}
 		}
 	}
@@ -184,12 +197,9 @@ void BossEnemyFollow::AttackStart(Enemy* enemy, int num)
 			KnockAttack::GetInstance()->SetAttackPhase(true);
 		}
 			break;
-	case enemy->HALF_1:
-		enemy->SetRecvDamage2(false);
-		HalfAttack::GetInstance()->SetAttackPhase(true);
-		break;
-	case enemy->HALF_2:
-		HalfAttack::GetInstance()->SetAttackPhase(true);
+
+	case enemy->ULT:
+		UltAttack::GetIns()->SetAction(true);
 		break;
 	case enemy->Beam:
 		enemy->SetRecvDamage2(false);
@@ -222,17 +232,10 @@ void BossEnemyFollow::AttackType(Enemy* enemy, int num)
 			enemy->ChangeState_Boss(new BossEnemyAttackKnock());
 		}
 		break;
-	case enemy->HALF_1:
-		if (HalfAttack::GetInstance()->GetPhaseEnd() != HalfAttack::PHASEFOUR)
+	case enemy->ULT:
+		if (UltAttack::GetIns()->GetPhase() != UltAttack::END)
 		{
-			enemy->ChangeState_Boss(new BossEnemyAttackHalf());
-		}
-		break;
-
-	case enemy->HALF_2:
-		if (HalfAttack::GetInstance()->GetPhaseEnd() != HalfAttack::PHASEFOUR)
-		{
-			enemy->ChangeState_Boss(new BossEnemyAttackHalf());
+			enemy->ChangeState_Boss(new BossEnemyAttackUlt());
 		}
 		break;
 

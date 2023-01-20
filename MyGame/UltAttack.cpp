@@ -1,6 +1,4 @@
-#include "BossUltAttack.h"
-#include "BossUltAttack.h"
-#include "BossUltAttack.h"
+#include "UltAttack.h"
 #include"CameraControl.h"
 #include"EnemyControl.h"
 #include "Field.h"
@@ -8,13 +6,13 @@
 #include "PlayerControl.h"
 #define PI 3.14f
 
-BossUltAttack* BossUltAttack::GetIns()
+UltAttack* UltAttack::GetIns()
 {
-	static BossUltAttack ins;
+	static UltAttack ins;
 	return &ins;
 }
 
-void BossUltAttack::TexSet()
+void UltAttack::TexSet()
 {
 	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
 	Model* l_model = Model::CreateFromOBJ("BossBeam", true);
@@ -36,12 +34,9 @@ void BossUltAttack::TexSet()
 	
 }
 
-void BossUltAttack::Upda()
+void UltAttack::Upda()
 {
-	if(Input::GetInstance()->TriggerButton(Input::B))
-	{
-		phase = AREASET;
-	}
+	
 	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
 	XMFLOAT3 epos = EnemyControl::GetInstance()->GetGuardianEnemy()->GetPosition();
 	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
@@ -86,7 +81,7 @@ void BossUltAttack::Upda()
 	}
 }
 
-void BossUltAttack::Phase_AreaSet()
+void UltAttack::Phase_AreaSet()
 {
 	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 
@@ -104,7 +99,7 @@ void BossUltAttack::Phase_AreaSet()
 
 }
 
-void BossUltAttack::Phase_Bom()
+void UltAttack::Phase_Bom()
 {
 	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 
@@ -124,16 +119,14 @@ void BossUltAttack::Phase_Bom()
 	}
 }
 #include"Feed.h"
-void BossUltAttack::Phase_MakeSmall()
+void UltAttack::Phase_MakeSmall()
 {
 	fielddestf = true;
 	beamscl[0].z += 5.f;
 	beamscl[0].x += 5.f;
 	for (int i = 1; i < 8; i++) {
 		scalingETime[i] += 0.04f;
-		
-			Feed::GetInstance()->Update_White(Feed::FEEDIN);
-			//画面真っ白になったらシーン切り替え
+		//画面真っ白になったらシーン切り替え
 		
 				if (beamscl[i - 1].x > 10.f) {
 					beamscl[i].z += 1.f;
@@ -155,7 +148,7 @@ void BossUltAttack::Phase_MakeSmall()
 	}
 }
 
-void BossUltAttack::Phase_TexFade()
+void UltAttack::Phase_TexFade()
 {
 	Feed::GetInstance()->Update_White(Feed::FEEDOUT);
 	TexAlpha -= 0.02f;
@@ -167,7 +160,7 @@ void BossUltAttack::Phase_TexFade()
 }
 
 
-void BossUltAttack::Phase_End()
+void UltAttack::Phase_End()
 {
 //TexAlpha = 0.f;
 	for (int i = 0; i < 8; i++) {
@@ -178,7 +171,7 @@ void BossUltAttack::Phase_End()
 
 #include"imgui.h"
 
-void BossUltAttack::Draw()
+void UltAttack::Draw()
 {
 	Object3d::PreDraw();
 	for (int i = 0; i < 8; i++) {

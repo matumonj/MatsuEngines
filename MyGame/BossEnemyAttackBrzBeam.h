@@ -8,4 +8,11 @@ public:
 	void Initialize(Enemy* enemy) override;
 
 	void Update(Enemy* enemy) override;
+
+private:
+	DirectX::XMVECTOR positionA;
+	// DirectX::‚ğÈ—ª
+	using XMVECTOR = DirectX::XMVECTOR;
+
+	void TurnCenter(Enemy* enemy);
 };

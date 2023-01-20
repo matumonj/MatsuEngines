@@ -651,9 +651,6 @@
     <ClCompile Include="ClearScene.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="BossUltAttack.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
     <ClCompile Include="BleathAttack.cpp">
       <Filter>Game\gameobject\GameObject\Boss\AttackPattern\SecondHalf</Filter>
     </ClCompile>
@@ -663,10 +660,16 @@
     <ClCompile Include="Particle.cpp">
       <Filter>Game\2d %28DebugTxt  Sprite Texture%29\Particle</Filter>
     </ClCompile>
+    <ClCompile Include="UltAttack.cpp">
+      <Filter>Game\gameobject\GameObject\Boss\AttackPattern\SecondHalf\Action</Filter>
+    </ClCompile>
     <ClCompile Include="BossEnemyAttackBrzBeam.cpp">
-      <Filter>Game</Filter>
+      <Filter>Game\gameobject\GameObject\Boss\AttackPattern\SecondHalf\Sequence</Filter>
     </ClCompile>
     <ClCompile Include="BronzeAttack.cpp">
+      <Filter>Game\gameobject\GameObject\Boss\AttackPattern\SecondHalf\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="BossEnemyAttackUlt.cpp">
       <Filter>Game</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1124,9 +1127,6 @@
     <ClInclude Include="ClearScene.h">
       <Filter>Game\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="BossUltAttack.h">
-      <Filter>Game\Shader</Filter>
-    </ClInclude>
     <ClInclude Include="BleathAttack.h">
       <Filter>Game\gameobject\GameObject\Boss\AttackPattern\SecondHalf</Filter>
     </ClInclude>
@@ -1136,10 +1136,16 @@
     <ClInclude Include="Particle.h">
       <Filter>Game\2d %28DebugTxt  Sprite Texture%29\Particle</Filter>
     </ClInclude>
-    <ClInclude Include="BronzeAttack.h">
-      <Filter>Game\Shader</Filter>
+    <ClInclude Include="UltAttack.h">
+      <Filter>Game\gameobject\GameObject\Boss\AttackPattern\SecondHalf\Action</Filter>
     </ClInclude>
     <ClInclude Include="BossEnemyAttackBrzBeam.h">
+      <Filter>Game\gameobject\GameObject\Boss\AttackPattern\SecondHalf\Sequence</Filter>
+    </ClInclude>
+    <ClInclude Include="BronzeAttack.h">
+      <Filter>Game\gameobject\GameObject\Boss\AttackPattern\SecondHalf\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="BossEnemyAttackUlt.h">
       <Filter>Game\Shader</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1213,6 +1219,12 @@
     <FxCompile Include="Resources\Shader\TextureVS.hlsl">
       <Filter>Game\シェーダー\Tex</Filter>
     </FxCompile>
+    <FxCompile Include="Normal.hlsl">
+      <Filter>Game\シェーダー\PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="NormalVS.hlsl">
+      <Filter>Game\シェーダー\PostEffect</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shader\Header.hlsli">
@@ -1244,6 +1256,9 @@
     </None>
     <None Include="Resources\Shader\Grass.hlsli">
       <Filter>Game\シェーダー</Filter>
+    </None>
+    <None Include="Normal.hlsli">
+      <Filter>Game\シェーダー\PostEffect</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -202,8 +202,8 @@ void Player::Move()
 	//ボスエリアでの移動制限
 	else if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
 	{
-	//	Position.x = std::clamp(Position.x, -90.f, 90.f);
-		//Position.z = std::clamp(Position.z, -90.f, 90.f);
+		Position.x = std::clamp(Position.x, -100.f, 100.f);
+		Position.z = std::clamp(Position.z, -100.f, 100.f);
 	}
 
 }

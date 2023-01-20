@@ -4,7 +4,7 @@
 #include"Particle.h"
 #include"Object3d.h"
 #include "ObjectManager.h"
-
+#include<array>
 class BronzeAttack
 {
 private:
@@ -54,11 +54,23 @@ private:
 	void Phase_MakeSmall();
 	void Phase_TexFade();
 	void Phase_End();
+
+	void SphereMoving();
 private:
 	std::unique_ptr<Texture> MagicTex;
-	std::unique_ptr<Object3d> BeamObj;
+	std::array<std::unique_ptr<Object3d>,5> BeamObj;
+	//びーむの各パラメータ
+	std::array < XMFLOAT3, 5> BeamObjPos;
+	std::array < XMFLOAT3, 5> BeamObjScl;
+	std::array < XMFLOAT3, 5> BeamMaxScl;
 
-	float scalingETime;
+	static constexpr int spheresize = 20;
+	std::array<std::unique_ptr<Object3d>, spheresize>chargesphere;
+	std::array<float, spheresize>chargesphereangle;
+	std::array<bool, spheresize>chargespheremoveF;
+	std::array<XMFLOAT3, spheresize>chargespherepos;
+
+	std::array<float,5> scalingETime;
 	XMFLOAT2 TexScl;
 	XMFLOAT2 TexPos;
 	float TexAlpha;
@@ -68,10 +80,6 @@ private:
 	XMFLOAT3 BossPos;
 	XMFLOAT3 BossColor;
 
-	//びーむの各パラメータ
-	XMFLOAT3 BeamObjPos;
-	XMFLOAT3 BeamObjScl;
-	XMFLOAT3 BeamMaxScl;
 	//アルファ値
 	float ObjAlpha;
 	float ColorT;

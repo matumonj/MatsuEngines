@@ -127,6 +127,7 @@
     <ClCompile Include="BossEnemyAttackHalf.cpp" />
     <ClCompile Include="BossEnemyAttackKnock.cpp" />
     <ClCompile Include="BossEnemyAttackSlam.cpp" />
+    <ClCompile Include="BossEnemyAttackUlt.cpp" />
     <ClCompile Include="BossEnemyDeath.cpp" />
     <ClCompile Include="BossEnemyEvasion.cpp" />
     <ClCompile Include="BossEnemyFollow.cpp" />
@@ -136,7 +137,7 @@
     <ClCompile Include="BossScene.cpp" />
     <ClCompile Include="BossSpell.cpp" />
     <ClCompile Include="BossState.cpp" />
-    <ClCompile Include="BossUltAttack.cpp" />
+    <ClCompile Include="UltAttack.cpp" />
     <ClCompile Include="BronzeAttack.cpp" />
     <ClCompile Include="CameraControl.cpp" />
     <ClCompile Include="Chest.cpp" />
@@ -277,6 +278,7 @@
     <ClInclude Include="BossEnemyAttackHalf.h" />
     <ClInclude Include="BossEnemyAttackKnock.h" />
     <ClInclude Include="BossEnemyAttackSlam.h" />
+    <ClInclude Include="BossEnemyAttackUlt.h" />
     <ClInclude Include="BossEnemyDeath.h" />
     <ClInclude Include="BossEnemyEvasion.h" />
     <ClInclude Include="BossEnemyFollow.h" />
@@ -286,7 +288,7 @@
     <ClInclude Include="BossScene.h" />
     <ClInclude Include="BossSpell.h" />
     <ClInclude Include="BossState.h" />
-    <ClInclude Include="BossUltAttack.h" />
+    <ClInclude Include="UltAttack.h" />
     <ClInclude Include="BronzeAttack.h" />
     <ClInclude Include="CameraControl.h" />
     <ClInclude Include="Chest.h" />
@@ -423,6 +425,16 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="Normal.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="NormalVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+    </FxCompile>
     <FxCompile Include="Resources\Shader\BasicGS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Geometry</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>
@@ -540,6 +552,7 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Normal.hlsli" />
     <None Include="Resources\Shader\Blur.hlsli" />
     <None Include="Resources\Shader\FBX.hlsli" />
     <None Include="Resources\Shader\Grass.hlsli" />

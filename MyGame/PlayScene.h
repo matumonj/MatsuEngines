@@ -1,21 +1,10 @@
 #pragma once
 #include"BaseScene.h"
-#include"Audio.h"
-#include"Sprite.h"
-#include"Input.h"
-#include"WinApp.h"
-#include"Object3d.h"
-#include"Model.h"
 #include"Collision.h"
-#include"DebugTxt.h"
 #include"LightGroup.h"
 #include"DebugCamera.h"
-#include "FbxLoader.h"
-#include "f_Object3d.h"
-#include"Texture.h"
 #include"PostEffect.h"
 #include"Enemy.h"
-#include"TargetMarker.h"
 #include"ControlBase.h"
 #pragma comment(lib,"winmm.lib")
 class CollisionManager;
@@ -68,24 +57,8 @@ private:
 	bool hudload;
 	bool Load;
 private:
-	float ambientColor0[3] = {1, 1, 1};
-	// åıê¸ï˚å¸èâä˙íl
-	float lightDir0[3] = {0, 0, 1};
-	float lightColor0[3] = {1, 0, 0};
 
-	float lightDir1[3] = {0, 1, 0};
-	float lightColor1[3] = {0, 1, 0};
-
-	float lightDir2[3] = {1, 0, 0};
-	float lightColor2[3] = {0, 0, 1};
-
-	float circleShadowDir[3] = {0, -1, 0};
-	float circleShadowPos[3] = {1, 2, 0};
-	float circleShadowAtten[3] = {0.2f, 0.0f, 0.0f};
-	float circleShadowFactorAngle[2] = {1.0f, 5.0f};
-	float circleShadowFactorAngle2[2] = {1.0f, 3.0f};
 	float fighterPos[3] = {1, 0.0f, 0};
 	DebugCamera* dc;
-	LightGroup* lightGroup;
 	std::vector<ControlBase*> AllObjectControl;
 };

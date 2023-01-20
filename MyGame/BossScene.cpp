@@ -17,7 +17,7 @@
 #include "HalfAttack.h"
 #include"KnockAttack.h"
 #include "Nail.h"
-#include"BossUltAttack.h"
+#include"UltAttack.h"
 #include "BronzeAttack.h"
 
 BossScene::BossScene(SceneManager* sceneManager)
@@ -53,8 +53,9 @@ void BossScene::Initialize()
 	Nail::GetInstance()->ModelSet();
 	BossMap::GetInstance()->Init();
 	
-	//postEffect = new MinimapSprite();
-	//postEffect->Initialize();
+	postEffect = new PostEffect();
+	postEffect->Initialize();
+	input = Input::GetInstance();
 	//	dc = new DebugCamera(WinApp::window_width, WinApp::window_height);
 }
 
@@ -93,21 +94,19 @@ void BossScene::Update()
 		Nail::GetInstance()->Update();
 		UI::GetInstance()->HUDUpdate(hudload, CameraControl::GetInstance()->GetCamera());
 	}
-	BossUltAttack::GetIns()->Upda();
+	UltAttack::GetIns()->Upda();
 	Field::GetInstance()->Update();
-	//postEffect->SetCenterpos(HUD::GetInstance()->GetMinimapSprite()->GetPosition());
-
 	//各オブジェクトの更新処理
 	//csv読み込み部分(Cameraの更新後にするのでobjUpdate()挟んでから)
 	LoadParam();
 
 	lightGroup->Update();
 	
-	if (SistemConfig::GetInstance()->GetConfigJudgMent())
+	if (input->TriggerButton(input->RB))
 	{
 		c_postEffect = Blur;
 	}
-	else
+	else if(input->TriggerButton(input->LB))
 	{
 		c_postEffect = Default;
 	}
@@ -155,28 +154,58 @@ void BossScene::Draw()
 	{
 	case Blur: //ぼかし　描画準違うだけ
 		postEffect->PreDrawScene();
-		postEffect->PostDrawScene();
+		if (Play)
+		{
+			if (Field::GetInstance() != nullptr)
+			{
+				Field::GetInstance()->Draw();
+			}
 
-		DirectXCommon::GetInstance()->BeginDraw();
+				Nail::GetInstance()->Draw();
+				BossMap::GetInstance()->Draw();
+
+				if (Feed::GetInstance()->GetAlpha() < 1.0f) {
+					for (int i = 0; i < AllObjectControl.size(); i++)
+					{
+						if (AllObjectControl[i] == nullptr)
+						{
+							continue;
+						}
+						AllObjectControl[i]->Draw();
+					}
+				}
+			
+		}
+		postEffect->PostDrawScene();
+		
+			DirectXCommon::GetInstance()->BeginDraw();
 	//設定画面
+		
+		SistemConfig::GetInstance()->Draw();
+		
+		
+postEffect->Draw();
+
+
+		//UI
+		if (CameraControl::GetInstance()->GetCameraState() != CameraControl::BOSSCUTSCENE)
+		{
+			UI::GetInstance()->HUDDraw();
+		}
+		GameOver::GetIns()->Draw();
+		Feed::GetInstance()->Draw();
 		SistemConfig::GetInstance()->Draw();
 
 		DirectXCommon::GetInstance()->EndDraw();
 		break;
 
 	case Default: //普通のやつ特に何もかかっていない
+	
 		DirectXCommon::GetInstance()->BeginDraw();
 		if (Play)
 		{
-			ImGui::Begin("light");
-			ImGui::SliderFloat("attenx", &circleShadowAtten[0], -10, 10);
-			ImGui::SliderFloat("atteny", &circleShadowAtten[1], -10, 10);
-			ImGui::SliderFloat("attenz", &circleShadowAtten[2], -10, 10);
-			ImGui::End();
-			if (Field::GetInstance() != nullptr)
-			{
 				Field::GetInstance()->Draw();
-			}
+			
 			Nail::GetInstance()->Draw();
 			BossMap::GetInstance()->Draw();
 
@@ -196,7 +225,7 @@ void BossScene::Draw()
 			KnockAttack::GetInstance()->Draw();
 			AltAttack::GetInstance()->Draw();
 			FrontCircleAttack::GetInstance()->Draw();
-			BossUltAttack::GetIns()->Draw();
+			UltAttack::GetIns()->Draw();
 			BronzeAttack::GetIns()->Draw();
 			EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->DamageTexDisplay_Draw();
 
@@ -250,7 +279,6 @@ bool BossScene::LoadParam()
 		CameraControl::GetInstance()->SetCameraState(CameraControl::BOSSCUTSCENE);
 
 		Field::GetInstance()->Initialize();
-		ExpPointSystem::GetInstance()->Init();
 		hudload = true;
 		Play = true;
 		LoadEnemy = false;

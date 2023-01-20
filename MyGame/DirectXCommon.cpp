@@ -47,8 +47,8 @@ void DirectXCommon::Initialize(WinApp* winapp)
 	//フェンス生成
 	InitializeFence();
 
-	wx = WinApp::window_width / 2;
-	wy = WinApp::window_height / 2;
+	wx = WinApp::window_width ;
+	wy = WinApp::window_height;
 }
 #pragma region デバイスの生成
 void DirectXCommon::InitializeDevice()

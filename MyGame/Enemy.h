@@ -263,14 +263,15 @@ public: //stateêÿÇËë÷Ç¶
 	{
 		BIDLE=7,
 		BROAR=4,
-		BNORMAL=0,
+		BNORMAL=8,
 		BNORMAL2 = 3,
 		MAGIC=1,
 		SWING=2,
 		EVASION,
 		FALTER=6,
-		BWALK=8,
-		BDEATH=5
+		BWALK=9,
+		BDEATH=5,
+		CHARGE=0
 	};
 
 	NowAttackMotion GetNowMotion() { return attackNum; }
@@ -284,7 +285,7 @@ public: //çUåÇéÌóﬁóÒãì
 		CIRCLE_2,
 		KNOCK,
 		HALF_1,
-		HALF_2,
+		ULT,
 		Slam,
 		Beam,
 		BRONZEATTACK

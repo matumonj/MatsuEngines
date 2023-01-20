@@ -48,6 +48,8 @@ public: // サブクラス
 		bool shadowf;
 		XMFLOAT3 playerpos;
 		float dislen;
+		XMFLOAT3 pd6;
+		bool bloomf;
 	};
 
 private: // 定数
@@ -57,7 +59,9 @@ private: // 定数
 	XMFLOAT3 FogCenter;
 	static const int division = 50;
 	bool shadowf = true;
+	bool bloomF;
 public:
+	void SetBloomF(bool f) { bloomF = f; }
 	void SetDisLen(float len) { dislen = len; }
 public: // 静的メンバ関数
 	/// <summary>

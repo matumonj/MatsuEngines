@@ -48,23 +48,7 @@ public:
 
 private:
 	bool feedout = true;
-	LightGroup* lightGroup = nullptr;
-	float ambientColor0[3] = {1.0f, 1.0f, 1.0f};
-	// 光線方向初期値
-	float lightDir0[3] = {0.0f, 0.0f, 1.0f};
-	float lightColor0[3] = {1.0f, 0.0f, 0.0f};
-
-	float lightDir1[3] = {0.0f, 1.0f, 0.0f};
-	float lightColor1[3] = {0.0f, 1.0f, 0.0f};
-
-	float lightDir2[3] = {1.0f, 0.0f, 0.0f};
-	float lightColor2[3] = {0.0f, 0.0f, 1.0f};
-
-	float circleShadowDir[3] = {0.0f, -1.0f, 0.0f};
-	float circleShadowPos[3] = {1.0f, 2.0f, 0.0f};
-	float circleShadowAtten[3] = {0.2f, 0.0f, 0.0f};
-	float circleShadowFactorAngle[2] = {1.0f, 3.0f};
-	float circleShadowFactorAngle2[2] = {1.0f, 6.0f};
+	
 	float fighterPos[3] = {1.0f, 0.0f, 0.0f};
 public:
 	//エフェクト用(ただプログラムでつくれるものはプログラムで作る方がいい　多用はいくない)

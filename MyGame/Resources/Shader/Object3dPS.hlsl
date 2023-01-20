@@ -5,6 +5,49 @@ Texture2D<float4> tex1 : register(t1); // 0番スロットに設定されたテクスチャ
 
 SamplerState smp : register(s0); // 0番スロットに設定されたサンプラー
 
+
+#define bloomR (10.f)
+
+// これより大きい値の色がグローする
+#define bloomThreshold (0.5f)
+
+float3 getBloomPixel(SamplerState smp, float2 uv, float2 texPixelSize)
+{
+	float2 uv2 = floor(uv / texPixelSize) * texPixelSize;
+	uv2 += texPixelSize * 0.001f;
+	float3 tl = max(tex.Sample(smp, uv2).rgb - bloomThreshold, 0.f);
+	float3 tr = max(tex.Sample(smp, uv2 + float2(texPixelSize.x, 0.f)).rgb - bloomThreshold, 0.f);
+	float3 bl = max(tex.Sample(smp, uv2 + float2(0.f, texPixelSize.y)).rgb - bloomThreshold, 0.f);
+	float3 br = max(tex.Sample(smp, uv2 + float2(texPixelSize.x, texPixelSize.y)).rgb - bloomThreshold, 0.f);
+	float2 f = frac(uv / texPixelSize);
+
+	float3 tA = lerp(tl, tr, f.x);
+	float3 tB = lerp(bl, br, f.x);
+
+	return lerp(tA, tB, f.y);
+}
+
+float3 getBloom(SamplerState smp, float2 uv, float2 texPixelSize)
+{
+	float3 bloom = float3(0.f, 0.f, 0.f);
+	float2 off = float2(1.f, 1.f) * texPixelSize * bloomR;
+	bloom += getBloomPixel(smp, uv + off * float2(-1.f, -1.f), texPixelSize * bloomR) * 0.292893f;
+	bloom += getBloomPixel(smp, uv + off * float2(-1.f, 0.f), texPixelSize * bloomR) * 0.5f;
+	bloom += getBloomPixel(smp, uv + off * float2(-1.f, 1.f), texPixelSize * bloomR) * 0.292893f;
+	bloom += getBloomPixel(smp, uv + off * float2(0.f, -1.f), texPixelSize * bloomR) * 0.5f;
+	bloom += getBloomPixel(smp, uv + off * float2(0.f, 0.f), texPixelSize * bloomR) * 1.f;
+	bloom += getBloomPixel(smp, uv + off * float2(0.f, 1.f), texPixelSize * bloomR) * 0.5f;
+	bloom += getBloomPixel(smp, uv + off * float2(1.f, -1.f), texPixelSize * bloomR) * 0.292893f;
+	bloom += getBloomPixel(smp, uv + off * float2(1.f, 0.f), texPixelSize * bloomR) * 0.5f;
+	bloom += getBloomPixel(smp, uv + off * float2(1.f, 1.f), texPixelSize * bloomR) * 0.292893f;
+	bloom /= 4.171573f;
+	return bloom;
+}
+
+float4 bloom(SamplerState smp, float2 uv, float intensity = 1.f)
+{
+	return float4(getBloom(smp, uv, 1.f / 1920) * intensity, 1.f);
+}
 PSOutPut main(GSOutput input)
 {
 	// テクスチャマッピング
@@ -206,8 +249,8 @@ PSOutPut main(GSOutput input)
 	{
 		if (shadowf)
 		{
-			output.target0 = shadecolor * float4(texcolor.rgb , texcolor.a) + addcol;
-			output.target1 = shadecolor * float4(texcolor.rgb, texcolor.a) + addcol;
+			output.target0 = shadecolor * float4(texcolor.rgb , texcolor.a) ;
+			output.target1 = shadecolor * float4(texcolor.rgb, texcolor.a) ;
 		}
 	}
 	else
@@ -217,8 +260,14 @@ PSOutPut main(GSOutput input)
 	}
 	if (!shadowf)
 	{
-		output.target0 = shadecolor * float4(texcolor.rgb, texcolor.a) * color;
-		output.target1 = shadecolor * float4(texcolor.rgb, texcolor.a) * color;
+		output.target0 = float4(texcolor.rgb, texcolor.a) * color;
+		output.target1 = float4(texcolor.rgb, texcolor.a) * color;
+	}
+
+	if(bloomf)
+	{
+		output.target0=float4(0,0,0,0);
+		output.target1 = output.target0;
 	}
 	return output;
 }

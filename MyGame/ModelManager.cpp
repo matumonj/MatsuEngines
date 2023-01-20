@@ -33,7 +33,6 @@ void ModelManager::Initialize()
 	LoadModel(NORMALSWORD, "sword");
 	LoadModel(BIGROCK_A, "BigStone_A");
 	LoadModel(HOUSE, "house");
-	LoadModel(BIGROCK_B, "crystal");
 	LoadModel(GRASSFIELD, "GrassField");
 	LoadModel(SANDFIELD, "Sandfield");
 	LoadModel(SKYMAP, "BackGround");
@@ -42,6 +41,7 @@ void ModelManager::Initialize()
 	LoadModel(THROWROCK, "throwrock");
 	LoadModel(BEAM2, "BossBeam");
 	LoadModel(TOWER, "SkyBack");
+	LoadModel(BOSSWEAPON, "BossWeapon");
 }
 
 void ModelManager::LoadModel(const ModelName modelName, std::string fileName)

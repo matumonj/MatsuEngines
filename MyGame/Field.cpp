@@ -13,11 +13,25 @@
 #include"EnemyControl.h"
 #include"ChestControl.h"
 #include "mHelper.h"
-#include"BossUltAttack.h"
+#include"UltAttack.h"
+#include "Feed.h"
 #define PI 3.14f
 
 Field::~Field()
 {
+	Destroy_unique(m_object[BOSSBACK]);
+	for(int i=0;i<SkyBack.size();i++)
+	{
+		Destroy_unique(SkyBack[i]);
+	}
+	for(int i=0;i<SkyMap.size();i++)
+	{
+		Destroy_unique(SkyMap[i]);
+	}
+	Destroy_unique(m_object[CELESTIALSPHERE]);
+	Destroy_unique(m_object[DAMAGEAREA]);
+	Destroy_unique(m_object[PEDESTAL]);
+	Destroy(FieldObject);
 }
 
 void Field::Finalize()
@@ -57,11 +71,7 @@ void Field::Initialize()
 		SetFieldModel(CELESTIALSPHERE, ModelManager::GetIns()->GetModel(ModelManager::CELESTIALSPHERE), camera);
 		//ボスの背景obj
 		SetFieldModel(BOSSBACK, ModelManager::GetIns()->GetModel(ModelManager::BOSSFIELD), camera);
-
-		//Bossの名前表示用とフィールド外周のダメージエリア通知
-		Sprite::LoadTexture(40, L"Resources/BossName.png");
-		Sprite::LoadTexture(41, L"Resources/warning1.png");
-
+		
 		Texture::LoadTexture(67, L"Resources/2d/tutorialstep/targetpos.png");
 		Texture* l_tex = Texture::Create(67);
 		cleartex.reset(l_tex);
@@ -84,13 +94,17 @@ void Field::Initialize()
 			SkyBack[i].reset(new Object3d());
 			SkyBack[i]->Initialize(camera);
 			SkyBack[i]->SetModel(ModelManager::GetIns()->GetModel(ModelManager::TOWER));
-			SkyBack[i]->SetScale({ 4,4,4 });
+			SkyBack[i]->SetScale({ 8,10,8 });
 
-			SkyBackPos[i].x	= 0.f + sinf(GuardAreaAngle[i] * (PI / 180.0f)) * 240.0f;
-			SkyBackPos[i].y = -100.f;
-			SkyBackPos[i].z = 0.f + cosf(GuardAreaAngle[i] * (PI / 180.0f)) * 240.0f;
-			
+			//SkyBackPos[i].x	= 0.f + sinf(360.f / float(i) * (PI / 180.0f)) * 240.0f;
+			//SkyBackPos[i].y = -100.f;
+		//	SkyBackPos[i].z = 0.f + cosf(360.f/float(i) * (PI / 180.0f)) * 240.0f;
 		}
+		SkyBackPos[0] = { -250.f,-100.f,125.f };
+		SkyBackPos[1] = { 87.f,-100.f,166.f };
+		SkyBackPos[2] = { 150.f,-100.f,-80.f };
+		SkyBackPos[3] = { -170.f,-100.f,-140.f };
+
 		SkyMap[0]->SetPosition({ 0.0f,0.0f,-170.0f });
 		SkyMap[1]->SetPosition({ -170.0f,0.0f,0.0f });
 		SkyMap[2]->SetPosition({ 170.0f,0.0f,0.0f });
@@ -130,11 +144,7 @@ void Field::Initialize()
 		pedestalpos = { -300.0f, -32, 270 };
 		SetFieldModel(PEDESTAL, ModelManager::GetIns()->GetModel(ModelManager::ICECRYSTAL), camera);
 	}
-	//ボスのネームプレート
-	BossName = Sprite::Create(40, {WinApp::window_width / 2, WinApp::window_height / 2});
-	BossName->SetAnchorPoint({0.5f, 0.5f});
-	BossName->SetPosition({WinApp::window_width / 2, WinApp::window_height / 2});
-	BossName->SetSize({800, 800});
+
 }
 
 void Field::PedestalMoving()
@@ -363,7 +373,6 @@ void Field::Update_Boss()
 	{
 		return;
 	}
-	SpriteFeed(TexAlpha_BossName, feed_BossName, feedSpeed_BossName, 1.5f);
 	if (CameraControl::GetInstance()->GetCameraState() == CameraControl::PLAYER)
 	{
 		SpriteFeed(t, feed, feedSpeed_Explanation, 2.5f);
@@ -371,10 +380,7 @@ void Field::Update_Boss()
 
 	//天球オブジェクト更新
 	SetFieldUpdate(CELESTIALSPHERE, camera, {0.0f, 30.0f, 0.0f}, {40.0f, 40.0f, 40.0f}, FALSE,false);
-	m_object[BOSSBACK]->SetColor({ 0.6f,0.6f,0.6f,1 });
-	//外周ダメージエリア更新
-	SetFieldUpdate(DAMAGEAREA, camera, {0.0f, -19.2f, 0.0f}, {1.0f, 1.0f, 1.0f}, TRUE, FALSE);
-	//背景のコロシアム更新
+//背景のコロシアム更新
 	if(KoloiamAlpha<=0.0f)
 	{
 		SkyMapDestF = true;
@@ -385,7 +391,7 @@ void Field::Update_Boss()
 		destf = false;
 	}
 	
-	if(BossUltAttack::GetIns()->GetFieldDestG())
+	if(Feed::GetInstance()->GetAlpha()<0.1f&&UltAttack::GetIns()->GetFieldDestG())
 	{
 		for(int i=0;i<SkyBack.size();i++)
 		{
@@ -403,12 +409,16 @@ void Field::Update_Boss()
 	
 	//destt = std::clamp(destt, -1000.f, 0.f);
 	KoloiamAlpha = std::clamp(KoloiamAlpha, 0.f, 1.f);
-	m_object[BOSSBACK]->SetDestFlag(true);
-	m_object[BOSSBACK]->SetDestTime(destt);
-	m_object[BOSSBACK]->SetCenter(DestCenter);
-	m_object[BOSSBACK]->SetColor({ 0.1f,0.1f,0.1f,1.0f });
-	SetFieldUpdate(BOSSBACK, camera, {0, -19, 0}, {1.0f, 1.0f, 1.0f}, false,true);
-	
+	if (!nextStageF) {
+		//外周ダメージエリア更新
+		SetFieldUpdate(DAMAGEAREA, camera, { 0.0f, -19.2f, 0.0f }, { 1.0f, 1.0f, 1.0f }, TRUE, FALSE);
+
+		m_object[BOSSBACK]->SetDestFlag(true);
+		m_object[BOSSBACK]->SetDestTime(destt);
+		m_object[BOSSBACK]->SetCenter(DestCenter);
+		m_object[BOSSBACK]->SetColor({ 0.1f,0.1f,0.1f,1.0f });
+		SetFieldUpdate(BOSSBACK, camera, { 0, -19, 0 }, { 1.0f, 1.0f, 1.0f }, false, true);
+	}
 	FieldObject->SetPosition({0.0f, -19.0f, 0.0f});
 
 	FieldObject->SetColor({0.8f, 0.8f, 0.8f, KoloiamAlpha});
@@ -429,7 +439,12 @@ void Field::Update_Boss()
 		SkyMap[i]->Update({1,1,1,1}, camera);
 	}
 	for (int i = 0; i < SkyBack.size(); i++) {
+		objroty[i] = float(i) * 90.f;
+		SkyBack[i]->SetDestFlag(true);
+		SkyBack[i]->SetDestTime(SkyMapDestT);
+
 		SkyBack[i]->SetPosition(SkyBackPos[i]);
+		SkyBack[i]->SetRotation({ 0.f,objroty[i],0.f});
 		SkyBack[i]->Update({ 1,1,1,1 }, camera);
 	}
 	//SkyMapDestT = std::clamp(SkyMapDestT, 0.f, 1000.f);
@@ -462,8 +477,6 @@ void Field::Update()
 
 	t = min(t, 2.5f);
 	t = max(t, 0.0f);
-	TexAlpha_BossName = min(TexAlpha_BossName, 3.0f);
-	TexAlpha_BossName = max(TexAlpha_BossName, 0.0f);
 }
 
 void Field::MiniFieldDraw()
@@ -481,13 +494,27 @@ void Field::Draw()
 	{
 		return;
 	}
-	/*ImGui::Begin("field");
-	ImGui::SliderFloat("PosX", &BossFieldPos.x, -700, 700);
-	ImGui::SliderFloat("Posy", &BossFieldPos.y, -70, 70);
 
+	
+	ImGui::Begin("field");
+	ImGui::SliderFloat("PosX", &SkyBackPos[0].x, -700, 700);
+	ImGui::SliderFloat("PosY", &SkyBackPos[0].z, -700, 700);
+	ImGui::SliderFloat("rotY", &objroty[0], 0, 360);
+
+	ImGui::SliderFloat("PosX1", &SkyBackPos[1].x, -700, 700);
+	ImGui::SliderFloat("PosY1", &SkyBackPos[1].z, -700, 700);
+	ImGui::SliderFloat("rotY1", &objroty[1], 0, 360);
+
+	ImGui::SliderFloat("PosX2", &SkyBackPos[2].x, -700, 700);
+	ImGui::SliderFloat("PosY2", &SkyBackPos[2].z, -700, 700);
+	ImGui::SliderFloat("rotY2", &objroty[2], 0, 360);
+
+	ImGui::SliderFloat("PosX3", &SkyBackPos[3].x, -700, 700);
+	ImGui::SliderFloat("PosY3", &SkyBackPos[3].z, -700, 700);
+	ImGui::SliderFloat("rotY3", &objroty[3], 0, 360);
 	ImGui::SliderFloat("Posz", &BossFieldPos.z, 0, 1700);
 	ImGui::End();
-	*/ //	if (FieldObject == nullptr)return;
+	 //	if (FieldObject == nullptr)return;
 	Object3d::PreDraw();
 	if (SceneManager::GetInstance()->GetScene() != SceneManager::MAPCREATE)
 	{
@@ -503,15 +530,21 @@ void Field::Draw()
 			for (int i = 0; i < SkyMap.size(); i++) {
 				if (SkyMap[i] == nullptr) continue;
 					SkyMap[i]->Draw();
-					SkyBack[i]->Draw();
+			}
+			for (int i = 0; i < SkyBack.size(); i++) {
+				if (SkyBack[i] == nullptr) continue;
+				SkyBack[i]->Draw();
 			}
 			m_object[CELESTIALSPHERE]->Draw();
 		}
+
+	
 		else{
-			ModelDraw_nullCheck(BOSSBACK);
+			//ModelDraw_nullCheck(BOSSBACK);
 
 			ModelDraw_nullCheck(DAMAGEAREA);
-		}
+		}	ModelDraw_nullCheck(BOSSBACK);
+
 	}
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
 	{

@@ -60,9 +60,10 @@ private:
 	float KoloiamAlpha = 1.f;
 	std::array<std::unique_ptr<Object3d>,4>SkyMap;
 	//後半フェーズの塔オブジェ
-	std::array<std::unique_ptr<Object3d>, 8>SkyBack;
-	std::array<XMFLOAT3, 8>SkyBackPos;
-	std::array<float, 8>SkyBackEaseT;
+	std::array<std::unique_ptr<Object3d>, 4>SkyBack;
+	std::array<XMFLOAT3, 4>SkyBackPos;
+	std::array<float, 4>SkyBackEaseT;
+	std::array<float, 4>objroty;
 	bool MapChange;
 	//Model
 	DirectX::XMFLOAT3 ssp = {0.0f, 0.0f, 0.0f};

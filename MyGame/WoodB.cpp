@@ -47,6 +47,7 @@ void WoodB::Update()
 	m_Object->Setf(TRUE);
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
 		m_Object->setFog(true);
+		m_Object->SetBloomF(true);
 		m_Object->Setppos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
 
 	} else

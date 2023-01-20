@@ -190,11 +190,11 @@ void AltAttack::Rush(Area& area, Area now, Area next, float& t)
 
 void AltAttack::RushAttack()
 {
-	rushimpactarea[FIR] = {0, -19, -100};
-	rushimpactarea[SEC] = {0, -19, 100};
-	rushimpactarea[THI] = {-140, -19, -20};
-	rushimpactarea[FIU] = {140, -19, -20};
-	rushimpactarea[FIV] = {0, -19, -100};
+	rushimpactarea[FIR] = {0, -14.75, -100};
+	rushimpactarea[SEC] = {0, -14.75, 100};
+	rushimpactarea[THI] = {-140, -14.75, -20};
+	rushimpactarea[FIU] = {140, -14.75, -20};
+	rushimpactarea[FIV] = {0, -14.75, -100};
 
 	XMFLOAT3 Bpos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
 

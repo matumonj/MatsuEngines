@@ -6,7 +6,7 @@
 #include"Object3d.h"
 #include "ObjectManager.h"
 
-class BossUltAttack
+class UltAttack
 {
 
 	private:
@@ -16,7 +16,7 @@ class BossUltAttack
 		using XMMATRIX = DirectX::XMMATRIX;
 		using XMVECTOR = DirectX::XMVECTOR;
 	public:
-		static BossUltAttack* GetIns();
+		static UltAttack* GetIns();
 		void TexSet();
 		void Upda();
 		void Draw();
@@ -34,7 +34,9 @@ class BossUltAttack
 
 		bool GetisEndAttack() { return isEndAttack; }
 		void SetisEndAttack(bool f) { isEndAttack = f; }
-	private:
+
+
+	public:
 		enum Phase
 		{
 			NON,
@@ -45,6 +47,8 @@ class BossUltAttack
 			END
 		} phase;
 
+		Phase GetPhase() { return phase; }
+private:
 		void Phase_AreaSet();
 		void Phase_Bom();
 		void Phase_MakeSmall();
