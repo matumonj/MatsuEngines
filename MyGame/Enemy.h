@@ -254,17 +254,19 @@ public: //stateêÿÇËë÷Ç¶
 
 	enum NowAttackMotion
 	{
-		BIDLE=7,
-		BROAR=4,
-		BNORMAL=8,
-		BNORMAL2 = 3,
-		MAGIC=1,
-		SWING=2,
-		EVASION,
-		FALTER=6,
-		BWALK=9,
-		BDEATH=5,
-		CHARGE=0
+		BIDLE=10,
+		BROAR=7,
+		BNORMAL=11,
+		BNORMAL2 = 5,
+		MAGIC=12,
+		SWING=6,
+		EVASION=1,
+		FALTER=9,
+		BWALK=13,
+		BDEATH=8,
+		CHARGE=0,
+		THROW=2,
+		BJUMP=3
 	};
 
 	NowAttackMotion GetNowMotion() { return attackNum; }
@@ -281,7 +283,8 @@ public: //çUåÇéÌóﬁóÒãì
 		ULT,
 		Slam,
 		Beam,
-		BRONZEATTACK
+		BRONZEATTACK_W,
+		BRONZEATTACK_H
 	};
 
 	/*/////	Ç±Ç±Ç‹Ç≈////////*/

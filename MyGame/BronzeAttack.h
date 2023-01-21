@@ -20,17 +20,19 @@ public:
 	void Draw();
 	void Finalize();
 
-	void SetAction(bool f) { if (phase == NON) { phase = AREASET; } }
+public:
+	enum Direction
+	{
+		HEIGHT,
+		WIDTH
+	}AttackDir;
+	void SetAction(bool f,Direction dir) { if (phase != AREASET) { phase = AREASET; AttackDir=dir;} }
 
 	bool GetPhaseEnd()
 	{
 		if (phase == END) { return true; }
 		return false;
 	}
-	void SetAttackPhase(bool f) { if (f && phase != AREASET) { phase = AREASET; } }
-
-	void SetActionNon() { phase = NON; }
-
 	bool GetisEndAttack() { return isEndAttack; }
 	void SetisEndAttack(bool f) { isEndAttack = f; }
 
@@ -57,7 +59,8 @@ private:
 
 	void SphereMoving();
 private:
-	std::unique_ptr<Texture> MagicTex;
+	std::array<std::unique_ptr<Texture>,2> MagicTex;
+	std::unique_ptr<Particle>ChargeCenter;
 	std::array<std::unique_ptr<Object3d>,5> BeamObj;
 	//びーむの各パラメータ
 	std::array < XMFLOAT3, 5> BeamObjPos;
@@ -66,13 +69,12 @@ private:
 
 	static constexpr int spheresize = 30;
 	std::array<std::unique_ptr<Object3d>, spheresize>chargesphere;
-	std::array<float, spheresize>chargesphereangle;
+	std::array<float, spheresize>chargesphereMovingE;
 	std::array<bool, spheresize>chargespheremoveF;
 	std::array<XMFLOAT3, spheresize>chargespherepos;
-
 	std::array<float,5> scalingETime;
 	XMFLOAT2 TexScl;
-	XMFLOAT2 TexPos;
+	std::array<XMFLOAT3,2> TexPos;
 	float TexAlpha;
 	float TexRotZ;
 	//bossの座標

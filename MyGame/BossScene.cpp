@@ -17,6 +17,7 @@
 #include "HalfAttack.h"
 #include "KnockAttack.h"
 #include "Nail.h"
+#include "ThrowRockAttack.h"
 #include"UltAttack.h"
 
 BossScene::BossScene(SceneManager* sceneManager)
@@ -40,8 +41,7 @@ void BossScene::Initialize()
 
 	Object3d::SetLightGroup(lightGroup);
 	// 3Dオブエクトにライトをセット
-	lightGroup->SetDirLightActive(0, true);
-	lightGroup->SetDirLightActive(1, true);
+	lightGroup->SetDirLightActive(2, true);
 	lightGroup->SetCircleShadowActive(0, true);
 	lightGroup->SetCircleShadowActive(1, true);
 	
@@ -112,7 +112,8 @@ void BossScene::Update()
 		Play = false;
 		SceneManager::GetInstance()->SetScene(SceneManager::TITLE, sceneManager_);
 	}
-		lightGroup->SetCircleShadowCasterPos(0,PlayerControl::GetInstance()->GetPlayer()->GetPosition());
+
+	lightGroup->SetCircleShadowCasterPos(0,PlayerControl::GetInstance()->GetPlayer()->GetPosition());
 		lightGroup->SetCircleShadowAtten(0, XMFLOAT3(circleShadowAtten));
 		lightGroup->SetCircleShadowDir(0, XMVECTOR({ circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0 }));
 		lightGroup->SetCircleShadowFactorAngle(0, XMFLOAT2(circleShadowFactorAngle2));
@@ -194,6 +195,7 @@ void BossScene::MyGameDraw()
 		FrontCircleAttack::GetInstance()->Draw();
 		UltAttack::GetIns()->Draw();
 		BronzeAttack::GetIns()->Draw();
+		ThrowRockAttack::GetInstance()->Draw();
 }
 
 /*------------------------*/

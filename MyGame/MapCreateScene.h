@@ -1,21 +1,8 @@
 #pragma once
 #include"BaseScene.h"
-#include"Audio.h"
-#include"Sprite.h"
-#include"Input.h"
-#include"WinApp.h"
-
-#include"Object3d.h"
-#include"Model.h"
-#include"Collision.h"
-#include"DebugTxt.h"
 #include"LightGroup.h"
 #include"DebugCamera.h"
-#include "FbxLoader.h"
-#include "f_Object3d.h"
-#include"Texture.h"
 #include"PostEffect.h"
-#include"Enemy.h"
 #include"TargetMarker.h"
 #pragma comment(lib,"winmm.lib")
 class CollisionManager;
@@ -28,8 +15,8 @@ public:
 	MapCreateScene(SceneManager* sceneManager);
 private: // エイリアス
 	// Microsoft::WRL::を省略
-	template <class T>
-	using ComPtr = ComPtr<T>;
+	//template <class T>
+	//using ComPtr = ComPtr<T>;
 	// DirectX::を省略
 	using XMFLOAT2 = XMFLOAT2;
 	using XMFLOAT3 = XMFLOAT3;

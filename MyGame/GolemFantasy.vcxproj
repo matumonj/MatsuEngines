@@ -109,13 +109,11 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BossEnemyAttackThrow.cpp" />
     <ClCompile Include="RushAttack.cpp" />
     <ClCompile Include="AreaFence.cpp" />
     <ClCompile Include="AttackCollision.cpp" />
     <ClCompile Include="AttackEffect.cpp" />
-    <ClCompile Include="BetaEnemyAttack.cpp" />
-    <ClCompile Include="BetaEnemyState.cpp" />
-    <ClCompile Include="BetaEnemyWalk.cpp" />
     <ClCompile Include="BigSword.cpp" />
     <ClCompile Include="BleathAttack.cpp" />
     <ClCompile Include="BossEnemyAttack.cpp" />
@@ -136,6 +134,7 @@
     <ClCompile Include="BossScene.cpp" />
     <ClCompile Include="BossSpell.cpp" />
     <ClCompile Include="BossState.cpp" />
+    <ClCompile Include="ThrowRockAttack.cpp" />
     <ClCompile Include="UltAttack.cpp" />
     <ClCompile Include="BronzeAttack.cpp" />
     <ClCompile Include="CameraControl.cpp" />
@@ -259,13 +258,11 @@
     <ClCompile Include="WoodControl.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BossEnemyAttackThrow.h" />
     <ClInclude Include="RushAttack.h" />
     <ClInclude Include="AreaFence.h" />
     <ClInclude Include="AttackCollision.h" />
     <ClInclude Include="AttackEffect.h" />
-    <ClInclude Include="BetaEnemyAttack.h" />
-    <ClInclude Include="BetaEnemyState.h" />
-    <ClInclude Include="BetaEnemyWalk.h" />
     <ClInclude Include="BigSword.h" />
     <ClInclude Include="BleathAttack.h" />
     <ClInclude Include="BossEnemyAttack.h" />
@@ -286,6 +283,7 @@
     <ClInclude Include="BossScene.h" />
     <ClInclude Include="BossSpell.h" />
     <ClInclude Include="BossState.h" />
+    <ClInclude Include="ThrowRockAttack.h" />
     <ClInclude Include="UltAttack.h" />
     <ClInclude Include="BronzeAttack.h" />
     <ClInclude Include="CameraControl.h" />

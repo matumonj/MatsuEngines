@@ -6,8 +6,6 @@
 #include"imgui.h"
 #include"Collision.h"
 #include"PlayerControl.h"
-#include<iomanip>
-
 #include "CameraControl.h"
 #include"PlayerAttackState.h"
 #include"ImageManager.h"

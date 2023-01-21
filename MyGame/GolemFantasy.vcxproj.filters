@@ -636,15 +636,6 @@
     <ClCompile Include="EnemyBeta.cpp">
       <Filter>Game\gameobject\GameObject\Enemy\Derived\beta</Filter>
     </ClCompile>
-    <ClCompile Include="BetaEnemyState.cpp">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\beta</Filter>
-    </ClCompile>
-    <ClCompile Include="BetaEnemyWalk.cpp">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\beta</Filter>
-    </ClCompile>
-    <ClCompile Include="BetaEnemyAttack.cpp">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\beta</Filter>
-    </ClCompile>
     <ClCompile Include="ClearScene.cpp">
       <Filter>Game</Filter>
     </ClCompile>
@@ -668,6 +659,12 @@
     </ClCompile>
     <ClCompile Include="BossEnemyAttackUlt.cpp">
       <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="BossEnemyAttackThrow.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="ThrowRockAttack.cpp">
+      <Filter>Game\gameobject\GameObject\Boss\AttackPattern</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1109,15 +1106,6 @@
     <ClInclude Include="EnemyBeta.h">
       <Filter>Game\gameobject\GameObject\Enemy\Derived\beta</Filter>
     </ClInclude>
-    <ClInclude Include="BetaEnemyState.h">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\beta</Filter>
-    </ClInclude>
-    <ClInclude Include="BetaEnemyWalk.h">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\beta</Filter>
-    </ClInclude>
-    <ClInclude Include="BetaEnemyAttack.h">
-      <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\beta</Filter>
-    </ClInclude>
     <ClInclude Include="ClearScene.h">
       <Filter>Game\Shader</Filter>
     </ClInclude>
@@ -1141,6 +1129,12 @@
     </ClInclude>
     <ClInclude Include="BossEnemyAttackUlt.h">
       <Filter>Game\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="BossEnemyAttackThrow.h">
+      <Filter>Game\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="ThrowRockAttack.h">
+      <Filter>Game\gameobject\GameObject\Boss\AttackPattern</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

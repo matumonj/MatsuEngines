@@ -404,7 +404,6 @@ void Field::Update_Boss()
 		DestCenter.x += 1.1f;
 	}
 	
-	//destt = std::clamp(destt, -1000.f, 0.f);
 	KoloiamAlpha = std::clamp(KoloiamAlpha, 0.f, 1.f);
 	if (!nextStageF) {
 		//外周ダメージエリア更新
@@ -413,8 +412,8 @@ void Field::Update_Boss()
 		m_object[BOSSBACK]->SetDestFlag(true);
 		m_object[BOSSBACK]->SetDestTime(destt);
 		m_object[BOSSBACK]->SetCenter(DestCenter);
-		m_object[BOSSBACK]->SetColor({ 0.1f,0.1f,0.1f,1.0f });
-		SetFieldUpdate(BOSSBACK, camera, { 0, -19, 0 }, { 1.0f, 1.0f, 1.0f }, false, true);
+		m_object[BOSSBACK]->SetColor({ 0.4f,0.4f,0.4f,1.0f });
+		SetFieldUpdate(BOSSBACK, camera, { 0, -19, 0 }, { 1.0f, 1.0f, 1.0f }, false, false);
 	}
 	FieldObject->SetPosition({0.0f, -19.0f, 0.0f});
 

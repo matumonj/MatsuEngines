@@ -31,8 +31,6 @@ float m_alpha : packoffset(c2.w); // アルファ
 
 
 // 平行光源の数
-static const int DIRLIGHT_NUM = 3;
-
 struct DirLight
 {
 	float3 lightv; // ライトへの方向の単位ベクトル
@@ -91,7 +89,7 @@ struct Line2D
 cbuffer cbuff2 : register(b2)
 {
 float3 ambientColor;
-DirLight dirLights[DIRLIGHT_NUM];
+DirLight dirLights;
 PointLight pointLights[POINTLIGHT_NUM];
 SpotLight spotLights[SPOTLIGHT_NUM];
 CircleShadow circleShadows[CIRCLESHADOW_NUM];

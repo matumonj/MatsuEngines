@@ -7,6 +7,7 @@
 #include"SceneManager.h"
 #include"SelectSword.h"
 #include"AttackEffect.h"
+#include "PlayerAttackState.h"
 
 AttackCollision* AttackCollision::GetInstance()
 {
@@ -136,6 +137,7 @@ void AttackCollision::GetCol(int damage)
 					if (EnemyControl::GetInstance()->GetSummonEnemysApper() == false || EnemyControl::GetInstance()->
 						GetSummonEnemysDeath() == true)
 					{
+						//PlayerAttackState::GetInstance()->SetHitStopJudg(true, 50);
 						EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->RecvDamage(
 							damage + rand() % 8 + 1);
 					}

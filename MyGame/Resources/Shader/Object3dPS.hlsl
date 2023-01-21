@@ -67,7 +67,7 @@ PSOutPut main(GSOutput input)
 	float3 fc = {0.1, 0.1, 0.1};
 
 	// 光沢度
-	const float shininess = 4.0f;
+	const float shininess = 1.0f;
 	// 頂点から視点への方向ベクトル
 	float3 eyedir = normalize(cameraPos - input.worldpos.xyz);
 
@@ -112,26 +112,7 @@ PSOutPut main(GSOutput input)
 			shadecolor.rgb -= atten;
 		}
 	}
-	// 平行光源
-	if (shadowf){
-	for (int dnum = 0; dnum < 3; dnum++)
-	{
-		if (dirLights[dnum].active)
-		{
-			// ライトに向かうベクトルと法線の内積
-			float3 dotlightnormal = dot(dirLights[dnum].lightv, input.normal);
-			// 反射光ベクトル
-			float3 reflect = normalize(-dirLights[dnum].lightv + 2 * dotlightnormal * input.normal);
-			// 拡散反射光
-			float3 diffuse = dotlightnormal * m_diffuse;
-			// 鏡面反射光
-			float3 specular = pow(saturate(dot(reflect, eyedir)), shininess) * m_specular;
 
-			// 全て加算する
-			shadecolor.rgb += (diffuse + specular) * dirLights[dnum].lightcolor;
-		}
-	}
-		}
 
 	// 点光源
 	for (int pnum = 0; pnum < 3; pnum++)
@@ -237,7 +218,23 @@ PSOutPut main(GSOutput input)
 			shadecolor.rgb -= atten;
 		}
 	}
+	// 平行光源
+	if (shadowf) {
+		if (dirLights.active)
+		{
+			// ライトに向かうベクトルと法線の内積
+			float3 dotlightnormal = dot(dirLights.lightv, input.normal);
+			// 反射光ベクトル
+			float3 reflect = normalize(-dirLights.lightv + 2 * dotlightnormal * input.normal);
+			// 拡散反射光
+			float3 diffuse = dotlightnormal * m_diffuse;
+			// 鏡面反射光
+			float3 specular = pow(saturate(dot(reflect, eyedir)), shininess) * m_specular;
 
+			// 全て加算する
+			shadecolor.rgb += (diffuse + specular) * dirLights.lightcolor;
+		}
+	}
 	// float4 shadecolor = float4(brightness, brightness, brightness, 1.0f);
 	//陰影とテクスチャの色を合成
 	//変更後
@@ -249,8 +246,8 @@ PSOutPut main(GSOutput input)
 	{
 		if (shadowf)
 		{
-			output.target0 = shadecolor * float4(texcolor.rgb , texcolor.a) ;
-			output.target1 = shadecolor * float4(texcolor.rgb, texcolor.a) ;
+			output.target0 = shadecolor * float4(texcolor.rgb , texcolor.a)+addcol ;
+			output.target1 = shadecolor * float4(texcolor.rgb, texcolor.a) + addcol;
 		}
 	}
 	else

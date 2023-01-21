@@ -323,16 +323,7 @@ void Player::Update()
 
 	}
 	
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
-	{
-		if (Collision::GetLength(Position, { 0, -19, 0 }) > 90)
-		{
-			if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0] != nullptr)
-			{
-				RecvDamage(10);
-			}
-		}
-	}
+
 	//回避
 	Evasion();
 	//プレイヤーに対しての被ダメージ表記

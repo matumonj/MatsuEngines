@@ -1,22 +1,7 @@
 #pragma once
-#include <wrl.h>
-#include <d3d12.h>
-#include <d3dx12.h>
-#include<memory>
-#include<list>
-#include <DirectXMath.h>
 #include"DebugCamera.h"
 #include"Enemy.h"
 #include"Wood.h"
-#include<fstream>
-#include<string>
-#include<sstream>
-#include<ostream>
-#include"AreaFence.h"
-#include <iostream>
-#include"PlaceFence.h"
-#include"PlaceWood.h"
-#include"PlaceEnemy.h"
 #include"CreateObjManager.h"
 
 class MapCreate

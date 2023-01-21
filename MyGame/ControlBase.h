@@ -3,10 +3,6 @@
 #include<fstream>
 #include<string>
 #include<sstream>
-#include<ostream>
-#include <iostream>
-
-#include"DebugCamera.h"
 #include"Collision.h"
 
 class ControlBase

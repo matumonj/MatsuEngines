@@ -14,6 +14,7 @@
 #include "KnockAttack.h"
 #include"UltAttack.h"
 #include"BronzeAttack.h"
+#include"ThrowRockAttack.h"
 /// <summary>
 /// コンストラクタ
 /// </summary>
@@ -111,6 +112,7 @@ cooltime = 0;
 	RushAttack::GetInstance()->SetAttackPhase(false);
 	FrontCircleAttack::GetInstance()->SetAttackPhase(false);
 	BronzeAttack::GetIns()->Init();
+	ThrowRockAttack::GetInstance()->Init();
 	for(int i=0;i<7;i++)
 	{
 		SetAttack_Start(i, false);
@@ -165,6 +167,7 @@ void BossEnemy::Update()
 	CircleAttack::GetInstance()->ActionJudg();
 	KnockAttack::GetInstance()->ActionJudg();
 	BronzeAttack::GetIns()->Upda();
+	ThrowRockAttack::GetInstance()->Action();
 }
 
 void BossEnemy::AttackCollide()
@@ -175,7 +178,7 @@ void BossEnemy::AttackCollide()
 	handmat_right.r[3].m128_f32[0], handmat_right.r[3].m128_f32[1], handmat_right.r[3].m128_f32[2]
 	};
 	//左
-	m_fbxObject->GetBoneIndexMat(55, handmat_left);
+	m_fbxObject->GetBoneIndexMat(64, handmat_left);
 	HandPos_Left = {
 		handmat_left.r[3].m128_f32[0], handmat_left.r[3].m128_f32[1], handmat_left.r[3].m128_f32[2]
 	};

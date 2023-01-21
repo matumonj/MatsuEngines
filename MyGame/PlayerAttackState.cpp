@@ -1,8 +1,6 @@
 #include "PlayerAttackState.h"
 #include"Input.h"
 #include"EnemyControl.h"
-#include"Collision.h"
-#include"CustomButton.h"
 #include"PlayerControl.h"
 #include"SelectSword.h"
 #include"AttackCollision.h"

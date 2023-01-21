@@ -16,7 +16,7 @@ void BossEnemyAttack::Update(Enemy* enemy)
 	if (enemy->GetRecvDamage2())
 	{
 		Evaprobability = rand() % 100 + 1;
-		if (Evaprobability > 60)
+		if (Evaprobability > 0)
 		{
 			enemy->ChangeState_Boss(new BossEnemyFalter());
 		} else

@@ -21,24 +21,11 @@ BossMap::~BossMap()
 			Destroy_unique(mapobj[i][j]);
 		}
 	}
-	for (int i = 0; i < lanthanumSize; i++)
-	{
-		Destroy_unique(Lanthanum[i]);
-	}
 }
 
 
 void BossMap::Init()
 {
-	for (int i = 0; i < lanthanumSize; i++)
-	{
-		LanthanumPos[i] = {
-			sinf(static_cast<float>(i) * 30.f * (PI / 180.0f)) * 90.0f,
-			13.89f,
-			cosf(static_cast<float>(i) * 30.f * (PI / 180.0f)) * 130.0f
-		};
-		LanthanumScl[i] = {45.f, static_cast<float>(rand() % 10 + 6), 45};
-	}
 
 	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
 	for (int i = 0; i < mapHight; i++)
@@ -53,14 +40,7 @@ void BossMap::Init()
 			//フィールドにモデル割り当て
 		}
 	}
-
-	for (int i = 0; i < lanthanumSize; i++)
-	{
-		Lanthanum[i] = std::make_unique<Object3d>();
-		Lanthanum[i]->Initialize(camera);
-		Lanthanum[i]->SetModel(ModelManager::GetIns()->GetModel(ModelManager::LANTHANUM));
-		Lanthanum[i]->SetRotation({0.0f, static_cast<float>(i * 30), 0.0f});
-	}
+	
 }
 
 #include"EnemyControl.h"
@@ -129,14 +109,7 @@ void BossMap::Upda()
 		}
 	}
 
-	for (int i = 0; i < lanthanumSize; i++)
-	{
-		if (UltAttack::GetIns()->GetFieldDestG() == false) {
-			Lanthanum[i]->SetPosition({ LanthanumPos[i] });
-			Lanthanum[i]->SetScale({ LanthanumScl[i] });
-			Lanthanum[i]->Update({ 1.f, 0.7f, 0.7f, 0.6f }, camera);
-		}
-	}
+	
 }
 
 void BossMap::DrawDamageLine(bool atckjudg, Line2D line)
@@ -258,14 +231,7 @@ void BossMap::Draw()
 			mapobj[i][j]->Draw();
 		}
 	}
-	if (UltAttack::GetIns()->GetFieldDestG()==false) {
-		for (int i = 0; i < lanthanumSize; i++)
-		{
-			//Lanthanum[i]->Draw();
-		}
-	}
+	
 	Object3d::PostDraw();
-	Texture::PreDraw();
-
-	Texture::PostDraw();
+	
 }

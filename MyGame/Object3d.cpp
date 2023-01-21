@@ -3,8 +3,6 @@
 #include <d3dcompiler.h>
 #include <DirectXTex.h>
 #include <fstream>
-#include<sstream>
-#include<vector>
 #include"BaseCollider.h"
 #include"CollisionManager.h"
 #include"DirectXCommon.h"

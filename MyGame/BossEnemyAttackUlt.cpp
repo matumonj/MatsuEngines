@@ -1,6 +1,7 @@
 #include "BossEnemyAttackUlt.h"
 #include "BossEnemy.h"
 #include"BossEnemyFollow.h"
+#include "CameraControl.h"
 #include "UltAttack.h"
 #include"KnockAttack.h"
 #include"mHelper.h"
@@ -20,6 +21,7 @@ void BossEnemyAttackUlt::Update(Enemy* enemy)
 		enemy->SetAttack_End(enemy->ULT, true);
 	}
 	//enemy->SetMagicAttackTime(true);
+	CameraControl::GetInstance()->SetCameraState(CameraControl::RUSHSCENE);
 
 	if (UltAttack::GetIns()->GetPhase() == UltAttack::END)
 	{

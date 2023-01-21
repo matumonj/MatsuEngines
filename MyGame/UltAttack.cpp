@@ -22,15 +22,9 @@ void UltAttack::TexSet()
 		normalAttackObj[i]->SetModel(l_model);
 
 	scalingETime[i] = 0.0f;
+
+
 	}
-	beampos[0] = { -70.f ,0.f,0.f };
-	beampos[1] = { 70.f ,0.f,10.f };
-	beampos[2] = { -70.f ,0.f,30.f };
-	beampos[3] = { -30.f ,0.f,0.f };
-	beampos[4] = { 50.f ,0.f,-20.f };
-	beampos[5] = { 0.f ,0.f,-40.f };
-	beampos[6] = { 10.f ,0.f,10.f };
-	beampos[7] = { -10.f ,0.f,-20.f };
 	
 }
 
@@ -38,7 +32,6 @@ void UltAttack::Upda()
 {
 	
 	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
-	XMFLOAT3 epos = EnemyControl::GetInstance()->GetGuardianEnemy()->GetPosition();
 	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 
 	switch (phase)
@@ -84,6 +77,7 @@ void UltAttack::Upda()
 void UltAttack::Phase_AreaSet()
 {
 	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	XMFLOAT3 bpos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
 
 	bool nextPhase = TexAlpha > 3.f;
 	const float scalingSpeed = 0.05f;
@@ -91,7 +85,11 @@ void UltAttack::Phase_AreaSet()
 	
 	//êFÇÃñæìxâ∫Ç∞ÇΩÇËè„Ç∞ÇΩÇË
 	ColorT++;
-	
+	for(int i=0;i<8;i++)
+	{
+		beampos[i] = { bpos.x+float(rand()%50-25),0.f,bpos.z + float(rand() % 50 - 25) };
+		
+	}
 	//if (nextPhase)
 	//{
 		phase = BOM;

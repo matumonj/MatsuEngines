@@ -111,9 +111,6 @@ void BossEnemyFollow::Update(Enemy* enemy)
 	AttackSelect(
 		enemy, Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= 70.0f,
 		enemy->Beam);
-	AttackSelect(
-		enemy, Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= 60.0f,
-		enemy->KNOCK);
 
 	//Ž€–S
 	if (enemy->GetHP() <= 0.f)
@@ -133,7 +130,7 @@ void BossEnemyFollow::Update(Enemy* enemy)
 		}
 	}
 	//
-	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= 60.0f)
+	/*if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= 60.0f)
 	{
 		if (KnockAttack::GetInstance()->GetPhase() != KnockAttack::PHASEFOUR)
 		{
@@ -142,7 +139,7 @@ void BossEnemyFollow::Update(Enemy* enemy)
 				enemy->ChangeState_Boss(new BossEnemyAttackKnock());
 			}
 		}
-	}
+	}*/
 
 	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= 50.0f)
 	{
@@ -157,10 +154,22 @@ void BossEnemyFollow::Update(Enemy* enemy)
 
 	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= 90.0f)
 	{
-		if (BronzeAttack::GetIns()->GetPhase() != BronzeAttack::END)
+		if (BronzeAttack::GetIns()->GetPhase() != BronzeAttack::AREASET)
 		{
-			if (enemy->GetAttack_End(enemy->BRONZEATTACK) == false) {
-				BronzeAttack::GetIns()->SetAction(true);
+			if (enemy->GetAttack_End(enemy->BRONZEATTACK_W) == false) {
+				BronzeAttack::GetIns()->SetAction(true,BronzeAttack::WIDTH);
+				enemy->ChangeState_Boss(new BossEnemyAttackBrzBeam());
+			}
+		}
+	}
+
+
+	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= 99.0f)
+	{
+		if (BronzeAttack::GetIns()->GetPhase() != BronzeAttack::AREASET)
+		{
+			if (enemy->GetAttack_End(enemy->BRONZEATTACK_H) == false) {
+				BronzeAttack::GetIns()->SetAction(true, BronzeAttack::HEIGHT);
 				enemy->ChangeState_Boss(new BossEnemyAttackBrzBeam());
 			}
 		}

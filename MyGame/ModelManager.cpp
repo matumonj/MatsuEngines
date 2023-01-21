@@ -24,10 +24,10 @@ void ModelManager::Initialize()
 	LoadModel(SPHERE, "sphere");
 	LoadModel(NAIL, "Nail");
 	LoadModel(BIGSWORD, "axe");
-	LoadModel(DAMAGEAREA, "BossFieldDamageArea");
 	LoadModel(BOX, "Box");
 	LoadModel(PLACEBOX, "placebox");
 	LoadModel(MISSILE, "missile");
+	LoadModel(DESTROCK, "DestRock");
 	LoadModel(SMALLSWORD, "Hammer");
 	LoadModel(ICECRYSTAL, "crystal");
 	LoadModel(CELESTIALSPHERE, "skydome");
@@ -37,7 +37,6 @@ void ModelManager::Initialize()
 	LoadModel(GRASSFIELD, "GrassField");
 	LoadModel(SANDFIELD, "Sandfield");
 	LoadModel(SKYMAP, "BackGround");
-	LoadModel(LANTHANUM, "lanthanum");
 	LoadModel(BEAM, "BeamObj");
 	LoadModel(THROWROCK, "throwrock");
 	LoadModel(BEAM2, "BossBeam");
