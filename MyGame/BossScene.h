@@ -1,7 +1,5 @@
 #pragma once
 #include "BaseScene.h"
-#include"LightGroup.h"
-#include"ControlBase.h"
 class CollisionManager;
 
 class BossScene :
@@ -10,9 +8,6 @@ class BossScene :
 public:
 	BossScene(SceneManager* sceneManager);
 private: // エイリアス
-	// Microsoft::WRL::を省略
-	template <class T>
-	using ComPtr = ComPtr<T>;
 	// DirectX::を省略
 	using XMFLOAT2 = XMFLOAT2;
 	using XMFLOAT3 = XMFLOAT3;

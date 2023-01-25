@@ -25,8 +25,17 @@ using namespace DirectX;
 BossEnemy::BossEnemy()
 {
 
+	//オブジェのセット
 	ResourcesSet();
-	HalfAttack::GetInstance()->Init();
+	//ボス攻撃のインスタンス格納
+	BossAttackAction.emplace_back(CircleAttack::GetInstance());
+	BossAttackAction.emplace_back(RushAttack::GetInstance());
+	BossAttackAction.emplace_back(FrontCircleAttack::GetInstance());
+	BossAttackAction.emplace_back(UltAttack::GetIns());
+	BossAttackAction.emplace_back(BronzeAttack::GetIns());
+	BossAttackAction.emplace_back(ThrowRockAttack::GetInstance());
+	BossAttackAction.emplace_back(HalfAttack::GetInstance());
+
 }
 
 /// <summary>
@@ -102,27 +111,17 @@ void BossEnemy::Initialize()
 	FrameScl.x = Percent::GetParcent(static_cast<float>(MaxHP), static_cast<float>(EnemyHP)) *17.0f;
 
 	//各攻撃処理の初期化
-
-	//KnockAttack::GetInstance()->Initialize();
-	CircleAttack::GetInstance()->Init();
-	RushAttack::GetInstance()->Init();
-	FrontCircleAttack::GetInstance()->Init();
-	UltAttack::GetIns()->TexSet();
-
+	
+	for (int i = 0; i < BossAttackAction.size(); i++) 
+	{
+		BossAttackAction[i]->Init();
+	}
 	CircleAttack::GetInstance()->SetAttackPhase(false);
 	KnockAttack::GetInstance()->SetAttackPhase(false);
 	HalfAttack::GetInstance()->SetAttackPhase(false);
-	HalfAttack::GetInstance()->SetAttackPhase(false);
 	RushAttack::GetInstance()->SetAttackPhase(false);
 	FrontCircleAttack::GetInstance()->SetAttackPhase(false);
-	BronzeAttack::GetIns()->Init();
-	ThrowRockAttack::GetInstance()->Init();
-	for(int i=0;i<7;i++)
-	{
-		SetAttack_Start(i, false);
-		SetAttack_End(i, false);
-	}
-
+	
 }
 
 //更新処理
@@ -171,11 +170,9 @@ void BossEnemy::Update()
 	Position.x = std::clamp(Position.x, -100.f, 100.f);
 	Position.z = std::clamp(Position.z, -100.f, 100.f);
 
-	CircleAttack::GetInstance()->Upda();
-	//KnockAttack::GetInstance()->ActionJudg();
-	HalfAttack::GetInstance()->Upda();
-	BronzeAttack::GetIns()->Upda();
-	ThrowRockAttack::GetInstance()->Upda();
+	for (int i = 0; i < BossAttackAction.size();i++) {
+		BossAttackAction[i]->Upda();
+	}
 }
 
 void BossEnemy::AttackCollide()
@@ -248,18 +245,14 @@ void BossEnemy::Draw()
 	Object3d::PreDraw();
 	Sword->Draw();
 	Object3d::PostDraw();
+
 	//ボス敵描画
 	Draw_Fbx();
 
 	//各攻撃のオブジェクト描画
-	CircleAttack::GetInstance()->Draw();
-	HalfAttack::GetInstance()->Draw();
-	KnockAttack::GetInstance()->Draw();
-	RushAttack::GetInstance()->Draw();
-	FrontCircleAttack::GetInstance()->Draw();
-	UltAttack::GetIns()->Draw();
-	BronzeAttack::GetIns()->Draw();
-	ThrowRockAttack::GetInstance()->Draw();
+	for (int i = 0; i < BossAttackAction.size(); i++) {
+		BossAttackAction[i]->Draw();
+	}
 
 }
 

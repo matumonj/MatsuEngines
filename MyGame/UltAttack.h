@@ -2,24 +2,15 @@
 #pragma once
 #include "Texture.h"
 #include<memory>
-#include"Particle.h"
 #include"Object3d.h"
-#include "ObjectManager.h"
-
-class UltAttack
+#include"BossAttackActionManager.h"
+class UltAttack:public BossAttackActionManager
 {
-
-	private:
-		using XMFLOAT2 = DirectX::XMFLOAT2;
-		using XMFLOAT3 = DirectX::XMFLOAT3;
-		using XMFLOAT4 = DirectX::XMFLOAT4;
-		using XMMATRIX = DirectX::XMMATRIX;
-		using XMVECTOR = DirectX::XMVECTOR;
 	public:
 		static UltAttack* GetIns();
-		void TexSet();
-		void Upda();
-		void Draw();
+		void Init()override;
+		void Upda()override;
+		void Draw()override;
 		void Finalize();
 
 		void SetAction(bool f) { if (phase == NON) { phase = AREASET; } }

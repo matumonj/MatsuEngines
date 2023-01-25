@@ -12,7 +12,7 @@
 #include"BossEnemyDeath.h"
 #include"KnockAttack.h"
 #include"BossEnemyAttackSlam.h"
-#include"BossEnemyAttackBeam.h"
+#include"BossEnemyAttackRush.h"
 #include"Feed.h"
 #include"BossEnemy.h"
 #include "BossEnemyAttackBrzBeam.h"
@@ -32,9 +32,9 @@ void BossEnemyFollow::Update(Enemy* enemy)
 	{
 		return;
 	}
+	//モーションセット
 	enemy->SetAnimation(BossEnemy::NowAttackMotion::BWALK , 1.f, true);
 	//追跡処理部分//////////
-
 
 	//敵がプエレイヤーの方向く処理
 	XMVECTOR positionA = {
@@ -43,28 +43,31 @@ void BossEnemyFollow::Update(Enemy* enemy)
 		PlayerControl::GetInstance()->GetPlayer()->GetPosition().z
 	};
 	XMVECTOR positionB = {enemy->GetPosition().x, enemy->GetPosition().y, enemy->GetPosition().z};
-	//プレイヤーと敵のベクトルの長さ(差)を求める
-	XMVECTOR SubVector = XMVectorSubtract(positionB, positionA); // positionA - positionB;
 
-	//角度の取得 プレイヤーが敵の索敵位置に入ったら向きをプレイヤーの方に
-	RotY = atan2f(SubVector.m128_f32[0], SubVector.m128_f32[2]);
+	//向きをプレイヤーに
+	float Add_RotVal = FollowRot::FollowA_B(positionA, positionB);
+	
+	enemy->SetRotation({
+		enemy->GetRotation().x,
+		Add_RotVal* 60.0f ,
+		enemy->GetRotation().z
+	});
+
+	const float FollowSpeed = 4.f;
+
 	//移動ベクトルをy軸周りの角度で回転
-	XMVECTOR move = {0.0f, 0.0f, 0.1f, 0.0f};
+	XMVECTOR move = { 0.0f, 0.0f, 0.1f, 0.0f };
 
 	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(enemy->GetRotation().y + enemy->GetRotRadians()));
 
 	move = XMVector3TransformNormal(move, matRot);
-	enemy->SetRotation({
-		enemy->GetRotation().x,
-		RotY * 60.0f ,
-		enemy->GetRotation().z
-	});
+
 	if (Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) > 15.f)
 	{
 		enemy->SetPosition({
-				enemy->GetPosition().x + move.m128_f32[0] * 4,
+				enemy->GetPosition().x + move.m128_f32[0] * FollowSpeed,
 				enemy->GetPosition().y,
-				enemy->GetPosition().z + move.m128_f32[2] * 4
+				enemy->GetPosition().z + move.m128_f32[2] * FollowSpeed
 			}
 		);
 	}
@@ -72,14 +75,18 @@ void BossEnemyFollow::Update(Enemy* enemy)
 	//////////////////////////////////////////////////////////////
 
 	//普通の攻撃
-	if (Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 17.f)
+	const bool attackJudg = Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 17.f;
+	if (attackJudg)
 	{
+		//クールタイムが０の時のみ
 		if (enemy->GetCoolTime() == 0) {
 			enemy->ChangeState_Boss(new BossEnemyAttack());
 		}
 	}
+	//マジックナンバー後々消す
 	if (enemy->GetRecvDamage2())
 	{
+		//乱数を生成->一定以上なら状態を怯みに
 		Evaprobability = rand() % 100 + 1;
 		if (Evaprobability > 69)
 		{
@@ -97,14 +104,15 @@ void BossEnemyFollow::Update(Enemy* enemy)
 		enemy->ChangeState_Boss(new BossEnemyDeath());
 	}
 
-	//
+	/*-----------攻撃遷移部分------------*/
+
 	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= 70.0f)
 	{
 		if (RushAttack::GetInstance()->GetPhaseEnd() != RushAttack::PHASEFOUR)
 		{
 			if (enemy->GetAttack_End(enemy->Beam) == false) {
 				RushAttack::GetInstance()->SetAttackPhase(true);
-				enemy->ChangeState_Boss(new BossEnemyAttackBeam());
+				enemy->ChangeState_Boss(new BossEnemyAttackRush());
 			}
 		}
 	}
@@ -235,7 +243,7 @@ void BossEnemyFollow::AttackType(Enemy* enemy, int num)
 	case enemy->Beam:
 		if (RushAttack::GetInstance()->GetPhaseEnd() != RushAttack::PHASEFOUR)
 		{
-			enemy->ChangeState_Boss(new BossEnemyAttackBeam());
+			enemy->ChangeState_Boss(new BossEnemyAttackRush());
 		}
 		break;
 

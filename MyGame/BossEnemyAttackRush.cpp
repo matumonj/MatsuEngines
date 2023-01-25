@@ -1,14 +1,14 @@
-#include "BossEnemyAttackBeam.h"
+#include "BossEnemyAttackRush.h"
 #include"BossEnemyFollow.h"
 #include"RushAttack.h"
 #include "BossEnemy.h"
 #include"mHelper.h"
 
-void BossEnemyAttackBeam::Initialize(Enemy* enmey)
+void BossEnemyAttackRush::Initialize(Enemy* enmey)
 {
 }
 
-void BossEnemyAttackBeam::Update(Enemy* enemy)
+void BossEnemyAttackRush::Update(Enemy* enemy)
 {
 	enemy->SetRecvDamage2(false);
 	RushAttack::GetInstance()->ActionJudg();

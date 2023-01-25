@@ -305,16 +305,12 @@ void Player::Update()
 		Position.x,Position.y,Position.z
 		};
 		XMVECTOR positionB = { NearEnemy->GetPosition().x, NearEnemy->GetPosition().y,  NearEnemy->GetPosition().z };
-		//プレイヤーと敵のベクトルの長さ(差)を求める
-		XMVECTOR SubVector = XMVectorSubtract(positionA, positionB); // positionA - positionB;
 
-		//角度の取得 プレイヤーが敵の索敵位置に入ったら向きをプレイヤーの方に
-		RotY = atan2f(SubVector.m128_f32[0], SubVector.m128_f32[2]);
+		
 		if (CustomButton::GetInstance()->GetAttackAction() &&
 			Collision::GetLength(Position, NearEnemy->GetPosition()) < 30.f) {
-			Rotation.y = RotY * 60 + 180.f;
+			Rotation.y = FollowRot::FollowA_B(positionA, positionB) * 60 + 180.f;
 		}
-
 	}
 	
 

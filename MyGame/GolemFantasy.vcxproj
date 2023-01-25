@@ -117,8 +117,7 @@
     <ClCompile Include="AttackEffect.cpp" />
     <ClCompile Include="BigSword.cpp" />
     <ClCompile Include="BossEnemyAttack.cpp" />
-    <ClCompile Include="BossEnemyAttackBeam.cpp" />
-    <ClCompile Include="BossEnemyAttackBleath.cpp" />
+    <ClCompile Include="BossEnemyAttackRush.cpp" />
     <ClCompile Include="BossEnemyAttackBrzBeam.cpp" />
     <ClCompile Include="BossEnemyAttackCircle.cpp" />
     <ClCompile Include="BossEnemyAttackHalf.cpp" />
@@ -266,8 +265,7 @@
     <ClInclude Include="AttackEffect.h" />
     <ClInclude Include="BigSword.h" />
     <ClInclude Include="BossEnemyAttack.h" />
-    <ClInclude Include="BossEnemyAttackBeam.h" />
-    <ClInclude Include="BossEnemyAttackBleath.h" />
+    <ClInclude Include="BossEnemyAttackRush.h" />
     <ClInclude Include="BossEnemyAttackBrzBeam.h" />
     <ClInclude Include="BossEnemyAttackCircle.h" />
     <ClInclude Include="BossEnemyAttackHalf.h" />

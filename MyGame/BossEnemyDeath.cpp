@@ -9,5 +9,4 @@ void BossEnemyDeath::Update(Enemy* enemy)
 {
 	enemy->SetAnimation(BossEnemy::NowAttackMotion::BDEATH,false,0.5);
 	enemy->Death();
-	//enemy->ChangeState_Boss(new BossEnemyFollow());
 }

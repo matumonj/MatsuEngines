@@ -34,7 +34,7 @@ public:
 
 	void Draw_Obj();
 	void Draw_Fbx();
-
+	void Draw_Obj(Object3d* obj);
 	virtual void Draw() = 0;
 	void CollisionField();
 

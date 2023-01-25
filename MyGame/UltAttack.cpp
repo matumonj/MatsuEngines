@@ -12,7 +12,7 @@ UltAttack* UltAttack::GetIns()
 	return &ins;
 }
 
-void UltAttack::TexSet()
+void UltAttack::Init()
 {
 	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
 	Model* l_model = Model::CreateFromOBJ("BossBeam", true);

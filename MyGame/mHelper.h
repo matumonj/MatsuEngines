@@ -99,3 +99,20 @@ namespace MatCal
 		return DirectX::XMVECTOR{x, y, z, w};
 	}
 }
+
+
+namespace FollowRot
+{
+	inline float FollowA_B(DirectX::XMVECTOR A,DirectX::XMVECTOR B)
+	{
+		//プレイヤーと敵のベクトルの長さ(差)を求める
+		DirectX::XMVECTOR SubVector = DirectX::XMVectorSubtract(B,A); // positionA - positionB;
+
+		float RotY;
+		//角度の取得 プレイヤーが敵の索敵位置に入ったら向きをプレイヤーの方に
+		RotY = atan2f(SubVector.m128_f32[0], SubVector.m128_f32[2]);
+
+		//戻り値を対象のRot.Yにかける
+		return RotY;
+	}
+}

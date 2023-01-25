@@ -115,6 +115,9 @@ void GameOver::Update()
 
 void GameOver::Draw()
 {
+
+	Draw_DestParticle();
+
 	Sprite::PreDraw();
 	GameOverTexFrame->Draw();
 	GameOverTex->Draw();

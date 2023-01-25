@@ -6,7 +6,7 @@
 #include"Texture.h"
 #include"Sprite.h"
 #include<array>
-
+#include"BossAttackActionManager.h"
 class BossEnemy :
 	public Enemy
 {
@@ -97,8 +97,11 @@ private:
 
 private:
 	int attackindex;
-		void AnimationContol( int animenumber, double speed, bool loop);
-		void FbxAnimationControls(NowAttackMotion motiontype, int number);
+	void AnimationContol( int animenumber, double speed, bool loop);
+	void FbxAnimationControls(NowAttackMotion motiontype, int number);
 
-		void AttackMotion();
+	void AttackMotion();
+
+private:
+	std::vector<BossAttackActionManager*>BossAttackAction;
 };

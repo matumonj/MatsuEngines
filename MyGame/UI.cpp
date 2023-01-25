@@ -8,6 +8,7 @@
 #include"DropWeapon.h"
 #include <SelectSword.h>
 
+#include "GameOver.h"
 #include "HalfAttack.h"
 #include "PlayerControl.h"
 
@@ -76,6 +77,19 @@ void UI::HUDDraw()
 			DropWeapon::GtIns()->Draw_PickTex();
 			Task::GetInstance()->Draw();
 		}
+	}
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS&&
+		EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS).size()>0&&
+		EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]!=nullptr)
+	{
+		EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->DamageTexDisplay_Draw();
+
+		for (int i = 0; i < 2; i++)
+		{
+			if (HalfAttack::GetInstance()->GetSummonEnemy(i) == nullptr)continue;
+			HalfAttack::GetInstance()->GetSummonEnemy(i)->DamageTexDisplay_Draw();
+		}
+		HalfAttack::GetInstance()->Draw_SummonEnemyHP();
 	}
 
 	//PlayerControl::GetInstance()->DamageTexDraw();

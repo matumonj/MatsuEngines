@@ -401,6 +401,7 @@ void Field::Update_Boss()
 
 	CelestalRot += 0.1f;
 	m_object[CELESTIALSPHERE]->SetRotation({ 0.0f, CelestalRot, 0.0f });
+	SetFieldUpdate(CELESTIALSPHERE, camera, { 0.0f, 30.0f, 0.0f }, { celestalscl, celestalscl, celestalscl }, FALSE, TRUE);
 
 	//背景のコロシアム更新
 	if (KoloiamAlpha <= 0.0f)

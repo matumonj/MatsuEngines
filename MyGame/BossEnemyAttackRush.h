@@ -1,7 +1,7 @@
 #pragma once
 #include "BossEnemyState.h"
 
-class BossEnemyAttackBeam :
+class BossEnemyAttackRush :
 	public BossEnemyState
 {
 public:

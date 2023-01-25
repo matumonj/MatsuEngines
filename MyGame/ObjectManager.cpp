@@ -197,6 +197,14 @@ void ObjectManager::Draw_Obj()
 	m_Object->PostDraw();
 }
 
+void ObjectManager::Draw_Obj(Object3d* obj)
+{
+	obj->PreDraw();
+	obj->Draw();
+	obj->PostDraw();
+}
+
+
 void ObjectManager::Draw_Fbx()
 {
 	m_fbxObject->Draw();

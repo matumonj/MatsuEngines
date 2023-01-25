@@ -2,7 +2,6 @@
 #include"TitleScene.h"
 #include"SceneManager.h"
 #include"Field.h"
-#include"SistemConfig.h"
 #include"EnemyControl.h"
 #include"WoodControl.h"
 #include"CameraControl.h"
@@ -10,7 +9,6 @@
 #include"Feed.h"
 #include"PlayerControl.h"
 #include "GameOver.h"
-#include"RushAttack.h"
 #include "HalfAttack.h"
 #include "Nail.h"
 #include"UltAttack.h"
@@ -68,8 +66,7 @@ void BossScene::Update()
 	{
 		LoadF = true;
 	}
-
-	SistemConfig::GetInstance()->Update();
+	
 
 	if (Play)
 	{
@@ -92,7 +89,7 @@ void BossScene::Update()
 		}
 		UI::GetInstance()->HUDUpdate(hudload, CameraControl::GetInstance()->GetCamera());
 	}
-	UltAttack::GetIns()->Upda();
+	
 	Field::GetInstance()->Update();
 	//各オブジェクトの更新処理
 	//csv読み込み部分(Cameraの更新後にするのでobjUpdate()挟んでから)
@@ -105,8 +102,6 @@ void BossScene::Update()
 	//ライティング更新
 	LightUpdate();
 	
-	RushAttack::GetInstance()->Upda();
-
 	//ゲームオーバー時の初期化
 	GameOver::GetIns()->Update();
 
@@ -133,8 +128,6 @@ void BossScene::SpriteDraw()
 {
 	PlayerControl::GetInstance()->GetPlayer()->ParticleDraw();
 
-	GameOver::GetIns()->Draw_DestParticle();
-
 	//UI
 	if (CameraControl::GetInstance()->GetCameraState() != CameraControl::BOSSCUTSCENE)
 	{
@@ -142,15 +135,9 @@ void BossScene::SpriteDraw()
 	}
 
 	GameOver::GetIns()->Draw();
-	Feed::GetInstance()->Draw();
-	EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->DamageTexDisplay_Draw();
 
-	for (int i = 0; i < 2; i++)
-	{HalfAttack::GetInstance()->GetSummonEnemy(i)->DamageTexDisplay_Draw();
-}
-	HalfAttack::GetInstance()->Draw_SummonEnemyHP();
-	
-}
+	Feed::GetInstance()->Draw();
+	}
 
 void BossScene::MyGameDraw()
 {
@@ -288,7 +275,7 @@ void BossScene::LightUpdate()
 	}
 	else
 	{
-		//lightGroup->SetCircleShadowActive(3, false);
+		lightGroup->SetCircleShadowActive(3, false);
 	}
 	
 	XMFLOAT3 summonpos[2];
@@ -304,7 +291,7 @@ void BossScene::LightUpdate()
 		}
 		else
 		{
-			//lightGroup->SetCircleShadowActive(i, false);
+			lightGroup->SetCircleShadowActive(i, false);
 		}
 	}
 	XMFLOAT3 latten = { 0.1f,0.1f,0.1f };
