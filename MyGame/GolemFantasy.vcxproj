@@ -109,13 +109,13 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BossAttackActionManager.cpp" />
     <ClCompile Include="BossEnemyAttackThrow.cpp" />
     <ClCompile Include="RushAttack.cpp" />
     <ClCompile Include="AreaFence.cpp" />
     <ClCompile Include="AttackCollision.cpp" />
     <ClCompile Include="AttackEffect.cpp" />
     <ClCompile Include="BigSword.cpp" />
-    <ClCompile Include="BleathAttack.cpp" />
     <ClCompile Include="BossEnemyAttack.cpp" />
     <ClCompile Include="BossEnemyAttackBeam.cpp" />
     <ClCompile Include="BossEnemyAttackBleath.cpp" />
@@ -258,13 +258,13 @@
     <ClCompile Include="WoodControl.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BossAttackActionManager.h" />
     <ClInclude Include="BossEnemyAttackThrow.h" />
     <ClInclude Include="RushAttack.h" />
     <ClInclude Include="AreaFence.h" />
     <ClInclude Include="AttackCollision.h" />
     <ClInclude Include="AttackEffect.h" />
     <ClInclude Include="BigSword.h" />
-    <ClInclude Include="BleathAttack.h" />
     <ClInclude Include="BossEnemyAttack.h" />
     <ClInclude Include="BossEnemyAttackBeam.h" />
     <ClInclude Include="BossEnemyAttackBleath.h" />

@@ -152,7 +152,7 @@ void ObjectManager::ParameterSet_Fbx()
 {
 	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
 
-	m_fbxObject->SetPosition({Position.x, Position.y - 1, Position.z});
+	m_fbxObject->SetPosition({Position.x, Position.y - 3, Position.z});
 
 	m_fbxObject->SetRotation(Rotation);
 	m_fbxObject->SetScale(Scale);
@@ -165,7 +165,7 @@ void ObjectManager::ParameterSet_Fbx()
 
 void ObjectManager::ParameterSet_Fbx3()
 {
-	m_fbxObject->SetPosition({ Position.x, Position.y , Position.z });
+	m_fbxObject->SetPosition({ Position.x, Position.y-1.5f , Position.z });
 	m_fbxObject->SetRotation(Rotation);
 	m_fbxObject->SetScale(Scale);
 

@@ -9,7 +9,7 @@ void BossEnemyAttackSlam::Initialize(Enemy* enmey)
 
 void BossEnemyAttackSlam::Update(Enemy* enemy)
 {
-	FrontCircleAttack::GetInstance()->ActionJudg();
+	FrontCircleAttack::GetInstance()->Upda();
 
 	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= 90.0f)
 	{

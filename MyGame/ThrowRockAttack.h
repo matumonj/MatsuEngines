@@ -1,37 +1,41 @@
 ﻿#pragma once
+#include "BossAttackActionManager.h"
 #include "Enemy.h"
 #include"Object3d.h"
 #include "Particle.h"
 #include"Texture.h"
-class ThrowRockAttack
+class ThrowRockAttack:public BossAttackActionManager
 {
 public:
 	static ThrowRockAttack*GetInstance();
-public:
-	// DirectX::を省略
-	using XMFLOAT2 = DirectX::XMFLOAT2;
-	using XMFLOAT3 = DirectX::XMFLOAT3;
-	using XMFLOAT4 = DirectX::XMFLOAT4;
-	using XMMATRIX = DirectX::XMMATRIX;
-	using XMVECTOR = DirectX::XMVECTOR;
 
 private:
+	//岩おぶじぇ
 	std::unique_ptr<Object3d> ThrowRockObj;
-	std::unique_ptr<Texture>DamageArea;
-
+	//土煙
+	std::unique_ptr<Particle> DestPar;
 	//岩座標
 	XMFLOAT3 RockPos;
-	std::array<std::unique_ptr<Object3d>,5> DestRock;
-	std::array<float, 5> DestRockAlpha;
-	std::array<float, 5> DestRockAcc;
-	std::array<XMFLOAT3, 5> DestRockPos;
+
+	//砕ける瞬間フラグ
 	bool destF;
-	bool turnoffdrawF;
+	bool EffectCreateF;
+	//砕けるエフェクトサイズ
+	static constexpr int EffectSize = 5;
+
+	std::array<std::unique_ptr<Object3d>,EffectSize> DestRock;
+	std::array<float, EffectSize> DestRockAlpha;
+	std::array<float, EffectSize> DestRockAcc;
+	std::array<XMFLOAT3, EffectSize> DestRockPos;
+
+	//投石描画フラグ
+	bool TurnoffDrawF;
+	
 	DebugCamera* camera;
 public:
-	void Init();
-	void Action();
-	void Draw();
+	void Init()override;
+	void Upda()override;
+	void Draw()override;
 
 	//投げる動作の流れ
 	enum ThrowMotion
@@ -42,7 +46,10 @@ public:
 		THROW,
 		END
 	} tmotion;
+
+	//フェーズを初期状態に
 	void SetAction(bool f) { if (tmotion != SET) { tmotion = SET; } }
+
 	ThrowMotion GetPhase() { return tmotion; }
 private:
 	void ThrowPhase_Set();
@@ -52,5 +59,7 @@ private:
 
 	void DestEffect();
 	void ActionUpda();
+
+private:
 	static void (ThrowRockAttack::* actionTable[])();
 };

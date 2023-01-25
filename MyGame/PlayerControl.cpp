@@ -3,8 +3,6 @@
 #include"TutorialSprite.h"
 #include"PlayerAttackState.h"
 #include"AttackCollision.h"
-#include "CustomButton.h"
-#include"Feed.h"
 
 PlayerControl* PlayerControl::GetInstance()
 {
@@ -92,7 +90,6 @@ void PlayerControl::GameOverResetParam()
 /*------------------------*/
 #include"HUD.h"
 #include"CameraControl.h"
-#include <EnemyControl.h>
 //playerの中にある移動処理とかは後でこっち持ってくる
 void PlayerControl::Update_Tutorial() //チュートリアル時
 {

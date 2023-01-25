@@ -98,16 +98,7 @@ void PlayScene::Update()
 	//csv読み込み
 	LoadParam();
 
-	//設定画面中ポストエフェクト（今は色反転のみ）
-	if (SistemConfig::GetInstance()->GetConfigJudgMent())
-	{
-		c_postEffect = Blur;
-	}
-	else
-	{
-		c_postEffect = Default;
-	}
-
+	
 
 	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 
@@ -231,16 +222,7 @@ void PlayScene::Draw()
 	switch (c_postEffect)
 	{
 	case Blur: //ぼかし　描画準違うだけ
-		postEffect->PreDrawScene();
-		//MyGameDraw();
-		postEffect->PostDrawScene();
-
-		DirectXCommon::GetInstance()->BeginDraw();
-		postEffect->Draw();
-		SpriteDraw();
-		DirectXCommon::GetInstance()->EndDraw();
-		break;
-
+		
 	case Default: //普通のやつ特に何もかかっていない
 		//postEffect->PreDrawScene();
 		//postEffect->Draw();

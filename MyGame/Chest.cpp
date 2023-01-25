@@ -2,16 +2,13 @@
 
 #include "CameraControl.h"
 #include"SphereCollider.h"
-#include"CollisionAttribute.h"
 #include"TouchableObject.h"
 #include"CollisionManager.h"
-#include"Collision.h"
 #include"Player.h"
-#include"Destroy.h"
 
 Chest::~Chest()
 {
-	Destroy(DefaultEffect);
+	//Destroy(DefaultEffect);
 }
 
 void Chest::Initialize()
@@ -73,12 +70,7 @@ void Chest::Update()
 void Chest::Draw()
 {
 	Draw_Obj();
-	// 3Dオブジェクト描画前処理
-	ParticleManager::PreDraw();
-	// 3Dオブクジェクトの描画
-	DefaultEffect->Draw();
-	// 3Dオブジェクト描画後処理
-	ParticleManager::PostDraw();
+	
 }
 
 bool Chest::CollideChest()

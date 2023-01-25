@@ -84,7 +84,7 @@ void TitleScene::Update()
 	camera->SetEye({CameraPos.x, 2.0f, CameraPos.y});
 	camera->SetTarget({0.0f, 0.0f, 0.0f});
 	camera->Update();
-	SceneManager::GetInstance()->SetScene(SceneManager::TUTORIAL, sceneManager_);
+	//SceneManager::GetInstance()->SetScene(SceneManager::TUTORIAL, sceneManager_);
 
 }
 
@@ -160,12 +160,8 @@ void TitleScene::Draw()
 /*-----------------------*/
 void TitleScene::Finalize()
 {
-	field.release();
-	celestal.release();
-	//delete postEffect;
-	delete lightGroup;
-	Destroy_unique(camera);
-	Destroy_unique(titlesprite);
+	
+	//Destroy_unique(titlesprite);
 }
 
 void TitleScene::TitleTexInit()
@@ -228,7 +224,7 @@ void TitleScene::TitleFieldInit()
 	field->Initialize(camera.get());
 	//“V‹…
 	celestal = std::make_unique<Object3d>();
-	celestal->SetModel(ModelManager::GetIns()->GetModel(ModelManager::CELESTIALSPHERE));
+	celestal->SetModel(ModelManager::GetIns()->GetModel(ModelManager::CELESTIALSPHERES));
 	celestal->Initialize(camera.get());
 }
 

@@ -17,11 +17,11 @@ void BossEnemyAttackBrzBeam::Update(Enemy* enemy)
 	//BronzeAttack::GetIns()->SetAttackPhase(true);
 	
 	TurnCenter(enemy);
-	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= 90.0f)
+	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= 20.0f)
 	{
 		enemy->SetAttack_End(enemy->BRONZEATTACK_W, true);
 	}
-	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= 99.0f)
+	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= 30.0f)
 	{
 		enemy->SetAttack_End(enemy->BRONZEATTACK_H, true);
 	}

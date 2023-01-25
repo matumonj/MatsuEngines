@@ -30,7 +30,7 @@ void UltAttack::TexSet()
 
 void UltAttack::Upda()
 {
-	
+	//Field::GetInstance()->SetnextStageF(true);
 	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
 	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 
@@ -61,7 +61,7 @@ void UltAttack::Upda()
 	}
 
 	//各パラメータのセット
-	
+	SceneBloom();
 	for (int i = 0; i < 8; i++) {
 		if (normalAttackObj[i] != nullptr) {
 			normalAttackObj[i]->SetUVf(true);
@@ -87,7 +87,7 @@ void UltAttack::Phase_AreaSet()
 	ColorT++;
 	for(int i=0;i<8;i++)
 	{
-		beampos[i] = { bpos.x+float(rand()%50-25),0.f,bpos.z + float(rand() % 50 - 25) };
+		beampos[i] = { bpos.x+float(rand()%80-40),0.f,bpos.z + float(rand() % 80 - 40) };
 		
 	}
 	//if (nextPhase)
@@ -119,41 +119,56 @@ void UltAttack::Phase_Bom()
 #include"Feed.h"
 void UltAttack::Phase_MakeSmall()
 {
-	fielddestf = true;
-	beamscl[0].z += 5.f;
-	beamscl[0].x += 5.f;
+	beamscl[0].z += 0.5f;
+	beamscl[0].x += 0.5f;
 	for (int i = 1; i < 8; i++) {
 		scalingETime[i] += 0.04f;
 		//画面真っ白になったらシーン切り替え
 		
 				if (beamscl[i - 1].x > 10.f) {
-					beamscl[i].z += 1.f;
-					beamscl[i].x += 1.f;// Easing::EaseOut(scalingETime[i], 0.0f, 90.0f); ;
+					beamscl[i].z += 0.5f;
+					beamscl[i].x += 0.5f;// Easing::EaseOut(scalingETime[i], 0.0f, 90.0f); ;
 				
 			}
 	}
-	if (beamscl[7].x > 90) {
-		
-		Feed::GetInstance()->Update_White(Feed::FEEDIN);
-	}
-	if (Feed::GetInstance()->GetAlpha() >= 1.0f)
-	{
-		if (beamscl[7].x > 200) {
-			Field::GetInstance()->SetnextStageF(true);
-			phase = TEXFADE;
-		}
+	
 
-	}
 }
 
 void UltAttack::Phase_TexFade()
 {
 	Feed::GetInstance()->Update_White(Feed::FEEDOUT);
 	TexAlpha -= 0.02f;
+	for (int i = 0; i < 8; i++) {
+		beamscl[i] = {0.f,0.f,0.f};
+	}
 	if (Feed::GetInstance()->GetAlpha() <=0.0f)
 	{
 		TexScl = { 0.0f, 0.0f };
 		phase = END;
+	}
+}
+void UltAttack::SceneBloom()
+{
+		if (beamscl[0].x > 20) {
+			BloomAlpha -= 0.02f;
+		}
+		else{
+			BloomAlpha = 0.8f;
+	}
+		if (BloomAlpha <0.2f) {
+
+			fielddestf = true;
+			Feed::GetInstance()->Update_White(Feed::FEEDIN);
+		}
+	if(phase==BEAMSMALL)
+	{
+		if (Feed::GetInstance()->GetAlpha() >= 1.0f)
+		{
+			BloomAlpha = 1.f;
+			Field::GetInstance()->SetnextStageF(true);
+				phase = TEXFADE;
+		}
 	}
 }
 

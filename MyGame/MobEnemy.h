@@ -64,7 +64,7 @@ private:
 	float rand_Attacktype;
 	int HandIndex;
 
-
+	int attackinter;
 public:
 	bool isendtime;
 	std::unique_ptr<Object3d> Sword;

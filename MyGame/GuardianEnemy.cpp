@@ -15,7 +15,7 @@ GuardianEnemy::~GuardianEnemy()
 {
 	for(int i=0;i<HPFrame.size();i++)
 	{
-		HPFrame[i].reset(nullptr);
+		//HPFrame[i].reset(nullptr);
 	}
 	smokepar.reset(nullptr);
 	m_Object.reset(nullptr);

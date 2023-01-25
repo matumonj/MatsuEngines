@@ -10,7 +10,7 @@ FrontCircleAttack* FrontCircleAttack::GetInstance()
 	return &instance;
 }
 
-void FrontCircleAttack::Initialize()
+void FrontCircleAttack::Init()
 {
 	Texture::LoadTexture(26, L"Resources/AOE.png");
 	DamageAreaTex = Texture::Create(26, {0.0f, 0.0f, 0.0f}, {100.0f, 100.0f, 1.0f}, {1.0f, 1.0f, 1.0f, 1.0f});
@@ -21,7 +21,7 @@ void FrontCircleAttack::Initialize()
 	TexAlpha = 0.0f;
 }
 
-void FrontCircleAttack::ActionJudg()
+void FrontCircleAttack::Upda()
 {
 	//CameraControl::GetInstance()->ShakeCamera();
 	DamageAreaTex->SetRotation({90, 0, 45});

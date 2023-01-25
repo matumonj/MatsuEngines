@@ -3,12 +3,7 @@
 #include "CameraControl.h"
 #include"PlayerControl.h"
 #include"TargetMarker.h"
-
-
 #include"EnemyControl.h"
-#include"PlayerControl.h"
-#include"mHelper.h"
-#include"CustomButton.h"
 #include"SceneManager.h"
 
 SmallSword::~SmallSword()
@@ -54,13 +49,7 @@ void SmallSword::Update()
 
 	m_Object->SetRotation(Rotation);
 	m_Object->Update(PlayerControl::GetInstance()->GetPlayer()->GetHanMat(), {1.0f, 1.0f, 1.0f, 1.0f}, camera);
-
-	if (PlayerControl::GetInstance()->GetPlayer()->GetnoAttack() == false)
-	{
-		MagicAttack();
-		Bliz->Updata(camera);
-		SlashArea->Updata(camera);
-	}
+	
 }
 
 void SmallSword::Draw()
@@ -70,14 +59,8 @@ void SmallSword::Draw()
 	SlashArea->Draw();
 	TargetMarker::GetInstance()->Draw();
 
-	ImGui::Begin("rot");
-	ImGui::SliderFloat("rotx", &Rotation.x, 0, 360);
-	ImGui::SliderFloat("roty", &Rotation.y, 0, 360);
-	ImGui::SliderFloat("rotz", &Rotation.z, 0, 360);
-	ImGui::End();
+	
 }
-
-#include"PlayerAttackState.h"
 
 void SmallSword::MagicAttack()
 {

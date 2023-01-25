@@ -19,8 +19,8 @@ void ModelManager::Initialize()
 	LoadModel(CHEST, "chest");
 	LoadModel(BIGROCK_B, "crystal");
 	LoadModel(FENCE, "Fence");
-	LoadFBXModel(PLAYER, "playerGolem");
-	LoadFBXModel(BOSS, "boss");
+
+	
 	LoadModel(SPHERE, "sphere");
 	LoadModel(NAIL, "Nail");
 	LoadModel(BIGSWORD, "axe");
@@ -29,8 +29,8 @@ void ModelManager::Initialize()
 	LoadModel(MISSILE, "missile");
 	LoadModel(DESTROCK, "DestRock");
 	LoadModel(SMALLSWORD, "Hammer");
+	LoadModel(SKY, "skydome");
 	LoadModel(ICECRYSTAL, "crystal");
-	LoadModel(CELESTIALSPHERE, "skydome");
 	LoadModel(NORMALSWORD, "sword");
 	LoadModel(BIGROCK_A, "BigStone_A");
 	LoadModel(HOUSE, "house");

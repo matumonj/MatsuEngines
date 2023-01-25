@@ -8,17 +8,14 @@ SamplerState smp:register(s0);
 
 #define bloomR (10.f)
 
-// これより大きい値の色がグローする
-#define bloomThreshold (0.7f)
-
 float3 getBloomPixel(SamplerState smp, float2 uv, float2 texPixelSize)
 {
 	float2 uv2 = floor(uv / texPixelSize) * texPixelSize;
 	uv2 += texPixelSize * 0.001f;
-	float3 tl = max(tex.Sample(smp, uv2).rgb - bloomThreshold, 0.f);
-	float3 tr = max(tex.Sample(smp, uv2 + float2(texPixelSize.x, 0.f)).rgb - bloomThreshold, 0.f);
-	float3 bl = max(tex.Sample(smp, uv2 + float2(0.f, texPixelSize.y)).rgb - bloomThreshold, 0.f);
-	float3 br = max(tex.Sample(smp, uv2 + float2(texPixelSize.x, texPixelSize.y)).rgb - bloomThreshold, 0.f);
+	float3 tl = max(tex.Sample(smp, uv2).rgb - bloomalpha, 0.f);
+	float3 tr = max(tex.Sample(smp, uv2 + float2(texPixelSize.x, 0.f)).rgb - bloomalpha, 0.f);
+	float3 bl = max(tex.Sample(smp, uv2 + float2(0.f, texPixelSize.y)).rgb - bloomalpha, 0.f);
+	float3 br = max(tex.Sample(smp, uv2 + float2(texPixelSize.x, texPixelSize.y)).rgb - bloomalpha, 0.f);
 	float2 f = frac(uv / texPixelSize);
 
 	float3 tA = lerp(tl, tr, f.x);

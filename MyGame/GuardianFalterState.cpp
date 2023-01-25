@@ -54,4 +54,6 @@ void GuardianFalterState::Falter(Enemy* enemy)
 	DirectX::XMFLOAT3 epos = enemy->GetPosition();
 
 	enemy->SetPosition({epos.x + shakex, epos.y + shakey, epos.z});
+
+	
 }

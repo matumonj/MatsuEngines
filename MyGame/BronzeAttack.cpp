@@ -28,7 +28,7 @@ void BronzeAttack::Init()
 	for (int i = 0; i < BeamObj.size(); i++) {
 		BeamObj[i] = std::make_unique<Object3d>();
 		BeamObj[i]->Initialize(camera);
-		BeamObj[i]->SetModel(ModelManager::GetIns()->GetModel(ModelManager::BEAM2));
+		BeamObj[i]->SetModel(ModelManager::GetIns()->GetModel(ModelManager::BEAM));
 
 
 	}
@@ -36,7 +36,7 @@ void BronzeAttack::Init()
 	{
 		chargesphere[i] = std::make_unique<Object3d>();
 		chargesphere[i]->Initialize(camera);
-		chargesphere[i]->SetModel(ModelManager::GetIns()->GetModel(ModelManager::SPHERE));
+		chargesphere[i]->SetModel(ModelManager::GetIns()->GetModel(ModelManager::NAIL));
 		chargesphere[i]->SetScale({ 1.f,1.f,1.f });
 	}
 	//初期化
@@ -51,9 +51,7 @@ void BronzeAttack::Init()
 
 void BronzeAttack::Upda()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
-	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
-	
+
 	switch (phase)
 	{
 	case NON:
@@ -82,8 +80,14 @@ void BronzeAttack::Upda()
 		break;
 	}
 
-	
-	if (phase != END) {
+	ObjUpda();
+}
+void BronzeAttack::ObjUpda()
+{
+	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+
+	if (phase == END)return; 
 		TexRotZ++;
 		if (AttackDir == HEIGHT) {
 			TexPos[0] = { 0.f,14.7f,110.f };
@@ -96,23 +100,22 @@ void BronzeAttack::Upda()
 			for (int i = 0; i < BeamObj.size(); i++) {
 				BeamObj[i]->SetRotation({ 90.0f, 0.0f, 0.0f });
 			}
-		}
-		else if(AttackDir == WIDTH)
+		} else if (AttackDir == WIDTH)
 		{
 			TexPos[0] = { 110.f,14.7f,0.f };
 			TexPos[1] = { -110.f,14.7f,0.f };
 			MagicTex[0]->SetRotation({ 0.f, 90.f, TexRotZ });
 			MagicTex[1]->SetRotation({ 0.f, 90.f, TexRotZ });
 			for (int i = 0; i < BeamObj.size(); i++) {
-				BeamObj[i]->SetRotation({ 90.0f, 90.0f, 0.0f });
+				BeamObj[i]->SetRotation({ 0.0f, 0.0f, 90.0f });
 			}
 		}
-			
+
 		//各パラメータのセット
 		for (int i = 0; i < MagicTex.size(); i++) {
-			MagicTex[i]->SetScale({TexScl.x, TexScl.y, 1.f});
-			MagicTex[i]->SetPosition({TexPos[i]});
-			MagicTex[i]->SetColor({1.f, 1.f, 1.f, TexAlpha});
+			MagicTex[i]->SetScale({ TexScl.x, TexScl.y, 1.f });
+			MagicTex[i]->SetPosition({ TexPos[i] });
+			MagicTex[i]->SetColor({ 1.f, 1.f, 1.f, TexAlpha });
 			MagicTex[i]->SetBillboard(false);
 			MagicTex[i]->Update(CameraControl::GetInstance()->GetCamera());
 		}
@@ -121,13 +124,13 @@ void BronzeAttack::Upda()
 			BeamObjScl[i].y = 1500.0f;
 			BeamObj[i]->SetShadowF(false);
 			BeamObj[i]->SetUVf(true);
-			BeamObj[i]->SetColor({1.f,1.f,1.f, 1.f });
+			BeamObj[i]->SetColor({ 1.f,1.f,1.f, 1.f });
 			BeamObj[i]->SetScale(BeamObjScl[i]);
 			BeamObj[i]->Update({ 1.f, 1.f, 1.f, 0.5f }, camera);
 		}
-	}
+	
 	TexAlpha = max(TexAlpha, 0.f);
-	XMFLOAT3 bpos = { EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition()};
+	XMFLOAT3 bpos = { EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition() };
 
 
 	ChargeCenter->CreateParticle((phase == AREASET), { bpos });
@@ -137,24 +140,31 @@ void BronzeAttack::Upda()
 void BronzeAttack::SphereMoving()
 {
 
-	XMFLOAT3 bpos_right ={EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->HandRightPos()};
-	XMFLOAT3 bpos_left = { EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->HandLeftPos() };
+	XMFLOAT3 bpos ={EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition()};
 	for(int i=0;i<15;i++)
 	{
-		if(chargespheremoveF[i])
+		
+		if (chargespheremoveF[i])
 		{
-			chargesphereMovingE[i]+=0.05f;
-			chargespherepos[i].x=Easing::EaseOut(chargesphereMovingE[i], bpos_right.x, TexPos[0].x);
-			chargespherepos[i].z = Easing::EaseOut(chargesphereMovingE[i], bpos_right.z, TexPos[0].z);
+			chargesphereMovingE[i] += 0.05f;
+			chargespherepos[i].x = Easing::EaseOut(chargesphereMovingE[i], bpos.x, TexPos[0].x);
+			chargespherepos[i].z = Easing::EaseOut(chargesphereMovingE[i], bpos.z, TexPos[0].z);
 
-			if(Collision::GetLength(chargespherepos[i],MagicTex[0]->GetPosition())<15.f)
+			if (chargesphereMovingE[i] > 1.f) 
 			{
 				chargespheremoveF[i] = false;
+			}
+			if (AttackDir == WIDTH)
+			{
+				chargesphere[i]->SetRotation({ 0.f,0.f,90.f });
+			} else
+			{
+				chargesphere[i]->SetRotation({ 0.f,90.f,-90.f });
 			}
 		}
 		else
 		{
-			chargespherepos[i] = { bpos_right.x ,bpos_right.y, bpos_right.z};
+			chargespherepos[i] = { bpos.x ,bpos.y, bpos.z};
 			chargesphereMovingE[i] = 0.f;
 			
 			chargespheremoveF[i] = true;
@@ -167,15 +177,22 @@ void BronzeAttack::SphereMoving()
 		if (chargespheremoveF[i])
 		{
 			chargesphereMovingE[i] += 0.05f;
-			chargespherepos[i].x = Easing::EaseOut(chargesphereMovingE[i], bpos_right.x, TexPos[1].x);
-			chargespherepos[i].z = Easing::EaseOut(chargesphereMovingE[i], bpos_right.z, TexPos[1].z);
-			if (Collision::GetLength(chargespherepos[i],TexPos[1]) < 15.f)
+			chargespherepos[i].x = Easing::EaseOut(chargesphereMovingE[i], bpos.x, TexPos[1].x);
+			chargespherepos[i].z = Easing::EaseOut(chargesphereMovingE[i], bpos.z, TexPos[1].z);
+			if (chargesphereMovingE[i] > 1.f)
 			{
 				chargespheremoveF[i] = false;
 			}
+			if (AttackDir == WIDTH)
+			{
+				chargesphere[i]->SetRotation({ 0.f,0.f,-90.f });
+			} else
+			{
+				chargesphere[i]->SetRotation({ 0.f,180.f,90.f });
+			}
 		} else
 		{
-			chargespherepos[i] = { bpos_left.x ,bpos_left.y , bpos_left.z };
+			chargespherepos[i] = { bpos.x ,bpos.y , bpos.z };
 			chargesphereMovingE[i] = 0.f;
 			chargespheremoveF[i] = true;
 			break;
@@ -215,9 +232,9 @@ void BronzeAttack::Phase_AreaSet()
 	TexScl.x = min(TexScl.x, maxScale);
 	TexScl.y = min(TexScl.y, maxScale);
 	for (int i = 0; i < BeamObj.size(); i++) {
-		BeamObj[i]->SetPosition({ MagicTex[0]->GetPosition().x + sinf(float(i) * 360.f / 5.f * (PI / 180.0f)) * 10.0f,
+		BeamObj[i]->SetPosition({ MagicTex[0]->GetPosition().x + sinf(float(i) * 360.f / 5.f * (PI / 180.0f)) * 30.0f,
 		
-			MagicTex[0]->GetPosition().y + cosf(float(i) * 360.f / 5.f * (PI / 180.0f)) * 10.0f,
+			MagicTex[0]->GetPosition().y + cosf(float(i) * 360.f / 5.f * (PI / 180.0f)) * 30.0f,
 			MagicTex[0]->GetPosition().z});
 	}
 	if (nextPhase)
@@ -237,12 +254,12 @@ void BronzeAttack::Phase_Bom()
 		}
 		if (scalingETime[i] < 1.0f)
 		{
-			BeamObjScl[i].x = Easing::EaseOut(scalingETime[i], 0.0f, 4.f);
-			BeamObjScl[i].z = Easing::EaseOut(scalingETime[i], 0.0f, 4.f);
+			BeamObjScl[i].x = Easing::EaseOut(scalingETime[i], 0.0f, 6.f);
+			BeamObjScl[i].z = Easing::EaseOut(scalingETime[i], 0.0f, 6.f);
 		}
 
-		BeamObjScl[i].x = std::clamp(BeamObjScl[i].x, 0.f,4.f);
-		BeamObjScl[i].z = std::clamp(BeamObjScl[i].z, 0.0f,4.f);
+		BeamObjScl[i].x = std::clamp(BeamObjScl[i].x, 0.f,6.f);
+		BeamObjScl[i].z = std::clamp(BeamObjScl[i].z, 0.0f,6.f);
 
 		if (Collision::GetLength(ppos, BeamObj[i]->GetPosition()) < 14.f)
 		{
@@ -258,11 +275,11 @@ void BronzeAttack::Phase_MakeSmall()
 	for (int i = 0; i < BeamObj.size(); i++) {
 		scalingETime[i] -= 0.04f;
 		
-		BeamObjScl[i].x = Easing::EaseOut(scalingETime[i], 0.0f, 4.f);
-		BeamObjScl[i].z = Easing::EaseOut(scalingETime[i], 0.0f, 4.f);
+		BeamObjScl[i].x = Easing::EaseOut(scalingETime[i], 0.0f, 6.f);
+		BeamObjScl[i].z = Easing::EaseOut(scalingETime[i], 0.0f, 6.f);
 
-		BeamObjScl[i].x = std::clamp(BeamObjScl[i].x,0.f, 4.f);
-		BeamObjScl[i].z = std::clamp(BeamObjScl[i].z, 0.f,4.f);
+		BeamObjScl[i].x = std::clamp(BeamObjScl[i].x,0.f, 6.f);
+		BeamObjScl[i].z = std::clamp(BeamObjScl[i].z, 0.f,6.f);
 		
 	}
 	if (scalingETime[4] <= 0.0f)
@@ -297,7 +314,7 @@ void BronzeAttack::Phase_End()
 void BronzeAttack::Draw()
 {
 	
-	if (phase != END) {
+	if (phase == END) return;
 		Object3d::PreDraw();
 		for (int i = 0; i < BeamObj.size(); i++) {
 			if (BeamObj[i] == nullptr)continue;
@@ -317,5 +334,5 @@ void BronzeAttack::Draw()
 		Texture::PostDraw();
 
 		ChargeCenter->Draw();
-	}
+	
 }

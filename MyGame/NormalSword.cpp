@@ -20,25 +20,26 @@ void NormalSword::Initialize()
 	m_Object->SetModel(ModelManager::GetIns()->GetModel(ModelManager::NORMALSWORD));
 
 	Scale = {1.0f, 1.0f, 1.0f};
-	Damage = 20;
+	Damage = 200;
 
 	animetiontime = 1.6f;
-	KnockPower = 6.0f;
+	KnockPower = 18.0f;
 	SwordObbScl = { 2.5f,2.5f,4.f };
 
 	Rotation = {0.0f, 0.0f, 0.0f + 66.0f};
 	m_Object->SetScale(Scale);
+	const int Damage_Value = 10;
+	const int CoolTime_Value = 180;
+
+	Damage = Damage_Value;
+	CoolTime = CoolTime_Value;
 }
 
 void NormalSword::Update()
 {
 	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
 
-	const int Damage_Value = 10;
-	const int CoolTime_Value = 180;
-
-	Damage = Damage_Value;
-	CoolTime = CoolTime_Value;
+	
 	m_Object->Setf(FALSE);
 	m_Object->SetDestFlag(FALSE);
 	m_Object->SetRotation(Rotation);
@@ -49,11 +50,9 @@ void NormalSword::Update()
 
 void NormalSword::Draw()
 {
-	ImGui::Begin("sr");
+	ImGui::Begin("rot");
+	ImGui::SliderInt("Damage", &Damage, 0, 60);
 
-	ImGui::SliderFloat("x", &Rotation.x, 0, 360);
-	ImGui::SliderFloat("y", &Rotation.y, 0, 360);
-	ImGui::SliderFloat("z", &Rotation.z, 0, 360);
 	ImGui::End();
 	Draw_Obj();
 }

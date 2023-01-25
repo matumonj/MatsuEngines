@@ -269,7 +269,7 @@ public: //stateêÿÇËë÷Ç¶
 		BJUMP=3
 	};
 
-	NowAttackMotion GetNowMotion() { return attackNum; }
+	int GetNowMotion() { return m_Number; }
 protected:
 	NowAttackMotion attackNum = NowAttackMotion::BIDLE;
 

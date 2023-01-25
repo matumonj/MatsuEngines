@@ -11,19 +11,25 @@ RushAttack* RushAttack::GetInstance()
 	return &ins;
 }
 
-void RushAttack::Initialize()
+void RushAttack::Init()
 {
+	//球オブジェの初期化
 	RushSphereObj = std::make_unique<Object3d>();
 	RushSphereObj->SetModel(ModelManager::GetIns()->GetModel(ModelManager::SPHERE));
 	RushSphereObj->Initialize(CameraControl::GetInstance()->GetCamera());
 
+	//フェーズ初期化
 	phase = PHASENON;
+	//突進エリア初期化
 	area = FIR;
-	for (int i = 0; i < 5; i++)
+	//イージング用タイム
+	for (int i = 0; i < rushEtime.size(); i++)
 	{
 		rushEtime[i] = 0.0f;
 	}
+	//球オブジェのアルファ値
 	rushspherealpha = 0.0f;
+
 	DestTime = 0.0f;
 	RushEaseTime = 0.0f;
 	RushAttackCount = 0;
@@ -31,8 +37,6 @@ void RushAttack::Initialize()
 	RushSphereObj->SetDestFlag(false);
 	RushSphereObj->SetDestTime(DestTime);
 	rushspherescl = {0.0f, 0.0f, 0.0f};
-	p = new Particle();
-	p->Init(64);
 }
 
 void RushAttack::CollisionParamSet()
@@ -100,13 +104,6 @@ void RushAttack::Upda()
 
 void RushAttack::Draw()
 {
-	//ParticleManager::PreDraw();
-	// 3Dオブクジェクトの描画
-	//RushParticle->Draw();
-	// 3Dオブジェクト描画後処理
-	//ParticleManager::PostDraw();
-
-	//p->Draw();
 	RushObjDraw();
 }
 
@@ -133,6 +130,8 @@ void RushAttack::RushStart()
 	const float EaseC = 0.005f;
 	//被ダメージ
 	const int Damage = 10;
+
+	const bool nextPhaseF= RushAttackCount >= 90;
 	rushspherescl.x = Easing::EaseOut(RushEaseTime, 0.0f, 30.0f);
 	rushspherescl.y = Easing::EaseOut(RushEaseTime, 0.0f, 30.0f);
 	rushspherescl.z = Easing::EaseOut(RushEaseTime, 0.0f, 30.0f);
@@ -140,15 +139,13 @@ void RushAttack::RushStart()
 	RushEaseTime += EaseC;
 
 	rushpos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
-	rushpos.y = 8;
-	//EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->SetPosition(rushpos);
-	RushSphereObj->SetPosition(rushpos);
 
+	RushSphereObj->SetPosition(rushpos);
 
 	if (RushEaseTime >= 1.0f)
 	{
 		RushAttackCount++;
-		if (RushAttackCount >= 90)
+		if (nextPhaseF)
 		{
 			phase = PHASETHREE;
 		}

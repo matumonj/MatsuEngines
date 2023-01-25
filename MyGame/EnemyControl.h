@@ -1,6 +1,5 @@
 #include "ControlBase.h"
 #include"Enemy.h"
-#include"DebugCamera.h"
 #include<memory>
 #include<array>
 
@@ -59,28 +58,12 @@ public:
 		}
 	}
 
-private:
-	static constexpr int EnemySize = 2;
-	std::array<std::unique_ptr<Enemy>, EnemySize> SummonEnemys = {};
-	std::unique_ptr<Enemy> Guardian;
-	bool summonEnemyCreate = false;
-	XMFLOAT3 SummonEPos = {1, 1, 1};
-	bool SummonEnemysDeath;
-	bool SummonEnemysApper;
-	float Shieldalpha;
-
 public:
 	void GuardianCreate();
 	void GuardianReset();
 private:
-	bool ShieldCreate;
-	bool ShieldLost;
-	std::unique_ptr<Texture> ShieldTex[4];
-	float Texangle[4];
-	std::array<XMFLOAT3, 4> ShieldTexPos;
-	float ShieldTexAlpha;
-	std::unique_ptr<BomAttack> bAttack;
 
+	std::unique_ptr<Enemy> Guardian;
 private:
 	/*çXêVèàóù*/
 	void Init_Tutorial() override;
@@ -105,14 +88,9 @@ private:
 
 	void SummonEnemyInit();
 	void SummonEnemyUpdate();
+
 public:
 	Enemy* GetGuardianEnemy() { return Guardian.get(); }
 
-	bool GetSummonEnemysDeath() { return SummonEnemysDeath; }
-
-	bool GetSummonEnemysApper() { return SummonEnemysApper; }
-	Enemy* GetSummonEnemy(int index) { return SummonEnemys[index].get(); }
-
-public:
 	void GameOverResetParam();
 };

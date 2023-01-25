@@ -4,7 +4,6 @@
 #include <DirectXTex.h>
 #include <fstream>
 #include<sstream>
-#include<vector>
 #include"DirectXCommon.h"
 #pragma comment(lib, "d3dcompiler.lib")
 using namespace std;

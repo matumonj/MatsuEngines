@@ -1,10 +1,9 @@
 #include "BossMap.h"
+#include <algorithm>
 #include"CameraControl.h"
-#include "Field.h"
 #include"PlayerControl.h"
 #include"imgui.h"
 #include"mHelper.h"
-#include "UltAttack.h"
 
 BossMap* BossMap::GetInstance()
 {
@@ -57,12 +56,14 @@ void BossMap::Upda()
 
 
 	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+
 	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 
 	for (int i = 0; i < mapHight; i++)
 	{
 		for (int j = 0; j < mapWidth; j++)
 		{
+			if (mapobj[i][j] == nullptr)continue;
 			//フィールドにモデル割り当て
 			mapobj[i][j]->SetPosition({j * BlockSize + cpos.x, cpos.y, i * BlockSize + cpos.z});
 			mapobj[i][j]->SetScale(bsize);
@@ -73,17 +74,11 @@ void BossMap::Upda()
 		}
 	}
 
-	if (Input::GetInstance()->TriggerButton(Input::X))
-	{
-		p = INI;
-	}
-	DamageBlockMove();
-	SetDamageArea();
-
 	for (int i = 0; i < mapHight; i++)
 	{
 		for (int j = 0; j < mapWidth; j++)
 		{
+			if (mapobj[i][j] == nullptr)continue;
 			if (mapSize[i][j] == DAMAGEBLOCK)
 			{
 				blockColorETime[i][j] += 0.02f;
@@ -100,6 +95,7 @@ void BossMap::Upda()
 				mapobj[i][j]->SetColor({blockColor[i][j].x, blockColor[i][j].y, blockColor[i][j].z,1.f});
 			}
 
+			blockalpha[i][j] = std::clamp(blockalpha[i][j], 0.f, 1.f);
 			blockColor[i][j].x = Easing::EaseOut(blockColorETime[i][j], 1.0f, 1.0f);
 			blockColor[i][j].y = Easing::EaseOut(blockColorETime[i][j], 1.0f, 0.1f);
 			blockColor[i][j].z = Easing::EaseOut(blockColorETime[i][j], 1.0f, 0.1f);
@@ -108,7 +104,6 @@ void BossMap::Upda()
 			blockColorETime[i][j] = max(blockColorETime[i][j], 0.0f);
 		}
 	}
-
 	
 }
 
@@ -118,6 +113,7 @@ void BossMap::DrawDamageLine(bool atckjudg, Line2D line)
 	{
 		for (int j = 0; j < mapWidth; j++)
 		{
+			if (mapobj[i][j] == nullptr)continue;
 			if (atckjudg)
 			{
 				if (Collision::IsCollidingLineAndCircle(line, bpoint[i][j],40.f) == true)
@@ -146,6 +142,7 @@ void BossMap::DrawDamageLine(bool atckjudg, Line2D line[4])
 	{
 		for (int j = 0; j < mapWidth; j++)
 		{
+			if (mapobj[i][j] == nullptr)continue;
 			if (atckjudg)
 			{
 				for (int k = 0; k < 4; k++)
@@ -164,62 +161,6 @@ void BossMap::DrawDamageLine(bool atckjudg, Line2D line[4])
 	}
 }
 
-void BossMap::DamageBlockMove()
-{
-	if (p == INI)
-	{
-		for (int i = 0; i < mapHight; i++)
-		{
-			for (int j = 0; j < mapWidth; j++)
-			{
-				if (mapSize[i][j] == DAMAGEBLOCK)
-				{
-					nailPos[i][j] = mapobj[i][j]->GetPosition();
-					nailalpha[i][j] = 1.05f;
-				}
-			}
-		}
-		p = UPDA;
-	}
-
-	if (p == UPDA)
-	{
-		for (int i = 0; i < mapHight; i++)
-		{
-			for (int j = 0; j < mapWidth; j++)
-			{
-				if (mapSize[i][j] == DAMAGEBLOCK)
-				{
-					nailPos[i][j].y += 0.5f;
-				}
-
-				nailPos[i][j].y = min(nailPos[i][j].y, 15);
-				nailPos[i][j].y = max(nailPos[i][j].y, -6);
-			}
-		}
-		rockappertime++;
-		if (rockappertime > 240)
-		{
-			p = END;
-		}
-	}
-
-	if (p == END)
-	{
-		for (int i = 0; i < mapHight; i++)
-		{
-			for (int j = 0; j < mapWidth; j++)
-			{
-				nailPos[i][j].y = min(nailPos[i][j].y, 15);
-				nailPos[i][j].y = max(nailPos[i][j].y, -16);
-			}
-		}
-	}
-}
-
-void BossMap::SetDamageArea()
-{
-}
 
 void BossMap::Draw()
 {
@@ -228,6 +169,7 @@ void BossMap::Draw()
 	{
 		for (int j = 0; j < mapWidth; j++)
 		{
+			if (mapobj[i][j] == nullptr)continue;
 			mapobj[i][j]->Draw();
 		}
 	}

@@ -1,12 +1,6 @@
 #include "WoodB.h"
-#include "WoodB.h"
-#include "WoodB.h"
-
 #include "CameraControl.h"
 #include"SphereCollider.h"
-#include"CollisionAttribute.h"
-#include"TouchableObject.h"
-#include"CollisionManager.h"
 #include"Collision.h"
 #include"PlayerControl.h"
 #include"SceneManager.h"
@@ -47,7 +41,6 @@ void WoodB::Update()
 	m_Object->Setf(TRUE);
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
 		m_Object->setFog(true);
-		m_Object->SetBloomF(true);
 		m_Object->Setppos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
 
 	} else

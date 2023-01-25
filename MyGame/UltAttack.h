@@ -56,6 +56,7 @@ private:
 		void Phase_End();
 
 public:
+	void SceneBloom();
 		bool GetFieldDestG() { return fielddestf; }
 	private:
 		std::unique_ptr<Texture> DamageTex;
@@ -80,5 +81,10 @@ public:
 		float ObjAlpha;
 		float ColorT;
 
+		float BloomAlpha;
+
 		bool isEndAttack;
+
+public:
+	float GetBloomAlpha() { return BloomAlpha; }
 	};

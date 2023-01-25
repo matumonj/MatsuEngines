@@ -12,6 +12,14 @@ private:
 	//テクスチャバッファ
 	//ComPtr<ID3D12Resource>texBuff;
 	//変更後
+	struct ConstBufferDataB0
+	{
+		float bloomalpha;
+	};
+	float BloomAlpha;
+public:
+	void SetBloomAlpha(float f) { BloomAlpha = f; }
+private:
 	ComPtr<ID3D12Resource> texBuff[2];
 	//SRV用でスクリプタヒープ
 	ComPtr<ID3D12DescriptorHeap> descheapSRV;

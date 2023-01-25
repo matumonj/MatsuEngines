@@ -1,5 +1,7 @@
 #include "BossEnemy.h"
 
+#include <algorithm>
+
 #include "RushAttack.h"
 #include "CameraControl.h"
 #include "CircleAttack.h"
@@ -22,7 +24,9 @@ using namespace DirectX;
 
 BossEnemy::BossEnemy()
 {
+
 	ResourcesSet();
+	HalfAttack::GetInstance()->Init();
 }
 
 /// <summary>
@@ -45,7 +49,7 @@ void BossEnemy::ResourcesSet()
 
 	m_fbxObject = std::make_unique<f_Object3d>();
 	m_fbxObject->Initialize();
-	m_fbxObject->SetModel(ModelManager::GetIns()->GetFBXModel(ModelManager::BOSS));
+	m_fbxObject->SetModel(FbxLoader::GetInstance()->LoadModelFromFile("boss"));
 	m_fbxObject->LoadAnimation();
 	m_fbxObject->PlayAnimation(1);
 
@@ -79,7 +83,7 @@ void BossEnemy::Initialize()
 	Rotation = {180.0f, 0.0f, -181.0f};
 	
 	radius_adjustment = 0;
-cooltime = 0;
+	cooltime = 0;
 	
 	DeathFlag = false;
 
@@ -98,11 +102,11 @@ cooltime = 0;
 	FrameScl.x = Percent::GetParcent(static_cast<float>(MaxHP), static_cast<float>(EnemyHP)) *17.0f;
 
 	//各攻撃処理の初期化
-	HalfAttack::GetInstance()->Initialize();
-	KnockAttack::GetInstance()->Initialize();
-	CircleAttack::GetInstance()->Initialize();
-	RushAttack::GetInstance()->Initialize();
-	FrontCircleAttack::GetInstance()->Initialize();
+
+	//KnockAttack::GetInstance()->Initialize();
+	CircleAttack::GetInstance()->Init();
+	RushAttack::GetInstance()->Init();
+	FrontCircleAttack::GetInstance()->Init();
 	UltAttack::GetIns()->TexSet();
 
 	CircleAttack::GetInstance()->SetAttackPhase(false);
@@ -128,7 +132,7 @@ void BossEnemy::Update()
 	{
 		return;
 	}
-
+	
 	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
 
 	et += 0.01f;
@@ -164,10 +168,14 @@ void BossEnemy::Update()
 	Sword->SetRotation(swordrot);
 	Sword->Update(handmat_left, { 1.0f, 1.0f, 1.0f, 1.0f }, camera);
 
-	CircleAttack::GetInstance()->ActionJudg();
-	KnockAttack::GetInstance()->ActionJudg();
+	Position.x = std::clamp(Position.x, -100.f, 100.f);
+	Position.z = std::clamp(Position.z, -100.f, 100.f);
+
+	CircleAttack::GetInstance()->Upda();
+	//KnockAttack::GetInstance()->ActionJudg();
+	HalfAttack::GetInstance()->Upda();
 	BronzeAttack::GetIns()->Upda();
-	ThrowRockAttack::GetInstance()->Action();
+	ThrowRockAttack::GetInstance()->Upda();
 }
 
 void BossEnemy::AttackCollide()
@@ -236,25 +244,23 @@ void BossEnemy::Draw()
 	{
 		return;
 	}
-	// 3Dオブジェクト描画前処理
+	//ボス武器描画
 	Object3d::PreDraw();
 	Sword->Draw();
 	Object3d::PostDraw();
+	//ボス敵描画
 	Draw_Fbx();
-	float P = float(GetFbxTimeEnd());
-	ImGui::Begin("bossp");
-	ImGui::SliderFloat("Rotx", &swordrot.x,0,360);
-	ImGui::SliderFloat("Roty", &swordrot.y, 0, 360);
-	ImGui::SliderFloat("Rotz", &swordrot.z, 0, 360);
-	ImGui::SliderFloat("time", &P, -30, 30);
-	ImGui::End();
 
-	ImGui::Begin("bone");
-	//43 18
-	ImGui::SliderInt("indx", &hind, 0, 95);
-	ImGui::End();
-	// 3Dオブジェクト描画前処理
-	// 3Dオブジェクト描画前処理
+	//各攻撃のオブジェクト描画
+	CircleAttack::GetInstance()->Draw();
+	HalfAttack::GetInstance()->Draw();
+	KnockAttack::GetInstance()->Draw();
+	RushAttack::GetInstance()->Draw();
+	FrontCircleAttack::GetInstance()->Draw();
+	UltAttack::GetIns()->Draw();
+	BronzeAttack::GetIns()->Draw();
+	ThrowRockAttack::GetInstance()->Draw();
+
 }
 
 void BossEnemy::Death()
@@ -384,11 +390,11 @@ void BossEnemy::HPGaugeBoss()
 	}
 	m_BossHP->SetSize({FrameScl.x, 110.f});
 	m_BossHPFrame2->SetSize({FrameScl_Inner.x, 110.0f});
-	m_BossHPFrame->SetSize({1800.0f, 117.0f});
+	m_BossHPFrame->SetSize({1760.0f, 117.0f});
 
 	m_BossHP->SetPosition({145.0f, 832.0f});
-	m_BossHPFrame2->SetPosition({135.0f, 832.0f});
-	m_BossHPFrame->SetPosition({122.0f, 830.0f});
+	m_BossHPFrame2->SetPosition({122.0f, 832.0f});
+	m_BossHPFrame->SetPosition({116.0f, 830.0f});
 }
 
 

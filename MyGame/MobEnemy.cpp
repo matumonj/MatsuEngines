@@ -83,7 +83,7 @@ void MobEnemy::Initialize()
 	EnemyHP = MaxHP;
 	//パラメータのセット
 	Rotation = {114.0f, 118.0f, 165.0f};
-	Scale = {0.03f, 0.03f, 0.03f};
+	Scale = {0.05f, 0.05f, 0.05f};
 
 	//コライダー周り
 	radius_adjustment = 0;
@@ -109,6 +109,7 @@ void MobEnemy::Initialize()
 	//適番号：ゴーレム
 	ENumber = GOLEM;
 
+	attackinter = rand() % 120 + 90;
 }
 
 //更新処理
@@ -144,8 +145,8 @@ void MobEnemy::Update()
 	//敵の色
 	m_fbxObject->SetColor({1.0f, 1.0f, 1.0f, alpha});
 	//敵の手のボーンインデックス
-	m_fbxObject->SetHandBoneIndex(25);
 	m_fbxObject->SetFbxTime(f_time);
+	HandIndex = 23;
 	m_fbxObject->SetHandBoneIndex(HandIndex);
 	//持ってる斧の更新
 	Sword->Setf(FALSE);
@@ -226,6 +227,9 @@ void MobEnemy::Draw()
 		Sword->Draw();
 		Object3d::PostDraw();
 	}
+	ImGui::Begin("hindex");
+	ImGui::SliderInt("ind", &HandIndex, 0, 40);
+	ImGui::End();
 }
 
 void MobEnemy::EnemyHPDraw()
@@ -368,7 +372,7 @@ void MobEnemy::AttackCoolTime()
 	if (AfterAttack)
 	{
 		cooltime++;
-		if (cooltime > 200)
+		if (cooltime > attackinter)
 		{
 			AfterAttack = false;
 		}

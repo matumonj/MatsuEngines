@@ -1,13 +1,13 @@
 #include "AttackCollision.h"
 #include"PlayerControl.h"
-#include"CameraControl.h"
 #include"EnemyControl.h"
 #include"Collision.h"
-#include"CustomButton.h"
 #include"SceneManager.h"
 #include"SelectSword.h"
 #include"AttackEffect.h"
+#include "HalfAttack.h"
 #include "PlayerAttackState.h"
+#include "UltAttack.h"
 
 AttackCollision* AttackCollision::GetInstance()
 {
@@ -132,31 +132,36 @@ void AttackCollision::GetCol(int damage)
 			{
 				if (Collision::CheckOBBCollision(HandObb, BossEnemyOBB[0]) == true && !HitCol)
 				{
-					AttackEffect::GetIns()->SetParticle(
-						EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition());
-					if (EnemyControl::GetInstance()->GetSummonEnemysApper() == false || EnemyControl::GetInstance()->
-						GetSummonEnemysDeath() == true)
+					if(EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetHP()<= EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetMaxHP()/2)
 					{
-						//PlayerAttackState::GetInstance()->SetHitStopJudg(true, 50);
+						if(UltAttack::GetIns()->GetPhase()==UltAttack::END)
+						{
+							AttackEffect::GetIns()->SetParticle(
+								EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition());
+							EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->RecvDamage(
+								damage + rand() % 8 + 1);
+
+						}
+					}
+					else {
+						AttackEffect::GetIns()->SetParticle(
+							EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition());
 						EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->RecvDamage(
 							damage + rand() % 8 + 1);
-					}
-					else if (EnemyControl::GetInstance()->GetSummonEnemysApper() == true)
-					{
-						EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->RecvDamage(0);
 					}
 					HitCol = true;
 				}
 				for (int i = 0; i < 2; i++)
 				{
-					if (EnemyControl::GetInstance()->GetSummonEnemy(i) == nullptr)
+					if (HalfAttack::GetInstance()->GetSummonEnemy(i) == nullptr)
 					{
 						continue;
 					}
 					if (Collision::CheckOBBCollision(HandObb, SummonEnemyOBB[i]) == true && !attackCol[i])
 					{
-						EnemyControl::GetInstance()->GetSummonEnemy(i)->RecvDamage(
+						HalfAttack::GetInstance()->GetSummonEnemy(i)->RecvDamage(
 							damage + rand() % 8 + 1);
+						
 						attackCol[i] = true;
 					}
 				}
@@ -214,13 +219,13 @@ void AttackCollision::ColOBB(ColType Enemytype)
 		BossEnemyOBB.resize(1);
 		for (int i = 0; i < 2; i++)
 		{
-			if (EnemyControl::GetInstance()->GetSummonEnemy(i) == nullptr|| EnemyControl::GetInstance()->GetSummonEnemy(i) == nullptr || EnemyControl::GetInstance()->GetSummonEnemy(i)->GetPosition().y < 15)
+			if (HalfAttack::GetInstance()->GetSummonEnemy(i) == nullptr|| HalfAttack::GetInstance()->GetSummonEnemy(i)->GetPosition().y < 15)
 			{
 				continue;
 			}
 			SummonEnemyOBB[i].
-				SetOBBParam_Pos(EnemyControl::GetInstance()->GetSummonEnemy(i)->GetPosition());
-			SummonEnemyOBB[i].SetOBBParam_Rot(EnemyControl::GetInstance()->GetSummonEnemy(i)->GetMatrot());
+				SetOBBParam_Pos(HalfAttack::GetInstance()->GetSummonEnemy(i)->GetPosition());
+			SummonEnemyOBB[i].SetOBBParam_Rot(HalfAttack::GetInstance()->GetSummonEnemy(i)->GetMatrot());
 			SummonEnemyOBB[i].SetOBBParam_Scl({4.0f, 15.0f, 4.0f});
 		}
 

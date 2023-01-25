@@ -8,7 +8,6 @@
 #include"DropWeapon.h"
 #include"ChestControl.h"
 #include"PlayerControl.h"
-#include"CircleAttack.h"
 #include"HalfAttack.h"
 #include "CameraControl.h"
 #include"GuardianEnemy.h"
@@ -46,7 +45,7 @@ void EnemyControl::Finalize()
 
 void EnemyControl::Init_Tutorial()
 {
-	enemys.resize(BOSS + 1);
+	enemys.resize(static_cast<std::vector<std::vector<std::unique_ptr<Enemy, std::default_delete<Enemy>>, std::allocator<std::unique_ptr<Enemy, std::default_delete<Enemy>>>>, std::allocator<std::vector<std::unique_ptr<Enemy, std::default_delete<Enemy>>, std::allocator<std::unique_ptr<Enemy, std::default_delete<Enemy>>>>>>::size_type>(BOSS) + 1);
 
 	enemys[TUTORIAL].resize(1);
 	enemys[TUTORIAL][0] = std::make_unique<MobEnemy>();
@@ -165,42 +164,6 @@ void EnemyControl::Init_Play()
 	Guardian->Initialize();
 }
 
-void EnemyControl::SummonEnemyInit()
-{
-	//ボスが召喚するザコ敵
-	for (int i = 0; i < EnemySize; i++)
-	{
-		SummonEnemys[i] = std::make_unique<MobEnemy>();
-		SummonEnemys[i]->Initialize();
-		SummonEnemys[i]->SetPosition({0, -20, 20});
-
-	}
-	//敵生成フラグ
-	summonEnemyCreate = false;
-	//敵死亡フラグ
-	SummonEnemysDeath = false;
-	//敵登場済みフラグ
-	SummonEnemysApper = false;
-
-	SummonEPos = {1, 1, 1};
-	Shieldalpha = 0.0f;
-	//盾テクスチャ
-	Texture* l_shield[4];
-	Texture::LoadTexture(101, L"Resources/2d/BossAttackEffect/shield.png");
-	for (int i = 0; i < 4; i++)
-	{
-		l_shield[i] = Texture::Create(101, {1, 1, 1}, {0, 0, 0}, {1, 1, 1, 1});
-		ShieldTex[i].reset(l_shield[i]);
-		ShieldTex[i]->CreateTexture();
-		ShieldTex[i]->SetAnchorPoint({0.5f, 0.5f});
-		ShieldTex[i]->SetRotation({180, 0, 0});
-	}
-	//回転角
-	Texangle[0] = 0.f;
-	Texangle[1] = 90.f;
-	Texangle[2] = 180.f;
-	Texangle[3] = 270.f;
-}
 
 void EnemyControl::Init_Boss()
 {
@@ -213,11 +176,8 @@ void EnemyControl::Init_Boss()
 	enemys[BOSS][0]->SetPosition(boss_pos);
 	enemys[BOSS][0]->SetHP(enemys[BOSS][0]->GetMaxHP());
 	//ザコ敵の初期化もここで
-	SummonEnemyInit();
+	//SummonEnemyInit();
 
-
-	bAttack = std::make_unique<BomAttack>();
-	bAttack->Init();
 }
 
 void EnemyControl::Load()
@@ -370,122 +330,16 @@ void EnemyControl::GuardianReset()
 		
 	} 
 }
-
-void EnemyControl::SummonEnemyUpdate()
-{
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
-	/*攻撃内容の処理なので後で攻撃専用のクラスに移す*/
-	if (HalfAttack::GetInstance()->SummonEnemy() == true)
-	{
-		summonEnemyCreate = true;
-	}
-
-	if (summonEnemyCreate)
-	{
-		SummonEPos.y += 0.1f; //徐々に上に
-		for (int i = 0; i < EnemySize; i++)
-		{
-			if (SummonEnemys[i] == nullptr)
-			{
-				continue;
-			}
-			if (SummonEPos.y < 18.0f)
-			{
-				//敵がプレイヤー座標まで現れたら
-				Shieldalpha = 0.0f;
-				//下から上に出てくる際は動き止めておく
-				SummonEnemys[i]->SetMoveStop(true);
-				SummonEnemys[i]->SetPosition({
-					HalfAttack::GetInstance()->GetTexPos(i).x, SummonEPos.y, HalfAttack::GetInstance()->GetTexPos(i).z
-				});
-			}
-			else
-			{
-				//盾テクスチャフェード
-				if (!SummonEnemysDeath)
-				{
-					Shieldalpha += 0.05f;
-				}
-				//動き止めていたのを解除
-				SummonEnemys[i]->SetMoveStop(false);
-			}
-			//更新
-			SummonEnemys[i]->SetColor({1.0f, 0.2f, 0.2f, 1.0f});
-
-			SummonEnemys[i]->Update();
-		}
-	}
-
-	//ザコ敵両方とも倒したら
-	if (SummonEnemys[0] == nullptr && SummonEnemys[1] == nullptr)
-	{
-		Shieldalpha -= 0.02f; //盾テクスチャ消す
-		SummonEnemysDeath = true;
-	}
-	//盾テクスチャのアルファ値が一定以下なったらテクスチャインスタンスは消す
-	if (Shieldalpha < -1.0f)
-	{
-		for (int i = 0; i < 4; i++)
-		{
-			Destroy_unique(ShieldTex[i]);
-		}
-	}
-	//敵登場済みのフラグ=敵がプレイヤーのY座標まで上がってきたら
-	SummonEnemysApper = SummonEPos.y >= 10.0f;
-
-	for (int i = 0; i < 4; i++)
-	{
-		if (enemys[BOSS][0] == nullptr)
-		{
-			break;
-		}
-		if (ShieldTex[i] == nullptr)
-		{
-			continue;
-		}
-		//テクスチャ回す
-		Texangle[i]++;
-		//中心はボス
-		ShieldTexPos[i].x = enemys[BOSS][0]->GetPosition().x + sinf(Texangle[i] * (3.14f / 180.0f)) * 10.0f;
-		ShieldTexPos[i].y = enemys[BOSS][0]->GetPosition().y + 10.0f;
-		ShieldTexPos[i].z = enemys[BOSS][0]->GetPosition().z + cosf(Texangle[i] * (3.14f / 180.0f)) * 10.0f;
-
-		ShieldTex[i]->SetColor({1.0f, 1.0f, 1.0f, Shieldalpha});
-		ShieldTex[i]->SetPosition({ShieldTexPos[i]});
-		ShieldTex[i]->SetScale({5.0f, 5.0f, 1.0f});
-		ShieldTex[i]->Update(camera);
-	}
-
-	//ザコ敵の開放処理
-	for (int i = 0; i < 2; i++)
-	{
-		if (SummonEnemys[i] == nullptr)
-		{
-			continue;
-		}
-		if (SummonEnemys[i]->GetObjAlpha() <= 0)
-		{
-			Destroy_unique(SummonEnemys[i]);
-		}
-	}
-
-	//盾テクスチャのアルファ値の上限と下限
-	Shieldalpha = min(Shieldalpha, 1);
-	Shieldalpha = max(Shieldalpha, 0);
-	SummonEPos.y = min(SummonEPos.y, 18);
-}
-
 void EnemyControl::Update_Boss()
 {
 	if (enemys[BOSS][0] == nullptr)
 	{
 		return;
 	}
-	bAttack->Upda();
+	//bAttack->Upda();
 
 	enemys[BOSS][0]->Update();
-
-	SummonEnemyUpdate();
+	
 	//ボスの開放処理
 	if (enemys[BOSS][0]->GetObjAlpha() <= 0)
 	{
@@ -529,16 +383,7 @@ void EnemyControl::HPFrameDraw()
 	//ボスの召喚敵
 	else if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
 	{
-		for (int i = 0; i < SummonEnemys.size(); i++)
-		{
-			if (SummonEnemys[i] == nullptr)
-			{
-				continue;
-			}
-			if (SummonEnemys[i]->GetPosition().y > 17.f) {
-				SummonEnemys[i]->EnemyHPDraw();
-			}
-		}
+		
 		if (enemys[BOSS].size() > 0 && enemys[BOSS][0] != nullptr)
 		{
 			enemys[BOSS][0]->EnemyHPDraw();
@@ -593,32 +438,12 @@ void EnemyControl::Draw_Boss()
 	{
 		return;
 	}
-	//召喚敵の描画
-	for (int i = 0; i < EnemySize; i++)
-	{
-		if (SummonEnemys[i] == nullptr)
-		{
-			continue;
-		}
-		SummonEnemys[i]->Draw();
-	}
+
 	//ボス描画
 	enemys[BOSS][0]->Draw();
-	//ボスの貼るシールドテクスチャ
-	Texture::PreDraw();
+	
 
-	for (int i = 0; i < 4; i++)
-	{
-		ShieldTex[i]->Draw();
-	}
-
-	Texture::PostDraw();
-
-	//ボスの各攻撃描画
-	if (bAttack != nullptr)
-	{
-		bAttack->Draw();
-	}
+	
 }
 
 
@@ -646,23 +471,11 @@ void EnemyControl::GameOverResetParam()
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
 	{
 		enemys[BOSS][0]->Initialize();
+		
 		boss_pos = {-1.0f, 14.75f, 20.987f};
 
-		for (int i = 0; i < EnemySize; i++)
-		{
-			SummonEnemys[i]->Initialize();
+		HalfAttack::GetInstance()->SummonEnemyResetParam();
 
-			SummonEnemys[i]->SetPosition({ 0, -20, 20 });
-		}
-		//敵生成フラグ
-		summonEnemyCreate = false;
-		//敵死亡フラグ
-		SummonEnemysDeath = false;
-		//敵登場済みフラグ
-		SummonEnemysApper = false;
-
-		SummonEPos = { 1, 1, 1 };
-		Shieldalpha = 0.0f;
 		enemys[BOSS][0]->SetPosition(boss_pos);
 		enemys[BOSS][0]->SetHP(enemys[BOSS][0]->GetMaxHP());
 	}

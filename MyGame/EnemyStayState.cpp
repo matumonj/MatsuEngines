@@ -6,6 +6,7 @@
 #include"EnemyDeathState.h"
 
 #include"EnemyKnockState.h"
+#include "SceneManager.h"
 
 void EnemyStayState::Initialize(Enemy* enemy)
 {
@@ -16,31 +17,39 @@ void EnemyStayState::Update(Enemy* enemy)
 	enemy->ResetRespawnCount();
 	enemy->SetAnimeState(enemy->WALK);
 	float RandMove = static_cast<float>(rand() % 90 + 40);
-	if (StayCount == 0)
+	
+	
+	if(SceneManager::GetInstance()->GetScene()==SceneManager::BOSS)
 	{
-		//ƒC[ƒWƒ“ƒOŠ|‚¯‚é‘O‚Ì“G‚ÌŒü‚«
-		BeforeRot = enemy->GetRotation().y;
-		//Š|‚¯‚½Œã‚Ì“G‚ÌŒü‚«
-		AfterRot = enemy->GetRotation().y + RandMove;
+		enemy->ChangeState_Mob(new EnemyFollowState());
 	}
-
-	StayCount++;
-
-	if (StayCount > 90)
+	else
 	{
-		//’âŽ~ŽžŠÔ
-		RotTime += 0.01f;
-		enemy->SetRotation({
-			enemy->GetRotation().x,
-			Easing::EaseOut(RotTime, BeforeRot, AfterRot),
-			enemy->GetRotation().z
-		});
-		if (RotTime > 0.6)
+		if (StayCount == 0)
 		{
-			enemy->ChangeState_Mob(new EnemyWalkState());
+			//ƒC[ƒWƒ“ƒOŠ|‚¯‚é‘O‚Ì“G‚ÌŒü‚«
+			BeforeRot = enemy->GetRotation().y;
+			//Š|‚¯‚½Œã‚Ì“G‚ÌŒü‚«
+			AfterRot = enemy->GetRotation().y + RandMove;
+		}
+
+		StayCount++;
+
+		if (StayCount > 90)
+		{
+			//’âŽ~ŽžŠÔ
+			RotTime += 0.01f;
+			enemy->SetRotation({
+				enemy->GetRotation().x,
+				Easing::EaseOut(RotTime, BeforeRot, AfterRot),
+				enemy->GetRotation().z
+				});
+			if (RotTime > 0.6)
+			{
+				enemy->ChangeState_Mob(new EnemyWalkState());
+			}
 		}
 	}
-
 	if (enemy->GetRecvDamage2())
 	{
 		enemy->ChangeState_Mob(new EnemyKnockState());

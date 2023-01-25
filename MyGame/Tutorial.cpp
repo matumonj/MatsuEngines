@@ -1,10 +1,6 @@
 #include "Tutorial.h"
-#include"Input.h"
-#include"TitleScene.h"
 #include"SceneManager.h"
-#include"MapCreateScene.h"
 #include"Field.h"
-#include"PlayerAttackState.h"
 #include"TutorialSprite.h"
 #include"SistemConfig.h"
 #include"EnemyControl.h"
@@ -18,11 +14,9 @@
 #include"BossMap.h"
 #include"PlayerControl.h"
 #include"PlayScene.h"
-#include"DamageManager.h"
 #include"StoneControl.h"
-#include"GrassFieldControl.h"
-#include "DropWeapon.h"
 #include <SelectSword.h>
+#include "GrassFieldControl.h"
 //シーンのコンストラクタ
 Tutorial::Tutorial(SceneManager* sceneManager)
 	: BaseScene(sceneManager)
@@ -137,14 +131,7 @@ void Tutorial::Update()
 	{
 		Feed::GetInstance()->Update_White(Feed::FEEDIN); //白くなります
 	}
-	if (SistemConfig::GetInstance()->GetConfigJudgMent())
-	{
-		c_postEffect = Blur;
-	}
-	else
-	{
-		c_postEffect = Default;
-	}
+
 
 	if (scenechange && Feed::GetInstance()->GetAlpha() >= 1.0f)
 	{
@@ -270,8 +257,6 @@ bool Tutorial::LoadParam()
 
 		Field::GetInstance()->Initialize();
 
-		grassfield = std::make_unique<GrassField>();
-		grassfield->Initialize();
 		hudload = true;
 		Play = true;
 		Load = false;
@@ -290,6 +275,6 @@ void Tutorial::Finalize()
 		AllObjectControl[i]->Finalize();
 	}
 	AllObjectControl.clear();
-	Field::GetInstance()->Finalize();
+	//Field::GetInstance()->Finalize();
 	Destroy(postEffect);
 }

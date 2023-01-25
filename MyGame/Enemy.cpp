@@ -216,6 +216,7 @@ bool Enemy::RespawnJudg()
 
 void Enemy::DamageTexDisplay()
 {
+	if (m_fbxObject == nullptr)return;
 	//ダメージスプライト生成
 	for (std::unique_ptr<DamageManager>& dTex : dMans_)
 	{
@@ -231,10 +232,6 @@ void Enemy::DamageTexDisplay()
 
 void Enemy::DamageTexDisplay_Draw()
 {
-	if (this == nullptr)
-	{
-		return;
-	}
 	for (std::unique_ptr<DamageManager>& dTex : dMans_)
 	{
 		dTex->Draw();

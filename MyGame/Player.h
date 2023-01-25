@@ -1,8 +1,4 @@
 #pragma once
-#include"Object3d.h"
-#include <d3d12.h>
-#include <DirectXMath.h>
-#include <d3dx12.h>
 #include "FbxLoader.h"
 #include"f_Model.h"
 #include"f_Object3d.h"
@@ -11,7 +7,7 @@
 #include"SwordBase.h"
 #include"AttackEffect.h"
 #include"DamageManager.h"
-class Enemy;
+
 class TargetMarker;
 
 class Player : public ObjectManager
@@ -127,8 +123,7 @@ private:
 	float movespeed = 7.0f;
 	XMFLOAT3 MoveVECTOR(DirectX::XMVECTOR v, float angle);
 private:
-	bool noAttack;
-
+	
 	XMVECTOR Gmove;
 public:
 	XMVECTOR GetPlayerMove() { return Gmove; }
@@ -147,9 +142,7 @@ public:
 
 	AttackMotion GetAttackType() { return attackMotion; }
 	AttackMotion GetAttackTypeOld() { return OldattackMotion; }
-
-	void SetnoAttack(bool f) { noAttack = f; }
-	bool GetnoAttack() { return noAttack; }
+	
 private:
 	/*Ç±Ç±Ç©ÇÁå„Ç‹Ç∆ÇﬂÇƒè¡Ç∑*/
 	AttackMotion OldattackMotion = NON;
@@ -172,8 +165,7 @@ private:
 	int hindex = 21;
 	float RotY;
 	int nearindex;
-	Enemy* NearEnemy;
-
+	
 public:
 	enum AnimeName
 	{

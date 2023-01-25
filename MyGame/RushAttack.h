@@ -1,28 +1,21 @@
 #pragma once
-#include"Texture.h"
 #include"Object3d.h"
-#include"Model.h"
+#include<array>
 #include<memory>
 #include"CollisionPrimitive.h"
-#include"ParticleManager.h"
 #include"Particle.h"
-
-class RushAttack
+#include"BossAttackActionManager.h"
+class RushAttack:public BossAttackActionManager
 {
-public:
-private:
-	using XMFLOAT2 = DirectX::XMFLOAT2;
-	using XMFLOAT3 = DirectX::XMFLOAT3;
-	using XMFLOAT4 = DirectX::XMFLOAT4;
-	using XMMATRIX = DirectX::XMMATRIX;
-	using XMVECTOR = DirectX::XMVECTOR;
 
 private:
+	//ボスの火球
 	std::unique_ptr<Object3d> RushSphereObj;
+	//球パラメータ
 	XMFLOAT3 rushspherescl;
 	XMFLOAT3 rushspherepos;
 	float rushspherealpha;
-	float rushEtime[5];
+	std::array<float,5> rushEtime;
 
 	Particle* p;
 private:
@@ -44,13 +37,13 @@ private:
 	int RushAttackCount = 0;
 public:
 	static RushAttack* GetInstance();
-	void Initialize();
+	void Init()override;
 	void ActionJudg();
-	void Upda();
-	void Draw();
+	void Upda()override;
+	void Draw()override;
 	void Finalize();
 private:
-	XMFLOAT3 rushimpactarea[5];
+	std::array<XMFLOAT3 ,5>rushimpactarea;
 
 	Line2D DamageLine;
 public:

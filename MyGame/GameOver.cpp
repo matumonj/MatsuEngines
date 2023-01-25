@@ -1,8 +1,5 @@
 #include "GameOver.h"
-#include "GameOver.h"
-#include"Feed.h"
 #include"SceneManager.h"
-#include"BossScene.h"
 #include "EnemyControl.h"
 #include "HUD.h"
 #include "PlayerControl.h"

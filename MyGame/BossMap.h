@@ -17,8 +17,8 @@ private:
 		DAMAGEBLOCK
 	};
 
-	static constexpr int mapWidth = 17;
-	static constexpr int mapHight = 17;
+	static constexpr int mapWidth = 15;
+	static constexpr int mapHight = 15;
 
 	int mapSize[mapHight][mapWidth];
 
@@ -28,9 +28,9 @@ private:
 	std::unique_ptr<Object3d> nailobj[mapHight][mapWidth];
 	std::unique_ptr<Particle> par[mapHight][mapWidth];
 	DirectX::XMFLOAT3 nailPos[mapHight][mapWidth];
-	float nailalpha[mapHight][mapWidth] = {1};
-
-	DirectX::XMFLOAT3 cpos = {-200.f, 11.6f, -200.f};
+	float blockalpha[mapHight][mapWidth] = {1};
+	
+	DirectX::XMFLOAT3 cpos = {-150.f, 11.6f, -150.f};
 	DirectX::XMFLOAT3 blockColor[mapHight][mapWidth];
 	float blockColorETime[mapHight][mapWidth];
 

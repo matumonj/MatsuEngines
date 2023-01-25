@@ -7,7 +7,9 @@
 #include"Task.h"
 #include"DropWeapon.h"
 #include <SelectSword.h>
-#include"GuardianShotAttack.h"
+
+#include "HalfAttack.h"
+#include "PlayerControl.h"
 
 UI* UI::GetInstance()
 {
@@ -58,15 +60,7 @@ void UI::HUDDraw()
 	if (!TurnOffDrawUI)
 	{
 		HUD::GetInstance()->SkillBottonDraw();
-		if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
-		{
-			ExpPointSystem::GetInstance()->Draw();
-		}
-		if (TutorialSprite::GetInstance()->GetClearSetting())
-		{
-			HUD::GetInstance()->EnemyHPGauge_MultiDraw();
-		}
-
+		
 		SelectSword::GetInstance()->Draw();
 	}
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL)
@@ -83,6 +77,9 @@ void UI::HUDDraw()
 			Task::GetInstance()->Draw();
 		}
 	}
+
+	//PlayerControl::GetInstance()->DamageTexDraw();
+	
 }
 
 void UI::AreaNameDraw()

@@ -18,9 +18,9 @@ public:
 	{
 	};
 	~Field() override;
-	static Field* GetInstance();
-	void Setplay();
 
+	static Field* GetInstance();
+	
 	XMFLOAT3 GetClearTexpos() { return cleartex->GetPosition(); }
 private:
 	TouchableObject* FieldObject = nullptr;
@@ -64,7 +64,7 @@ private:
 	std::array<XMFLOAT3, 4>SkyBackPos;
 	std::array<float, 4>SkyBackEaseT;
 	std::array<float, 4>objroty;
-	bool MapChange;
+	float celestalscl=16.f;
 	//Model
 	DirectX::XMFLOAT3 ssp = {0.0f, 0.0f, 0.0f};
 	int EnemyIconSize = 0;
@@ -100,6 +100,10 @@ public:
 	//void SetCamera() { dc = camera; }
 	void Initialize() override;
 	void Update() override;
+
+	void Init_Play();
+	void Init_Tutorial();
+	void Init_Boss();
 
 	void Update_Tutorial();
 	void Update_Play();

@@ -1,21 +1,14 @@
 #include "Player.h"
-
 #include <algorithm>
-
-#include"Input.h"
-#include"TargetMarker.h"
 #include"Collision.h"
 #include"PlayerAttackState.h"
 #include"imgui.h"
-#include"WoodControl.h"
 #include"CustomButton.h"
-#include"BigSword.h"
 #include"SelectSword.h"
 #include"SceneManager.h"
-#include"HUD.h"
-
 #include"CameraControl.h"
 #include "EnemyControl.h"
+#include "HUD.h"
 
 using namespace DirectX;
 
@@ -181,8 +174,8 @@ void Player::Move()
 		move = XMVector3TransformNormal(move, matRot);
 
 		//向いた方向に進む
-		Position.x += move.m128_f32[0] * movespeed*2;
-		Position.z += move.m128_f32[2] * movespeed *2;
+		Position.x += move.m128_f32[0] * movespeed;
+		Position.z += move.m128_f32[2] * movespeed ;
 		Gmove = move;
 	} else
 	{
@@ -202,8 +195,8 @@ void Player::Move()
 	//ボスエリアでの移動制限
 	else if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
 	{
-		Position.x = std::clamp(Position.x, -100.f, 100.f);
-		Position.z = std::clamp(Position.z, -100.f, 100.f);
+		Position.x = std::clamp(Position.x, -90.f, 90.f);
+		Position.z = std::clamp(Position.z, -90.f, 90.f);
 	}
 
 }
@@ -233,13 +226,13 @@ void Player::Evasion()
 {
 	//回避時
 	//例外設定
-	if (HP <= 0||DamageEvaF||StopFlag)
+	if (HP <= 0||DamageEvaF)
 	{
 		return;
 	}
 
 	//回避
-	if (input->TriggerButton(input->X) && StopFlag == false)
+	if (input->TriggerButton(input->X))
 	{
 		evasionF = true;
 	}
@@ -262,6 +255,7 @@ void Player::Evasion()
 		else
 		{
 			if (m_fbxObject->GetAnimeTime() >= m_fbxObject->GetEndTime()-0.3f) {
+				
 				AnimationContol(IDLE, 9, 1, false);
 				m_AnimationStop = false;
 				
@@ -419,7 +413,7 @@ void Player::AnimationContol(AnimeName name, int animenumber, double speed, bool
 
 void Player::FbxAnimationControl()
 {
-	if (evasionF || noAttack || HP <= 0||DamageEvaF)
+	if (evasionF || HP <= 0||DamageEvaF)
 	{
 		return;
 	}
@@ -483,7 +477,7 @@ void Player::RecvDamage(int Damage)
 
 	if (HP >= 0)
 	{
-		HP = HP - Damage;
+		HP = HP - Damage/2;
 		std::unique_ptr<DamageManager> newdTex;
 		
 			newdTex = std::make_unique<DamageManager>(

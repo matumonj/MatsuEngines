@@ -55,10 +55,7 @@ void DamageManager::DamageDisPlay(int damage, XMFLOAT4 color)
 		DamageTex->SetColor({ 1.f,0.7f,0.7f });
 	}
 	DamageTex->SetAlpha(TexAlpha);
-	//表記
-	if (PlayerAttackState::GetInstance()->GetHitStopJudg()) {
-		DamageTex->Print("Critical!", tex2DPos.m128_f32[0], tex2DPos.m128_f32[1] - 70.f, TexSize.x/2.f);
-	}
+	
 	DamageTex->Print(str.str(), tex2DPos.m128_f32[0], tex2DPos.m128_f32[1], TexSize.x);
 	
 
@@ -85,7 +82,7 @@ void DamageManager::DamageDisPlay_Green(int damage, XMFLOAT4 color)
 	tex2DPos = WDivi(tex2DPos, false);
 	tex2DPos = PosDivi(tex2DPos, CameraControl::GetInstance()->GetCamera()->GetViewPort(), false);
 
-	DamageTex->SetColor({ 0.3f, 0.9f, 0.3f });
+	DamageTex->SetColor({ 1.f, 1.f, 1.f });
 	DamageTex->SetAlpha(TexAlpha);
 	//表記
 	DamageTex->Print(str.str(), tex2DPos.m128_f32[0], tex2DPos.m128_f32[1], TexSize.x);

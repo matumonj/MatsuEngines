@@ -1,5 +1,5 @@
 #include "BossEnemyEvasion.h"
-
+#include "BossEnemyDeath.h"
 #include "BossEnemy.h"
 #include"PlayerControl.h"
 #include"BossEnemyAttackThrow.h"
@@ -16,6 +16,12 @@ void BossEnemyFalter::Initialize(Enemy* enmey)
 
 void BossEnemyEvasion::Update(Enemy* enemy)
 {
+
+	//Ž€–S
+	if (enemy->GetHP() <= 0.f)
+	{
+		enemy->ChangeState_Boss(new BossEnemyDeath());
+	}
 	enemy->SetRecvDamage(false);
 
 	enemy->SetAnimation(BossEnemy::NowAttackMotion::BJUMP, true, 1.2);

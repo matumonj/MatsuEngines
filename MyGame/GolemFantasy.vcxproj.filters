@@ -50,17 +50,8 @@
     <Filter Include="Game\gameobject\camera">
       <UniqueIdentifier>{133564d7-a6f9-464b-959e-0a1b2ee172da}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\UI">
-      <UniqueIdentifier>{dd958707-cbce-4c7f-9484-fc9b5fe5c097}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\UI\HUD">
-      <UniqueIdentifier>{bd73972b-f908-4972-97d0-c9526e6c2f1b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\2d %28DebugTxt  Sprite Texture%29\Particle">
       <UniqueIdentifier>{5c1b134c-f46a-42b5-b391-482ca91b7474}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\UI\Config">
-      <UniqueIdentifier>{077ed855-3902-457a-805f-209d6816ad7a}</UniqueIdentifier>
     </Filter>
     <Filter Include="Game\2d %28DebugTxt  Sprite Texture%29\posteffect">
       <UniqueIdentifier>{3aec48ac-9748-421e-b3b2-330ac8332409}</UniqueIdentifier>
@@ -223,6 +214,15 @@
     <Filter Include="Game\Scene\GameScene">
       <UniqueIdentifier>{1c29f6ca-2414-4584-bc7f-019dad1dc8ef}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\2d %28DebugTxt  Sprite Texture%29\UI">
+      <UniqueIdentifier>{dd958707-cbce-4c7f-9484-fc9b5fe5c097}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\2d %28DebugTxt  Sprite Texture%29\UI\HUD">
+      <UniqueIdentifier>{bd73972b-f908-4972-97d0-c9526e6c2f1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\2d %28DebugTxt  Sprite Texture%29\UI\Config">
+      <UniqueIdentifier>{077ed855-3902-457a-805f-209d6816ad7a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sprite.cpp">
@@ -340,7 +340,7 @@
       <Filter>Game\collision</Filter>
     </ClCompile>
     <ClCompile Include="HUD.cpp">
-      <Filter>Game\UI\HUD</Filter>
+      <Filter>Game\2d %28DebugTxt  Sprite Texture%29\UI\HUD</Filter>
     </ClCompile>
     <ClCompile Include="MapCreate.cpp">
       <Filter>Editor</Filter>
@@ -352,10 +352,10 @@
       <Filter>Game\gameobject\GameObject\Field</Filter>
     </ClCompile>
     <ClCompile Include="ConfigSprite.cpp">
-      <Filter>Game\UI\Config</Filter>
+      <Filter>Game\2d %28DebugTxt  Sprite Texture%29\UI\Config</Filter>
     </ClCompile>
     <ClCompile Include="SistemConfig.cpp">
-      <Filter>Game\UI\Config</Filter>
+      <Filter>Game\2d %28DebugTxt  Sprite Texture%29\UI\Config</Filter>
     </ClCompile>
     <ClCompile Include="PlayerAttackState.cpp">
       <Filter>Game\gameobject\GameObject\Player</Filter>
@@ -472,13 +472,13 @@
       <Filter>Game\gameobject\GameObject\Boss\AttackPattern</Filter>
     </ClCompile>
     <ClCompile Include="SelectSword.cpp">
-      <Filter>Game\UI\Config</Filter>
+      <Filter>Game\2d %28DebugTxt  Sprite Texture%29\UI\Config</Filter>
     </ClCompile>
     <ClCompile Include="UI.cpp">
-      <Filter>Game\UI</Filter>
+      <Filter>Game\2d %28DebugTxt  Sprite Texture%29\UI</Filter>
     </ClCompile>
     <ClCompile Include="CustomButton.cpp">
-      <Filter>Game\UI\Config</Filter>
+      <Filter>Game\2d %28DebugTxt  Sprite Texture%29\UI\Config</Filter>
     </ClCompile>
     <ClCompile Include="EnemyDeathState.cpp">
       <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Mob</Filter>
@@ -556,16 +556,16 @@
       <Filter>Game\gameobject\Control</Filter>
     </ClCompile>
     <ClCompile Include="TargetMarker.cpp">
-      <Filter>Game\UI\HUD</Filter>
+      <Filter>Game\2d %28DebugTxt  Sprite Texture%29\UI\HUD</Filter>
     </ClCompile>
     <ClCompile Include="TutorialSprite.cpp">
-      <Filter>Game\UI\HUD</Filter>
+      <Filter>Game\2d %28DebugTxt  Sprite Texture%29\UI\HUD</Filter>
     </ClCompile>
     <ClCompile Include="DamageManager.cpp">
-      <Filter>Game\UI\HUD</Filter>
+      <Filter>Game\2d %28DebugTxt  Sprite Texture%29\UI\HUD</Filter>
     </ClCompile>
     <ClCompile Include="ExpPointSystem.cpp">
-      <Filter>Game\UI\HUD</Filter>
+      <Filter>Game\2d %28DebugTxt  Sprite Texture%29\UI\HUD</Filter>
     </ClCompile>
     <ClCompile Include="BossEnemyEvasion.cpp">
       <Filter>Game\gameobject\GameObject\Boss\AttackPattern</Filter>
@@ -619,10 +619,10 @@
       <Filter>Game\gameobject\GameObject\Wood</Filter>
     </ClCompile>
     <ClCompile Include="Task.cpp">
-      <Filter>Game\UI</Filter>
+      <Filter>Game\2d %28DebugTxt  Sprite Texture%29\UI</Filter>
     </ClCompile>
     <ClCompile Include="DropWeapon.cpp">
-      <Filter>Game\UI</Filter>
+      <Filter>Game\2d %28DebugTxt  Sprite Texture%29\UI</Filter>
     </ClCompile>
     <ClCompile Include="GuardianNAttack.cpp">
       <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian\action</Filter>
@@ -638,9 +638,6 @@
     </ClCompile>
     <ClCompile Include="ClearScene.cpp">
       <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="BleathAttack.cpp">
-      <Filter>Game\gameobject\GameObject\Boss\AttackPattern\SecondHalf</Filter>
     </ClCompile>
     <ClCompile Include="BossEnemyAttackBleath.cpp">
       <Filter>Game\gameobject\GameObject\Boss\AttackPattern\FirstHalf\Sequence</Filter>
@@ -665,6 +662,9 @@
     </ClCompile>
     <ClCompile Include="ThrowRockAttack.cpp">
       <Filter>Game\gameobject\GameObject\Boss\AttackPattern</Filter>
+    </ClCompile>
+    <ClCompile Include="BossAttackActionManager.cpp">
+      <Filter>Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -804,7 +804,7 @@
       <Filter>Game\collision</Filter>
     </ClInclude>
     <ClInclude Include="HUD.h">
-      <Filter>Game\UI\HUD</Filter>
+      <Filter>Game\2d %28DebugTxt  Sprite Texture%29\UI\HUD</Filter>
     </ClInclude>
     <ClInclude Include="MapCreateScene.h">
       <Filter>Editor</Filter>
@@ -819,10 +819,10 @@
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="ConfigSprite.h">
-      <Filter>Game\UI\Config</Filter>
+      <Filter>Game\2d %28DebugTxt  Sprite Texture%29\UI\Config</Filter>
     </ClInclude>
     <ClInclude Include="SistemConfig.h">
-      <Filter>Game\UI\Config</Filter>
+      <Filter>Game\2d %28DebugTxt  Sprite Texture%29\UI\Config</Filter>
     </ClInclude>
     <ClInclude Include="PlayerAttackState.h">
       <Filter>Game\gameobject\GameObject\Player</Filter>
@@ -936,10 +936,10 @@
       <Filter>Game\collision</Filter>
     </ClInclude>
     <ClInclude Include="SelectSword.h">
-      <Filter>Game\UI\Config</Filter>
+      <Filter>Game\2d %28DebugTxt  Sprite Texture%29\UI\Config</Filter>
     </ClInclude>
     <ClInclude Include="CustomButton.h">
-      <Filter>Game\UI\Config</Filter>
+      <Filter>Game\2d %28DebugTxt  Sprite Texture%29\UI\Config</Filter>
     </ClInclude>
     <ClInclude Include="EnemyDeathState.h">
       <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Mob</Filter>
@@ -1017,19 +1017,19 @@
       <Filter>Game\gameobject\Control</Filter>
     </ClInclude>
     <ClInclude Include="TargetMarker.h">
-      <Filter>Game\UI\HUD</Filter>
+      <Filter>Game\2d %28DebugTxt  Sprite Texture%29\UI\HUD</Filter>
     </ClInclude>
     <ClInclude Include="TutorialSprite.h">
-      <Filter>Game\UI\HUD</Filter>
+      <Filter>Game\2d %28DebugTxt  Sprite Texture%29\UI\HUD</Filter>
     </ClInclude>
     <ClInclude Include="DamageManager.h">
-      <Filter>Game\UI\HUD</Filter>
+      <Filter>Game\2d %28DebugTxt  Sprite Texture%29\UI\HUD</Filter>
     </ClInclude>
     <ClInclude Include="ExpPointSystem.h">
-      <Filter>Game\UI\HUD</Filter>
+      <Filter>Game\2d %28DebugTxt  Sprite Texture%29\UI\HUD</Filter>
     </ClInclude>
     <ClInclude Include="AttackEffect.h">
-      <Filter>Game\UI\HUD</Filter>
+      <Filter>Game\2d %28DebugTxt  Sprite Texture%29\UI\HUD</Filter>
     </ClInclude>
     <ClInclude Include="BossEnemyEvasion.h">
       <Filter>Game\gameobject\GameObject\Boss\AttackPattern</Filter>
@@ -1050,7 +1050,7 @@
       <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Mob</Filter>
     </ClInclude>
     <ClInclude Include="UI.h">
-      <Filter>Game\UI</Filter>
+      <Filter>Game\2d %28DebugTxt  Sprite Texture%29\UI</Filter>
     </ClInclude>
     <ClInclude Include="GuardianEnemy.h">
       <Filter>Game\gameobject\GameObject\Enemy\Derived</Filter>
@@ -1095,10 +1095,10 @@
       <Filter>Game\gameobject\GameObject\Wood</Filter>
     </ClInclude>
     <ClInclude Include="DropWeapon.h">
-      <Filter>Game\UI</Filter>
+      <Filter>Game\2d %28DebugTxt  Sprite Texture%29\UI</Filter>
     </ClInclude>
     <ClInclude Include="Task.h">
-      <Filter>Game\UI</Filter>
+      <Filter>Game\2d %28DebugTxt  Sprite Texture%29\UI</Filter>
     </ClInclude>
     <ClInclude Include="GuardianFalterState.h">
       <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian\Sequence</Filter>
@@ -1108,9 +1108,6 @@
     </ClInclude>
     <ClInclude Include="ClearScene.h">
       <Filter>Game\Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="BleathAttack.h">
-      <Filter>Game\gameobject\GameObject\Boss\AttackPattern\SecondHalf</Filter>
     </ClInclude>
     <ClInclude Include="BossEnemyAttackBleath.h">
       <Filter>Game\gameobject\GameObject\Boss\AttackPattern\FirstHalf\Sequence</Filter>
@@ -1135,6 +1132,9 @@
     </ClInclude>
     <ClInclude Include="ThrowRockAttack.h">
       <Filter>Game\gameobject\GameObject\Boss\AttackPattern</Filter>
+    </ClInclude>
+    <ClInclude Include="BossAttackActionManager.h">
+      <Filter>Game\Shader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -393,14 +393,11 @@ void PostEffect::Draw()
 	this->matWorld *= XMMatrixRotationZ(XMConvertToRadians(rotation));
 	this->matWorld *= XMMatrixTranslation(position.x, position.y, 0.0f);
 
-	// 定数バッファにデータ転送
-	ConstBufferData* constMap = nullptr;
-	HRESULT result = this->constBuff->Map(0, nullptr, (void**)&constMap);
-	if (SUCCEEDED(result)) {
-		constMap->color = this->color;
-		constMap->mat = XMMatrixIdentity();//this->matWorld * matProjection;	// 行列の合成	
-		this->constBuff->Unmap(0, nullptr);
-	}
+
+	ConstBufferDataB0* constMap2 = nullptr;
+	HRESULT result = constBuff->Map(0, nullptr, (void**)&constMap2);
+	constMap2->bloomalpha = BloomAlpha;
+	constBuff->Unmap(0, nullptr);
 
 
 	// パイプラインステートの設定

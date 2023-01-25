@@ -1,17 +1,8 @@
 #pragma once
 #include "BaseScene.h"
-#include"Audio.h"
-#include"Sprite.h"
-#include"Input.h"
-#include"Particle.h"
-#include"Collision.h"
 #include"LightGroup.h"
-#include"PostEffect.h"
 #include"ControlBase.h"
-#include"CircleAttack.h"
-#pragma comment(lib,"winmm.lib")
 class CollisionManager;
-class Player;
 
 class BossScene :
 	public BaseScene
@@ -29,24 +20,30 @@ private: // エイリアス
 	using XMMATRIX = XMMATRIX;
 	using XMVECTOR = XMVECTOR;
 
-public:
-	Input* input;
-	bool scenechange;
-	int count_frame = 0;
-	std::unique_ptr<BomAttack> bAttack;
-private:
-	//エフェクト用(ただプログラムでつくれるものはプログラムで作る方がいい　多用はいくない)
-	int c_postEffect = Default;
-	PostEffect* postEffect = nullptr;
-	bool Play;
-	bool hudload;
 
 private:
-	enum
-	{
-		Blur,
-		Default,
-	};
+	float ambientColor0[3] = { 1.0f, 1.0f, 1.0f };
+	// 光線方向初期値
+	float lightDir0[3] = { 1.0f, 0.0f, 1.0f };
+	float lightColor0[3] = { 1.0f, 0.0f, 0.0f };
+
+	float lightDir1[3] = { 1.0f, 1.0f, 0.0f };
+	float lightColor1[3] = { 0.0f, 1.0f, 0.0f };
+
+	float lightDir2[3] = { 1.0f, 0.0f, 0.0f };
+	float lightColor2[3] = { 0.0f, 0.0f, 1.0f };
+
+
+	float circleShadowDir[3] = { 0.0f, -1.0f, 0.0f };
+	float circleShadowPos[3] = { 1.0f, 2.0f, 0.0f };
+	float circleShadowAtten[3] = { 0.2f, 10.0f, 10.0f };
+	float circleShadowAtten2[3] = { 0.2f, 10.0f, 10.0f };
+	float circleShadowFactorAngle[2] = { 1.0f, 3.0f };
+	float circleShadowFactorAngle2[2] = { 1.0f, 6.0f };
+	//virtual void SpriteDraw(ID3D12GraphicsCommandList* cmdList) = 0;
+
+bool Play;
+	bool hudload;
 
 public:
 	void Initialize() override;
@@ -61,5 +58,5 @@ private:
 	bool feedend;
 	void ChangeScene();
 private:
-	bool LoadEnemy;
+	bool LoadF;
 };

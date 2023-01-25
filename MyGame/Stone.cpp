@@ -1,9 +1,6 @@
 #include "Stone.h"
-#include "Stone.h"
-
 #include "CameraControl.h"
 #include"SphereCollider.h"
-#include"CollisionAttribute.h"
 #include"TouchableObject.h"
 #include"CollisionManager.h"
 #include"Collision.h"

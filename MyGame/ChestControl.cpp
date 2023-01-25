@@ -301,7 +301,6 @@ void ChestControl::GetChestEvent(Chest* chest, ParticleParam& pParam)
 		});
 		PlayerControl::GetInstance()->GetPlayer()->SetRotation({-90.0f, 0.0f, 0.0f});
 		PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(true);
-		PlayerControl::GetInstance()->GetPlayer()->SetnoAttack(true);
 		CameraControl::GetInstance()->GetCamera()->SetEye({Ppos.x + 8.0f, Ppos.y + 10.0f, Ppos.z - 20.0f});
 		CameraControl::GetInstance()->GetCamera()->SetTarget(chest->GetPosition());
 	}
@@ -350,7 +349,6 @@ void ChestControl::GetChestEvent(Chest* chest, ParticleParam& pParam)
 			pParam.pCount = 0;
 			GetChestCount++;
 			PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(false);
-			PlayerControl::GetInstance()->GetPlayer()->SetnoAttack(false);
 
 			UI::GetInstance()->SetTurnoffUIDraw(false);
 			pParam.ChestEvent = END;

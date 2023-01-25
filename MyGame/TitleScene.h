@@ -1,14 +1,7 @@
 #pragma once
 #include"BaseScene.h"
-#include"Audio.h"
 #include"Sprite.h"
-#include"Input.h"
-#include"WinApp.h"
-
 #include"Object3d.h"
-#include"Model.h"
-#include"Collision.h"
-#include"DebugTxt.h"
 #include"LightGroup.h"
 #include"DebugCamera.h"
 #include"DirectXCommon.h"
@@ -49,6 +42,29 @@ public:
 	void SpriteDraw()override;
 
 private:
+float ambientColor0[3] = { 1.0f, 1.0f, 1.0f };
+	// åıê¸ï˚å¸èâä˙íl
+	float lightDir0[3] = { 1.0f, 0.0f, 1.0f };
+	float lightColor0[3] = { 1.0f, 0.0f, 0.0f };
+
+	float lightDir1[3] = { 1.0f, 1.0f, 0.0f };
+	float lightColor1[3] = { 0.0f, 1.0f, 0.0f };
+
+	float lightDir2[3] = { 1.0f, 0.0f, 0.0f };
+	float lightColor2[3] = { 0.0f, 0.0f, 1.0f };
+
+
+	float pointLightPos[3] = { 0, 0, 0 };
+	float pointLightColor[3] = { 1, 1, 1 };
+	float pointLightAtten[3] = { 0.003f, 0.001f, 0.003f };
+
+	float circleShadowDir[3] = { 0.0f, -1.0f, 0.0f };
+	float circleShadowPos[3] = { 1.0f, 2.0f, 0.0f };
+	float circleShadowAtten[3] = { 0.2f, 10.0f, 10.0f };
+	float circleShadowFactorAngle[2] = { 1.0f, 3.0f };
+	float circleShadowFactorAngle2[2] = { 1.0f, 6.0f };
+	//virtual void SpriteDraw(ID3D12GraphicsCommandList* cmdList) = 0;
+
 	void TitleTexInit();
 	void TitleTexUpda();
 	void TitleTexDraw();

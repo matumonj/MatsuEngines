@@ -3,36 +3,36 @@
 #include<memory>
 #include"Particle.h"
 #include"Object3d.h"
-#include "ObjectManager.h"
+#include"BossAttackActionManager.h"
 #include<array>
-class BronzeAttack
+class BronzeAttack:public BossAttackActionManager
 {
-private:
-	using XMFLOAT2 = DirectX::XMFLOAT2;
-	using XMFLOAT3 = DirectX::XMFLOAT3;
-	using XMFLOAT4 = DirectX::XMFLOAT4;
-	using XMMATRIX = DirectX::XMMATRIX;
-	using XMVECTOR = DirectX::XMVECTOR;
 public:
 	static BronzeAttack* GetIns();
-	void Init();
-	void Upda();
-	void Draw();
+	void Init()override;
+	void Upda()override;
+	void Draw()override;
+
 	void Finalize();
 
 public:
+	//攻撃方向
 	enum Direction
 	{
 		HEIGHT,
 		WIDTH
 	}AttackDir;
+
+	//攻撃フェーズ初期化用
 	void SetAction(bool f,Direction dir) { if (phase != AREASET) { phase = AREASET; AttackDir=dir;} }
 
+	//フェーズの終了判定
 	bool GetPhaseEnd()
 	{
 		if (phase == END) { return true; }
 		return false;
 	}
+
 	bool GetisEndAttack() { return isEndAttack; }
 	void SetisEndAttack(bool f) { isEndAttack = f; }
 
@@ -57,6 +57,7 @@ private:
 	void Phase_TexFade();
 	void Phase_End();
 
+	void ObjUpda();
 	void SphereMoving();
 private:
 	std::array<std::unique_ptr<Texture>,2> MagicTex;
@@ -87,5 +88,6 @@ private:
 	float ColorT;
 
 	bool isEndAttack;
+	
 };
 

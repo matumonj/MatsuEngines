@@ -681,10 +681,12 @@ void CameraControl::RushTargetBoss()
 
 		if (rCameraEtime > 0.0f)
 		{
-			TargetPos.y = Easing::EaseOut(rCameraEtime, OldTarget.y, OldTarget.y + 5);
+			if (boss != nullptr) {
+				TargetPos.y = Easing::EaseOut(rCameraEtime, OldTarget.y, OldTarget.y + 5);
 
-			TargetPos.x = Easing::EaseOut(rCameraEtime, OldTarget.x, boss->GetPosition().x);
-			TargetPos.z = Easing::EaseOut(rCameraEtime, OldTarget.z, boss->GetPosition().z);
+				TargetPos.x = Easing::EaseOut(rCameraEtime, OldTarget.x, boss->GetPosition().x);
+				TargetPos.z = Easing::EaseOut(rCameraEtime, OldTarget.z, boss->GetPosition().z);
+			}
 		}
 		else
 		{

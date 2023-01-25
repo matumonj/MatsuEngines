@@ -1,48 +1,37 @@
 #pragma once
 #include"Texture.h"
-#include"Input.h"
-#include"MobEnemy.h"
 #include<array>
 
-class HalfAttack
+#include "Enemy.h"
+#include"BossAttackActionManager.h"
+class HalfAttack:public BossAttackActionManager
 {
 public:
 	~HalfAttack();
+
 private:
-	using XMFLOAT2 = DirectX::XMFLOAT2;
-	using XMFLOAT3 = DirectX::XMFLOAT3;
-	using XMFLOAT4 = DirectX::XMFLOAT4;
-	using XMMATRIX = DirectX::XMMATRIX;
-	using XMVECTOR = DirectX::XMVECTOR;
+	bool ShieldCreate;
+	bool ShieldLost;
+	std::unique_ptr<Texture> ShieldTex[2];
+	
+	std::array<XMFLOAT3, 2> ShieldTexPos;
+	float ShieldRot;
+	float ShieldTexAlpha;
 private:
-	enum AttackArea
-	{
-		LEFT,
-		RIGHT
-	};
+	static constexpr int EnemySize = 2;
+	std::array<std::unique_ptr<Enemy>, EnemySize> SummonEnemys = {};
+	bool summonEnemyCreate = false;
+	XMFLOAT3 SummonEPos = { 1, 1, 1 };
+	bool SummonEnemysDeath;
+	bool SummonEnemysApper;
+	float Shieldalpha;
+public:
+	
+	bool GetSummonEnemysDeath() { return SummonEnemysDeath; }
 
-	static constexpr int EnemySize = 4;
-	std::array<std::unique_ptr<Texture>, EnemySize> MagicTex;
-	std::array<XMFLOAT3, EnemySize> TexScl;
+	bool GetSummonEnemysApper() { return SummonEnemysApper; }
+	Enemy* GetSummonEnemy(int index) { return SummonEnemys[index].get(); }
 
-	AttackArea Area;
-
-	Texture* HalfAreaTex;
-	float RotY;
-	bool phase1, phase2, phase3, phase4;
-	int AttackCount;
-	float TexAlpha = 1.0f;
-	float AfterPositionZ;
-	float BeforePositionZ;
-	float KnockTime = 0.0f;
-
-	XMFLOAT3 CenterPos;
-	//phase1　カウントダウンと中央に戻る処理
-	XMFLOAT3 PlayerPos;
-	XMFLOAT3 BossEnemyPos;
-
-	void DamageJudg_Left();
-	void DamageJudg_Right();
 public:
 	enum Phase
 	{
@@ -55,16 +44,25 @@ public:
 
 private:
 	Phase phase;
+
+	void SummonInit();
+	void BossLeaveGround();
+	void SummonUpdate();
+	void BossReturnGround();
+	void SummonAttackEnd();
 public:
 	static HalfAttack* GetInstance();
-	XMFLOAT3 MoveCenterPos();
-	void Initialize();
-	void Draw();
-	void ActionJudg();
-	void TurnCenter();
+	
+	void Init()override;
+	void Draw()override;
+	void Upda()override;
+public:
+	void Draw_SummonEnemyHP();
 	bool SummonEnemy();
-
+	void SummonEnemyResetParam();
 	void SetAttackPhase(bool f) { if (f && phase != PHASEONE) { phase = PHASEONE; } }
-	XMFLOAT3 GetTexPos(int index) { return MagicTex[index]->GetPosition(); }
-	Phase GetPhaseEnd() { return phase; }
+	Phase GetPhase() { return phase; }
+
+	static void (HalfAttack::* actionTable[])();
+	void SetSummonF(bool f) { summonEnemyCreate = f; }
 };
