@@ -207,5 +207,6 @@ void ObjectManager::Draw_Obj(Object3d* obj)
 
 void ObjectManager::Draw_Fbx()
 {
+	if (m_fbxObject == nullptr)return;
 	m_fbxObject->Draw();
 }

@@ -35,6 +35,7 @@ void PlayerAttackState::ComboAction()
 
 void PlayerAttackState::Update()
 {
+	if (PlayerControl::GetInstance()->GetPlayer()->ModelSetJudg() == false)return;
 	AttackCollision::GetInstance()->Update();
 	
 	ComboAction();

@@ -33,6 +33,7 @@ void AttackCollision::Update()
 
 void AttackCollision::GetCol(int damage)
 {
+
 	//Œ•‚ÌOBBƒpƒ‰ƒ[ƒ^
 	HandObb.SetOBBParam_Pos(PlayerControl::GetInstance()->GetPlayer()->GetHanMat());
 	HandObb.SetOBBParam_Rot(SelectSword::GetInstance()->GetSword()->GetMatrot());

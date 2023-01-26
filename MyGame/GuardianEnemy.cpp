@@ -20,8 +20,8 @@ GuardianEnemy::~GuardianEnemy()
 	smokepar.reset(nullptr);
 	m_Object.reset(nullptr);
 
-	GuardianBomAttack::GetIns()->Finalize();
-	GuardianShotAttack::GetIns()->Finalize();
+	//GuardianBomAttack::GetIns()->Finalize();
+	//GuardianShotAttack::GetIns()->Finalize();
 }
 
 

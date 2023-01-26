@@ -31,7 +31,6 @@ void ModelManager::Initialize()
 	LoadModel(SMALLSWORD, "Hammer");
 	LoadModel(SKY, "skydome");
 	LoadModel(ICECRYSTAL, "crystal");
-	LoadModel(NORMALSWORD, "sword");
 	LoadModel(BIGROCK_A, "BigStone_A");
 	LoadModel(HOUSE, "house");
 	LoadModel(GRASSFIELD, "GrassField");

@@ -1,5 +1,9 @@
 #include "Player.h"
+
 #include <algorithm>
+
+#include"Input.h"
+#include"TargetMarker.h"
 #include"Collision.h"
 #include"PlayerAttackState.h"
 #include"imgui.h"
@@ -39,21 +43,14 @@ void Player::Initialize()
 	m_Object = std::make_unique<Object3d>();
 	m_Object->Initialize(camera);
 
-	m_fbxObject = std::make_unique<f_Object3d>();
-	m_fbxObject->Initialize();
-	m_fbxObject->SetModel(FbxLoader::GetInstance()->LoadModelFromFile("ko"));
-	m_fbxObject->LoadAnimation();
-	m_fbxObject->PlayAnimation(1);
-
+	
 	//地形判定のコライダーセット
 	SetCollider();
 
-	Rotation = {-90.0f, 0.0f, 0.0f};
-	Position = {0.0f, 0.0f, 0.0f};
-	Scale = {0.02f, 0.02f, 0.02f};
-
-	//体力初期化
-	HP = MaxHP;
+	Rotation = { -90.0f, 0.0f, 0.0f };
+	Position = { 0.0f, 0.0f, 0.0f };
+	Scale = { 0.02f, 0.02f, 0.02f };
+	
 	//移動処理用
 	vel /= 5.0f;
 
@@ -70,7 +67,7 @@ void Player::Jump()
 		{
 			onGround = false;
 			const float jumpVYFist = 0.3f;
-			fallV = {0.0f, jumpVYFist, 0.0f, 0.0f};
+			fallV = { 0.0f, jumpVYFist, 0.0f, 0.0f };
 		}
 	}
 
@@ -92,7 +89,7 @@ void Player::Jump()
 	}
 }
 //ジャンプ
-void Player::DamageJump(bool judg,float knockpower)
+void Player::DamageJump(bool judg, float knockpower)
 {
 	//接地時のみ
 	if (onGround)
@@ -121,7 +118,7 @@ void Player::Move()
 	float StickY = input->GetLeftControllerY();
 	const float pi = 3.14159f;
 	const float STICK_MAX = 32768.0f;
-	
+
 	//スティックの移動処理
 	if (input->TiltPushStick(Input::L_UP, 0.0f) ||
 		input->TiltPushStick(Input::L_DOWN, 0.0f) ||
@@ -174,8 +171,8 @@ void Player::Move()
 		move = XMVector3TransformNormal(move, matRot);
 
 		//向いた方向に進む
-		Position.x += move.m128_f32[0] * movespeed;
-		Position.z += move.m128_f32[2] * movespeed ;
+		Position.x += move.m128_f32[0] * movespeed * AddSpeed;
+		Position.z += move.m128_f32[2] * movespeed * AddSpeed;
 		Gmove = move;
 	} else
 	{
@@ -195,8 +192,8 @@ void Player::Move()
 	//ボスエリアでの移動制限
 	else if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
 	{
-		Position.x = std::clamp(Position.x, -90.f, 90.f);
-		Position.z = std::clamp(Position.z, -90.f, 90.f);
+		Position.x = std::clamp(Position.x, -100.f, 100.f);
+		Position.z = std::clamp(Position.z, -100.f, 100.f);
 	}
 
 }
@@ -226,7 +223,7 @@ void Player::Evasion()
 {
 	//回避時
 	//例外設定
-	if (HP <= 0||DamageEvaF)
+	if (HP <= 0 || DamageEvaF )
 	{
 		return;
 	}
@@ -240,31 +237,30 @@ void Player::Evasion()
 	if (evasionF)
 	{
 		//FBXタイムを回避モーション開始時に合わせる
-		AnimationContol(EVASION, 6, 1.0,false);
+		AnimationContol(EVASION, 6, 1.0, false);
 
 		m_AnimationStop = true;
 
 		//回避の進む距離はイージングをもとに計算
+		evaTime += 0.03f;
 		if (evaTime < 1.0f)
 		{
 			//プレイヤーの向いてる方向にイージングで飛ぶ
-			evaTime += 0.03f;
+		
 			Position.x += Gmove.m128_f32[0] * Easing::EaseOut(evaTime, 15.0f, 0.0f);
 			Position.z += Gmove.m128_f32[2] * Easing::EaseOut(evaTime, 15.0f, 0.0f);
-		}
-		else
+		} else
 		{
-			if (m_fbxObject->GetAnimeTime() >= m_fbxObject->GetEndTime()-0.3f) {
-				
+			if (m_fbxObject->GetAnimeTime() >= m_fbxObject->GetEndTime() - 0.3f) {
 				AnimationContol(IDLE, 9, 1, false);
 				m_AnimationStop = false;
-				
+
 				evasionF = false;
 			}
+			StopFlag = false;
 		}
-		
-	}
-	else
+
+	} else
 	{
 		evaTime = 0.0f;
 	}
@@ -276,67 +272,48 @@ void Player::Update()
 	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
 
 	//例外設定
-	if (m_Object == nullptr || m_fbxObject == nullptr)
+	if (m_Object == nullptr)
 	{
 		return;
 	}
-
-	//１フレーム前の座標を保存
-	oldpos = Position;
-	//攻撃受けた後のクールタイム
-	RecvDamage_Cool();
-
-	//移動
-	Move();
-	// ジャンプ操作
-	Jump();
-	//死亡
-	Death();
-
-
-	//攻撃時プレイヤーが一番近い敵向くように
-	if (TargetMarker::GetInstance()->GetNearIndex() != -1 && EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE).size() > 0) {
-		//一番近い敵の配列インデックス取る
-		nearindex = TargetMarker::GetInstance()->GetNearIndex();
-		Enemy* NearEnemy = EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[nearindex].get();
-
-		//敵がプエレイヤーの方向く処理
-		XMVECTOR positionA = {
-		Position.x,Position.y,Position.z
-		};
-		XMVECTOR positionB = { NearEnemy->GetPosition().x, NearEnemy->GetPosition().y,  NearEnemy->GetPosition().z };
-
-		
-		if (CustomButton::GetInstance()->GetAttackAction() &&
-			Collision::GetLength(Position, NearEnemy->GetPosition()) < 30.f) {
-			Rotation.y = FollowRot::FollowA_B(positionA, positionB) * 60 + 180.f;
-		}
+	if (!load) {
+		LoadCsv();
+		load = true;
 	}
-	
+	if (m_fbxObject != nullptr) {
+		//１フレーム前の座標を保存
+		oldpos = Position;
+		//攻撃受けた後のクールタイム
+		RecvDamage_Cool();
 
-	//回避
-	Evasion();
-	//プレイヤーに対しての被ダメージ表記
-	DamageTexDisplay();
-	//手のボーン位置設定
-	m_fbxObject->SetHandBoneIndex(hindex);
-	m_fbxObject->SetFogPos(Position);
-	//3d_fbx更新
-	FbxAnimationControl();
-	//当たり判定
-	CollisionField();
+		//移動
+		Move();
+		// ジャンプ操作
+		Jump();
+		//死亡
+		Death();
 
-	//オブジェクトの更新
-	ParameterSet_Obj();
-	ParameterSet_Fbx3();
+		//回避
+		Evasion();
+		//プレイヤーに対しての被ダメージ表記
+		DamageTexDisplay();
+		//手のボーン位置設定
+		m_fbxObject->SetHandBoneIndex(hindex);
+		m_fbxObject->SetFogPos(Position);
+		//3d_fbx更新
+		FbxAnimationControl();
+		//当たり判定
+		CollisionField();
 
-	//持つ武器の更新
-	SelectSword::GetInstance()->Update();
-	//攻撃エフェクト
-	AttackEffect::GetIns()->Upda();
+		//オブジェクトの更新
+		ParameterSet_Obj();
+		ParameterSet_Fbx3();
 
-
-	
+		//持つ武器の更新
+		SelectSword::GetInstance()->Update();
+		//攻撃エフェクト
+		AttackEffect::GetIns()->Upda();
+	}
 }
 
 
@@ -363,15 +340,15 @@ void Player::DamageTexDraw()
 	}
 }
 void Player::FbxAnimationControls(const AttackMotion& motiontype, const AttackMotion nextmotiontype, AnimeName name,
-                                  int number)
+	int number)
 {
 	//複数アニメーション読み込んだらこれら消す
-	
-	
+
+
 	if (attackMotion == motiontype)
 	{
-		
-		//FBXタイムを回避モーション開始時に合わせる
+
+		//FBXタイムを剣に持たせたTIME値に開始時に合わせる
 		AnimationContol(name, number, SelectSword::GetInstance()->GetSword()->GetAnimationTime(), false);
 		m_AnimationStop = true;
 
@@ -380,8 +357,7 @@ void Player::FbxAnimationControls(const AttackMotion& motiontype, const AttackMo
 			OldattackMotion = motiontype;
 			StopFlag = false;
 			attackMotion = NON;
-		}
-		else
+		} else
 		{
 			StopFlag = true;
 		}
@@ -402,16 +378,20 @@ void Player::AnimationContol(AnimeName name, int animenumber, double speed, bool
 	{
 		m_AnimeLoop = loop;
 		m_Number = animenumber;
-		
+
 		m_fbxObject->PlayAnimation(m_Number);
 	}
 }
 
 void Player::FbxAnimationControl()
 {
-	if (evasionF || HP <= 0||DamageEvaF)
+	if ( HP <= 0 || DamageEvaF)
 	{
 		return;
+	}
+	if(evasionF)
+	{
+		attackMotion = NON;
 	}
 	float timespeed = 0.02f;
 	if (StopFlag)
@@ -422,20 +402,20 @@ void Player::FbxAnimationControl()
 			AnimationContol(IDLE, 9, 1, true);
 		}
 	}
-	if (CustomButton::GetInstance()->GetAttackAction() == true && OldattackMotion == NON)
+	if (input->TriggerButton(input->B) && OldattackMotion == NON)
 	{
 		attackMotion = FIRST;
 	}
 
-	if (CustomButton::GetInstance()->GetAttackAction() == true && OldattackMotion == FIRST)
+	if (input->TriggerButton(input->B) && OldattackMotion == FIRST)
 	{
 		attackMotion = SECOND;
 	}
-	if (CustomButton::GetInstance()->GetAttackAction() == true && OldattackMotion == SECOND)
+	if (input->TriggerButton(input->B) && OldattackMotion == SECOND)
 	{
 		attackMotion = THIRD;
 	}
-	if (CustomButton::GetInstance()->GetAttackAction() == true && OldattackMotion == THIRD)
+	if (input->TriggerButton(input->B) && OldattackMotion == THIRD)
 	{
 		attackMotion = FIRST;
 	}
@@ -473,15 +453,19 @@ void Player::RecvDamage(int Damage)
 
 	if (HP >= 0)
 	{
-		HP = HP - Damage/2;
+		HP = HP - Damage*4;
 		std::unique_ptr<DamageManager> newdTex;
-		
-			newdTex = std::make_unique<DamageManager>(
-				XMFLOAT3(Position.x, Position.y + rand() % 5 -2, Position.z), Damage);
-		
+
+		newdTex = std::make_unique<DamageManager>(
+			XMFLOAT3(Position.x, Position.y + rand() % 5 - 2, Position.z), Damage);
+
 		dMans_.push_back(std::move(newdTex));
 
 	}
+}
+void BossEnemy::Move()
+{
+	
 }
 
 void Player::DamageTexDisplay()
@@ -503,7 +487,7 @@ XMFLOAT3 Player::MoveVECTOR(XMVECTOR v, float angle)
 	XMMATRIX rot2 = {};
 	rot2 = XMMatrixRotationY(XMConvertToRadians(angle));
 	v = XMVector3TransformNormal(v, rot2);
-	XMFLOAT3 pos = {v.m128_f32[0], v.m128_f32[1], v.m128_f32[2]};
+	XMFLOAT3 pos = { v.m128_f32[0], v.m128_f32[1], v.m128_f32[2] };
 	return pos;
 }
 
@@ -518,4 +502,53 @@ void Player::RecvDamage_Cool()
 
 	CoolTime = min(CoolTime, 120);
 	CoolTime = max(CoolTime, 0);
+}
+
+void Player::LoadCsv()
+{
+		file.open("Param_CSV/CharaParam/Player_Param.csv");
+
+		popcom << file.rdbuf();
+
+		file.close();
+
+		while (std::getline(popcom, line))
+		{
+			std::istringstream line_stream(line);
+			std::string word;
+			std::getline(line_stream, word, ',');
+
+			if (word.find("//") == 0)
+			{
+				continue;
+			}
+			if (word.find("HP") == 0)
+			{
+				std::getline(line_stream, word,',');
+				int l_HP = static_cast<int>(std::atof(word.c_str()));
+				MaxHP = l_HP;
+			}
+			if (word.find("RunSpeed") == 0)
+			{
+				std::getline(line_stream, word, ',');
+				float l_addspeed = static_cast<float>(std::atof(word.c_str()));
+				AddSpeed = l_addspeed;
+			}
+			if (word.find("Model") == 0)
+			{
+				std::getline(line_stream, word, ',');
+				std::string l_modelname = static_cast<std::string>((word.c_str()));
+				modelname = l_modelname;
+				break;
+			}
+		}
+
+		m_fbxObject = std::make_unique<f_Object3d>();
+		m_fbxObject->Initialize();
+		m_fbxObject->SetModel(FbxLoader::GetInstance()->LoadModelFromFile(modelname));
+		m_fbxObject->LoadAnimation();
+		m_fbxObject->PlayAnimation(1);
+	
+	//体力初期化
+	HP = MaxHP;
 }

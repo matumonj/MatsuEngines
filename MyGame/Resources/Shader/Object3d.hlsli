@@ -31,8 +31,6 @@ cbuffer cbuff1 : register(b1)
 
 
 // 平行光源の数
-static const int DIRLIGHT_NUM = 3;
-
 struct DirLight
 {
 	float3 lightv; // ライトへの方向の単位ベクトル
@@ -41,7 +39,7 @@ struct DirLight
 };
 
 // 点光源の数
-static const int POINTLIGHT_NUM = 3;
+static const int POINTLIGHT_NUM = 4;
 
 struct PointLight
 {
@@ -65,7 +63,7 @@ struct SpotLight
 };
 
 // 丸影の数
-static const int CIRCLESHADOW_NUM = 30;
+static const int CIRCLESHADOW_NUM = 20;
 
 struct CircleShadow
 {
@@ -91,7 +89,7 @@ struct Line2D
 cbuffer cbuff2 : register(b2)
 {
 	float3 ambientColor;
-	DirLight dirLights[DIRLIGHT_NUM];
+	DirLight dirLights;
 	PointLight pointLights[POINTLIGHT_NUM];
 	SpotLight spotLights[SPOTLIGHT_NUM];
 	CircleShadow circleShadows[CIRCLESHADOW_NUM];

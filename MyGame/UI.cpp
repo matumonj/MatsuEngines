@@ -76,6 +76,19 @@ void UI::HUDDraw()
 		{
 			DropWeapon::GtIns()->Draw_PickTex();
 			Task::GetInstance()->Draw();
+
+			for (int i = 0; i < EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE).size(); i++)
+			{
+				if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i] == nullptr)
+				{
+					continue;
+				}
+				EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i]->DamageTexDisplay_Draw();
+			}
+			if (EnemyControl::GetInstance()->GetGuardianEnemy() != nullptr)
+			{
+				EnemyControl::GetInstance()->GetGuardianEnemy()->DamageTexDisplay_Draw();
+			}
 		}
 	}
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS&&

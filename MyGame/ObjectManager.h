@@ -38,6 +38,8 @@ public:
 	virtual void Draw() = 0;
 	void CollisionField();
 
+
+	bool ModelSetJudg() { if (m_fbxObject != nullptr) { return true; }return false; }
 protected:
 	std::unique_ptr<Object3d> m_Object = nullptr;
 	Model* m_Model = nullptr;

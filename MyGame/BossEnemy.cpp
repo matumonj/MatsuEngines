@@ -34,7 +34,7 @@ BossEnemy::BossEnemy()
 	BossAttackAction.emplace_back(UltAttack::GetIns());
 	BossAttackAction.emplace_back(BronzeAttack::GetIns());
 	BossAttackAction.emplace_back(ThrowRockAttack::GetInstance());
-	BossAttackAction.emplace_back(HalfAttack::GetInstance());
+	//BossAttackAction.emplace_back(HalfAttack::GetInstance());
 
 }
 
@@ -47,6 +47,7 @@ BossEnemy::~BossEnemy()
 	Destroy_unique(m_fbxObject);
 
 }
+
 
 void BossEnemy::ResourcesSet()
 {
@@ -116,6 +117,7 @@ void BossEnemy::Initialize()
 	{
 		BossAttackAction[i]->Init();
 	}
+	HalfAttack::GetInstance()->Init();
 	CircleAttack::GetInstance()->SetAttackPhase(false);
 	KnockAttack::GetInstance()->SetAttackPhase(false);
 	HalfAttack::GetInstance()->SetAttackPhase(false);
@@ -173,6 +175,7 @@ void BossEnemy::Update()
 	for (int i = 0; i < BossAttackAction.size();i++) {
 		BossAttackAction[i]->Upda();
 	}
+	HalfAttack::GetInstance()->Upda();
 }
 
 void BossEnemy::AttackCollide()
@@ -253,7 +256,7 @@ void BossEnemy::Draw()
 	for (int i = 0; i < BossAttackAction.size(); i++) {
 		BossAttackAction[i]->Draw();
 	}
-
+	HalfAttack::GetInstance()->Draw();
 }
 
 void BossEnemy::Death()
@@ -280,10 +283,6 @@ void BossEnemy::Death()
 
 
 	movestop = false;
-}
-
-void BossEnemy::Move()
-{
 }
 
 void BossEnemy::Smoke(bool& createf)

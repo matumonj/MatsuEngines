@@ -80,7 +80,6 @@ private:
 	void SpriteSet();
 	void SpriteDraw();
 
-
 public:
 	SwordBase* GetSword() { return Sword.get(); }
 };

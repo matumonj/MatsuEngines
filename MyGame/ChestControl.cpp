@@ -111,7 +111,6 @@ void ChestControl::Init_Play()
 		chests[i]->SetPosition({990, 999, 0});
 	}
 
-	ParticleManager::LoadTexture(8, L"Resources/ParticleTex/normal.png");
 	for (int i = 0; i < 4; i++)
 	{
 		PlayPchest[i].particleMan = ParticleManager::Create(8, L"Resources/ParticleTex/normal.png");

@@ -8,6 +8,9 @@
 #include"AttackEffect.h"
 #include"DamageManager.h"
 
+#include<fstream>
+#include<string>
+#include<sstream>
 class TargetMarker;
 
 class Player : public ObjectManager
@@ -90,9 +93,10 @@ public:
 private:
 	//プレイヤーが持つ剣
 	std::unique_ptr<SwordBase> sword = nullptr;
-	XMFLOAT3 SwordPos = {};
-	XMFLOAT3 SwordRot = {};
 
+	float angle;
+
+	int CoolTime;
 private:
 	//前座標
 	XMFLOAT3 oldpos = {};
@@ -101,14 +105,13 @@ private:
 	//体力周り
 	int HP = 0;
 	//最大体力
-	const int MaxHP = 100;
-	//
-	int CoolTime = 0;
-	//
-	float angle;
+	int MaxHP = 100;
 	//teisi
 	bool StopFlag;
 	//
+	float AddSpeed;
+	//
+	std::string modelname;
 	std::list<std::unique_ptr<DamageManager>> dMans_;
 public:
 	void SetHP(int HP) { this->HP = HP; }
@@ -158,14 +161,11 @@ private:
 	bool nowSecAttack = false;
 	bool AttackFlag = false;
 	bool nowattack = false;
-
-	float f_time = 0.0f;
+	
 
 	//手のボーンインデックス
 	int hindex = 21;
-	float RotY;
 	int nearindex;
-	
 public:
 	enum AnimeName
 	{
@@ -186,4 +186,13 @@ private:
 	bool idlef;
 	void AnimationContol(AnimeName name, int animenumber, double speed, bool loop);
 	void FbxAnimationControls(const AttackMotion& motiiontype, AttackMotion nextmotiontype, AnimeName name, int number);
+
+private:
+	void LoadCsv();
+
+	std::string line;
+	std::stringstream popcom;
+	std::ifstream file;
+
+	bool load;
 };

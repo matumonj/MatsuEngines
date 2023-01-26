@@ -150,7 +150,7 @@ void TitleScene::Draw()
 	//ポストエフェクトの描画
 	DirectXCommon::GetInstance()->BeginDraw(); //描画コマンドの上らへんに
 	MyGameDraw();
-	SpriteDraw();
+	//SpriteDraw();
 	DirectXCommon::GetInstance()->EndDraw();
 }
 

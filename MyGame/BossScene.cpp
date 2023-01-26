@@ -26,16 +26,17 @@ void BossScene::Initialize()
 	//各オブジェクトの初期化
 
 	//各オブジェクトインスタンスぶちこむ
-	if (AllObjectControl.size() == 0) {
+	//if (AllObjectControl.size() == 0) {
 		AllObjectControl.emplace_back(CameraControl::GetInstance());
 		AllObjectControl.emplace_back(PlayerControl::GetInstance());
 		AllObjectControl.emplace_back(EnemyControl::GetInstance());
-	}
+	//}
 	lightGroup = LightGroup::Create();
 
 	Object3d::SetLightGroup(lightGroup);
 	// 3Dオブエクトにライトをセット
 	lightGroup->SetDirLightActive(0, false);
+
 	lightGroup->SetCircleShadowActive(0, true);
 	lightGroup->SetCircleShadowActive(1, true);
 
@@ -188,7 +189,8 @@ void BossScene::Draw()
 		ImGui::Begin("light");
 		ImGui::SliderFloat("attenx", &circleShadowAtten[0], -10, 10);
 		ImGui::SliderFloat("atteny", &circleShadowAtten[1], -10, 10);
-		ImGui::SliderFloat("attenz", &circleShadowAtten[2], -10, 10);
+		ImGui::SliderFloat("attenz", &circleShadowAtten[2], -10, 30);
+		ImGui::SliderFloat("posy", &sy, -10, 30);
 		ImGui::End();
 		SpriteDraw();
 		DirectXCommon::GetInstance()->EndDraw();

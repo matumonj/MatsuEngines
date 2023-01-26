@@ -9,16 +9,10 @@ BigSword::~BigSword()
 	//delete  m_Model;
 }
 
+
 void BigSword::Initialize()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
-
-	m_Object = std::make_unique<Object3d>();
-
-	//モデル割り当て
-	m_Object->Initialize(camera);
-	m_Object->SetModel(ModelManager::GetIns()->GetModel(ModelManager::BIGSWORD));
-
+	
 	Scale = {1.0f, 1.0f, 1.0f};
 
 	Rotation = {-20.0f, 30.0f, 15.0f};
@@ -26,26 +20,27 @@ void BigSword::Initialize()
 
 void BigSword::Update()
 {
+	if (!LoadF)
+	{
+		LoadCsv("BD", "BK", "BS", "BM");
+		LoadF = true;
+	}
 	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	if (m_Object != nullptr) {
+		m_Object->Setf(FALSE);
+		//フィールド
+		m_Object->SetRotation(Rotation);
+		
+		SwordObbScl = { 5.f,5.f,4.f };
+		m_Object->SetScale(Scale);
+		m_Object->Update(PlayerControl::GetInstance()->GetPlayer()->GetHanMat(), { 1, 1, 1, 1 }, camera);
+	}
 
-	const int Damage_Value = 30;
-	const int CoolTime_Value = 180;
-
-	Damage = Damage_Value;
-	CoolTime = CoolTime_Value;
-	m_Object->Setf(FALSE);
-	//フィールド
-	m_Object->SetRotation(Rotation);
-	animetiontime = 0.8f;
-	KnockPower = 40.0f;
-	SwordObbScl = { 5.f,5.f,4.f };
-	m_Object->SetScale(Scale);
-	m_Object->Update(PlayerControl::GetInstance()->GetPlayer()->GetHanMat(), {1, 1, 1, 1}, camera);
 }
-
 #include"imgui.h"
 
 void BigSword::Draw()
 {
+	if (m_Object == nullptr)return;
 	Draw_Obj();
 }

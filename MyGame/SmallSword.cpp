@@ -25,41 +25,28 @@ void SmallSword::Initialize()
 	Scale = {1.f, 1.f, 1.f};
 
 	Rotation = {16.f, 0.f , 230.f};
-	animetiontime = 1.5f;
-	KnockPower = 9.0f;
 	SwordObbScl = { 3.f,3.f,4.f };
-
-	Damage = 10;
-	Bliz = std::make_unique<Blizzard>();
-	Bliz->Init(camera);
-
-	SlashArea = std::make_unique<Slash>();
-	SlashArea->Init(camera);
-	TargetMarker::GetInstance()->Initialize();
 }
 
 void SmallSword::Update()
 {
 	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
 
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
+	if (!LoadF)
 	{
-		TargetMarker::GetInstance()->Update_PlayScene(camera);
+		LoadCsv("SD", "SK", "SS", "SM");
+		LoadF = true;
 	}
-
-	m_Object->SetRotation(Rotation);
-	m_Object->Update(PlayerControl::GetInstance()->GetPlayer()->GetHanMat(), {1.0f, 1.0f, 1.0f, 1.0f}, camera);
-	
+	if (m_Object != nullptr) {
+		m_Object->SetRotation(Rotation);
+		m_Object->Update(PlayerControl::GetInstance()->GetPlayer()->GetHanMat(), { 1.0f, 1.0f, 1.0f, 1.0f }, camera);
+	}
 }
 
 void SmallSword::Draw()
 {
+	if (m_Object== nullptr)return;
 	Draw_Obj();
-	Bliz->Draw();
-	SlashArea->Draw();
-	TargetMarker::GetInstance()->Draw();
-
-	
 }
 
 void SmallSword::MagicAttack()

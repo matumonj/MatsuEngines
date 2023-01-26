@@ -264,6 +264,7 @@ void HalfAttack::SummonEnemyResetParam()
 {
 	for (int i = 0; i < EnemySize; i++)
 	{
+		SummonEnemys[i].reset(new MobEnemy());
 		SummonEnemys[i]->Initialize();
 
 		SummonEnemys[i]->SetPosition({ 0, -20, 20 });
@@ -278,7 +279,7 @@ void HalfAttack::SummonEnemyResetParam()
 	SummonEPos = { 1, 1, 1 };
 	Shieldalpha = 0.0f;
 
-	phase = PHASENON;
+	phase = PHASEONE;
 }
 
 void HalfAttack::SummonAttackEnd()

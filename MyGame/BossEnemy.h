@@ -104,4 +104,21 @@ private:
 
 private:
 	std::vector<BossAttackActionManager*>BossAttackAction;
+
+private:
+	bool LoadF;
+	void LoadDamageCsv();
+	enum DamageVal
+	{
+		DAMAGE_NAIL,
+		DAMEGE_RUSH,
+		DAMAGE_ULT,
+		DAMAGE_BRZ,
+		DAMAGE_THROW,
+		DAMAGE_NORMAL
+	};
+	std::string line;
+	std::stringstream popcom;
+	std::ifstream file;
+
 };

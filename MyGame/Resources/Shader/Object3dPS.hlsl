@@ -25,7 +25,7 @@ PSOutPut main(GSOutput input)
 	float3 fc = { 0.1, 0.1, 0.1 };
 
 	// 光沢度
-	const float shininess = 4.0f;
+	const float shininess = 1.0f;
 	// 頂点から視点への方向ベクトル
 	float3 eyedir = normalize(cameraPos - input.worldpos.xyz);
 
@@ -70,26 +70,7 @@ PSOutPut main(GSOutput input)
 			shadecolor.rgb -= atten;
 		}
 	}
-	// 平行光源
-	if (shadowf) {
-		for (int dnum = 0; dnum < 3; dnum++)
-		{
-			if (dirLights[dnum].active)
-			{
-				// ライトに向かうベクトルと法線の内積
-				float3 dotlightnormal = dot(dirLights[dnum].lightv, input.normal);
-				// 反射光ベクトル
-				float3 reflect = normalize(-dirLights[dnum].lightv + 2 * dotlightnormal * input.normal);
-				// 拡散反射光
-				float3 diffuse = dotlightnormal * m_diffuse;
-				// 鏡面反射光
-				float3 specular = pow(saturate(dot(reflect, eyedir)), shininess) * m_specular;
 
-				// 全て加算する
-				shadecolor.rgb += (diffuse + specular) * dirLights[dnum].lightcolor;
-			}
-		}
-	}
 
 	// 点光源
 	for (int pnum = 0; pnum < 3; pnum++)
@@ -159,43 +140,23 @@ PSOutPut main(GSOutput input)
 			shadecolor.rgb += atten * (diffuse + specular) * spotLights[snum].lightcolor;
 		}
 	}
-
-	// 丸影
-	for (int cnum2 = 0; cnum2 < 30; cnum2++)
-	{
-		if (circleShadows[cnum2].active)
+	// 平行光源
+	if (shadowf) {
+		if (dirLights.active)
 		{
-			// オブジェクト表面からキャスターへのベクトル
-			float3 casterv = circleShadows[cnum2].casterPos - input.worldpos.xyz;
-			// 光線方向での距離
-			float d = dot(casterv, circleShadows[cnum2].dir);
+			// ライトに向かうベクトルと法線の内積
+			float3 dotlightnormal = dot(dirLights.lightv, input.normal);
+			// 反射光ベクトル
+			float3 reflect = normalize(-dirLights.lightv + 2 * dotlightnormal * input.normal);
+			// 拡散反射光
+			float3 diffuse = dotlightnormal * m_diffuse;
+			// 鏡面反射光
+			float3 specular = pow(saturate(dot(reflect, eyedir)), shininess) * m_specular;
 
-			// 距離減衰係数
-			float atten = saturate(
-				1.0f / (circleShadows[cnum2].atten.x + circleShadows[cnum2].atten.y * d + circleShadows[cnum2].atten.z *
-					d * d));
-			// 距離がマイナスなら0にする
-			atten *= step(0, d);
-
-			// ライトの座標
-			float3 lightpos = circleShadows[cnum2].casterPos + circleShadows[cnum2].dir * circleShadows[cnum2].
-				distanceCasterLight;
-			//  オブジェクト表面からライトへのベクトル（単位ベクトル）
-			float3 lightv = normalize(lightpos - input.worldpos.xyz);
-			// 角度減衰
-			float cos = dot(lightv, circleShadows[cnum2].dir);
-			// 減衰開始角度から、減衰終了角度にかけて減衰
-			// 減衰開始角度の内側は1倍 減衰終了角度の外側は0倍の輝度
-			float angleatten = smoothstep(circleShadows[cnum2].factorAngleCos.y, circleShadows[cnum2].factorAngleCos.x,
-				cos);
-			// 角度減衰を乗算
-			atten *= angleatten;
-
-			// 全て減算する
-			shadecolor.rgb -= atten;
+			// 全て加算する
+			shadecolor.rgb += (diffuse + specular) * dirLights.lightcolor;
 		}
 	}
-
 	// float4 shadecolor = float4(brightness, brightness, brightness, 1.0f);
 	//陰影とテクスチャの色を合成
 	//変更後
@@ -220,5 +181,6 @@ PSOutPut main(GSOutput input)
 		output.target0 = shadecolor * float4(texcolor.rgb, texcolor.a) * color;
 		output.target1 = shadecolor * float4(texcolor.rgb, texcolor.a) * color;
 	}
+
 	return output;
 }

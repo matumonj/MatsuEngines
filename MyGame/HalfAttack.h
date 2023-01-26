@@ -8,7 +8,6 @@ class HalfAttack:public BossAttackActionManager
 {
 public:
 	~HalfAttack();
-
 private:
 	bool ShieldCreate;
 	bool ShieldLost;

@@ -625,8 +625,6 @@ void Object3d::Update(XMFLOAT4 color, DebugCamera* camera)
 
 	constMap->playerpos = ppos;// PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 	constMap->dislen = dislen;
-	constMap->pd6 = { 0,0,0 };
-	constMap->bloomf = this->bloomF;
 	// 定数バッファへデータ転送
 	//ConstBufferDataB0* constMap = nullptr;
 	//result = constBuffB0->Map(0, nullptr, (void**)&constMap);

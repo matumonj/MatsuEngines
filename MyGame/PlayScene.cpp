@@ -98,12 +98,17 @@ void PlayScene::Update()
 	//csv“Ç‚Ýž‚Ý
 	LoadParam();
 
-	
+	LightUpdate();
+	ChangeSceneJudg();
+	GameOver::GetIns()->Update();
+}
 
+void PlayScene::LightUpdate()
+{
 	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 
-	lightGroup->SetCircleShadowDir(3, XMVECTOR({circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0}));
-	lightGroup->SetCircleShadowCasterPos(3, {ppos.x, ppos.y + 2.0f, ppos.z});
+	lightGroup->SetCircleShadowDir(3, XMVECTOR({ circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0 }));
+	lightGroup->SetCircleShadowCasterPos(3, { ppos.x, ppos.y + 2.0f, ppos.z });
 	lightGroup->SetCircleShadowAtten(3, XMFLOAT3(circleShadowAtten));
 	lightGroup->SetCircleShadowFactorAngle(3, XMFLOAT2(circleShadowFactorAngle2));
 
@@ -111,32 +116,19 @@ void PlayScene::Update()
 	{
 		if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i] == nullptr)
 		{
-			lightGroup->SetCircleShadowFactorAngle(i + 4, {0, 0});
+			lightGroup->SetCircleShadowFactorAngle(i + 4, { 0, 0 });
 			continue;
 		}
 		lightGroup->SetCircleShadowDir(i + 4, XMVECTOR({
-			                               circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0
-		                               }));
+										   circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0
+			}));
 		lightGroup->SetCircleShadowCasterPos(i + 4, {
-			                                     EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i]->
-			                                     GetPosition()
-		                                     });
+												 EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i]->
+												 GetPosition()
+			});
 		lightGroup->SetCircleShadowAtten(i + 4, XMFLOAT3(circleShadowAtten));
 		lightGroup->SetCircleShadowFactorAngle(i + 4, XMFLOAT2(circleShadowFactorAngle));
 	}
-	if (Input::GetInstance()->TriggerButton(Input::RT))
-	{
-		//‰æ–Ê^‚Á”’‚È‚Á‚½‚ç
-
-		//SceneManager::GetInstance()->SetScene(SceneManager::BOSS, sceneManager_);
-	}
-	ChangeSceneJudg();
-	GameOver::GetIns()->Update();
-}
-
-void PlayScene::LightUpdate()
-{
-
 }
 void PlayScene::ChangeSceneJudg()
 {
@@ -190,18 +182,7 @@ void PlayScene::SpriteDraw()
 	//postEffect->Draw();
 	Task::GetInstance()->TargetDraw();
 	PlayerControl::GetInstance()->DamageTexDraw();
-	for (int i = 0; i < EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE).size(); i++)
-	{
-		if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i] == nullptr)
-		{
-			continue;
-		}
-		EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i]->DamageTexDisplay_Draw();
-	}
-	if (EnemyControl::GetInstance()->GetGuardianEnemy() != nullptr)
-	{
-		EnemyControl::GetInstance()->GetGuardianEnemy()->DamageTexDisplay_Draw();
-	}
+	
 	SistemConfig::GetInstance()->Draw();
 
 	Feed::GetInstance()->Draw();
@@ -230,7 +211,7 @@ void PlayScene::Draw()
 
 		DirectXCommon::GetInstance()->BeginDraw();
 		MyGameDraw();
-		SpriteDraw();
+		//SpriteDraw();
 		DirectXCommon::GetInstance()->EndDraw();
 		break;
 	}
