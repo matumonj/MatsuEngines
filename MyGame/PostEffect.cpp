@@ -394,10 +394,20 @@ void PostEffect::Draw()
 	this->matWorld *= XMMatrixTranslation(position.x, position.y, 0.0f);
 
 
-	ConstBufferDataB0* constMap2 = nullptr;
-	HRESULT result = constBuff->Map(0, nullptr, (void**)&constMap2);
-	constMap2->bloomalpha = BloomAlpha;
-	constBuff->Unmap(0, nullptr);
+	ConstBufferData* constMap = nullptr;
+	HRESULT result = this->constBuff->Map(0, nullptr, (void**)&constMap);
+	if (SUCCEEDED(result))
+	{
+		constMap->color = color;
+		constMap->mat = this->matWorld * matProjection; // 行列の合成	
+		constMap->UvScflag = uvscrollf;
+		constMap->uv_time = uv_time;
+		constMap->vignettecol={VignetteVal,VignetteVal,VignetteVal};
+		constMap->bloomf = BloomF;
+		constMap->fogcol={1.f,1.f,1.f};
+		constMap->bloomalpha = BloomAlpha;
+		this->constBuff->Unmap(0, nullptr);
+	}constBuff->Unmap(0, nullptr);
 
 
 	// パイプラインステートの設定

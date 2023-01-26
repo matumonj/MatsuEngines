@@ -35,14 +35,8 @@ bool IsCollidinglinesAndCircle(Line2D lines, Point circle)
 	float2 normal_start_to_end;
 
 	normal_start_to_end= ConvertToNomalizeVector(normal_start_to_end, start_to_end);
-
-	// 単位ベクトル化する
 	
-	/*
-		射影した線分の長さ
-			始点と円の中心で外積を行う
-			※始点 => 終点のベクトルは単位化しておく
-	*/
+	//射影した線分の長さ
 	float distance_projection = start_to_center.x * normal_start_to_end.y - normal_start_to_end.x * start_to_center.y;
 
 	// 射影の長さが半径よりも小さい
@@ -95,9 +89,7 @@ void main(
 	Line2D lines;
 	Point points;
 
-	//liness.end = { cameraPos.x,cameraPos.y };
-//	Point meshpoints;
-
+	
 	[unroll]
 	for (uint i = 0; i < vnum; i++)
 	{
@@ -116,22 +108,18 @@ void main(
 
 			if (IsCollidinglinesAndCircle(lines, points)) {
 				element.svpos.xyz = center + (element.svpos.xyz - center) * (1 - destruction * 1.0);
-			}//mul(viewproj, element.svpos);
+			}
 		}
 		if (destF)
 		{
-			//element.svpos.xyz = center + (element.svpos.xyz - center) * (1 - destruction * 1.0);
-		//mul(viewproj, element.svpos);
-		//	if (element.svpos.x<destcenter.x) {
-				input[i].svpos.xy += gnormal * (desttime /2);
-				element.svpos =  input[i].svpos;
-		//	}
+			input[i].svpos.xy += gnormal * (desttime /2);
+			element.svpos =  input[i].svpos;
 		}
 		else if (!destF && !gsflag)
 		{
 			element.svpos = input[i].svpos;
 		}
-		//element.worldpos= mul(world, input[i].svpos);
+		
 		element.normal = input[i].normal;
 		element.uv = input[i].uv;
 

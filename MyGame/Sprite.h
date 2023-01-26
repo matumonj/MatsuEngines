@@ -34,6 +34,10 @@ public:
 		bool UvScflag;
 		XMFLOAT3 sub;
 		float uv_time;
+		XMFLOAT3 vignettecol;
+		bool bloomf;
+		XMFLOAT3 fogcol;
+		float bloomalpha;
 	};
 
 	static bool StaticInitialize(int window_width, int window_height);

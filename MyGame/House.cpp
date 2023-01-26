@@ -43,7 +43,7 @@ void House_A::Initialize()
 	//フィールドにモデル割り当て
 	m_Object->Initialize(camera);
 
-	m_Object->SetModel(ModelManager::GetIns()->GetModel(ModelManager::HOUSE));
+	m_Object->SetModel(Model::CreateFromOBJ("house", true));
 	Scale = {1.5f, 1.5f, 2.2f};
 	radius_adjustment = -5.f;
 	SetCollider();

@@ -16,6 +16,7 @@ private: // エイリアス
 	using XMVECTOR = XMVECTOR;
 
 	float sy;
+	PostEffect* p;
 private:
 	float ambientColor0[3] = { 1.0f, 1.0f, 1.0f };
 	// 光線方向初期値

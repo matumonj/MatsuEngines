@@ -49,6 +49,7 @@ void Tutorial::Initialize()
 
 	postEffect = new PostEffect();
 	postEffect->Initialize();
+	c_postEffect = Blur;
 	//ミニマップ用のカメラ　後で別のところに移す
 	//各種設定画面
 	SistemConfig::GetInstance()->Initialize();
@@ -119,6 +120,7 @@ void Tutorial::Update()
 	//csv読み込み部分(Cameraの更新後にするのでobjUpdate()挟んでから)
 	LoadParam();
 
+	postEffect->SetVignette_GB(PlayerControl::GetInstance()->GetVignetteAlpha());
 	LightUpdate();
 	//一定数進んだらシーンチェンジ
 	bool ArrivalJudg = PlayerControl::GetInstance()->GetPlayer()->GetPosition().z > -470.0f;
@@ -168,6 +170,8 @@ void Tutorial::LightUpdate()
 /*----------obj----------*/
 void Tutorial::MyGameDraw()
 {
+
+	Field::GetInstance()->Draw();
 	if (Play)
 	{
 		for (int i = 0; i < AllObjectControl.size(); i++)
@@ -179,12 +183,12 @@ void Tutorial::MyGameDraw()
 			AllObjectControl[i]->Draw();
 		}
 	}
+	TutorialSprite::GetInstance()->DrawTargetPos();
+
 }
 
 void Tutorial::SpriteDraw()
 {
-	PlayerControl::GetInstance()->GetPlayer()->ParticleDraw();
-	TutorialSprite::GetInstance()->DrawTargetPos();
 
 	Sprite::PreDraw();
 	if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr)
@@ -193,7 +197,6 @@ void Tutorial::SpriteDraw()
 	}
 	DebugTextSprite::GetInstance()->DrawAll();
 	Sprite::PostDraw();
-	PlayerControl::GetInstance()->DamageTexDraw();
 	UI::GetInstance()->HUDDraw();
 	Feed::GetInstance()->Draw();
 	SistemConfig::GetInstance()->Draw();
@@ -210,11 +213,16 @@ void Tutorial::Draw()
 	{
 	case Blur: //ぼかし　描画準違うだけ
 		postEffect->PreDrawScene();
+		MyGameDraw();
 		postEffect->PostDrawScene();
 
 		DirectXCommon::GetInstance()->BeginDraw();
-
+		postEffect->Draw();
+		SpriteDraw();
 	//SistemConfig::GetInstance()->Draw();
+		ImGui::Begin("vig");
+		ImGui::SliderFloat("gb", &vig_gb, 0.f, 1.f);
+		ImGui::End();
 		DirectXCommon::GetInstance()->EndDraw();
 
 		break;
@@ -225,7 +233,6 @@ void Tutorial::Draw()
 		postEffect->PostDrawScene();
 
 		DirectXCommon::GetInstance()->BeginDraw();
-		Field::GetInstance()->Draw();
 		MyGameDraw();
 		SpriteDraw();
 		DirectXCommon::GetInstance()->EndDraw();

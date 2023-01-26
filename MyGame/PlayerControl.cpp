@@ -124,11 +124,14 @@ void PlayerControl::DamageTexUpdate()
 {
 	if (HUD::GetInstance()->GetRecvDamageFlag())
 	{
-		dalpha = 1.0f;
+		vignette = 0.5f;
 	}
-	dalpha -= 0.02f;
-	DamageTex->setcolor({1, 1, 1, dalpha});
-	dalpha = max(dalpha, 0.0f);
+	if(player->GetHP()<0)
+	{
+		vignette = 0.5f;
+	}
+	vignette -= 0.02f;
+	vignette = max(vignette, 0.0f);
 }
 
 /*------------------------*/
@@ -160,17 +163,6 @@ void PlayerControl::Draw_Boss()
 		return;
 	}
 	player->Draw();
-}
-
-void PlayerControl::DamageTexDraw()
-{
-	if (HUD::GetInstance()->GetPlayerHP()->GetSize().x > 0.f && GetInstance()->GetPlayer()->GetHP() > 0)
-	{
-		player->DamageTexDraw();
-		Sprite::PreDraw();
-		DamageTex->Draw();
-		Sprite::PostDraw();
-	}
 }
 
 void PlayerControl::BossFieldCol()

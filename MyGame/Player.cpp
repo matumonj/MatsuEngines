@@ -320,6 +320,7 @@ void Player::Update()
 void Player::Draw()
 {
 	Draw_Fbx();
+	SelectSword::GetInstance()->SwordDraw();
 	ImGui::Begin("fg");
 	ImGui::SliderInt("num", &hindex, 0, 27);
 	ImGui::Text("%d", TargetMarker::GetInstance()->GetNearIndex());
@@ -328,10 +329,6 @@ void Player::Draw()
 	AttackEffect::GetIns()->Draw();
 }
 
-void Player::ParticleDraw()
-{
-	SelectSword::GetInstance()->SwordDraw();
-}
 void Player::DamageTexDraw()
 {
 	for (std::unique_ptr<DamageManager>& dTex : dMans_)
@@ -434,7 +431,7 @@ XMMATRIX Player::GetMatrot()
 void Player::RecvDamage(int Damage)
 {
 	//çUåÇéÛÇØÇΩÇ†Ç∆2ïbÇÕñ≥ìG
-	if (CoolTime != 0 || evasionF)
+	if (CoolTime != 0 || evasionF||HP<0)
 	{
 		return;
 	}

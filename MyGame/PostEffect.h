@@ -17,8 +17,15 @@ private:
 		float bloomalpha;
 	};
 	float BloomAlpha;
+	float VignetteVal;
+	bool BloomF;
+	bool VignetteF;
 public:
+	void SetVignette_GB(float gbval) { VignetteVal = gbval; }
 	void SetBloomAlpha(float f) { BloomAlpha = f; }
+
+	void SetBloomF(bool f) { BloomF = f; }
+	void SetVignetteF(bool f) { VignetteF = f; }
 private:
 	ComPtr<ID3D12Resource> texBuff[2];
 	//SRV用でスクリプタヒープ

@@ -29,8 +29,7 @@ public:
 	void Update() override;
 	//•`‰æ
 	void Draw() override;
-
-	void ParticleDraw();
+	
 public:
 	//óUŒ‚
 	void RecvDamage(int Damage);

@@ -139,7 +139,7 @@ void AttackEffect::Upda()
 	};
 	XMVECTOR pmove = PlayerControl::GetInstance()->GetPlayer()->GetPlayerMove();
 	float protY = PlayerControl::GetInstance()->GetPlayer()->GetRotation().y + 62.0f;
-	if (CustomButton::GetInstance()->GetAttackAction() && PlayerControl::GetInstance()->GetPlayer()->GetAttackType() ==
+	if (Input::GetInstance()->TriggerButton(Input::B) && PlayerControl::GetInstance()->GetPlayer()->GetAttackType() ==
 		PlayerControl::GetInstance()->GetPlayer()->FIRST)
 	{
 		//UŒ‚‚ÌŽí—Þ
@@ -151,7 +151,7 @@ void AttackEffect::Upda()
 		TexPos = {ppos.x + pmove.m128_f32[0] * 10.f, ppos.y + 3.0f, ppos.z + pmove.m128_f32[2] * 10.f};
 		TexRot = {0.0f, protY, -135.0f};
 	}
-	else if (CustomButton::GetInstance()->GetAttackAction() && PlayerControl::GetInstance()->GetPlayer()->
+	else if (Input::GetInstance()->TriggerButton(Input::B) && PlayerControl::GetInstance()->GetPlayer()->
 		GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->SECOND)
 	{
 		//UŒ‚‚ÌŽí—Þ

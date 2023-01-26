@@ -5,6 +5,10 @@ matrix mat;
 bool uvscroll;
 float3 sub;
 float uv_time;
+float3 vignettecol;
+bool bloomf;
+float3 fogcol;
+float bloomalpha;
 };
 
 struct Output

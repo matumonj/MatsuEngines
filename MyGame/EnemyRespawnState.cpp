@@ -10,7 +10,7 @@ void EnemyRespawnState::Initialize(Enemy* enmey)
 
 void EnemyRespawnState::Update(Enemy* enemy)
 {
-	
+	enemy->SetRecvDamage2(false);
 	//リスポーン
 	enemy->Respawn();
 	//状態を待機状態に

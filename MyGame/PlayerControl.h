@@ -16,7 +16,7 @@ private:
 	XMFLOAT3 StartPos;
 	XMFLOAT3 Player_OldPos;
 	Sprite* DamageTex;
-	float dalpha = 0.0f;
+	float vignette = 0.0f;
 
 	bool TurnoffDrawF;
 private:
@@ -34,14 +34,14 @@ public:
 	void Finalize() override;
 
 	void ImGuiDraw();
-
-	void DamageTexDraw();
+	
 	Player* GetPlayer() { return player.get(); }
 
 	void BossFieldCol();
 	void DamageTexUpdate();
 	void GameOverResetParam();
 	void TurnoffDraw(bool f) { TurnoffDrawF = f; }
+	float GetVignetteAlpha() { return vignette; }
 private:
 	void Init_Tutorial() override;
 

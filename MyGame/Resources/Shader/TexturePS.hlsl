@@ -1,13 +1,14 @@
 #include"Texture.hlsli"
 //#include"Header.hlsli"
-
-//#include"header.hlsli"
-Texture2D<float4> tex:register(t0);
+Texture2D<float4> tex : register(t0); // 0番スロットに設定されたテクスチャ
+Texture2D<float4> tex1 : register(t1); // 0番スロットに設定されたテクスチャ
 
 SamplerState smp:register(s0);
 
-float4 main(Output input) : SV_TARGET
+PSOutPut main(Output input) : SV_TARGET
 {
+	PSOutPut output;
+
 	float3 light = normalize(float3(1, -1, 1));
 	float diffuse = saturate(dot(-light, input.normal));
 	float brightness = diffuse + 1.0f;
@@ -20,5 +21,7 @@ float4 main(Output input) : SV_TARGET
 
 	clip(v);
 	//変更後
-	return tex.Sample(smp, input.uv) * color;
+	output.target0 = tex.Sample(smp, input.uv) * color;
+	output.target0 = tex.Sample(smp, input.uv) * color;
+	return output;
 }

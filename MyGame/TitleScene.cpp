@@ -38,7 +38,7 @@ void TitleScene::Update()
 {
 	if (Input::GetInstance()->TriggerButton(Input::B))
 	{
-		SceneManager::GetInstance()->SetScene(SceneManager::TUTORIAL, sceneManager_);
+		//SceneManager::GetInstance()->SetScene(SceneManager::TUTORIAL, sceneManager_);
 
 		//押されたら
 		menujudg_Play = true;
@@ -52,6 +52,7 @@ void TitleScene::Update()
 
 
 	//画面真っ白になったらシーン切り替え
+	//
 	if (ChangeScene() == true)
 	{
 		SceneManager::GetInstance()->SetScene(SceneManager::TUTORIAL,sceneManager_);
@@ -150,7 +151,7 @@ void TitleScene::Draw()
 	//ポストエフェクトの描画
 	DirectXCommon::GetInstance()->BeginDraw(); //描画コマンドの上らへんに
 	MyGameDraw();
-	//SpriteDraw();
+	SpriteDraw();
 	DirectXCommon::GetInstance()->EndDraw();
 }
 
@@ -160,7 +161,12 @@ void TitleScene::Draw()
 /*-----------------------*/
 void TitleScene::Finalize()
 {
-	
+	field.release();
+	celestal.release();
+	//delete postEffect;
+	delete lightGroup;
+	Destroy_unique(camera);
+	Destroy_unique(titlesprite);
 	//Destroy_unique(titlesprite);
 }
 
@@ -234,7 +240,7 @@ void TitleScene::TitleFieldUpda()
 	FieldRotY += 0.1f;
 
 	//パラメータをセット(地形)
-	field->SetRotation({0.0f, 0.0f, 0.0f});
+	field->SetRotation({0.0f,FieldRotY, 0.0f});
 	field->SetScale({0.15f, 0.15f, 0.15f});
 	
 	//パラメータをセット(天球)

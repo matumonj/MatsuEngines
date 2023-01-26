@@ -178,8 +178,8 @@ void EnemyBeta::Draw()
 		//エフェクトパーティクル
 		DestRock->Draw();
 	}
-	ImGui::Begin("hand");
-	ImGui::SliderInt("index", &hindex, 0, 30);
+	ImGui::Begin("k");
+	ImGui::SliderInt("Rotation", &hindex, 0, 30);
 	ImGui::End();
 }
 

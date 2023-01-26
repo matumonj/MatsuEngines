@@ -98,6 +98,8 @@ void PlayScene::Update()
 	//csv“Ç‚Ýž‚Ý
 	LoadParam();
 
+	postEffect->SetVignette_GB(PlayerControl::GetInstance()->GetVignetteAlpha());
+
 	LightUpdate();
 	ChangeSceneJudg();
 	GameOver::GetIns()->Update();
@@ -171,8 +173,6 @@ void PlayScene::MyGameDraw()
 		GuardianNAttack::GetIns()->Draw();
 		Field::GetInstance()->GuardAreaDraw();
 	}
-	PlayerControl::GetInstance()->GetPlayer()->ParticleDraw();
-
 	GameOver::GetIns()->Draw_DestParticle();
 }
 
@@ -181,7 +181,6 @@ void PlayScene::SpriteDraw()
 	DropWeapon::GtIns()->Draw();
 	//postEffect->Draw();
 	Task::GetInstance()->TargetDraw();
-	PlayerControl::GetInstance()->DamageTexDraw();
 	
 	SistemConfig::GetInstance()->Draw();
 

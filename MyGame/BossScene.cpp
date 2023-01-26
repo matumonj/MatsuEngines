@@ -106,14 +106,16 @@ void BossScene::Update()
 	//ゲームオーバー時の初期化
 	GameOver::GetIns()->Update();
 
+	postEffect->SetVignette_GB(PlayerControl::GetInstance()->GetVignetteAlpha());
 
 	//ポストエフェクト(ブルームかける)
 	if (UltAttack::GetIns()->GetBloomAlpha() == 0.8f) {
-		c_postEffect = Default;
+		postEffect->SetBloomF(false);
 	}
 	else {
-		c_postEffect = Blur;
+		postEffect->SetBloomF(true);
 	}
+	c_postEffect = Blur;
 	//値をUltの方でいじっているー＞後でやり方帰る
 	postEffect->SetBloomAlpha(UltAttack::GetIns()->GetBloomAlpha());
 
@@ -127,8 +129,7 @@ void BossScene::Update()
 
 void BossScene::SpriteDraw()
 {
-	PlayerControl::GetInstance()->GetPlayer()->ParticleDraw();
-
+	AttackEffect::GetIns()->Draw();
 	//UI
 	if (CameraControl::GetInstance()->GetCameraState() != CameraControl::BOSSCUTSCENE)
 	{
@@ -173,9 +174,11 @@ void BossScene::Draw()
 	case Blur: //ぼかし　描画準違うだけ
 		postEffect->PreDrawScene();
 		MyGameDraw();
+		
 		postEffect->PostDrawScene();
 		
 		DirectXCommon::GetInstance()->BeginDraw();
+		
 		postEffect->Draw();
 		//UI
 		SpriteDraw();

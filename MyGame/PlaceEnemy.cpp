@@ -1,6 +1,4 @@
 #include "PlaceEnemy.h"
-#include "PlaceEnemy.h"
-#include "PlaceEnemy.h"
 #include"MobEnemy.h"
 #include"EnemyAlpha.h"
 #include "EnemyBeta.h"
@@ -75,6 +73,10 @@ void PlaceEnemy::ArgMent(DebugCamera* camera)
 		{
 			newEnemy = std::make_unique<EnemyBeta>();
 		}
+		createimgui* newlist;
+		newlist = new createimgui(std::to_string(int(enemys.size())));
+		imguilist.push_back(newlist);
+		
 		newEnemy->Initialize();
 		newEnemy->SetPosition(pos);
 		enemys.push_back(std::move(newEnemy));
@@ -105,6 +107,11 @@ void PlaceEnemy::Update(DebugCamera* camera)
 	Obj->SetScale({8, 6, 8});
 	Obj->SetColor({1, 1, 1, 0.5f});
 	Obj->Update({1, 0, 0, 0.5}, camera);
+
+	for (int i = 0; i < enemys.size(); i++)
+	{
+		enemys[i]->SetScale({ imguilist[i]->GetScl(),imguilist[i]->GetScl() ,imguilist[i]->GetScl() });
+	}
 }
 
 void PlaceEnemy::Draw()
@@ -130,6 +137,7 @@ void PlaceEnemy::ImGui_Draw()
 	if (ImGui::Button("AlphaEnemy", ImVec2(90, 50)))
 	{
 		ArgmentFlag = true;
+		
 		Number.push_back(1);
 	}
 	ImGui::SameLine();
@@ -151,15 +159,34 @@ void PlaceEnemy::ImGui_Draw()
 	{
 		DeleteFlag = true;
 	}
-	const char* l[] = {"aaa", "bbb", "ccc", "ddd"};
-	static int lc = 1;
-	ImGui::ListBox("list\n(ki)", &lc, l, IM_ARRAYSIZE(l), 4);
-	{
 		ImGui::SliderFloat("posX", &pos.x, -500, 500);
 		ImGui::SliderFloat("posY", &pos.y, -300, 300);
 		ImGui::SliderFloat("posZ", &pos.z, -800, 800);
+
+	for(int i=0;i<imguilist.size();i++)
+	{
+		imguilist[i]->CreateImguiList();
 	}
 }
+
+PlaceEnemy::createimgui::createimgui(std::string num)
+{
+	listnum.push_back("Enemy"+num);
+}
+
+void PlaceEnemy::createimgui::CreateImguiList()
+{
+	
+	ImGui::Begin(listnum.back().c_str());
+	ImGui::SliderFloat("Scl", &Scl, 0.f, 1.f);
+	ImGui::SliderFloat("Col.r", &Col.x, 0.f, 1.f);
+	ImGui::SliderFloat("Col.g", &Col.y, 0.f, 1.f);
+	ImGui::SliderFloat("Col.b", &Col.z, 0.f, 1.f);
+	ImGui::End();
+	
+}
+ 
+
 
 void PlaceEnemy::Finalize()
 {

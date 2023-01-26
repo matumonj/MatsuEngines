@@ -1,4 +1,4 @@
-#include"PostEffectTest.hlsli"
+#include"Sprite.hlsli"
 
 Output main(float4 pos : POSITION, float2 uv : TEXCOORD)
 {

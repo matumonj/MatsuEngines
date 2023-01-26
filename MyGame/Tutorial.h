@@ -19,6 +19,7 @@ private: // エイリアス
 	using XMVECTOR = XMVECTOR;
 
 private:
+	float vig_gb;
 	bool scenechange = false;
 	bool feedflag = false;
 public:

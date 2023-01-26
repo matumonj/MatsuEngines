@@ -63,7 +63,7 @@ void PlaceHouse::ArgMent(DebugCamera* camera)
 			huse->CollisionField();
 		}
 	}
-	if (DeleteFlag && houses.size() > 1)
+	if (DeleteFlag && houses.size() > 0)
 	{
 		houses.pop_back();
 		DeleteFlag = false;
