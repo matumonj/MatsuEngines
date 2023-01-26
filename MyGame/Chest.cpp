@@ -2,13 +2,16 @@
 
 #include "CameraControl.h"
 #include"SphereCollider.h"
+#include"CollisionAttribute.h"
 #include"TouchableObject.h"
 #include"CollisionManager.h"
+#include"Collision.h"
 #include"Player.h"
+#include"Destroy.h"
 
 Chest::~Chest()
 {
-	//Destroy(DefaultEffect);
+	Destroy(DefaultEffect);
 }
 
 void Chest::Initialize()
@@ -22,8 +25,8 @@ void Chest::Initialize()
 	m_Object->Initialize(camera);
 	m_Object->SetModel(m_Model);
 	//ps0 = new OBBCollision();
-	Scale = {30, 30, 30};
-	Rotation = {0, 90, 0};
+	Scale = { 30, 30, 30 };
+	Rotation = { 0, 90, 0 };
 	radius_adjustment = 0;
 	SetCollider();
 
@@ -37,7 +40,7 @@ void Chest::Initialize()
 
 void Chest::Update()
 {
-	m_Object->SetColor({1, 1, 1, 1});
+	m_Object->SetColor({ 1, 1, 1, 1 });
 	ParameterSet_Obj();
 
 	//フィールド
@@ -70,7 +73,12 @@ void Chest::Update()
 void Chest::Draw()
 {
 	Draw_Obj();
-	
+	// 3Dオブジェクト描画前処理
+	ParticleManager::PreDraw();
+	// 3Dオブクジェクトの描画
+	DefaultEffect->Draw();
+	// 3Dオブジェクト描画後処理
+	ParticleManager::PostDraw();
 }
 
 bool Chest::CollideChest()

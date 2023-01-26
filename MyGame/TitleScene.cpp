@@ -105,7 +105,7 @@ bool TitleScene::ChangeScene()
 	if (feedf)
 	{
 		Cangle += 0.5f;
-		float cameratocenter_x = sqrtf((CameraPos.x - 16.0f) * (CameraPos.x - 16.0f));
+		float cameratocenter_x = sqrtf((CameraPos.x -26.0f) * (CameraPos.x -26.0f));
 		if (cameratocenter_x < 1.0f && CameraPos.y < -30.0f)
 		{
 			CameraBackF = true;
@@ -230,7 +230,7 @@ void TitleScene::TitleFieldInit()
 	field->Initialize(camera.get());
 	//“V‹…
 	celestal = std::make_unique<Object3d>();
-	celestal->SetModel(ModelManager::GetIns()->GetModel(ModelManager::CELESTIALSPHERES));
+	celestal->SetModel(ModelManager::GetIns()->GetModel(ModelManager::SKY));
 	celestal->Initialize(camera.get());
 }
 
@@ -248,6 +248,7 @@ void TitleScene::TitleFieldUpda()
 	celestal->SetScale({30.f, 30.1f, 30.1f});
 
 	//XVˆ—
+	field->setFog(true);
 	field->Update({0.6f, 0.6f, 0.6f, 1.0f}, camera.get());
 	celestal->Update({0.6f, 0.6f, 0.6f, 1.0f}, camera.get());
 }

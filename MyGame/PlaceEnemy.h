@@ -25,18 +25,25 @@ public:
 	class createimgui {
 
 	public:
-		createimgui(std::string num);
+		createimgui(std::string num,float scl,XMFLOAT3 pos);
 		void CreateImguiList();
 	private:
 		std::vector<std::string> listnum;
 
+		float CreateScl;
+		XMFLOAT3 CreatePos;
+		XMFLOAT3 Pos;
+		XMFLOAT3 Rot;
 		float Scl;
 		XMFLOAT4 Col;
+		bool Del;
 	public:
 		float GetScl() { return Scl; }
+		XMFLOAT3 GetPos() { return Pos; }
+		bool GetDelF() { return Del; }
 	};
 
-	std::vector<createimgui*>imguilist;
+	std::vector<std::unique_ptr<createimgui>>imguilist;
 	
 private:
 	//Enemyのみ複数種類配置するのでまた別のフラグ用意

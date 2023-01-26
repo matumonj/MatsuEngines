@@ -1240,12 +1240,6 @@
     <FxCompile Include="Resources\Shader\TextureVS.hlsl">
       <Filter>Game\シェーダー\Tex</Filter>
     </FxCompile>
-    <FxCompile Include="Normal.hlsl">
-      <Filter>Game\シェーダー\PostEffect</Filter>
-    </FxCompile>
-    <FxCompile Include="NormalVS.hlsl">
-      <Filter>Game\シェーダー\PostEffect</Filter>
-    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shader\Header.hlsli">
@@ -1277,9 +1271,6 @@
     </None>
     <None Include="Resources\Shader\Grass.hlsli">
       <Filter>Game\シェーダー</Filter>
-    </None>
-    <None Include="Normal.hlsli">
-      <Filter>Game\シェーダー\PostEffect</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -112,7 +112,7 @@ void main(
 		}
 		if (destF)
 		{
-			input[i].svpos.xy += gnormal * (desttime /2);
+			input[i].svpos.xy += gnormal.xy * (desttime /2);
 			element.svpos =  input[i].svpos;
 		}
 		else if (!destF && !gsflag)

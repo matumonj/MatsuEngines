@@ -53,6 +53,12 @@ void PlaceEnemy::FileWriting()
 		ofs << "POP" << "," << enemys[i]->GetPosition().x
 			<< "," << enemys[i]->GetPosition().y
 			<< "," << enemys[i]->GetPosition().z << std::endl;
+		ofs << "SCL" << "," << enemys[i]->GetScale().x
+			<< "," << enemys[i]->GetScale().y
+			<< "," << enemys[i]->GetScale().z << std::endl;
+		ofs << "ROT" << "," << enemys[i]->GetRotation().x
+			<< "," << enemys[i]->GetRotation().y
+			<< "," << enemys[i]->GetRotation().z << std::endl;
 	}
 }
 
@@ -73,13 +79,13 @@ void PlaceEnemy::ArgMent(DebugCamera* camera)
 		{
 			newEnemy = std::make_unique<EnemyBeta>();
 		}
-		createimgui* newlist;
-		newlist = new createimgui(std::to_string(int(enemys.size())));
-		imguilist.push_back(newlist);
-		
 		newEnemy->Initialize();
 		newEnemy->SetPosition(pos);
 		enemys.push_back(std::move(newEnemy));
+
+		std::unique_ptr<createimgui>newlist;
+		newlist=std::make_unique<createimgui>(std::to_string(int(enemys.size())),0.02f,pos);
+		imguilist.push_back(std::move(newlist));
 
 		ArgmentFlag = false;
 		BossArgmentFlag = false;
@@ -110,6 +116,9 @@ void PlaceEnemy::Update(DebugCamera* camera)
 
 	for (int i = 0; i < enemys.size(); i++)
 	{
+		if (enemys[i] == nullptr)continue;
+
+		enemys[i]->SetPosition({ imguilist[i]->GetPos().x,enemys[i]->GetPosition().y, imguilist[i]->GetPos().z });
 		enemys[i]->SetScale({ imguilist[i]->GetScl(),imguilist[i]->GetScl() ,imguilist[i]->GetScl() });
 	}
 }
@@ -152,38 +161,64 @@ void PlaceEnemy::ImGui_Draw()
 		BetaArgmentFlag = true;
 		Number.push_back(3);
 	}
-	ImGui::SameLine();
-
-
 	if (ImGui::Button("DeleteObj", ImVec2(90, 50)))
 	{
+		enemys.pop_back();
 		DeleteFlag = true;
 	}
 		ImGui::SliderFloat("posX", &pos.x, -500, 500);
 		ImGui::SliderFloat("posY", &pos.y, -300, 300);
 		ImGui::SliderFloat("posZ", &pos.z, -800, 800);
 
-	for(int i=0;i<imguilist.size();i++)
-	{
-		imguilist[i]->CreateImguiList();
-	}
+			for (int i = 0; i < imguilist.size(); i++)
+			{
+				if (imguilist[i] == nullptr)continue;// {
+				if (imguilist[i]->GetDelF())
+				{
+					enemys.erase(std::cbegin(enemys)+i);
+					imguilist.erase(std::cbegin(imguilist)+i);// erase(std::cbegin(enemys) + i);
+					//continue;
+				}
+			}
+
+		for (int i = 0; i < imguilist.size(); i++)
+		{
+			if (imguilist[i] == nullptr)continue;
+			imguilist[i]->CreateImguiList();
+			}
+		ImGui::End();
 }
 
-PlaceEnemy::createimgui::createimgui(std::string num)
+PlaceEnemy::createimgui::createimgui(std::string num,float scl, XMFLOAT3 pos)
 {
+	Scl = scl;
+	Pos = pos;
 	listnum.push_back("Enemy"+num);
 }
 
 void PlaceEnemy::createimgui::CreateImguiList()
 {
-	
-	ImGui::Begin(listnum.back().c_str());
-	ImGui::SliderFloat("Scl", &Scl, 0.f, 1.f);
-	ImGui::SliderFloat("Col.r", &Col.x, 0.f, 1.f);
-	ImGui::SliderFloat("Col.g", &Col.y, 0.f, 1.f);
-	ImGui::SliderFloat("Col.b", &Col.z, 0.f, 1.f);
-	ImGui::End();
-	
+	std::string TitName = listnum.back() + "----------------------";
+	ImGui::Text(TitName.c_str());
+	std::string sclname = "Scl"+listnum.back();
+	std::string posname_x = "Pos.x" + listnum.back();
+	std::string posname_z = "Pos.z" + listnum.back();
+
+	std::string rotname = "Rot" + listnum.back();
+
+	std::string delname = "Delete" + listnum.back();
+	float pos[3] = { Pos.x,Pos.y,Pos.z };
+	ImGui::SliderFloat(sclname.c_str(), &Scl, 0.f, 1.f);
+
+	ImGui::SliderFloat(posname_x.c_str(),&Pos.x ,-800.f,800.f );
+	ImGui::SliderFloat(posname_z.c_str(), &Pos.z, -700.f, 700.f);
+
+	ImGui::SliderFloat(rotname.c_str(), &Rot.y, 0.f, 360.f);
+
+	if(ImGui::Button(delname.c_str(),ImVec2(100,30)))
+	{
+		Del = true;
+	}
 }
  
 

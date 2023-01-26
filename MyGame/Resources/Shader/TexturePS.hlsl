@@ -5,7 +5,7 @@ Texture2D<float4> tex1 : register(t1); // 0番スロットに設定されたテクスチャ
 
 SamplerState smp:register(s0);
 
-PSOutPut main(Output input) : SV_TARGET
+PSOutPut main(Output input)
 {
 	PSOutPut output;
 
@@ -22,6 +22,6 @@ PSOutPut main(Output input) : SV_TARGET
 	clip(v);
 	//変更後
 	output.target0 = tex.Sample(smp, input.uv) * color;
-	output.target0 = tex.Sample(smp, input.uv) * color;
+	output.target1 = tex.Sample(smp, input.uv) * color;
 	return output;
 }

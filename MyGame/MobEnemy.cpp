@@ -30,7 +30,7 @@ MobEnemy::~MobEnemy()
 
 	for (int i = 0; i < 3; i++)
 	{
-		HPFrame[i].reset();
+		//HPFrame[i].reset();
 	}
 }
 

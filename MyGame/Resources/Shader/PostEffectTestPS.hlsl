@@ -70,7 +70,7 @@ float4 main(Output input) : SV_TARGET
 	
 	// ƒuƒ‹[ƒ€
 	if (bloomf) {
-		col.rgb += bloom(smp, input.uv);
+		col.rgb += bloom(smp, input.uv).rgb;
 	}
 	col.gb -= Vignette(input.uv);
 
