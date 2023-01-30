@@ -17,6 +17,9 @@ private: // エイリアス
 
 	float sy;
 	PostEffect* p;
+	float bloomval;
+	float vinntee;
+
 private:
 	float ambientColor0[3] = { 1.0f, 1.0f, 1.0f };
 	// 光線方向初期値

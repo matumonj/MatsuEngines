@@ -56,7 +56,7 @@ void GuardianEnemy::Initialize()
 
 	m_Object->SetModel(Model::CreateFromOBJ("Guardian"));
 
-	MaxHP =900;
+	MaxHP =400;
 
 	EnemyHP = MaxHP;
 	//パラメータのセット
@@ -137,7 +137,7 @@ void GuardianEnemy::Death()
 	isAlive = FALSE;
 	alpha -= 0.02f;
 
-	SetColor({0.2f, 0.2f, 0.2f, alpha});
+	SetColors({0.2f, 0.2f, 0.2f, alpha});
 }
 
 void GuardianEnemy::Draw()

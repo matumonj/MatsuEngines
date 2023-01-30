@@ -61,7 +61,7 @@ void PlaceFence::ArgMent(DebugCamera* camera)
 	{
 		if (Fence != nullptr)
 		{
-			Fence->SetColor({1, 1, 1, 1});
+			Fence->SetColors({1, 1, 1, 1});
 			Fence->Update();
 			Fence->CollisionField();
 		}
@@ -97,32 +97,22 @@ void PlaceFence::Draw()
 
 void PlaceFence::ImGui_Draw()
 {
-	ImGui::Begin("Fence");
+	ImGui::Begin("Player");
 	ImGui::SetWindowPos(ImVec2(900, 500));
 	ImGui::SetWindowSize(ImVec2(300, 300));
 
-	if (ImGui::Button("Fence", ImVec2(90, 50)))
+	if (ImGui::Button("OpenCsv", ImVec2(90, 50)))
 	{
-		ArgmentFlag = true;
+		OpenCsvFile(_T("CharaParam\\Player_Param.csv"));
 	}
 	ImGui::SameLine();
-
-	if (ImGui::Button("DeleteObj", ImVec2(90, 50)))
 	{
-		DeleteFlag = true;
-	}
-
-	{
-		ImGui::Text("Position");
-		ImGui::SliderFloat("posX", &pos.x, -500, 500);
-		ImGui::SliderFloat("posY", &pos.y, -300, 300);
-		ImGui::SliderFloat("posZ", &pos.z, -800, 800);
+		ImGui::Text("HP");
+		ImGui::SliderInt("HPValue", &hp, 0, 500);
 	}
 	{
-		ImGui::Text("Rotation");
-		ImGui::SliderFloat("rotX", &rot.x, 0, 360);
-		ImGui::SliderFloat("rotY", &rot.y, 0, 360);
-		ImGui::SliderFloat("rotZ", &rot.z, 0, 360);
+		ImGui::Text("RunSpeed");
+		ImGui::SliderFloat("SpeedValue", &runspeed, 0.f, 6.0f);
 	}
 	{
 		ImGui::Text("Scale");

@@ -247,7 +247,7 @@ void Field::Update_Play()
 	FieldObject->Update({0.2f, 0.2f, 0.2f, 1.0f}, camera);
 
 	m_object[BOSSBACK]->SetRotation({0.f, 180.f, 0.f});
-	SetFieldUpdate(BOSSBACK, camera, {22.f, -70.f, 1010.f}, {1.0f, 1.0f, 1.0f}, FALSE, false);
+	SetFieldUpdate(BOSSBACK, camera, {22.f, -70.f, 1010.f}, {1.0f, 1.0f, 1.0f}, FALSE, true);
 
 	GuardAreaTexUpda();
 	PedestalMoving();

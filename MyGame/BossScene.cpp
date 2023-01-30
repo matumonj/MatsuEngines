@@ -189,12 +189,8 @@ void BossScene::Draw()
 	
 		DirectXCommon::GetInstance()->BeginDraw();
 		MyGameDraw();
-		ImGui::Begin("light");
-		ImGui::SliderFloat("attenx", &circleShadowAtten[0], -10, 10);
-		ImGui::SliderFloat("atteny", &circleShadowAtten[1], -10, 10);
-		ImGui::SliderFloat("attenz", &circleShadowAtten[2], -10, 30);
-		ImGui::SliderFloat("posy", &sy, -10, 30);
-		ImGui::End();
+		//ImGui::Begin("light");
+		//ImGui::End();
 		SpriteDraw();
 		DirectXCommon::GetInstance()->EndDraw();
 		break;

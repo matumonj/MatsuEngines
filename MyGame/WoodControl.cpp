@@ -147,7 +147,7 @@ void WoodControl::Update_Tutorial()
 {
 	for (int i = 0; i < Tutorialwoods.size(); i++)
 	{
-		Tutorialwoods[i]->SetColor({0.0f, 1.0f, 0.0f, 1.0f});
+		Tutorialwoods[i]->SetColors({0.0f, 1.0f, 0.0f, 1.0f});
 		Tutorialwoods[i]->Update();
 	}
 }

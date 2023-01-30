@@ -46,7 +46,11 @@ void PlayScene::Initialize()
 		AllObjectControl.emplace_back(HouseControl::GetInstance());
 		AllObjectControl.emplace_back(WoodControl::GetInstance());
 		AllObjectControl.emplace_back(FenceControl::GetInstance());
-	
+
+		circleShadowAtten[0] = -5.2f;
+		circleShadowAtten[1] = -0.2f;
+		circleShadowAtten[2] = 4.9f;
+		
 	//ポストエフェクト初期化
 	postEffect = new PostEffect();
 	postEffect->Initialize();
@@ -110,9 +114,9 @@ void PlayScene::LightUpdate()
 	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 
 	lightGroup->SetCircleShadowDir(3, XMVECTOR({ circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0 }));
-	lightGroup->SetCircleShadowCasterPos(3, { ppos.x, ppos.y + 2.0f, ppos.z });
+	lightGroup->SetCircleShadowCasterPos(3, { ppos.x, ppos.y, ppos.z });
 	lightGroup->SetCircleShadowAtten(3, XMFLOAT3(circleShadowAtten));
-	lightGroup->SetCircleShadowFactorAngle(3, XMFLOAT2(circleShadowFactorAngle2));
+	lightGroup->SetCircleShadowFactorAngle(3, XMFLOAT2(1.4f,1.9f));
 
 	for (int i = 0; i < EnemyControl::GetInstance()->GetQuentity(); i++)
 	{
@@ -174,13 +178,14 @@ void PlayScene::MyGameDraw()
 		Field::GetInstance()->GuardAreaDraw();
 	}
 	GameOver::GetIns()->Draw_DestParticle();
+	DropWeapon::GtIns()->Draw();
+	//postEffect->Draw();
+	Task::GetInstance()->TargetDraw();
 }
 
 void PlayScene::SpriteDraw()
 {
-	DropWeapon::GtIns()->Draw();
-	//postEffect->Draw();
-	Task::GetInstance()->TargetDraw();
+	
 	
 	SistemConfig::GetInstance()->Draw();
 
@@ -204,13 +209,13 @@ void PlayScene::Draw()
 	case Blur: //ぼかし　描画準違うだけ
 		
 	case Default: //普通のやつ特に何もかかっていない
-		//postEffect->PreDrawScene();
-		//postEffect->Draw();
-		//postEffect->PostDrawScene();
+		postEffect->PreDrawScene();
+		MyGameDraw();
+		postEffect->PostDrawScene();
 
 		DirectXCommon::GetInstance()->BeginDraw();
-		MyGameDraw();
-		//SpriteDraw();
+		postEffect->Draw();
+		SpriteDraw();
 		DirectXCommon::GetInstance()->EndDraw();
 		break;
 	}

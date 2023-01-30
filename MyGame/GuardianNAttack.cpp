@@ -114,7 +114,7 @@ void GuardianNAttack::Phase_AreaSet()
 		phase = BOM;
 	}
 
-	EnemyControl::GetInstance()->GetGuardianEnemy()->SetColor({BossColor.x, BossColor.y, BossColor.z, 1.0f});
+	EnemyControl::GetInstance()->GetGuardianEnemy()->SetColors({BossColor.x, BossColor.y, BossColor.z, 1.0f});
 }
 
 void GuardianNAttack::Phase_Bom()
@@ -183,7 +183,7 @@ void GuardianNAttack::Phase_TexFade()
 
 void GuardianNAttack::Phase_End()
 {
-	EnemyControl::GetInstance()->GetGuardianEnemy()->SetColor({1.0f, 1.0f, 1.0f, 1.0f});
+	EnemyControl::GetInstance()->GetGuardianEnemy()->SetColors({1.0f, 1.0f, 1.0f, 1.0f});
 	TexAlpha = 0.f;
 	scalingETime = 0.0f;
 	BeamObjScl = {0.0f, 50.0f, 0.0f};

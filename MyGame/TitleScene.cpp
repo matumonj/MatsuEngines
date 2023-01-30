@@ -1,4 +1,7 @@
 #include "TitleScene.h"
+
+#include <tchar.h>
+
 #include"Input.h"
 #include"PlayScene.h"
 #include"MapCreateScene.h"
@@ -27,7 +30,8 @@ void TitleScene::Initialize()
 	TitleFieldInit();
 	//タイトルスプライト
 	TitleTexInit();
-}
+	
+	}
 
 /*------------------------*/
 /*-------更新処理--------*/

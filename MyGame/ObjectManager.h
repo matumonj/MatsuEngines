@@ -74,7 +74,7 @@ public:
 	void SetPosition(XMFLOAT3 position) { Position = position; }
 	void SetRotation(XMFLOAT3 rotation) { Rotation = rotation; }
 	void SetScale(XMFLOAT3 scale) { Scale = scale; }
-	void SetColor(XMFLOAT4 color) { Color = color; }
+	void SetColors(XMFLOAT4 color) { Color = color; }
 	double GetFbxTime() { return m_fbxObject->GetFTime(); }
 	double GetAnimationTime() { return m_fbxObject->GetAnimeTime(); }
 

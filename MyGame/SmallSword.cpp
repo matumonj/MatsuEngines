@@ -8,7 +8,7 @@
 
 SmallSword::~SmallSword()
 {
-	//delete  m_Model;
+	m_Object.reset();
 }
 
 void SmallSword::Initialize()
@@ -19,8 +19,6 @@ void SmallSword::Initialize()
 
 	//m_Object->CreateGraphicsPipeline(L"Resources/Shader/Object3dVS.hlsl", L"Resources/Shader/Object3dPS.hlsl", L"Resources/Shader/BasicGS.hlsl");
 	//ƒ‚ƒfƒ‹Š„‚è“–‚Ä
-	m_Object->Initialize(camera);
-	m_Object->SetModel(Model::CreateFromOBJ("Wand"));
 
 	Scale = {1.f, 1.f, 1.f};
 

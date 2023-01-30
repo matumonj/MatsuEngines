@@ -450,7 +450,7 @@ void Player::RecvDamage(int Damage)
 
 	if (HP >= 0)
 	{
-		HP = HP - Damage*4;
+		HP = HP - Damage;
 		std::unique_ptr<DamageManager> newdTex;
 
 		newdTex = std::make_unique<DamageManager>(

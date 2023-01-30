@@ -67,7 +67,7 @@ void PlaceWood::ArgMent(DebugCamera* camera)
 	{
 		if (wood != nullptr)
 		{
-			wood->SetColor({1, 1, 1, 1});
+			wood->SetColors({1, 1, 1, 1});
 			wood->Update();
 			wood->CollisionField();
 		}
@@ -107,7 +107,7 @@ void PlaceWood::Draw()
 void PlaceWood::ImGui_Draw()
 {
 	ImGui::Begin("SelectWood");
-	ImGui::SetWindowPos(ImVec2(300, 500));
+	ImGui::SetWindowPos(ImVec2(1500, 500));
 	ImGui::SetWindowSize(ImVec2(300, 300));
 
 	if (ImGui::Button("Wood", ImVec2(90, 50)))

@@ -41,6 +41,19 @@ public:
 		float GetScl() { return Scl; }
 		XMFLOAT3 GetPos() { return Pos; }
 		bool GetDelF() { return Del; }
+
+	public:
+		enum ENumber
+		{
+			NON,
+			AXEGOLEM,
+			LIZARD,
+			THROWGOLEM
+		}enumber;
+
+
+		ENumber GetEnumber() { return enumber; }
+		
 	};
 
 	std::vector<std::unique_ptr<createimgui>>imguilist;
@@ -50,4 +63,14 @@ private:
 	bool BossArgmentFlag;
 	bool BetaArgmentFlag;
 	std::vector<std::unique_ptr<Enemy>> enemys;
+
+	enum ENumber
+	{
+		NON,
+		AXEGOLEMm,
+		LIZARD,
+		THROWGOLEM
+	};
+
+	std::vector<ENumber>enumbers;
 };

@@ -69,14 +69,17 @@ void PlaceEnemy::ArgMent(DebugCamera* camera)
 		std::unique_ptr<Enemy> newEnemy;
 		if (ArgmentFlag)
 		{
+			enumbers.push_back(AXEGOLEM);
 			newEnemy = std::make_unique<MobEnemy>();
 		}
 		if (BossArgmentFlag)
 		{
+			enumbers.push_back(LIZARD);
 			newEnemy = std::make_unique<EnemyAlpha>();
 		}
 		if (BetaArgmentFlag)
 		{
+			enumbers.push_back(THROWGOLEM);
 			newEnemy = std::make_unique<EnemyBeta>();
 		}
 		newEnemy->Initialize();
@@ -95,6 +98,7 @@ void PlaceEnemy::ArgMent(DebugCamera* camera)
 	{
 		if (enemy != nullptr)
 		{
+			enemy->SetColors({ 0,1,0,1 });
 			enemy->SetMoveStop(true);
 			enemy->Update();
 		}
@@ -116,6 +120,7 @@ void PlaceEnemy::Update(DebugCamera* camera)
 
 	for (int i = 0; i < enemys.size(); i++)
 	{
+		if (imguilist[i] == nullptr)continue;
 		if (enemys[i] == nullptr)continue;
 
 		enemys[i]->SetPosition({ imguilist[i]->GetPos().x,enemys[i]->GetPosition().y, imguilist[i]->GetPos().z });
@@ -161,11 +166,11 @@ void PlaceEnemy::ImGui_Draw()
 		BetaArgmentFlag = true;
 		Number.push_back(3);
 	}
-	if (ImGui::Button("DeleteObj", ImVec2(90, 50)))
+	if (ImGui::Button("OpenCsv", ImVec2(90, 50)))
 	{
-		enemys.pop_back();
-		DeleteFlag = true;
+		OpenCsvFile(_T("enemy.csv"));
 	}
+
 		ImGui::SliderFloat("posX", &pos.x, -500, 500);
 		ImGui::SliderFloat("posY", &pos.y, -300, 300);
 		ImGui::SliderFloat("posZ", &pos.z, -800, 800);
@@ -176,16 +181,51 @@ void PlaceEnemy::ImGui_Draw()
 				if (imguilist[i]->GetDelF())
 				{
 					enemys.erase(std::cbegin(enemys)+i);
+					enumbers.erase(std::cbegin(enumbers) + i);
 					imguilist.erase(std::cbegin(imguilist)+i);// erase(std::cbegin(enemys) + i);
 					//continue;
 				}
 			}
 
+
+		ImGui::End();
+
+		ImGui::Begin("EnemyList");
+		ImGui::SetWindowPos(ImVec2(300, 500));
+		ImGui::SetWindowSize(ImVec2(300, 300));
+
 		for (int i = 0; i < imguilist.size(); i++)
 		{
 			if (imguilist[i] == nullptr)continue;
+			
+			if (enemys[i] == nullptr)continue;
 			imguilist[i]->CreateImguiList();
+			if(enumbers[i]!=AXEGOLEM&&imguilist[i]->GetEnumber()==createimgui::AXEGOLEM)
+			{
+				XMFLOAT3 oldpos = enemys[i]->GetPosition();
+				enemys[i].reset(new MobEnemy());
+				enemys[i]->Initialize();
+				enemys[i]->SetPosition(oldpos);
+				enumbers[i]=(AXEGOLEM);
 			}
+			if (enumbers[i] != LIZARD&& imguilist[i]->GetEnumber() == createimgui::LIZARD)
+			{
+				XMFLOAT3 oldpos = enemys[i]->GetPosition();
+				enemys[i].reset(new EnemyAlpha());
+				enemys[i]->Initialize();
+				enumbers[i] = (LIZARD);
+				enemys[i]->SetPosition(oldpos);
+			}
+			if (enumbers[i] != THROWGOLEM && imguilist[i]->GetEnumber() == createimgui::THROWGOLEM)
+			{
+				XMFLOAT3 oldpos = enemys[i]->GetPosition();
+
+				enemys[i].reset(new EnemyBeta());
+				enemys[i]->Initialize();
+				enumbers[i] = (THROWGOLEM);
+				enemys[i]->SetPosition(oldpos);
+			}
+		}
 		ImGui::End();
 }
 
@@ -207,6 +247,10 @@ void PlaceEnemy::createimgui::CreateImguiList()
 	std::string rotname = "Rot" + listnum.back();
 
 	std::string delname = "Delete" + listnum.back();
+
+	std::string enumynum_g = "AxeGolem" + listnum.back();
+	std::string enumynum_l = "Lizard" + listnum.back();
+	std::string enumynum_t = "ThrowGolem" + listnum.back();
 	float pos[3] = { Pos.x,Pos.y,Pos.z };
 	ImGui::SliderFloat(sclname.c_str(), &Scl, 0.f, 1.f);
 
@@ -214,6 +258,21 @@ void PlaceEnemy::createimgui::CreateImguiList()
 	ImGui::SliderFloat(posname_z.c_str(), &Pos.z, -700.f, 700.f);
 
 	ImGui::SliderFloat(rotname.c_str(), &Rot.y, 0.f, 360.f);
+
+	if(ImGui::Button(enumynum_g.c_str(), ImVec2(70, 30)))
+	{
+		enumber = AXEGOLEM;
+	}
+	ImGui::SameLine();
+	if(ImGui::Button(enumynum_l.c_str(), ImVec2(70, 30)))
+	{
+		enumber = LIZARD;
+	}
+	ImGui::SameLine();
+	if(ImGui::Button(enumynum_t.c_str(), ImVec2(70, 30)))
+	{
+		enumber = THROWGOLEM;
+	}
 
 	if(ImGui::Button(delname.c_str(),ImVec2(100,30)))
 	{

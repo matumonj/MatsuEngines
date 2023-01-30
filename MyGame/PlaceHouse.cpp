@@ -58,7 +58,7 @@ void PlaceHouse::ArgMent(DebugCamera* camera)
 	{
 		if (huse != nullptr)
 		{
-			huse->SetColor({1, 1, 1, 1});
+			huse->SetColors({1, 1, 1, 1});
 			huse->Update();
 			huse->CollisionField();
 		}

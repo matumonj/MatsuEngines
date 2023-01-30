@@ -143,7 +143,13 @@ void MobEnemy::Update()
 
 
 	//敵の色
-	m_fbxObject->SetColor({1.0f, 1.0f, 1.0f, alpha});
+	if (SceneManager::GetInstance()->GetScene() != SceneManager::MAPCREATE) {
+		m_fbxObject->SetColor({ 1.0f, 1.0f, 1.0f, alpha });
+	}
+	else
+	{
+		m_fbxObject->SetColor(Color);
+	}
 	//敵の手のボーンインデックス
 	m_fbxObject->SetFbxTime(f_time);
 	HandIndex = 23;

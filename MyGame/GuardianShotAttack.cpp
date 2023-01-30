@@ -224,7 +224,7 @@ void GuardianShotAttack::Phase_Bom()
 
 void GuardianShotAttack::Phase_End()
 {
-	EnemyControl::GetInstance()->GetGuardianEnemy()->SetColor({1.0f, 1.0f, 1.0f, 1.0f});
+	EnemyControl::GetInstance()->GetGuardianEnemy()->SetColors({1.0f, 1.0f, 1.0f, 1.0f});
 }
 
 void GuardianShotAttack::Draw()

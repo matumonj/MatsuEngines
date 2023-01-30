@@ -10,6 +10,7 @@
 #include"Destroy.h"
 #include"ModelManager.h"
 
+#include"atlstr.h"
 class CreateObjManager
 {
 protected:
@@ -61,4 +62,7 @@ protected:
 	XMFLOAT3 pos;
 	XMFLOAT3 rot;
 	XMFLOAT3 scl;
+
+public:
+	void OpenCsvFile(CString filename);
 };

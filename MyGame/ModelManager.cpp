@@ -20,7 +20,7 @@ void ModelManager::Initialize()
 	LoadModel(BIGROCK_B, "crystal");
 	LoadModel(FENCE, "Fence");
 
-	
+	LoadModel(NORMALSWORD, "sword");
 	LoadModel(SPHERE, "sphere");
 	LoadModel(NAIL, "Nail");
 	LoadModel(BIGSWORD, "axe");
@@ -28,7 +28,7 @@ void ModelManager::Initialize()
 	LoadModel(PLACEBOX, "placebox");
 	LoadModel(MISSILE, "missile");
 	LoadModel(DESTROCK, "DestRock");
-	LoadModel(SMALLSWORD, "Hammer");
+	LoadModel(SMALLSWORD, "Wand");
 	LoadModel(SKY, "skydome");
 	LoadModel(ICECRYSTAL, "crystal");
 	LoadModel(BIGROCK_A, "BigStone_A");

@@ -243,7 +243,7 @@ void GuardianBomAttack::Phase_End()
 		BomEffect[i].reset();
 		ArmEffect[i].reset();
 	}
-	EnemyControl::GetInstance()->GetGuardianEnemy()->SetColor({1.0f, 1.0f, 1.0f, 1.0f});
+	EnemyControl::GetInstance()->GetGuardianEnemy()->SetColors({1.0f, 1.0f, 1.0f, 1.0f});
 }
 
 #include "imgui.h"

@@ -135,7 +135,7 @@ void ChestControl::Update_Tutorial()
 {
 	if (Tutorial_chest[0] != nullptr)
 	{
-		Tutorial_chest[0]->SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
+		Tutorial_chest[0]->SetColors({ 1.0f, 1.0f, 1.0f, 1.0f });
 		Tutorial_chest[0]->SetpColor({ 1.0f, 1.0f, 1.0f, 1.0f });
 		Tutorial_chest[0]->Update();
 		GetChestEvent(Tutorial_chest[0].get(), TutorialPchest);
@@ -161,7 +161,7 @@ void ChestControl::Update_Play()
 	{
 		if (chests[i] != nullptr)
 		{
-			chests[i]->SetColor({ 1, 1, 1, 1 });
+			chests[i]->SetColors({ 1, 1, 1, 1 });
 			chests[i]->Update();
 			GetChestEvent(chests[i].get(), PlayPchest[i]);
 		}

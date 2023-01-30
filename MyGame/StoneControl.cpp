@@ -269,7 +269,7 @@ void StoneControl::Update_Tutorial()
 {
 	for (int i = 0; i < Tutorialstones.size(); i++)
 	{
-		Tutorialstones[i]->SetColor({1.0f, 1.0f, 1.0f, 1.0f});
+		Tutorialstones[i]->SetColors({1.0f, 1.0f, 1.0f, 1.0f});
 		Tutorialstones[i]->Update();
 	}
 	for (int i = 0; i < Tutorialstones.size(); i++)

@@ -5,7 +5,7 @@
 
 BigSword::~BigSword()
 {
-	//m_Object.reset();
+	m_Object.reset();
 	//delete  m_Model;
 }
 
@@ -22,8 +22,10 @@ void BigSword::Update()
 {
 	if (!LoadF)
 	{
-		LoadCsv("BD", "BK", "BS", "BM");
-		LoadF = true;
+		if (m_Object == nullptr) {
+			LoadCsv("BD", "BK", "BS", "BM");
+			LoadF = true;
+		}
 	}
 	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
 	if (m_Object != nullptr) {

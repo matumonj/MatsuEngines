@@ -72,7 +72,7 @@ void PlaceStone::ArgMent(DebugCamera* camera)
 	{
 		if (wood != nullptr)
 		{
-			wood->SetColor({1, 1, 1, 1});
+			wood->SetColors({1, 1, 1, 1});
 			wood->Update();
 			wood->CollisionField();
 		}
@@ -114,46 +114,7 @@ void PlaceStone::Draw()
 
 void PlaceStone::ImGui_Draw()
 {
-	ImGui::Begin("SelectStone");
-	ImGui::SetWindowPos(ImVec2(300, 500));
-	ImGui::SetWindowSize(ImVec2(300, 300));
 
-	if (ImGui::Button("StoneA", ImVec2(90, 50)))
-	{
-		ArgmentFlag = true;
-	}
-	ImGui::SameLine();
-	if (ImGui::Button("StoneB", ImVec2(90, 50)))
-	{
-		SubRockF = true;
-	}
-	if (ImGui::Button("C", ImVec2(90, 50)))
-	{
-	}
-	ImGui::SameLine();
-
-
-	if (ImGui::Button("DeleteObj", ImVec2(90, 50)))
-	{
-		DeleteFlag = true;
-	}
-
-	{
-		ImGui::SliderFloat("posX", &pos.x, -500, 500);
-		ImGui::SliderFloat("posY", &pos.y, -300, 300);
-		ImGui::SliderFloat("posZ", &pos.z, -800, 800);
-	}
-	{
-		ImGui::SliderFloat("rotX", &rot.x, 0, 360);
-		ImGui::SliderFloat("rotY", &rot.y, 0, 360);
-		ImGui::SliderFloat("rotZ", &rot.z, 0, 360);
-	}
-	{
-		ImGui::SliderFloat("sclX", &scl.x, 0, 20);
-		ImGui::SliderFloat("sclY", &scl.y, 0, 20);
-		ImGui::SliderFloat("sclZ", &scl.z, 0, 20);
-	}
-	ImGui::End();
 }
 
 void PlaceStone::Finalize()

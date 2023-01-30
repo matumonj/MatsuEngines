@@ -147,7 +147,7 @@ void HalfAttack::SummonUpdate()
 				SummonEnemys[i]->SetMoveStop(false);
 			}
 			//XV
-			SummonEnemys[i]->SetColor({ 1.0f, 0.2f, 0.2f, 1.0f });
+			SummonEnemys[i]->SetColors({ 1.0f, 0.2f, 0.2f, 1.0f });
 
 			SummonEnemys[i]->Update();
 		}

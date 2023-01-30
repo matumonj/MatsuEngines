@@ -7,7 +7,7 @@
 
 NormalSword::~NormalSword()
 {
-	//	m_Object.reset();
+		m_Object.reset();
 }
 
 void NormalSword::Initialize()
@@ -25,10 +25,12 @@ void NormalSword::Update()
 	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
 	if (!LoadF)
 	{
-		LoadCsv("ND", "NK", "NS", "NM");
-		LoadF = true;
-	}
+		if (m_Object == nullptr) {
 
+			LoadCsv("ND", "NK", "NS", "NM");
+			LoadF = true;
+		}
+	}
 	if (m_Object != nullptr) {
 		m_Object->Setf(FALSE);
 		m_Object->SetDestFlag(FALSE);

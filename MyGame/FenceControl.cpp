@@ -167,7 +167,7 @@ void FenceControl::Update_Tutorial() //チュートリアル時
 	if (Tutorialfence[0] != nullptr)
 	{
 		Tutorialfence[0]->Update();
-		Tutorialfence[0]->SetColor({1.0f, 0.0f, 0.0f, 1.0f});
+		Tutorialfence[0]->SetColors({1.0f, 0.0f, 0.0f, 1.0f});
 	}
 	Tutorialfence[0]->FenceOpenCondition(TutorialFenceOpen);
 }
@@ -189,7 +189,7 @@ void FenceControl::Update_Play() //プレイシーン時
 	if (BossGate != nullptr)
 	{
 		BossGate->Update();
-		BossGate->SetColor({1.0f, 0.0f, 0.0f, 1.0f});
+		BossGate->SetColors({1.0f, 0.0f, 0.0f, 1.0f});
 	}
 	BossGate->FenceOpenCondition(BossGateOpen);
 }

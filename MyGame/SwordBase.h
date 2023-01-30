@@ -35,6 +35,7 @@ protected:
 	std::stringstream popcom;
 	std::ifstream file;
 
+	std::unique_ptr<Model>swordModel;
 	bool LoadF;
 	std::string modelname;
 public:
