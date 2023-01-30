@@ -67,7 +67,7 @@ private:
 	enum ENumber
 	{
 		NON,
-		AXEGOLEMm,
+		AXEGOLEM,
 		LIZARD,
 		THROWGOLEM
 	};

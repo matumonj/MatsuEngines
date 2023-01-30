@@ -51,7 +51,7 @@ void TitleScene::Update()
 	}
 	if (Input::GetInstance()->TriggerButton(Input::A))
 	{
-		SceneManager::GetInstance()->SetScene(SceneManager::MAPCREATE, sceneManager_);
+		//SceneManager::GetInstance()->SetScene(SceneManager::MAPCREATE, sceneManager_);
 	}
 
 
