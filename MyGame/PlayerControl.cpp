@@ -19,7 +19,7 @@ void PlayerControl::Init_Tutorial()
 	player = std::make_unique<Player>();
 	player->Initialize();
 
-	StartPos = {92.0f, -23.0f, -760.0f};
+	StartPos = {62.0f, 30.0f, -386.0f};
 
 	player->SetPosition(StartPos);
 	AttackCollision::GetInstance()->Init();
@@ -27,7 +27,7 @@ void PlayerControl::Init_Tutorial()
 
 void PlayerControl::Init_Play()
 {
-	StartPos = {110.0f, -30.0f, -379.0f};
+	StartPos = {53.0f, -20.0f, -189.0f};
 
 	player->SetHP(player->GetMaxHP());
 
@@ -145,6 +145,13 @@ void PlayerControl::Draw_Play()
 		return;
 	}
 	player->Draw();
+	ImGui::Begin("pos,,");
+
+	ImGui::SetWindowPos(ImVec2(0, 500));
+	ImGui::SetWindowSize(ImVec2(300, 300));
+	ImGui::Text("%f", player->GetPosition().x);
+	ImGui::Text("%f", player->GetPosition().z);
+	ImGui::End();
 }
 
 void PlayerControl::Draw_Tutorial()
@@ -154,6 +161,13 @@ void PlayerControl::Draw_Tutorial()
 		return;
 	}
 	player->Draw();
+	ImGui::Begin("pos,,");
+
+	ImGui::SetWindowPos(ImVec2(0, 500));
+	ImGui::SetWindowSize(ImVec2(300, 300));
+	ImGui::Text("%f", player->GetPosition().x);
+	ImGui::Text("%f", player->GetPosition().z);
+	ImGui::End();
 }
 
 void PlayerControl::Draw_Boss()

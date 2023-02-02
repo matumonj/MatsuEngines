@@ -25,6 +25,8 @@ EnemyBeta::EnemyBeta()
 /// </summary>
 EnemyBeta::~EnemyBeta()
 {
+	Destroy_unique(DestRock);
+	Destroy_unique(ThrowRockObj);
 	//delete mob, MobModel;
 }
 
@@ -113,6 +115,7 @@ void EnemyBeta::Initialize()
 //XVˆ—
 void EnemyBeta::Update()
 {
+	if(m_fbxObject==nullptr)return;
 	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
 
 	state_mob->Update(this);
@@ -164,6 +167,7 @@ void EnemyBeta::Update()
 //•`‰æˆ—
 void EnemyBeta::Draw()
 {
+	if (m_fbxObject == nullptr)return;
 	if (alpha > 0)
 	{
 		//ƒ‚ƒfƒ‹

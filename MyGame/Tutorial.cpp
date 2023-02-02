@@ -123,7 +123,7 @@ void Tutorial::Update()
 	postEffect->SetVignette_GB(PlayerControl::GetInstance()->GetVignetteAlpha());
 	LightUpdate();
 	//一定数進んだらシーンチェンジ
-	bool ArrivalJudg = PlayerControl::GetInstance()->GetPlayer()->GetPosition().z > -470.0f;
+	bool ArrivalJudg = PlayerControl::GetInstance()->GetPlayer()->GetPosition().z > -210.0f;
 	if (ArrivalJudg)
 	{
 		scenechange = true;
@@ -184,7 +184,7 @@ void Tutorial::MyGameDraw()
 		}
 	}
 	TutorialSprite::GetInstance()->DrawTargetPos();
-
+	SelectSword::GetInstance()->SwordDraw();
 }
 
 void Tutorial::SpriteDraw()
@@ -213,16 +213,11 @@ void Tutorial::Draw()
 	{
 	case Blur: //ぼかし　描画準違うだけ
 		postEffect->PreDrawScene();
-		MyGameDraw();
 		postEffect->PostDrawScene();
 
 		DirectXCommon::GetInstance()->BeginDraw();
-		postEffect->Draw();
+		MyGameDraw();
 		SpriteDraw();
-	//SistemConfig::GetInstance()->Draw();
-		ImGui::Begin("vig");
-		ImGui::SliderFloat("gb", &vig_gb, 0.f, 1.f);
-		ImGui::End();
 		DirectXCommon::GetInstance()->EndDraw();
 
 		break;
@@ -282,6 +277,6 @@ void Tutorial::Finalize()
 		AllObjectControl[i]->Finalize();
 	}
 	AllObjectControl.clear();
-	//Field::GetInstance()->Finalize();
+	Field::GetInstance()->Finalize();
 	Destroy(postEffect);
 }

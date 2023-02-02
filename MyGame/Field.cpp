@@ -141,6 +141,12 @@ void Field::Init_Boss()
 	SkyBackPos[3] = { -150.f,-100.f,-150.f };
 	//下地
 	FieldObject = TouchableObject::Create(ModelManager::GetIns()->GetModel(ModelManager::SANDFIELD), camera);
+	Sprite::LoadTexture(40, L"Resources/2d/icon/BossName.png");
+	//ボスのネームプレート
+	BossName = Sprite::Create(40, { WinApp::window_width / 2, WinApp::window_height / 2 });
+	BossName->SetAnchorPoint({ 0.5f, 0.5f });
+	BossName->SetPosition({ WinApp::window_width / 2, WinApp::window_height / 2 });
+	BossName->SetSize({ 800, 800 });
 
 }
 
@@ -167,6 +173,7 @@ void Field::Initialize()
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::MAPCREATE)
 	{
 		FieldObject = TouchableObject::Create(ModelManager::GetIns()->GetModel(ModelManager::FIELD), camera);
+	//	FieldObject->SetScale(0.3f);
 	}
 	
 
@@ -247,7 +254,7 @@ void Field::Update_Play()
 	FieldObject->Update({0.2f, 0.2f, 0.2f, 1.0f}, camera);
 
 	m_object[BOSSBACK]->SetRotation({0.f, 180.f, 0.f});
-	SetFieldUpdate(BOSSBACK, camera, {22.f, -70.f, 1010.f}, {1.0f, 1.0f, 1.0f}, FALSE, true);
+	SetFieldUpdate(BOSSBACK, camera, {22.f-50.f, -70.f, 1010.f-500.f}, {0.6f, 0.6f, 0.6f}, FALSE, true);
 
 	GuardAreaTexUpda();
 	PedestalMoving();
@@ -386,7 +393,7 @@ void Field::Update_Edit()
 
 	FieldObject->SetPosition({0.0f, -25.0f, 0.0f});
 	FieldObject->SetFogCenter({0.0f, -20.0f, 0.0f});
-	FieldObject->SetColor({0.2f, 0.2f, 0.2f, 1.0f});
+	FieldObject->SetColor({0.8f, 0.8f, 0.8f, 1.0f});
 	FieldObject->Update({0.2f, 0.2f, 0.2f, 1.0f}, camera);
 }
 
@@ -402,7 +409,9 @@ void Field::Update_Boss()
 	CelestalRot += 0.1f;
 	m_object[CELESTIALSPHERE]->SetRotation({ 0.0f, CelestalRot, 0.0f });
 	SetFieldUpdate(CELESTIALSPHERE, camera, { 0.0f, 30.0f, 0.0f }, { celestalscl, celestalscl, celestalscl }, FALSE, TRUE);
-
+	SpriteFeed(TexAlpha_BossName, feed_BossName, feedSpeed_BossName, 1.5f);
+	TexAlpha_BossName = min(TexAlpha_BossName, 3.0f);
+	TexAlpha_BossName = max(TexAlpha_BossName, 0.0f);
 	//背景のコロシアム更新
 	if (KoloiamAlpha <= 0.0f)
 	{
@@ -575,8 +584,29 @@ void Field::WarningDraw()
 			}
 		}
 		Texture::PostDraw();
-		//BossName->setcolor({ 1.0f, 1.0f, 1.0f, TexAlpha_BossName });
+
+		
 	}
+}
+void Field::SpriteFeed(float& alpha, bool& feed, const float feedSpeed, const float MaxAlphaValue)
+{
+	if (feed)
+	{
+		alpha -= 0.02f;
+	} else
+	{
+		alpha += feedSpeed;
+	}
+	if (alpha >= MaxAlphaValue)
+	{
+		feed = true;
+	}
+}
+void Field::NameDraw()
+{BossName->setcolor({ 1.0f, 1.0f, 1.0f, TexAlpha_BossName });
+	Sprite::PreDraw();
+	BossName->Draw();
+	Sprite::PostDraw();
 }
 
 void Field::SetFieldModel(ObjType type, Model* model, DebugCamera* camera)

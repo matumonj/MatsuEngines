@@ -12,6 +12,7 @@ class StoneControl :
 {
 	~StoneControl() override;
 private:
+	XMFLOAT3 defpos;
 	std::vector<std::unique_ptr<Stone>> stones;
 	std::vector<XMFLOAT3> Load_StonePosition;
 	std::vector<XMFLOAT3> Rotation;

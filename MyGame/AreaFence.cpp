@@ -73,7 +73,7 @@ bool AreaFence::CollideAreaFence()
 
 void AreaFence::FenceOpenCondition(bool condition)
 {
-	const float FenceDownSpeed = 0.1f;
+	const float FenceDownSpeed = 0.2f;
 	if (condition)
 	{
 		Position.y -= FenceDownSpeed;
@@ -83,7 +83,7 @@ void AreaFence::FenceOpenCondition(bool condition)
 	}
 	else
 	{
-		FencePosY_Min = Position.y - 70;
+		FencePosY_Min = Position.y - 30;
 	}
 	Position.y = max(Position.y, FencePosY_Min);
 }

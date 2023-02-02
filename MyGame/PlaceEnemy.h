@@ -37,11 +37,16 @@ public:
 		float Scl;
 		XMFLOAT4 Col;
 		bool Del;
+		int Hp;
+		bool Select;
+		int imnumber;
 	public:
 		float GetScl() { return Scl; }
 		XMFLOAT3 GetPos() { return Pos; }
 		bool GetDelF() { return Del; }
-
+		bool GetSelectThis() { return Select; }
+		void SetImguiNumber(int index) { imnumber=index; }
+		int GetImguiNumber() { return imnumber; }
 	public:
 		enum ENumber
 		{
@@ -71,6 +76,6 @@ private:
 		LIZARD,
 		THROWGOLEM
 	};
-
+	std::vector<bool>SelThis;
 	std::vector<ENumber>enumbers;
 };

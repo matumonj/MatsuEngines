@@ -11,6 +11,7 @@
 #include "GameOver.h"
 #include "HalfAttack.h"
 #include "Nail.h"
+#include "SelectSword.h"
 #include"UltAttack.h"
 
 BossScene::BossScene(SceneManager* sceneManager)
@@ -129,6 +130,7 @@ void BossScene::Update()
 
 void BossScene::SpriteDraw()
 {
+	Field::GetInstance()->NameDraw();
 	AttackEffect::GetIns()->Draw();
 	//UI
 	if (CameraControl::GetInstance()->GetCameraState() != CameraControl::BOSSCUTSCENE)
@@ -160,7 +162,7 @@ void BossScene::MyGameDraw()
 				AllObjectControl[i]->Draw();
 			}
 		}
-		
+		SelectSword::GetInstance()->SwordDraw();
 }
 
 /*------------------------*/

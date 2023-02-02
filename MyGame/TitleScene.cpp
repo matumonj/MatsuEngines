@@ -51,7 +51,7 @@ void TitleScene::Update()
 	}
 	if (Input::GetInstance()->TriggerButton(Input::A))
 	{
-		//SceneManager::GetInstance()->SetScene(SceneManager::MAPCREATE, sceneManager_);
+		SceneManager::GetInstance()->SetScene(SceneManager::MAPCREATE, sceneManager_);
 	}
 
 
@@ -106,6 +106,7 @@ void TitleScene::MyGameDraw()
 }
 bool TitleScene::ChangeScene()
 {
+	CameraBackF = true;
 	if (feedf)
 	{
 		Cangle += 0.5f;

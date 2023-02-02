@@ -13,9 +13,9 @@ void Particle::Init(UINT num)
 	parnum = num;
 
 	BeginParColor = {1.f, 1.f, 1.f, 1.f};
-	SetParType(10, m_particles[NORMAL], l_tex0);
+	SetParType(7, m_particles[NORMAL], l_tex0);
 
-	SetParType(20, m_particles[BLEATH], l_tex0);
+	SetParType(1, m_particles[BLEATH], l_tex0);
 }
 
 #include"PlayerControl.h"

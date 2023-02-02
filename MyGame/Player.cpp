@@ -60,17 +60,6 @@ void Player::Initialize()
 //ジャンプ
 void Player::Jump()
 {
-	//接地時のみ
-	if (onGround)
-	{
-		if (CustomButton::GetInstance()->GetJumpAction())
-		{
-			onGround = false;
-			const float jumpVYFist = 0.3f;
-			fallV = { 0.0f, jumpVYFist, 0.0f, 0.0f };
-		}
-	}
-
 
 	if (DamageEvaF)
 	{
@@ -186,8 +175,8 @@ void Player::Move()
 	//探索ステージでの移動制限
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
 	{
-		Position.x = std::clamp(Position.x, -615.f, 600.f);
-		Position.z = std::clamp(Position.z, -385.f, 822.f);
+		Position.x = std::clamp(Position.x, -300.f, 300.f);
+		Position.z = std::clamp(Position.z, -200.f, 400.f);
 	}
 	//ボスエリアでの移動制限
 	else if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
@@ -319,13 +308,11 @@ void Player::Update()
 
 void Player::Draw()
 {
+
+
 	Draw_Fbx();
-	SelectSword::GetInstance()->SwordDraw();
-	ImGui::Begin("fg");
-	ImGui::SliderInt("num", &hindex, 0, 27);
-	ImGui::Text("%d", TargetMarker::GetInstance()->GetNearIndex());
-	ImGui::Text("%f", Position.z);
-	ImGui::End();
+	
+	
 	AttackEffect::GetIns()->Draw();
 }
 
@@ -346,7 +333,7 @@ void Player::FbxAnimationControls(const AttackMotion& motiontype, const AttackMo
 	{
 
 		//FBXタイムを剣に持たせたTIME値に開始時に合わせる
-		AnimationContol(name, number, SelectSword::GetInstance()->GetSword()->GetAnimationTime(), false);
+		AnimationContol(name, number, SelectSword::GetInstance()->GetSword()->GetAnimationTime()+0.7, false);
 		m_AnimationStop = true;
 
 		if (m_fbxObject->GetAnimeTime() > m_fbxObject->GetEndTime() - 0.05)
@@ -389,6 +376,7 @@ void Player::FbxAnimationControl()
 	if(evasionF)
 	{
 		attackMotion = NON;
+		return;
 	}
 	float timespeed = 0.02f;
 	if (StopFlag)
@@ -425,11 +413,32 @@ void Player::FbxAnimationControl()
 
 XMMATRIX Player::GetMatrot()
 {
-	return m_fbxObject->GetMatrot();
+	return m_fbxObject->ExtractRotationMat(m_fbxObject->ExtractPositionMat(m_fbxObject->GetMatRot()));
+
+}
+
+void Player::KnockBack(XMFLOAT3 rot, float Knock)
+{
+	//if (KnockPower <= 0)return;
+	KnockPower = Knock;
+	if (KnockPower > 0.f) {
+		//移動ベクトルをy軸周りの角度で回転
+		XMVECTOR move = { 0.0f, 0.0f, 0.1f, 0.0f };
+
+		XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(rot.y));
+
+		move = XMVector3TransformNormal(move, matRot);
+
+		Position.x += move.m128_f32[0] * KnockPower;
+		Position.z += move.m128_f32[2] * KnockPower;
+
+		KnockPower -= 0.1f;
+	}
 }
 
 void Player::RecvDamage(int Damage)
 {
+
 	//攻撃受けたあと2秒は無敵
 	if (CoolTime != 0 || evasionF||HP<0)
 	{
@@ -445,6 +454,7 @@ void Player::RecvDamage(int Damage)
 	if (!HUD::GetInstance()->GetRecvDamageFlag())
 	{
 		CameraControl::GetInstance()->ShakeCamera();
+	
 		HUD::GetInstance()->SetRecvDamageFlag(true); //プレイヤーHPのHUD用
 	}
 

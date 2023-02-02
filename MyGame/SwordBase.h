@@ -15,7 +15,7 @@ public:
 	void Initialize() override;
 	void Update() override;
 	void Draw() override;
-	XMMATRIX GetMatrot() { return m_Object->ExtractRotationMat(); }
+	XMMATRIX GetMatrot() { return m_Object->GetMatWorld(); }
 	XMMATRIX GetMatWorld() { return m_Object->GetMatWorld(); }
 	float GetAnimationTime() { return AnimationTime; }
 	float GetKnockPower() { return KnockPower; }

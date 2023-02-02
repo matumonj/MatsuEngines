@@ -112,6 +112,7 @@ void PlaceHouse::ImGui_Draw()
 	}
 
 	{
+		ImGui::Text("Position");
 		ImGui::SliderFloat("posX", &pos.x, -500, 500);
 		ImGui::SliderFloat("posY", &pos.y, -300, 300);
 		ImGui::SliderFloat("posZ", &pos.z, -800, 800);
@@ -121,6 +122,12 @@ void PlaceHouse::ImGui_Draw()
 		ImGui::SliderFloat("rotX", &rot.x, 0, 360);
 		ImGui::SliderFloat("rotY", &rot.y, 0, 360);
 		ImGui::SliderFloat("rotZ", &rot.z, 0, 360);
+	}
+	{
+		ImGui::Text("Scale");
+		ImGui::SliderFloat("sclX", &scl.x, 0, 360);
+		ImGui::SliderFloat("sclY", &scl.y, 0, 360);
+		ImGui::SliderFloat("sclZ", &scl.z, 0, 360);
 	}
 
 	ImGui::End();

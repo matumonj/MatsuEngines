@@ -79,6 +79,10 @@ public:
 		};
 	}
 
+	XMMATRIX GetRotMatrix()
+	{
+		return m_fbxObject->ExtractRotationMat(m_fbxObject->GetMatRot());
+	}
 	//座標の押し戻し
 	void isOldPos()
 	{
@@ -87,6 +91,7 @@ public:
 		Position.z = oldpos.z;
 	}
 
+	void KnockBack(XMFLOAT3 rot,float Knock);
 	//プレーヤーの動き止める
 	void SetStopFlag(bool f) { StopFlag = f; }
 private:
@@ -96,6 +101,8 @@ private:
 	float angle;
 
 	int CoolTime;
+
+	float KnockPower;
 private:
 	//前座標
 	XMFLOAT3 oldpos = {};

@@ -33,7 +33,6 @@ void AttackCollision::Update()
 
 void AttackCollision::GetCol(int damage)
 {
-
 	//剣のOBBパラメータ
 	HandObb.SetOBBParam_Pos(PlayerControl::GetInstance()->GetPlayer()->GetHanMat());
 	HandObb.SetOBBParam_Rot(SelectSword::GetInstance()->GetSword()->GetMatrot());
@@ -41,6 +40,7 @@ void AttackCollision::GetCol(int damage)
 
 	//プレイヤーのインスタンス取得
 	Player* l_player = PlayerControl::GetInstance()->GetPlayer();
+	bool CheckColDis_Tutorial;
 
 	bool attackcolJudgTime_First = l_player->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->FIRST &&
 		l_player->GetAnimationTime() > 0.4f;
@@ -68,7 +68,10 @@ void AttackCollision::GetCol(int damage)
 		{
 			if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr)
 			{
-				if (Collision::CheckOBBCollision(HandObb, EnemyOBB[0]) == true && !HitCol)
+				CheckColDis_Tutorial =
+					Collision::GetLength(EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition(), l_player->GetPosition()) < 20.f;
+
+				if (CheckColDis_Tutorial&& Collision::CheckOBBCollision(HandObb, EnemyOBB[0]) == true && !HitCol)
 				{
 					AttackEffect::GetIns()->SetParticle(
 						EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition());
@@ -185,7 +188,7 @@ void AttackCollision::ColOBB(ColType Enemytype)
 			EnemyOBB[0].
 				SetOBBParam_Pos(EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition());
 			EnemyOBB[0].SetOBBParam_Rot(EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetMatrot());
-			EnemyOBB[0].SetOBBParam_Scl({2.0f, 15.0f, 2.0f});
+			EnemyOBB[0].SetOBBParam_Scl({2.0f, 5.0f, 2.0f});
 		}
 		break;
 	case PLAY:

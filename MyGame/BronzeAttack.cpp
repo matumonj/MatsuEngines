@@ -141,7 +141,7 @@ void BronzeAttack::SphereMoving()
 {
 
 	XMFLOAT3 bpos ={EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition()};
-	for(int i=0;i<15;i++)
+	for(int i=0;i<6;i++)
 	{
 		
 		if (chargespheremoveF[i])
@@ -172,7 +172,7 @@ void BronzeAttack::SphereMoving()
 		}
 	}
 	//
-	for (int i = 15; i < chargesphere.size() ; i++)
+	for (int i = 6; i < chargesphere.size() ; i++)
 	{
 		if (chargespheremoveF[i])
 		{

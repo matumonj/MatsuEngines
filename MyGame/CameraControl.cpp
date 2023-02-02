@@ -238,14 +238,14 @@ void CameraControl::TargetPlayer()
 	{
 		if (input->TiltPushStick(Input::R_RIGHT))
 		{
-			angle += 1.0f;
-			charaAngle += 1.0f;
+			angle += 2.0f;
+			charaAngle += 2.0f;
 			PlayerControl::GetInstance()->GetPlayer()->Setangle(charaAngle);
 		}
 		if (input->TiltPushStick(Input::R_LEFT))
 		{
-			angle -= 1.0f;
-			charaAngle -= 1.0f;
+			angle -= 2.0f;
+			charaAngle -= 2.0f;
 			PlayerControl::GetInstance()->GetPlayer()->Setangle(charaAngle);
 		}
 		dis.x = sinf(angle * (PI / 180.0f)) * 30.0f;
@@ -471,7 +471,7 @@ void CameraControl::BossCutScene_Spline()
 {
 	nowCount = static_cast<float>(GetTickCount64());
 	elapsedCount = nowCount - startCount;
-	elapsedTime = elapsedCount / 350.0f;
+	elapsedTime = elapsedCount / 280.0f;
 
 	timerate = elapsedTime / maxtime;
 	if (timerate >= 1)

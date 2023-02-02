@@ -1,7 +1,6 @@
 #include "BossEnemy.h"
 
 #include <algorithm>
-
 #include "RushAttack.h"
 #include "CameraControl.h"
 #include "CircleAttack.h"
@@ -257,10 +256,12 @@ void BossEnemy::Draw()
 		BossAttackAction[i]->Draw();
 	}
 	HalfAttack::GetInstance()->Draw();
+	
 }
 
 void BossEnemy::Death()
 {
+
 	if (!DieFlag)
 	{
 		DieFlag = true;

@@ -44,7 +44,7 @@ void Wood::Update()
 	Color = {1.0f, 1.0f, 1.0f, alpha};
 	ParameterSet_Obj();
 	m_Object->Setf(TRUE);
-	//m_Object->SetFogCenter(camera->GetEye());
+	m_Object->SetFogCenter(camera->GetEye());
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
 		m_Object->setFog(true);
 		m_Object->Setppos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());

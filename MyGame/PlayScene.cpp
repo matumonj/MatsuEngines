@@ -22,6 +22,7 @@
 #include "GuardianNAttack.h"
 #include "GuardianShotAttack.h"
 #include "HouseControl.h"
+#include "SelectSword.h"
 //シーンのコンストラクタ
 PlayScene::PlayScene(SceneManager* sceneManager)
 	: BaseScene(sceneManager)
@@ -114,9 +115,9 @@ void PlayScene::LightUpdate()
 	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 
 	lightGroup->SetCircleShadowDir(3, XMVECTOR({ circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0 }));
-	lightGroup->SetCircleShadowCasterPos(3, { ppos.x, ppos.y, ppos.z });
+	lightGroup->SetCircleShadowCasterPos(3, { ppos.x, ppos.y-3.f, ppos.z });
 	lightGroup->SetCircleShadowAtten(3, XMFLOAT3(circleShadowAtten));
-	lightGroup->SetCircleShadowFactorAngle(3, XMFLOAT2(1.4f,1.9f));
+	//lightGroup->SetCircleShadowFactorAngle(3, XMFLOAT2(1.4f,1.9f));
 
 	for (int i = 0; i < EnemyControl::GetInstance()->GetQuentity(); i++)
 	{
@@ -181,6 +182,7 @@ void PlayScene::MyGameDraw()
 	DropWeapon::GtIns()->Draw();
 	//postEffect->Draw();
 	Task::GetInstance()->TargetDraw();
+	SelectSword::GetInstance()->SwordDraw();
 }
 
 void PlayScene::SpriteDraw()
@@ -210,11 +212,11 @@ void PlayScene::Draw()
 		
 	case Default: //普通のやつ特に何もかかっていない
 		postEffect->PreDrawScene();
-		MyGameDraw();
+		
 		postEffect->PostDrawScene();
 
 		DirectXCommon::GetInstance()->BeginDraw();
-		postEffect->Draw();
+		MyGameDraw();//postEffect->Draw();
 		SpriteDraw();
 		DirectXCommon::GetInstance()->EndDraw();
 		break;
@@ -241,7 +243,7 @@ void PlayScene::LoadParam()
 
 		for (int i = 3; i < EnemyControl::GetInstance()->GetQuentity() + 4; i++)
 		{
-			lightGroup->SetDirLightActive(i, true);
+			lightGroup->SetDirLightActive(i,false);
 			lightGroup->SetPointLightActive(i, false);
 			lightGroup->SetCircleShadowActive(i, true);
 		}

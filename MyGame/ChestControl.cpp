@@ -35,7 +35,7 @@ void ChestControl::Init_Tutorial()
 	Tutorial_chest.resize(1);
 	Tutorial_chest[0] = std::make_unique<Chest>();
 	Tutorial_chest[0]->Initialize();
-	Tutorial_chest[0]->SetPosition({ 115.0f, -24.0f, -576.0f });
+	Tutorial_chest[0]->SetPosition({ 50.0f, -24.0f, -246.0f });
 	Tutorial_chest[0]->SetRotation({ 0.0f, 90.0f, 0.0f });
 
 	ParticleManager::LoadTexture(8, L"Resources/ParticleTex/normal.png");

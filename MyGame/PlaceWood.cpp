@@ -133,9 +133,16 @@ void PlaceWood::ImGui_Draw()
 	}
 
 	{
+		ImGui::Text("Position");
 		ImGui::SliderFloat("posX", &pos.x, -500, 500);
 		ImGui::SliderFloat("posY", &pos.y, -300, 300);
 		ImGui::SliderFloat("posZ", &pos.z, -800, 800);
+	}
+	{
+		ImGui::Text("Scale");
+		ImGui::SliderFloat("sclX", &scl.x, 0, 8);
+		ImGui::SliderFloat("sclY", &scl.y, 0, 8);
+		ImGui::SliderFloat("sclZ", &scl.z, 0, 8);
 	}
 	ImGui::End();
 }

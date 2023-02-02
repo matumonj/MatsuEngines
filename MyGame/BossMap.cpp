@@ -84,7 +84,7 @@ void BossMap::Upda()
 				blockColorETime[i][j] += 0.02f;
 				//mapobj[i][j]->SetUVf(true);
 				//mapobj[i][j]->SetShadowF(false);
-				mapobj[i][j]->SetColor({blockColor[i][j].x, blockColor[i][j].y, blockColor[i][j].z, 0.5});
+				mapobj[i][j]->SetColor({blockColor[i][j].x, blockColor[i][j].y, blockColor[i][j].z, 0.8f});
 			}
 			else
 			{

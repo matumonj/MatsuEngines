@@ -119,9 +119,9 @@ void AttackEffect::ParticleUpda()
 			AttackParticle[i].reset();
 		}
 	}
-	InpactScl.x += 0.05f;
-	InpactScl.y += 0.05f;
-	InpactAlpha -= 0.01f;
+	InpactScl.x += 0.1f;
+	InpactScl.y += 0.1f;
+	InpactAlpha -= 0.02f;
 
 	InpactTex->SetBillboard(TRUE);
 	InpactTex->SetPosition({ParCenterPos.x, ParCenterPos.y + 10.0f, ParCenterPos.z});

@@ -135,6 +135,7 @@ void StoneControl::Init_Tutorial()
 	//	stones[i]->Initialize(camera);
 	//	stones[i]->SetPosition(pos[i]);
 	//}
+	Load_StonePosition.resize(Quantity);
 	Tutorialstones.resize(Quantity);
 	for (int i = 0; i < Tutorialstones.size(); i++)
 	{
@@ -143,6 +144,9 @@ void StoneControl::Init_Tutorial()
 		Tutorialstones[i]->SetPosition(pos[i]);
 		Tutorialstones[i]->SetRotation(rot[i]);
 		Tutorialstones[i]->SetScale(scl[i]);
+
+		Load_StonePosition[i] = pos[i];
+
 	}
 }
 
@@ -238,10 +242,9 @@ void StoneControl::Init_Play()
 			}
 		}
 	}
-	stones.resize(Quantity);
 
 	//Load_StonePosition.resize(Quantity);
-
+	Load_StonePosition.resize(Quantity);
 	for (int i = 0; i < Quantity; i++)
 	{
 		stones[i] = std::make_unique<Stone>();
@@ -267,8 +270,14 @@ void StoneControl::Load()
 /*------------------------*/
 void StoneControl::Update_Tutorial()
 {
+	defpos.x = -52.f;
+	defpos.z = 315.f;
 	for (int i = 0; i < Tutorialstones.size(); i++)
 	{
+		
+		Tutorialstones[i]->SetPosition({ Load_StonePosition[i].x + defpos.x
+,Load_StonePosition[i].y + defpos.y ,
+		Load_StonePosition[i].z + defpos.z });
 		Tutorialstones[i]->SetColors({1.0f, 1.0f, 1.0f, 1.0f});
 		Tutorialstones[i]->Update();
 	}
@@ -317,6 +326,11 @@ void StoneControl::Draw_Tutorial()
 			Tutorialstones[i]->Draw();
 		}
 	}
+	ImGui::Begin("Stonepos");
+	ImGui::SliderFloat("x", &defpos.x, -100, 100);
+	ImGui::SliderFloat("y", &defpos.y, -100, 100);
+	ImGui::SliderFloat("z", &defpos.z, -500, 500);
+	ImGui::End();
 }
 
 void StoneControl::Draw_Play()

@@ -193,6 +193,11 @@ void WoodControl::Draw_Play()
 	{
 		if (woods[i] != nullptr)
 		{
+		//ˆê’èˆÈã‚Í‚È‚ê‚½‚ç•`‰æØ‚é
+			if (Collision::GetLength(pPos, woods[i]->GetPosition() )> 300.f)
+			{
+				continue;
+			}
 			woods[i]->Draw();
 		}
 	}

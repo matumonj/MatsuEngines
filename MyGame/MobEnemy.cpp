@@ -192,28 +192,30 @@ void MobEnemy::OBBSetParam()
 	//ƒvƒŒƒCƒ„[
 	playerOBB.SetOBBParam_Pos(l_player->GetPosition());
 	playerOBB.SetOBBParam_Rot(l_player->GetMatrot());
-	playerOBB.SetOBBParam_Scl({3.0f, 9.0f, 3.0f});
+	playerOBB.SetOBBParam_Scl({6.0f, 9.0f, 6.0f});
 
 	//‰¡“ã‚¬UŒ‚
 	if (atcktype == SIDEAWAY)
 	{
 		//ƒAƒjƒ[ƒVƒ‡ƒ“‚ªˆê’èƒtƒŒ[ƒ€‰z‚µ‚½‚ç
-		if (f_time >= NormalAttackTime + 1.f)
+		if (f_time >= NormalAttackTime + 0.4f)
 		{
 			if (Collision::CheckOBBCollision(playerOBB, HandSiteOBB) == true)
 			{
 				l_player->RecvDamage(10);
+				l_player->KnockBack({ 0,Rotation.y,0 },40.f);
 			}
 		}
 	}
 	//cU‚èUŒ‚
 	if (atcktype == VERTICAL)
 	{
-		if (f_time >= 4.8f && f_time <= 5.2f)
+		if (f_time >= 4.0f && f_time <= 4.6f)
 		{
 			if (Collision::CheckOBBCollision(playerOBB, HandSiteOBB) == true)
 			{
 				l_player->RecvDamage(10);
+				l_player->KnockBack({ 0,Rotation.y,0 },40.f);
 			}
 		}
 	}
@@ -233,9 +235,7 @@ void MobEnemy::Draw()
 		Sword->Draw();
 		Object3d::PostDraw();
 	}
-	ImGui::Begin("hindex");
-	ImGui::SliderInt("ind", &HandIndex, 0, 40);
-	ImGui::End();
+
 }
 
 void MobEnemy::EnemyHPDraw()
@@ -253,6 +253,10 @@ void MobEnemy::EnemyHPDraw()
 		EnemyName->Draw();
 		Sprite::PostDraw();
 	}
+	ImGui::Begin("hindex");
+	ImGui::SliderInt("ind", &HandIndex, 0, 40);
+	ImGui::Text("bb%f", f_time);
+	ImGui::End();
 }
 
 #include"ExpPointSystem.h"

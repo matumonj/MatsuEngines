@@ -1,9 +1,13 @@
 #include "Enemy.h"
+
+#include <algorithm>
+
 #include"mHelper.h"
 #include"EnemyWalkState.h"
 #include"BossEnemyStay.h"
 #include"PlayerControl.h"
 #include"GuardianAppearState.h"
+#include "SceneManager.h"
 using namespace DirectX;
 
 Enemy::Enemy()
@@ -84,6 +88,10 @@ void Enemy::RecvDamage(int Damage)
 
 void Enemy::HPFrameUpda()
 {
+	if (SceneManager::GetInstance()->GetScene() != SceneManager::TUTORIAL) {
+		Position.x = std::clamp(Position.x, -300.f, 300.f);
+		Position.z = std::clamp(Position.z, -200.f, 400.f);
+	}
 	//カメラのインスタンス取得
 	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
 	//2D->3D変換用

@@ -18,12 +18,12 @@ void FenceControl::Init_Tutorial()
 	Tutorialfence.resize(1);
 	Tutorialfence[0] = std::make_unique<AreaFence>();
 	Tutorialfence[0]->Initialize();
-	Tutorialfence[0]->SetPosition({110.0f, -40.0f, -596.0f});
+	Tutorialfence[0]->SetPosition({58.0f, -40.0f, -300.0f});
 	Tutorialfence[0]->SetRotation({0.0f, 0.0f, 0.0f});
-	Tutorialfence[0]->SetScale({8.39f, 10.0f, 4.0f});
+	Tutorialfence[0]->SetScale({3.39f, 7.0f, 4.0f});
 	BossGate = std::make_unique<AreaFence>();
 	BossGate->Initialize();
-	BossGate->SetPosition({17.0f, -35.0f, 852.0f});
+	BossGate->SetPosition({17.0f, -35.0f, 402.0f});
 	BossGate->SetRotation({0.0f, 0.0f, 0.0f});
 	BossGate->SetScale({8.39f, 10.0f, 4.0f});
 }

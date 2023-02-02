@@ -133,4 +133,6 @@ bool nextStageF;
 private:
 	bool PedestalDownF;
 	void PedestalMoving();
+public:
+	void NameDraw();
 };

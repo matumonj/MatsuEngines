@@ -28,6 +28,8 @@ float2 ConvertToNomalizeVector(float2 outs, float2 ins)
 
 bool IsCollidinglinesAndCircle(Line2D lines, Point circle)
 {
+	//return true;
+
 	// ƒxƒNƒgƒ‹‚Ìì¬
 	float2 start_to_center = float2(circle.x - lines.start.x, circle.y - lines.start.y);
 	float2 end_to_center = float2(circle.x - lines.end.x, circle.y - lines.end.y);
