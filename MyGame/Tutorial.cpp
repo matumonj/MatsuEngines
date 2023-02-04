@@ -185,6 +185,7 @@ void Tutorial::MyGameDraw()
 	}
 	TutorialSprite::GetInstance()->DrawTargetPos();
 	SelectSword::GetInstance()->SwordDraw();
+	AttackEffect::GetIns()->Draw();
 }
 
 void Tutorial::SpriteDraw()

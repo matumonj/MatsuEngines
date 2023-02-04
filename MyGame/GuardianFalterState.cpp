@@ -7,6 +7,7 @@ void GuardianFalterState::Initialize(Enemy* enemy)
 
 void GuardianFalterState::Update(Enemy* enemy)
 {
+	enemy->SetGuardAction(false);
 	enemy->SetRecvDamage2(false);
 	//索敵範囲
 	const float DetectionRange = 10.0f;

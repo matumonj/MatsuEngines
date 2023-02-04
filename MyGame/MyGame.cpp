@@ -21,7 +21,7 @@ void MyGame::Initialize()
 	ModelManager::GetIns()->Initialize();
 	ImageManager::GetIns()->Init();
 	GameOver::GetIns()->Initialize();
-
+	
 	Sprite::LoadTexture(0, L"Resources/2d/LevelUp/debugfont.png");
 
 	DebugTextSprite::GetInstance()->Initialize(0);

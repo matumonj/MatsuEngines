@@ -42,7 +42,7 @@ bool IsCollidinglinesAndCircle(Line2D lines, Point circle)
 	float distance_projection = start_to_center.x * normal_start_to_end.y - normal_start_to_end.x * start_to_center.y;
 
 	// 射影の長さが半径よりも小さい
-	if (abs(distance_projection) < 20)
+	if (abs(distance_projection) < dislen)
 	{
 		// 始点 => 終点と始点 => 円の中心の内積を計算する
 		float dot01 = start_to_center.x * start_to_end.x + start_to_center.y * start_to_end.y;
@@ -59,8 +59,8 @@ bool IsCollidinglinesAndCircle(Line2D lines, Point circle)
 			始点 => 円の中心の長さか、終点 => 円の中心の長さが
 			円の半径よりも短かったら当たり
 		*/
-		if (CalculationVectorLength(start_to_center) < 20 ||
-			CalculationVectorLength(end_to_center) < 20)
+		if (CalculationVectorLength(start_to_center) < dislen ||
+			CalculationVectorLength(end_to_center) < dislen)
 		{
 			return true;
 		}
@@ -102,8 +102,8 @@ void main(
 		if (gsflag)
 		{
 
-			lines.start = float2(cameraPos.x, cameraPos.z);
-			lines.end = float2(playerpos.x, playerpos.z);
+			lines.end = float2(cameraPos.x, cameraPos.z);
+			lines.start = float2(playerpos.x, playerpos.z);
 
 			points.x = element.svpos.x;
 			points.y = element.svpos.z;

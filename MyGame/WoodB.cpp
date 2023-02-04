@@ -39,6 +39,10 @@ void WoodB::Update()
 	Color = {1.0f, 1.0f, 1.0f, alpha};
 	ParameterSet_Obj();
 	m_Object->Setf(TRUE);
+	//m_Object->Setppos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
+	//m_Object->setFog(true);
+
+	m_Object->SetDisLen(800);
 	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
 		m_Object->setFog(true);
 		m_Object->SetFogCenter(camera->GetEye());
@@ -49,7 +53,7 @@ void WoodB::Update()
 		m_Object->setFog(false);
 	}
 
-	m_Object->SetDisLen(800);
+	//m_Object->SetDisLen(800);
 	//フィールド
 	CollideWood();
 }

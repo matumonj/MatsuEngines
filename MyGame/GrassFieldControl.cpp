@@ -77,7 +77,7 @@ void GrassFieldControl::Init_Tutorial()
 				std::getline(line_stream, word, ',');
 				float z = static_cast<float>(std::atof(word.c_str()));
 
-				pos[i] = {x, y, z};
+				pos[i] = {x-50.f, y, z+300.f};
 			}
 			if (word.find("ROTATION") == 0)
 			{

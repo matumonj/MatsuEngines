@@ -78,6 +78,14 @@ void BossEnemy::ResourcesSet()
 	swordrot={326.f,198.f,297.f};
 	Sword->SetScale({ 9,9,9 });
 
+	ShieldObj= std::make_unique<Object3d>();
+	
+	ShieldObj->Initialize(camera);
+	ShieldObj->SetModel(ModelManager::GetIns()->GetModel(ModelManager::SHIELD));
+	swordrot = { 326.f,198.f,297.f };
+	ShieldObj->SetScale({ 38,42,38 });
+
+
 }
 
 //初期化処理
@@ -132,6 +140,7 @@ void BossEnemy::Update()
 	{
 		return;
 	}
+	//swordrot = { 0,42,164 };
 	
 	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
 
@@ -165,8 +174,15 @@ void BossEnemy::Update()
 	HPGaugeBoss();
 	//持ってる斧の更新
 	Sword->Setf(FALSE);
-	Sword->SetRotation(swordrot);
+	Sword->SetRotation({303,169,306});
 	Sword->Update(handmat_left, { 1.0f, 1.0f, 1.0f, 1.0f }, camera);
+
+	ShieldObj->Setf(FALSE);
+	//ShieldObj->SetPosition(HandPos_Right);
+	ShieldObj->SetRotation(swordrot);
+	ShieldObj->SetBloomF(true);
+	//ShieldObj->SetShadowF(false);
+	ShieldObj->Update(handmat_right, { 1.0f, 1.0f, 1.0f, 1.0f }, camera);
 
 	Position.x = std::clamp(Position.x, -100.f, 100.f);
 	Position.z = std::clamp(Position.z, -100.f, 100.f);
@@ -175,17 +191,36 @@ void BossEnemy::Update()
 		BossAttackAction[i]->Upda();
 	}
 	HalfAttack::GetInstance()->Upda();
+
+
+	
+	if(GuardAction)
+	{
+		guardtime++;
+	
+	}
+	else
+	{
+		GuarPoint = 0;
+		guardtime = 0;
+	}
+
 }
 
 void BossEnemy::AttackCollide()
 {
 	//右手のボーン座標取る
-	m_fbxObject->GetBoneIndexMat(18,handmat_right);
+	m_fbxObject->GetBoneIndexMat(26,handmat_right);
 	HandPos_Right = {
 	handmat_right.r[3].m128_f32[0], handmat_right.r[3].m128_f32[1], handmat_right.r[3].m128_f32[2]
 	};
+	//
+	m_fbxObject->GetBoneIndexMat(29, handmat_right2);
+	HandPos_Right2 = {
+	handmat_right2.r[3].m128_f32[0], handmat_right2.r[3].m128_f32[1], handmat_right2.r[3].m128_f32[2]
+	};
 	//左
-	m_fbxObject->GetBoneIndexMat(64, handmat_left);
+	m_fbxObject->GetBoneIndexMat(69, handmat_left);
 	HandPos_Left = {
 		handmat_left.r[3].m128_f32[0], handmat_left.r[3].m128_f32[1], handmat_left.r[3].m128_f32[2]
 	};
@@ -246,17 +281,22 @@ void BossEnemy::Draw()
 	//ボス武器描画
 	Object3d::PreDraw();
 	Sword->Draw();
+	ShieldObj->Draw();
 	Object3d::PostDraw();
 
 	//ボス敵描画
 	Draw_Fbx();
 
+	ImGui::Begin("hin");
+	//ImGui::Text("%f", );
+	ImGui::Text("%f", ShieldObj->GetRotation().z);
+	ImGui::SliderFloat("hz", &rotadds, 0, 360);;
+	ImGui::End();
 	//各攻撃のオブジェクト描画
 	for (int i = 0; i < BossAttackAction.size(); i++) {
 		BossAttackAction[i]->Draw();
 	}
 	HalfAttack::GetInstance()->Draw();
-	
 }
 
 void BossEnemy::Death()

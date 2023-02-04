@@ -111,6 +111,7 @@
   <ItemGroup>
     <ClCompile Include="BossAttackActionManager.cpp" />
     <ClCompile Include="BossEnemyAttackThrow.cpp" />
+    <ClCompile Include="BossEnemyShieldGuard.cpp" />
     <ClCompile Include="RushAttack.cpp" />
     <ClCompile Include="AreaFence.cpp" />
     <ClCompile Include="AttackCollision.cpp" />
@@ -259,6 +260,7 @@
   <ItemGroup>
     <ClInclude Include="BossAttackActionManager.h" />
     <ClInclude Include="BossEnemyAttackThrow.h" />
+    <ClInclude Include="BossEnemyShieldGuard.h" />
     <ClInclude Include="RushAttack.h" />
     <ClInclude Include="AreaFence.h" />
     <ClInclude Include="AttackCollision.h" />

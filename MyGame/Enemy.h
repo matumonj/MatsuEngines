@@ -254,25 +254,39 @@ public: //stateêÿÇËë÷Ç¶
 
 	enum NowAttackMotion
 	{
-		BIDLE=10,
-		BROAR=7,
-		BNORMAL=11,
-		BNORMAL2 = 5,
-		MAGIC=12,
-		SWING=6,
-		EVASION=1,
-		FALTER=9,
-		BWALK=13,
-		BDEATH=8,
-		CHARGE=0,
-		THROW=2,
-		BJUMP=3
+		SHILEDWALK_FRONT=0,
+		SHIELDWALK_SIDE=1,
+		BIDLE=11,
+		BROAR=8,
+		BNORMAL=12,
+		BNORMAL2 = 15,
+		MAGIC=13,
+		SWING=7,
+		EVASION=3,
+		FALTER=10,
+		BWALK=14,
+		BDEATH=9,
+		CHARGE=2,
+		THROW=4,
+		BJUMP=5
 	};
 
 	int GetNowMotion() { return m_Number; }
 protected:
 	NowAttackMotion attackNum = NowAttackMotion::BIDLE;
+	OBB ShieldOBB;
+	bool GuardAction;
+	int guardtime;
+	int GuarPoint;
+public:
+	OBB GetShieldOBB() { return ShieldOBB; }
+	bool GetGuardAction() { return GuardAction; }
+	void SetGuardAction(bool f) { GuardAction = f; }
+	int GetGuardTime() { return guardtime; }
+	void SetGuardTime(int f) { guardtime = f; }
+	void SetGuardPointAdd() { GuarPoint++; }
 
+	int GetGuardPoint() { return GuarPoint; };
 public: //çUåÇéÌóﬁóÒãì
 	enum
 	{
@@ -302,14 +316,31 @@ protected:
 protected:
 		//óºéËÇÃçsóÒ
 		XMMATRIX handmat_right;
+		XMMATRIX handmat_right2;
 		XMMATRIX handmat_left;
 
 		//óºéËÇÃç¿ïW
 		XMFLOAT3 HandPos_Right;//18
+		XMFLOAT3 HandPos_Right2;//18
 		XMFLOAT3 HandPos_Left;//43
 
+		float rotadds;
+
+		bool HelpJudg;
+
+protected:
+	std::unique_ptr<Sprite>HelpIcon;
+	float HelpIconAlpha;
 public:
+	void HelpIconInit();
+	void HelpIconShow();
+	void HelpIconDraw();
+	void HelpAction();
+	void SetHelpIcon(bool f) { HelpJudg = f; }
+	bool GetHelpJudg() { return HelpJudg; }
+	float Getaddroa() { return rotadds; }
 	XMFLOAT3 HandRightPos() { return HandPos_Right; }
+	XMFLOAT3 HandRightPos2() { return HandPos_Right2; }
 	XMFLOAT3 HandLeftPos() { return HandPos_Left;; }
 protected:
 	std::array<std::unique_ptr<Sprite>, 4> HPFrame;
@@ -331,4 +362,12 @@ protected:
 	void HPFrameUpda();
 private:
 	std::list<std::unique_ptr<DamageManager>> dMans_;
+protected:
+	std::unique_ptr<Object3d>ShieldObj;
+	XMFLOAT3 shieldRot;
+
+public:
+	XMMATRIX GetMatWol() { return ShieldObj->ExtractRotationMat(); }
+	XMFLOAT3 GetShieldPos() { return HandPos_Right; }
+	XMFLOAT3 GetShieldRot() { return ShieldObj->GetRotation(); }
 };

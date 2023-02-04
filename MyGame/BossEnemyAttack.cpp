@@ -6,6 +6,7 @@
 #include"BossEnemy.h"
 #include "BossEnemyDeath.h"
 #include "BossEnemyEvasion.h"
+#include "BossEnemyShieldGuard.h"
 
 void BossEnemyAttack::Initialize(Enemy* enmey)
 {
@@ -20,16 +21,17 @@ void BossEnemyAttack::Update(Enemy* enemy)
 		//被ダメージ時
 		//乱数を生成し値が一定以上なら怯み状態
 		Evaprobability = rand() % 100 + 1;
-		if (Evaprobability > 30)
+		if (Evaprobability > 70)
 		{
 			enemy->ChangeState_Boss(new BossEnemyFalter());
 		}
 		else
 		{
+			enemy->ChangeState_Boss(new BossEnemyShieldGuard());
 			enemy->SetRecvDamage2(false);
 		}
 	}
-
+	enemy->SetGuardAction(false);
 	//ランダムで攻撃方法を選出
 	//ランダム生成処理も専用の関数作ったほうが。。
 	const int SideNum = 30;

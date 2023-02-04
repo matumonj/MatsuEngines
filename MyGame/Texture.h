@@ -188,6 +188,7 @@ public: // ƒƒ“ƒoŠÖ”
 	/// –ˆƒtƒŒ[ƒ€ˆ—
 	/// </summary>
 	void Update(DebugCamera* camera);
+	void Update(XMMATRIX matw, DebugCamera* camera);
 
 	/// <summary>
 	/// •`‰æ

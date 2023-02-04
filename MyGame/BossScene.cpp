@@ -53,8 +53,8 @@ void BossScene::Initialize()
 	circleShadowAtten[0] = -5.2f;
 	circleShadowAtten[1] = -0.2f;
 	circleShadowAtten[2] = 4.9f;
-	circleShadowAtten2[0] = 1.f;
-	circleShadowAtten2[1] =2.8f;
+	circleShadowAtten2[0] =2.2f;
+	circleShadowAtten2[1] =5.2f;
 	circleShadowAtten2[2] = -0.27f;
 }
 
@@ -98,9 +98,10 @@ void BossScene::Update()
 	LoadParam();
 
 	lightGroup->Update();
-
+	 
 	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
 
+	 
 	//ライティング更新
 	LightUpdate();
 	
@@ -163,6 +164,7 @@ void BossScene::MyGameDraw()
 			}
 		}
 		SelectSword::GetInstance()->SwordDraw();
+		AttackEffect::GetIns()->Draw();
 }
 
 /*------------------------*/
@@ -180,10 +182,16 @@ void BossScene::Draw()
 		postEffect->PostDrawScene();
 		
 		DirectXCommon::GetInstance()->BeginDraw();
-		
-		postEffect->Draw();
+		MyGameDraw();
+
 		//UI
 		SpriteDraw();
+		ImGui::Begin("light");
+		ImGui::SliderFloat("x", &circleShadowAtten2[0], 0, 10);
+		ImGui::SliderFloat("y", &circleShadowAtten2[1], 0, 10);
+		ImGui::SliderFloat("z", &circleShadowAtten2[2], 0, 10);
+		ImGui::End();
+
 		DirectXCommon::GetInstance()->EndDraw();
 		break;
 
@@ -191,8 +199,11 @@ void BossScene::Draw()
 	
 		DirectXCommon::GetInstance()->BeginDraw();
 		MyGameDraw();
-		//ImGui::Begin("light");
-		//ImGui::End();
+		ImGui::Begin("light");
+		ImGui::SliderFloat("x", &circleShadowAtten2[0], 0, 10);
+		ImGui::SliderFloat("y", &circleShadowAtten2[1], 0, 10);
+		ImGui::SliderFloat("z", &circleShadowAtten2[2], 0, 10);
+		ImGui::End();
 		SpriteDraw();
 		DirectXCommon::GetInstance()->EndDraw();
 		break;
@@ -272,7 +283,7 @@ void BossScene::LightUpdate()
 	if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0] != nullptr) {
 		lightGroup->SetCircleShadowFactorAngle(3, XMFLOAT2(circleShadowFactorAngle2));
 		XMFLOAT3 bpos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
-		lightGroup->SetCircleShadowCasterPos(3, { bpos.x,bpos.y + 7.f,bpos.z });
+		lightGroup->SetCircleShadowCasterPos(3, { bpos.x,bpos.y + 20.f,bpos.z });
 		lightGroup->SetCircleShadowAtten(3, XMFLOAT3(circleShadowAtten2));
 		lightGroup->SetCircleShadowDir(3, XMVECTOR({ circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0 }));
 	}

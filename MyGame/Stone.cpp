@@ -58,7 +58,7 @@ void Stone_A::Update()
 	m_Object->Setppos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
 	//m_Object->setFog(true);
 
-	m_Object->SetDisLen(4000);
+	m_Object->SetDisLen(300);
 	//フィールド
 	CollideStone();
 }

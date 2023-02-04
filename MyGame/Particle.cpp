@@ -117,14 +117,14 @@ void Particle::Bleath()
 	Charge(m_particles[BLEATH]);
 }
 
-void Particle::Upda()
+void Particle::Upda(float addspeed, float addalpha )
 {
 	if (Input::GetInstance()->TriggerButton(Input::Y))
 	{
 		//	m_particles[ParType::NORMAL].phase = INIT;
 	}
 	InitNormal(m_particles[NORMAL], createpos);
-	UpadaNormal_A(m_particles[NORMAL]);
+	UpadaNormal_A(m_particles[NORMAL],addspeed,addalpha);
 }
 
 void Particle::Upda_B()
@@ -205,7 +205,7 @@ void Particle::InitNormal(ParParam& parparam, XMFLOAT3 pos)
 	parparam.phase = UPDA;
 }
 
-void Particle::UpadaNormal_A(ParParam& parparam)
+void Particle::UpadaNormal_A(ParParam& parparam, float addspeed , float addalpha )
 {
 	if (parparam.phase != UPDA)
 	{
@@ -224,12 +224,12 @@ void Particle::UpadaNormal_A(ParParam& parparam)
 
 			break;
 		}
-		parparam.scl[i].x += 0.1f;
-		parparam.scl[i].y += 0.1f;
+		parparam.scl[i].x += addspeed;
+		parparam.scl[i].y += addspeed;
 		parparam.vel[i].x += parparam.speed[i] * cos(parparam.angle[i]); //360度に広がるようにする
 		parparam.vel[i].y += parparam.speed[i] * sin(parparam.angle[i]); //360度に広がるようにする
 		parparam.speed[i] += 0.002f; //徐々にスピードを速く
-		parparam.alpha[i] -= 0.02f;
+		parparam.alpha[i] -= addalpha;
 		if (parparam.alpha[i] < 0.0f && parparam.EndParUpda[i] == false)
 		{
 			parparam.f[i] = false;

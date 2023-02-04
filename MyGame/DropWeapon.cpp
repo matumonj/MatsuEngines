@@ -33,6 +33,7 @@ void DropWeapon::Init()
 
 	pickEffect = std::make_unique<Particle>();
 	pickEffect->Init(65);
+	pickEffect->SetParScl({ 1.0f,1.0f });
 }
 
 void DropWeapon::Drop(Weapon weapon, XMFLOAT3 droppos)

@@ -89,6 +89,8 @@ public:
 		GAMECLEAR_C = 31,
 		GAMECLEAR_L = 32,
 		GAMECLEAR_R = 33,
+
+		HELPICON=34,
 		CLEARBACK
 	};
 

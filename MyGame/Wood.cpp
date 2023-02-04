@@ -45,10 +45,10 @@ void Wood::Update()
 	ParameterSet_Obj();
 	m_Object->Setf(TRUE);
 	m_Object->SetFogCenter(camera->GetEye());
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY|| SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
 		m_Object->setFog(true);
 		m_Object->Setppos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
-		m_Object->SetBloomF(true);
+		//m_Object->SetBloomF(true);
 	}
 	else
 	{

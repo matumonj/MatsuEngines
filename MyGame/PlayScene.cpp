@@ -183,6 +183,7 @@ void PlayScene::MyGameDraw()
 	//postEffect->Draw();
 	Task::GetInstance()->TargetDraw();
 	SelectSword::GetInstance()->SwordDraw();
+	AttackEffect::GetIns()->Draw();
 }
 
 void PlayScene::SpriteDraw()

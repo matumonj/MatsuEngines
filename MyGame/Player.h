@@ -11,6 +11,8 @@
 #include<fstream>
 #include<string>
 #include<sstream>
+
+#include "Particle.h"
 class TargetMarker;
 
 class Player : public ObjectManager
@@ -94,7 +96,10 @@ public:
 	void KnockBack(XMFLOAT3 rot,float Knock);
 	//プレーヤーの動き止める
 	void SetStopFlag(bool f) { StopFlag = f; }
+
 private:
+	std::unique_ptr<Particle>runparticle;
+	bool RunParCreate;
 	//プレイヤーが持つ剣
 	std::unique_ptr<SwordBase> sword = nullptr;
 

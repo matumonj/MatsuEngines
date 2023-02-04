@@ -19,20 +19,20 @@ void main(
 {
 	// _WindDistortionMap("Wind Distortion Map", 2D) = "white" {}
 	//頂点の色
-	float4 _TopColor = {0.0, 1.0, 0.0, 1.0};
+	float4 _TopColor = {0.0, 0.6, 0.0, 1.0};
 	//根本の色
 	float4 _BottomColor = {0.0, 0.0, 0.0, 1.0};
 
 	//高さの基準値
-	float _Height = 1;
+	float _Height = 0.5;
 	//幅の基準値
 	float _Width = 0.5f;
 	//高さの比率@bottom, middle, high
-	float4 _HeightRate = {0.3, 0.4, 0.5, 0};
+	float4 _HeightRate = {0.3, 0.1, 0.5, 0};
 	//幅の比率@bottom, middle, high
 	float4 _WidthRate = {0.5, 0.4, 0.25, 0};
 	//風の揺れ率@bottom, middle, high
-	float4 _WindPowerRate = {0.9, 1.5, 2.5, 0};
+	float4 _WindPowerRate = {0.9, 1.0, 2.5, 0};
 	//風の強さ
 	float _WindPower = 2.0;
 	//風が吹く周期
@@ -52,13 +52,14 @@ void main(
 	float4 centerNor = float4((nor0 + nor1 + nor2).xyz / 3, 1.0f);
 
 	// VFX用の高さ、幅の調整
-	float height = (1 + 1 + 1) / 3.0f;
+	float height = 1.f;
 	float width = (3) / 3.0f;
 
 	float4 randpos2 = float4(rand(pos2.xy), rand(pos2.xy), rand(pos2.xy), rand(pos2.xy));
 	float4 randpos1 = float4(rand(pos1.xy), rand(pos1.xy), rand(pos1.xy), rand(pos1.xy));
 	//草の向き
-	float4 dir = float4(normalize(pos2 * randpos2 - pos0 * randpos1) * float4(width, width, width, width));
+	//草の向き
+	float4 dir = float4(normalize(pos2 - pos0) * float4(width, width, width, width));
 
 	//風表現もどきGrassObjの方でuvtimeいじって調整
 
@@ -90,7 +91,7 @@ void main(
 	o[5].col = lerp(_BottomColor, _TopColor, 0.6666f);
 
 	//top
-	o[6].pos = o[5].pos + centerNor * height * _Height * _HeightRate.z;
+	o[6].pos = o[5].pos + centerNor  * _HeightRate.z;
 	o[6].col = _TopColor;
 
 	o[2].pos += wind * _WindPowerRate.x;

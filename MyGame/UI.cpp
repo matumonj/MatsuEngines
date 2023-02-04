@@ -106,7 +106,10 @@ void UI::HUDDraw()
 	}
 
 	//PlayerControl::GetInstance()->DamageTexDraw();
-	
+	if (!TurnOffDrawUI)
+	{
+		PlayerControl::GetInstance()->DamageTexDraw();
+	}
 }
 
 void UI::AreaNameDraw()

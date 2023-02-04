@@ -173,10 +173,15 @@ private:
 	float shakey = 0.0f;
 	float shake = 0.0f;
 	float shaketime = 0.0f;
+	bool TargetEnemy;
 public:
 	bool GetAttackSceneF() { return AttackSceneF; }
 	void SetAttackSceneF(bool f) { AttackSceneF = f; }
 	int GetMoveBosAreaCam() { return mCamera; }
+
+	void SetCameraP_toE(Enemy*enemy);
+	float EaseT;
+	void SetTargetEenemy(bool f) { TargetEnemy = f; }
 private:
 	void BossSceneStart();
 	void BossCutScene_Spline();

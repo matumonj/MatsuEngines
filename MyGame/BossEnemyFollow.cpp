@@ -19,6 +19,7 @@
 #include "BossEnemyAttackHalf.h"
 #include "BossEnemyAttackUlt.h"
 #include "BossEnemyEvasion.h"
+#include "BossEnemyShieldGuard.h"
 #include "BronzeAttack.h"
 #include "UltAttack.h"
 
@@ -74,6 +75,8 @@ void BossEnemyFollow::Update(Enemy* enemy)
 
 	//////////////////////////////////////////////////////////////
 
+
+	
 	//•’Ê‚ÌUŒ‚
 	const bool attackJudg = Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 17.f;
 	if (attackJudg)
@@ -94,7 +97,10 @@ void BossEnemyFollow::Update(Enemy* enemy)
 		}
 		else
 		{
-			enemy->SetRecvDamage2(false);
+			if (Evaprobability > 20) {
+				enemy->ChangeState_Boss(new BossEnemyShieldGuard());
+				enemy->SetRecvDamage2(false);
+			}
 		}
 	}
 

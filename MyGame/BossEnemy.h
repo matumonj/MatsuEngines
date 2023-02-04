@@ -121,4 +121,10 @@ private:
 	std::stringstream popcom;
 	std::ifstream file;
 
+private:
+
+	OBB ShieldOBB;
+public:
+	OBB GetShieldOBB() { return ShieldOBB; }
+
 };

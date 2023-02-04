@@ -56,6 +56,8 @@ void MobEnemy::HPFrameInit()
 		HPFrame[i]->SetAnchorPoint({0.0f, 0.0f});
 	}
 	FrameScl.x = Percent::GetParcent(static_cast<float>(MaxHP), static_cast<float>(EnemyHP)) * 2.0f;
+
+	HelpIconInit();
 }
 
 //初期化処理
@@ -141,7 +143,7 @@ void MobEnemy::Update()
 	DamageTexDisplay();
 	ParameterSet_Fbx();
 
-
+	HelpIconShow();
 	//敵の色
 	if (SceneManager::GetInstance()->GetScene() != SceneManager::MAPCREATE) {
 		m_fbxObject->SetColor({ 1.0f, 1.0f, 1.0f, alpha });
@@ -187,7 +189,7 @@ void MobEnemy::OBBSetParam()
 	//手のワールド行列から各成分抜き出し
 	HandSiteOBB.SetOBBParam_Pos(Sword->ExtractPositionMat());
 	HandSiteOBB.SetOBBParam_Rot(Sword->ExtractRotationMat());
-	HandSiteOBB.SetOBBParam_Scl({10.0f, 10.0f, 8.0f});
+	HandSiteOBB.SetOBBParam_Scl({10.0f, 10.0f, 6.0f});
 
 	//プレイヤー
 	playerOBB.SetOBBParam_Pos(l_player->GetPosition());
@@ -198,24 +200,24 @@ void MobEnemy::OBBSetParam()
 	if (atcktype == SIDEAWAY)
 	{
 		//アニメーションが一定フレーム越したら
-		if (f_time >= NormalAttackTime + 0.4f)
+		if (f_time >= NormalAttackTime + 0.7f)
 		{
 			if (Collision::CheckOBBCollision(playerOBB, HandSiteOBB) == true)
 			{
 				l_player->RecvDamage(10);
-				l_player->KnockBack({ 0,Rotation.y,0 },40.f);
+				//l_player->KnockBack({ 0,Rotation.y,0 },40.f);
 			}
 		}
 	}
 	//縦振り攻撃
 	if (atcktype == VERTICAL)
 	{
-		if (f_time >= 4.0f && f_time <= 4.6f)
+		if (f_time >= 4.2f && f_time <= 4.7f)
 		{
 			if (Collision::CheckOBBCollision(playerOBB, HandSiteOBB) == true)
 			{
 				l_player->RecvDamage(10);
-				l_player->KnockBack({ 0,Rotation.y,0 },40.f);
+				//l_player->KnockBack({ 0,Rotation.y,0 },40.f);
 			}
 		}
 	}
@@ -253,6 +255,8 @@ void MobEnemy::EnemyHPDraw()
 		EnemyName->Draw();
 		Sprite::PostDraw();
 	}
+
+	HelpIconDraw();
 	ImGui::Begin("hindex");
 	ImGui::SliderInt("ind", &HandIndex, 0, 40);
 	ImGui::Text("bb%f", f_time);
@@ -317,12 +321,12 @@ void MobEnemy::FbxAnimationControl()
 		if (nowAttack)
 		{
 			//攻撃中
-			fbxanimationTime = 0.015f;
+			fbxanimationTime = 0.017f;
 		}
 		else
 		{
 			//歩きとか死亡時
-			fbxanimationTime = 0.01f;
+			fbxanimationTime = 0.02f;
 		}
 	}
 	//アニメーションカウント進める

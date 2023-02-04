@@ -35,42 +35,42 @@ PSOutPut main(GSOutput input)
 	// シェーディングによる色
 	float4 shadecolor = float4(ambientColor * ambient, m_alpha);
 	// 丸影
-
-	for (int cnum = 0; cnum < CIRCLESHADOW_NUM; cnum++)
-	{
-		if (circleShadows[cnum].active)
+	if (!bloomf) {
+		for (int cnum = 0; cnum < CIRCLESHADOW_NUM; cnum++)
 		{
-			// オブジェクト表面からキャスターへのベクトル
-			float3 casterv = circleShadows[cnum].casterPos - input.worldpos.xyz;
-			// 光線方向での距離
-			float d = dot(casterv, circleShadows[cnum].dir);
+			if (circleShadows[cnum].active)
+			{
+				// オブジェクト表面からキャスターへのベクトル
+				float3 casterv = circleShadows[cnum].casterPos - input.worldpos.xyz;
+				// 光線方向での距離
+				float d = dot(casterv, circleShadows[cnum].dir);
 
-			// 距離減衰係数
-			float atten = saturate(
-				1.0f / (circleShadows[cnum].atten.x + circleShadows[cnum].atten.y * d + circleShadows[cnum].atten.z * d
-					* d));
-			// 距離がマイナスなら0にする
-			atten *= step(0, d);
+				// 距離減衰係数
+				float atten = saturate(
+					1.0f / (circleShadows[cnum].atten.x + circleShadows[cnum].atten.y * d + circleShadows[cnum].atten.z * d
+						* d));
+				// 距離がマイナスなら0にする
+				atten *= step(0, d);
 
-			// ライトの座標
-			float3 lightpos = circleShadows[cnum].casterPos + circleShadows[cnum].dir * circleShadows[cnum].
-				distanceCasterLight;
-			//  オブジェクト表面からライトへのベクトル（単位ベクトル）
-			float3 lightv = normalize(lightpos - input.worldpos.xyz);
-			// 角度減衰
-			float cos = dot(lightv, circleShadows[cnum].dir);
-			// 減衰開始角度から、減衰終了角度にかけて減衰
-			// 減衰開始角度の内側は1倍 減衰終了角度の外側は0倍の輝度
-			float angleatten = smoothstep(circleShadows[cnum].factorAngleCos.y, circleShadows[cnum].factorAngleCos.x,
-				cos);
-			// 角度減衰を乗算
-			atten *= angleatten;
+				// ライトの座標
+				float3 lightpos = circleShadows[cnum].casterPos + circleShadows[cnum].dir * circleShadows[cnum].
+					distanceCasterLight;
+				//  オブジェクト表面からライトへのベクトル（単位ベクトル）
+				float3 lightv = normalize(lightpos - input.worldpos.xyz);
+				// 角度減衰
+				float cos = dot(lightv, circleShadows[cnum].dir);
+				// 減衰開始角度から、減衰終了角度にかけて減衰
+				// 減衰開始角度の内側は1倍 減衰終了角度の外側は0倍の輝度
+				float angleatten = smoothstep(circleShadows[cnum].factorAngleCos.y, circleShadows[cnum].factorAngleCos.x,
+					cos);
+				// 角度減衰を乗算
+				atten *= angleatten;
 
-			// 全て減算する
-			shadecolor.rgb -= atten;
+				// 全て減算する
+				shadecolor.rgb -= atten;
+			}
 		}
 	}
-
 
 	// 点光源
 	for (int pnum = 0; pnum < 3; pnum++)

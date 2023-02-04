@@ -36,13 +36,14 @@ public:
 	void ImGuiDraw();
 	
 	Player* GetPlayer() { return player.get(); }
-
+	void DamageTexDraw();
 	void BossFieldCol();
 	void DamageTexUpdate();
 	void GameOverResetParam();
 	void TurnoffDraw(bool f) { TurnoffDrawF = f; }
 	float GetVignetteAlpha() { return vignette; }
 private:
+	float dalpha;
 	void Init_Tutorial() override;
 
 	void Init_Play() override;

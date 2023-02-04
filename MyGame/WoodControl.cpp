@@ -21,17 +21,17 @@ WoodControl::~WoodControl()
 
 void WoodControl::Init_Tutorial()
 {
-	Tutorialwoods.resize(3);
-	Tutorialwoods[0] = std::make_unique<Wood>();
-	Tutorialwoods[1] = std::make_unique<Wood>();
-	Tutorialwoods[2] = std::make_unique<Wood>();
+	Tutorialwoods.resize(5);
 	for (int i = 0; i < Tutorialwoods.size(); i++)
 	{
+		Tutorialwoods[i] = std::make_unique<Wood>();
 		Tutorialwoods[i]->Initialize();
 	}
-	Tutorialwoods[0]->SetPosition({92.0f, -28.0f, -689.0f});
-	Tutorialwoods[1]->SetPosition({70.0f, -28.0f, -700.0f});
-	Tutorialwoods[2]->SetPosition({110.0f, -28.0f, -720.0f});
+	Tutorialwoods[0]->SetPosition({42.0f, -28.0f, -389.0f});
+	Tutorialwoods[1]->SetPosition({20.0f, -28.0f, -350.0f});
+	Tutorialwoods[2]->SetPosition({70.0f, -28.0f, -340.0f});
+	Tutorialwoods[3]->SetPosition({ 30.0f, -28.0f, -410.0f });
+	Tutorialwoods[4]->SetPosition({ 70.0f, -28.0f, -390.0f });
 }
 
 void WoodControl::Init_Play()

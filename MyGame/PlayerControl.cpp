@@ -19,7 +19,7 @@ void PlayerControl::Init_Tutorial()
 	player = std::make_unique<Player>();
 	player->Initialize();
 
-	StartPos = {62.0f, 30.0f, -386.0f};
+	StartPos = {62.0f, -20.0f, -386.0f};
 
 	player->SetPosition(StartPos);
 	AttackCollision::GetInstance()->Init();
@@ -61,7 +61,7 @@ void PlayerControl::Load()
 	switch (SceneManager::GetInstance()->GetScene())
 	{
 	case SceneManager::TUTORIAL:
-		StartPos = {92.0f, -20.0f, -760.0f};
+		StartPos = {92.0f, -50.0f, -760.0f};
 		break;
 	case SceneManager::PLAY:
 		StartPos = {110.0f, -12.0f, -379.0f};
@@ -124,6 +124,13 @@ void PlayerControl::DamageTexUpdate()
 {
 	if (HUD::GetInstance()->GetRecvDamageFlag())
 	{
+		dalpha = 1.0f;
+	}
+	dalpha -= 0.02f;
+	DamageTex->setcolor({ 1, 1, 1, dalpha });
+	dalpha = max(dalpha, 0.0f);
+	/*if (HUD::GetInstance()->GetRecvDamageFlag())
+	{
 		vignette = 0.5f;
 	}
 	if(player->GetHP()<0)
@@ -131,7 +138,17 @@ void PlayerControl::DamageTexUpdate()
 		vignette = 0.5f;
 	}
 	vignette -= 0.02f;
-	vignette = max(vignette, 0.0f);
+	vignette = max(vignette, 0.0f);*/
+}
+void PlayerControl::DamageTexDraw()
+{
+	if (HUD::GetInstance()->GetPlayerHP()->GetSize().x > 0.f && GetInstance()->GetPlayer()->GetHP() > 0)
+	{
+		player->DamageTexDraw();
+		Sprite::PreDraw();
+		DamageTex->Draw();
+		Sprite::PostDraw();
+	}
 }
 
 /*------------------------*/

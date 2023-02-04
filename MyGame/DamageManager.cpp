@@ -11,7 +11,7 @@ DamageManager::DamageManager(XMFLOAT3 Position, int Damage)
 	DamageTex = std::make_unique<DebugTextSprite>();
 	DamageTex->Initialize(0);
 	TexAlpha = 1.0f;
-	TexSize = {float(Damage)/15.0f, float(Damage) / 15.f };
+	TexSize = {float(Damage)/10.0f, float(Damage) / 10.f };
 }
 
 DamageManager::~DamageManager()

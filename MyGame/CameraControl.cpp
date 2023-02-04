@@ -1,4 +1,6 @@
 #include "CameraControl.h"
+
+#include <algorithm>
 #include<windows.h>
 #include"Feed.h"
 #include"SceneManager.h"
@@ -471,7 +473,7 @@ void CameraControl::BossCutScene_Spline()
 {
 	nowCount = static_cast<float>(GetTickCount64());
 	elapsedCount = nowCount - startCount;
-	elapsedTime = elapsedCount / 280.0f;
+	elapsedTime = elapsedCount / 20.0f;
 
 	timerate = elapsedTime / maxtime;
 	if (timerate >= 1)
@@ -533,7 +535,7 @@ void CameraControl::PlaySceneStart()
 	case SPLINE:
 		nowCount = static_cast<float>(GetTickCount64());
 		elapsedCount = nowCount - startCount;
-		elapsedTime = elapsedCount / 750.0f;
+		elapsedTime = elapsedCount / 70.0f;
 
 		timerate = elapsedTime / maxtime;
 		if (timerate >= 1)
@@ -587,6 +589,11 @@ void CameraControl::PlaySceneStart()
 		break;
 	}
 	this->camera->SetTarget({PlayerControl::GetInstance()->GetPlayer()->GetPosition()});
+}
+
+void CameraControl::SetCameraP_toE(Enemy* enemy)
+{
+	
 }
 
 

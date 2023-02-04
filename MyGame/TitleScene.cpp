@@ -42,6 +42,7 @@ void TitleScene::Update()
 {
 	if (Input::GetInstance()->TriggerButton(Input::B))
 	{
+		CameraBackF = true;
 		//SceneManager::GetInstance()->SetScene(SceneManager::TUTORIAL, sceneManager_);
 
 		//‰Ÿ‚³‚ê‚½‚ç
@@ -106,7 +107,7 @@ void TitleScene::MyGameDraw()
 }
 bool TitleScene::ChangeScene()
 {
-	CameraBackF = true;
+	
 	if (feedf)
 	{
 		Cangle += 0.5f;
@@ -254,6 +255,9 @@ void TitleScene::TitleFieldUpda()
 
 	//XVˆ—
 	field->setFog(true);
+	celestal->Setf(true);
+	celestal->setFog(true);
+	celestal->SetFogCenter(camera->GetEye());
 	field->Update({0.6f, 0.6f, 0.6f, 1.0f}, camera.get());
 	celestal->Update({0.6f, 0.6f, 0.6f, 1.0f}, camera.get());
 }

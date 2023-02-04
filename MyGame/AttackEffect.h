@@ -20,6 +20,8 @@ public:
 
 	void ParticleUpda();
 	void SetParticle(XMFLOAT3 pos);
+
+	void GuarEffect(XMFLOAT3 pos);
 private:
 	void LoadTex();
 	void Effect_Non();
@@ -62,9 +64,23 @@ public:
 
 	EffectType GetEffectType() { return etype; }
 
+	
 private:
 	//斬撃用テクスチャ
+	static constexpr int Gsize=2;
 	std::unique_ptr<Texture> AttackTex;
+	std::unique_ptr<Texture> GuardTex[2];
+	float GuardAlpha[2];
+	XMFLOAT3 GuardSize[2];
+	XMFLOAT3 GuardRot[2];
+	bool GuarJudg;
+	enum GuarPhase
+	{
+		NOGUARD,
+		LARGE,
+		FEED,
+		END
+	}gphase=END;
 	//攻撃時に出るパーティクル
 	std::vector<std::unique_ptr<Texture>> AttackParticle;
 	//
@@ -85,4 +101,11 @@ private:
 	//
 	float InpactAlpha = 0;
 	XMFLOAT2 InpactScl = {0.0f, 0.0f};
+	XMFLOAT3 defrot;
+	XMMATRIX matwo;
+	XMFLOAT3 addrot;
+public:
+	void SetMatW(XMMATRIX m) { matwo = m; }
+	void SetGuardRot(XMFLOAT3 rot) { defrot = rot; }
+	void SetGuadJudg(bool f) { gphase =NOGUARD ; GuarJudg = f; }
 };

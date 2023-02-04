@@ -7,7 +7,9 @@
 #include"BossEnemyStay.h"
 #include"PlayerControl.h"
 #include"GuardianAppearState.h"
+#include "ImageManager.h"
 #include "SceneManager.h"
+#include"CameraControl.h"
 using namespace DirectX;
 
 Enemy::Enemy()
@@ -32,11 +34,62 @@ void Enemy::Action()
 	AttackCoolTime();
 }
 
+void Enemy::HelpIconInit()
+{
+	Sprite* l_frame = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::HELPICON), { 0, 0 });
+
+	HelpIcon.reset(l_frame);
+	HelpIcon->SetAnchorPoint({ 0.5f,0.5f });
+	HelpIconAlpha = 0.f;
+}
+
+void Enemy::HelpIconShow()
+{
+	if(HelpJudg)
+	{
+		HelpIconAlpha += 0.1f;
+		if (HelpIconAlpha >= 2.f)
+		{
+			HelpJudg = false;
+		}
+	}
+	else
+	{
+		HelpIconAlpha -= 0.02f;
+	}
+
+
+	XMVECTOR tex2DPos = { Position.x, Position.y + 5.f, Position.z };
+	tex2DPos = MatCal::PosDivi(tex2DPos, CameraControl::GetInstance()->GetCamera()->GetViewMatrix(), false);
+	tex2DPos = MatCal::PosDivi(tex2DPos, CameraControl::GetInstance()->GetCamera()->GetProjectionMatrix(), true);
+	tex2DPos = MatCal::WDivi(tex2DPos, false);
+	tex2DPos = MatCal::PosDivi(tex2DPos, CameraControl::GetInstance()->GetCamera()->GetViewPort(), false);
+
+	HelpIconAlpha = std::clamp(HelpIconAlpha, 0.0f, 2.f);
+	HelpIcon->SetPosition({ tex2DPos.m128_f32[0],tex2DPos.m128_f32[1] });
+	HelpIcon->setcolor({ 1.f,1.f,1.f,HelpIconAlpha });
+	HelpIcon->SetSize({ 200.f,200.f });
+}
+
+void Enemy::HelpIconDraw()
+{
+	if (HelpIconAlpha <= 0.f)return;
+	Sprite::PreDraw();
+	HelpIcon->Draw();
+	Sprite::PostDraw();
+}
+
+
 #include"PlayerAttackState.h"
-#include"CameraControl.h"
+void Enemy::HelpAction()
+{
+	//3D->2D変換 3引数消す
+
+}
 
 void Enemy::RecvDamage(int Damage)
 {
+	//HelpJudg = true;
 	//被ダメージ時の行動
 	//例外処理
 	if (this == nullptr || EnemyHP < 0)

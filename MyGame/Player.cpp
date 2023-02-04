@@ -43,7 +43,11 @@ void Player::Initialize()
 	m_Object = std::make_unique<Object3d>();
 	m_Object->Initialize(camera);
 
-	
+	runparticle= std::make_unique<Particle>();
+	runparticle->Init(64);
+	runparticle->SetParScl({ 0.3f,0.3f });
+	runparticle->SetParColor({ 1.f, 1.f, 1.f, 1.f });
+
 	//地形判定のコライダーセット
 	SetCollider();
 
@@ -114,6 +118,7 @@ void Player::Move()
 		input->TiltPushStick(Input::L_RIGHT, 0.0f) ||
 		input->TiltPushStick(Input::L_LEFT, 0.0f))
 	{
+		RunParCreate = true;
 		//状態を走りに
 		attackMotion = RUN;
 
@@ -162,9 +167,11 @@ void Player::Move()
 		//向いた方向に進む
 		Position.x += move.m128_f32[0] * movespeed * AddSpeed;
 		Position.z += move.m128_f32[2] * movespeed * AddSpeed;
+		
 		Gmove = move;
 	} else
 	{
+		RunParCreate = false;
 		//静止時間
 		if ((!m_AnimationStop))
 		{
@@ -184,7 +191,8 @@ void Player::Move()
 		Position.x = std::clamp(Position.x, -100.f, 100.f);
 		Position.z = std::clamp(Position.z, -100.f, 100.f);
 	}
-
+	if(attackMotion!=RUN)RunParCreate = false;
+	
 }
 
 void Player::ReStartSetParam()
@@ -225,6 +233,7 @@ void Player::Evasion()
 
 	if (evasionF)
 	{
+		PlayerAttackState::GetInstance()->SetHitStopJudg(false);
 		//FBXタイムを回避モーション開始時に合わせる
 		AnimationContol(EVASION, 6, 1.0, false);
 
@@ -240,7 +249,7 @@ void Player::Evasion()
 			Position.z += Gmove.m128_f32[2] * Easing::EaseOut(evaTime, 15.0f, 0.0f);
 		} else
 		{
-			if (m_fbxObject->GetAnimeTime() >= m_fbxObject->GetEndTime() - 0.3f) {
+			if (m_fbxObject->GetAnimeTime() >= m_fbxObject->GetEndTime() - 0.1f) {
 				AnimationContol(IDLE, 9, 1, false);
 				m_AnimationStop = false;
 
@@ -302,7 +311,20 @@ void Player::Update()
 		SelectSword::GetInstance()->Update();
 		//攻撃エフェクト
 		AttackEffect::GetIns()->Upda();
+
+		if (!RunParCreate||evasionF)
+		{
+			runparticle->EndUpda(true);
+		}
+		else
+		{runparticle->EndUpda(false);
+
+		}	runparticle->CreateParticle(true, { Position.x,Position.y-2.f,Position.z });
+			runparticle->Upda(0.01f,0.04f);
+
+		
 	}
+
 }
 
 
@@ -312,8 +334,8 @@ void Player::Draw()
 
 	Draw_Fbx();
 	
-	
-	AttackEffect::GetIns()->Draw();
+	runparticle->Draw();
+
 }
 
 void Player::DamageTexDraw()
@@ -331,7 +353,7 @@ void Player::FbxAnimationControls(const AttackMotion& motiontype, const AttackMo
 
 	if (attackMotion == motiontype)
 	{
-
+		//RunParCreate = false;
 		//FBXタイムを剣に持たせたTIME値に開始時に合わせる
 		AnimationContol(name, number, SelectSword::GetInstance()->GetSword()->GetAnimationTime()+0.7, false);
 		m_AnimationStop = true;

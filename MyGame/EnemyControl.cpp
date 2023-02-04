@@ -89,6 +89,7 @@ void EnemyControl::Init_Play()
 	}
 	Num.resize(Quantity);
 	pos.resize(Quantity);
+	scl.resize(Quantity);
 	rescount.resize(Quantity);
 	for (int i = 0; i < Quantity; i++)
 	{
@@ -127,6 +128,20 @@ void EnemyControl::Init_Play()
 				float z = static_cast<float>(std::atof(word.c_str()));
 
 				pos[i] = {x, y, z};
+				//break;
+			}
+			else if (word.find("SCL") == 0)
+			{
+				std::getline(line_stream, word, ',');
+				float x = static_cast<float>(std::atof(word.c_str()));
+
+				std::getline(line_stream, word, ',');
+				float y = static_cast<float>(std::atof(word.c_str()));
+
+				std::getline(line_stream, word, ',');
+				float z = static_cast<float>(std::atof(word.c_str()));
+
+				scl[i] = { x+0.02f, y+0.02f, z+0.02f };
 				break;
 			}
 		}
@@ -156,6 +171,7 @@ void EnemyControl::Init_Play()
 		}
 		enemys[PLAYSCENE][i]->Initialize();
 		enemys[PLAYSCENE][i]->SetPosition(pos[i]);
+		enemys[PLAYSCENE][i]->SetScale(scl[i]);
 		enemys[PLAYSCENE][i]->SetRespawnPos(pos[i]);
 		enemys[PLAYSCENE][i]->SetRespawnCountMax(rescount[i]);
 	}

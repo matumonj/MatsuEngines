@@ -702,6 +702,9 @@
     <ClCompile Include="BossEnemyAttackSlam.cpp">
       <Filter>Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\SecondHalf\Sequence\FrontCircle</Filter>
     </ClCompile>
+    <ClCompile Include="BossEnemyShieldGuard.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sprite.h">
@@ -1168,6 +1171,9 @@
     </ClInclude>
     <ClInclude Include="BossEnemyAttackSlam.h">
       <Filter>Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\SecondHalf\Sequence\FrontCircle</Filter>
+    </ClInclude>
+    <ClInclude Include="BossEnemyShieldGuard.h">
+      <Filter>Game\Shader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

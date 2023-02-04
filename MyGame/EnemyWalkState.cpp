@@ -1,4 +1,6 @@
 #include "EnemyWalkState.h"
+
+#include "AttackCollision.h"
 #include"EnemyAttackState.h"
 #include"EnemyStayState.h"
 #include"EnemyFollowState.h"
@@ -7,6 +9,7 @@
 #include"EnemyDeathState.h"
 
 #include"EnemyKnockState.h"
+#include "SceneManager.h"
 
 void EnemyWalkState::Initialize(Enemy* enmey)
 {
@@ -64,15 +67,30 @@ void EnemyWalkState::do_work(Enemy* enemy)
 
 void EnemyWalkState::Update(Enemy* enemy)
 {
+	if (SceneManager::GetInstance()->GetScene() == SceneManager::MAPCREATE)return;
 	do_work(enemy);
 
 	BacktoGround(enemy);
 	enemy->SetAnimeState(enemy->WALK);
+
+	bool SearchHelp = Collision::GetLength(enemy->GetPosition(),
+		PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 150.f&&
+		AttackCollision::GetInstance()->GetHelpJudg();
 	//UŒ‚
 	if (SearchPlayer)
 	{
+		 enemy->ChangeState_Mob(new EnemyFollowState());
 		//’ÇÕ
-		enemy->ChangeState_Mob(new EnemyFollowState());
+		
+	}
+	if(SearchHelp)
+	{
+		if (Collision::GetLength(enemy->GetPosition(),
+			PlayerControl::GetInstance()->GetPlayer()->GetPosition()) > 40.f) {
+			enemy->SetHelpIcon(true);
+
+			enemy->ChangeState_Mob(new EnemyFollowState());
+		}
 	}
 	if (enemy->GetHP() <= 0.0f)
 	{

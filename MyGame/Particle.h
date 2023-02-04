@@ -13,7 +13,7 @@ private:
 	using XMMATRIX = DirectX::XMMATRIX;
 public:
 	void Init(UINT num);
-	void Upda();
+	void Upda(float addspeed = 0.1f, float addalpha = 0.02f);
 	void Bleath();
 	void Upda_B();
 	void Draw();
@@ -84,7 +84,7 @@ private:
 	void EndParticleUpda(ParParam& parparam);
 
 	void InitNormal(ParParam& parparam, XMFLOAT3 pos);
-	void UpadaNormal_A(ParParam& parparam);
+	void UpadaNormal_A(ParParam& parparam, float addspeed , float addalpha);
 	void UpadaNormal_B(ParParam& parparam);
 	void UpadaBleath(ParParam& parparam);
 	void Charge(ParParam& parparam);
@@ -106,11 +106,16 @@ public:
 
 	void EndUpda(bool f)
 	{
-		if (f)
-		{
+		
 			for (int i = 0; i < m_particles[NORMAL].size; i++) { m_particles[NORMAL].EndParUpda[i] = f; }
-		}
+		
 	}
+	void StartUpda(bool f)
+	{
+			for (int i = 0; i < m_particles[NORMAL].size; i++) { m_particles[NORMAL].EndParUpda[i] = f; }
+
+	}
+
 
 	bool GetParPhase_End()
 	{

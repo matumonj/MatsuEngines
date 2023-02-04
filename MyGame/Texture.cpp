@@ -504,7 +504,48 @@ void Texture::Update(DebugCamera* camera)
 	constBuff->Unmap(0, nullptr);
 	//TransferVertices();
 }
+void Texture::Update(XMMATRIX matw, DebugCamera* camera)
+{
+	//anchorpoint = { 0,0 };
+	HRESULT result;
+	XMMATRIX matScale, matRot, matTrans;
 
+	// スケール、回転、平行移動行列の計算
+	matScale = XMMatrixScaling(scale.x, scale.y, scale.z);
+	matRot = XMMatrixIdentity();
+	matRot *= XMMatrixRotationZ(XMConvertToRadians(rotation.z));
+	matRot *= XMMatrixRotationX(XMConvertToRadians(rotation.x));
+	matRot *= XMMatrixRotationY(XMConvertToRadians(rotation.y));
+	matTrans = XMMatrixTranslation(position.x, position.y, position.z);
+
+	//if (isBillboard) {
+	const XMMATRIX& matBillboard = camera->GetBillboardMatrix();
+
+	matWorld = XMMatrixIdentity();
+	matWorld *= matScale; // ワールド行列にスケーリングを反映
+	matWorld *= matRot*matw; // ワールド行列に回転を反映
+	if (BillBordflag)
+	{
+		matWorld *= matBillboard;
+	}
+	matWorld *= matTrans; // ワールド行列に平行移動を反映
+	//}
+	// ワールド行列の合成
+
+	// 定数バッファへデータ転送
+	ConstBufferData* constMap = nullptr;
+	result = constBuff->Map(0, nullptr, (void**)&constMap);
+	constMap->color = color;
+	constMap->matbillbord = camera->GetBillboardMatrix();
+	constMap->world = matWorld;
+	constMap->mat = matWorld * camera->GetViewMatrix() * camera->GetProjectionMatrix(); // 行列の合成
+	constMap->uvmove = uvf;
+	constMap->time = uvtime;
+	constMap->dispos = position;
+	constMap->radius = DisplayRadius;
+	constBuff->Unmap(0, nullptr);
+	//TransferVertices();
+}
 void Texture::SetPosition(XMFLOAT3 position)
 {
 	this->position = position;

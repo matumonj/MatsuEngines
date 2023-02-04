@@ -41,6 +41,7 @@ void ModelManager::Initialize()
 	LoadModel(BEAM2, "BossBeam");
 	LoadModel(TOWER, "SkyBack");
 	LoadModel(BOSSWEAPON, "BossWeapon");
+	LoadModel(SHIELD, "Shield");
 }
 
 void ModelManager::LoadModel(const ModelName modelName, std::string fileName)

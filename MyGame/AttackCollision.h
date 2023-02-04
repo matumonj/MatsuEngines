@@ -41,6 +41,11 @@ public:
 	void Draw();
 
 	void Finalize();
+
+	bool GetHelpJudg() { return HelpJudg; }
+private:
+	bool HelpJudg;
+	void BossCol(int damage);
 private:
 	enum ColType
 	{

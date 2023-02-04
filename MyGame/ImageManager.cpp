@@ -69,6 +69,7 @@ void ImageManager::Init()
 	LoadTex2D(GAMECLEAR_L, L"Resources/2d/ClearTex/l.png");
 	LoadTex2D(GAMECLEAR_R, L"Resources/2d/ClearTex/r.png");
 	LoadTex2D(CLEARBACK, L"Resources/skydome/beautiful_tree-beautiful_natural_landscape_wallpaper_1366x768.jpg");
+	LoadTex2D(HELPICON, L"Resources/2d/attackEffect/searchPlwyer.png");
 
 }
 

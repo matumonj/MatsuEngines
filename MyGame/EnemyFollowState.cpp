@@ -11,7 +11,7 @@ void EnemyFollowState::Initialize(Enemy* enmey)
 void EnemyFollowState::Update(Enemy* enemy)
 {
 	//õ“G”ÍˆÍ
-	const float DetectionRange = 30.0f;
+	const float DetectionRange = 15.0f;
 	//ƒvƒŒƒCƒ„[‚ªõ“G”ÍˆÍ“ü‚Á‚½‚ç
 	bool SearchPlayer = Collision::GetLength(enemy->GetPosition(),
 	                                         PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < DetectionRange;
