@@ -1,5 +1,4 @@
 #include "PlayScene.h"
-#include"Input.h"
 #include"DirectXCommon.h"
 #include"DropWeapon.h"
 #include"TitleScene.h"
@@ -16,7 +15,6 @@
 #include"UI.h"
 #include"Feed.h"
 #include"PlayerControl.h"
-#include"BossScene.h"
 #include"DamageManager.h"
 #include "GameOver.h"
 #include "GuardianNAttack.h"
@@ -180,10 +178,9 @@ void PlayScene::MyGameDraw()
 	}
 	GameOver::GetIns()->Draw_DestParticle();
 	DropWeapon::GtIns()->Draw();
-	//postEffect->Draw();
+
 	Task::GetInstance()->TargetDraw();
 	SelectSword::GetInstance()->SwordDraw();
-	AttackEffect::GetIns()->Draw();
 }
 
 void PlayScene::SpriteDraw()

@@ -14,12 +14,7 @@ private: // エイリアス
 	using XMFLOAT4 = XMFLOAT4;
 	using XMMATRIX = XMMATRIX;
 	using XMVECTOR = XMVECTOR;
-
-	float sy;
-	PostEffect* p;
-	float bloomval;
-	float vinntee;
-
+	
 private:
 	float ambientColor0[3] = { 1.0f, 1.0f, 1.0f };
 	// 光線方向初期値
@@ -54,8 +49,14 @@ public:
 	void MyGameDraw()override;
 	void SpriteDraw()override;
 private:
-	bool feedend;
 	void ChangeScene();
 private:
 	bool LoadF;
+	enum ShadowChara
+	{
+		PLAYER,
+		SUMMONENEY_A,
+		SUMMONENEY_B,
+		BOSSENEMY
+	};
 };

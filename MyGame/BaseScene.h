@@ -25,7 +25,7 @@ protected:
 	virtual void MyGameDraw()=0;
 	virtual void SpriteDraw() = 0;
 	virtual void LightUpdate()=0;
-
+	void LightSetParam(int index,bool actflag,XMFLOAT3 pos,XMVECTOR dir,XMFLOAT3 atten,XMFLOAT2 angle);
 protected:
 	//åıåπèÓïÒ
 	LightGroup* lightGroup = nullptr;

@@ -350,4 +350,5 @@ void SelectSword::SwordDraw()
 {
 	Sword->Draw();
 	WeaponChangeEffect->Draw();
+	AttackEffect::GetIns()->Draw();
 }
