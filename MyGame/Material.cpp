@@ -15,8 +15,8 @@ void Material::StaticInitialize()
 {
 	// 再初期化チェック
 
-	device = DirectXCommon::GetInstance()->GetDev();
-	cmdList = DirectXCommon::GetInstance()->GetCmdList();
+	device = DirectXCommon::GetIns()->GetDev();
+	cmdList = DirectXCommon::GetIns()->GetCmdList();
 }
 
 Material* Material::Create()

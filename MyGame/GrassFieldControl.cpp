@@ -3,7 +3,7 @@
 #include"PlayerControl.h"
 #include"mHelper.h"
 
-GrassFieldControl* GrassFieldControl::GetInstance()
+GrassFieldControl* GrassFieldControl::GetIns()
 {
 	static GrassFieldControl instance;
 

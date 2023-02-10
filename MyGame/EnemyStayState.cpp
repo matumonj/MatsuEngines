@@ -19,7 +19,7 @@ void EnemyStayState::Update(Enemy* enemy)
 	float RandMove = static_cast<float>(rand() % 90 + 40);
 	
 	
-	if(SceneManager::GetInstance()->GetScene()==SceneManager::BOSS)
+	if(SceneManager::GetIns()->GetScene()==SceneManager::BOSS)
 	{
 		enemy->ChangeState_Mob(new EnemyFollowState());
 	}

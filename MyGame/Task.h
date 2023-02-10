@@ -9,7 +9,7 @@
 class Task
 {
 public:
-	static Task* GetInstance();
+	static Task* GetIns();
 
 private:
 	using XMFLOAT2 = DirectX::XMFLOAT2;

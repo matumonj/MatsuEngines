@@ -22,7 +22,7 @@ Player::~Player()
 	Destroy_unique(m_fbxObject);
 }
 
-Player* Player::GetInstance()
+Player* Player::GetIns()
 {
 	static Player instance;
 
@@ -31,12 +31,12 @@ Player* Player::GetInstance()
 
 Player* Player::Create(Model* model, DebugCamera* camera)
 {
-	return GetInstance();
+	return GetIns();
 }
 
 void Player::Initialize()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
 	StopFlag = false;
 	//オブジェクトの生成、初期化
@@ -180,13 +180,13 @@ void Player::Move()
 	}
 
 	//探索ステージでの移動制限
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
+	if (SceneManager::GetIns()->GetScene() == SceneManager::PLAY)
 	{
 		Position.x = std::clamp(Position.x, -300.f, 300.f);
 		Position.z = std::clamp(Position.z, -200.f, 400.f);
 	}
 	//ボスエリアでの移動制限
-	else if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
+	else if (SceneManager::GetIns()->GetScene() == SceneManager::BOSS)
 	{
 		Position.x = std::clamp(Position.x, -100.f, 100.f);
 		Position.z = std::clamp(Position.z, -100.f, 100.f);
@@ -233,7 +233,7 @@ void Player::Evasion()
 
 	if (evasionF)
 	{
-		PlayerAttackState::GetInstance()->SetHitStopJudg(false);
+		PlayerAttackState::GetIns()->SetHitStopJudg(false);
 		//FBXタイムを回避モーション開始時に合わせる
 		AnimationContol(EVASION, 6, 1.0, false);
 
@@ -267,7 +267,7 @@ void Player::Evasion()
 void Player::Update()
 {
 	//カメラのインスタンス取得
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
 	//例外設定
 	if (m_Object == nullptr)
@@ -308,7 +308,7 @@ void Player::Update()
 		ParameterSet_Fbx3();
 
 		//持つ武器の更新
-		SelectSword::GetInstance()->Update();
+		SelectSword::GetIns()->Update();
 		//攻撃エフェクト
 		AttackEffect::GetIns()->Upda();
 
@@ -355,7 +355,7 @@ void Player::FbxAnimationControls(const AttackMotion& motiontype, const AttackMo
 	{
 		//RunParCreate = false;
 		//FBXタイムを剣に持たせたTIME値に開始時に合わせる
-		AnimationContol(name, number, SelectSword::GetInstance()->GetSword()->GetAnimationTime()+0.7, false);
+		AnimationContol(name, number, SelectSword::GetIns()->GetSword()->GetAnimationTime()+0.7, false);
 		m_AnimationStop = true;
 
 		if (m_fbxObject->GetAnimeTime() > m_fbxObject->GetEndTime() - 0.05)
@@ -373,7 +373,7 @@ void Player::FbxAnimationControls(const AttackMotion& motiontype, const AttackMo
 
 void Player::AnimationContol(AnimeName name, int animenumber, double speed, bool loop)
 {
-	if (PlayerAttackState::GetInstance()->GetHitStopJudg() == true)
+	if (PlayerAttackState::GetIns()->GetHitStopJudg() == true)
 	{
 		m_AnimeSpeed = 0.3;
 	} else {
@@ -466,18 +466,18 @@ void Player::RecvDamage(int Damage)
 	{
 		return;
 	}
-	if (CameraControl::GetInstance()->GetCameraState() != CameraControl::PLAYER)
+	if (CameraControl::GetIns()->GetCameraState() != CameraControl::PLAYER)
 	{
 		return;
 	}
 
 
 	//ダメージくらった時にカメラシェイク
-	if (!HUD::GetInstance()->GetRecvDamageFlag())
+	if (!HUD::GetIns()->GetRecvDamageFlag())
 	{
-		CameraControl::GetInstance()->ShakeCamera();
+		CameraControl::GetIns()->ShakeCamera();
 	
-		HUD::GetInstance()->SetRecvDamageFlag(true); //プレイヤーHPのHUD用
+		HUD::GetIns()->SetRecvDamageFlag(true); //プレイヤーHPのHUD用
 	}
 
 	if (HP >= 0)
@@ -522,7 +522,7 @@ XMFLOAT3 Player::MoveVECTOR(XMVECTOR v, float angle)
 
 void Player::RecvDamage_Cool()
 {
-	if (HUD::GetInstance()->GetRecvDamageFlag())
+	if (HUD::GetIns()->GetRecvDamageFlag())
 	{
 		CoolTime = 120; //無敵時間
 	}
@@ -574,7 +574,7 @@ void Player::LoadCsv()
 
 		m_fbxObject = std::make_unique<f_Object3d>();
 		m_fbxObject->Initialize();
-		m_fbxObject->SetModel(FbxLoader::GetInstance()->LoadModelFromFile(modelname));
+		m_fbxObject->SetModel(FbxLoader::GetIns()->LoadModelFromFile(modelname));
 		m_fbxObject->LoadAnimation();
 		m_fbxObject->PlayAnimation(1);
 	

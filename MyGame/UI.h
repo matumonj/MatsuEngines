@@ -8,7 +8,7 @@ private:
 	bool TurnOffDrawUI;
 	std::vector<Enemy*> Subenemys;
 public:
-	static UI* GetInstance();
+	static UI* GetIns();
 
 	void Initialize();
 

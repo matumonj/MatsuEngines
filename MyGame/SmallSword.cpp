@@ -13,7 +13,7 @@ SmallSword::~SmallSword()
 
 void SmallSword::Initialize()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
 	m_Object = std::make_unique<Object3d>();
 
@@ -28,7 +28,7 @@ void SmallSword::Initialize()
 
 void SmallSword::Update()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
 	if (!LoadF)
 	{
@@ -37,7 +37,7 @@ void SmallSword::Update()
 	}
 	if (m_Object != nullptr) {
 		m_Object->SetRotation(Rotation);
-		m_Object->Update(PlayerControl::GetInstance()->GetPlayer()->GetHanMat(), { 1.0f, 1.0f, 1.0f, 1.0f }, camera);
+		m_Object->Update(PlayerControl::GetIns()->GetPlayer()->GetHanMat(), { 1.0f, 1.0f, 1.0f, 1.0f }, camera);
 	}
 }
 
@@ -49,22 +49,22 @@ void SmallSword::Draw()
 
 void SmallSword::MagicAttack()
 {
-	//int index = TargetMarker::GetInstance()->GetNearIndex();
+	//int index = TargetMarker::GetIns()->GetNearIndex();
 
-	//if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL)
+	//if (SceneManager::GetIns()->GetScene() == SceneManager::TUTORIAL)
 	//{
-	//	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
-	//	bool len = Collision::GetLength(EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition(),
+	//	XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
+	//	bool len = Collision::GetLength(EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition(),
 	//	                                ppos) < 50;
 	//	if (len)
 	//	{
-	//		if (CustomButton::GetInstance()->Get2AttackAction() && PlayerAttackState::GetInstance()->GetCoolTime() == 0)
+	//		if (CustomButton::GetIns()->Get2AttackAction() && PlayerAttackState::GetIns()->GetCoolTime() == 0)
 	//		{
 	//			Damage = Damage_Value_S;
 	//			CoolTime = CoolTime_Value_S;
 	//			attackMotion = FIRESPHERE;
 	//		}
-	//		if (CustomButton::GetInstance()->GetAttackAction() && PlayerAttackState::GetInstance()->GetCoolTime() == 0)
+	//		if (CustomButton::GetIns()->GetAttackAction() && PlayerAttackState::GetIns()->GetCoolTime() == 0)
 	//		{
 	//			attackMotion = BLIZZARD;
 	//			Damage = Damage_Value;
@@ -73,20 +73,20 @@ void SmallSword::MagicAttack()
 	//	}
 	//}
 
-	//else if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
+	//else if (SceneManager::GetIns()->GetScene() == SceneManager::PLAY)
 	//{
-	//	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	//	XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 	//	bool len = Collision::GetLength(
-	//		EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[index]->GetPosition(), ppos) < 50;
+	//		EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[index]->GetPosition(), ppos) < 50;
 	//	if (len)
 	//	{
-	//		if (CustomButton::GetInstance()->Get2AttackAction() && PlayerAttackState::GetInstance()->GetCoolTime() == 0)
+	//		if (CustomButton::GetIns()->Get2AttackAction() && PlayerAttackState::GetIns()->GetCoolTime() == 0)
 	//		{
 	//			Damage = Damage_Value_S;
 	//			CoolTime = CoolTime_Value_S;
 	//			attackMotion = FIRESPHERE;
 	//		}
-	//		if (CustomButton::GetInstance()->GetAttackAction() && PlayerAttackState::GetInstance()->GetCoolTime() == 0)
+	//		if (CustomButton::GetIns()->GetAttackAction() && PlayerAttackState::GetIns()->GetCoolTime() == 0)
 	//		{
 	//			attackMotion = BLIZZARD;
 	//			Damage = Damage_Value;
@@ -94,15 +94,15 @@ void SmallSword::MagicAttack()
 	//		}
 	//	}
 	//}
-	//else if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
+	//else if (SceneManager::GetIns()->GetScene() == SceneManager::BOSS)
 	//{
-	//	if (CustomButton::GetInstance()->Get2AttackAction() && PlayerAttackState::GetInstance()->GetCoolTime() == 0)
+	//	if (CustomButton::GetIns()->Get2AttackAction() && PlayerAttackState::GetIns()->GetCoolTime() == 0)
 	//	{
 	//		Damage = Damage_Value_S;
 	//		CoolTime = CoolTime_Value_S;
 	//		attackMotion = FIRESPHERE;
 	//	}
-	//	if (CustomButton::GetInstance()->GetAttackAction() && PlayerAttackState::GetInstance()->GetCoolTime() == 0)
+	//	if (CustomButton::GetIns()->GetAttackAction() && PlayerAttackState::GetIns()->GetCoolTime() == 0)
 	//	{
 	//		attackMotion = BLIZZARD;
 	//		Damage = Damage_Value;
@@ -111,45 +111,45 @@ void SmallSword::MagicAttack()
 	//}
 	//if (Bliz->Getphase() == Bliz->DEST || SlashArea->Getphase() == SlashArea->DEST)
 	//{
-	//	PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(false);
+	//	PlayerControl::GetIns()->GetPlayer()->SetStopFlag(false);
 	//	// 	ReturnMoveCameraTarget = true;
 	//}
-	//DirectX::XMFLOAT3 pPos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	//DirectX::XMFLOAT3 pPos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 
 	//if (attackMotion == FIRESPHERE || attackMotion == BLIZZARD)
 	//{
-	//	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL)
+	//	if (SceneManager::GetIns()->GetScene() == SceneManager::TUTORIAL)
 	//	{
-	//		if (attackMotion == BLIZZARD && EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr)
+	//		if (attackMotion == BLIZZARD && EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr)
 	//		{
 	//			Bliz->SetActFlag(TRUE);
 	//		}
-	//		if (attackMotion == FIRESPHERE && EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0] !=
+	//		if (attackMotion == FIRESPHERE && EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL)[0] !=
 	//			nullptr)
 	//		{
 	//			SlashArea->SetActFlag(TRUE);
 	//		}
 	//	}
-	//	else if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
+	//	else if (SceneManager::GetIns()->GetScene() == SceneManager::PLAY)
 	//	{
-	//		if (attackMotion == BLIZZARD && EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[index] !=
+	//		if (attackMotion == BLIZZARD && EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[index] !=
 	//			nullptr)
 	//		{
 	//			Bliz->SetActFlag(TRUE);
 	//		}
-	//		if (attackMotion == FIRESPHERE && EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[index] !=
+	//		if (attackMotion == FIRESPHERE && EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[index] !=
 	//			nullptr)
 	//		{
 	//			SlashArea->SetActFlag(TRUE);
 	//		}
 	//	}
-	//	else if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
+	//	else if (SceneManager::GetIns()->GetScene() == SceneManager::BOSS)
 	//	{
-	//		if (attackMotion == BLIZZARD && EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0] != nullptr)
+	//		if (attackMotion == BLIZZARD && EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0] != nullptr)
 	//		{
 	//			Bliz->SetActFlag(TRUE);
 	//		}
-	//		if (attackMotion == FIRESPHERE && EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0] != nullptr)
+	//		if (attackMotion == FIRESPHERE && EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0] != nullptr)
 	//		{
 	//			SlashArea->SetActFlag(TRUE);
 	//		}
@@ -196,43 +196,43 @@ void SmallSword::Blizzard::Updata(DebugCamera* camera)
 	//const float texSclupSpeed = 0.2f;
 	//if (phase == NON)
 	//{
-	//	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL)
+	//	if (SceneManager::GetIns()->GetScene() == SceneManager::TUTORIAL)
 	//	{
-	//		if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr)
+	//		if (EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr)
 	//		{
-	//			EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->SetMoveStop(false);
+	//			EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL)[0]->SetMoveStop(false);
 	//			if (ActFlag)
 	//			{
-	//				IcePos.x = EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition().x;
-	//				IcePos.z = EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition().z - 5;
+	//				IcePos.x = EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition().x;
+	//				IcePos.z = EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition().z - 5;
 
-	//				EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->RecvDamage(4);
+	//				EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL)[0]->RecvDamage(4);
 	//				phase = ACTIVE;
 	//			}
 	//		}
 	//	}
-	//	else if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
+	//	else if (SceneManager::GetIns()->GetScene() == SceneManager::PLAY)
 	//	{
-	//		int index = TargetMarker::GetInstance()->GetNearIndex();
-	//		EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[index]->SetMoveStop(false);
+	//		int index = TargetMarker::GetIns()->GetNearIndex();
+	//		EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[index]->SetMoveStop(false);
 	//		if (ActFlag)
 	//		{
-	//			IcePos.x = EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[index]->GetPosition().x;
-	//			IcePos.z = EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[index]->GetPosition().z - 5;
+	//			IcePos.x = EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[index]->GetPosition().x;
+	//			IcePos.z = EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[index]->GetPosition().z - 5;
 
-	//			EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[index]->RecvDamage(6);
+	//			EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[index]->RecvDamage(6);
 	//			phase = ACTIVE;
 	//		}
 	//	}
-	//	else if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0] != nullptr)
+	//	else if (EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0] != nullptr)
 	//	{
-	//		EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->SetMoveStop(false);
+	//		EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->SetMoveStop(false);
 	//		if (ActFlag)
 	//		{
-	//			IcePos.x = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition().x;
-	//			IcePos.z = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition().z - 5;
+	//			IcePos.x = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition().x;
+	//			IcePos.z = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition().z - 5;
 
-	//			EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->RecvDamage(4);
+	//			EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->RecvDamage(4);
 	//			phase = ACTIVE;
 	//		}
 	//	}
@@ -247,30 +247,30 @@ void SmallSword::Blizzard::Updata(DebugCamera* camera)
 	//}
 	//else if (phase == ACTIVE)
 	//{
-	//	PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(true);
-	//	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL)
+	//	PlayerControl::GetIns()->GetPlayer()->SetStopFlag(true);
+	//	if (SceneManager::GetIns()->GetScene() == SceneManager::TUTORIAL)
 	//	{
-	//		EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->SetMoveStop(true);
+	//		EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL)[0]->SetMoveStop(true);
 	//		IcePos.y = Easing::EaseOut(
-	//			EaseTime, EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition().y - 20.0f,
-	//			EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition().y - 5.0f);
+	//			EaseTime, EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition().y - 20.0f,
+	//			EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition().y - 5.0f);
 	//	}
-	//	else if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
+	//	else if (SceneManager::GetIns()->GetScene() == SceneManager::PLAY)
 	//	{
-	//		int index = TargetMarker::GetInstance()->GetNearIndex();
+	//		int index = TargetMarker::GetIns()->GetNearIndex();
 
-	//		EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[index]->SetMoveStop(true);
+	//		EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[index]->SetMoveStop(true);
 	//		IcePos.y = Easing::EaseOut(
 	//			EaseTime,
-	//			EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[index]->GetPosition().y - 20.0f,
-	//			EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[index]->GetPosition().y - 5.0f);
+	//			EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[index]->GetPosition().y - 20.0f,
+	//			EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[index]->GetPosition().y - 5.0f);
 	//	}
-	//	else if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
+	//	else if (SceneManager::GetIns()->GetScene() == SceneManager::BOSS)
 	//	{
-	//		EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->SetMoveStop(true);
+	//		EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->SetMoveStop(true);
 	//		IcePos.y = Easing::EaseOut(
-	//			EaseTime, EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition().y - 20.0f,
-	//			EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition().y - 5.0f);
+	//			EaseTime, EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition().y - 20.0f,
+	//			EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition().y - 5.0f);
 	//	}
 	//	IceExistence++;
 	//	TexScl.x += texSclupSpeed;
@@ -289,19 +289,19 @@ void SmallSword::Blizzard::Updata(DebugCamera* camera)
 	//}
 	//else if (phase == DEST)
 	//{
-	//	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL)
+	//	if (SceneManager::GetIns()->GetScene() == SceneManager::TUTORIAL)
 	//	{
-	//		EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->SetMoveStop(true);
+	//		EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL)[0]->SetMoveStop(true);
 	//	}
-	//	else if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
+	//	else if (SceneManager::GetIns()->GetScene() == SceneManager::PLAY)
 	//	{
-	//		int index = TargetMarker::GetInstance()->GetNearIndex();
+	//		int index = TargetMarker::GetIns()->GetNearIndex();
 
-	//		EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[index]->SetMoveStop(true);
+	//		EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[index]->SetMoveStop(true);
 	//	}
-	//	else if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
+	//	else if (SceneManager::GetIns()->GetScene() == SceneManager::BOSS)
 	//	{
-	//		EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->SetMoveStop(true);
+	//		EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->SetMoveStop(true);
 	//	}
 	//	TexScl.x += texSclupSpeed;
 	//	TexScl.y += texSclupSpeed;
@@ -336,7 +336,7 @@ void SmallSword::Blizzard::Updata(DebugCamera* camera)
 
 void SmallSword::Slash::Updata(DebugCamera* camera)
 {
-	//int index = TargetMarker::GetInstance()->GetNearIndex();
+	//int index = TargetMarker::GetIns()->GetNearIndex();
 	//if (phase == NON)
 	//{
 	//	if (ActFlag)
@@ -350,17 +350,17 @@ void SmallSword::Slash::Updata(DebugCamera* camera)
 	//			slashCount[i] = 0;
 	//			next = false;
 	//		}
-	//		if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL)
+	//		if (SceneManager::GetIns()->GetScene() == SceneManager::TUTORIAL)
 	//		{
-	//			EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->RecvDamage(40);
+	//			EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL)[0]->RecvDamage(40);
 	//		}
-	//		else if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
+	//		else if (SceneManager::GetIns()->GetScene() == SceneManager::PLAY)
 	//		{
-	//			EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[index]->RecvDamage(40);
+	//			EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[index]->RecvDamage(40);
 	//		}
-	//		else if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
+	//		else if (SceneManager::GetIns()->GetScene() == SceneManager::BOSS)
 	//		{
-	//			EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->RecvDamage(40);
+	//			EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->RecvDamage(40);
 	//		}
 	//		phase = ACTIVE;
 	//	}
@@ -368,17 +368,17 @@ void SmallSword::Slash::Updata(DebugCamera* camera)
 
 	//else if (phase == ACTIVE)
 	//{
-	//	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL)
+	//	if (SceneManager::GetIns()->GetScene() == SceneManager::TUTORIAL)
 	//	{
-	//		EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->SetMoveStop(true);
+	//		EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL)[0]->SetMoveStop(true);
 	//	}
-	//	else if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
+	//	else if (SceneManager::GetIns()->GetScene() == SceneManager::PLAY)
 	//	{
-	//		EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[index]->SetMoveStop(true);
+	//		EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[index]->SetMoveStop(true);
 	//	}
-	//	else if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
+	//	else if (SceneManager::GetIns()->GetScene() == SceneManager::BOSS)
 	//	{
-	//		EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->SetMoveStop(true);
+	//		EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->SetMoveStop(true);
 	//	}
 	//	for (int i = 1; i < TexNum; i++)
 	//	{
@@ -392,17 +392,17 @@ void SmallSword::Slash::Updata(DebugCamera* camera)
 	//		}
 	//	}
 	//	XMFLOAT3 ePos = {0.0f, 0.0f, 0.0f};
-	//	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL)
+	//	if (SceneManager::GetIns()->GetScene() == SceneManager::TUTORIAL)
 	//	{
-	//		ePos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition();
+	//		ePos = EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition();
 	//	}
-	//	else if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
+	//	else if (SceneManager::GetIns()->GetScene() == SceneManager::PLAY)
 	//	{
-	//		ePos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[index]->GetPosition();
+	//		ePos = EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[index]->GetPosition();
 	//	}
-	//	else if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
+	//	else if (SceneManager::GetIns()->GetScene() == SceneManager::BOSS)
 	//	{
-	//		ePos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
+	//		ePos = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
 	//	}
 	//	for (int i = 0; i < TexNum; i++)
 	//	{
@@ -433,13 +433,13 @@ void SmallSword::Slash::Updata(DebugCamera* camera)
 	//else if (phase == DEST)
 	//{
 	//	next = false;
-	//	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL)
+	//	if (SceneManager::GetIns()->GetScene() == SceneManager::TUTORIAL)
 	//	{
-	//		EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[index]->SetMoveStop(false);
+	//		EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL)[index]->SetMoveStop(false);
 	//	}
-	//	else if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
+	//	else if (SceneManager::GetIns()->GetScene() == SceneManager::PLAY)
 	//	{
-	//		EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[index]->SetMoveStop(false);
+	//		EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[index]->SetMoveStop(false);
 	//	}
 	//	phase = NON;
 	//	ActFlag = false;

@@ -24,8 +24,8 @@ ComPtr<ID3D12GraphicsCommandList> f_Object3d::cmdList = nullptr;
 
 void f_Object3d::CreateGraphicsPipeline()
 {
-	device = DirectXCommon::GetInstance()->GetDev();
-	cmdList = DirectXCommon::GetInstance()->GetCmdList();
+	device = DirectXCommon::GetIns()->GetDev();
+	cmdList = DirectXCommon::GetIns()->GetCmdList();
 
 	HRESULT result = S_FALSE;
 	ComPtr<ID3DBlob> vsBlob; // 頂点シェーダオブジェクト
@@ -204,8 +204,8 @@ void f_Object3d::CreateGraphicsPipeline()
 
 void f_Object3d::Initialize()
 {
-	device = DirectXCommon::GetInstance()->GetDev();
-	cmdList = DirectXCommon::GetInstance()->GetCmdList();
+	device = DirectXCommon::GetIns()->GetDev();
+	cmdList = DirectXCommon::GetIns()->GetCmdList();
 	HRESULT result;
 	//定数バッファ
 	result = device->CreateCommittedResource(

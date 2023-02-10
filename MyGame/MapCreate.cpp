@@ -13,7 +13,7 @@ MapCreate::MapCreate()
 {
 }
 
-MapCreate* MapCreate::GetInstance()
+MapCreate* MapCreate::GetIns()
 {
 	static MapCreate instance;
 	return &instance;

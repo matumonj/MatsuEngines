@@ -63,7 +63,7 @@ private:
 	float EaseTime = 0.0f;
 
 public:
-	static SelectSword* GetInstance();
+	static SelectSword* GetIns();
 	void Initialize();
 
 	void Update();

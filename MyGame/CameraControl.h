@@ -7,7 +7,7 @@ class CameraControl :
 	public ControlBase
 {
 public:
-	static CameraControl* GetInstance();
+	static CameraControl* GetIns();
 	void Load() override;
 	void ParamSet();
 	void Finalize() override;

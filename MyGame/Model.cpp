@@ -17,8 +17,8 @@ void Model::StaticInitialize()
 {
 	// 再初期化チェック
 
-	device = DirectXCommon::GetInstance()->GetDev();
-	cmdList = DirectXCommon::GetInstance()->GetCmdList();
+	device = DirectXCommon::GetIns()->GetDev();
+	cmdList = DirectXCommon::GetIns()->GetCmdList();
 	// メッシュの静的初期化
 	Mesh::StaticInitialize();
 }

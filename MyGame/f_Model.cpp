@@ -12,8 +12,8 @@ f_Model::~f_Model()
 
 void f_Model::CreateBuffers()
 {
-	device = DirectXCommon::GetInstance()->GetDev();
-	cmdList = DirectXCommon::GetInstance()->GetCmdList();
+	device = DirectXCommon::GetIns()->GetDev();
+	cmdList = DirectXCommon::GetIns()->GetCmdList();
 	HRESULT result;
 	//頂点データ全体のサイズ
 	UINT sizeVB = static_cast<UINT>(sizeof(VertexPosNormalUvSkin) * vertices.size());

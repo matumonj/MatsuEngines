@@ -7,7 +7,7 @@
 class AttackCollision
 {
 public:
-	static AttackCollision* GetInstance();
+	static AttackCollision* GetIns();
 private:
 	template <class T>
 	using ComPtr = ComPtr<T>;

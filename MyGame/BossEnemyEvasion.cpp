@@ -47,7 +47,7 @@ void BossEnemyEvasion::Update(Enemy* enemy)
 
 	if (enemy->GetAnimationTime() >= enemy->GetFbxTimeEnd() - 0.1f)
 	{
-		ThrowRockAttack::GetInstance()->SetAction(true);
+		ThrowRockAttack::GetIns()->SetAction(true);
 		enemy->ChangeState_Boss(new BossEnemyAttackThrow());
 	}
 }
@@ -56,7 +56,7 @@ void BossEnemyFalter::Update(Enemy* enemy)
 	enemy->SetRecvDamage2(false);
 	enemy->SetAnimation(BossEnemy::NowAttackMotion::FALTER,false, 0.4);
 
-	PlayerAttackState::GetInstance()->SetHitStopJudg(true,120);
+	PlayerAttackState::GetIns()->SetHitStopJudg(true,120);
 	if(enemy->GetAnimationTime()>=enemy->GetFbxTimeEnd()-0.1f)
 	{
 		enemy->ChangeState_Boss(new BossEnemyEvasion());

@@ -38,13 +38,13 @@ void PlayScene::Initialize()
 
 	/*オブジェクトごとのインスタンスを格納*/
 		//カメラ一番上に
-		AllObjectControl.emplace_back(CameraControl::GetInstance());
-		AllObjectControl.emplace_back(EnemyControl::GetInstance());
-		AllObjectControl.emplace_back(PlayerControl::GetInstance());
-		AllObjectControl.emplace_back(ChestControl::GetInstance());
-		AllObjectControl.emplace_back(HouseControl::GetInstance());
-		AllObjectControl.emplace_back(WoodControl::GetInstance());
-		AllObjectControl.emplace_back(FenceControl::GetInstance());
+		AllObjectControl.emplace_back(CameraControl::GetIns());
+		AllObjectControl.emplace_back(EnemyControl::GetIns());
+		AllObjectControl.emplace_back(PlayerControl::GetIns());
+		AllObjectControl.emplace_back(ChestControl::GetIns());
+		AllObjectControl.emplace_back(HouseControl::GetIns());
+		AllObjectControl.emplace_back(WoodControl::GetIns());
+		AllObjectControl.emplace_back(FenceControl::GetIns());
 
 		circleShadowAtten[0] = -5.2f;
 		circleShadowAtten[1] = -0.2f;
@@ -71,12 +71,12 @@ void PlayScene::objUpdate()
 			AllObjectControl[i]->Update();
 		}
 	}
-	TargetMarker::GetInstance()->Update_PlayScene(CameraControl::GetInstance()->GetCamera());
+	TargetMarker::GetIns()->Update_PlayScene(CameraControl::GetIns()->GetCamera());
 
-	if (CameraControl::GetInstance()->GetCamera() != nullptr)
+	if (CameraControl::GetIns()->GetCamera() != nullptr)
 	{
-		Field::GetInstance()->Update();
-		UI::GetInstance()->HUDUpdate(hudload, (CameraControl::GetInstance()->GetCamera()));
+		Field::GetIns()->Update();
+		UI::GetIns()->HUDUpdate(hudload, (CameraControl::GetIns()->GetCamera()));
 	}
 	DropWeapon::GtIns()->Upda();
 }
@@ -88,7 +88,7 @@ void PlayScene::Update()
 {
 	lightGroup->Update();
 
-	SistemConfig::GetInstance()->Update();
+	SistemConfig::GetIns()->Update();
 
 	if (!Load && !PlayGame)
 	{
@@ -101,7 +101,7 @@ void PlayScene::Update()
 	//csv読み込み
 	LoadParam();
 
-	postEffect->SetVignette_GB(PlayerControl::GetInstance()->GetVignetteAlpha());
+	postEffect->SetVignette_GB(PlayerControl::GetIns()->GetVignetteAlpha());
 
 	LightUpdate();
 	ChangeSceneJudg();
@@ -110,16 +110,16 @@ void PlayScene::Update()
 
 void PlayScene::LightUpdate()
 {
-	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 
 	lightGroup->SetCircleShadowDir(3, XMVECTOR({ circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0 }));
 	lightGroup->SetCircleShadowCasterPos(3, { ppos.x, ppos.y-3.f, ppos.z });
 	lightGroup->SetCircleShadowAtten(3, XMFLOAT3(circleShadowAtten));
 	//lightGroup->SetCircleShadowFactorAngle(3, XMFLOAT2(1.4f,1.9f));
 
-	for (int i = 0; i < EnemyControl::GetInstance()->GetQuentity(); i++)
+	for (int i = 0; i < EnemyControl::GetIns()->GetQuentity(); i++)
 	{
-		if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i] == nullptr)
+		if (EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i] == nullptr)
 		{
 			lightGroup->SetCircleShadowFactorAngle(i + 4, { 0, 0 });
 			continue;
@@ -128,7 +128,7 @@ void PlayScene::LightUpdate()
 										   circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0
 			}));
 		lightGroup->SetCircleShadowCasterPos(i + 4, {
-												 EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i]->
+												 EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->
 												 GetPosition()
 			});
 		lightGroup->SetCircleShadowAtten(i + 4, XMFLOAT3(circleShadowAtten));
@@ -137,19 +137,19 @@ void PlayScene::LightUpdate()
 }
 void PlayScene::ChangeSceneJudg()
 {
-	if (Task::GetInstance()->GetAllTaskClear())
+	if (Task::GetIns()->GetAllTaskClear())
 
 	{
-		if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), {17, -35, 820}) < 30)
+		if (Collision::GetLength(PlayerControl::GetIns()->GetPlayer()->GetPosition(), {17, -35, 820}) < 30)
 		{
-			Feed::GetInstance()->Update_White(Feed::FEEDIN);
-			PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(TRUE);
+			Feed::GetIns()->Update_White(Feed::FEEDIN);
+			PlayerControl::GetIns()->GetPlayer()->SetStopFlag(TRUE);
 
-			if (Feed::GetInstance()->GetAlpha() >= 1.0f)
+			if (Feed::GetIns()->GetAlpha() >= 1.0f)
 			{
-				PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(FALSE);
+				PlayerControl::GetIns()->GetPlayer()->SetStopFlag(FALSE);
 
-				SceneManager::GetInstance()->SetScene(SceneManager::BOSS, sceneManager_);
+				SceneManager::GetIns()->SetScene(SceneManager::BOSS, sceneManager_);
 			}
 		}
 	}
@@ -160,9 +160,9 @@ void PlayScene::ChangeSceneJudg()
 /*-----------------------*/
 void PlayScene::MyGameDraw()
 {
-	if (Field::GetInstance() != nullptr)
+	if (Field::GetIns() != nullptr)
 	{
-		Field::GetInstance()->Draw();
+		Field::GetIns()->Draw();
 		for (int i = 0; i < AllObjectControl.size(); i++)
 		{
 			if (AllObjectControl[i] == nullptr)
@@ -174,28 +174,28 @@ void PlayScene::MyGameDraw()
 
 		GuardianShotAttack::GetIns()->Draw();
 		GuardianNAttack::GetIns()->Draw();
-		Field::GetInstance()->GuardAreaDraw();
+		Field::GetIns()->GuardAreaDraw();
 	}
 	GameOver::GetIns()->Draw_DestParticle();
 	DropWeapon::GtIns()->Draw();
 
-	Task::GetInstance()->TargetDraw();
-	SelectSword::GetInstance()->SwordDraw();
+	Task::GetIns()->TargetDraw();
+	SelectSword::GetIns()->SwordDraw();
 }
 
 void PlayScene::SpriteDraw()
 {
 	
 	
-	SistemConfig::GetInstance()->Draw();
+	SistemConfig::GetIns()->Draw();
 
-	Feed::GetInstance()->Draw();
-	if (Feed::GetInstance()->GetAlpha() <= 0.0f)
+	Feed::GetIns()->Draw();
+	if (Feed::GetIns()->GetAlpha() <= 0.0f)
 	{
-		UI::GetInstance()->HUDDraw();
+		UI::GetIns()->HUDDraw();
 	}
 	GameOver::GetIns()->Draw();
-	UI::GetInstance()->AreaNameDraw();
+	UI::GetIns()->AreaNameDraw();
 }
 
 /*------------------------*/
@@ -213,10 +213,10 @@ void PlayScene::Draw()
 		
 		postEffect->PostDrawScene();
 
-		DirectXCommon::GetInstance()->BeginDraw();
+		DirectXCommon::GetIns()->BeginDraw();
 		MyGameDraw();//postEffect->Draw();
 		SpriteDraw();
-		DirectXCommon::GetInstance()->EndDraw();
+		DirectXCommon::GetIns()->EndDraw();
 		break;
 	}
 }
@@ -232,23 +232,23 @@ void PlayScene::LoadParam()
 		{
 			AllObjectControl[i]->Initialize();
 		}
-		HUD::GetInstance()->playerini();
-		PlayerControl::GetInstance()->GetPlayer()->SetHP(PlayerControl::GetInstance()->GetPlayer()->GetMaxHP());
+		HUD::GetIns()->playerini();
+		PlayerControl::GetIns()->GetPlayer()->SetHP(PlayerControl::GetIns()->GetPlayer()->GetMaxHP());
 		//カメラをセット
-		f_Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
+		f_Object3d::SetCamera(CameraControl::GetIns()->GetCamera());
 		//グラフィックパイプライン生成
 		f_Object3d::CreateGraphicsPipeline();
 
-		for (int i = 3; i < EnemyControl::GetInstance()->GetQuentity() + 4; i++)
+		for (int i = 3; i < EnemyControl::GetIns()->GetQuentity() + 4; i++)
 		{
 			lightGroup->SetDirLightActive(i,false);
 			lightGroup->SetPointLightActive(i, false);
 			lightGroup->SetCircleShadowActive(i, true);
 		}
 		//各オブジェクト初期化
-		Field::GetInstance()->Initialize();
+		Field::GetIns()->Initialize();
 		//カメラ挙動をプレイカットシーン
-		CameraControl::GetInstance()->SetCameraState(CameraControl::PLAYCUTSCENE);
+		CameraControl::GetIns()->SetCameraState(CameraControl::PLAYCUTSCENE);
 
 
 		hudload = true;
@@ -266,6 +266,6 @@ void PlayScene::Finalize()
 	{
 		AllObjectControl[i]->Finalize();
 	}
-	Field::GetInstance()->Finalize();
+	Field::GetIns()->Finalize();
 	AllObjectControl.clear();
 }

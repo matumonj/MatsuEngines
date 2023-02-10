@@ -18,7 +18,7 @@ public:
 	//dxgifactoryは汎用機能のところ
 	//instancehaは入力処理部分で使う
 	HWND GetHwnd() { return hwnd; }
-	HINSTANCE GetInstance() { return w.hInstance; }
+	HINSTANCE GetIns() { return w.hInstance; }
 
 	//メンバ関数
 	static LRESULT WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);

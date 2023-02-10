@@ -34,10 +34,10 @@ void DamageManager::DamageDisPlay(int damage, XMFLOAT4 color)
 		<< Damage;
 	//3D->2D•ÏŠ· 3ˆø”Á‚·
 	XMVECTOR tex2DPos = {Position.x, Position.y +5.f, Position.z};
-	tex2DPos = PosDivi(tex2DPos, CameraControl::GetInstance()->GetCamera()->GetViewMatrix(), false);
-	tex2DPos = PosDivi(tex2DPos, CameraControl::GetInstance()->GetCamera()->GetProjectionMatrix(), true);
+	tex2DPos = PosDivi(tex2DPos, CameraControl::GetIns()->GetCamera()->GetViewMatrix(), false);
+	tex2DPos = PosDivi(tex2DPos, CameraControl::GetIns()->GetCamera()->GetProjectionMatrix(), true);
 	tex2DPos = WDivi(tex2DPos, false);
-	tex2DPos = PosDivi(tex2DPos, CameraControl::GetInstance()->GetCamera()->GetViewPort(), false);
+	tex2DPos = PosDivi(tex2DPos, CameraControl::GetIns()->GetCamera()->GetViewPort(), false);
 
 	if (Damage >= 40.f) {
 		DamageTex->SetColor({ 1.f,0.2f,0.2f });
@@ -77,10 +77,10 @@ void DamageManager::DamageDisPlay_Green(int damage, XMFLOAT4 color)
 		<< Damage;
 	//3D->2D•ÏŠ· 3ˆø”Á‚·
 	XMVECTOR tex2DPos = { Position.x, Position.y + 5.f, Position.z };
-	tex2DPos = PosDivi(tex2DPos, CameraControl::GetInstance()->GetCamera()->GetViewMatrix(), false);
-	tex2DPos = PosDivi(tex2DPos, CameraControl::GetInstance()->GetCamera()->GetProjectionMatrix(), true);
+	tex2DPos = PosDivi(tex2DPos, CameraControl::GetIns()->GetCamera()->GetViewMatrix(), false);
+	tex2DPos = PosDivi(tex2DPos, CameraControl::GetIns()->GetCamera()->GetProjectionMatrix(), true);
 	tex2DPos = WDivi(tex2DPos, false);
-	tex2DPos = PosDivi(tex2DPos, CameraControl::GetInstance()->GetCamera()->GetViewPort(), false);
+	tex2DPos = PosDivi(tex2DPos, CameraControl::GetIns()->GetCamera()->GetViewPort(), false);
 
 	DamageTex->SetColor({ 1.f, 1.f, 1.f });
 	DamageTex->SetAlpha(TexAlpha);

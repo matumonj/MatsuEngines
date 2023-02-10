@@ -23,7 +23,7 @@ public:
 	DebugTxt();
 	~DebugTxt();
 public: // 静的メンバ関数
-	static DebugTxt* GetInstance();
+	static DebugTxt* GetIns();
 
 	void Initialize(UINT texnumber);
 
@@ -88,7 +88,7 @@ public:
 	DebugTextSprite();
 	~DebugTextSprite();
 public: // 静的メンバ関数
-	static DebugTextSprite* GetInstance();
+	static DebugTextSprite* GetIns();
 
 	void Initialize(UINT texnumber);
 
@@ -130,7 +130,7 @@ public:
 	DebugTextSprite2();
 	~DebugTextSprite2();
 public: // 静的メンバ関数
-	static DebugTextSprite2* GetInstance();
+	static DebugTextSprite2* GetIns();
 
 	void Initialize(UINT texnumber);
 

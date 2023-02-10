@@ -10,7 +10,7 @@ class HUD
 public:
 	~HUD();
 	void playerini();
-	static HUD* GetInstance();
+	static HUD* GetIns();
 private:
 	// DirectX::‚ğÈ—ª
 	using XMFLOAT2 = DirectX::XMFLOAT2;

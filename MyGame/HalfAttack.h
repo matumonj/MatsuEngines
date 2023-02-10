@@ -50,7 +50,7 @@ private:
 	void BossReturnGround();
 	void SummonAttackEnd();
 public:
-	static HalfAttack* GetInstance();
+	static HalfAttack* GetIns();
 	
 	void Init()override;
 	void Draw()override;

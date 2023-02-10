@@ -7,7 +7,7 @@
 class ThrowRockAttack:public BossAttackActionManager
 {
 public:
-	static ThrowRockAttack*GetInstance();
+	static ThrowRockAttack*GetIns();
 
 private:
 	//岩おぶじぇ

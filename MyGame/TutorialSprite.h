@@ -7,7 +7,7 @@ class TutorialSprite
 {
 public:
 	~TutorialSprite();
-	static TutorialSprite* GetInstance();
+	static TutorialSprite* GetIns();
 private:
 	static const int TaskNum = 6;
 	Sprite* Task[TaskNum];

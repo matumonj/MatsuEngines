@@ -60,10 +60,10 @@ void Enemy::HelpIconShow()
 
 
 	XMVECTOR tex2DPos = { Position.x, Position.y + 5.f, Position.z };
-	tex2DPos = MatCal::PosDivi(tex2DPos, CameraControl::GetInstance()->GetCamera()->GetViewMatrix(), false);
-	tex2DPos = MatCal::PosDivi(tex2DPos, CameraControl::GetInstance()->GetCamera()->GetProjectionMatrix(), true);
+	tex2DPos = MatCal::PosDivi(tex2DPos, CameraControl::GetIns()->GetCamera()->GetViewMatrix(), false);
+	tex2DPos = MatCal::PosDivi(tex2DPos, CameraControl::GetIns()->GetCamera()->GetProjectionMatrix(), true);
 	tex2DPos = MatCal::WDivi(tex2DPos, false);
-	tex2DPos = MatCal::PosDivi(tex2DPos, CameraControl::GetInstance()->GetCamera()->GetViewPort(), false);
+	tex2DPos = MatCal::PosDivi(tex2DPos, CameraControl::GetIns()->GetCamera()->GetViewPort(), false);
 
 	HelpIconAlpha = std::clamp(HelpIconAlpha, 0.0f, 2.f);
 	HelpIcon->SetPosition({ tex2DPos.m128_f32[0],tex2DPos.m128_f32[1] });
@@ -141,12 +141,12 @@ void Enemy::RecvDamage(int Damage)
 
 void Enemy::HPFrameUpda()
 {
-	if (SceneManager::GetInstance()->GetScene() != SceneManager::TUTORIAL) {
+	if (SceneManager::GetIns()->GetScene() != SceneManager::TUTORIAL) {
 		Position.x = std::clamp(Position.x, -300.f, 300.f);
 		Position.z = std::clamp(Position.z, -200.f, 400.f);
 	}
 	//カメラのインスタンス取得
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 	//2D->3D変換用
 	XMVECTOR tex2DPos[4];
 
@@ -266,7 +266,7 @@ void Enemy::Respawn()
 
 bool Enemy::RespawnJudg()
 {
-	bool respawnjudg = Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), Position) > 180.f;
+	bool respawnjudg = Collision::GetLength(PlayerControl::GetIns()->GetPlayer()->GetPosition(), Position) > 180.f;
 
 	if (RespawnCount > RespawnCountMax&&respawnjudg)
 	{

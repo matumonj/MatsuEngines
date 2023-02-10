@@ -58,7 +58,7 @@ void EnemyAlpha::HPFrameInit()
 //初期化処理
 void EnemyAlpha::Initialize()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
 	//オブジェクトの生成と初期化
 	m_Object = std::make_unique<Object3d>();
@@ -66,7 +66,7 @@ void EnemyAlpha::Initialize()
 
 	m_fbxObject = std::make_unique<f_Object3d>();
 	m_fbxObject->Initialize();
-	m_fbxObject->SetModel(FbxLoader::GetInstance()->LoadModelFromFile("sniper_blender"));
+	m_fbxObject->SetModel(FbxLoader::GetIns()->LoadModelFromFile("sniper_blender"));
 	m_fbxObject->PlayAnimation();
 
 	//パラメータのセット
@@ -99,7 +99,7 @@ void EnemyAlpha::Initialize()
 //更新処理
 void EnemyAlpha::Update()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
 	state_mob->Update(this);
 
@@ -109,15 +109,15 @@ void EnemyAlpha::Update()
 	}
 	m_fbxObject->SetColor({1, 0, 0, alpha});
 
-	if (alpha>0.f && SceneManager::GetInstance()->GetScene() != SceneManager::MAPCREATE)
+	if (alpha>0.f && SceneManager::GetIns()->GetScene() != SceneManager::MAPCREATE)
 	{
-		m_fbxObject->SetFogPos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
+		m_fbxObject->SetFogPos(PlayerControl::GetIns()->GetPlayer()->GetPosition());
 
 		
 		//if (f_time >= NormalAttackTime + 1.0f) {
-		if (Collision::GetLength(Position,PlayerControl::GetInstance()->GetPlayer()->GetPosition())<10.f)
+		if (Collision::GetLength(Position,PlayerControl::GetIns()->GetPlayer()->GetPosition())<10.f)
 		{
-			PlayerControl::GetInstance()->GetPlayer()->RecvDamage(10);
+			PlayerControl::GetIns()->GetPlayer()->RecvDamage(10);
 		}
 		//}
 	}
@@ -158,7 +158,7 @@ void EnemyAlpha::Death()
 void EnemyAlpha::EnemyHPDraw()
 {
 	if (alpha <= 0.f)return;
-	Player* l_player = PlayerControl::GetInstance()->GetPlayer();
+	Player* l_player = PlayerControl::GetIns()->GetPlayer();
 
 	Sprite::PreDraw();
 	if (Collision::GetLength(Position, l_player->GetPosition()) < 40)

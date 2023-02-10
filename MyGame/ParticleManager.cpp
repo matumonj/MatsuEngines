@@ -29,7 +29,7 @@ XMMATRIX ParticleManager::matBillboardY = XMMatrixIdentity();
 
 bool ParticleManager::StaticInitialize(int window_width, int window_height)
 {
-	device = DirectXCommon::GetInstance()->GetDev();
+	device = DirectXCommon::GetIns()->GetDev();
 
 	// デスクリプタヒープの初期化
 	InitializeDescriptorHeap();
@@ -46,7 +46,7 @@ bool ParticleManager::StaticInitialize(int window_width, int window_height)
 void ParticleManager::PreDraw()
 {
 	// コマンドリストをセット
-	cmdList = DirectXCommon::GetInstance()->GetCmdList();
+	cmdList = DirectXCommon::GetIns()->GetCmdList();
 
 	// パイプラインステートの設定
 	cmdList->SetPipelineState(pipelinestate.Get());
@@ -499,13 +499,13 @@ void ParticleManager::Update(ParticleType type, XMFLOAT3 position, int lifejudg)
 		}
 		vertBuff->Unmap(0, nullptr);
 	}
-	const XMMATRIX& matBillboard = CameraControl::GetInstance()->GetCamera()->GetBillboardMatrix();
+	const XMMATRIX& matBillboard = CameraControl::GetIns()->GetCamera()->GetBillboardMatrix();
 
 	// 定数バッファへデータ転送
 	ConstBufferData* constMap = nullptr;
 	result = constBuff->Map(0, nullptr, (void**)&constMap);
 	constMap->color = color;
-	constMap->mat = CameraControl::GetInstance()->GetCamera()->GetViewMatrix() * CameraControl::GetInstance()->
+	constMap->mat = CameraControl::GetIns()->GetCamera()->GetViewMatrix() * CameraControl::GetIns()->
 		GetCamera()->GetProjectionMatrix(); // 行列の合成
 
 	constMap->matBillboard = matBillboard; // 行列の合成
@@ -596,7 +596,7 @@ void ParticleManager::Normal()
 		it->frame++;
 		it->velocity = it->velocity + it->accel;
 		//速度による移動
-		if (PlayerAttackState::GetInstance()->GetHitStopJudg())
+		if (PlayerAttackState::GetIns()->GetHitStopJudg())
 		{
 			it->position = it->position + it->velocity;
 		}
@@ -627,11 +627,11 @@ void ParticleManager::Follow(XMFLOAT3 position, int lifejudg)
 		if (it->frame > lifejudg)
 		{
 			//敵とプレイヤーの距離求め
-			float disX = PlayerControl::GetInstance()->GetPlayer()->GetPosition().x - it->position.x;
-			float disY = PlayerControl::GetInstance()->GetPlayer()->GetPosition().y - it->position.y;
-			float disZ = PlayerControl::GetInstance()->GetPlayer()->GetPosition().z - it->position.z;
-			dis = Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), it->position);
-			//trad=(PlayerControl::GetInstance()->GetPlayer()->GetPosition().y - it->position.y, PlayerControl::GetInstance()->GetPlayer()->GetPosition().x - it->position.x);
+			float disX = PlayerControl::GetIns()->GetPlayer()->GetPosition().x - it->position.x;
+			float disY = PlayerControl::GetIns()->GetPlayer()->GetPosition().y - it->position.y;
+			float disZ = PlayerControl::GetIns()->GetPlayer()->GetPosition().z - it->position.z;
+			dis = Collision::GetLength(PlayerControl::GetIns()->GetPlayer()->GetPosition(), it->position);
+			//trad=(PlayerControl::GetIns()->GetPlayer()->GetPosition().y - it->position.y, PlayerControl::GetIns()->GetPlayer()->GetPosition().x - it->position.x);
 
 			//座標のセット
 			if (dis > 1.0f)
@@ -670,11 +670,11 @@ void ParticleManager::Charge(XMFLOAT3 position)
 		float centerSpeed = 0.2f;
 
 		//敵とプレイヤーの距離求め
-		float disX = PlayerControl::GetInstance()->GetPlayer()->GetPosition().x - it->position.x;
-		float disY = PlayerControl::GetInstance()->GetPlayer()->GetPosition().y - it->position.y;
-		float disZ = PlayerControl::GetInstance()->GetPlayer()->GetPosition().z - it->position.z;
-		dis = Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), it->position);
-		//trad=(PlayerControl::GetInstance()->GetPlayer()->GetPosition().y - it->position.y, PlayerControl::GetInstance()->GetPlayer()->GetPosition().x - it->position.x);
+		float disX = PlayerControl::GetIns()->GetPlayer()->GetPosition().x - it->position.x;
+		float disY = PlayerControl::GetIns()->GetPlayer()->GetPosition().y - it->position.y;
+		float disZ = PlayerControl::GetIns()->GetPlayer()->GetPosition().z - it->position.z;
+		dis = Collision::GetLength(PlayerControl::GetIns()->GetPlayer()->GetPosition(), it->position);
+		//trad=(PlayerControl::GetIns()->GetPlayer()->GetPosition().y - it->position.y, PlayerControl::GetIns()->GetPlayer()->GetPosition().x - it->position.x);
 
 		//座標のセット
 		if (dis > 1.0f)

@@ -44,7 +44,7 @@ private:
 	float OldHP;
 	float NowHP;
 public:
-	static ExpPointSystem* GetInstance();
+	static ExpPointSystem* GetIns();
 	void Init();
 	void Upda();
 	void Draw();

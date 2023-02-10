@@ -20,7 +20,7 @@ Wood::Wood()
 
 void Wood::Initialize()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
 	m_Object = std::make_unique<Object3d>();
 	//ƒ‚ƒfƒ‹Š„‚è“–‚Ä
@@ -36,7 +36,7 @@ void Wood::Initialize()
 
 void Wood::Update()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
 	m_Object->SetColor({1.0f, 1.0f, 1.0f, 1.0f});
 
@@ -45,9 +45,9 @@ void Wood::Update()
 	ParameterSet_Obj();
 	m_Object->Setf(TRUE);
 	m_Object->SetFogCenter(camera->GetEye());
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY|| SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL) {
+	if (SceneManager::GetIns()->GetScene() == SceneManager::PLAY|| SceneManager::GetIns()->GetScene() == SceneManager::TUTORIAL) {
 		m_Object->setFog(true);
-		m_Object->Setppos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
+		m_Object->Setppos(PlayerControl::GetIns()->GetPlayer()->GetPosition());
 		//m_Object->SetBloomF(true);
 	}
 	else
@@ -67,7 +67,7 @@ void Wood::Draw()
 
 void Wood::CollideWood()
 {
-	Player* l_player = PlayerControl::GetInstance()->GetPlayer();
+	Player* l_player = PlayerControl::GetIns()->GetPlayer();
 	if (l_player == nullptr)
 	{
 		return;

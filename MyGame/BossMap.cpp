@@ -5,7 +5,7 @@
 #include"imgui.h"
 #include"mHelper.h"
 
-BossMap* BossMap::GetInstance()
+BossMap* BossMap::GetIns()
 {
 	static BossMap ins;
 	return &ins;
@@ -26,7 +26,7 @@ BossMap::~BossMap()
 void BossMap::Init()
 {
 
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 	for (int i = 0; i < mapHight; i++)
 	{
 		for (int j = 0; j < mapWidth; j++)
@@ -47,17 +47,17 @@ void BossMap::Init()
 
 void BossMap::Upda()
 {
-	Enemy* boss = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0].get();
-	Player* player = PlayerControl::GetInstance()->GetPlayer();
+	Enemy* boss = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0].get();
+	Player* player = PlayerControl::GetIns()->GetPlayer();
 
 	// ’¸“_ŠÔ‚Ì’·‚³‚ð‘ª‚é
 	// ’¸“_ŠÔ‚Ì’·‚³‚ð‘ª‚é
 	float line_length = Collision::CalculationVertexLength(RushArea.start, RushArea.end);
 
 
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
-	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 
 	for (int i = 0; i < mapHight; i++)
 	{
@@ -136,8 +136,8 @@ void BossMap::DrawDamageLine(bool atckjudg, Line2D line)
 
 void BossMap::DrawDamageLine(bool atckjudg, Line2D line[4])
 {
-	if (RushAttack::GetInstance()->GetPhaseEnd() == RushAttack::PHASETWO ||
-		RushAttack::GetInstance()->GetPhaseEnd() == RushAttack::PHASETHREE)return;
+	if (RushAttack::GetIns()->GetPhaseEnd() == RushAttack::PHASETWO ||
+		RushAttack::GetIns()->GetPhaseEnd() == RushAttack::PHASETHREE)return;
 	for (int i = 0; i < mapHight; i++)
 	{
 		for (int j = 0; j < mapWidth; j++)

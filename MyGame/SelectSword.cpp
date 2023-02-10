@@ -17,7 +17,7 @@ SelectSword::~SelectSword()
 	delete SwordSample[0], SwordSample[1], SwordSample[2], Frame;
 }
 
-SelectSword* SelectSword::GetInstance()
+SelectSword* SelectSword::GetIns()
 {
 	static SelectSword instance;
 	return &instance;
@@ -90,7 +90,7 @@ void SelectSword::Initialize()
 
 	SpriteSet();
 
-	input = Input::GetInstance();
+	input = Input::GetIns();
 
 	index = 1;
 
@@ -145,7 +145,7 @@ void SelectSword::Update()
 		if (input->TriggerButton(input->RB))
 		{
 
-			if (SceneManager::GetInstance()->GetScene() != SceneManager::TUTORIAL)
+			if (SceneManager::GetIns()->GetScene() != SceneManager::TUTORIAL)
 			{
 				if (index == 2)
 				{
@@ -162,7 +162,7 @@ void SelectSword::Update()
 		//左に移動
 		if (input->TriggerButton(input->LB))
 		{
-			if (SceneManager::GetInstance()->GetScene() != SceneManager::TUTORIAL)
+			if (SceneManager::GetIns()->GetScene() != SceneManager::TUTORIAL)
 			{
 				if (index == 0)
 				{
@@ -230,7 +230,7 @@ void SelectSword::Update()
 	//RB,LB押されたら武器更新
 	if (input->TriggerButton(input->RB) || input->TriggerButton(input->LB))
 	{
-		if (SceneManager::GetInstance()->GetScene() != SceneManager::TUTORIAL)
+		if (SceneManager::GetIns()->GetScene() != SceneManager::TUTORIAL)
 		{
 			//武器番号と現在装備してる武器を揃える
 			//剣
@@ -278,7 +278,7 @@ void SelectSword::Update()
 	{
 		sampleSwordAlpha[WAND] += 0.02f;
 	}
-	WeaponChangeEffect->CreateParticle(WeapomScl.x <= 0.0f, PlayerControl::GetInstance()->GetPlayer()->GetHandPos());
+	WeaponChangeEffect->CreateParticle(WeapomScl.x <= 0.0f, PlayerControl::GetIns()->GetPlayer()->GetHandPos());
 
 	Sword->SetScale(WeapomScl);
 	//武器オブジェクトの更新処理

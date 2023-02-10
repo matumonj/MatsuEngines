@@ -21,7 +21,7 @@ void ClearScene::Initialize()
 	// 3Dオブエクトにライトをセット
 	Object3d::SetLightGroup(lightGroup);
 
-	Feed::GetInstance()->initialize();
+	Feed::GetIns()->initialize();
 	
 	//タイトルスプライト
 	TitleTexInit();
@@ -42,14 +42,14 @@ void ClearScene::Update()
 {
 	if(!feedf)
 	{
-		if(Feed::GetInstance()->GetAlpha()>0.f)
+		if(Feed::GetIns()->GetAlpha()>0.f)
 		{
-			Feed::GetInstance()->Update_White(Feed::FEEDOUT);
+			Feed::GetIns()->Update_White(Feed::FEEDOUT);
 		}
 	}
-	if (Input::GetInstance()->TriggerButton(Input::B))
+	if (Input::GetIns()->TriggerButton(Input::B))
 	{
-		//SceneManager::GetInstance()->SetScene(SceneManager::TUTORIAL, sceneManager_);
+		//SceneManager::GetIns()->SetScene(SceneManager::TUTORIAL, sceneManager_);
 
 		//押されたら
 		menujudg_Play = true;
@@ -94,11 +94,11 @@ bool ClearScene::ChangeScene()
 	}
 	if (CameraPos.y <= -40.0f)
 	{
-		Feed::GetInstance()->Update_White(Feed::FEEDIN);
+		Feed::GetIns()->Update_White(Feed::FEEDIN);
 	}
 
 	//画面真っ白になったらシーン切り替え
-	if (Feed::GetInstance()->GetAlpha() >= 1.0f)
+	if (Feed::GetIns()->GetAlpha() >= 1.0f)
 	{
 		return true;
 	}
@@ -122,16 +122,16 @@ void ClearScene::SpriteDraw()
 	titlesprite->Draw();
 	Sprite::PostDraw();
 
-	Feed::GetInstance()->Draw();
+	Feed::GetIns()->Draw();
 }
 
 void ClearScene::Draw()
 {
 	//ポストエフェクトの描画
-	DirectXCommon::GetInstance()->BeginDraw(); //描画コマンドの上らへんに
+	DirectXCommon::GetIns()->BeginDraw(); //描画コマンドの上らへんに
 	SpriteDraw();
 
-	DirectXCommon::GetInstance()->EndDraw();
+	DirectXCommon::GetIns()->EndDraw();
 }
 
 

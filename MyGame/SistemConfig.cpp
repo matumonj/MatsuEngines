@@ -4,7 +4,7 @@
 #include"SelectSword.h"
 #include"PlayerControl.h"
 
-SistemConfig* SistemConfig::GetInstance()
+SistemConfig* SistemConfig::GetIns()
 {
 	static SistemConfig instance;
 
@@ -21,13 +21,13 @@ void SistemConfig::Finalize()
 {
 	delete SelectSprite;
 	//delete configSprite;
-	ConfigSprite::GetInstance()->Finalize();
+	ConfigSprite::GetIns()->Finalize();
 }
 
 void SistemConfig::Initialize()
 {
-	input = Input::GetInstance();
-	configSprite = ConfigSprite::GetInstance();
+	input = Input::GetIns();
+	configSprite = ConfigSprite::GetIns();
 
 	//Sprite::LoadTexture(24, L"Resources/04 ‘I‘ðŽˆ/button_select2_3.png");
 
@@ -37,7 +37,7 @@ void SistemConfig::Initialize()
 	//SelectSprite->SetAnchorPoint({1.0f, 1.0f});
 	//SelectSprite->SetSize({600.0f, 100.0f});
 
-	CustomButton::GetInstance()->Initialize();
+	CustomButton::GetIns()->Initialize();
 }
 
 #include"CameraControl.h"
@@ -47,11 +47,11 @@ void SistemConfig::Update()
 	m_number = min(m_number, 2);
 	m_number = max(m_number, 0);
 
-	if (CameraControl::GetInstance()->GetCameraState() == CameraControl::PLAYER)
+	if (CameraControl::GetIns()->GetCameraState() == CameraControl::PLAYER)
 	{
 		if (input->TriggerButton(input->START))
 		{
-			//	PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(true);
+			//	PlayerControl::GetIns()->GetPlayer()->SetStopFlag(true);
 			//m_ConfigFlag = true;
 		}
 	}
@@ -72,17 +72,17 @@ void SistemConfig::Update()
 		SelectSprite->SetPosition(configSprite->GetSpritePosition(m_number));
 
 
-		if (CustomButton::GetInstance()->GetCustomButtonJudg() == false)
+		if (CustomButton::GetIns()->GetCustomButtonJudg() == false)
 		{
 		}
 		if (NowSelectButton() == CUSTOMBUTTON)
 		{
 			if (input->TriggerButton(input->B))
 			{
-				CustomButton::GetInstance()->SetCustomButtonJudg(true);
+				CustomButton::GetIns()->SetCustomButtonJudg(true);
 			}
 		}
-		if (CustomButton::GetInstance()->GetCustomButtonJudg() == false)
+		if (CustomButton::GetIns()->GetCustomButtonJudg() == false)
 		{
 			if (NowSelectButton() == SWORDSELECT)
 			{
@@ -91,15 +91,15 @@ void SistemConfig::Update()
 
 		if (count > 5 && input->TriggerButton(input->START))
 		{
-			CustomButton::GetInstance()->SetCustomButtonJudg(false);
+			CustomButton::GetIns()->SetCustomButtonJudg(false);
 
-			PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(false);
+			PlayerControl::GetIns()->GetPlayer()->SetStopFlag(false);
 			count = 0;
 			EndConfigJudg = true;
 			m_ConfigFlag = false;
 		}
 	}
-	CustomButton::GetInstance()->Update();
+	CustomButton::GetIns()->Update();
 	sAlpha += 0.05f;
 	sAlpha = min(sAlpha, 1.0f);
 	sAlpha = max(sAlpha, 0.0f);
@@ -131,13 +131,13 @@ SistemConfig::Config SistemConfig::NowSelectButton()
 void SistemConfig::Draw()
 {
 	/*Sprite::PreDraw();
-	if (m_ConfigFlag && CustomButton::GetInstance()->GetCustomButtonJudg() == false && SelectSword::GetInstance()->
+	if (m_ConfigFlag && CustomButton::GetIns()->GetCustomButtonJudg() == false && SelectSword::GetIns()->
 		GetSelectJudg() == false)
 	{
 		configSprite->Draw();
 		SelectSprite->Draw();
 	}
 	Sprite::PostDraw();
-	CustomButton::GetInstance()->Draw();
-	SelectSword::GetInstance()->Draw();*/
+	CustomButton::GetIns()->Draw();
+	SelectSword::GetIns()->Draw();*/
 }

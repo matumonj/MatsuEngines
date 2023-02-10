@@ -28,7 +28,7 @@ private:
 
 
 public:
-	static HouseControl* GetInstance();
+	static HouseControl* GetIns();
 
 	void Load() override;
 

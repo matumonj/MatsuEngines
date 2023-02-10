@@ -12,7 +12,7 @@ void EnemyAttackState::Update(Enemy* enemy)
 {
 	const int Damage = 10;
 	//プレイヤーにダメージ
-	//	PlayerControl::GetInstance()->GetPlayer()->RecvDamage(Damage);
+	//	PlayerControl::GetIns()->GetPlayer()->RecvDamage(Damage);
 	//fbxを攻撃アニメーションに
 	enemy->SetAnimeState(enemy->ATTACK1);
 	enemy->SetAttackTime(true);

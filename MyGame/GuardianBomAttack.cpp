@@ -30,7 +30,7 @@ void GuardianBomAttack::Finalize()
 
 void GuardianBomAttack::TexSet()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 	Texture::LoadTexture(71, L"Resources/2d/icon/missileicon.png");
 
 	//テクスチャセット
@@ -90,8 +90,8 @@ void GuardianBomAttack::TexSet()
 
 void GuardianBomAttack::Upda()
 {
-	XMFLOAT3 epos = EnemyControl::GetInstance()->GetGuardianEnemy()->GetPosition();
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	XMFLOAT3 epos = EnemyControl::GetIns()->GetGuardianEnemy()->GetPosition();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
 	switch (phase)
 	{
@@ -166,9 +166,9 @@ void GuardianBomAttack::Upda()
 void GuardianBomAttack::ArmShot()
 {
 	//ガーディアンインスタンス
-	Enemy* Guardian = EnemyControl::GetInstance()->GetGuardianEnemy();
+	Enemy* Guardian = EnemyControl::GetIns()->GetGuardianEnemy();
 	//プレイヤー座標
-	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 	//敵がプエレイヤーの方向く処理
 
 	for (int i = 0; i < ArmObjNum; i++)
@@ -227,7 +227,7 @@ void GuardianBomAttack::Phase_AreaSet()
 
 void GuardianBomAttack::Phase_Bom()
 {
-	XMFLOAT3 epos = EnemyControl::GetInstance()->GetGuardianEnemy()->GetPosition();
+	XMFLOAT3 epos = EnemyControl::GetIns()->GetGuardianEnemy()->GetPosition();
 	ShotCount++;
 	ArmShot();
 	if ( DtexAlpha[ArmObjNum - 1] <= 0.0f &&ArmObj[ArmObjNum - 1] == nullptr)
@@ -243,7 +243,7 @@ void GuardianBomAttack::Phase_End()
 		BomEffect[i].reset();
 		ArmEffect[i].reset();
 	}
-	EnemyControl::GetInstance()->GetGuardianEnemy()->SetColors({1.0f, 1.0f, 1.0f, 1.0f});
+	EnemyControl::GetIns()->GetGuardianEnemy()->SetColors({1.0f, 1.0f, 1.0f, 1.0f});
 }
 
 #include "imgui.h"
@@ -292,7 +292,7 @@ void GuardianBomAttack::Draw()
 void GuardianBomAttack::ColPlayer()
 {
 	//プレイヤーの座標
-	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 
 	for (int i = 0; i < ArmObjNum; i++)
 	{
@@ -307,7 +307,7 @@ void GuardianBomAttack::ColPlayer()
 
 		if (Collision::GetLength(ppos, ArmPos[i]) < 10.f)
 		{
-			PlayerControl::GetInstance()->GetPlayer()->RecvDamage(10);
+			PlayerControl::GetIns()->GetPlayer()->RecvDamage(10);
 			MissileDestFlag[i] = true;
 		}
 		if (ArmPos[i].y < -32)
@@ -331,9 +331,9 @@ void GuardianBomAttack::ColPlayer()
 void GuardianBomAttack::DestroyEffect()
 {
 	//プレイヤーの座標
-	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 	//カメラ座標
-	XMFLOAT3 cpos = CameraControl::GetInstance()->GetCamera()->GetEye();
+	XMFLOAT3 cpos = CameraControl::GetIns()->GetCamera()->GetEye();
 	//エフェクト生成座標
 	XMFLOAT3 epos = {ppos.x - ((ppos.x - cpos.x) / 2.f), ColMissilePos.y + 3.f, ppos.z - ((ppos.z - cpos.z) / 2.f)};
 	for (int i = 0; i < ArmObjNum; i++)

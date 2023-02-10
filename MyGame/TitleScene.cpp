@@ -24,7 +24,7 @@ void TitleScene::Initialize()
 	// 3Dオブエクトにライトをセット
 	Object3d::SetLightGroup(lightGroup);
 
-	Feed::GetInstance()->initialize();
+	Feed::GetIns()->initialize();
 
 	//フィールド
 	TitleFieldInit();
@@ -40,19 +40,19 @@ void TitleScene::Initialize()
 
 void TitleScene::Update()
 {
-	if (Input::GetInstance()->TriggerButton(Input::B))
+	if (Input::GetIns()->TriggerButton(Input::B))
 	{
 		CameraBackF = true;
-		//SceneManager::GetInstance()->SetScene(SceneManager::TUTORIAL, sceneManager_);
+		//SceneManager::GetIns()->SetScene(SceneManager::TUTORIAL, sceneManager_);
 
 		//押されたら
 		menujudg_Play = true;
 		//押されたら
 		feedf = true;
 	}
-	if (Input::GetInstance()->TriggerButton(Input::A))
+	if (Input::GetIns()->TriggerButton(Input::A))
 	{
-		SceneManager::GetInstance()->SetScene(SceneManager::MAPCREATE, sceneManager_);
+		SceneManager::GetIns()->SetScene(SceneManager::MAPCREATE, sceneManager_);
 	}
 
 
@@ -60,7 +60,7 @@ void TitleScene::Update()
 	//
 	if (ChangeScene() == true)
 	{
-		SceneManager::GetInstance()->SetScene(SceneManager::TUTORIAL,sceneManager_);
+		SceneManager::GetIns()->SetScene(SceneManager::TUTORIAL,sceneManager_);
 	}
 
 	//360言ったら０にリセット
@@ -90,7 +90,7 @@ void TitleScene::Update()
 	camera->SetEye({CameraPos.x, 2.0f, CameraPos.y});
 	camera->SetTarget({0.0f, 0.0f, 0.0f});
 	camera->Update();
-	//SceneManager::GetInstance()->SetScene(SceneManager::TUTORIAL, sceneManager_);
+	//SceneManager::GetIns()->SetScene(SceneManager::TUTORIAL, sceneManager_);
 
 }
 
@@ -123,11 +123,11 @@ bool TitleScene::ChangeScene()
 	}
 	if (CameraPos.y <= -40.0f)
 	{
-		Feed::GetInstance()->Update_White(Feed::FEEDIN);
+		Feed::GetIns()->Update_White(Feed::FEEDIN);
 	}
 
 	//画面真っ白になったらシーン切り替え
-	if (Feed::GetInstance()->GetAlpha() >= 1.0f)
+	if (Feed::GetIns()->GetAlpha() >= 1.0f)
 	{
 		return true;
 	}
@@ -146,19 +146,19 @@ void TitleScene::SpriteDraw()
 	Sprite::PreDraw();
 	titlesprite->Draw();
 	TitleMenu[0]->Draw();
-	DebugTextSprite::GetInstance()->DrawAll();
+	DebugTextSprite::GetIns()->DrawAll();
 	Sprite::PostDraw();
 
-	Feed::GetInstance()->Draw();
+	Feed::GetIns()->Draw();
 }
 
 void TitleScene::Draw()
 {
 	//ポストエフェクトの描画
-	DirectXCommon::GetInstance()->BeginDraw(); //描画コマンドの上らへんに
+	DirectXCommon::GetIns()->BeginDraw(); //描画コマンドの上らへんに
 	MyGameDraw();
 	SpriteDraw();
-	DirectXCommon::GetInstance()->EndDraw();
+	DirectXCommon::GetIns()->EndDraw();
 }
 
 

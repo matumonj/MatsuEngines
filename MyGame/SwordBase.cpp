@@ -5,7 +5,7 @@
 
 void SwordBase::LoadCsv(std::string damval, std::string knoval, std::string speval, std::string modname)
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
 	file.open("Param_CSV/CharaParam/Player_Param.csv");
 

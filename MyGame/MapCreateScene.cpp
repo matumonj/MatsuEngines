@@ -28,7 +28,7 @@ void MapCreateScene::ModelCreate(DebugCamera* camera)
 	postEffect = new PostEffect();
 	postEffect->Initialize();
 
-	Field::GetInstance()->Initialize();
+	Field::GetIns()->Initialize();
 
 	// ライト生成
 	lightGroup = LightGroup::Create();
@@ -38,7 +38,7 @@ void MapCreateScene::ModelCreate(DebugCamera* camera)
 	//パラメータの設定
 	//lightGroup->LightSetting();
 
-	MapCreate::GetInstance()->ObjectInitialize(CameraControl::GetInstance()->GetCamera());
+	MapCreate::GetIns()->ObjectInitialize(CameraControl::GetIns()->GetCamera());
 }
 #pragma endregion
 
@@ -46,23 +46,23 @@ void MapCreateScene::ModelCreate(DebugCamera* camera)
 #pragma region オブジェクト+ライトの更新処理
 void MapCreateScene::objUpdate(DebugCamera* camera)
 {
-	Field::GetInstance()->Update_Edit();
+	Field::GetIns()->Update_Edit();
 
-	MapCreate::GetInstance()->ObjectUpdate(CameraControl::GetInstance()->GetCamera());
+	MapCreate::GetIns()->ObjectUpdate(CameraControl::GetIns()->GetCamera());
 }
 #pragma endregion
 
 #pragma region 初期化
 void MapCreateScene::Initialize()
 {
-	CameraControl::GetInstance()->ParamSet();
+	CameraControl::GetIns()->ParamSet();
 
 	// 3Dオブジェクトにカメラをセット
-	//	Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
-	ModelCreate(CameraControl::GetInstance()->GetCamera()); //
+	//	Object3d::SetCamera(CameraControl::GetIns()->GetCamera());
+	ModelCreate(CameraControl::GetIns()->GetCamera()); //
 
 	//カメラをセット
-	f_Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
+	f_Object3d::SetCamera(CameraControl::GetIns()->GetCamera());
 	//グラフィックパイプライン生成
 	f_Object3d::CreateGraphicsPipeline();
 
@@ -72,7 +72,7 @@ void MapCreateScene::Initialize()
 	CameraPosition.z = -190;
 	CameraPosition.y = 50;
 
-	CameraControl::GetInstance()->SetCameraState(CameraControl::MAPCREATE);
+	CameraControl::GetIns()->SetCameraState(CameraControl::MAPCREATE);
 }
 #pragma endregion
 
@@ -81,20 +81,20 @@ void MapCreateScene::Update()
 {
 	//lightGroup->SpotLightUpdate();
 
-	Input::MouseMove mouseMove = Input::GetInstance()->GetMouseMove();
+	Input::MouseMove mouseMove = Input::GetIns()->GetMouseMove();
 	//マウスの入力状態取得
 
 	//カメラ関係の処理
-	CameraControl::GetInstance()->GetCamera()->SetEye(CameraPosition);
-	CameraControl::GetInstance()->GetCamera()->SetTarget({
+	CameraControl::GetIns()->GetCamera()->SetEye(CameraPosition);
+	CameraControl::GetIns()->GetCamera()->SetTarget({
 		CameraPosition.x, CameraPosition.y - 15, CameraPosition.z + 20
 	});
 
-	CameraControl::GetInstance()->GetCamera()->Update();
+	CameraControl::GetIns()->GetCamera()->Update();
 
-	objUpdate(CameraControl::GetInstance()->GetCamera()); //オブジェクトの更新処理
-	//Player::GetInstance()->Update({ 1,1,1,1 }, camera);
-	MapCreate::GetInstance()->ObjectArgment(CameraControl::GetInstance()->GetCamera());
+	objUpdate(CameraControl::GetIns()->GetCamera()); //オブジェクトの更新処理
+	//Player::GetIns()->Update({ 1,1,1,1 }, camera);
+	MapCreate::GetIns()->ObjectArgment(CameraControl::GetIns()->GetCamera());
 	//シーンチェンジ
 
 }
@@ -107,8 +107,8 @@ void MapCreateScene::LightUpdate()
 //sプライと以外の描画
 void MapCreateScene::MyGameDraw()
 {
-	Field::GetInstance()->Draw();
-	MapCreate::GetInstance()->ObjectDraw();
+	Field::GetIns()->Draw();
+	MapCreate::GetIns()->ObjectDraw();
 }
 
 void MapCreateScene::SpriteDraw()
@@ -128,13 +128,13 @@ void MapCreateScene::Draw()
 		MyGameDraw();
 		postEffect->PostDrawScene();
 
-		DirectXCommon::GetInstance()->BeginDraw();
+		DirectXCommon::GetIns()->BeginDraw();
 		postEffect->Draw();
-		if (DirectXCommon::GetInstance()->GetFullScreen() == false)
+		if (DirectXCommon::GetIns()->GetFullScreen() == false)
 		{
 			ImGuiDraw();
 		}
-		DirectXCommon::GetInstance()->EndDraw();
+		DirectXCommon::GetIns()->EndDraw();
 		break;
 
 	case Default: //普通のやつ特に何もかかっていない
@@ -142,13 +142,13 @@ void MapCreateScene::Draw()
 		postEffect->Draw();
 		postEffect->PostDrawScene();
 
-		DirectXCommon::GetInstance()->BeginDraw();
+		DirectXCommon::GetIns()->BeginDraw();
 		MyGameDraw();
-		if (DirectXCommon::GetInstance()->GetFullScreen() == false)
+		if (DirectXCommon::GetIns()->GetFullScreen() == false)
 		{
 			ImGuiDraw();
 		}
-		DirectXCommon::GetInstance()->EndDraw();
+		DirectXCommon::GetIns()->EndDraw();
 		break;
 	}
 }
@@ -156,7 +156,7 @@ void MapCreateScene::Draw()
 
 void MapCreateScene::ImGuiDraw()
 {
-	MapCreate::GetInstance()->ImGuiDraw();
+	MapCreate::GetIns()->ImGuiDraw();
 
 	ImGui::Begin("SelectScene");
 	ImGui::SetWindowPos(ImVec2(600, 800));
@@ -189,8 +189,8 @@ void MapCreateScene::Finalize()
 {
 	Destroy(postEffect);
 	Destroy(lightGroup);
-	CameraControl::GetInstance()->Finalize();
-	MapCreate::GetInstance()->Finalize();
-	Field::GetInstance()->Finalize();
+	CameraControl::GetIns()->Finalize();
+	MapCreate::GetIns()->Finalize();
+	Field::GetIns()->Finalize();
 }
 #pragma endregion

@@ -45,8 +45,8 @@ Texture::Texture(UINT texNumber, XMFLOAT3 position, XMFLOAT3 size, XMFLOAT4 colo
 
 bool Texture::StaticInitialize(int window_width, int window_height)
 {
-	device = DirectXCommon::GetInstance()->GetDev();
-	cmdList = DirectXCommon::GetInstance()->GetCmdList();
+	device = DirectXCommon::GetIns()->GetDev();
+	cmdList = DirectXCommon::GetIns()->GetCmdList();
 
 	// デスクリプタヒープの初期化
 	InitializeDescriptorHeap();
@@ -63,7 +63,7 @@ bool Texture::StaticInitialize(int window_width, int window_height)
 void Texture::PreDraw()
 {
 	// コマンドリストをセット
-	cmdList = DirectXCommon::GetInstance()->GetCmdList();
+	cmdList = DirectXCommon::GetIns()->GetCmdList();
 
 	// パイプラインステートの設定
 	cmdList->SetPipelineState(pipelinestate.Get());

@@ -34,7 +34,7 @@ private:
 	};
 
 public:
-	static StoneControl* GetInstance();
+	static StoneControl* GetIns();
 
 	void Load() override;
 

@@ -71,7 +71,7 @@ private:
 	const int BuffTimeMax = 1200;
 	std::vector<std::unique_ptr<Enemy>> enemys;
 public:
-	static PlayerAttackState* GetInstance();
+	static PlayerAttackState* GetIns();
 	AttackSkill GetSkill() { return OldSkill; }
 	AttackSkill GetNowSkill() { return Skill; }
 	void SetHitStopJudg(bool f, int time = 90);

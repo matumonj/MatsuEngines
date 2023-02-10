@@ -45,17 +45,17 @@ void (ControlBase::* ControlBase::drawTable[])() = {
 void ControlBase::Update()
 {
 	//シーンに応じた更新処理
-	(this->*updateTable[SceneManager::GetInstance()->GetScene()])();
+	(this->*updateTable[SceneManager::GetIns()->GetScene()])();
 }
 
 void ControlBase::Initialize()
 {
 	//シーンに応じた更新処理
-	(this->*initTable[SceneManager::GetInstance()->GetScene()])();
+	(this->*initTable[SceneManager::GetIns()->GetScene()])();
 }
 
 void ControlBase::Draw()
 {
 	//シーンに応じた更新処理
-	(this->*drawTable[SceneManager::GetInstance()->GetScene()])();
+	(this->*drawTable[SceneManager::GetIns()->GetScene()])();
 }

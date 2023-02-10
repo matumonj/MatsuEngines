@@ -2,7 +2,7 @@
 
 #include "ClearScene.h"
 
-SceneManager* SceneManager::GetInstance()
+SceneManager* SceneManager::GetIns()
 {
 	static SceneManager instance;
 	return &instance;

@@ -18,7 +18,7 @@ void BossSpell::Finalize()
 	}
 }
 
-BossSpell* BossSpell::GetInstance()
+BossSpell* BossSpell::GetIns()
 {
 	static BossSpell instance;
 	return &instance;

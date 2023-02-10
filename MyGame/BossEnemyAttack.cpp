@@ -52,7 +52,7 @@ void BossEnemyAttack::Update(Enemy* enemy)
 		enemy->SetAnimation(BossEnemy::NowAttackMotion::BNORMAL2, false, 1.0);
 	}
 
-	if (CameraControl::GetInstance()->GetCameraState() == CameraControl::BOSSCUTSCENE)
+	if (CameraControl::GetIns()->GetCameraState() == CameraControl::BOSSCUTSCENE)
 	{
 		enemy->ChangeState_Boss(new BossEnemyStay());
 	}
@@ -60,7 +60,7 @@ void BossEnemyAttack::Update(Enemy* enemy)
 	{
 		if (enemy->GetAnimationTime() >= enemy->GetFbxTimeEnd() - 0.1) {
 			//ˆê’èˆÈã—£‚ê‚½‚çó‘Ô‚ð’ÇÕ‚É
-			if (Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) > 17.f)
+			if (Collision::GetLength(enemy->GetPosition(), PlayerControl::GetIns()->GetPlayer()->GetPosition()) > 17.f)
 			{
 				randmotion = 0;
 				enemy->ChangeState_Boss(new BossEnemyFollow());

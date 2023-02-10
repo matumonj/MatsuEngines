@@ -45,7 +45,7 @@ private:
 	bool damageLineDrawFlag;
 	DirectX::XMFLOAT2 lineendpos;
 public:
-	static BossMap* GetInstance();
+	static BossMap* GetIns();
 	void Init();
 	void Upda();
 	void Draw();

@@ -6,7 +6,7 @@
 #include <sstream>
 #include"EnemyControl.h"
 
-ExpPointSystem* ExpPointSystem::GetInstance()
+ExpPointSystem* ExpPointSystem::GetIns()
 {
 	static ExpPointSystem instance;
 	return &instance;

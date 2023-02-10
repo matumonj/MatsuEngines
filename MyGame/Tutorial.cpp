@@ -9,11 +9,8 @@
 #include"ChestControl.h"
 #include"CameraControl.h"
 #include"UI.h"
-#include"BossScene.h"
 #include"Feed.h"
-#include"BossMap.h"
 #include"PlayerControl.h"
-#include"PlayScene.h"
 #include"StoneControl.h"
 #include <SelectSword.h>
 #include "GrassFieldControl.h"
@@ -37,14 +34,14 @@ void Tutorial::Initialize()
 	//Texture::LoadTexture(47, L"Resources/df.png");
 	/*オブジェクト初期化*/
 	{
-		AllObjectControl.emplace_back(CameraControl::GetInstance()); //Camera
-		AllObjectControl.emplace_back(EnemyControl::GetInstance()); //Enemy
-		AllObjectControl.emplace_back(PlayerControl::GetInstance()); //Player
-		AllObjectControl.emplace_back(FenceControl::GetInstance()); //Fence
-		AllObjectControl.emplace_back(ChestControl::GetInstance()); //Chest
-		AllObjectControl.emplace_back(WoodControl::GetInstance()); //Wood
-		AllObjectControl.emplace_back(StoneControl::GetInstance()); //Wood
-		AllObjectControl.emplace_back(GrassFieldControl::GetInstance()); //Wood
+		AllObjectControl.emplace_back(CameraControl::GetIns()); //Camera
+		AllObjectControl.emplace_back(EnemyControl::GetIns()); //Enemy
+		AllObjectControl.emplace_back(PlayerControl::GetIns()); //Player
+		AllObjectControl.emplace_back(FenceControl::GetIns()); //Fence
+		AllObjectControl.emplace_back(ChestControl::GetIns()); //Chest
+		AllObjectControl.emplace_back(WoodControl::GetIns()); //Wood
+		AllObjectControl.emplace_back(StoneControl::GetIns()); //Wood
+		AllObjectControl.emplace_back(GrassFieldControl::GetIns()); //Wood
 	}
 
 	postEffect = new PostEffect();
@@ -52,9 +49,9 @@ void Tutorial::Initialize()
 	c_postEffect = Blur;
 	//ミニマップ用のカメラ　後で別のところに移す
 	//各種設定画面
-	SistemConfig::GetInstance()->Initialize();
+	SistemConfig::GetIns()->Initialize();
 
-	SelectSword::GetInstance()->Initialize();
+	SelectSword::GetIns()->Initialize();
 	
 }
 
@@ -96,34 +93,34 @@ void Tutorial::objUpdate()
 				AllObjectControl[i]->Update();
 			}
 		}
-		UI::GetInstance()->HUDUpdate(hudload, CameraControl::GetInstance()->GetCamera());
+		UI::GetIns()->HUDUpdate(hudload, CameraControl::GetIns()->GetCamera());
 	}
 	//後で別所移す
-	Field::GetInstance()->Update();
+	Field::GetIns()->Update();
 }
 
 void Tutorial::Update()
 {
 	if (feedout)
 	{
-		Feed::GetInstance()->Update_White(Feed::FEEDOUT); //白くなります
-		if (Feed::GetInstance()->GetAlpha() <= 0.0f)
+		Feed::GetIns()->Update_White(Feed::FEEDOUT); //白くなります
+		if (Feed::GetIns()->GetAlpha() <= 0.0f)
 		{
 			feedout = false;
 		}
 	}
 	lightGroup->Update();
 
-	SistemConfig::GetInstance()->Update();
+	SistemConfig::GetIns()->Update();
 	//各オブジェクトの更新処理
 	objUpdate(); //オブジェクトの更新処理
 	//csv読み込み部分(Cameraの更新後にするのでobjUpdate()挟んでから)
 	LoadParam();
 
-	postEffect->SetVignette_GB(PlayerControl::GetInstance()->GetVignetteAlpha());
+	postEffect->SetVignette_GB(PlayerControl::GetIns()->GetVignetteAlpha());
 	LightUpdate();
 	//一定数進んだらシーンチェンジ
-	bool ArrivalJudg = PlayerControl::GetInstance()->GetPlayer()->GetPosition().z > -210.0f;
+	bool ArrivalJudg = PlayerControl::GetIns()->GetPlayer()->GetPosition().z > -210.0f;
 	if (ArrivalJudg)
 	{
 		scenechange = true;
@@ -131,29 +128,29 @@ void Tutorial::Update()
 
 	if (scenechange)
 	{
-		Feed::GetInstance()->Update_White(Feed::FEEDIN); //白くなります
+		Feed::GetIns()->Update_White(Feed::FEEDIN); //白くなります
 	}
 
 
-	if (scenechange && Feed::GetInstance()->GetAlpha() >= 1.0f)
+	if (scenechange && Feed::GetIns()->GetAlpha() >= 1.0f)
 	{
 		//画面真っ白なったら
 		Play = false;
-		SceneManager::GetInstance()->SetScene(SceneManager::PLAY, sceneManager_);
+		SceneManager::GetIns()->SetScene(SceneManager::PLAY, sceneManager_);
 	}
-	if(Input::GetInstance()->TriggerButton(Input::START))
-	SceneManager::GetInstance()->SetScene(SceneManager::BOSS, sceneManager_);
+	if(Input::GetIns()->TriggerButton(Input::START))
+	SceneManager::GetIns()->SetScene(SceneManager::BOSS, sceneManager_);
 
 }
 
 void Tutorial::LightUpdate()
 {
-	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
-	if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr)
+	XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
+	if (EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr)
 	{
 		lightGroup->SetCircleShadowDir(0, XMVECTOR({circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0}));
 		lightGroup->SetCircleShadowCasterPos(0, {
-			                                     EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->
+			                                     EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL)[0]->
 			                                     GetPosition()
 		                                     });
 		lightGroup->SetCircleShadowAtten(0, XMFLOAT3(circleShadowAtten));
@@ -171,7 +168,7 @@ void Tutorial::LightUpdate()
 void Tutorial::MyGameDraw()
 {
 
-	Field::GetInstance()->Draw();
+	Field::GetIns()->Draw();
 	if (Play)
 	{
 		for (int i = 0; i < AllObjectControl.size(); i++)
@@ -183,24 +180,23 @@ void Tutorial::MyGameDraw()
 			AllObjectControl[i]->Draw();
 		}
 	}
-	TutorialSprite::GetInstance()->DrawTargetPos();
-	SelectSword::GetInstance()->SwordDraw();
-	AttackEffect::GetIns()->Draw();
+	TutorialSprite::GetIns()->DrawTargetPos();
+	SelectSword::GetIns()->SwordDraw();
 }
 
 void Tutorial::SpriteDraw()
 {
 
 	Sprite::PreDraw();
-	if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr)
+	if (EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr)
 	{
-		EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->DamageTexDisplay_Draw();
+		EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL)[0]->DamageTexDisplay_Draw();
 	}
-	DebugTextSprite::GetInstance()->DrawAll();
+	DebugTextSprite::GetIns()->DrawAll();
 	Sprite::PostDraw();
-	UI::GetInstance()->HUDDraw();
-	Feed::GetInstance()->Draw();
-	SistemConfig::GetInstance()->Draw();
+	UI::GetIns()->HUDDraw();
+	Feed::GetIns()->Draw();
+	SistemConfig::GetIns()->Draw();
 
 }
 
@@ -216,10 +212,10 @@ void Tutorial::Draw()
 		postEffect->PreDrawScene();
 		postEffect->PostDrawScene();
 
-		DirectXCommon::GetInstance()->BeginDraw();
+		DirectXCommon::GetIns()->BeginDraw();
 		MyGameDraw();
 		SpriteDraw();
-		DirectXCommon::GetInstance()->EndDraw();
+		DirectXCommon::GetIns()->EndDraw();
 
 		break;
 
@@ -228,10 +224,10 @@ void Tutorial::Draw()
 		postEffect->PreDrawScene();
 		postEffect->PostDrawScene();
 
-		DirectXCommon::GetInstance()->BeginDraw();
+		DirectXCommon::GetIns()->BeginDraw();
 		MyGameDraw();
 		SpriteDraw();
-		DirectXCommon::GetInstance()->EndDraw();
+		DirectXCommon::GetIns()->EndDraw();
 
 		break;
 	}
@@ -250,15 +246,15 @@ bool Tutorial::LoadParam()
 			AllObjectControl[i]->Initialize();
 		}
 		//カメラをセット
-		f_Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
+		f_Object3d::SetCamera(CameraControl::GetIns()->GetCamera());
 		//グラフィックパイプライン生成
 		f_Object3d::CreateGraphicsPipeline();
 
-		CameraControl::GetInstance()->SetCameraState(CameraControl::PLAYER);
+		CameraControl::GetIns()->SetCameraState(CameraControl::PLAYER);
 
-		UI::GetInstance()->Initialize();
+		UI::GetIns()->Initialize();
 
-		Field::GetInstance()->Initialize();
+		Field::GetIns()->Initialize();
 
 		hudload = true;
 		Play = true;
@@ -278,6 +274,6 @@ void Tutorial::Finalize()
 		AllObjectControl[i]->Finalize();
 	}
 	AllObjectControl.clear();
-	Field::GetInstance()->Finalize();
+	Field::GetIns()->Finalize();
 	Destroy(postEffect);
 }

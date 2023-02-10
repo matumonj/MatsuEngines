@@ -14,7 +14,7 @@ void EnemyFollowState::Update(Enemy* enemy)
 	const float DetectionRange = 15.0f;
 	//プレイヤーが索敵範囲入ったら
 	bool SearchPlayer = Collision::GetLength(enemy->GetPosition(),
-	                                         PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < DetectionRange;
+	                                         PlayerControl::GetIns()->GetPlayer()->GetPosition()) < DetectionRange;
 
 	float dis;
 	//追跡スピード
@@ -23,17 +23,17 @@ void EnemyFollowState::Update(Enemy* enemy)
 
 	//敵とプレイヤーの距離求め
 	dis = sqrtf(
-		(enemy->GetPosition().x - PlayerControl::GetInstance()->GetPlayer()->GetPosition().x) * (enemy->GetPosition().x
-			- PlayerControl::GetInstance()->GetPlayer()->GetPosition().x)
-		+ (enemy->GetPosition().z - PlayerControl::GetInstance()->GetPlayer()->GetPosition().z) * (enemy->GetPosition().
-			z - PlayerControl::GetInstance()->GetPlayer()->GetPosition().z));
+		(enemy->GetPosition().x - PlayerControl::GetIns()->GetPlayer()->GetPosition().x) * (enemy->GetPosition().x
+			- PlayerControl::GetIns()->GetPlayer()->GetPosition().x)
+		+ (enemy->GetPosition().z - PlayerControl::GetIns()->GetPlayer()->GetPosition().z) * (enemy->GetPosition().
+			z - PlayerControl::GetIns()->GetPlayer()->GetPosition().z));
 
 
 	//敵がプエレイヤーの方向く処理
 	XMVECTOR positionA = {
-		PlayerControl::GetInstance()->GetPlayer()->GetPosition().x,
-		PlayerControl::GetInstance()->GetPlayer()->GetPosition().y,
-		PlayerControl::GetInstance()->GetPlayer()->GetPosition().z
+		PlayerControl::GetIns()->GetPlayer()->GetPosition().x,
+		PlayerControl::GetIns()->GetPlayer()->GetPosition().y,
+		PlayerControl::GetIns()->GetPlayer()->GetPosition().z
 	};
 	XMVECTOR positionB = {enemy->GetPosition().x, enemy->GetPosition().y, enemy->GetPosition().z};
 	//プレイヤーと敵のベクトルの長さ(差)を求める
@@ -54,9 +54,9 @@ void EnemyFollowState::Update(Enemy* enemy)
 		enemy->GetRotation().z
 	});
 
-	if (!enemy->GetMoveStop() && PlayerControl::GetInstance()->GetPlayer()->GetStopFlag() == false)
+	if (!enemy->GetMoveStop() && PlayerControl::GetIns()->GetPlayer()->GetStopFlag() == false)
 	{
-		if (Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) > 10)
+		if (Collision::GetLength(enemy->GetPosition(), PlayerControl::GetIns()->GetPlayer()->GetPosition()) > 10)
 		{
 			enemy->SetPosition({
 					enemy->GetPosition().x + move.m128_f32[0] * 4.f,

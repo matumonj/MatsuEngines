@@ -10,7 +10,7 @@ ID3D12Device* LightGroup::device = nullptr;
 
 void LightGroup::StaticInitialize()
 {
-	device = DirectXCommon::GetInstance()->GetDev();
+	device = DirectXCommon::GetIns()->GetDev();
 
 	// nullptrチェック
 

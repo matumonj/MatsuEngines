@@ -19,7 +19,7 @@ private:
 	std::vector<std::unique_ptr<WoodBase>> Tutorialwoods;
 
 public:
-	static WoodControl* GetInstance();
+	static WoodControl* GetIns();
 
 	void Load() override;
 

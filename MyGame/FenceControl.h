@@ -38,7 +38,7 @@ private:
 	};
 
 public:
-	static FenceControl* GetInstance();
+	static FenceControl* GetIns();
 
 	void Load() override;
 

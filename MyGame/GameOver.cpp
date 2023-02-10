@@ -44,40 +44,40 @@ void GameOver::Update()
 {
 	if (ReStartF)
 	{
-		PlayerAttackState::GetInstance()->SetHitStopJudg(false);
+		PlayerAttackState::GetIns()->SetHitStopJudg(false);
 		AlphaEaseT -= 0.01f;
 		FrameScalingT -= 0.01f;
 		if (AlphaEaseT <= 0.0f)
 		{
-			EnemyControl::GetInstance()->GameOverResetParam();
-			if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
-				EnemyControl::GetInstance()->GuardianCreate();
+			EnemyControl::GetIns()->GameOverResetParam();
+			if (SceneManager::GetIns()->GetScene() == SceneManager::PLAY) {
+				EnemyControl::GetIns()->GuardianCreate();
 			}
-			PlayerControl::GetInstance()->GameOverResetParam();
-			PlayerControl::GetInstance()->TurnoffDraw(false);
-			UI::GetInstance()->SetTurnoffUIDraw(false);
+			PlayerControl::GetIns()->GameOverResetParam();
+			PlayerControl::GetIns()->TurnoffDraw(false);
+			UI::GetIns()->SetTurnoffUIDraw(false);
 			PlayerDestF = true;
 			ReStartF = false;
 		}
 	}
 	else
 	{
-		//UI::GetInstance()->SetTurnoffUIDraw(false);
-		if (HUD::GetInstance()->GetPlayerHP()->GetSize().x <= 50.f && PlayerControl::GetInstance()->GetPlayer()->GetHP()
+		//UI::GetIns()->SetTurnoffUIDraw(false);
+		if (HUD::GetIns()->GetPlayerHP()->GetSize().x <= 50.f && PlayerControl::GetIns()->GetPlayer()->GetHP()
 			<= 0)
 		{
-			UI::GetInstance()->SetTurnoffUIDraw(true);
-			PlayerAttackState::GetInstance()->SetHitStopJudg(true);
+			UI::GetIns()->SetTurnoffUIDraw(true);
+			PlayerAttackState::GetIns()->SetHitStopJudg(true);
 			FrameScalingT += 0.04f;
 			if (FrameScalingT >= 1.0f)
 			{
 				AlphaEaseT += 0.02f;
 			}
-			if (AlphaEaseT >= 1.0f && Input::GetInstance()->TriggerButton(Input::B))
+			if (AlphaEaseT >= 1.0f && Input::GetIns()->TriggerButton(Input::B))
 			{
-				PlayerControl::GetInstance()->TurnoffDraw(true);
-				if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
-					EnemyControl::GetInstance()->GuardianReset();
+				PlayerControl::GetIns()->TurnoffDraw(true);
+				if (SceneManager::GetIns()->GetScene() == SceneManager::PLAY) {
+					EnemyControl::GetIns()->GuardianReset();
 				}
 				PlayerDestF = true;
 				ReStartF = true;
@@ -94,7 +94,7 @@ void GameOver::Update()
 	GameOverTex->setcolor({1.f, 1.f, 1.f, TexAlpha});
 
 
-	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 	if (PlayerDestF)
 	{
 		RestartPar->SetParF(1);
@@ -126,7 +126,7 @@ void GameOver::Draw()
 	Sprite::PostDraw();
 
 	ImGui::Begin("pos");
-	ImGui::Text("hp %d", PlayerControl::GetInstance()->GetPlayer()->GetHP());
+	ImGui::Text("hp %d", PlayerControl::GetIns()->GetPlayer()->GetHP());
 	ImGui::SliderFloat("posy", &FramePos.y, 0.f, 1000.f);
 	ImGui::End();
 }

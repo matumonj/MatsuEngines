@@ -24,7 +24,7 @@ void ObjectManager::SetCollider()
 
 void ObjectManager::CollisionField()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
 	// ワールド行列更新
 	m_Object->UpdateWorldMatrix();
@@ -84,7 +84,7 @@ void ObjectManager::CollisionField()
 	PlayerQueryCallback callback(sphereCollider);
 
 	// 球と地形の交差を全検索
-	CollisionManager::GetInstance()->QuerySphere(*sphereCollider, &callback, COLLISION_ATTR_LANDSHAPE);
+	CollisionManager::GetIns()->QuerySphere(*sphereCollider, &callback, COLLISION_ATTR_LANDSHAPE);
 	// 交差による排斥分動かす
 	Position.x += callback.move.m128_f32[0];
 	Position.y += callback.move.m128_f32[1];
@@ -106,7 +106,7 @@ void ObjectManager::CollisionField()
 		// スムーズに坂を下る為の吸着距離
 		const float adsDistance = 1.2f;
 		// 接地を維持
-		if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit,
+		if (CollisionManager::GetIns()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit,
 		                                             sphereCollider->GetRadius() * 2.5f + adsDistance))
 		{
 			onGround = true;
@@ -123,7 +123,7 @@ void ObjectManager::CollisionField()
 
 	else if (fallV.m128_f32[1] <= 0.0f)
 	{
-		if (CollisionManager::GetInstance()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit,
+		if (CollisionManager::GetIns()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit,
 		                                             sphereCollider->GetRadius() * 3.0f))
 		{
 			// 着地
@@ -138,7 +138,7 @@ void ObjectManager::CollisionField()
 
 void ObjectManager::ParameterSet_Obj()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
 	m_Object->SetPosition({Position.x, Position.y - 3, Position.z});
 	m_Object->SetRotation(Rotation);
@@ -150,7 +150,7 @@ void ObjectManager::ParameterSet_Obj()
 
 void ObjectManager::ParameterSet_Fbx()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
 	m_fbxObject->SetPosition({Position.x, Position.y - 3, Position.z});
 
@@ -176,7 +176,7 @@ void ObjectManager::ParameterSet_Fbx3()
 
 void ObjectManager::ParameterSet_Fbx2()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
 	m_fbxObject->SetPosition({Position.x, Position.y, Position.z});
 

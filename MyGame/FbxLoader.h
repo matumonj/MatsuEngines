@@ -26,7 +26,7 @@ public:
 	/// シングルトンインスタンスの取得
 	/// </summary>
 	/// <returns>インスタンス</returns>
-	static FbxLoader* GetInstance();
+	static FbxLoader* GetIns();
 	/// <summary>
 	///初期化
 	/// </summary>

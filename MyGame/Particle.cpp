@@ -27,7 +27,7 @@ void Particle::Charge(ParParam& parparam)
 
 	float disX[20], disY[20], disZ[20];
 
-	XMFLOAT3 mouthPos=EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
+	XMFLOAT3 mouthPos=EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
 	if (parparam.phase != UPDA)
 	{
 		return;
@@ -51,7 +51,7 @@ void Particle::Charge(ParParam& parparam)
 			disY[i] = mouthPos.y - parparam.vel[i].y;
 		disZ[i] = mouthPos.z - parparam.vel[i].z;
 			dis[i] = Collision::GetLength(mouthPos, parparam.vel[i]);
-			//trad=(PlayerControl::GetInstance()->GetPlayer()->GetPosition().y - it->position.y, PlayerControl::GetInstance()->GetPlayer()->GetPosition().x - it->position.x);
+			//trad=(PlayerControl::GetIns()->GetPlayer()->GetPosition().y - it->position.y, PlayerControl::GetIns()->GetPlayer()->GetPosition().x - it->position.x);
 
 		//座標のセット
 			if (dis[i] > 1.0f)
@@ -75,7 +75,7 @@ void Particle::Charge(ParParam& parparam)
 		parparam.partex[i]->SetScale({ parparam.scl[i].x, parparam.scl[i].y, 1.0f });
 		parparam.partex[i]->SetBillboard(TRUE);
 		parparam.partex[i]->SetColor({ 1.f, 1.f, 1.f, parparam.alpha[i] });
-		parparam.partex[i]->Update(CameraControl::GetInstance()->GetCamera());
+		parparam.partex[i]->Update(CameraControl::GetIns()->GetCamera());
 	}
 	if (isAryEqual(parparam.alpha) == true)
 	{
@@ -94,11 +94,11 @@ void Particle::UpadaBleath(ParParam& parparam)
 
 	//敵とプレイヤーの距離求め
 	for (int i = 0; i < 20; i++) {
-		disX[i] = PlayerControl::GetInstance()->GetPlayer()->GetPosition().x - m_particles[BLEATH].vel[i].x;
-		disY[i] = PlayerControl::GetInstance()->GetPlayer()->GetPosition().y - m_particles[BLEATH].vel[i].y;
-		disZ[i] = PlayerControl::GetInstance()->GetPlayer()->GetPosition().z - m_particles[BLEATH].vel[i].z;
-		dis[i] = Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), m_particles[BLEATH].vel[i]);
-		//trad=(PlayerControl::GetInstance()->GetPlayer()->GetPosition().y - it->position.y, PlayerControl::GetInstance()->GetPlayer()->GetPosition().x - it->position.x);
+		disX[i] = PlayerControl::GetIns()->GetPlayer()->GetPosition().x - m_particles[BLEATH].vel[i].x;
+		disY[i] = PlayerControl::GetIns()->GetPlayer()->GetPosition().y - m_particles[BLEATH].vel[i].y;
+		disZ[i] = PlayerControl::GetIns()->GetPlayer()->GetPosition().z - m_particles[BLEATH].vel[i].z;
+		dis[i] = Collision::GetLength(PlayerControl::GetIns()->GetPlayer()->GetPosition(), m_particles[BLEATH].vel[i]);
+		//trad=(PlayerControl::GetIns()->GetPlayer()->GetPosition().y - it->position.y, PlayerControl::GetIns()->GetPlayer()->GetPosition().x - it->position.x);
 
 	//座標のセット
 		if (dis[i] > 1.0f)
@@ -119,7 +119,7 @@ void Particle::Bleath()
 
 void Particle::Upda(float addspeed, float addalpha )
 {
-	if (Input::GetInstance()->TriggerButton(Input::Y))
+	if (Input::GetIns()->TriggerButton(Input::Y))
 	{
 		//	m_particles[ParType::NORMAL].phase = INIT;
 	}
@@ -129,7 +129,7 @@ void Particle::Upda(float addspeed, float addalpha )
 
 void Particle::Upda_B()
 {
-	if (Input::GetInstance()->TriggerButton(Input::Y))
+	if (Input::GetIns()->TriggerButton(Input::Y))
 	{
 		//	m_particles[ParType::NORMAL].phase = INIT;
 	}
@@ -241,7 +241,7 @@ void Particle::UpadaNormal_A(ParParam& parparam, float addspeed , float addalpha
 		parparam.partex[i]->SetScale({parparam.scl[i].x, parparam.scl[i].y, 1.0f});
 		parparam.partex[i]->SetBillboard(TRUE);
 		parparam.partex[i]->SetColor({1.f, 1.f, 1.f, parparam.alpha[i]});
-		parparam.partex[i]->Update(CameraControl::GetInstance()->GetCamera());
+		parparam.partex[i]->Update(CameraControl::GetIns()->GetCamera());
 	}
 	if (isAryEqual(parparam.alpha) == true)
 	{
@@ -289,7 +289,7 @@ void Particle::UpadaNormal_B(ParParam& parparam)
 			parparam.partex[i]->SetScale({parparam.scl[i].x, parparam.scl[i].y, 1.0f});
 			parparam.partex[i]->SetBillboard(TRUE);
 			parparam.partex[i]->SetColor({BeginParColor.x, BeginParColor.y, BeginParColor.z, parparam.alpha[i]});
-			parparam.partex[i]->Update(CameraControl::GetInstance()->GetCamera());
+			parparam.partex[i]->Update(CameraControl::GetIns()->GetCamera());
 		}
 	}
 
@@ -331,7 +331,7 @@ void Particle::UpadaNormal_B(ParParam& parparam)
 			parparam.partex[i]->SetScale({parparam.scl[i].x, parparam.scl[i].y, 1.0f});
 			parparam.partex[i]->SetBillboard(TRUE);
 			parparam.partex[i]->SetColor({BeginParColor.x, BeginParColor.y, BeginParColor.z, parparam.alpha[i]});
-			parparam.partex[i]->Update(CameraControl::GetInstance()->GetCamera());
+			parparam.partex[i]->Update(CameraControl::GetIns()->GetCamera());
 		}
 	}
 	if (isAryEqual(parparam.alpha) == true)

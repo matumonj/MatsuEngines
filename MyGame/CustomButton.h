@@ -16,7 +16,7 @@ private:
 
 public:
 	~CustomButton();
-	static CustomButton* GetInstance();
+	static CustomButton* GetIns();
 private:
 	Input* input;
 	bool CustomButtonJudg;

@@ -15,7 +15,7 @@
 
 #include "FenceControl.h"
 
-CameraControl* CameraControl::GetInstance()
+CameraControl* CameraControl::GetIns()
 {
 	static CameraControl instance;
 	return &instance;
@@ -59,7 +59,7 @@ void CameraControl::ParamSet()
 	mCamera = NON; //NON;
 	Tstate = PLAYER;
 	this->camera = new DebugCamera(WinApp::window_width, WinApp::window_height); //(/*input*/);
-	input = Input::GetInstance();
+	input = Input::GetIns();
 }
 
 void CameraControl::Init_Tutorial()
@@ -77,7 +77,7 @@ void CameraControl::Init_Play()
 	ParamSet();
 
 	this->camera = new DebugCamera(WinApp::window_width, WinApp::window_height); //(/*input*/);
-	input = Input::GetInstance();
+	input = Input::GetIns();
 
 	file.open("Param_CSV/CameraPoints.csv");
 
@@ -159,7 +159,7 @@ void CameraControl::Init_Boss()
 {
 	ParamSet();
 	this->camera = new DebugCamera(WinApp::window_width, WinApp::window_height); //(/*input*/);
-	input = Input::GetInstance();
+	input = Input::GetIns();
 
 	startCount = static_cast<float>(GetTickCount64());
 
@@ -193,7 +193,7 @@ void CameraControl::Update_Play()
 	this->camera->Update();
 
 	TargetPlayer();
-	//Feed::GetInstance()->Update_White(Feed::FEEDOUT);
+	//Feed::GetIns()->Update_White(Feed::FEEDOUT);
 	(this->*targetTable[Tstate])();
 }
 
@@ -218,7 +218,7 @@ void CameraControl::AngleRotation()
 /*---------player---------*/
 void CameraControl::TargetPlayer()
 {
-	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 
 	//OldCameraPos = camera->GetEye();
 	//OldCameratarget = camera->GetTarget();
@@ -228,34 +228,34 @@ void CameraControl::TargetPlayer()
 	//else {
 	if (AttackSceneF)
 	{
-		Feed::GetInstance()->Update_White(Feed::FEEDOUT);
-		if (Feed::GetInstance()->GetAlpha() <= 0.0f)
+		Feed::GetIns()->Update_White(Feed::FEEDOUT);
+		if (Feed::GetIns()->GetAlpha() <= 0.0f)
 		{
 			AttackSceneF = false;
 		}
 	}
 
-	this->camera->SetTarget({PlayerControl::GetInstance()->GetPlayer()->GetPosition()});
+	this->camera->SetTarget({PlayerControl::GetIns()->GetPlayer()->GetPosition()});
 	if (input->TiltPushStick(Input::R_RIGHT) || input->TiltPushStick(Input::R_LEFT))
 	{
 		if (input->TiltPushStick(Input::R_RIGHT))
 		{
 			angle += 2.0f;
 			charaAngle += 2.0f;
-			PlayerControl::GetInstance()->GetPlayer()->Setangle(charaAngle);
+			PlayerControl::GetIns()->GetPlayer()->Setangle(charaAngle);
 		}
 		if (input->TiltPushStick(Input::R_LEFT))
 		{
 			angle -= 2.0f;
 			charaAngle -= 2.0f;
-			PlayerControl::GetInstance()->GetPlayer()->Setangle(charaAngle);
+			PlayerControl::GetIns()->GetPlayer()->Setangle(charaAngle);
 		}
 		dis.x = sinf(angle * (PI / 180.0f)) * 30.0f;
 		dis.y = cosf(angle * (PI / 180.0f)) * 30.0f;
 		distance.x = dis.x;
 		distance.y = dis.y;
 	}
-	if (PlayerControl::GetInstance()->GetPlayer()->GetHP() < 0)
+	if (PlayerControl::GetIns()->GetPlayer()->GetHP() < 0)
 	{
 		if (pdcamera == NON_PDEATH)
 		{
@@ -276,9 +276,9 @@ void CameraControl::TargetPlayer()
 	//	camera->SetTarget(player_shadow->GetCameraPos(angle));
 	camera->SetEye(CameraPosition);
 
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
+	if (SceneManager::GetIns()->GetScene() == SceneManager::PLAY)
 	{
-		if (Task::GetInstance()->GetAllTaskClear() && FenceControl::GetInstance()->GetBossGateFence()->FenceYposMin() ==
+		if (Task::GetIns()->GetAllTaskClear() && FenceControl::GetIns()->GetBossGateFence()->FenceYposMin() ==
 			FALSE)
 		{
 			Tstate = MOVEBOSSAREA;
@@ -302,15 +302,15 @@ void CameraControl::TargetBossField()
 	switch (mCamera)
 	{
 	case NON:
-		if (FenceControl::GetInstance()->GetBossGateFence()->FenceYposMin() == FALSE)
+		if (FenceControl::GetIns()->GetBossGateFence()->FenceYposMin() == FALSE)
 		{
 			mCamera = FEED_BOSS;
 		}
 		break;
 	case FEED_BOSS:
-		Feed::GetInstance()->Update_Black(Feed::FEEDIN);
-		this->camera->SetTarget(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
-		if (Feed::GetInstance()->GetAlpha() >= 1.0f)
+		Feed::GetIns()->Update_Black(Feed::FEEDIN);
+		this->camera->SetTarget(PlayerControl::GetIns()->GetPlayer()->GetPosition());
+		if (Feed::GetIns()->GetAlpha() >= 1.0f)
 		{
 			CameraPosition = {17.0f, 15.0f, 802.0f};
 
@@ -322,9 +322,9 @@ void CameraControl::TargetBossField()
 
 		this->camera->SetTarget({17.0f, -35.0f, 832.0f});
 
-		Feed::GetInstance()->Update_Black(Feed::FEEDOUT);
+		Feed::GetIns()->Update_Black(Feed::FEEDOUT);
 
-		if (Feed::GetInstance()->GetAlpha() <= 0.0f)
+		if (Feed::GetIns()->GetAlpha() <= 0.0f)
 		{
 			mCamera = TARGETPLAYER;
 		}
@@ -334,22 +334,22 @@ void CameraControl::TargetBossField()
 
 		this->camera->SetTarget({17.0f, -35.0f, 832.0f});
 
-		if (FenceControl::GetInstance()->GetBossGateFence()->FenceYposMin() == TRUE)
+		if (FenceControl::GetIns()->GetBossGateFence()->FenceYposMin() == TRUE)
 		{
-			Feed::GetInstance()->Update_Black(Feed::FEEDIN);
+			Feed::GetIns()->Update_Black(Feed::FEEDIN);
 		}
-		if (Feed::GetInstance()->GetAlpha() >= 1.0f)
+		if (Feed::GetIns()->GetAlpha() >= 1.0f)
 		{
 			mCamera = END_BOSS;
 		}
 		break;
 	case END_BOSS:
-		//	if (FenceControl::GetInstance()->GetBossGateFence()->FenceYposMin() == TRUE)
-		if (Feed::GetInstance()->GetAlpha() > 0.0f)
+		//	if (FenceControl::GetIns()->GetBossGateFence()->FenceYposMin() == TRUE)
+		if (Feed::GetIns()->GetAlpha() > 0.0f)
 		{
-			if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), {17, -35, 800}) >= 50)
+			if (Collision::GetLength(PlayerControl::GetIns()->GetPlayer()->GetPosition(), {17, -35, 800}) >= 50)
 			{
-				Feed::GetInstance()->Update_Black(Feed::FEEDOUT);
+				Feed::GetIns()->Update_Black(Feed::FEEDOUT);
 			}
 		}
 		else
@@ -415,7 +415,7 @@ XMVECTOR CameraControl::SplinePosition(const std::vector<XMVECTOR>& points, size
 void CameraControl::BossSceneStart()
 {
 	const size_t size = 5;
-	XMFLOAT3 BossPos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
+	XMFLOAT3 BossPos = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
 	if (point.size() == 0)
 	{
 		point.push_back({BossPos.x, BossPos.y + 100.0f, BossPos.z - 10.0f});
@@ -431,12 +431,12 @@ void CameraControl::BossSceneStart()
 	switch (bCamera)
 	{
 	case BOSSCUTSTART:
-		Feed::GetInstance()->Update_White(Feed::FEEDOUT);
+		Feed::GetIns()->Update_White(Feed::FEEDOUT);
 
 		BossCutScene_Start(BossPos);
 		break;
 	case CAMERADOWN:
-		Feed::GetInstance()->Update_White(Feed::FEEDOUT);
+		Feed::GetIns()->Update_White(Feed::FEEDOUT);
 
 		BossCutScene_Spline();
 		if (startindex >= 7)
@@ -451,10 +451,10 @@ void CameraControl::BossSceneStart()
 		
 				CameraPosition.z -= 1.5f;
 
-				Feed::GetInstance()->Update_White(Feed::FEEDIN);
-				if (Feed::GetInstance()->GetAlpha() >= 0.9f)
+				Feed::GetIns()->Update_White(Feed::FEEDIN);
+				if (Feed::GetIns()->GetAlpha() >= 0.9f)
 				{
-					PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(false);
+					PlayerControl::GetIns()->GetPlayer()->SetStopFlag(false);
 
 					Tstate = PLAYER;
 				}
@@ -502,9 +502,9 @@ void CameraControl::BossCutScene_Spline()
 
 void CameraControl::BossCutScene_Start(XMFLOAT3 BossPos)
 {
-	PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(true);
+	PlayerControl::GetIns()->GetPlayer()->SetStopFlag(true);
 
-	Feed::GetInstance()->Update_White(Feed::FEEDOUT);
+	Feed::GetIns()->Update_White(Feed::FEEDOUT);
 
 	CutCount[0]++;
 	if (CutCount[0] > 10)
@@ -522,12 +522,12 @@ void CameraControl::PlaySceneStart()
 	switch (sCamera)
 	{
 	case PLAYCUTSTART:
-		PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(true);
+		PlayerControl::GetIns()->GetPlayer()->SetStopFlag(true);
 
-		UI::GetInstance()->SetTurnoffUIDraw(true);
-		Feed::GetInstance()->Update_White(Feed::FEEDOUT);
+		UI::GetIns()->SetTurnoffUIDraw(true);
+		Feed::GetIns()->Update_White(Feed::FEEDOUT);
 
-		if (Feed::GetInstance()->GetAlpha() <= 0.9f)
+		if (Feed::GetIns()->GetAlpha() <= 0.9f)
 		{
 			sCamera = SPLINE;
 		}
@@ -560,15 +560,15 @@ void CameraControl::PlaySceneStart()
 		});
 
 	//カメラが一定距離近づいたらフェード
-		if (Collision::GetLength(camera->GetEye(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 30.0f)
+		if (Collision::GetLength(camera->GetEye(), PlayerControl::GetIns()->GetPlayer()->GetPosition()) < 30.0f)
 		{
-			Feed::GetInstance()->Update_Black(Feed::FEEDIN);
+			Feed::GetIns()->Update_Black(Feed::FEEDIN);
 		}
 		else
 		{
-			Feed::GetInstance()->Update_Black(Feed::FEEDOUT);
+			Feed::GetIns()->Update_Black(Feed::FEEDOUT);
 		}
-		if (Feed::GetInstance()->GetAlpha() >= 1.0f)
+		if (Feed::GetIns()->GetAlpha() >= 1.0f)
 		{
 			sCamera = PLAYCUTEND;
 		}
@@ -576,19 +576,19 @@ void CameraControl::PlaySceneStart()
 
 	case PLAYCUTEND:
 		this->camera->SetEye(CameraPosition);
-		Feed::GetInstance()->Update_Black(Feed::FEEDOUT);
-		if (Feed::GetInstance()->GetAlpha() <= 0.0f)
+		Feed::GetIns()->Update_Black(Feed::FEEDOUT);
+		if (Feed::GetIns()->GetAlpha() <= 0.0f)
 		{
-			PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(false);
+			PlayerControl::GetIns()->GetPlayer()->SetStopFlag(false);
 
-			UI::GetInstance()->SetTurnoffUIDraw(false);
+			UI::GetIns()->SetTurnoffUIDraw(false);
 			Tstate = PLAYER;
 		}
 		break;
 	default:
 		break;
 	}
-	this->camera->SetTarget({PlayerControl::GetInstance()->GetPlayer()->GetPosition()});
+	this->camera->SetTarget({PlayerControl::GetIns()->GetPlayer()->GetPosition()});
 }
 
 void CameraControl::SetCameraP_toE(Enemy* enemy)
@@ -606,8 +606,8 @@ void CameraControl::GuardianCutScene()
 		break;
 
 	case GuardianCamera::FEED_GUAR:
-		Feed::GetInstance()->Update_Black(Feed::FEEDIN);
-		if(Feed::GetInstance()->GetAlpha()>=1.0f)
+		Feed::GetIns()->Update_Black(Feed::FEEDIN);
+		if(Feed::GetIns()->GetAlpha()>=1.0f)
 		{
 			
 		}
@@ -657,14 +657,14 @@ void CameraControl::ShakeCamera()
 
 void CameraControl::RushTargetBoss()
 {
-	Enemy* boss = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0].get();
+	Enemy* boss = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0].get();
 
 	if (rCamera == NON_RUSH)
 	{
 		OldPos = camera->GetEye();
 		OldTarget = camera->GetTarget();
 
-		PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(true);
+		PlayerControl::GetIns()->GetPlayer()->SetStopFlag(true);
 		rCamera = UPBOSS;
 	}
 	if (rCamera == UPBOSS)
@@ -697,7 +697,7 @@ void CameraControl::RushTargetBoss()
 		}
 		else
 		{
-			PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(false);
+			PlayerControl::GetIns()->GetPlayer()->SetStopFlag(false);
 
 			Tstate = PLAYER;
 		}

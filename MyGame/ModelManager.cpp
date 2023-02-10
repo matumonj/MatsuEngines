@@ -53,5 +53,5 @@ void ModelManager::LoadModel(const ModelName modelName, std::string fileName)
 void ModelManager::LoadFBXModel(const FBXName modelName, std::string fileName)
 {
 	fbxModel[modelName] = new f_Model();
-	fbxModel[modelName] = FbxLoader::GetInstance()->LoadModelFromFile(fileName);
+	fbxModel[modelName] = FbxLoader::GetIns()->LoadModelFromFile(fileName);
 }

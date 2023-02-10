@@ -6,7 +6,7 @@ class BossSpell
 public:
 	~BossSpell();
 public:
-	static BossSpell* GetInstance();
+	static BossSpell* GetIns();
 
 	void Initialize();
 	void Update();

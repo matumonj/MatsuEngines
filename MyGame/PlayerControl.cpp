@@ -4,7 +4,7 @@
 #include"PlayerAttackState.h"
 #include"AttackCollision.h"
 
-PlayerControl* PlayerControl::GetInstance()
+PlayerControl* PlayerControl::GetIns()
 {
 	static PlayerControl instance;
 	return &instance;
@@ -22,7 +22,7 @@ void PlayerControl::Init_Tutorial()
 	StartPos = {62.0f, -20.0f, -386.0f};
 
 	player->SetPosition(StartPos);
-	AttackCollision::GetInstance()->Init();
+	AttackCollision::GetIns()->Init();
 }
 
 void PlayerControl::Init_Play()
@@ -32,7 +32,7 @@ void PlayerControl::Init_Play()
 	player->SetHP(player->GetMaxHP());
 
 	player->SetPosition(StartPos);
-	AttackCollision::GetInstance()->Init();
+	AttackCollision::GetIns()->Init();
 }
 
 void PlayerControl::Init_Boss()
@@ -40,7 +40,7 @@ void PlayerControl::Init_Boss()
 	StartPos = {-1.0f, 10.0f, -80.0f};
 	player->SetHP(player->GetMaxHP());
 	player->SetPosition(StartPos);
-	AttackCollision::GetInstance()->Init();
+	AttackCollision::GetIns()->Init();
 }
 
 /*------------------------*/
@@ -48,7 +48,7 @@ void PlayerControl::Init_Boss()
 /*------------------------*/
 void PlayerControl::Finalize()
 {
-	AttackCollision::GetInstance()->Finalize();
+	AttackCollision::GetIns()->Finalize();
 	//Destroy_unique(player);
 }
 
@@ -58,7 +58,7 @@ void PlayerControl::Finalize()
 void PlayerControl::Load()
 {
 	//初期位置
-	switch (SceneManager::GetInstance()->GetScene())
+	switch (SceneManager::GetIns()->GetScene())
 	{
 	case SceneManager::TUTORIAL:
 		StartPos = {92.0f, -50.0f, -760.0f};
@@ -74,7 +74,7 @@ void PlayerControl::Load()
 	}
 
 	player->SetPosition(StartPos);
-	AttackCollision::GetInstance()->Init();
+	AttackCollision::GetIns()->Init();
 }
 
 void PlayerControl::GameOverResetParam()
@@ -98,7 +98,7 @@ void PlayerControl::Update_Tutorial() //チュートリアル時
 		return;
 	}
 
-	PlayerAttackState::GetInstance()->Update();
+	PlayerAttackState::GetIns()->Update();
 	player->Update();
 	DamageTexUpdate();
 }
@@ -106,7 +106,7 @@ void PlayerControl::Update_Tutorial() //チュートリアル時
 void PlayerControl::Update_Play() //プレイシーン時
 {
 
-	PlayerAttackState::GetInstance()->Update();
+	PlayerAttackState::GetIns()->Update();
 	player->Update();
 
 	DamageTexUpdate();
@@ -114,7 +114,7 @@ void PlayerControl::Update_Play() //プレイシーン時
 
 void PlayerControl::Update_Boss()
 {
-	PlayerAttackState::GetInstance()->Update();
+	PlayerAttackState::GetIns()->Update();
 	player->Update();
 
 	DamageTexUpdate();
@@ -122,14 +122,14 @@ void PlayerControl::Update_Boss()
 
 void PlayerControl::DamageTexUpdate()
 {
-	if (HUD::GetInstance()->GetRecvDamageFlag())
+	if (HUD::GetIns()->GetRecvDamageFlag())
 	{
 		dalpha = 1.0f;
 	}
 	dalpha -= 0.02f;
 	DamageTex->setcolor({ 1, 1, 1, dalpha });
 	dalpha = max(dalpha, 0.0f);
-	/*if (HUD::GetInstance()->GetRecvDamageFlag())
+	/*if (HUD::GetIns()->GetRecvDamageFlag())
 	{
 		vignette = 0.5f;
 	}
@@ -142,7 +142,7 @@ void PlayerControl::DamageTexUpdate()
 }
 void PlayerControl::DamageTexDraw()
 {
-	if (HUD::GetInstance()->GetPlayerHP()->GetSize().x > 0.f && GetInstance()->GetPlayer()->GetHP() > 0)
+	if (HUD::GetIns()->GetPlayerHP()->GetSize().x > 0.f && GetIns()->GetPlayer()->GetHP() > 0)
 	{
 		player->DamageTexDraw();
 		Sprite::PreDraw();

@@ -65,7 +65,7 @@ void EnemyBeta::HPFrameInit()
 //初期化処理
 void EnemyBeta::Initialize()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
 	//オブジェクトの生成と初期化
 	m_Object = std::make_unique<Object3d>();
@@ -74,7 +74,7 @@ void EnemyBeta::Initialize()
 	//FBX周りの初期化
 	m_fbxObject = std::make_unique<f_Object3d>();
 	m_fbxObject->Initialize();
-	m_fbxObject->SetModel(FbxLoader::GetInstance()->LoadModelFromFile("puchigolem"));
+	m_fbxObject->SetModel(FbxLoader::GetIns()->LoadModelFromFile("puchigolem"));
 	m_fbxObject->LoadAnimation();
 	m_fbxObject->PlayAnimation(0);
 
@@ -116,7 +116,7 @@ void EnemyBeta::Initialize()
 void EnemyBeta::Update()
 {
 	if(m_fbxObject==nullptr)return;
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
 	state_mob->Update(this);
 
@@ -215,7 +215,7 @@ void EnemyBeta::EnemyHPDraw()
 {
 	if (alpha <= 0.f)return;
 	//プレイヤーのインスタンス取得
-	Player* l_player = PlayerControl::GetInstance()->GetPlayer();
+	Player* l_player = PlayerControl::GetIns()->GetPlayer();
 
 	//一定距離離れたら描画切る
 	bool TurnoffDrawJudg = Collision::GetLength(Position, l_player->GetPosition()) < 40.f;
@@ -240,7 +240,7 @@ void EnemyBeta::Move()
 void EnemyBeta::AttackCol_Rock()
 {
 	//石とプレイヤーのあたりはんてい
-	XMFLOAT3 l_playerpos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	XMFLOAT3 l_playerpos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 	const bool ColPlayer = Collision::GetLength(RockPos, l_playerpos) < 5.f;
 	const bool ColGround = RockPos.y <= -32.f;
 
@@ -254,7 +254,7 @@ void EnemyBeta::AttackCol_Rock()
 	if (destF)
 	{
 		turnoffdrawF = true;
-		//PlayerControl::GetInstance()->GetPlayer()->RecvDamage(10);
+		//PlayerControl::GetIns()->GetPlayer()->RecvDamage(10);
 		DestRock->SetParF(1);
 		DestRock->CreateParticle(destF, {RockPos});
 		destF = false;
@@ -276,7 +276,7 @@ void EnemyBeta::AttackCol_Sideway()
 	}
 
 	//右手とプレイヤーのあたりはんてい
-	XMFLOAT3 l_playerpos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	XMFLOAT3 l_playerpos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 	//FBXボーンから座標を取る
 	constexpr int boneindex = 10;
 	constexpr float disrange = 20.f;
@@ -292,7 +292,7 @@ void EnemyBeta::AttackCol_Sideway()
 
 	if (ColPlayer)
 	{
-		PlayerControl::GetInstance()->GetPlayer()->RecvDamage(damage);
+		PlayerControl::GetIns()->GetPlayer()->RecvDamage(damage);
 	}
 }
 
@@ -300,7 +300,7 @@ void EnemyBeta::AttackCol_Sideway()
 void EnemyBeta::PickRock()
 {
 	//右手とプレイヤーのあたりはんてい
-	XMFLOAT3 l_playerpos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	XMFLOAT3 l_playerpos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 
 	if (animeState != ATTACK1)
 	{
@@ -329,7 +329,7 @@ void EnemyBeta::PickRock()
 		if (Collision::GetLength(l_playerpos, RockPos) < 20.f)
 		{
 			if (!turnoffdrawF) {
-				PlayerControl::GetInstance()->GetPlayer()->RecvDamage(10);
+				PlayerControl::GetIns()->GetPlayer()->RecvDamage(10);
 			}
 		}
 		XMVECTOR move = {0.0f, 0.0f, 0.1f, 0.0f};
@@ -384,7 +384,7 @@ void EnemyBeta::AttackMotion()
 {
 	if (animeState == ATTACK1 && attackNum == IDLE)
 	{
-		if (Collision::GetLength(Position, PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 13.f)
+		if (Collision::GetLength(Position, PlayerControl::GetIns()->GetPlayer()->GetPosition()) < 13.f)
 		{
 			attackNum = SIDEWAY;
 		}
@@ -409,7 +409,7 @@ void EnemyBeta::AttackMotion()
 			attackNum = IDLE;
 		}
 	}
-	if (SceneManager::GetInstance()->GetScene() != SceneManager::MAPCREATE) {
+	if (SceneManager::GetIns()->GetScene() != SceneManager::MAPCREATE) {
 		PickRock();
 
 		AttackCol_Rock();

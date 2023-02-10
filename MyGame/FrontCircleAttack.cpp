@@ -3,7 +3,7 @@
 #include"CameraControl.h"
 #include"BossSpell.h"
 
-FrontCircleAttack* FrontCircleAttack::GetInstance()
+FrontCircleAttack* FrontCircleAttack::GetIns()
 {
 	static FrontCircleAttack instance;
 
@@ -23,12 +23,12 @@ void FrontCircleAttack::Init()
 
 void FrontCircleAttack::Upda()
 {
-	//CameraControl::GetInstance()->ShakeCamera();
+	//CameraControl::GetIns()->ShakeCamera();
 	DamageAreaTex->SetRotation({90, 0, 45});
 	DamageAreaTex->SetRotation({90, 0, -45});
 	DamageAreaTex->SetScale({8, 8, 3});
 
-	if (Input::GetInstance()->TriggerButton(Input::X))
+	if (Input::GetIns()->TriggerButton(Input::X))
 	{
 		phase = PHASEONE;
 	}
@@ -41,8 +41,8 @@ void FrontCircleAttack::Upda()
 		break;
 	case PHASEONE:
 		TexAlpha = 1.0f;
-		BossSpell::GetInstance()->SetStartSpell(BossSpell::SLAM, true);
-		if (BossSpell::GetInstance()->GetEndSpell(BossSpell::SLAM))
+		BossSpell::GetIns()->SetStartSpell(BossSpell::SLAM, true);
+		if (BossSpell::GetIns()->GetEndSpell(BossSpell::SLAM))
 		{
 			phase = PHASETWO;
 		}
@@ -62,7 +62,7 @@ void FrontCircleAttack::Upda()
 
 		break;
 	case PHASEFOUR:
-		BossSpell::GetInstance()->SetEndSpell(BossSpell::SLAM, false);
+		BossSpell::GetIns()->SetEndSpell(BossSpell::SLAM, false);
 		break;
 	default:
 		break;
@@ -70,7 +70,7 @@ void FrontCircleAttack::Upda()
 
 	DamageAreaTex->SetBillboard(false);
 	DamageAreaTex->SetColor({1.0f, 1.0f, 1.0f, TexAlpha});
-	DamageAreaTex->Update(CameraControl::GetInstance()->GetCamera());
+	DamageAreaTex->Update(CameraControl::GetIns()->GetCamera());
 	DamageAreaTex->SetPosition({0.0f, -18.0f, 30.0f});
 
 	TexAlpha = min(TexAlpha, 1.0f);

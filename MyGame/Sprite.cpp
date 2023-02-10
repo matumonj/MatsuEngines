@@ -41,8 +41,8 @@ Sprite::Sprite(UINT texNumber, XMFLOAT2 position, XMFLOAT2 size, XMFLOAT4 color,
 #pragma region 静的初期化とパイプラインの設定
 bool Sprite::StaticInitialize(int window_width, int window_height)
 {
-	device = DirectXCommon::GetInstance()->GetDev();
-	cmdList = DirectXCommon::GetInstance()->GetCmdList();
+	device = DirectXCommon::GetIns()->GetDev();
+	cmdList = DirectXCommon::GetIns()->GetCmdList();
 
 	// デスクリプタサイズを取得
 	descriptorHandleIncrementSize = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
@@ -311,7 +311,7 @@ bool Sprite::LoadTexture(UINT texnumber, const wchar_t* filename)
 void Sprite::PreDraw()
 {
 	// コマンドリス トをセット
-	cmdList = DirectXCommon::GetInstance()->GetCmdList();
+	cmdList = DirectXCommon::GetIns()->GetCmdList();
 
 	// パイプラインステートの設定
 	cmdList->SetPipelineState(pipelineState.Get());

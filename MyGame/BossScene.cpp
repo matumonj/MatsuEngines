@@ -24,9 +24,9 @@ BossScene::BossScene(SceneManager* sceneManager)
 void BossScene::Initialize()
 {
 	//各オブジェクトの初期化
-	AllObjectControl.emplace_back(CameraControl::GetInstance());
-	AllObjectControl.emplace_back(PlayerControl::GetInstance());
-	AllObjectControl.emplace_back(EnemyControl::GetInstance());
+	AllObjectControl.emplace_back(CameraControl::GetIns());
+	AllObjectControl.emplace_back(PlayerControl::GetIns());
+	AllObjectControl.emplace_back(EnemyControl::GetIns());
 
 	lightGroup = LightGroup::Create();
 
@@ -41,7 +41,7 @@ void BossScene::Initialize()
 	lightGroup->SetCircleShadowActive(ShadowChara::PLAYER, true);
 	lightGroup->SetCircleShadowActive(ShadowChara::BOSSENEMY, true);
 	
-	Nail::GetInstance()->ModelSet();
+	Nail::GetIns()->ModelSet();
 
 	circleShadowAtten[0] = -5.2f;
 	circleShadowAtten[1] = -0.2f;
@@ -66,33 +66,21 @@ void BossScene::Update()
 	if (Play)
 	{
 		//csvからの読み込み終わってから更新処理
-
-		if (AllObjectControl[1] != nullptr)
+		for (auto obj: AllObjectControl)
 		{
-			AllObjectControl[1]->Update();
+			obj->Update();
 		}
-		if (AllObjectControl[0] != nullptr)
-		{
-			AllObjectControl[0]->Update();
-		}
-		for (int i = 2; i < AllObjectControl.size(); i++)
-		{
-			if (AllObjectControl[i] != nullptr)
-			{
-				AllObjectControl[i]->Update();
-			}
-		}
-		UI::GetInstance()->HUDUpdate(hudload, CameraControl::GetInstance()->GetCamera());
+		UI::GetIns()->HUDUpdate(hudload, CameraControl::GetIns()->GetCamera());
 	}
 	
-	Field::GetInstance()->Update();
+	Field::GetIns()->Update();
 	//各オブジェクトの更新処理
 	//csv読み込み部分(Cameraの更新後にするのでobjUpdate()挟んでから)
 	LoadParam();
 
 	lightGroup->Update();
 	 
-	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 
 	 
 	//ライティング更新
@@ -111,39 +99,35 @@ void BossScene::Update()
 
 void BossScene::SpriteDraw()
 {
-	Field::GetInstance()->NameDraw();
+	Field::GetIns()->NameDraw();
 	AttackEffect::GetIns()->Draw();
 	//UI
-	if (CameraControl::GetInstance()->GetCameraState() != CameraControl::BOSSCUTSCENE)
+	if (CameraControl::GetIns()->GetCameraState() != CameraControl::BOSSCUTSCENE)
 	{
-		UI::GetInstance()->HUDDraw();
+		UI::GetIns()->HUDDraw();
 	}
 
 	GameOver::GetIns()->Draw();
 
-	Feed::GetInstance()->Draw();
+	Feed::GetIns()->Draw();
 	}
 
 void BossScene::MyGameDraw()
 {
 	if (!Play)return;
 
-	if (Field::GetInstance() != nullptr)
+	if (Field::GetIns() != nullptr)
 	{
-		Field::GetInstance()->Draw();
+		Field::GetIns()->Draw();
 	}
 		
-		if (Feed::GetInstance()->GetAlpha() < 1.0f) {
-			for (int i = 0; i < AllObjectControl.size(); i++)
+		if (Feed::GetIns()->GetAlpha() < 1.0f) {
+			for (auto obj : AllObjectControl)
 			{
-				if (AllObjectControl[i] == nullptr)
-				{
-					continue;
-				}
-				AllObjectControl[i]->Draw();
+				obj->Draw();
 			}
 		}
-		SelectSword::GetInstance()->SwordDraw();
+		SelectSword::GetIns()->SwordDraw();
 }
 
 /*------------------------*/
@@ -160,20 +144,20 @@ void BossScene::Draw()
 		
 		postEffect->PostDrawScene();
 		
-		DirectXCommon::GetInstance()->BeginDraw();
+		DirectXCommon::GetIns()->BeginDraw();
 		postEffect->Draw();
 		//MyGameDraw();
 		SpriteDraw();
 		
-		DirectXCommon::GetInstance()->EndDraw();
+		DirectXCommon::GetIns()->EndDraw();
 		break;
 
 	case Default: //普通のやつ特に何もかかっていない
 	
-		DirectXCommon::GetInstance()->BeginDraw();
+		DirectXCommon::GetIns()->BeginDraw();
 		MyGameDraw();
 		SpriteDraw();
-		DirectXCommon::GetInstance()->EndDraw();
+		DirectXCommon::GetIns()->EndDraw();
 		break;
 	}
 }
@@ -189,14 +173,14 @@ bool BossScene::LoadParam()
 			AllObjectControl[i]->Initialize();
 		}
 		//カメラをセット
-		f_Object3d::SetCamera(CameraControl::GetInstance()->GetCamera());
+		f_Object3d::SetCamera(CameraControl::GetIns()->GetCamera());
 		//グラフィックパイプライン生成
 		f_Object3d::CreateGraphicsPipeline();
 
 		//カメラ挙動をボスカットシーン
-		CameraControl::GetInstance()->SetCameraState(CameraControl::BOSSCUTSCENE);
+		CameraControl::GetIns()->SetCameraState(CameraControl::BOSSCUTSCENE);
 
-		Field::GetInstance()->Initialize();
+		Field::GetIns()->Initialize();
 		hudload = true;
 		Play = true;
 		LoadF = false;
@@ -214,27 +198,27 @@ void BossScene::Finalize()
 		AllObjectControl[i]->Finalize();
 	}
 	AllObjectControl.clear();
-	Field::GetInstance()->Finalize();
+	Field::GetIns()->Finalize();
 }
 
 
 void BossScene::ChangeScene()
 {
-	XMFLOAT3 ClearStagePos = Field::GetInstance()->GetClearTexpos();
+	XMFLOAT3 ClearStagePos = Field::GetIns()->GetClearTexpos();
 
-	bool nextscenejudg = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]==nullptr&&
-		Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(),
+	bool nextscenejudg = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]==nullptr&&
+		Collision::GetLength(PlayerControl::GetIns()->GetPlayer()->GetPosition(),
 		ClearStagePos) < 5.f;
 
 	if (nextscenejudg)
 	{
-		PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(true);
-		//SceneManager::GetInstance()->SetScene(SceneManager::GAMECLEAR, sceneManager_);
-		Feed::GetInstance()->Update_White(Feed::FEEDIN);
-		if (Feed::GetInstance()->GetAlpha() >= 1.0f) {
+		PlayerControl::GetIns()->GetPlayer()->SetStopFlag(true);
+		//SceneManager::GetIns()->SetScene(SceneManager::GAMECLEAR, sceneManager_);
+		Feed::GetIns()->Update_White(Feed::FEEDIN);
+		if (Feed::GetIns()->GetAlpha() >= 1.0f) {
 
 			Play = false;
-			SceneManager::GetInstance()->SetScene(SceneManager::GAMECLEAR, sceneManager_);
+			SceneManager::GetIns()->SetScene(SceneManager::GAMECLEAR, sceneManager_);
 		}
 	}
 	
@@ -244,15 +228,17 @@ void BossScene::LightUpdate()
 {
 	//プレイヤーの影
 	constexpr XMFLOAT2 PlayerCShadowAngle = { 1.4f,1.9f };
-	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 	LightSetParam(ShadowChara::PLAYER, true, ppos, XMVECTOR({ circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0 }),
 		XMFLOAT3(circleShadowAtten), PlayerCShadowAngle);
 
 	//ボスの影
-	XMFLOAT3 bpos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
-	XMFLOAT3 BossCShadowPos = { bpos.x,bpos.y + 20.f,bpos.z };
 	
-	if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0] != nullptr) {
+	if (EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0] != nullptr) {
+
+		XMFLOAT3 bpos = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
+		XMFLOAT3 BossCShadowPos = { bpos.x,bpos.y + 20.f,bpos.z };
+
 		LightSetParam(ShadowChara::BOSSENEMY, true, BossCShadowPos, XMVECTOR({ circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0 }),
 			XMFLOAT3(circleShadowAtten2), XMFLOAT2(circleShadowFactorAngle2));
 	}
@@ -265,7 +251,7 @@ void BossScene::LightUpdate()
 	std::array<XMFLOAT3,2>summonpos;
 	for (int i = 0; i < 2; i++)
 	{
-		if (HalfAttack::GetInstance()->GetSummonEnemy(i) != nullptr)
+		if (HalfAttack::GetIns()->GetSummonEnemy(i) != nullptr)
 		{
 			LightSetParam(i, true, { summonpos[i].x,summonpos[i].y + 7.f,summonpos[i].z },
 				XMVECTOR({ circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0 }),

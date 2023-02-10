@@ -40,7 +40,7 @@ private:
 	XMMATRIX matRot[axeSize];
 
 public:
-	static KnockAttack* GetInstance();
+	static KnockAttack* GetIns();
 	void Initialize();
 	void Draw();
 	void ActionJudg();

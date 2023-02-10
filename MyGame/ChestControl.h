@@ -6,7 +6,7 @@
 class ChestControl : public ControlBase
 {
 public:
-	static ChestControl* GetInstance();
+	static ChestControl* GetIns();
 
 	void Load() override;
 

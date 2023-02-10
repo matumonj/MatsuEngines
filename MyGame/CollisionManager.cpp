@@ -5,7 +5,7 @@
 
 using namespace DirectX;
 
-CollisionManager* CollisionManager::GetInstance()
+CollisionManager* CollisionManager::GetIns()
 {
 	static CollisionManager instance;
 	return &instance;

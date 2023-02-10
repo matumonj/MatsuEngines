@@ -21,7 +21,7 @@ void BossEnemyAttackUlt::Update(Enemy* enemy)
 		enemy->SetAttack_End(enemy->ULT, true);
 	}
 	//enemy->SetMagicAttackTime(true);
-	CameraControl::GetInstance()->ShakeCamera();
+	CameraControl::GetIns()->ShakeCamera();
 
 	if (UltAttack::GetIns()->GetPhase() == UltAttack::END)
 	{

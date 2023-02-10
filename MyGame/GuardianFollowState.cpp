@@ -27,9 +27,9 @@ void GuardianFollowState::Follow(Enemy* enemy)
 	enemy->Move();
 	//敵がプエレイヤーの方向く処理
 	XMVECTOR positionA = {
-		PlayerControl::GetInstance()->GetPlayer()->GetPosition().x,
-		PlayerControl::GetInstance()->GetPlayer()->GetPosition().y,
-		PlayerControl::GetInstance()->GetPlayer()->GetPosition().z
+		PlayerControl::GetIns()->GetPlayer()->GetPosition().x,
+		PlayerControl::GetIns()->GetPlayer()->GetPosition().y,
+		PlayerControl::GetIns()->GetPlayer()->GetPosition().z
 	};
 	XMVECTOR positionB = {enemy->GetPosition().x, enemy->GetPosition().y, enemy->GetPosition().z};
 	//プレイヤーと敵のベクトルの長さ(差)を求める
@@ -55,7 +55,7 @@ void GuardianFollowState::Follow(Enemy* enemy)
 	bool dis = Collision::GetLength({positionA.m128_f32[0], positionA.m128_f32[1], positionA.m128_f32[2]},
 	                                enemy->GetPosition()) > 10.f;
 
-	if (dis && !enemy->GetMoveStop() && PlayerControl::GetInstance()->GetPlayer()->GetStopFlag() == false)
+	if (dis && !enemy->GetMoveStop() && PlayerControl::GetIns()->GetPlayer()->GetStopFlag() == false)
 	{
 		enemy->SetPosition({
 				enemy->GetPosition().x + move.m128_f32[0] * 2.f,

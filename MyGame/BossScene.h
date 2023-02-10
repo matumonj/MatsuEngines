@@ -54,9 +54,9 @@ private:
 	bool LoadF;
 	enum ShadowChara
 	{
-		PLAYER,
 		SUMMONENEY_A,
 		SUMMONENEY_B,
+		PLAYER,
 		BOSSENEMY
 	};
 };

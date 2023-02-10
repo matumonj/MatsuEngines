@@ -10,7 +10,7 @@
 class SceneManager
 {
 public:
-	static SceneManager* GetInstance();
+	static SceneManager* GetIns();
 	//XV
 	void Update();
 	//•`‰æ

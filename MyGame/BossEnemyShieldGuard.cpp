@@ -21,9 +21,9 @@ void BossEnemyShieldGuard::Update(Enemy* enemy)
 {
 	//敵がプエレイヤーの方向く処理
 	XMVECTOR positionA = {
-		PlayerControl::GetInstance()->GetPlayer()->GetPosition().x,
-		PlayerControl::GetInstance()->GetPlayer()->GetPosition().y,
-		PlayerControl::GetInstance()->GetPlayer()->GetPosition().z
+		PlayerControl::GetIns()->GetPlayer()->GetPosition().x,
+		PlayerControl::GetIns()->GetPlayer()->GetPosition().y,
+		PlayerControl::GetIns()->GetPlayer()->GetPosition().z
 	};
 	XMVECTOR positionB = { enemy->GetPosition().x, enemy->GetPosition().y, enemy->GetPosition().z };
 
@@ -52,14 +52,14 @@ void BossEnemyShieldGuard::Update(Enemy* enemy)
 	enemy->SetAnimation(BossEnemy::NowAttackMotion::SHIELDWALK_SIDE, true, 1.f);
 
 	enemy->SetGuardAction(true);
-	if (Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) > 60.f)
+	if (Collision::GetLength(enemy->GetPosition(), PlayerControl::GetIns()->GetPlayer()->GetPosition()) > 60.f)
 	{
 		enemy->ChangeState_Boss(new BossEnemyFollow());
 	}
 		if (enemy->GetRecvDamage2()) {
 			knockpower = 4.f;
 			enemy->SetGuardPointAdd();
-			PlayerAttackState::GetInstance()->SetHitStopJudg(true, 30);
+			PlayerAttackState::GetIns()->SetHitStopJudg(true, 30);
 			enemy->SetRecvDamage2(false);
 			}
 	

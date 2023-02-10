@@ -38,15 +38,15 @@ Object3d::~Object3d()
 	if (collider)
 	{
 		//当たり判定マネージャの登録解除
-		CollisionManager::GetInstance()->RemoveCollider(collider);
+		CollisionManager::GetIns()->RemoveCollider(collider);
 		delete collider;
 	}
 }
 
 bool Object3d::StaticInitialize(int window_width, int window_height, Camera* camera)
 {
-	device = DirectXCommon::GetInstance()->GetDev();
-	cmdList = DirectXCommon::GetInstance()->GetCmdList();
+	device = DirectXCommon::GetIns()->GetDev();
+	cmdList = DirectXCommon::GetIns()->GetCmdList();
 	//Model::SetDevice(device);
 	//	Object3d::camera = camera;
 	// デスクリプタヒープの初期化
@@ -623,7 +623,7 @@ void Object3d::Update(XMFLOAT4 color, DebugCamera* camera)
 	constMap->destTime = DestTime;
 	constMap->shadowf = shadowf;
 
-	constMap->playerpos = ppos;// PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	constMap->playerpos = ppos;// PlayerControl::GetIns()->GetPlayer()->GetPosition();
 	constMap->dislen = dislen;
 	// 定数バッファへデータ転送
 	//ConstBufferDataB0* constMap = nullptr;
@@ -718,7 +718,7 @@ void Object3d::SetCollider(BaseCollider* collider)
 	collider->SetObject(this);
 	this->collider = collider;
 	//当たり判定マネージャに登録
-	CollisionManager::GetInstance()->AddCollider(collider);
+	CollisionManager::GetIns()->AddCollider(collider);
 	//コライダーの更新
 	UpdateWorldMatrix();
 	collider->Update();

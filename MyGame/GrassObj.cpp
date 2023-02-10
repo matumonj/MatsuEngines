@@ -31,8 +31,8 @@ GrassObj::~GrassObj()
 
 bool GrassObj::StaticInitialize(int window_width, int window_height, Camera* camera)
 {
-	device = DirectXCommon::GetInstance()->GetDev();
-	cmdList = DirectXCommon::GetInstance()->GetCmdList();
+	device = DirectXCommon::GetIns()->GetDev();
+	cmdList = DirectXCommon::GetIns()->GetCmdList();
 	//Model::SetDevice(device);
 	//	GrassObj::camera = camera;
 	// デスクリプタヒープの初期化	// ビュー行列の生成

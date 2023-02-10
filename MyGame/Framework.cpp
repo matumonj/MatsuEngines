@@ -28,8 +28,8 @@ void Framework::Initialize()
 	//共通部分のインスタンス生成と初期化
 	winapp = new WinApp();
 	winapp->Createwindow();
-	DirectXCommon::GetInstance()->Initialize(winapp);
-	input = Input::GetInstance();
+	DirectXCommon::GetIns()->Initialize(winapp);
+	input = Input::GetIns();
 	input->Initialize(winapp);
 	audio = new Audio();
 
@@ -65,7 +65,7 @@ void Framework::Draw()
 
 void Framework::Finalize()
 {
-	FbxLoader::GetInstance()->Finalize();
+	FbxLoader::GetIns()->Finalize();
 	//delete sceneManger;
 	delete audio;
 	//delete dxcomn;

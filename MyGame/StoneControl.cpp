@@ -3,7 +3,7 @@
 #include"PlayerControl.h"
 #include"mHelper.h"
 
-StoneControl* StoneControl::GetInstance()
+StoneControl* StoneControl::GetIns()
 {
 	static StoneControl instance;
 
@@ -285,7 +285,7 @@ void StoneControl::Update_Tutorial()
 	{
 		if (Tutorialstones[i]->CollideStone() == true)
 		{
-			PlayerControl::GetInstance()->GetPlayer()->isOldPos();
+			PlayerControl::GetIns()->GetPlayer()->isOldPos();
 			break;
 			//	
 		}
@@ -303,7 +303,7 @@ void StoneControl::Update_Play()
 		}
 		if (stones[i]->CollideStone() == true)
 		{
-			PlayerControl::GetInstance()->GetPlayer()->SetPosition(Player_OldPos);
+			PlayerControl::GetIns()->GetPlayer()->SetPosition(Player_OldPos);
 			//break;
 		}
 	}

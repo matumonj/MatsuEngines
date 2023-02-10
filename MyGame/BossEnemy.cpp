@@ -27,13 +27,13 @@ BossEnemy::BossEnemy()
 	//オブジェのセット
 	ResourcesSet();
 	//ボス攻撃のインスタンス格納
-	BossAttackAction.emplace_back(CircleAttack::GetInstance());
-	BossAttackAction.emplace_back(RushAttack::GetInstance());
-	BossAttackAction.emplace_back(FrontCircleAttack::GetInstance());
+	BossAttackAction.emplace_back(CircleAttack::GetIns());
+	BossAttackAction.emplace_back(RushAttack::GetIns());
+	BossAttackAction.emplace_back(FrontCircleAttack::GetIns());
 	BossAttackAction.emplace_back(UltAttack::GetIns());
 	BossAttackAction.emplace_back(BronzeAttack::GetIns());
-	BossAttackAction.emplace_back(ThrowRockAttack::GetInstance());
-	//BossAttackAction.emplace_back(HalfAttack::GetInstance());
+	BossAttackAction.emplace_back(ThrowRockAttack::GetIns());
+	//BossAttackAction.emplace_back(HalfAttack::GetIns());
 
 }
 
@@ -50,7 +50,7 @@ BossEnemy::~BossEnemy()
 
 void BossEnemy::ResourcesSet()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
 	//モデルセット
 	m_Object = std::make_unique<Object3d>();
@@ -58,7 +58,7 @@ void BossEnemy::ResourcesSet()
 
 	m_fbxObject = std::make_unique<f_Object3d>();
 	m_fbxObject->Initialize();
-	m_fbxObject->SetModel(FbxLoader::GetInstance()->LoadModelFromFile("boss"));
+	m_fbxObject->SetModel(FbxLoader::GetIns()->LoadModelFromFile("boss"));
 	m_fbxObject->LoadAnimation();
 	m_fbxObject->PlayAnimation(1);
 
@@ -91,7 +91,7 @@ void BossEnemy::ResourcesSet()
 //初期化処理
 void BossEnemy::Initialize()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
 	MaxHP = 690;
 	EnemyHP = MaxHP;
@@ -124,12 +124,12 @@ void BossEnemy::Initialize()
 	{
 		BossAttackAction[i]->Init();
 	}
-	HalfAttack::GetInstance()->Init();
-	CircleAttack::GetInstance()->SetAttackPhase(false);
-	KnockAttack::GetInstance()->SetAttackPhase(false);
-	HalfAttack::GetInstance()->SetAttackPhase(false);
-	RushAttack::GetInstance()->SetAttackPhase(false);
-	FrontCircleAttack::GetInstance()->SetAttackPhase(false);
+	HalfAttack::GetIns()->Init();
+	CircleAttack::GetIns()->SetAttackPhase(false);
+	KnockAttack::GetIns()->SetAttackPhase(false);
+	HalfAttack::GetIns()->SetAttackPhase(false);
+	RushAttack::GetIns()->SetAttackPhase(false);
+	FrontCircleAttack::GetIns()->SetAttackPhase(false);
 	
 }
 
@@ -142,7 +142,7 @@ void BossEnemy::Update()
 	}
 	//swordrot = { 0,42,164 };
 	
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
 	et += 0.01f;
 	//行動遷移
@@ -190,7 +190,7 @@ void BossEnemy::Update()
 	for (int i = 0; i < BossAttackAction.size();i++) {
 		BossAttackAction[i]->Upda();
 	}
-	HalfAttack::GetInstance()->Upda();
+	HalfAttack::GetIns()->Upda();
 
 
 	
@@ -227,10 +227,10 @@ void BossEnemy::AttackCollide()
 	if (m_Number==NowAttackMotion::BNORMAL)
 	{
 		if (Collision::GetLength(HandPos_Right,
-			PlayerControl::GetInstance()->GetPlayer()->GetPosition()
+			PlayerControl::GetIns()->GetPlayer()->GetPosition()
 		) < 10.f)
 		{
-			PlayerControl::GetInstance()->GetPlayer()->RecvDamage(5);
+			PlayerControl::GetIns()->GetPlayer()->RecvDamage(5);
 		}
 	}
 	//武器
@@ -241,7 +241,7 @@ void BossEnemy::AttackCollide()
 		HandSiteOBB.SetOBBParam_Rot(Sword->ExtractRotationMat());
 		HandSiteOBB.SetOBBParam_Scl({ 5.0f, 6.0f, 10.0f });
 		//プレイヤーのインスタンス引き出
-		Player* l_player = PlayerControl::GetInstance()->GetPlayer();
+		Player* l_player = PlayerControl::GetIns()->GetPlayer();
 
 		playerOBB.SetOBBParam_Pos(l_player->GetPosition());
 		playerOBB.SetOBBParam_Rot(l_player->GetMatrot());
@@ -296,7 +296,7 @@ void BossEnemy::Draw()
 	for (int i = 0; i < BossAttackAction.size(); i++) {
 		BossAttackAction[i]->Draw();
 	}
-	HalfAttack::GetInstance()->Draw();
+	HalfAttack::GetIns()->Draw();
 }
 
 void BossEnemy::Death()
@@ -305,7 +305,7 @@ void BossEnemy::Death()
 	if (!DieFlag)
 	{
 		DieFlag = true;
-		//ExpPointSystem::GetInstance()->ExpPoint_Get(10);
+		//ExpPointSystem::GetIns()->ExpPoint_Get(10);
 	}
 	else
 	{
@@ -318,7 +318,7 @@ void BossEnemy::Death()
 	{
 		alpha -= 0.01f;
 	}
-	CameraControl::GetInstance()->SetCameraState(CameraControl::RUSHSCENE);
+	CameraControl::GetIns()->SetCameraState(CameraControl::RUSHSCENE);
 
 	f_time += 0.009f;
 

@@ -11,7 +11,7 @@ class BaseCollider;
 class CollisionManager
 {
 public: // Ã“Iƒƒ“ƒoŠÖ”
-	static CollisionManager* GetInstance();
+	static CollisionManager* GetIns();
 
 public: // ƒƒ“ƒoŠÖ”
 	/// <summary>

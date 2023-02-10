@@ -4,7 +4,7 @@
 #include"mHelper.h"
 #include "WoodB.h"
 
-WoodControl* WoodControl::GetInstance()
+WoodControl* WoodControl::GetIns()
 {
 	static WoodControl instance;
 
@@ -154,7 +154,7 @@ void WoodControl::Update_Tutorial()
 
 void WoodControl::Update_Play()
 {
-	XMFLOAT3 pPos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	XMFLOAT3 pPos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 
 	for (int i = 0; i < Quantity; i++)
 	{
@@ -188,7 +188,7 @@ void WoodControl::Draw_Tutorial()
 
 void WoodControl::Draw_Play()
 {
-	XMFLOAT3 pPos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	XMFLOAT3 pPos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 	for (int i = 0; i < Quantity; i++)
 	{
 		if (woods[i] != nullptr)

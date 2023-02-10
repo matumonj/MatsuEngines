@@ -16,7 +16,7 @@ AreaFence::~AreaFence()
 
 void AreaFence::Initialize()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
 	m_Object = std::make_unique<Object3d>();
 	//m_Object->CreateGraphicsPipeline(L"Resources/Shader/Object3dVS.hlsl", L"Resources/Shader/Object3dPS.hlsl", L"Resources/Shader/BasicGS.hlsl");
@@ -32,9 +32,9 @@ void AreaFence::Initialize()
 
 void AreaFence::Update()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
-	if (SceneManager::GetInstance()->GetScene() != SceneManager::MAPCREATE)
+	if (SceneManager::GetIns()->GetScene() != SceneManager::MAPCREATE)
 	{
 		CollideAreaFence();
 	}
@@ -49,8 +49,8 @@ void AreaFence::Draw()
 
 bool AreaFence::CollideAreaFence()
 {
-	playerOBB.SetOBBParam_Pos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
-	playerOBB.SetOBBParam_Rot(PlayerControl::GetInstance()->GetPlayer()->GetMatrot());
+	playerOBB.SetOBBParam_Pos(PlayerControl::GetIns()->GetPlayer()->GetPosition());
+	playerOBB.SetOBBParam_Rot(PlayerControl::GetIns()->GetPlayer()->GetMatrot());
 	playerOBB.SetOBBParam_Scl({1.0f, 1.0f, 1.0f});
 
 	//ò‚ÌOBB ‰ñ“]ƒxƒNƒgƒ‹
@@ -65,7 +65,7 @@ bool AreaFence::CollideAreaFence()
 	if (Collision::CheckOBBCollision(playerOBB, AreaFenceOBB) == true)
 	{
 		Collision::SetCollideOBB(true);
-		PlayerControl::GetInstance()->GetPlayer()->isOldPos();
+		PlayerControl::GetIns()->GetPlayer()->isOldPos();
 		return true;
 	}
 	return false;

@@ -19,7 +19,7 @@ public:
 	};
 	~Field() override;
 
-	static Field* GetInstance();
+	static Field* GetIns();
 	
 	XMFLOAT3 GetClearTexpos() { return cleartex->GetPosition(); }
 private:

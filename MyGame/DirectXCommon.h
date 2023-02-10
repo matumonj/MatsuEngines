@@ -75,7 +75,7 @@ private:
 public:
 	bool GetFullScreen() { return imgui_turnoff_draw; }
 	static ID3D12DescriptorHeap* GetDsvheap();
-	static DirectXCommon* GetInstance();
+	static DirectXCommon* GetIns();
 	ComPtr<ID3D12DescriptorHeap> heapforimgui();
 	ComPtr<ID3D12DescriptorHeap> imguiHeap;
 	ComPtr<ID3D12DescriptorHeap> GetimguiDescriptorHeap() { return imguiHeap; };

@@ -1,7 +1,7 @@
 #include "Feed.h"
 #include"WinApp.h"
 
-Feed* Feed::GetInstance()
+Feed* Feed::GetIns()
 {
 	static Feed instance;
 	return &instance;

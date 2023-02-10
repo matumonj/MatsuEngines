@@ -71,7 +71,7 @@ void AttackEffect::SetParticle(XMFLOAT3 pos)
 		AttackParticle[i]->CreateTexture();
 		AttackParticle[i]->SetAnchorPoint({0.5f, 0.5f});
 	}
-	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 	ParCenterPos = {pos.x - (pos.x - ppos.x), pos.y, pos.z - (pos.z - ppos.z)};
 
 	for (int i = 0; i < FIRST; i++)
@@ -79,7 +79,7 @@ void AttackEffect::SetParticle(XMFLOAT3 pos)
 		ParPos[i] = {ParCenterPos.x, ParCenterPos.y + 10.0f, ParCenterPos.z};
 		ParScl[i] = {3, 2, 2};
 		ParRot[i] = {
-			0, PlayerControl::GetInstance()->GetPlayer()->GetRotation().y + 62.0f, static_cast<float>(rand() % 360)
+			0, PlayerControl::GetIns()->GetPlayer()->GetRotation().y + 62.0f, static_cast<float>(rand() % 360)
 		};
 		ParAlpha[i] = 0.5f;
 	}
@@ -113,7 +113,7 @@ void AttackEffect::ParticleUpda()
 		AttackParticle[i]->SetRotation(ParRot[i]);
 		AttackParticle[i]->SetScale(ParScl[i]);
 		AttackParticle[i]->SetColor({1.0f, 1.0f, 1.0f, ParAlpha[i]});
-		AttackParticle[i]->Update(CameraControl::GetInstance()->GetCamera());
+		AttackParticle[i]->Update(CameraControl::GetIns()->GetCamera());
 
 		if (ParAlpha[i] <= 0.0f)
 		{
@@ -128,20 +128,20 @@ void AttackEffect::ParticleUpda()
 	InpactTex->SetPosition({ParCenterPos.x, ParCenterPos.y + 10.0f, ParCenterPos.z});
 	InpactTex->SetColor({1.0f, 1.0f, 1.0f, InpactAlpha});
 	InpactTex->SetScale({InpactScl.x, InpactScl.y, 2.0f});
-	InpactTex->Update(CameraControl::GetInstance()->GetCamera());
+	InpactTex->Update(CameraControl::GetIns()->GetCamera());
 }
 
 void AttackEffect::Upda()
 {
 	XMFLOAT3 ppos = {
-		SelectSword::GetInstance()->GetSword()->GetMatWorld().r[3].m128_f32[0],
-		SelectSword::GetInstance()->GetSword()->GetMatWorld().r[3].m128_f32[1],
-		SelectSword::GetInstance()->GetSword()->GetMatWorld().r[3].m128_f32[2]
+		SelectSword::GetIns()->GetSword()->GetMatWorld().r[3].m128_f32[0],
+		SelectSword::GetIns()->GetSword()->GetMatWorld().r[3].m128_f32[1],
+		SelectSword::GetIns()->GetSword()->GetMatWorld().r[3].m128_f32[2]
 	};
-	XMVECTOR pmove = PlayerControl::GetInstance()->GetPlayer()->GetPlayerMove();
-	float protY = PlayerControl::GetInstance()->GetPlayer()->GetRotation().y + 62.0f;
-	if (Input::GetInstance()->TriggerButton(Input::B) && PlayerControl::GetInstance()->GetPlayer()->GetAttackType() ==
-		PlayerControl::GetInstance()->GetPlayer()->FIRST)
+	XMVECTOR pmove = PlayerControl::GetIns()->GetPlayer()->GetPlayerMove();
+	float protY = PlayerControl::GetIns()->GetPlayer()->GetRotation().y + 62.0f;
+	if (Input::GetIns()->TriggerButton(Input::B) && PlayerControl::GetIns()->GetPlayer()->GetAttackType() ==
+		PlayerControl::GetIns()->GetPlayer()->FIRST)
 	{
 		//UŒ‚‚ÌŽí—Þ
 		etype = SLASH_FIRST;
@@ -152,8 +152,8 @@ void AttackEffect::Upda()
 		TexPos = {ppos.x + pmove.m128_f32[0] * 10.f, ppos.y + 3.0f, ppos.z + pmove.m128_f32[2] * 10.f};
 		TexRot = {0.0f, protY, -135.0f};
 	}
-	else if (Input::GetInstance()->TriggerButton(Input::B) && PlayerControl::GetInstance()->GetPlayer()->
-		GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->SECOND)
+	else if (Input::GetIns()->TriggerButton(Input::B) && PlayerControl::GetIns()->GetPlayer()->
+		GetAttackType() == PlayerControl::GetIns()->GetPlayer()->SECOND)
 	{
 		//UŒ‚‚ÌŽí—Þ
 		etype = SLASH_FIRST;
@@ -180,7 +180,7 @@ void AttackEffect::Upda()
 		AttackTex->SetRotation(TexRot);
 		AttackTex->SetScale({TexScl});
 		AttackTex->SetColor({1.0f, 1.0f, 1.0f, texAlpha});
-		AttackTex->Update(CameraControl::GetInstance()->GetCamera());
+		AttackTex->Update(CameraControl::GetIns()->GetCamera());
 	}
 	ParticleUpda();
 	Effect_First();
@@ -237,7 +237,7 @@ void AttackEffect::GuarEffect(XMFLOAT3 pos)
 
 		GuardTex[i]->SetScale({ GuardSize[i]});
 		GuardTex[i]->SetColor({ 1.0f, 1.0f, 1.0f, GuardAlpha[i]});
-		GuardTex[i]->Update(CameraControl::GetInstance()->GetCamera());
+		GuardTex[i]->Update(CameraControl::GetIns()->GetCamera());
 	}
 }
 

@@ -1,6 +1,6 @@
 #include "ConfigSprite.h"
 
-ConfigSprite* ConfigSprite::GetInstance()
+ConfigSprite* ConfigSprite::GetIns()
 {
 	static ConfigSprite instance;
 

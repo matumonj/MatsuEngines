@@ -63,7 +63,7 @@ void MobEnemy::HPFrameInit()
 //初期化処理
 void MobEnemy::Initialize()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
 	//オブジェクトの生成と初期化
 	Sword = std::make_unique<Object3d>();
@@ -77,7 +77,7 @@ void MobEnemy::Initialize()
 
 	m_fbxObject = std::make_unique<f_Object3d>();
 	m_fbxObject->Initialize();
-	m_fbxObject->SetModel(FbxLoader::GetInstance()->LoadModelFromFile("monster_golem_demo"));
+	m_fbxObject->SetModel(FbxLoader::GetIns()->LoadModelFromFile("monster_golem_demo"));
 	m_fbxObject->PlayAnimation();
 
 	//体力設定
@@ -118,17 +118,17 @@ void MobEnemy::Initialize()
 void MobEnemy::Update()
 {
 	//カメラのインスタンス持ってくる
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
 	//state更新
 	state_mob->Update(this);
 
-	if (SceneManager::GetInstance()->GetScene() != SceneManager::MAPCREATE)
+	if (SceneManager::GetIns()->GetScene() != SceneManager::MAPCREATE)
 	{
-		m_fbxObject->SetFogPos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
+		m_fbxObject->SetFogPos(PlayerControl::GetIns()->GetPlayer()->GetPosition());
 	}
 
-	if (SceneManager::GetInstance()->GetScene() != SceneManager::BOSS)
+	if (SceneManager::GetIns()->GetScene() != SceneManager::BOSS)
 	{
 		CollisionField();
 	}
@@ -145,7 +145,7 @@ void MobEnemy::Update()
 
 	HelpIconShow();
 	//敵の色
-	if (SceneManager::GetInstance()->GetScene() != SceneManager::MAPCREATE) {
+	if (SceneManager::GetIns()->GetScene() != SceneManager::MAPCREATE) {
 		m_fbxObject->SetColor({ 1.0f, 1.0f, 1.0f, alpha });
 	}
 	else
@@ -171,9 +171,9 @@ void MobEnemy::Update()
 void MobEnemy::OBBSetParam()
 {
 	//プレイヤーのインスタンス引き出す
-	Player* l_player = PlayerControl::GetInstance()->GetPlayer();
+	Player* l_player = PlayerControl::GetIns()->GetPlayer();
 
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::MAPCREATE)
+	if (SceneManager::GetIns()->GetScene() == SceneManager::MAPCREATE)
 	{
 		return;
 	}
@@ -243,7 +243,7 @@ void MobEnemy::Draw()
 void MobEnemy::EnemyHPDraw()
 {
 	if (alpha <= 0.f)return;
-	Player* l_player = PlayerControl::GetInstance()->GetPlayer();
+	Player* l_player = PlayerControl::GetIns()->GetPlayer();
 
 	if (Collision::GetLength(Position, l_player->GetPosition()) < 40)
 	{
@@ -283,12 +283,12 @@ void MobEnemy::Death()
 	}
 	if (f_time <= DeathTime + 1.5f)
 	{
-		PlayerAttackState::GetInstance()->SetHitStopJudg(true);
+		PlayerAttackState::GetIns()->SetHitStopJudg(true);
 	}
 
 	f_time += 0.01f;
 
-	//	PlayerAttackState::GetInstance()->SetHitStopJudg(TRUE);
+	//	PlayerAttackState::GetIns()->SetHitStopJudg(TRUE);
 
 	movestop = false;
 }
@@ -312,7 +312,7 @@ void MobEnemy::FbxAnimationControl()
 
 
 	//ヒットストップ時
-	if (PlayerAttackState::GetInstance()->GetHitStopJudg())
+	if (PlayerAttackState::GetIns()->GetHitStopJudg())
 	{
 		fbxanimationTime = 0.002f;
 	}

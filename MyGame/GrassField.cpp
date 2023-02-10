@@ -14,12 +14,12 @@ GrassField::~GrassField()
 
 void GrassField::Initialize()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
-	//FieldPos = { PlayerControl::GetInstance()->GetPlayer()->GetPosition() };
+	//FieldPos = { PlayerControl::GetIns()->GetPlayer()->GetPosition() };
 	FieldRot = {0.0f, 0.0f, 0.0f};
 	FieldScl = {1.0f, 1.0f, 1.0f};
-	//FieldPos = { PlayerControl::GetInstance()->GetPlayer()->GetPosition().x,PlayerControl::GetInstance()->GetPlayer()->GetPosition().y -40,PlayerControl::GetInstance()->GetPlayer()->GetPosition().z };
+	//FieldPos = { PlayerControl::GetIns()->GetPlayer()->GetPosition().x,PlayerControl::GetIns()->GetPlayer()->GetPosition().y -40,PlayerControl::GetIns()->GetPlayer()->GetPosition().z };
 
 	grass = std::make_unique<GrassObj>();
 	grass->SetModel(ModelManager::GetIns()->GetModel(ModelManager::GRASSFIELD));
@@ -30,7 +30,7 @@ void GrassField::Initialize()
 
 void GrassField::Update()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
 	if (grass == nullptr)
 	{

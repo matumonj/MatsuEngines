@@ -12,7 +12,7 @@
 #include "HalfAttack.h"
 #include "PlayerControl.h"
 
-UI* UI::GetInstance()
+UI* UI::GetIns()
 {
 	static UI instance;
 	return &instance;
@@ -20,39 +20,39 @@ UI* UI::GetInstance()
 
 void UI::Initialize()
 {
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
+	if (SceneManager::GetIns()->GetScene() == SceneManager::BOSS)
 	{
 	}
-	BossSpell::GetInstance()->Initialize();
-	HUD::GetInstance()->Initialize();
-	HUD::GetInstance()->EnemyHPGaugeInitialize();
-	HUD::GetInstance()->SkillButtonInitialize();
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL)
+	BossSpell::GetIns()->Initialize();
+	HUD::GetIns()->Initialize();
+	HUD::GetIns()->EnemyHPGaugeInitialize();
+	HUD::GetIns()->SkillButtonInitialize();
+	if (SceneManager::GetIns()->GetScene() == SceneManager::TUTORIAL)
 	{
-		TutorialSprite::GetInstance()->Initialize();
+		TutorialSprite::GetIns()->Initialize();
 	}
 	DropWeapon::GtIns()->Init();
-	Task::GetInstance()->Init();
+	Task::GetIns()->Init();
 }
 
 void UI::HUDUpdate(bool& hudload, DebugCamera* camera)
 {
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL)
+	if (SceneManager::GetIns()->GetScene() == SceneManager::TUTORIAL)
 	{
-		HUD::GetInstance()->EnemyHPGauge_MultiUpdate(hudload, camera,
-		                                             EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL));
-		TutorialSprite::GetInstance()->Update();
+		HUD::GetIns()->EnemyHPGauge_MultiUpdate(hudload, camera,
+		                                             EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL));
+		TutorialSprite::GetIns()->Update();
 	}
-	HUD::GetInstance()->SkillBottonUpdate();
-	HUD::GetInstance()->Update();
-	HUD::GetInstance()->TaskUpdate(camera);
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
+	HUD::GetIns()->SkillBottonUpdate();
+	HUD::GetIns()->Update();
+	HUD::GetIns()->TaskUpdate(camera);
+	if (SceneManager::GetIns()->GetScene() == SceneManager::BOSS)
 	{
-		ExpPointSystem::GetInstance()->Upda();
+		ExpPointSystem::GetIns()->Upda();
 	}
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
+	if (SceneManager::GetIns()->GetScene() == SceneManager::PLAY)
 	{
-		Task::GetInstance()->Upda();
+		Task::GetIns()->Upda();
 	}
 }
 
@@ -60,65 +60,65 @@ void UI::HUDDraw()
 {
 	if (!TurnOffDrawUI)
 	{
-		HUD::GetInstance()->SkillBottonDraw();
+		HUD::GetIns()->SkillBottonDraw();
 		
-		SelectSword::GetInstance()->Draw();
+		SelectSword::GetIns()->Draw();
 	}
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL)
+	if (SceneManager::GetIns()->GetScene() == SceneManager::TUTORIAL)
 	{
-		TutorialSprite::GetInstance()->Draw();
+		TutorialSprite::GetIns()->Draw();
 	}
 
-	EnemyControl::GetInstance()->HPFrameDraw();
+	EnemyControl::GetIns()->HPFrameDraw();
 	if (!TurnOffDrawUI)
 	{
-		if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
+		if (SceneManager::GetIns()->GetScene() == SceneManager::PLAY)
 		{
 			DropWeapon::GtIns()->Draw_PickTex();
-			Task::GetInstance()->Draw();
+			Task::GetIns()->Draw();
 
-			for (int i = 0; i < EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE).size(); i++)
+			for (int i = 0; i < EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE).size(); i++)
 			{
-				if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i] == nullptr)
+				if (EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i] == nullptr)
 				{
 					continue;
 				}
-				EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[i]->DamageTexDisplay_Draw();
+				EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->DamageTexDisplay_Draw();
 			}
-			if (EnemyControl::GetInstance()->GetGuardianEnemy() != nullptr)
+			if (EnemyControl::GetIns()->GetGuardianEnemy() != nullptr)
 			{
-				EnemyControl::GetInstance()->GetGuardianEnemy()->DamageTexDisplay_Draw();
+				EnemyControl::GetIns()->GetGuardianEnemy()->DamageTexDisplay_Draw();
 			}
 		}
 	}
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS&&
-		EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS).size()>0&&
-		EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]!=nullptr)
+	if (SceneManager::GetIns()->GetScene() == SceneManager::BOSS&&
+		EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS).size()>0&&
+		EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]!=nullptr)
 	{
-		EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->DamageTexDisplay_Draw();
+		EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->DamageTexDisplay_Draw();
 
 		for (int i = 0; i < 2; i++)
 		{
-			if (HalfAttack::GetInstance()->GetSummonEnemy(i) == nullptr)continue;
-			HalfAttack::GetInstance()->GetSummonEnemy(i)->DamageTexDisplay_Draw();
+			if (HalfAttack::GetIns()->GetSummonEnemy(i) == nullptr)continue;
+			HalfAttack::GetIns()->GetSummonEnemy(i)->DamageTexDisplay_Draw();
 		}
-		HalfAttack::GetInstance()->Draw_SummonEnemyHP();
+		HalfAttack::GetIns()->Draw_SummonEnemyHP();
 	}
 
-	//PlayerControl::GetInstance()->DamageTexDraw();
+	//PlayerControl::GetIns()->DamageTexDraw();
 	if (!TurnOffDrawUI)
 	{
-		PlayerControl::GetInstance()->DamageTexDraw();
+		PlayerControl::GetIns()->DamageTexDraw();
 	}
 }
 
 void UI::AreaNameDraw()
 {
-	HUD::GetInstance()->AreaName();
+	HUD::GetIns()->AreaName();
 }
 
 void UI::Finalize()
 {
-	TutorialSprite::GetInstance()->Finalize();
-	HUD::GetInstance()->Finalize();
+	TutorialSprite::GetIns()->Finalize();
+	HUD::GetIns()->Finalize();
 }

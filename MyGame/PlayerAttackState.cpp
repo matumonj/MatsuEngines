@@ -8,7 +8,7 @@
 #include"HUD.h"
 
 /*後でplayerに移して消す*/
-PlayerAttackState* PlayerAttackState::GetInstance()
+PlayerAttackState* PlayerAttackState::GetIns()
 {
 	static PlayerAttackState instance;
 
@@ -35,27 +35,27 @@ void PlayerAttackState::ComboAction()
 
 void PlayerAttackState::Update()
 {
-	if (PlayerControl::GetInstance()->GetPlayer()->ModelSetJudg() == false)return;
-	AttackCollision::GetInstance()->Update();
+	if (PlayerControl::GetIns()->GetPlayer()->ModelSetJudg() == false)return;
+	AttackCollision::GetIns()->Update();
 	
 	ComboAction();
 	HitStop();
-	Player* l_player = PlayerControl::GetInstance()->GetPlayer();
+	Player* l_player = PlayerControl::GetIns()->GetPlayer();
 
 	int DefaultDamage;
-	if(l_player->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->FIRST)
+	if(l_player->GetAttackType() == PlayerControl::GetIns()->GetPlayer()->FIRST)
 	{
 		DefaultDamage = 5;
 	}
-	if (l_player->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->SECOND)
+	if (l_player->GetAttackType() == PlayerControl::GetIns()->GetPlayer()->SECOND)
 	{
 		DefaultDamage = 10;
 	}
-	if (l_player->GetAttackType() == PlayerControl::GetInstance()->GetPlayer()->THIRD)
+	if (l_player->GetAttackType() == PlayerControl::GetIns()->GetPlayer()->THIRD)
 	{
 		DefaultDamage = 20;
 	}
-	AttackCollision::GetInstance()->GetCol(DefaultDamage+SelectSword::GetInstance()->GetSword()->GetDamage());
+	AttackCollision::GetIns()->GetCol(DefaultDamage+SelectSword::GetIns()->GetSword()->GetDamage());
 }
 
 void PlayerAttackState::FirstAttack(std::vector<std::unique_ptr<Enemy>>& enemy)
@@ -67,7 +67,7 @@ void PlayerAttackState::FirstAttack(std::vector<std::unique_ptr<Enemy>>& enemy)
 	OldSkill = First;
 
 	int randDam = rand() % 5 + 1;
-	Damage = SelectSword::GetInstance()->GetSword()->GetDamage() + FIRSTATTACKDAMAGE + randDam;
+	Damage = SelectSword::GetIns()->GetSword()->GetDamage() + FIRSTATTACKDAMAGE + randDam;
 
 	DetailAttack(enemy, 120);
 }
@@ -79,12 +79,12 @@ void PlayerAttackState::SecondAttack(std::vector<std::unique_ptr<Enemy>>& enemy)
 	if (ComboFirst)
 	{
 		//コンボ時のダメージ
-		Damage = SelectSword::GetInstance()->GetSword()->GetDamage() + SECONDATTACKDAMAGE + COMBOBONUS;
+		Damage = SelectSword::GetIns()->GetSword()->GetDamage() + SECONDATTACKDAMAGE + COMBOBONUS;
 	}
 	else
 	{
 		//通常ダメージ
-		Damage = SelectSword::GetInstance()->GetSword()->GetDamage() + SECONDATTACKDAMAGE;
+		Damage = SelectSword::GetIns()->GetSword()->GetDamage() + SECONDATTACKDAMAGE;
 	}
 
 	DetailAttack(enemy, 120);
@@ -101,12 +101,12 @@ void PlayerAttackState::ThirdAttack(std::vector<std::unique_ptr<Enemy>>& enemy)
 	if (ComboLast)
 	{
 		//コンボ時のダメージ
-		Damage = SelectSword::GetInstance()->GetSword()->GetDamage() + ThirdAttackDamage + ComboBonus;
+		Damage = SelectSword::GetIns()->GetSword()->GetDamage() + ThirdAttackDamage + ComboBonus;
 	}
 	else
 	{
 		//通常のダメージ
-		Damage = SelectSword::GetInstance()->GetSword()->GetDamage() + ThirdAttackDamage;
+		Damage = SelectSword::GetIns()->GetSword()->GetDamage() + ThirdAttackDamage;
 	}
 	DetailAttack(enemy, 120);
 }
@@ -115,7 +115,7 @@ void PlayerAttackState::SkillCoolDown(int& cooltime)
 {
 	cooltime--;
 	cooltime = max(cooltime, 0);
-	cooltime = min(cooltime, SelectSword::GetInstance()->GetSword()->GetCoolTime());
+	cooltime = min(cooltime, SelectSword::GetIns()->GetSword()->GetCoolTime());
 }
 
 void PlayerAttackState::DetailAttack(std::vector<std::unique_ptr<Enemy>>& enemy, int cooltime)
@@ -141,7 +141,7 @@ void PlayerAttackState::HitStop()
 		}
 		if (HitStopCount < 20)
 		{
-			CameraControl::GetInstance()->ShakeCamera();
+			CameraControl::GetIns()->ShakeCamera();
 		}
 	}
 	else

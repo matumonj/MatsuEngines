@@ -16,7 +16,7 @@ BronzeAttack* BronzeAttack::GetIns()
 
 void BronzeAttack::Init()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 	Texture::LoadTexture(103, L"Resources/2d/attackEffect/ma1b-skyblue.png");
 	//テクスチャセット
 	for (int i = 0; i < MagicTex.size(); i++) {
@@ -65,7 +65,7 @@ void BronzeAttack::Upda()
 		break;
 
 	case BOM:
-		//PlayerControl::GetInstance()->GetPlayer()->RecvDamage(50);
+		//PlayerControl::GetIns()->GetPlayer()->RecvDamage(50);
 		Phase_Bom();
 		break;
 
@@ -84,8 +84,8 @@ void BronzeAttack::Upda()
 }
 void BronzeAttack::ObjUpda()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
-	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
+	XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 
 	if (phase == END)return; 
 		TexRotZ++;
@@ -117,7 +117,7 @@ void BronzeAttack::ObjUpda()
 			MagicTex[i]->SetPosition({ TexPos[i] });
 			MagicTex[i]->SetColor({ 1.f, 1.f, 1.f, TexAlpha });
 			MagicTex[i]->SetBillboard(false);
-			MagicTex[i]->Update(CameraControl::GetInstance()->GetCamera());
+			MagicTex[i]->Update(CameraControl::GetIns()->GetCamera());
 		}
 		for (int i = 0; i < BeamObj.size(); i++) {
 
@@ -130,7 +130,7 @@ void BronzeAttack::ObjUpda()
 		}
 	
 	TexAlpha = max(TexAlpha, 0.f);
-	XMFLOAT3 bpos = { EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition() };
+	XMFLOAT3 bpos = { EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition() };
 
 
 	ChargeCenter->CreateParticle((phase == AREASET), { bpos });
@@ -140,7 +140,7 @@ void BronzeAttack::ObjUpda()
 void BronzeAttack::SphereMoving()
 {
 
-	XMFLOAT3 bpos ={EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition()};
+	XMFLOAT3 bpos ={EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition()};
 	for(int i=0;i<6;i++)
 	{
 		
@@ -203,14 +203,14 @@ void BronzeAttack::SphereMoving()
 		chargesphere[i]->SetPosition(chargespherepos[i]);
 		chargesphere[i]->SetColor({ 1.f,1.f,1.f,0.8f });
 		chargesphere[i]->SetScale({ 1.f,1.f,1.f });
-		chargesphere[i]->Update({ 1.f,1.f,1.f,1.f }, CameraControl::GetInstance()->GetCamera());
+		chargesphere[i]->Update({ 1.f,1.f,1.f,1.f }, CameraControl::GetIns()->GetCamera());
 	}
 
 }
 
 void BronzeAttack::Phase_AreaSet()
 {
-	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 
 	bool nextPhase = TexAlpha > 9.f;
 	const float scalingSpeed = 0.05f;
@@ -245,7 +245,7 @@ void BronzeAttack::Phase_AreaSet()
 
 void BronzeAttack::Phase_Bom()
 {
-	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 	for (int i = 0; i < BeamObj.size(); i++) {
 		scalingETime[i] += 0.04f;
 		if (scalingETime[i] >= 2.5f)
@@ -263,13 +263,13 @@ void BronzeAttack::Phase_Bom()
 
 		if (Collision::GetLength(ppos, BeamObj[i]->GetPosition()) < 14.f)
 		{
-			PlayerControl::GetInstance()->GetPlayer()->RecvDamage(5);
+			PlayerControl::GetIns()->GetPlayer()->RecvDamage(5);
 		}
 	}
 }
 void BronzeAttack::Phase_MakeSmall()
 {
-	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 
 	TexAlpha = 1.f;
 	for (int i = 0; i < BeamObj.size(); i++) {

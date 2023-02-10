@@ -30,7 +30,7 @@ private:
 	};
 
 public:
-	static EnemyControl* GetInstance();
+	static EnemyControl* GetIns();
 
 	void Load() override;
 

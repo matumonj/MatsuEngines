@@ -12,7 +12,7 @@ void BossEnemyAttackThrow::Update(Enemy* enemy)
 {
 	
 	enemy->SetAnimation(BossEnemy::NowAttackMotion::THROW, false,1.f);
-	if(ThrowRockAttack::GetInstance()->GetPhase()==ThrowRockAttack::END)
+	if(ThrowRockAttack::GetIns()->GetPhase()==ThrowRockAttack::END)
 	{
 		enemy->SetRecvDamage2(false);
 		enemy->ChangeState_Boss(new BossEnemyFollow());

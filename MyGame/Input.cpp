@@ -5,7 +5,7 @@
 #define STICK_MAX 32768.0f
 
 //#pragma comment(lib,"dxguid.lib")
-Input* Input::GetInstance()
+Input* Input::GetIns()
 {
 	static Input instance;
 
@@ -48,7 +48,7 @@ bool Input::CheckTrigger(XBOX Button)
 
 Input::~Input()
 {
-	//delete 	Input::GetInstance();
+	//delete 	Input::GetIns();
 	//	dinput.Reset();
 	devkeyboard.Reset();
 	devMouse.Reset();
@@ -61,7 +61,7 @@ void Input::Initialize(WinApp* winapp)
 	this->winapp = winapp;
 	//DirectInputのインスタンス生成
 	ComPtr<IDirectInput8> dinput = nullptr;
-	result = DirectInput8Create(winapp->GetInstance(), DIRECTINPUT_VERSION, IID_IDirectInput8, &dinput, nullptr);
+	result = DirectInput8Create(winapp->GetIns(), DIRECTINPUT_VERSION, IID_IDirectInput8, &dinput, nullptr);
 	//キーボードデバイ氏生成
 	//ComPtr<IDirectInputDevice8>devkeyboard;
 	result = dinput->CreateDevice(GUID_SysKeyboard, &devkeyboard, nullptr);

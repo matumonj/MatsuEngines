@@ -9,7 +9,7 @@ HalfAttack::~HalfAttack()
 	//delete HalfAreaTex;
 }
 
-HalfAttack* HalfAttack::GetInstance()
+HalfAttack* HalfAttack::GetIns()
 {
 	static HalfAttack instance;
 	return &instance;
@@ -43,7 +43,7 @@ void (HalfAttack::* HalfAttack::actionTable[])() = {
 void HalfAttack::Upda()
 {
 	//ボスのインスタンス持ってくる
-	Enemy* boss = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0].get();
+	Enemy* boss = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0].get();
 	if (boss == nullptr)return;
 
 	(this->*actionTable[phase])();
@@ -87,7 +87,7 @@ void HalfAttack::SummonInit()
 void HalfAttack::BossLeaveGround()
 {
 	/*攻撃内容の処理なので後で攻撃専用のクラスに移す*/
-	Enemy* boss = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0].get();
+	Enemy* boss = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0].get();
 	//ボス座標
 	XMFLOAT3 bosspos=boss->GetPosition();
 
@@ -115,9 +115,9 @@ void HalfAttack::BossLeaveGround()
 void HalfAttack::SummonUpdate()
 {
 	//カメラのインスタンス持ってくる
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 	/*攻撃内容の処理なので後で攻撃専用のクラスに移す*/
-	Enemy* boss = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0].get();
+	Enemy* boss = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0].get();
 
 	
 	SummonEPos.y += 0.1f; //徐々に上に
@@ -208,7 +208,7 @@ void HalfAttack::SummonUpdate()
 
 void HalfAttack::BossReturnGround()
 {
-	Enemy* boss = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0].get();
+	Enemy* boss = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0].get();
 	XMFLOAT3 bosspos = boss->GetPosition();
 
 	bosspos.y--;

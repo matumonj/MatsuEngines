@@ -7,7 +7,7 @@
 
 #include"UI.h"
 
-ChestControl* ChestControl::GetInstance()
+ChestControl* ChestControl::GetIns()
 {
 	static ChestControl instance;
 
@@ -142,7 +142,7 @@ void ChestControl::Update_Tutorial()
 
 		if (TutorialPchest.ChestEvent == END)
 		{
-			PlayerControl::GetInstance()->GetPlayer()->SetIdle(false);
+			PlayerControl::GetIns()->GetPlayer()->SetIdle(false);
 			GetTutorialChestJudg = true;
 		}
 	}
@@ -261,22 +261,22 @@ void ChestControl::ChestDestroy()
 
 void ChestControl::GetChestEvent(Chest* chest, ParticleParam& pParam)
 {
-	XMFLOAT3 Ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	XMFLOAT3 Ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 	if (pParam.ChestEvent == NON && Collision::GetLength(Ppos, chest->GetPosition()) < 20.0f)
 	{
-		UI::GetInstance()->SetTurnoffUIDraw(true);
+		UI::GetIns()->SetTurnoffUIDraw(true);
 		pParam.ChestEvent = FEEDIN;
 	}
 	if (pParam.ChestEvent == FEEDIN)
 	{
-		Feed::GetInstance()->Update_Black(Feed::FEEDIN);
-		if (Feed::GetInstance()->GetAlpha() >= 1.0f)
+		Feed::GetIns()->Update_Black(Feed::FEEDIN);
+		if (Feed::GetIns()->GetAlpha() >= 1.0f)
 		{
 			pParam.ChestEvent = FEEDOUT;
 		}
 	} else if (pParam.ChestEvent == FEEDOUT)
 	{
-		if (Input::GetInstance()->TriggerButton(Input::Y))
+		if (Input::GetIns()->TriggerButton(Input::Y))
 		{
 			chest->SetChestLost(true);
 			pParam.pCount = 0;
@@ -294,17 +294,17 @@ void ChestControl::GetChestEvent(Chest* chest, ParticleParam& pParam)
 			pParam.pCount = 0;
 			pParam.ChestEvent = GETCHEST;
 		}
-		Feed::GetInstance()->Update_Black(Feed::FEEDOUT);
-		PlayerControl::GetInstance()->GetPlayer()->SetPosition({
+		Feed::GetIns()->Update_Black(Feed::FEEDOUT);
+		PlayerControl::GetIns()->GetPlayer()->SetPosition({
 			chest->GetPosition().x, Ppos.y, chest->GetPosition().z - 25.0f
 			});
-		PlayerControl::GetInstance()->GetPlayer()->SetRotation({ -90.0f, 0.0f, 0.0f });
-		PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(true);
-		CameraControl::GetInstance()->GetCamera()->SetEye({ Ppos.x + 8.0f, Ppos.y + 10.0f, Ppos.z - 20.0f });
-		CameraControl::GetInstance()->GetCamera()->SetTarget(chest->GetPosition());
+		PlayerControl::GetIns()->GetPlayer()->SetRotation({ -90.0f, 0.0f, 0.0f });
+		PlayerControl::GetIns()->GetPlayer()->SetStopFlag(true);
+		CameraControl::GetIns()->GetCamera()->SetEye({ Ppos.x + 8.0f, Ppos.y + 10.0f, Ppos.z - 20.0f });
+		CameraControl::GetIns()->GetCamera()->SetTarget(chest->GetPosition());
 	} else if (pParam.ChestEvent == GETCHEST)
 	{
-		if (Input::GetInstance()->TriggerButton(Input::Y))
+		if (Input::GetIns()->TriggerButton(Input::Y))
 		{
 			pParam.pCount = 0;
 			pParam.ChestEvent = FEEDIN2;
@@ -315,15 +315,15 @@ void ChestControl::GetChestEvent(Chest* chest, ParticleParam& pParam)
 			pParam.pCount = 0;
 			pParam.ChestEvent = FEEDIN2;
 		}
-		PlayerControl::GetInstance()->GetPlayer()->SetPosition({
+		PlayerControl::GetIns()->GetPlayer()->SetPosition({
 			chest->GetPosition().x, Ppos.y, chest->GetPosition().z - 25.0f
 			});
-		CameraControl::GetInstance()->GetCamera()->SetEye({ Ppos.x + 8.0f, Ppos.y + 10.0f, Ppos.z - 20.0f });
-		CameraControl::GetInstance()->GetCamera()->SetTarget(chest->GetPosition());
+		CameraControl::GetIns()->GetCamera()->SetEye({ Ppos.x + 8.0f, Ppos.y + 10.0f, Ppos.z - 20.0f });
+		CameraControl::GetIns()->GetCamera()->SetTarget(chest->GetPosition());
 	} else if (pParam.ChestEvent == FEEDIN2)
 	{
-		Feed::GetInstance()->Update_Black(Feed::FEEDIN);
-		if (Feed::GetInstance()->GetAlpha() >= 1.0f)
+		Feed::GetIns()->Update_Black(Feed::FEEDIN);
+		if (Feed::GetIns()->GetAlpha() >= 1.0f)
 		{
 			pParam.pCount++;
 			if (pParam.pCount > 60)
@@ -331,22 +331,22 @@ void ChestControl::GetChestEvent(Chest* chest, ParticleParam& pParam)
 				pParam.ChestEvent = FEEDOUT2;
 			}
 		}
-		PlayerControl::GetInstance()->GetPlayer()->SetPosition({
+		PlayerControl::GetIns()->GetPlayer()->SetPosition({
 			chest->GetPosition().x, Ppos.y, chest->GetPosition().z - 25.0f
 			});
-		PlayerControl::GetInstance()->GetPlayer()->SetIdle(true);
-		CameraControl::GetInstance()->GetCamera()->SetEye({ Ppos.x + 8.0f, Ppos.y + 10.0f, Ppos.z - 20.0f });
-		CameraControl::GetInstance()->GetCamera()->SetTarget(chest->GetPosition());
+		PlayerControl::GetIns()->GetPlayer()->SetIdle(true);
+		CameraControl::GetIns()->GetCamera()->SetEye({ Ppos.x + 8.0f, Ppos.y + 10.0f, Ppos.z - 20.0f });
+		CameraControl::GetIns()->GetCamera()->SetTarget(chest->GetPosition());
 	} else if (pParam.ChestEvent == FEEDOUT2)
 	{
-		Feed::GetInstance()->Update_Black(Feed::FEEDOUT);
-		if (Feed::GetInstance()->GetAlpha() <= 0.0f)
+		Feed::GetIns()->Update_Black(Feed::FEEDOUT);
+		if (Feed::GetIns()->GetAlpha() <= 0.0f)
 		{
 			pParam.pCount = 0;
 			GetChestCount++;
-			PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(false);
+			PlayerControl::GetIns()->GetPlayer()->SetStopFlag(false);
 		
-			UI::GetInstance()->SetTurnoffUIDraw(false);
+			UI::GetIns()->SetTurnoffUIDraw(false);
 			pParam.ChestEvent = END;
 		}
 	}
@@ -378,6 +378,6 @@ void ChestControl::GetChestEffect(Chest* chest, ParticleParam& pParam)
 	}
 
 	pParam.particleMan->SetColor({ 1.0f, 0.8f, 0.2f, 0.8f });
-	pParam.particleMan->Update(pParam.particleMan->FOLLOW, PlayerControl::GetInstance()->GetPlayer()->GetPosition(),
+	pParam.particleMan->Update(pParam.particleMan->FOLLOW, PlayerControl::GetIns()->GetPlayer()->GetPosition(),
 		120);
 }

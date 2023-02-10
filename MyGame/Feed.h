@@ -13,7 +13,7 @@ private:
 	using XMMATRIX = DirectX::XMMATRIX;
 	using XMVECTOR = DirectX::XMVECTOR;
 public:
-	static Feed* GetInstance();
+	static Feed* GetIns();
 	~Feed();
 public:
 	enum feedtype

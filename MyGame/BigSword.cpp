@@ -27,7 +27,7 @@ void BigSword::Update()
 			LoadF = true;
 		}
 	}
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 	if (m_Object != nullptr) {
 		m_Object->Setf(FALSE);
 		//フィールド
@@ -35,7 +35,7 @@ void BigSword::Update()
 		
 		SwordObbScl = { 5.f,5.f,4.f };
 		m_Object->SetScale(Scale);
-		m_Object->Update(PlayerControl::GetInstance()->GetPlayer()->GetHanMat(), { 1, 1, 1, 1 }, camera);
+		m_Object->Update(PlayerControl::GetIns()->GetPlayer()->GetHanMat(), { 1, 1, 1, 1 }, camera);
 	}
 
 }

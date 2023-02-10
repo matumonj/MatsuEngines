@@ -26,7 +26,7 @@ void GuardianShotAttack::Finalize()
 
 void GuardianShotAttack::TexSet()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 	Texture::LoadTexture(70, L"Resources/2d/icon/enemyicon.png");
 
 	//テクスチャセット
@@ -67,8 +67,8 @@ void GuardianShotAttack::TexSet()
 
 void GuardianShotAttack::Upda()
 {
-	XMFLOAT3 epos = EnemyControl::GetInstance()->GetGuardianEnemy()->GetPosition();
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	XMFLOAT3 epos = EnemyControl::GetIns()->GetGuardianEnemy()->GetPosition();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
 	switch (phase)
 	{
@@ -123,14 +123,14 @@ void GuardianShotAttack::Upda()
 void GuardianShotAttack::ArmShot()
 {
 	//ガーディアンインスタンス
-	Enemy* Guardian = EnemyControl::GetInstance()->GetGuardianEnemy();
+	Enemy* Guardian = EnemyControl::GetIns()->GetGuardianEnemy();
 	//プレイヤー座標
-	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 	//敵がプエレイヤーの方向く処理
 	XMVECTOR positionA = {
-		PlayerControl::GetInstance()->GetPlayer()->GetPosition().x,
-		PlayerControl::GetInstance()->GetPlayer()->GetPosition().y,
-		PlayerControl::GetInstance()->GetPlayer()->GetPosition().z
+		PlayerControl::GetIns()->GetPlayer()->GetPosition().x,
+		PlayerControl::GetIns()->GetPlayer()->GetPosition().y,
+		PlayerControl::GetIns()->GetPlayer()->GetPosition().z
 	};
 	//
 	XMVECTOR positionB[ArmObjNum];
@@ -161,9 +161,9 @@ void GuardianShotAttack::ArmShot()
 		if (ArmShotF[i] == false)
 		{
 			ArmPos[i] = {
-				EnemyControl::GetInstance()->GetGuardianEnemy()->GetPosition().x,
+				EnemyControl::GetIns()->GetGuardianEnemy()->GetPosition().x,
 				-30.f,
-				EnemyControl::GetInstance()->GetGuardianEnemy()->GetPosition().z
+				EnemyControl::GetIns()->GetGuardianEnemy()->GetPosition().z
 			};
 
 			ArmRot[i] = {
@@ -213,7 +213,7 @@ void GuardianShotAttack::Phase_AreaSet()
 
 void GuardianShotAttack::Phase_Bom()
 {
-	XMFLOAT3 epos = EnemyControl::GetInstance()->GetGuardianEnemy()->GetPosition();
+	XMFLOAT3 epos = EnemyControl::GetIns()->GetGuardianEnemy()->GetPosition();
 	ShotCount++;
 	ArmShot();
 	if (ArmObj[ArmObjNum - 1] == nullptr)
@@ -224,7 +224,7 @@ void GuardianShotAttack::Phase_Bom()
 
 void GuardianShotAttack::Phase_End()
 {
-	EnemyControl::GetInstance()->GetGuardianEnemy()->SetColors({1.0f, 1.0f, 1.0f, 1.0f});
+	EnemyControl::GetIns()->GetGuardianEnemy()->SetColors({1.0f, 1.0f, 1.0f, 1.0f});
 }
 
 void GuardianShotAttack::Draw()
@@ -266,7 +266,7 @@ void GuardianShotAttack::Draw()
 void GuardianShotAttack::ColPlayer()
 {
 	//プレイヤーの座標
-	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 
 	for (int i = 0; i < ArmObjNum; i++)
 	{
@@ -306,14 +306,14 @@ void GuardianShotAttack::ColPlayer()
 void GuardianShotAttack::DestroyEffect()
 {
 	//プレイヤーの座標
-	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 	//カメラ座標
-	XMFLOAT3 cpos = CameraControl::GetInstance()->GetCamera()->GetEye();
+	XMFLOAT3 cpos = CameraControl::GetIns()->GetCamera()->GetEye();
 	//エフェクト生成座標
 	XMFLOAT3 epos = {ppos.x - ((ppos.x - cpos.x) / 2.f), ColMissilePos.y + 3.f, ppos.z - ((ppos.z - cpos.z) / 2.f)};
 	if (DestroyEffectF)
 	{
-		PlayerControl::GetInstance()->GetPlayer()->RecvDamage(20);
+		PlayerControl::GetIns()->GetPlayer()->RecvDamage(20);
 		PlayerDamageEffect->SetParF(1);
 		PlayerDamageEffect->CreateParticle(DestroyEffectF, {epos});
 		DestroyEffectF = false;

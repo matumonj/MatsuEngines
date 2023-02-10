@@ -7,7 +7,7 @@
 #include"PlayerControl.h"
 #include"Enemy.h"
 
-FenceControl* FenceControl::GetInstance()
+FenceControl* FenceControl::GetIns()
 {
 	static FenceControl instance;
 	return &instance;
@@ -160,9 +160,9 @@ void FenceControl::Load()
 void FenceControl::Update_Tutorial() //チュートリアル時
 {
 	//チュートリアルエリアの柵が開く条件
-	if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr)
+	if (EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr)
 	{
-		TutorialFenceOpen = TutorialSprite::GetInstance()->GetClearSetting();
+		TutorialFenceOpen = TutorialSprite::GetIns()->GetClearSetting();
 	}
 	if (Tutorialfence[0] != nullptr)
 	{
@@ -174,8 +174,8 @@ void FenceControl::Update_Tutorial() //チュートリアル時
 
 void FenceControl::Update_Play() //プレイシーン時
 {
-	BossGateOpen = Task::GetInstance()->GetAllTaskClear() == TRUE &&
-		CameraControl::GetInstance()->GetMoveBosAreaCam() == CameraControl::TARGETPLAYER;
+	BossGateOpen = Task::GetIns()->GetAllTaskClear() == TRUE &&
+		CameraControl::GetIns()->GetMoveBosAreaCam() == CameraControl::TARGETPLAYER;
 
 	for (int i = 0; i < Quantity; i++)
 	{

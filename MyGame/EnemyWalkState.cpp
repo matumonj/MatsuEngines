@@ -23,10 +23,10 @@ void EnemyWalkState::do_work(Enemy* enemy)
 	const float DetectionRange = 50.0f;
 
 	//ƒvƒŒƒCƒ„[‚ªõ“G”ÍˆÍ“ü‚Á‚½‚ç
-	if (PlayerControl::GetInstance()->GetPlayer() != nullptr)
+	if (PlayerControl::GetIns()->GetPlayer() != nullptr)
 	{
 		SearchPlayer = Collision::GetLength(enemy->GetPosition(),
-		                                    PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < DetectionRange;
+		                                    PlayerControl::GetIns()->GetPlayer()->GetPosition()) < DetectionRange;
 	}
 	//ˆÚ“®ƒxƒNƒgƒ‹‚ðyŽ²Žü‚è‚ÌŠp“x‚Å‰ñ“]
 	XMVECTOR move = {0, 0, 0.1f, 0};
@@ -46,7 +46,7 @@ void EnemyWalkState::do_work(Enemy* enemy)
 	{
 		tempx = enemy->GetPosition().x;
 		tempz = enemy->GetPosition().z;
-		if (!enemy->GetMoveStop() && PlayerControl::GetInstance()->GetPlayer()->GetStopFlag() == false)
+		if (!enemy->GetMoveStop() && PlayerControl::GetIns()->GetPlayer()->GetStopFlag() == false)
 		{
 			enemy->SetPosition({
 					enemy->GetPosition().x + move.m128_f32[0],
@@ -67,15 +67,15 @@ void EnemyWalkState::do_work(Enemy* enemy)
 
 void EnemyWalkState::Update(Enemy* enemy)
 {
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::MAPCREATE)return;
+	if (SceneManager::GetIns()->GetScene() == SceneManager::MAPCREATE)return;
 	do_work(enemy);
 
 	BacktoGround(enemy);
 	enemy->SetAnimeState(enemy->WALK);
 
 	bool SearchHelp = Collision::GetLength(enemy->GetPosition(),
-		PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 150.f&&
-		AttackCollision::GetInstance()->GetHelpJudg();
+		PlayerControl::GetIns()->GetPlayer()->GetPosition()) < 150.f&&
+		AttackCollision::GetIns()->GetHelpJudg();
 	//UŒ‚
 	if (SearchPlayer)
 	{
@@ -86,7 +86,7 @@ void EnemyWalkState::Update(Enemy* enemy)
 	if(SearchHelp)
 	{
 		if (Collision::GetLength(enemy->GetPosition(),
-			PlayerControl::GetInstance()->GetPlayer()->GetPosition()) > 40.f) {
+			PlayerControl::GetIns()->GetPlayer()->GetPosition()) > 40.f) {
 			enemy->SetHelpIcon(true);
 
 			enemy->ChangeState_Mob(new EnemyFollowState());

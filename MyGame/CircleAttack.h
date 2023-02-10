@@ -48,7 +48,7 @@ public:
 private:
 	Phase phase;
 public:
-	static CircleAttack* GetInstance();
+	static CircleAttack* GetIns();
 	void Init()override;
 	void Upda()override;
 	void Draw()override;

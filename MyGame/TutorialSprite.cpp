@@ -8,7 +8,7 @@
 #include"PlayerControl.h"
 #include"UI.h"
 
-TutorialSprite* TutorialSprite::GetInstance()
+TutorialSprite* TutorialSprite::GetIns()
 {
 	static TutorialSprite instance;
 	return &instance;
@@ -24,7 +24,7 @@ void TutorialSprite::Finalize()
 
 void TutorialSprite::Initialize()
 {
-	input = Input::GetInstance();
+	input = Input::GetIns();
 	Sprite::LoadTexture(171, L"Resources/2d/tutorialstep/startnav.png");
 	Texture::LoadTexture(50, L"Resources/2d/tutorialstep/targetpos.png");
 	Texture::LoadTexture(51, L"Resources/2d/tutorialstep/targetpos2.png");
@@ -85,9 +85,9 @@ void TutorialSprite::Initialize()
 
 void TutorialSprite::CheckAttack()
 {
-	if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr)
+	if (EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr)
 	{
-		ClearTaskJudg[ATTACK] = EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetHP() <= 0;
+		ClearTaskJudg[ATTACK] = EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetHP() <= 0;
 	}
 }
 
@@ -101,7 +101,7 @@ void TutorialSprite::Update()
 	Attackcon->setcolor({1, 1, 1, atacka});
 
 	//目標地点ついたら歩きタスクはクリア
-	if (Collision::GetLength({109.f-50.f, -30, -320.f}, PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 10.f)
+	if (Collision::GetLength({109.f-50.f, -30, -320.f}, PlayerControl::GetIns()->GetPlayer()->GetPosition()) < 10.f)
 	{
 		ClearTaskJudg[WALK] = true;
 	}
@@ -109,9 +109,9 @@ void TutorialSprite::Update()
 	//オールコンプリート
 	AllTaskClear = ClearTaskJudg[WALK] && ClearTaskJudg[ATTACK] && ClearTaskJudg[GETKEY];
 
-	bool tEnemyDeath = EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0] == nullptr;
+	bool tEnemyDeath = EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL)[0] == nullptr;
 
-	FenceControl::GetInstance()->SetTutorialFenceOpen(tEnemyDeath);
+	FenceControl::GetIns()->SetTutorialFenceOpen(tEnemyDeath);
 
 	switch (task)
 	{
@@ -163,7 +163,7 @@ void TutorialSprite::Update()
 		break;
 	case TGETKEY:
 		//セッティング
-		ClearTaskJudg[GETKEY] = ChestControl::GetInstance()->GetTutorialChest() == true;
+		ClearTaskJudg[GETKEY] = ChestControl::GetIns()->GetTutorialChest() == true;
 
 		if (MassageCheck[GETKEY])
 		{
@@ -204,7 +204,7 @@ void TutorialSprite::Update()
 
 void TutorialSprite::TargetPosTexMove()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 	MoveTime++;
 	TargetPoint_GroundRotY++;
 
@@ -237,9 +237,9 @@ void TutorialSprite::TargetPosTexMove()
 			targetAlpha = 0.7f;
 			TargetIconPosY = -5 + sinf(3.14f * 2.f / 90.f * MoveTime) * 5;
 
-			if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr)
+			if (EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr)
 			{
-				XMFLOAT3 EPos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition();
+				XMFLOAT3 EPos = EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition();
 				TargetPoint_Icon->SetPosition({EPos.x, TargetIconPosY, EPos.z});
 				TargetPoint_Ground->SetPosition({EPos.x, -30, EPos.z});
 			}
@@ -284,7 +284,7 @@ void TutorialSprite::Ease_SpriteSize_Up(float& x, float& t, int index)
 {
 	if (ClearTaskJudg[index])
 	{
-		UI::GetInstance()->SetTurnoffUIDraw(FALSE);
+		UI::GetIns()->SetTurnoffUIDraw(FALSE);
 		MassageCheck[index] = true;
 	}
 	if (MassageCheck[index])
@@ -294,7 +294,7 @@ void TutorialSprite::Ease_SpriteSize_Up(float& x, float& t, int index)
 		{
 			t -= 0.05f;
 		}
-		//PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(false);
+		//PlayerControl::GetIns()->GetPlayer()->SetStopFlag(false);
 	}
 	else
 	{

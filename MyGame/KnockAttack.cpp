@@ -28,7 +28,7 @@ void KnockAttack::Finalize()
 	}
 }
 
-KnockAttack* KnockAttack::GetInstance()
+KnockAttack* KnockAttack::GetIns()
 {
 	static KnockAttack instance;
 	return &instance;
@@ -47,7 +47,7 @@ void KnockAttack::Initialize()
 	for (int i = 0; i < axeSize; i++)
 	{
 		AxeObj[i] = std::make_unique<Object3d>();
-		AxeObj[i]->Initialize(CameraControl::GetInstance()->GetCamera());
+		AxeObj[i]->Initialize(CameraControl::GetIns()->GetCamera());
 		AxeObj[i]->SetModel(ModelManager::GetIns()->GetModel(ModelManager::SMALLSWORD));
 		
 		l_tex[i] = Texture::Create(30);
@@ -88,12 +88,12 @@ void KnockAttack::ActionJudg()
 		{
 			phase = PHASETWO;
 		}
-		EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->SetAnimation(BossEnemy::NowAttackMotion::MAGIC, 1.f, false);
+		EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->SetAnimation(BossEnemy::NowAttackMotion::MAGIC, 1.f, false);
 	}
 
 	if (phase == PHASETWO)
 	{
-				EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->SetAnimation(BossEnemy::NowAttackMotion::MAGIC,1.f,false);
+				EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->SetAnimation(BossEnemy::NowAttackMotion::MAGIC,1.f,false);
 	
 		AttackCount = 0;
 		AxePosDownEtime += 0.02f;
@@ -129,7 +129,7 @@ void KnockAttack::ActionJudg()
 			{
 				if (AxeRot[i].x <= 0)
 				{
-					CameraControl::GetInstance()->ShakeCamera();
+					CameraControl::GetIns()->ShakeCamera();
 					ImpactTexPos[i].x = AxePos[i].x + move[i].m128_f32[0] * 400.f;
 					ImpactTexPos[i].y = 15.f;
 					ImpactTexPos[i].z = AxePos[i].z + move[i].m128_f32[2] * 400.f;
@@ -169,7 +169,7 @@ void KnockAttack::ActionJudg()
 
 	if (phase == PHASEFOUR)
 	{
-		BossMap::GetInstance()->DrawDamageLine(false, damageLine);
+		BossMap::GetIns()->DrawDamageLine(false, damageLine);
 
 		Finalize();
 		//	phase = PHASENON;
@@ -179,14 +179,14 @@ void KnockAttack::ActionJudg()
 		for (int i = 0; i < axeSize; i++)
 		{
 			if (AxeObj[i] == nullptr)continue;
-			if(Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(),AxePos[i])<20.f)
+			if(Collision::GetLength(PlayerControl::GetIns()->GetPlayer()->GetPosition(),AxePos[i])<20.f)
 			{
-				PlayerControl::GetInstance()->GetPlayer()->RecvDamage(10);
+				PlayerControl::GetIns()->GetPlayer()->RecvDamage(10);
 			}
 			AxeObj[i]->SetPosition(AxePos[i]);
 			AxeObj[i]->SetScale({8.f, 8.f, 8.f});
 			AxeObj[i]->SetRotation(AxeRot[i]);
-			AxeObj[i]->Update({1.f, 1.f, 1.f, 1.f}, CameraControl::GetInstance()->GetCamera());
+			AxeObj[i]->Update({1.f, 1.f, 1.f, 1.f}, CameraControl::GetIns()->GetCamera());
 			ImpactPar[i]->CreateParticle((phase == PHASETHREE && AttackCount > 180 && AxeRot[i].x <= 10), {
 				                             AxePos[i].x + move[i].m128_f32[0] * 40.0f, 14.f,
 				                             AxePos[i].z + move[i].m128_f32[2] * 40.0f
@@ -195,21 +195,21 @@ void KnockAttack::ActionJudg()
 
 			damageLine[i].start = {AxePos[i].x, AxePos[i].z};
 			damageLine[i].end = {SetPos[i].x += move[i].m128_f32[0] * 8.0f, SetPos[i].z += move[i].m128_f32[2] * 8.0f};
-			BossMap::GetInstance()->DrawDamageLine(phase == PHASETHREE && AttackCount > 380, damageLine);
+			BossMap::GetIns()->DrawDamageLine(phase == PHASETHREE && AttackCount > 380, damageLine);
 
 			AxeDirectionTex[i]->SetPosition({AxePos[i].x, 15.f, AxePos[i].z});
 			AxeDirectionTex[i]->SetScale({7.f, 7.f, 0.f});
 			AxeDirectionTex[i]->SetColor({1.f, 1.f, 1.f, axeDirectionTexAlpha});
 			AxeDirectionTex[i]->SetBillboard(FALSE);
 			AxeDirectionTex[i]->SetUVMove(TRUE);
-			AxeDirectionTex[i]->Update(CameraControl::GetInstance()->GetCamera());
+			AxeDirectionTex[i]->Update(CameraControl::GetIns()->GetCamera());
 
 			ImpactTex[i]->SetPosition(ImpactTexPos[i]);
 			ImpactTex[i]->SetScale(ImpactTexScl[i]);
 			ImpactTex[i]->SetRotation({90.f, 0.f, 0.f});
 			ImpactTex[i]->SetColor({1.f, 1.f, 1.f, ImpactTexAlpha[i]});
 			ImpactTex[i]->SetBillboard(FALSE);
-			ImpactTex[i]->Update(CameraControl::GetInstance()->GetCamera());
+			ImpactTex[i]->Update(CameraControl::GetIns()->GetCamera());
 		}
 		AxeDirectionTex[0]->SetRotation({90.f, 0.f, AxeRot[0].y + 180});
 		AxeDirectionTex[1]->SetRotation({90.f, 0.f, AxeRot[1].y});

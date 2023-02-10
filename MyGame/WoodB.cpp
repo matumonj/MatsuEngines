@@ -15,7 +15,7 @@ WoodB::WoodB()
 
 void WoodB::Initialize()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
 	m_Object = std::make_unique<Object3d>();
 	//モデル割り当て
@@ -31,7 +31,7 @@ void WoodB::Initialize()
 
 void WoodB::Update()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
 	m_Object->SetColor({1.0f, 1.0f, 1.0f, 1.0f});
 
@@ -39,14 +39,14 @@ void WoodB::Update()
 	Color = {1.0f, 1.0f, 1.0f, alpha};
 	ParameterSet_Obj();
 	m_Object->Setf(TRUE);
-	//m_Object->Setppos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
+	//m_Object->Setppos(PlayerControl::GetIns()->GetPlayer()->GetPosition());
 	//m_Object->setFog(true);
 
 	m_Object->SetDisLen(800);
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY) {
+	if (SceneManager::GetIns()->GetScene() == SceneManager::PLAY) {
 		m_Object->setFog(true);
 		m_Object->SetFogCenter(camera->GetEye());
-		m_Object->Setppos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
+		m_Object->Setppos(PlayerControl::GetIns()->GetPlayer()->GetPosition());
 
 	} else
 	{
@@ -65,24 +65,24 @@ void WoodB::Draw()
 
 void WoodB::CollideWood()
 {
-	if (PlayerControl::GetInstance()->GetPlayer() == nullptr)
+	if (PlayerControl::GetIns()->GetPlayer() == nullptr)
 	{
 		return;
 	}
-	playerOBB.SetOBBParam_Pos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
+	playerOBB.SetOBBParam_Pos(PlayerControl::GetIns()->GetPlayer()->GetPosition());
 	playerOBB.SetOBBParam_Scl({1.0f, 1.0f, 1.0f});
-	playerOBB.SetOBBParam_Rot(PlayerControl::GetInstance()->GetPlayer()->GetMatrot());
+	playerOBB.SetOBBParam_Rot(PlayerControl::GetIns()->GetPlayer()->GetMatrot());
 
 	//OBB 回転ベクトル
 	woodOBB.SetOBBParam_Pos(m_Object->GetPosition());
 	woodOBB.SetOBBParam_Scl({2.0f, 20.0f, 3.0f});
 	woodOBB.SetOBBParam_Rot(m_Object->GetMatrot());
 
-	if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), Position) < 20)
+	if (Collision::GetLength(PlayerControl::GetIns()->GetPlayer()->GetPosition(), Position) < 20)
 	{
 		if (Collision::CheckOBBCollision(playerOBB, woodOBB) == true)
 		{
-			PlayerControl::GetInstance()->GetPlayer()->isOldPos();
+			PlayerControl::GetIns()->GetPlayer()->isOldPos();
 		}
 	}
 }

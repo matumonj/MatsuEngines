@@ -6,7 +6,7 @@
 #include"EnemyControl.h"
 #include"PlayerControl.h"
 
-TargetMarker* TargetMarker::GetInstance()
+TargetMarker* TargetMarker::GetIns()
 {
 	static TargetMarker instance;
 
@@ -261,18 +261,18 @@ void TargetMarker::Update_Tutorial(DebugCamera* camera)
 {
 	int tindex;
 	float ex, ey, ez;
-	tindex = NearEnemySearch(EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL),
-	                         PlayerControl::GetInstance()->GetPlayer());
+	tindex = NearEnemySearch(EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL),
+	                         PlayerControl::GetIns()->GetPlayer());
 	if (tindex != -1)
 	{
-		GetEnemyPosition(EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL), tindex, &ex, &ey, &ez);
+		GetEnemyPosition(EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL), tindex, &ex, &ey, &ez);
 		//{ enemy[0]->GetPosition().x ,0, enemy[0]->GetPosition().z };
 	}
 	//マーカー位置をnowTargetに合わせる
 	MarkerPosition = {ex, ey + 1, ez};
 	nowTarget = MarkerPosition;
 	//if (tindex != -1) {
-	float rotY = EnemyControl::GetInstance()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetRotRadians();
+	float rotY = EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetRotRadians();
 }
 
 void TargetMarker::Update_PlayScene(DebugCamera* camera)
@@ -283,35 +283,35 @@ void TargetMarker::Update_PlayScene(DebugCamera* camera)
 
 	int mindex;
 	float ex, ey, ez;
-	tindex = NearEnemySearch(EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE),
-	                         PlayerControl::GetInstance()->GetPlayer());
+	tindex = NearEnemySearch(EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE),
+	                         PlayerControl::GetIns()->GetPlayer());
 
-	lindex = NearLizardSearch(EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE),
-	                          PlayerControl::GetInstance()->GetPlayer());
+	lindex = NearLizardSearch(EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE),
+	                          PlayerControl::GetIns()->GetPlayer());
 
-	gindex = NearGolemSearch(EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE),
-	                         PlayerControl::GetInstance()->GetPlayer());
-	mindex = NearMiniGolemSearch(EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE),
-	                             PlayerControl::GetInstance()->GetPlayer());
+	gindex = NearGolemSearch(EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE),
+	                         PlayerControl::GetIns()->GetPlayer());
+	mindex = NearMiniGolemSearch(EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE),
+	                             PlayerControl::GetIns()->GetPlayer());
 
 	if (tindex != -1)
 	{
-		GetEnemyPosition(EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE), tindex, &ex, &ey, &ez);
+		GetEnemyPosition(EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE), tindex, &ex, &ey, &ez);
 		//{ enemy[0]->GetPosition().x ,0, enemy[0]->GetPosition().z };
 	}
 	if (lindex != -1)
 	{
-		NearLizard(EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE), lindex, &ex, &ey, &ez);
+		NearLizard(EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE), lindex, &ex, &ey, &ez);
 		//{ enemy[0]->GetPosition().x ,0, enemy[0]->GetPosition().z };
 	}
 	if (gindex != -1)
 	{
-		NearGolem(EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE), gindex, &ex, &ey, &ez);
+		NearGolem(EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE), gindex, &ex, &ey, &ez);
 		//{ enemy[0]->GetPosition().x ,0, enemy[0]->GetPosition().z };
 	}
 	if (mindex != -1)
 	{
-		NearMiniGolem(EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE), mindex, &ex, &ey, &ez);
+		NearMiniGolem(EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE), mindex, &ex, &ey, &ez);
 		//{ enemy[0]->GetPosition().x ,0, enemy[0]->GetPosition().z };
 	}
 	//マーカー位置をnowTargetに合わせる
@@ -320,7 +320,7 @@ void TargetMarker::Update_PlayScene(DebugCamera* camera)
 
 	if (tindex != -1)
 	{
-		float rotY = EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[tindex]->GetRotRadians();
+		float rotY = EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[tindex]->GetRotRadians();
 	}
 }
 

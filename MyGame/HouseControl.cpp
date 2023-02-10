@@ -8,7 +8,7 @@
 #include"PlayerControl.h"
 #include"Enemy.h"
 
-HouseControl* HouseControl::GetInstance()
+HouseControl* HouseControl::GetIns()
 {
 	static HouseControl instance;
 	return &instance;

@@ -16,7 +16,7 @@ Chest::~Chest()
 
 void Chest::Initialize()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
 	m_Object = std::make_unique<Object3d>();
 	m_Model = ModelManager::GetIns()->GetModel(ModelManager::CHEST);

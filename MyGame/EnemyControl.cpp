@@ -12,7 +12,7 @@
 #include "CameraControl.h"
 #include"GuardianEnemy.h"
 
-EnemyControl* EnemyControl::GetInstance()
+EnemyControl* EnemyControl::GetIns()
 {
 	static EnemyControl instance;
 
@@ -209,7 +209,7 @@ void EnemyControl::Update_Tutorial()
 	{
 		return;
 	}
-	if (TutorialSprite::GetInstance()->GetClearMove())
+	if (TutorialSprite::GetIns()->GetClearMove())
 	{
 		enemys[TUTORIAL][0]->Update();
 	}
@@ -221,7 +221,7 @@ void EnemyControl::Update_Tutorial()
 
 void EnemyControl::Update_Play()
 {
-	XMFLOAT3 pPos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	XMFLOAT3 pPos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 
 	for (int i = 0; i < Quantity; i++)
 	{
@@ -247,15 +247,15 @@ void EnemyControl::Update_Play()
 		{
 			if (enemys[PLAYSCENE][i]->GetEnemyNumber() == 0)
 			{
-				Task::GetInstance()->SetGolemDestroyCount();
-				if (Task::GetInstance()->GetGolemDesthCount(1))
+				Task::GetIns()->SetGolemDestroyCount();
+				if (Task::GetIns()->GetGolemDesthCount(1))
 				{
 					DropWeapon::GtIns()->Drop(DropWeapon::AXE, enemys[PLAYSCENE][i]->GetPosition());
 				}
 
-				if (Task::GetInstance()->GetGolemDesthCount(2))
+				if (Task::GetIns()->GetGolemDesthCount(2))
 				{
-					ChestControl::GetInstance()->SetChestAppearance(ChestControl::RED, {
+					ChestControl::GetIns()->SetChestAppearance(ChestControl::RED, {
 						                                                enemys[PLAYSCENE][i]->GetPosition().x,
 						                                                enemys[PLAYSCENE][i]->GetPosition().y + 10.0f,
 						                                                enemys[PLAYSCENE][i]->GetPosition().z
@@ -264,14 +264,14 @@ void EnemyControl::Update_Play()
 			}
 			else if (enemys[PLAYSCENE][i]->GetEnemyNumber() == 1)
 			{
-				Task::GetInstance()->SetFlogDestroyCount();
+				Task::GetIns()->SetFlogDestroyCount();
 
 
-				if (Task::GetInstance()->ClearTaskONE() == true)
+				if (Task::GetIns()->ClearTaskONE() == true)
 				{
-					if (Task::GetInstance()->GetFlogDesthCount(2))
+					if (Task::GetIns()->GetFlogDesthCount(2))
 					{
-						ChestControl::GetInstance()->SetChestAppearance(ChestControl::BLUE, {
+						ChestControl::GetIns()->SetChestAppearance(ChestControl::BLUE, {
 							                                                enemys[PLAYSCENE][i]->GetPosition().x,
 							                                                enemys[PLAYSCENE][i]->GetPosition().y +
 							                                                10.0f,
@@ -283,16 +283,16 @@ void EnemyControl::Update_Play()
 			//
 			else if (enemys[PLAYSCENE][i]->GetEnemyNumber() == 2)
 			{
-				Task::GetInstance()->SetMiniGolemDestroyCount();
-				if (Task::GetInstance()->GetMiniGolemDesthCount(1))
+				Task::GetIns()->SetMiniGolemDestroyCount();
+				if (Task::GetIns()->GetMiniGolemDesthCount(1))
 				{
 					DropWeapon::GtIns()->Drop(DropWeapon::SWORD, enemys[PLAYSCENE][i]->GetPosition());
 				}
-				if (Task::GetInstance()->ClearTaskTwo() == true)
+				if (Task::GetIns()->ClearTaskTwo() == true)
 				{
-					if (Task::GetInstance()->GetMiniGolemDesthCount(2))
+					if (Task::GetIns()->GetMiniGolemDesthCount(2))
 					{
-						ChestControl::GetInstance()->SetChestAppearance(ChestControl::GREEN, {
+						ChestControl::GetIns()->SetChestAppearance(ChestControl::GREEN, {
 							                                                enemys[PLAYSCENE][i]->GetPosition().x,
 							                                                enemys[PLAYSCENE][i]->GetPosition().y +
 							                                                10.0f,
@@ -305,7 +305,7 @@ void EnemyControl::Update_Play()
 		}
 		if (Guardian != nullptr && Guardian->GetisAlive() == FALSE && Guardian->GetHP() <= 0)
 		{
-			ChestControl::GetInstance()->SetChestAppearance(ChestControl::YELLOW, {
+			ChestControl::GetIns()->SetChestAppearance(ChestControl::YELLOW, {
 				                                                Guardian->GetPosition().x,
 				                                                Guardian->GetPosition().y +
 				                                                10.0f,
@@ -339,7 +339,7 @@ void EnemyControl::GuardianReset()
 	if (Guardian != nullptr)
 	{
 		
-			if (PlayerControl::GetInstance()->GetPlayer()->GetHP() <= 0)
+			if (PlayerControl::GetIns()->GetPlayer()->GetHP() <= 0)
 			{
 				Destroy_unique(Guardian);
 			}
@@ -371,7 +371,7 @@ void EnemyControl::HPFrameDraw()
 	//敵のHPバー表示
 
 	//チュートリアルの敵
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL)
+	if (SceneManager::GetIns()->GetScene() == SceneManager::TUTORIAL)
 	{
 		if (enemys[TUTORIAL][0] != nullptr)
 		{
@@ -380,7 +380,7 @@ void EnemyControl::HPFrameDraw()
 	}
 
 	//探索シーンのザコ敵
-	else if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
+	else if (SceneManager::GetIns()->GetScene() == SceneManager::PLAY)
 	{
 		for (int i = 0; i < Quantity; i++)
 		{
@@ -397,7 +397,7 @@ void EnemyControl::HPFrameDraw()
 	}
 
 	//ボスの召喚敵
-	else if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
+	else if (SceneManager::GetIns()->GetScene() == SceneManager::BOSS)
 	{
 		
 		if (enemys[BOSS].size() > 0 && enemys[BOSS][0] != nullptr)
@@ -411,12 +411,12 @@ void EnemyControl::HPFrameDraw()
 
 void EnemyControl::Draw_Tutorial()
 {
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL)
+	if (SceneManager::GetIns()->GetScene() == SceneManager::TUTORIAL)
 	{
 		if (enemys[TUTORIAL][0] != nullptr)
 		{
 			//チュートリアルの移動タスククリアしたら描画
-			if (TutorialSprite::GetInstance()->GetClearMove())
+			if (TutorialSprite::GetIns()->GetClearMove())
 			{
 				enemys[TUTORIAL][0]->Draw();
 			}
@@ -427,7 +427,7 @@ void EnemyControl::Draw_Tutorial()
 void EnemyControl::Draw_Play()
 {
 	//プレイヤーの座標
-	XMFLOAT3 pPos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	XMFLOAT3 pPos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 
 	//探索シーンの敵描画
 	for (int i = 0; i < Quantity; i++)
@@ -484,13 +484,13 @@ std::vector<std::unique_ptr<Enemy>>& EnemyControl::GetEnemy(EnemyType type)
 void EnemyControl::GameOverResetParam()
 {
 	//enemys[BOSS][0] = std::make_unique<BossEnemy>();
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
+	if (SceneManager::GetIns()->GetScene() == SceneManager::BOSS)
 	{
 		enemys[BOSS][0]->Initialize();
 		
 		boss_pos = {-1.0f, 14.75f, 20.987f};
 
-		HalfAttack::GetInstance()->SummonEnemyResetParam();
+		HalfAttack::GetIns()->SummonEnemyResetParam();
 
 		enemys[BOSS][0]->SetPosition(boss_pos);
 		enemys[BOSS][0]->SetHP(enemys[BOSS][0]->GetMaxHP());

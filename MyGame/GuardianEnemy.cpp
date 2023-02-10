@@ -49,7 +49,7 @@ void GuardianEnemy::HPFrameInit()
 
 void GuardianEnemy::Initialize()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
 	m_Object = std::make_unique<Object3d>();
 	m_Object->Initialize(camera);
@@ -154,7 +154,7 @@ void GuardianEnemy::EnemyHPDraw()
 	{
 		return;
 	}
-	Player* l_player = PlayerControl::GetInstance()->GetPlayer();
+	Player* l_player = PlayerControl::GetIns()->GetPlayer();
 
 	if (Collision::GetLength(Position, l_player->GetPosition()) > 40) { return; }
 

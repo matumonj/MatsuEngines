@@ -5,7 +5,7 @@
 #include"mHelper.h"
 #include"BossMap.h"
 
-RushAttack* RushAttack::GetInstance()
+RushAttack* RushAttack::GetIns()
 {
 	static RushAttack ins;
 	return &ins;
@@ -16,7 +16,7 @@ void RushAttack::Init()
 	//球オブジェの初期化
 	RushSphereObj = std::make_unique<Object3d>();
 	RushSphereObj->SetModel(ModelManager::GetIns()->GetModel(ModelManager::SPHERE));
-	RushSphereObj->Initialize(CameraControl::GetInstance()->GetCamera());
+	RushSphereObj->Initialize(CameraControl::GetIns()->GetCamera());
 
 	//フェーズ初期化
 	phase = PHASENON;
@@ -54,7 +54,7 @@ void RushAttack::ActionJudg()
 		RushEaseTime = 0.0f;
 		break;
 	case PHASEONE:
-		//CameraControl::GetInstance()->SetCameraState(CameraControl::RUSHSCENE);
+		//CameraControl::GetIns()->SetCameraState(CameraControl::RUSHSCENE);
 
 		phase = PHASETWO;
 		break;
@@ -81,7 +81,7 @@ void RushAttack::ActionJudg()
 
 void RushAttack::Upda()
 {
-	Enemy* boss = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0].get();
+	Enemy* boss = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0].get();
 	if (boss == nullptr)
 	{
 		return;
@@ -97,7 +97,7 @@ void RushAttack::Upda()
 	RushSphereObj->SetScale(rushspherescl);
 	RushSphereObj->SetColor({1.f, 1.f, 1.f, rushspherealpha});
 	RushSphereObj->SetUVf(true);
-	RushSphereObj->Update({1.5f, 1.5f, 1.5f, 1.5f}, CameraControl::GetInstance()->GetCamera());
+	RushSphereObj->Update({1.5f, 1.5f, 1.5f, 1.5f}, CameraControl::GetIns()->GetCamera());
 }
 
 #include"imgui.h"
@@ -138,7 +138,7 @@ void RushAttack::RushStart()
 
 	RushEaseTime += EaseC;
 
-	rushpos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
+	rushpos = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
 
 	RushSphereObj->SetPosition(rushpos);
 
@@ -155,7 +155,7 @@ void RushAttack::RushStart()
 
 void RushAttack::Rush(Area& area, Area now, Area next, float& t)
 {
-	XMFLOAT3 Bpos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
+	XMFLOAT3 Bpos = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
 
 	if (area == now)
 	{
@@ -191,14 +191,14 @@ void RushAttack::RushMoving()
 	rushimpactarea[FIU] = {140, -14.75, -20};
 	rushimpactarea[FIV] = {0, -14.75, -100};
 
-	XMFLOAT3 Bpos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
+	XMFLOAT3 Bpos = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
 
 
 	DamageLine.start = {Bpos.x, Bpos.z};
 
-	if (Collision::GetLength(Bpos, PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 30.f)
+	if (Collision::GetLength(Bpos, PlayerControl::GetIns()->GetPlayer()->GetPosition()) < 30.f)
 	{
-		PlayerControl::GetInstance()->GetPlayer()->RecvDamage(20);
+		PlayerControl::GetIns()->GetPlayer()->RecvDamage(20);
 	}
 	Rush(area, FIR, SEC, rushEtime[FIR]);
 	Rush(area, SEC, THI, rushEtime[SEC]);
@@ -207,18 +207,18 @@ void RushAttack::RushMoving()
 	Rush(area, FIV, END, rushEtime[FIV]);
 
 	rushpos.y = 14.75f;
-	EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->SetPosition(rushpos);
+	EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->SetPosition(rushpos);
 	RushSphereObj->SetPosition(rushpos);
 
 
 	if (rushEtime[FIV] >= 1.0f)
 	{
-		BossMap::GetInstance()->DrawDamageLine(false, DamageLine);
+		BossMap::GetIns()->DrawDamageLine(false, DamageLine);
 		phase = PHASEFOUR;
 	}
 	else
 	{
-		BossMap::GetInstance()->DrawDamageLine(true, DamageLine);
+		BossMap::GetIns()->DrawDamageLine(true, DamageLine);
 	}
 }
 

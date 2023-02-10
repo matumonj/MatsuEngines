@@ -12,10 +12,10 @@ void BossEnemyAttackCircle::Update(Enemy* enemy)
 {
 	enemy->SetRecvDamage2(false); 
 	enemy->SetAnimation(BossEnemy::NowAttackMotion::MAGIC, false,1.f);
-	CircleAttack::GetInstance()->SetAttackPhase(true);
+	CircleAttack::GetIns()->SetAttackPhase(true);
 	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) < 90.0f)
 	{
-		CircleAttack::GetInstance()->SetDamageArea(CircleAttack::WEST, CircleAttack::SOUTH);
+		CircleAttack::GetIns()->SetDamageArea(CircleAttack::WEST, CircleAttack::SOUTH);
 		enemy->SetAttack_End(enemy->CIRCLE_1, true);
 	}
 

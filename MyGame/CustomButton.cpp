@@ -1,6 +1,6 @@
 #include "CustomButton.h"
 
-CustomButton* CustomButton::GetInstance()
+CustomButton* CustomButton::GetIns()
 {
 	static CustomButton instance;
 
@@ -41,7 +41,7 @@ CustomButton::~CustomButton()
 
 void CustomButton::Initialize()
 {
-	input = Input::GetInstance();
+	input = Input::GetIns();
 	//Sprite::LoadTexture(125, L"Resources/con.png"); //コントローラー画像
 	//Sprite::LoadTexture(126, L"Resources/xbutton.png"); //Xボタン画像
 	//Sprite::LoadTexture(127, L"Resources/ybutton.png"); //Yボタン画像
@@ -123,7 +123,7 @@ void CustomButton::Initialize()
 
 void CustomButton::Update()
 {
-	//HUDLayOut::GetInstance()->SetLayOutMode(false);
+	//HUDLayOut::GetIns()->SetLayOutMode(false);
 	if (CustomButtonJudg)
 	{
 		/*設定画面入った瞬間は番号割当なし(設定画面はいるのにAボタン押すけどジャンプボタンも瞬間的にAボタンに

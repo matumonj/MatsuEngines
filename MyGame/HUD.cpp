@@ -38,14 +38,14 @@ void HUD::Finalize()
 	EnemyHP_Border_Multi.clear(), EnemyHP_Inner_Multi.clear();
 }
 
-HUD* HUD::GetInstance()
+HUD* HUD::GetIns()
 {
 	static HUD instance;
 	return &instance;
 }
 void HUD::playerini()
 {
-	PlayerHPSize = static_cast<float>(PlayerControl::GetInstance()->GetPlayer()->GetMaxHP()) * 7.0f;
+	PlayerHPSize = static_cast<float>(PlayerControl::GetIns()->GetPlayer()->GetMaxHP()) * 7.0f;
 
 }
 
@@ -81,7 +81,7 @@ void HUD::Initialize()
 	ChestCollectFrame->SetSize({500.0f, 100.0f});
 
 
-	PlayerHPSize = static_cast<float>(PlayerControl::GetInstance()->GetPlayer()->GetMaxHP()) * 7.0f;
+	PlayerHPSize = static_cast<float>(PlayerControl::GetIns()->GetPlayer()->GetMaxHP()) * 7.0f;
 }
 
 void HUD::EnemyHPGaugeInitialize()
@@ -115,11 +115,11 @@ void HUD::SetSkillIcon(SkillIcon icon)
 void HUD::SkillBottonUpdate()
 {
 	//各剣のクールタイム参照
-	TimeSpeed = 1.0f / SelectSword::GetInstance()->GetSword()->GetCoolTime();
+	TimeSpeed = 1.0f / SelectSword::GetIns()->GetSword()->GetCoolTime();
 	if (CoolTime_Time >= 1.0f)
 	{
-		if (CustomButton::GetInstance()->GetAttackAction() || CustomButton::GetInstance()->Get2AttackAction() ||
-			CustomButton::GetInstance()->Get3AttackAction())
+		if (CustomButton::GetIns()->GetAttackAction() || CustomButton::GetIns()->Get2AttackAction() ||
+			CustomButton::GetIns()->Get3AttackAction())
 		{
 			CoolTime_Time = 0.0f;
 		}
@@ -140,26 +140,26 @@ void HUD::SkillBottonUpdate()
 		else
 		{
 			PlayerHPSize = Easing::EaseOut(easetime, OldPlayerHPSize,
-			                               static_cast<float>(PlayerControl::GetInstance()->GetPlayer()->GetHP())) *
+			                               static_cast<float>(PlayerControl::GetIns()->GetPlayer()->GetHP())) *
 				7.0f;
 		}
 	}
 	else
 	{
 		easetime = 0.0f;
-		OldPlayerHPSize = static_cast<float>(PlayerControl::GetInstance()->GetPlayer()->GetHP());
+		OldPlayerHPSize = static_cast<float>(PlayerControl::GetIns()->GetPlayer()->GetHP());
 	}
 	PlayerHP->SetSize({PlayerHPSize, 50.0f});
 
 	if (GameOver::GetIns()->GetResetF())
 	{
-		PlayerHPSize = static_cast<float>(PlayerControl::GetInstance()->GetPlayer()->GetMaxHP()) * 7.0f;
-		OldPlayerHPSize = static_cast<float>(PlayerControl::GetInstance()->GetPlayer()->GetMaxHP()) * 7.0f;
+		PlayerHPSize = static_cast<float>(PlayerControl::GetIns()->GetPlayer()->GetMaxHP()) * 7.0f;
+		OldPlayerHPSize = static_cast<float>(PlayerControl::GetIns()->GetPlayer()->GetMaxHP()) * 7.0f;
 	}
 
-	PlayerHPFrame->SetSize({static_cast<float>(PlayerControl::GetInstance()->GetPlayer()->GetMaxHP()) * 7.0f, 50.0f});
+	PlayerHPFrame->SetSize({static_cast<float>(PlayerControl::GetIns()->GetPlayer()->GetMaxHP()) * 7.0f, 50.0f});
 
-	PlayerHPFrame2->SetSize({static_cast<float>(PlayerControl::GetInstance()->GetPlayer()->GetMaxHP()) * 7.0f, 50.0f});
+	PlayerHPFrame2->SetSize({static_cast<float>(PlayerControl::GetIns()->GetPlayer()->GetMaxHP()) * 7.0f, 50.0f});
 
 	PlayerHPFrame->SetPosition(PlayerHP->GetPosition());
 	PlayerHPFrame2->SetPosition(PlayerHP->GetPosition());
@@ -168,9 +168,9 @@ void HUD::SkillBottonUpdate()
 void HUD::TaskUpdate(DebugCamera* camera)
 {
 	XMFLOAT3 cPos = camera->GetEye();
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
+	if (SceneManager::GetIns()->GetScene() == SceneManager::PLAY)
 	{
-		if (Collision::GetLength(cPos, {CameraControl::GetInstance()->CameraPointIndex(2)}) < 10.0f)
+		if (Collision::GetLength(cPos, {CameraControl::GetIns()->CameraPointIndex(2)}) < 10.0f)
 		{
 			taskfeed = true;
 		}
@@ -222,29 +222,29 @@ void HUD::SkillBottonDraw()
 
 
 	ChestCollectFrame->Draw();
-	if (ChestControl::GetInstance()->ChestCount() == 1)
+	if (ChestControl::GetIns()->ChestCount() == 1)
 	{
 		ChestCollect[0]->Draw();
 	}
-	if (ChestControl::GetInstance()->ChestCount() == 2)
+	if (ChestControl::GetIns()->ChestCount() == 2)
 	{
 		ChestCollect[0]->Draw();
 		ChestCollect[1]->Draw();
 	}
-	if (ChestControl::GetInstance()->ChestCount() == 3)
+	if (ChestControl::GetIns()->ChestCount() == 3)
 	{
 		ChestCollect[0]->Draw();
 		ChestCollect[1]->Draw();
 		ChestCollect[2]->Draw();
 	}
-	if (ChestControl::GetInstance()->ChestCount() == 4)
+	if (ChestControl::GetIns()->ChestCount() == 4)
 	{
 		ChestCollect[0]->Draw();
 		ChestCollect[1]->Draw();
 		ChestCollect[2]->Draw();
 		ChestCollect[3]->Draw();
 	}
-	if (ChestControl::GetInstance()->ChestCount() == 5)
+	if (ChestControl::GetIns()->ChestCount() == 5)
 	{
 		ChestCollect[0]->Draw();
 		ChestCollect[1]->Draw();

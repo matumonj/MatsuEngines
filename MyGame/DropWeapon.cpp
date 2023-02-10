@@ -50,7 +50,7 @@ void DropWeapon::Drop(Weapon weapon, XMFLOAT3 droppos)
 
 void DropWeapon::DropWeaponBeha()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 	if (DPhase[WeaponIndex] == NON)
 	{
 		WeaponChestUpTex_Alpha -= 0.02f;
@@ -76,7 +76,7 @@ void DropWeapon::DropWeaponBeha()
 
 	if (DPhase[WeaponIndex] == UPDATE)
 	{
-		XMFLOAT3 PPos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+		XMFLOAT3 PPos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 
 		WeaponObjRot[WeaponIndex].x = -60.0f;
 		WeaponObjRot[WeaponIndex].y += 2.0f;
@@ -84,7 +84,7 @@ void DropWeapon::DropWeaponBeha()
 
 		if (Collision::GetLength(WeaponObjPos[WeaponIndex], PPos) < 60)
 		{
-			if (Input::GetInstance()->TriggerButton(Input::A))
+			if (Input::GetIns()->TriggerButton(Input::A))
 			{
 				DPhase[WeaponIndex] = PICKUP;
 			}
@@ -113,7 +113,7 @@ void DropWeapon::DropWeaponBeha()
 
 void DropWeapon::PickUpWeaponBeha(Weapon weapon)
 {
-	XMFLOAT3 PPos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	XMFLOAT3 PPos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 
 	if (PickUpWeapon_EaseTime[weapon] >= 1.0f)
 	{
@@ -123,7 +123,7 @@ void DropWeapon::PickUpWeaponBeha(Weapon weapon)
 	{
 		pickEffect->SetParF(1);
 
-		pickEffect->CreateParticle(true, PlayerControl::GetInstance()->GetPlayer()->GetPosition());
+		pickEffect->CreateParticle(true, PlayerControl::GetIns()->GetPlayer()->GetPosition());
 	}
 	PickUpWeapon_EaseTime[weapon] += 0.05f;
 
@@ -141,7 +141,7 @@ void DropWeapon::Upda()
 {
 	DropWeaponBeha();
 
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 	//3D->2D•ÏŠ· 3ˆø”Á‚·
 	XMVECTOR tex2DPos[WeaponSize];
 
@@ -158,11 +158,11 @@ void DropWeapon::Upda()
 		WeaponObj[i]->Update({1.f, 1.f, 1.f, 1.f}, camera);
 
 		tex2DPos[i] = {WeaponObjPos[i].x, WeaponObjPos[i].y, WeaponObjPos[i].z};
-		tex2DPos[i] = MatCal::PosDivi(tex2DPos[i], CameraControl::GetInstance()->GetCamera()->GetViewMatrix(), false);
-		tex2DPos[i] = MatCal::PosDivi(tex2DPos[i], CameraControl::GetInstance()->GetCamera()->GetProjectionMatrix(),
+		tex2DPos[i] = MatCal::PosDivi(tex2DPos[i], CameraControl::GetIns()->GetCamera()->GetViewMatrix(), false);
+		tex2DPos[i] = MatCal::PosDivi(tex2DPos[i], CameraControl::GetIns()->GetCamera()->GetProjectionMatrix(),
 		                              true);
 		tex2DPos[i] = MatCal::WDivi(tex2DPos[i], false);
-		tex2DPos[i] = MatCal::PosDivi(tex2DPos[i], CameraControl::GetInstance()->GetCamera()->GetViewPort(), false);
+		tex2DPos[i] = MatCal::PosDivi(tex2DPos[i], CameraControl::GetIns()->GetCamera()->GetViewPort(), false);
 
 		PickUptex[i]->SetPosition({tex2DPos[i].m128_f32[0], tex2DPos[i].m128_f32[1]});
 		PickUptex[i]->SetSize({300.f, 300.f});
@@ -193,7 +193,7 @@ void DropWeapon::Draw()
 
 void DropWeapon::Draw_PickTex()
 {
-	XMFLOAT3 PPos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	XMFLOAT3 PPos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 
 	Sprite::PreDraw();
 

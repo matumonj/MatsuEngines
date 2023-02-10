@@ -11,7 +11,7 @@
 #include "GameOver.h"
 #include "UI.h"
 
-Task* Task::GetInstance()
+Task* Task::GetIns()
 {
 	static Task ins;
 	return &ins;
@@ -30,7 +30,7 @@ void Task::Init()
 	Sprite::LoadTexture(49, L"Resources/2d/Frame/Task4.png");
 	Sprite::LoadTexture(26, L"Resources/2d/Frame/Task5.png");
 
-	DebugTextSprite2::GetInstance()->Initialize(19);
+	DebugTextSprite2::GetIns()->Initialize(19);
 
 	TaskFrame.reset(Sprite::Create(20, {0, 0}));
 
@@ -117,7 +117,7 @@ void Task::Upda()
 	Judg[TASK_ONE] = GolemDestCount > 1;
 	Judg[TASK_TWO] = FlogDestCount > 1;
 	Judg[TASK_THREE] = MiniGolemDestCount > 1;
-	Judg[TASK_FOUR] = Field::GetInstance()->GetPedestalPos().y < -50.0f;
+	Judg[TASK_FOUR] = Field::GetIns()->GetPedestalPos().y < -50.0f;
 	TaskFrame->SetPosition(FramePos);
 	TaskFrame->SetSize(FrameScl);
 
@@ -147,7 +147,7 @@ void Task::Upda()
 
 
 	//宝箱が五個集まったら
-	if (ChestControl::GetInstance()->ChestCount() > 4)
+	if (ChestControl::GetIns()->ChestCount() > 4)
 	{
 		TaskAllClear = true;
 	}
@@ -175,23 +175,23 @@ void Task::Upda()
 	//母数は２固定(後で変えるかも)
 	if (target != PEDESTAL) {
 		const std::string amount = "/2";
-		DebugTextSprite2::GetInstance()->Print(str.str() + amount, TaskMenuPos.x, TaskMenuPos.y, 0.8f);
+		DebugTextSprite2::GetIns()->Print(str.str() + amount, TaskMenuPos.x, TaskMenuPos.y, 0.8f);
 	}
 	//一番近い敵へのターゲット用
 	//ゴーレム
-	int nearIndex_Golem = TargetMarker::GetInstance()->GetNearGolemIndex();
+	int nearIndex_Golem = TargetMarker::GetIns()->GetNearGolemIndex();
 	//トカゲ
-	int nearIndex_Lizard = TargetMarker::GetInstance()->GetNearLizardIndex();
+	int nearIndex_Lizard = TargetMarker::GetIns()->GetNearLizardIndex();
 	//ミニゴーレム
-	int nearIndex_MiniGolem = TargetMarker::GetInstance()->GetNearMiniGolemIndex();
+	int nearIndex_MiniGolem = TargetMarker::GetIns()->GetNearMiniGolemIndex();
 
-	Player* player = PlayerControl::GetInstance()->GetPlayer();
+	Player* player = PlayerControl::GetIns()->GetPlayer();
 
 	//探索エリアの敵配列から各エネミーごとに一番近いやつを抜き出す
-	Enemy* targetenemy_Golem = EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[nearIndex_Golem].get();
-	Enemy* targetenemy_MiniGolem = EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[nearIndex_MiniGolem].
+	Enemy* targetenemy_Golem = EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[nearIndex_Golem].get();
+	Enemy* targetenemy_MiniGolem = EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[nearIndex_MiniGolem].
 		get();
-	Enemy* targetenemy_Lizard = EnemyControl::GetInstance()->GetEnemy(EnemyControl::PLAYSCENE)[nearIndex_Lizard].get();
+	Enemy* targetenemy_Lizard = EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[nearIndex_Lizard].get();
 
 	switch (target)
 	{
@@ -211,17 +211,17 @@ void Task::Upda()
 		arrowcol = {0.7f, 0.7f, 0.7f, 0.7f};
 		break;
 	case CHEST:
-		if (ChestControl::GetInstance()->ChestCount() == 1)
+		if (ChestControl::GetIns()->ChestCount() == 1)
 		{
-			TargetPos = ChestControl::GetInstance()->GetChest(ChestControl::RED)->GetPosition();
+			TargetPos = ChestControl::GetIns()->GetChest(ChestControl::RED)->GetPosition();
 		}
-		if (ChestControl::GetInstance()->ChestCount() == 2)
+		if (ChestControl::GetIns()->ChestCount() == 2)
 		{
-			TargetPos = ChestControl::GetInstance()->GetChest(ChestControl::BLUE)->GetPosition();
+			TargetPos = ChestControl::GetIns()->GetChest(ChestControl::BLUE)->GetPosition();
 		}
-		if (ChestControl::GetInstance()->ChestCount() == 3)
+		if (ChestControl::GetIns()->ChestCount() == 3)
 		{
-			TargetPos = ChestControl::GetInstance()->GetChest(ChestControl::GREEN)->GetPosition();
+			TargetPos = ChestControl::GetIns()->GetChest(ChestControl::GREEN)->GetPosition();
 		}
 		arrowcol = {0.7f, 0.7f, 0.1f, 0.7f};
 		break;
@@ -248,7 +248,7 @@ void Task::Upda()
 	if (Judg[TASK_FOUR] == false && Judg[TASK_THREE] == true)
 	{
 		target = PEDESTAL;
-		if(PlayerControl::GetInstance()->GetPlayer()->GetHP()<=0)
+		if(PlayerControl::GetIns()->GetPlayer()->GetHP()<=0)
 		{
 			Judg[TASK_THREE] = false;
 		}
@@ -284,7 +284,7 @@ void Task::Upda()
 	TargetArrow->SetBillboard(FALSE);
 	TargetArrow->SetUVMove(TRUE);
 	TargetArrow->SetColor(arrowcol);
-	TargetArrow->Update(CameraControl::GetInstance()->GetCamera());
+	TargetArrow->Update(CameraControl::GetIns()->GetCamera());
 
 	TaskSequence();
 	for (int i = 0; i < 4; i++)
@@ -294,7 +294,7 @@ void Task::Upda()
 		TargetIcon[i]->SetScale({3.f, 3.f, 3.f});
 		TargetIcon[i]->SetPosition({player->GetPosition().x, player->GetPosition().y + 7.0f, player->GetPosition().z});
 
-		TargetIcon[i]->Update(CameraControl::GetInstance()->GetCamera());
+		TargetIcon[i]->Update(CameraControl::GetIns()->GetCamera());
 	}
 }
 
@@ -338,7 +338,7 @@ void Task::TargetDraw()
 
 void Task::Draw()
 {
-	if (HUD::GetInstance()->GetPlayerHP()->GetSize().x > 0.f && PlayerControl::GetInstance()->GetPlayer()->GetHP() > 0)
+	if (HUD::GetIns()->GetPlayerHP()->GetSize().x > 0.f && PlayerControl::GetIns()->GetPlayer()->GetHP() > 0)
 	{
 		Sprite::PreDraw();
 		TaskFrame->Draw();
@@ -348,7 +348,7 @@ void Task::Draw()
 		}
 		navChestSprite[0]->Draw();
 		navChestSprite[1]->Draw();
-		DebugTextSprite2::GetInstance()->DrawAll();
+		DebugTextSprite2::GetIns()->DrawAll();
 		Sprite::PostDraw();
 	}
 	ImGui::Begin("task");
@@ -360,13 +360,13 @@ void Task::Draw()
 
 void Task::TaskSequence()
 {
-	Player* l_player = PlayerControl::GetInstance()->GetPlayer();
+	Player* l_player = PlayerControl::GetIns()->GetPlayer();
 	if (l_player == nullptr || l_player->GetStopFlag())
 	{
 		return;
 	}
 
-	Input* input = Input::GetInstance();
+	Input* input = Input::GetIns();
 
 	if (input->TiltPushStick(Input::L_UP, 0.0f) ||
 		input->TiltPushStick(Input::L_DOWN, 0.0f) ||
@@ -380,7 +380,7 @@ void Task::TaskSequence()
 	bool taskclear1 = movement > 180;
 	bool taskclear2 = movement > 300;
 	bool taskclear3 = movement > 400;
-	bool taskclear4 = ChestControl::GetInstance()->ChestCount() == 2;
+	bool taskclear4 = ChestControl::GetIns()->ChestCount() == 2;
 	if (taskclear0)
 	{
 		iconalpha[0] -= 0.02f;
@@ -435,7 +435,7 @@ void Task::TaskClear(const Tasks& task, const Tasks& nexttask, bool clearjudg, i
 	}
 	if (clearjudg)
 	{
-		if (ChestControl::GetInstance()->ChestCount() == chestcount)
+		if (ChestControl::GetIns()->ChestCount() == chestcount)
 		{
 			TaskScl.x += 5.0f;
 			TaskScl.y += 5.0f;

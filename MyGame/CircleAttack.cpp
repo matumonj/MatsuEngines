@@ -14,7 +14,7 @@ CircleAttack::~CircleAttack()
 	//delete ImpactAreaTex;
 }
 
-CircleAttack* CircleAttack::GetInstance()
+CircleAttack* CircleAttack::GetIns()
 {
 	static CircleAttack instance;
 	return &instance;
@@ -40,7 +40,7 @@ void CircleAttack::Init()
 
 void CircleAttack::Upda()
 {
-	Enemy* boss = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0].get();
+	Enemy* boss = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0].get();
 	switch (phase)
 	{
 	case PHASENON:
@@ -72,7 +72,7 @@ void CircleAttack::Upda()
 	}
 	//ダメージエリアテクスチャの各種パラメータ
 
-	ImpactAreaTex->Update(CameraControl::GetInstance()->GetCamera());
+	ImpactAreaTex->Update(CameraControl::GetIns()->GetCamera());
 	ImpactAreaTex->SetScale({CircleSize.x, CircleSize.y, 3.0f});
 	ImpactAreaTex->SetRotation({90.0f, 0.0f, rotY});
 	ImpactAreaTex->SetColor({1.0f, 1.0f, 1.0f, TexAlpha});
@@ -83,12 +83,12 @@ void CircleAttack::Upda()
 	for (int i = 0; i < NailObj.size(); i++)
 	{
 		NailObj[i]->SetScale({3.0f, 3.0f, 3.0f});
-		NailObj[i]->Update({1.0f, 1.0f, 1.0f, 1.0f}, CameraControl::GetInstance()->GetCamera());
+		NailObj[i]->Update({1.0f, 1.0f, 1.0f, 1.0f}, CameraControl::GetIns()->GetCamera());
 	}
 	TexAlpha = min(TexAlpha, 1.0f);
 	TexAlpha = max(TexAlpha, 0.0f);
 
-	Nail::GetInstance()->Update();
+	Nail::GetIns()->Update();
 }
 
 void CircleAttack::Draw()
@@ -107,16 +107,16 @@ void CircleAttack::Draw()
 			Object3d::PostDraw();
 		}
 	}
-	Nail::GetInstance()->Draw();
+	Nail::GetIns()->Draw();
 }
 
 void CircleAttack::CollisonNailPlayer()
 {
 	const int Damage = 20;
 
-	if (Collision::GetLength(NailObj[0]->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 300)
+	if (Collision::GetLength(NailObj[0]->GetPosition(), PlayerControl::GetIns()->GetPlayer()->GetPosition()) < 300)
 	{
-		//PlayerControl::GetInstance()->GetPlayer()->RecvDamage(300);
+		//PlayerControl::GetIns()->GetPlayer()->RecvDamage(300);
 	}
 }
 
@@ -130,7 +130,7 @@ void CircleAttack::PierceNail()
 	{
 		NailObj[i] = std::make_unique<Object3d>();
 		//フィールドにモデル割り当て
-		NailObj[i]->Initialize(CameraControl::GetInstance()->GetCamera());
+		NailObj[i]->Initialize(CameraControl::GetIns()->GetCamera());
 		NailObj[i]->SetModel(ModelManager::GetIns()->GetModel(ModelManager::NAIL));
 	}
 	//ビルボード切る(標準がtrueなので、、)
@@ -154,9 +154,9 @@ void CircleAttack::DamageAreaTexSet()
 {
 	const float EaseC = 0.01f;
 	const XMFLOAT2 DamageAreaTex_Max = {10.0f, 10.0f};
-	if (Nail::GetInstance()->GetEndAction_Circle())
+	if (Nail::GetIns()->GetEndAction_Circle())
 	{
-		Nail::GetInstance()->SetEndAction_Circle(false);
+		Nail::GetIns()->SetEndAction_Circle(false);
 	}
 	//ダメージエリアの円ひろがる
 	CircleAreaTime += EaseC;
@@ -176,7 +176,7 @@ void CircleAttack::DamageAreaTexSet()
 
 void CircleAttack::ProtrudeNail()
 {
-	Nail::GetInstance()->CircleAttack(Area1, Area2);
+	Nail::GetIns()->CircleAttack(Area1, Area2);
 
 	CollisonNailPlayer();
 
@@ -184,13 +184,13 @@ void CircleAttack::ProtrudeNail()
 	Direction[Area1].y++;
 	Direction[Area2].y++;
 
-	XMFLOAT3 Bpos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
-	//float Ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition().x;
-	XMFLOAT3 Ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	XMFLOAT3 Bpos = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
+	//float Ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition().x;
+	XMFLOAT3 Ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 
 	NailObj[0]->SetPosition(Direction[Area1]);
 	TexAlpha -= 0.01f;
-	if (Nail::GetInstance()->GetEndAction_Circle())
+	if (Nail::GetIns()->GetEndAction_Circle())
 	{
 		phase = PHASEFOUR;
 	}

@@ -24,7 +24,7 @@ private:
 	using XMVECTOR = DirectX::XMVECTOR;
 
 public:
-	static TargetMarker* GetInstance();
+	static TargetMarker* GetIns();
 	bool GetEnemyPosition(std::vector<std::unique_ptr<Enemy>>& enemy, int index, float* x, float* y, float* z);
 	int NearEnemySearch(std::vector<std::unique_ptr<Enemy>>& enemy, Player* player);
 	int NearGolemSearch(std::vector<std::unique_ptr<Enemy>>& enemy, Player* player);

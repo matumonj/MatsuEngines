@@ -11,7 +11,7 @@ using namespace DirectX;
 const std::string FbxLoader::baseDirectory = "Resources/";
 const std::string FbxLoader::defaultTextureFileName = "white1x1.png";
 
-FbxLoader* FbxLoader::GetInstance()
+FbxLoader* FbxLoader::GetIns()
 {
 	static FbxLoader instance;
 	return &instance;

@@ -11,7 +11,7 @@ Nail::~Nail()
 	//delete Nailmodel;
 }
 
-Nail* Nail::GetInstance()
+Nail* Nail::GetIns()
 {
 	static Nail instance;
 	return &instance;
@@ -93,13 +93,13 @@ void Nail::HalfAttack(const HalfAttackArea& area)
 	for (int i = 0; i < Nails.size(); i++)
 	{
 		Nails[i]->SetRotation({180.0f, 0.0f, 0.0f});
-		Nails[i]->Update({1.0f, 1.0f, 1.0f, 1.0f}, CameraControl::GetInstance()->GetCamera());
+		Nails[i]->Update({1.0f, 1.0f, 1.0f, 1.0f}, CameraControl::GetIns()->GetCamera());
 	}
 }
 
 void Nail::CircleAttack(int area1, int area2)
 {
-	Enemy* boss = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0].get();
+	Enemy* boss = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0].get();
 
 	//東西南北のAOE中心場所　参照するなりした方がいい
 	XMFLOAT3 DirectionPos[4] = {
@@ -109,9 +109,9 @@ void Nail::CircleAttack(int area1, int area2)
 	{
 		CAttack.phase = PHASE_ONE;
 	}
-	XMFLOAT3 Bpos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
-	//float Ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition().x;
-	XMFLOAT3 Ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	XMFLOAT3 Bpos = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
+	//float Ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition().x;
+	XMFLOAT3 Ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 
 	bool col = Collision::GetLength(Ppos, Bpos) < 30.f;
 	switch (CAttack.phase)
@@ -142,11 +142,11 @@ void Nail::CircleAttack(int area1, int area2)
 			if (CAttack.phase == PHASE_TWO) {
 			if (col)
 				{
-					PlayerControl::GetInstance()->GetPlayer()->SetDamageEva(true);
+					PlayerControl::GetIns()->GetPlayer()->SetDamageEva(true);
 
-					PlayerControl::GetInstance()->GetPlayer()->DamageJump(col, 1.3f);
+					PlayerControl::GetIns()->GetPlayer()->DamageJump(col, 1.3f);
 
-					PlayerControl::GetInstance()->GetPlayer()->RecvDamage(5);
+					PlayerControl::GetIns()->GetPlayer()->RecvDamage(5);
 				}
 			}
 			MinY += 2.0f; //釘出るよ
@@ -190,7 +190,7 @@ void Nail::CircleAttack(int area1, int area2)
 	for (int i = 0; i < Nails.size(); i++)
 	{
 		Nails[i]->SetRotation({180.0f, 0.0f, 0.0f});
-		Nails[i]->Update({1.0f, 1.0f, 1.0f, 1.0f}, CameraControl::GetInstance()->GetCamera());
+		Nails[i]->Update({1.0f, 1.0f, 1.0f, 1.0f}, CameraControl::GetIns()->GetCamera());
 	}
 }
 
@@ -202,7 +202,7 @@ void Nail::NailAmountSet(int amount)
 	{
 		Nails[i] = std::make_unique<Object3d>();
 		//モデル割り当て
-		Nails[i]->Initialize(CameraControl::GetInstance()->GetCamera());
+		Nails[i]->Initialize(CameraControl::GetIns()->GetCamera());
 		Nails[i]->SetModel(Nailmodel);
 	}
 	CAttack.WaitCount = 0;

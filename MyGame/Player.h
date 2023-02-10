@@ -22,7 +22,7 @@ public:
 
 public:
 	static Player* Create(Model* model, DebugCamera* camera);
-	static Player* GetInstance();
+	static Player* GetIns();
 
 public:
 	//‰Šú‰»
@@ -45,7 +45,7 @@ public:
 	bool GetDamageEva() { return DamageEvaF; }
 private:
 	bool DamageEvaF;
-	Input* input = Input::GetInstance();
+	Input* input = Input::GetIns();
 	//fbxtime§Œä
 	void FbxAnimationControl();
 	//—‰º–h~

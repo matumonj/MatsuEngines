@@ -173,8 +173,8 @@ void PostEffect::CreateGraphicsPipeline()
 
 void PostEffect::Initialize()
 {
-	device = DirectXCommon::GetInstance()->GetDev();
-	cmdList = DirectXCommon::GetInstance()->GetCmdList();
+	device = DirectXCommon::GetIns()->GetDev();
+	cmdList = DirectXCommon::GetIns()->GetCmdList();
 	//パイプライン生成
 	CreateGraphicsPipeline();
 
@@ -439,7 +439,7 @@ void PostEffect::Draw()
 	// 描画コマンド
 	cmdList->DrawInstanced(4, 1, 0, 0);
 
-		//DirectXCommon::GetInstance()->ClearDepthBuffer(DirectXCommon::GetInstance()->GetCmdList());
+		//DirectXCommon::GetIns()->ClearDepthBuffer(DirectXCommon::GetIns()->GetCmdList());
 
 }
 

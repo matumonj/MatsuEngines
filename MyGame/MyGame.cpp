@@ -12,7 +12,7 @@ void MyGame::Initialize()
 	Framework::Initialize();
 	Sprite::StaticInitialize(WinApp::window_width, WinApp::window_height);
 	LightGroup::StaticInitialize();
-	FbxLoader::GetInstance()->Initialize();
+	FbxLoader::GetIns()->Initialize();
 	Texture::StaticInitialize(WinApp::window_width, WinApp::window_height);
 	ParticleManager::StaticInitialize(WinApp::window_width, WinApp::window_height);
 	//‰ŠúƒV[ƒ“
@@ -24,7 +24,7 @@ void MyGame::Initialize()
 	
 	Sprite::LoadTexture(0, L"Resources/2d/LevelUp/debugfont.png");
 
-	DebugTextSprite::GetInstance()->Initialize(0);
+	DebugTextSprite::GetIns()->Initialize(0);
 }
 
 void MyGame::Update()

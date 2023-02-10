@@ -5,7 +5,7 @@
 #include"MapCreateScene.h"
 #include<dxgidebug.h>
 
-DirectXCommon* DirectXCommon::GetInstance()
+DirectXCommon* DirectXCommon::GetIns()
 {
 	static DirectXCommon instance;
 

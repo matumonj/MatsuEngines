@@ -13,7 +13,7 @@ DebugTxt::~DebugTxt()
 	}
 }
 
-DebugTxt* DebugTxt::GetInstance()
+DebugTxt* DebugTxt::GetIns()
 {
 	static DebugTxt instance;
 	return &instance;
@@ -77,7 +77,7 @@ void DebugTxt::Print(float scale = 1.0f)
 		spriteDatas[spriteIndex]->SetBillboard(true);
 		spriteDatas[spriteIndex]->SetUVMove(false);
 		spriteDatas[spriteIndex]->SetDisplayRadius(100);
-		spriteDatas[spriteIndex]->Update(CameraControl::GetInstance()->GetCamera());
+		spriteDatas[spriteIndex]->Update(CameraControl::GetIns()->GetCamera());
 		// •¶š‚ğ‚P‚Âi‚ß‚é
 		spriteIndex++;
 	}
@@ -114,7 +114,7 @@ DebugTextSprite::~DebugTextSprite()
 	}
 }
 
-DebugTextSprite* DebugTextSprite::GetInstance()
+DebugTextSprite* DebugTextSprite::GetIns()
 {
 	static DebugTextSprite instance;
 	return &instance;
@@ -230,7 +230,7 @@ DebugTextSprite2::~DebugTextSprite2()
 	}
 }
 
-DebugTextSprite2* DebugTextSprite2::GetInstance()
+DebugTextSprite2* DebugTextSprite2::GetIns()
 {
 	static DebugTextSprite2 instance;
 	return &instance;

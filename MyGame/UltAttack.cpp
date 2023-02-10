@@ -14,7 +14,7 @@ UltAttack* UltAttack::GetIns()
 
 void UltAttack::Init()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 	Model* l_model = Model::CreateFromOBJ("BossBeam", true);
 	for (int i = 0; i < 8; i++) {
 		normalAttackObj[i] = std::make_unique<Object3d>();
@@ -30,9 +30,9 @@ void UltAttack::Init()
 
 void UltAttack::Upda()
 {
-	//Field::GetInstance()->SetnextStageF(true);
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
-	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	//Field::GetIns()->SetnextStageF(true);
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
+	XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 
 	switch (phase)
 	{
@@ -45,7 +45,7 @@ void UltAttack::Upda()
 		break;
 
 	case BOM:
-		//PlayerControl::GetInstance()->GetPlayer()->RecvDamage(50);
+		//PlayerControl::GetIns()->GetPlayer()->RecvDamage(50);
 		Phase_Bom();
 		break;
 
@@ -76,8 +76,8 @@ void UltAttack::Upda()
 
 void UltAttack::Phase_AreaSet()
 {
-	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
-	XMFLOAT3 bpos = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
+	XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
+	XMFLOAT3 bpos = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
 
 	bool nextPhase = TexAlpha > 3.f;
 	const float scalingSpeed = 0.05f;
@@ -99,9 +99,9 @@ void UltAttack::Phase_AreaSet()
 
 void UltAttack::Phase_Bom()
 {
-	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 
-	XMFLOAT3 epos = EnemyControl::GetInstance()->GetGuardianEnemy()->GetPosition();
+	XMFLOAT3 epos = EnemyControl::GetIns()->GetGuardianEnemy()->GetPosition();
 
 	beamscl[0].y += 1.f;
 	for (int i = 1; i < 8; i++) {
@@ -137,12 +137,12 @@ void UltAttack::Phase_MakeSmall()
 
 void UltAttack::Phase_TexFade()
 {
-	Feed::GetInstance()->Update_White(Feed::FEEDOUT);
+	Feed::GetIns()->Update_White(Feed::FEEDOUT);
 	TexAlpha -= 0.02f;
 	for (int i = 0; i < 8; i++) {
 		beamscl[i] = {0.f,0.f,0.f};
 	}
-	if (Feed::GetInstance()->GetAlpha() <=0.0f)
+	if (Feed::GetIns()->GetAlpha() <=0.0f)
 	{
 		TexScl = { 0.0f, 0.0f };
 		phase = END;
@@ -159,14 +159,14 @@ void UltAttack::SceneBloom()
 		if (BloomAlpha <0.2f) {
 
 			fielddestf = true;
-			Feed::GetInstance()->Update_White(Feed::FEEDIN);
+			Feed::GetIns()->Update_White(Feed::FEEDIN);
 		}
 	if(phase==BEAMSMALL)
 	{
-		if (Feed::GetInstance()->GetAlpha() >= 1.0f)
+		if (Feed::GetIns()->GetAlpha() >= 1.0f)
 		{
 			BloomAlpha = 1.f;
-			Field::GetInstance()->SetnextStageF(true);
+			Field::GetIns()->SetnextStageF(true);
 				phase = TEXFADE;
 		}
 	}

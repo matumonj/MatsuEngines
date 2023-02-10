@@ -25,7 +25,7 @@ private:
 	//設置オブジェクト
 	std::vector<CreateObjManager*> placeobj;
 public:
-	static MapCreate* GetInstance();
+	static MapCreate* GetIns();
 	//ImGui
 	void ImGuiDraw();
 	//設置処理

@@ -36,7 +36,7 @@ private:
 	float angleRush;
 	int RushAttackCount = 0;
 public:
-	static RushAttack* GetInstance();
+	static RushAttack* GetIns();
 	void Init()override;
 	void ActionJudg();
 	void Upda()override;

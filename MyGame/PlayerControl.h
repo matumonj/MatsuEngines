@@ -27,7 +27,7 @@ private:
 	};
 
 public:
-	static PlayerControl* GetInstance();
+	static PlayerControl* GetIns();
 
 	void Load() override;
 

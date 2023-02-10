@@ -10,13 +10,13 @@ void GuardianAppearState::Initialize(Enemy* enemy)
 void GuardianAppearState::Update(Enemy* enemy)
 {
 	DirectX::XMFLOAT3 epos = enemy->GetPosition();
-	if (Task::GetInstance()->TaskFourClear()== false)
+	if (Task::GetIns()->TaskFourClear()== false)
 	{
 		return;
 	}
 	if (UpF && !DownF)
 	{
-		PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(true);
+		PlayerControl::GetIns()->GetPlayer()->SetStopFlag(true);
 		if (enemy->GetPosition().y > 10.f)
 		{
 			DownF = true;
@@ -44,7 +44,7 @@ void GuardianAppearState::DownMove(Enemy* enemy)
 
 	if (EaseTime >= 1.f)
 	{
-		PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(false);
+		PlayerControl::GetIns()->GetPlayer()->SetStopFlag(false);
 		SmokeF = true;
 		enemy->Smoke(SmokeF);
 		enemy->SetisAlive(TRUE);
@@ -52,7 +52,7 @@ void GuardianAppearState::DownMove(Enemy* enemy)
 	}
 	else
 	{
-		PlayerControl::GetInstance()->GetPlayer()->SetStopFlag(true);
+		PlayerControl::GetIns()->GetPlayer()->SetStopFlag(true);
 	}
 	enemy->SetPosition({epos.x, Easing::EaseOut(EaseTime, 30.f, -20.f), epos.z});
 }

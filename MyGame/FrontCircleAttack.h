@@ -8,7 +8,7 @@
 class FrontCircleAttack: public BossAttackActionManager
 {
 public:
-	static FrontCircleAttack* GetInstance();
+	static FrontCircleAttack* GetIns();
 	void Init()override;
 	void Upda()override;
 	void Draw()override;

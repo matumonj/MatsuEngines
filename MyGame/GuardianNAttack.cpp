@@ -14,7 +14,7 @@ GuardianNAttack* GuardianNAttack::GetIns()
 
 void GuardianNAttack::TexSet()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 	Texture::LoadTexture(70, L"Resources/2d/icon/enemyicon.png");
 	Texture::LoadTexture(66, L"Resources/2d/attackEffect/missileeffect.png");
 
@@ -36,9 +36,9 @@ void GuardianNAttack::TexSet()
 
 void GuardianNAttack::Upda()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
-	XMFLOAT3 epos = EnemyControl::GetInstance()->GetGuardianEnemy()->GetPosition();
-	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
+	XMFLOAT3 epos = EnemyControl::GetIns()->GetGuardianEnemy()->GetPosition();
+	XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 
 	switch (phase)
 	{
@@ -53,7 +53,7 @@ void GuardianNAttack::Upda()
 		break;
 
 	case BOM:
-		//PlayerControl::GetInstance()->GetPlayer()->RecvDamage(50);
+		//PlayerControl::GetIns()->GetPlayer()->RecvDamage(50);
 		Phase_Bom();
 		break;
 
@@ -74,7 +74,7 @@ void GuardianNAttack::Upda()
 	DamageTex->SetRotation({90.f, 0.f, TexRotZ});
 	DamageTex->SetColor({1.f, 1.f, 1.f, TexAlpha});
 	DamageTex->SetBillboard(false);
-	DamageTex->Update(CameraControl::GetInstance()->GetCamera());
+	DamageTex->Update(CameraControl::GetIns()->GetCamera());
 
 	BeamObjScl.y = 50.0f;
 	normalAttackObj->SetUVf(true);
@@ -88,7 +88,7 @@ void GuardianNAttack::Upda()
 
 void GuardianNAttack::Phase_AreaSet()
 {
-	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 
 	bool nextPhase = TexAlpha > 3.f;
 	const float scalingSpeed = 0.05f;
@@ -114,14 +114,14 @@ void GuardianNAttack::Phase_AreaSet()
 		phase = BOM;
 	}
 
-	EnemyControl::GetInstance()->GetGuardianEnemy()->SetColors({BossColor.x, BossColor.y, BossColor.z, 1.0f});
+	EnemyControl::GetIns()->GetGuardianEnemy()->SetColors({BossColor.x, BossColor.y, BossColor.z, 1.0f});
 }
 
 void GuardianNAttack::Phase_Bom()
 {
-	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 
-	XMFLOAT3 epos = EnemyControl::GetInstance()->GetGuardianEnemy()->GetPosition();
+	XMFLOAT3 epos = EnemyControl::GetIns()->GetGuardianEnemy()->GetPosition();
 	scalingETime += 0.04f;
 	if (scalingETime >= 2.5f)
 	{
@@ -140,19 +140,19 @@ void GuardianNAttack::Phase_Bom()
 
 	if (Collision::GetLength(ppos, normalAttackObj->GetPosition()) < 14.f)
 	{
-		PlayerControl::GetInstance()->GetPlayer()->RecvDamage(5);
+		PlayerControl::GetIns()->GetPlayer()->RecvDamage(5);
 	}
 	normalAttackObj->SetPosition(DamageTex->GetPosition());
 }
 
 void GuardianNAttack::Phase_MakeSmall()
 {
-	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 
-	XMFLOAT3 epos = EnemyControl::GetInstance()->GetGuardianEnemy()->GetPosition();
+	XMFLOAT3 epos = EnemyControl::GetIns()->GetGuardianEnemy()->GetPosition();
 	if (Collision::GetLength(ppos, normalAttackObj->GetPosition()) < 14.f)
 	{
-		PlayerControl::GetInstance()->GetPlayer()->RecvDamage(5);
+		PlayerControl::GetIns()->GetPlayer()->RecvDamage(5);
 	}
 	TexAlpha = 1.f;
 	scalingETime -= 0.04f;
@@ -183,7 +183,7 @@ void GuardianNAttack::Phase_TexFade()
 
 void GuardianNAttack::Phase_End()
 {
-	EnemyControl::GetInstance()->GetGuardianEnemy()->SetColors({1.0f, 1.0f, 1.0f, 1.0f});
+	EnemyControl::GetIns()->GetGuardianEnemy()->SetColors({1.0f, 1.0f, 1.0f, 1.0f});
 	TexAlpha = 0.f;
 	scalingETime = 0.0f;
 	BeamObjScl = {0.0f, 50.0f, 0.0f};

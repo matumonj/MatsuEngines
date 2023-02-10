@@ -36,7 +36,7 @@ bool House::CollideHouse()
 
 void House_A::Initialize()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
 	m_Object = std::make_unique<Object3d>();
 
@@ -52,13 +52,13 @@ void House_A::Initialize()
 
 void House_A::Update()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
 	m_Object->SetColor({0.4f, 0.4f, 0.4f, 1.f});
 
 
 	ParameterSet_Obj();
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
+	if (SceneManager::GetIns()->GetScene() == SceneManager::PLAY)
 	{
 		m_Object->setFog(TRUE);
 		m_Object->SetFogCenter(camera->GetEye());
@@ -74,24 +74,24 @@ void House_A::Draw()
 
 bool House_A::CollideHouse()
 {
-	if (PlayerControl::GetInstance()->GetPlayer() == nullptr)
+	if (PlayerControl::GetIns()->GetPlayer() == nullptr)
 	{
 		return false;
 	}
-	playerOBB.SetOBBParam_Pos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
+	playerOBB.SetOBBParam_Pos(PlayerControl::GetIns()->GetPlayer()->GetPosition());
 	playerOBB.SetOBBParam_Scl({1.f, 1.f, 1.f});
-	playerOBB.SetOBBParam_Rot(PlayerControl::GetInstance()->GetPlayer()->GetMatrot());
+	playerOBB.SetOBBParam_Rot(PlayerControl::GetIns()->GetPlayer()->GetMatrot());
 
 	//OBB 回転ベクトル
 	HouseOBB.SetOBBParam_Pos(m_Object->GetPosition());
 	HouseOBB.SetOBBParam_Scl({40.f, 30.f, 40.f});
 	HouseOBB.SetOBBParam_Rot(m_Object->GetMatrot());
 
-	if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), Position) < 40)
+	if (Collision::GetLength(PlayerControl::GetIns()->GetPlayer()->GetPosition(), Position) < 40)
 	{
 		if (Collision::CheckOBBCollision(playerOBB, HouseOBB) == true)
 		{
-			PlayerControl::GetInstance()->GetPlayer()->isOldPos();
+			PlayerControl::GetIns()->GetPlayer()->isOldPos();
 			return true;
 		}
 		return false;
@@ -102,7 +102,7 @@ bool House_A::CollideHouse()
 
 void House_B::Initialize()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
 	m_Object = std::make_unique<Object3d>();
 
@@ -117,7 +117,7 @@ void House_B::Initialize()
 
 void House_B::Update()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
 	m_Object->SetColor({0.4f, 0.4f, 0.4f, 1.f});
 
@@ -137,24 +137,24 @@ void House_B::Draw()
 
 bool House_B::CollideHouse()
 {
-	if (PlayerControl::GetInstance()->GetPlayer() == nullptr)
+	if (PlayerControl::GetIns()->GetPlayer() == nullptr)
 	{
 		return false;
 	}
-	playerOBB.SetOBBParam_Pos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
+	playerOBB.SetOBBParam_Pos(PlayerControl::GetIns()->GetPlayer()->GetPosition());
 	playerOBB.SetOBBParam_Scl({1.f, 1.f, 1.f});
-	playerOBB.SetOBBParam_Rot(PlayerControl::GetInstance()->GetPlayer()->GetMatrot());
+	playerOBB.SetOBBParam_Rot(PlayerControl::GetIns()->GetPlayer()->GetMatrot());
 
 	//OBB 回転ベクトル
 	HouseOBB.SetOBBParam_Pos(m_Object->GetPosition());
 	HouseOBB.SetOBBParam_Scl({40.f, 50.f, 40.f});
 	HouseOBB.SetOBBParam_Rot(m_Object->GetMatrot());
 
-	if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), Position) < 140)
+	if (Collision::GetLength(PlayerControl::GetIns()->GetPlayer()->GetPosition(), Position) < 140)
 	{
 		if (Collision::CheckOBBCollision(playerOBB, HouseOBB) == true)
 		{
-			PlayerControl::GetInstance()->GetPlayer()->isOldPos();
+			PlayerControl::GetIns()->GetPlayer()->isOldPos();
 			return true;
 		}
 		return false;

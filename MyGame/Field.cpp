@@ -44,7 +44,7 @@ void Field::Finalize()
 	Enemyicon.clear();
 }
 
-Field* Field::GetInstance()
+Field* Field::GetIns()
 {
 	static Field instance;
 	return &instance;
@@ -52,7 +52,7 @@ Field* Field::GetInstance()
 
 void Field::Init_Tutorial()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
 	FieldObject = TouchableObject::Create(ModelManager::GetIns()->GetModel(ModelManager::FIELD), camera);
 	//ミニマップ(通常ふぃ－るど)
@@ -63,7 +63,7 @@ void Field::Init_Tutorial()
 
 void Field::Init_Play()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
 	FieldObject = TouchableObject::Create(ModelManager::GetIns()->GetModel(ModelManager::FIELD), camera);
 	//ミニマップ(通常ふぃ－るど)
@@ -99,14 +99,14 @@ void Field::Init_Play()
 
 void Field::Init_Boss()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 	if (camera == nullptr)return;
 	//天球
 	SetFieldModel(CELESTIALSPHERE, ModelManager::GetIns()->GetModel(ModelManager::SKY), camera);
 	//ボスの背景obj
 	SetFieldModel(BOSSBACK, ModelManager::GetIns()->GetModel(ModelManager::BOSSFIELD), camera);
 	//ボス床のまっぷちっぷ
-	BossMap::GetInstance()->Init();
+	BossMap::GetIns()->Init();
 
 	//クリア時の移動誘導テクスチャ
 	Texture::LoadTexture(67, L"Resources/2d/tutorialstep/targetpos.png");
@@ -154,23 +154,23 @@ void Field::Init_Boss()
 
 void Field::Initialize()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
 	PedestalDownF = false;
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
+	if (SceneManager::GetIns()->GetScene() == SceneManager::BOSS)
 	{
 		Init_Boss();
 	}
-	if ( SceneManager::GetInstance()->GetScene() ==SceneManager::TUTORIAL)
+	if ( SceneManager::GetIns()->GetScene() ==SceneManager::TUTORIAL)
 	{
 		Init_Tutorial();
 	}
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
+	if (SceneManager::GetIns()->GetScene() == SceneManager::PLAY)
 	{
 		Init_Play();
 	}
 
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::MAPCREATE)
+	if (SceneManager::GetIns()->GetScene() == SceneManager::MAPCREATE)
 	{
 		FieldObject = TouchableObject::Create(ModelManager::GetIns()->GetModel(ModelManager::FIELD), camera);
 	//	FieldObject->SetScale(0.3f);
@@ -181,10 +181,10 @@ void Field::Initialize()
 
 void Field::PedestalMoving()
 {
-	//if (PlayerControl::GetInstance()->GetPlayer()->GetHP() <= 0)return;
-	if (Task::GetInstance()->TaskThirdClear())
+	//if (PlayerControl::GetIns()->GetPlayer()->GetHP() <= 0)return;
+	if (Task::GetIns()->TaskThirdClear())
 	{
-		if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(),
+		if (Collision::GetLength(PlayerControl::GetIns()->GetPlayer()->GetPosition(),
 			pedestalpos) < 10)
 		{
 			PedestalDownF = true;
@@ -198,7 +198,7 @@ void Field::PedestalMoving()
 		}
 	}
 
-		if (PlayerControl::GetInstance()->GetPlayer()->GetHP() <= 0) {
+		if (PlayerControl::GetIns()->GetPlayer()->GetHP() <= 0) {
 		PedestalDownF = false;
 		pedestalpos = { -300.0f, -32, 270 };
 	}
@@ -206,7 +206,7 @@ void Field::PedestalMoving()
 
 void Field::Update_Tutorial()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
 	if (FieldObject == nullptr)
 	{
@@ -222,10 +222,10 @@ void Field::Update_Tutorial()
 
 void Field::Update_Play()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
-	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
+	XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 
-	if (CameraControl::GetInstance()->GetCameraState_Spline() != CameraControl::PLAYCUTEND)
+	if (CameraControl::GetIns()->GetCameraState_Spline() != CameraControl::PLAYCUTEND)
 	{
 		if (camera != nullptr)
 		{
@@ -234,7 +234,7 @@ void Field::Update_Play()
 	}
 	else
 	{
-		FogCenterPos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+		FogCenterPos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 	}
 
 	if (FieldObject == nullptr)
@@ -262,13 +262,13 @@ void Field::Update_Play()
 
 void Field::GuardAreaTexUpda()
 {
-	if (EnemyControl::GetInstance()->GetGuardianEnemy() == nullptr)
+	if (EnemyControl::GetIns()->GetGuardianEnemy() == nullptr)
 	{
 		return;
 	}
-	Input* input = Input::GetInstance();
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
-	XMFLOAT3 ppos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	Input* input = Input::GetIns();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
+	XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 
 	XMVECTOR positionA = {
 		pedestalpos.x,
@@ -311,7 +311,7 @@ void Field::GuardAreaTexUpda()
 
 
 		//ガーディアン死んだら壁のアルファ値消していく
-		if (EnemyControl::GetInstance()->GetGuardianEnemy()->GetisAlive() == false)
+		if (EnemyControl::GetIns()->GetGuardianEnemy()->GetisAlive() == false)
 		{
 			GuardAreaAlphaEtime[i] -= 0.05f;
 		}
@@ -326,7 +326,7 @@ void Field::GuardAreaTexUpda()
 			else
 			{
 				//当たってないなら上げる
-				if (EnemyControl::GetInstance()->GetGuardianEnemy()->GetisAlive())
+				if (EnemyControl::GetIns()->GetGuardianEnemy()->GetisAlive())
 				{
 					GuardAreaAlphaEtime[i] += 0.05f;
 				}
@@ -350,7 +350,7 @@ void Field::GuardAreaTexUpda()
 							GuardAreaAlphaEtime[i] = 1.f;
 						}
 					}
-						PlayerControl::GetInstance()->GetPlayer()->isOldPos();
+						PlayerControl::GetIns()->GetPlayer()->isOldPos();
 					}
 				}
 		}
@@ -370,7 +370,7 @@ void Field::GuardAreaTexUpda()
 		GuardAreaAlphaEtime[i] = min(GuardAreaAlphaEtime[i], 1.0f);
 		GuardAreaAlphaEtime[i] = max(GuardAreaAlphaEtime[i], 0.0f);
 	}
-	if (EnemyControl::GetInstance()->GetGuardianEnemy() == nullptr)
+	if (EnemyControl::GetIns()->GetGuardianEnemy() == nullptr)
 	{
 		for (int i = 0; i < GuardAreaSize; i++)
 		{
@@ -389,7 +389,7 @@ void Field::GuardAreaTexUpda()
 
 void Field::Update_Edit()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
 	FieldObject->SetPosition({0.0f, -25.0f, 0.0f});
 	FieldObject->SetFogCenter({0.0f, -20.0f, 0.0f});
@@ -399,7 +399,7 @@ void Field::Update_Edit()
 
 void Field::Update_Boss()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 	if (camera == nullptr)return;
 	if (FieldObject == nullptr)
 	{
@@ -418,7 +418,7 @@ void Field::Update_Boss()
 		SkyMapDestF = true;
 		destf = true;
 	}
-	if (Input::GetInstance()->TriggerButton(Input::X))
+	if (Input::GetIns()->TriggerButton(Input::X))
 	{
 		destf = false;
 	}
@@ -486,22 +486,22 @@ void Field::Update_Boss()
 	cleartex->SetColor({ 1,1,1,1 });
 	cleartex->Update(camera);
 	
-	BossMap::GetInstance()->Upda();
+	BossMap::GetIns()->Upda();
 }
 
 void Field::Update()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::TUTORIAL)
+	if (SceneManager::GetIns()->GetScene() == SceneManager::TUTORIAL)
 	{
 		Update_Tutorial();
 	}
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
+	if (SceneManager::GetIns()->GetScene() == SceneManager::PLAY)
 	{
 		Update_Play();
 	}
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
+	if (SceneManager::GetIns()->GetScene() == SceneManager::BOSS)
 	{
 		Update_Boss();
 	}
@@ -529,7 +529,7 @@ void Field::Draw()
 	
 	 //	if (FieldObject == nullptr)return;
 	Object3d::PreDraw();
-	if (SceneManager::GetInstance()->GetScene() != SceneManager::MAPCREATE)
+	if (SceneManager::GetIns()->GetScene() != SceneManager::MAPCREATE)
 	{
 		m_object[CELESTIALSPHERE]->Draw();
 	}
@@ -537,7 +537,7 @@ void Field::Draw()
 	if (KoloiamAlpha > 0.f) {
 		FieldObject->Draw();
 	}
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
+	if (SceneManager::GetIns()->GetScene() == SceneManager::BOSS)
 	{
 		if (nextStageF)
 		{
@@ -558,14 +558,14 @@ void Field::Draw()
 	}
 
 	}
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::PLAY)
+	if (SceneManager::GetIns()->GetScene() == SceneManager::PLAY)
 	{
 		ModelDraw_nullCheck(PEDESTAL);
 		ModelDraw_nullCheck(BOSSBACK);
 	}
 	Object3d::PostDraw();
 
-	BossMap::GetInstance()->Draw();
+	BossMap::GetIns()->Draw();
 
 	ImGui::Begin("cel");
 	ImGui::SliderFloat("scl", &celestalscl, 10, 40);
@@ -574,12 +574,12 @@ void Field::Draw()
 
 void Field::WarningDraw()
 {
-	if (SceneManager::GetInstance()->GetScene() == SceneManager::BOSS)
+	if (SceneManager::GetIns()->GetScene() == SceneManager::BOSS)
 	{
 
 		Texture::PreDraw();
 		if (cleartex != nullptr) {
-			if (EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0] == nullptr) {
+			if (EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0] == nullptr) {
 				cleartex->Draw();
 			}
 		}

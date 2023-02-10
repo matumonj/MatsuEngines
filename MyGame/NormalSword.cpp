@@ -12,7 +12,7 @@ NormalSword::~NormalSword()
 
 void NormalSword::Initialize()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 	Scale = {1.0f, 1.0f, 1.0f};
 	SwordObbScl = { 2.5f,2.5f,4.f };
 
@@ -22,7 +22,7 @@ void NormalSword::Initialize()
 
 void NormalSword::Update()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 	if (!LoadF)
 	{
 		if (m_Object == nullptr) {
@@ -36,7 +36,7 @@ void NormalSword::Update()
 		m_Object->SetDestFlag(FALSE);
 		m_Object->SetRotation(Rotation);
 		m_Object->SetScale(Scale);
-		m_Object->Update(PlayerControl::GetInstance()->GetPlayer()->GetHanMat(), { 1.0f, 1.0f, 1.0f, 1.0f }, camera);
+		m_Object->Update(PlayerControl::GetIns()->GetPlayer()->GetHanMat(), { 1.0f, 1.0f, 1.0f, 1.0f }, camera);
 	}
 }
 void NormalSword::Draw()

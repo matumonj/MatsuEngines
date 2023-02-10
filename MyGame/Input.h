@@ -61,7 +61,7 @@ private:
 
 	WinApp* winapp = nullptr;
 public:
-	static Input* GetInstance();
+	static Input* GetIns();
 	~Input();
 	//namespaceÈ—ª
 	template <class T>

@@ -26,7 +26,7 @@ private:
 	};
 
 public:
-	static GrassFieldControl* GetInstance();
+	static GrassFieldControl* GetIns();
 
 	void Load() override;
 

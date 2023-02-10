@@ -3,7 +3,7 @@
 #include "CameraControl.h"
 #include "EnemyControl.h"
 #include "PlayerControl.h"
-ThrowRockAttack* ThrowRockAttack::GetInstance()
+ThrowRockAttack* ThrowRockAttack::GetIns()
 {
 	static ThrowRockAttack ins;
 	return &ins;
@@ -12,7 +12,7 @@ ThrowRockAttack* ThrowRockAttack::GetInstance()
 void ThrowRockAttack::Init()
 {
 	//カメラのインスタンス
-	camera = CameraControl::GetInstance()->GetCamera();
+	camera = CameraControl::GetIns()->GetCamera();
 	//石オブジェの初期化
 	ThrowRockObj = std::make_unique<Object3d>();
 	ThrowRockObj->Initialize(camera);
@@ -113,7 +113,7 @@ void ThrowRockAttack::DestEffect()
 void ThrowRockAttack::ThrowPhase_Set()
 {
 	//ボスのインスタンス持ってくる
-	Enemy* boss = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0].get();
+	Enemy* boss = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0].get();
 
 	const double PickTime = 0.8;
 	//投げモーション時　fbxタイムが一定超えたら披露モーション
@@ -127,7 +127,7 @@ void ThrowRockAttack::ThrowPhase_Set()
 void ThrowRockAttack::ThrowPhase_Pick()
 {
 	//ボスのインスタンス持ってくる
-	Enemy*boss = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0].get();
+	Enemy*boss = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0].get();
 
 	const double ThrowTime = 2.5;
 
@@ -147,9 +147,9 @@ void ThrowRockAttack::ThrowPhase_Pick()
 void ThrowRockAttack::ThrowPhase_Throw()
 {
 	//ボスのインスタンス持ってくる
-	Enemy* boss = EnemyControl::GetInstance()->GetEnemy(EnemyControl::BOSS)[0].get();
+	Enemy* boss = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0].get();
 	//右手とプレイヤーのあたりはんてい
-	XMFLOAT3 l_playerpos = PlayerControl::GetInstance()->GetPlayer()->GetPosition();
+	XMFLOAT3 l_playerpos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 	//衝突判定
 	bool ColJudg = Collision::GetLength(l_playerpos, RockPos) < 10.f;
 	//ダメージ値
@@ -166,7 +166,7 @@ void ThrowRockAttack::ThrowPhase_Throw()
 		destF = true;
 		//プレイヤーへのダメージ
 		if (!TurnoffDrawF) {
-			PlayerControl::GetInstance()->GetPlayer()->RecvDamage(Damage);
+			PlayerControl::GetIns()->GetPlayer()->RecvDamage(Damage);
 		}
 	}
 	//岩が飛んでく挙動

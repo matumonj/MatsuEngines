@@ -12,8 +12,8 @@ void BossEnemyStay::Initialize(Enemy* enmey)
 void BossEnemyStay::Update(Enemy* enemy)
 {
 	
-	if (CameraControl::GetInstance()->GetCameraState() == CameraControl::PLAYER) {
-		if (Collision::GetLength(enemy->GetPosition(), PlayerControl::GetInstance()->GetPlayer()->GetPosition()) < 18.f) {
+	if (CameraControl::GetIns()->GetCameraState() == CameraControl::PLAYER) {
+		if (Collision::GetLength(enemy->GetPosition(), PlayerControl::GetIns()->GetPlayer()->GetPosition()) < 18.f) {
 			if (enemy->GetCoolTime() == 0) {
 				//enemy->ChangeState_Boss(new BossEnemyAttack());
 			}
@@ -25,7 +25,7 @@ void BossEnemyStay::Update(Enemy* enemy)
 		enemy->ChangeState_Boss(new BossEnemyFollow());
 	}
 	
-		if (CameraControl::GetInstance()->GetAttackSceneF() == false)
+		if (CameraControl::GetIns()->GetAttackSceneF() == false)
 		{
 			enemy->SetAnimation(BossEnemy::NowAttackMotion::BIDLE, true, 1.0);
 		} else

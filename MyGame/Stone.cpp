@@ -34,7 +34,7 @@ bool Stone::CollideStone()
 
 void Stone_A::Initialize()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
 	m_Object = std::make_unique<Object3d>();
 
@@ -55,7 +55,7 @@ void Stone_A::Update()
 	Color = {1, 1, 1, alpha};
 	ParameterSet_Obj();
 	m_Object->Setf(TRUE);
-	m_Object->Setppos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
+	m_Object->Setppos(PlayerControl::GetIns()->GetPlayer()->GetPosition());
 	//m_Object->setFog(true);
 
 	m_Object->SetDisLen(300);
@@ -70,24 +70,24 @@ void Stone_A::Draw()
 
 bool Stone_A::CollideStone()
 {
-	if (PlayerControl::GetInstance()->GetPlayer() == nullptr)
+	if (PlayerControl::GetIns()->GetPlayer() == nullptr)
 	{
 		return false;
 	}
-	playerOBB.SetOBBParam_Pos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
+	playerOBB.SetOBBParam_Pos(PlayerControl::GetIns()->GetPlayer()->GetPosition());
 	playerOBB.SetOBBParam_Scl({1, 1, 1});
-	playerOBB.SetOBBParam_Rot(PlayerControl::GetInstance()->GetPlayer()->GetMatrot());
+	playerOBB.SetOBBParam_Rot(PlayerControl::GetIns()->GetPlayer()->GetMatrot());
 
 	//OBB 回転ベクトル
 	StoneOBB.SetOBBParam_Pos(m_Object->GetPosition());
 	StoneOBB.SetOBBParam_Scl({Scale.x + 10, Scale.y, Scale.z + 10});
 	StoneOBB.SetOBBParam_Rot(m_Object->GetMatrot());
 
-	if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), Position) < 40)
+	if (Collision::GetLength(PlayerControl::GetIns()->GetPlayer()->GetPosition(), Position) < 40)
 	{
 		if (Collision::CheckOBBCollision(playerOBB, StoneOBB) == true)
 		{
-			PlayerControl::GetInstance()->GetPlayer()->isOldPos();
+			PlayerControl::GetIns()->GetPlayer()->isOldPos();
 			return true;
 		}
 		return false;
@@ -98,7 +98,7 @@ bool Stone_A::CollideStone()
 
 void Stone_B::Initialize()
 {
-	DebugCamera* camera = CameraControl::GetInstance()->GetCamera();
+	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
 	m_Object = std::make_unique<Object3d>();
 
@@ -131,24 +131,24 @@ void Stone_B::Draw()
 
 bool Stone_B::CollideStone()
 {
-	if (PlayerControl::GetInstance()->GetPlayer() == nullptr)
+	if (PlayerControl::GetIns()->GetPlayer() == nullptr)
 	{
 		return false;
 	}
-	playerOBB.SetOBBParam_Pos(PlayerControl::GetInstance()->GetPlayer()->GetPosition());
+	playerOBB.SetOBBParam_Pos(PlayerControl::GetIns()->GetPlayer()->GetPosition());
 	playerOBB.SetOBBParam_Scl({1, 1, 1});
-	playerOBB.SetOBBParam_Rot(PlayerControl::GetInstance()->GetPlayer()->GetMatrot());
+	playerOBB.SetOBBParam_Rot(PlayerControl::GetIns()->GetPlayer()->GetMatrot());
 
 	//OBB 回転ベクトル
 	StoneOBB.SetOBBParam_Pos(m_Object->GetPosition());
 	StoneOBB.SetOBBParam_Scl({40, 50, 40});
 	StoneOBB.SetOBBParam_Rot(m_Object->GetMatrot());
 
-	if (Collision::GetLength(PlayerControl::GetInstance()->GetPlayer()->GetPosition(), Position) < 140)
+	if (Collision::GetLength(PlayerControl::GetIns()->GetPlayer()->GetPosition(), Position) < 140)
 	{
 		if (Collision::CheckOBBCollision(playerOBB, StoneOBB) == true)
 		{
-			PlayerControl::GetInstance()->GetPlayer()->isOldPos();
+			PlayerControl::GetIns()->GetPlayer()->isOldPos();
 			return true;
 		}
 		return false;

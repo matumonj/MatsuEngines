@@ -35,7 +35,7 @@ private:
 	int count = 0;
 
 public:
-	static SistemConfig* GetInstance();
+	static SistemConfig* GetIns();
 
 	enum Config
 	{
