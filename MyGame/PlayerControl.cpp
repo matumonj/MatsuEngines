@@ -109,6 +109,8 @@ void PlayerControl::Update_Play() //プレイシーン時
 	PlayerAttackState::GetIns()->Update();
 	player->Update();
 
+	TargetMarker::GetIns()->Update_PlayScene(CameraControl::GetIns()->GetCamera());
+
 	DamageTexUpdate();
 }
 

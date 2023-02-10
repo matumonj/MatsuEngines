@@ -168,9 +168,9 @@ bool BossScene::LoadParam()
 {
 	if (LoadF)
 	{
-		for (int i = 0; i < AllObjectControl.size(); i++)
+		for (auto obj : AllObjectControl)
 		{
-			AllObjectControl[i]->Initialize();
+			obj->Initialize();
 		}
 		//カメラをセット
 		f_Object3d::SetCamera(CameraControl::GetIns()->GetCamera());
@@ -193,9 +193,9 @@ bool BossScene::LoadParam()
 /*-----------------------*/
 void BossScene::Finalize()
 {
-	for (int i = 0; i < AllObjectControl.size(); i++)
+	for (auto obj : AllObjectControl)
 	{
-		AllObjectControl[i]->Finalize();
+		obj->Finalize();
 	}
 	AllObjectControl.clear();
 	Field::GetIns()->Finalize();

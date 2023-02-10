@@ -47,7 +47,6 @@ void Tutorial::Initialize()
 	postEffect = new PostEffect();
 	postEffect->Initialize();
 	c_postEffect = Blur;
-	//ミニマップ用のカメラ　後で別のところに移す
 	//各種設定画面
 	SistemConfig::GetIns()->Initialize();
 
@@ -78,20 +77,10 @@ void Tutorial::objUpdate()
 	if (Play)
 	{
 		//csvからの読み込み終わってから更新処理
-		if (AllObjectControl[1] != nullptr)
+		
+		for (auto obj : AllObjectControl)
 		{
-			AllObjectControl[1]->Update();
-		}
-		if (AllObjectControl[0] != nullptr)
-		{
-			AllObjectControl[0]->Update();
-		}
-		for (int i = 2; i < AllObjectControl.size(); i++)
-		{
-			if (AllObjectControl[i] != nullptr)
-			{
-				AllObjectControl[i]->Update();
-			}
+			obj->Update();
 		}
 		UI::GetIns()->HUDUpdate(hudload, CameraControl::GetIns()->GetCamera());
 	}
@@ -171,13 +160,9 @@ void Tutorial::MyGameDraw()
 	Field::GetIns()->Draw();
 	if (Play)
 	{
-		for (int i = 0; i < AllObjectControl.size(); i++)
+		for (auto obj : AllObjectControl)
 		{
-			if (AllObjectControl[i] == nullptr)
-			{
-				continue;
-			}
-			AllObjectControl[i]->Draw();
+			obj->Draw();
 		}
 	}
 	TutorialSprite::GetIns()->DrawTargetPos();
@@ -240,10 +225,10 @@ bool Tutorial::LoadParam()
 {
 	if (Load)
 	{
-		for (int i = 0; i < AllObjectControl.size(); i++)
+		for (auto obj : AllObjectControl)
 		{
 			//初期化
-			AllObjectControl[i]->Initialize();
+			obj->Initialize();
 		}
 		//カメラをセット
 		f_Object3d::SetCamera(CameraControl::GetIns()->GetCamera());
@@ -268,10 +253,9 @@ bool Tutorial::LoadParam()
 /*-----------------------*/
 void Tutorial::Finalize()
 {
-	for (int i = 0; i < AllObjectControl.size(); i++)
+	for (auto obj : AllObjectControl)
 	{
-		//初期化
-		AllObjectControl[i]->Finalize();
+		obj->Finalize();
 	}
 	AllObjectControl.clear();
 	Field::GetIns()->Finalize();

@@ -37,7 +37,6 @@ void PlayScene::Initialize()
 	Object3d::SetLightGroup(lightGroup);
 
 	/*オブジェクトごとのインスタンスを格納*/
-		//カメラ一番上に
 		AllObjectControl.emplace_back(CameraControl::GetIns());
 		AllObjectControl.emplace_back(EnemyControl::GetIns());
 		AllObjectControl.emplace_back(PlayerControl::GetIns());
@@ -62,17 +61,11 @@ void PlayScene::objUpdate()
 {
 	if (PlayGame)
 	{
-		for (int i = 0; i < AllObjectControl.size(); i++)
+		for (auto obj : AllObjectControl)
 		{
-			if (AllObjectControl[i] == nullptr)
-			{
-				continue;
-			}
-			AllObjectControl[i]->Update();
+			obj->Update();
 		}
 	}
-	TargetMarker::GetIns()->Update_PlayScene(CameraControl::GetIns()->GetCamera());
-
 	if (CameraControl::GetIns()->GetCamera() != nullptr)
 	{
 		Field::GetIns()->Update();
@@ -163,13 +156,9 @@ void PlayScene::MyGameDraw()
 	if (Field::GetIns() != nullptr)
 	{
 		Field::GetIns()->Draw();
-		for (int i = 0; i < AllObjectControl.size(); i++)
+		for (auto obj : AllObjectControl)
 		{
-			if (AllObjectControl[i] == nullptr)
-			{
-				continue;
-			}
-			AllObjectControl[i]->Draw();
+			obj->Draw();
 		}
 
 		GuardianShotAttack::GetIns()->Draw();
@@ -228,10 +217,11 @@ void PlayScene::LoadParam()
 {
 	if (Load)
 	{
-		for (int i = 0; i < AllObjectControl.size(); i++)
+		for (auto obj : AllObjectControl)
 		{
-			AllObjectControl[i]->Initialize();
+			obj->Initialize();
 		}
+
 		HUD::GetIns()->playerini();
 		PlayerControl::GetIns()->GetPlayer()->SetHP(PlayerControl::GetIns()->GetPlayer()->GetMaxHP());
 		//カメラをセット
@@ -262,10 +252,10 @@ void PlayScene::LoadParam()
 /*-----------------------*/
 void PlayScene::Finalize()
 {
-	for (int i = 0; i < AllObjectControl.size(); i++)
+	for (auto obj : AllObjectControl)
 	{
-		AllObjectControl[i]->Finalize();
+		obj->Finalize();
 	}
-	Field::GetIns()->Finalize();
 	AllObjectControl.clear();
+	Field::GetIns()->Finalize();
 }

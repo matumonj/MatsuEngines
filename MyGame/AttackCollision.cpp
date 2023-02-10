@@ -182,7 +182,7 @@ void AttackCollision::BossCol(int damage)
 						AttackEffect::GetIns()->SetParticle(
 							EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition());
 						EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->RecvDamage(
-							damage + rand() % 800 + 501);
+							damage + rand() % 8 + 1);
 					}
 				}
 			} else {
@@ -197,7 +197,7 @@ void AttackCollision::BossCol(int damage)
 					AttackEffect::GetIns()->SetParticle(
 						EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition());
 					EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->RecvDamage(
-						damage + rand() % 800 + 500);
+						damage + rand() % 8 + 1);
 				}
 			}
 			HitCol = true;
