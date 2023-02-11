@@ -1,6 +1,8 @@
 #include "PlayerControl.h"
 
 #include "BossEnemyShieldGuard.h"
+
+#include "AttackEffect.h"
 #include "BossEnemyAttackThrow.h"
 
 #include "BossEnemy.h"

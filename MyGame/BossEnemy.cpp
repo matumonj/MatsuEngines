@@ -1,5 +1,4 @@
 #include "BossEnemy.h"
-
 #include <algorithm>
 #include "RushAttack.h"
 #include "CameraControl.h"

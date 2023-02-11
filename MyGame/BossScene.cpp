@@ -1,4 +1,6 @@
 #include "BossScene.h"
+
+#include "AttackEffect.h"
 #include"TitleScene.h"
 #include"SceneManager.h"
 #include"Field.h"

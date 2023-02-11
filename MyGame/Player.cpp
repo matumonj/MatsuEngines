@@ -32,25 +32,21 @@ Player* Player::Create(Model* model, DebugCamera* camera)
 
 Player::AnimeState Player::AnimationSetParam( AttackMotion motion, double speed, bool loop)
 {
-	_AnimeState[motion].AnimationSpeed = speed;
-	_AnimeState[motion].AnimeLoop = loop;
-	_AnimeState[motion].AnimeMotion = motion;
+	AnimeState state;
+
+	state.AnimationSpeed = speed;
+	state.AnimeLoop = loop;
+	state.AnimeMotion = motion;
 	if(PlayerAttackState::GetIns()->GetHitStopJudg())
 	{
-		_AnimeState[motion].AnimationSpeed = 0.3;
+		state.AnimationSpeed = 0.3;
 	}
+	return state;
 }
 
 void Player::Initialize()
 {
-	//アニメーションの基礎パラメータセット
-	_AnimeState[AttackMotion::NON]=AnimationSetParam(NON,1.0,true);
-	_AnimeState[AttackMotion::RUN] = AnimationSetParam(RUN, 1.0, true);
-	_AnimeState[AttackMotion::FIRST] = AnimationSetParam(FIRST, 1.0, false);
-	_AnimeState[AttackMotion::SECOND] = AnimationSetParam(SECOND, 1.0, false);
-	_AnimeState[AttackMotion::THIRD] = AnimationSetParam(THIRD, 1.0, false);
-	_AnimeState[AttackMotion::DEATH] = AnimationSetParam(DEATH, 1.0, false);
-
+	
 	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
 	StopFlag = false;
@@ -109,7 +105,7 @@ void Player::Move()
 		//アニメーションを走りにセット
 		if ((!m_AnimationStop))
 		{
-			AnimationContol( 2, 0.7, true);
+			AnimationContol(_AnimeState[AnimeName::ANIMENAME_RUN]);
 		}
 
 		//上入力
@@ -132,6 +128,13 @@ void Player::Move()
 		{
 			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{ -vel, 0, 0, 0 }, angle);
 		}
+		//アニメーションの基礎パラメータセット
+		_AnimeState[AnimeName::ANIMENAME_NON] = AnimationSetParam(AttackMotion::NON, 1.0, true);
+		_AnimeState[AnimeName::ANIMENAME_RUN] = AnimationSetParam(AttackMotion::RUN, 1.0, true);
+		_AnimeState[AnimeName::ANIMENAME_FIRST] = AnimationSetParam(AttackMotion::FIRST, SelectSword::GetIns()->GetSword()->GetAnimationTime(), false);
+		_AnimeState[AnimeName::ANIMENAME_SECOND] = AnimationSetParam(AttackMotion::SECOND, SelectSword::GetIns()->GetSword()->GetAnimationTime(), false);
+		_AnimeState[AnimeName::ANIMENAME_THIRD] = AnimationSetParam(AttackMotion::THIRD, SelectSword::GetIns()->GetSword()->GetAnimationTime(), false);
+		_AnimeState[AnimeName::ANIMENAME_DEATH] = AnimationSetParam(AttackMotion::DEATH, 1.0, false);
 
 		const float rnd_vel = 0.1f;
 		XMFLOAT3 vel{};
@@ -159,7 +162,7 @@ void Player::Move()
 		//静止時間
 		if ((!m_AnimationStop))
 		{
-			AnimationContol(9, 1, true);
+			AnimationContol(_AnimeState[AnimeName::ANIMENAME_NON]);
 		}
 	}
 
@@ -182,7 +185,7 @@ void Player::Move()
 void Player::ReStartSetParam()
 {
 	m_AnimationStop = false;
-	AnimationContol( 8, 1.0, false);
+	AnimationContol(_AnimeState[AnimeName::ANIMENAME_NON]);
 }
 
 void Player::Death()
@@ -193,7 +196,7 @@ void Player::Death()
 		return;
 	}
 	//アニメーションを死亡に
-	AnimationContol( 7, 1.0, false);
+	AnimationContol(_AnimeState[AnimeName::ANIMENAME_DEATH]);
 
 	m_AnimationStop = true;
 }
@@ -227,7 +230,7 @@ void Player::Evasion()
 		//回避地ヒットストップ切る
 		PlayerAttackState::GetIns()->SetHitStopJudg(false);
 		//FBXタイムを回避モーション開始時に合わせる
-		AnimationContol( 6, 1.0, false);
+		AnimationContol(_AnimeState[AnimeName::ANIMENAME_EVASION]);
 
 		m_AnimationStop = true;
 
@@ -241,7 +244,7 @@ void Player::Evasion()
 		} else
 		{
 			if (m_fbxObject->GetAnimeTime() >= m_fbxObject->GetEndTime() - 0.1f) {
-				AnimationContol( 9, 1, false);
+				AnimationContol(_AnimeState[AnimeName::ANIMENAME_NON]);
 				m_AnimationStop = false;
 
 				evasionF = false;
@@ -334,22 +337,21 @@ void Player::DamageTexDraw()
 		dTex->Draw();
 	}
 }
-void Player::FbxAttackControls(const AttackMotion& motiontype, const AttackMotion nextmotiontype,
-	int number)
+void Player::FbxAttackControls(const AnimeName& motiontype,AttackMotion number)
 {
 	//複数アニメーション読み込んだらこれら消す
 
 
-	if (attackMotion == motiontype)
+	if (attackMotion == number)
 	{
 		//RunParCreate = false;
 		//FBXタイムを剣に持たせたTIME値に開始時に合わせる
-		AnimationContol(number, SelectSword::GetIns()->GetSword()->GetAnimationTime()+0.7, false);
+		AnimationContol(_AnimeState[motiontype]);
 		m_AnimationStop = true;
 
 		if (m_fbxObject->GetAnimeTime() > m_fbxObject->GetEndTime() - 0.05)
 		{
-			OldattackMotion = motiontype;
+			OldattackMotion = number;
 			StopFlag = false;
 			attackMotion = NON;
 		} else
@@ -360,20 +362,12 @@ void Player::FbxAttackControls(const AttackMotion& motiontype, const AttackMotio
 	/*歩きと待機モーションどうするか*/
 }
 
-void Player::AnimationContol(int animenumber, double speed, bool loop)
+void Player::AnimationContol(AnimeState state)
 {
-	if (PlayerAttackState::GetIns()->GetHitStopJudg() == true)
+	if (m_Number != state.AnimeMotion)
 	{
-		m_AnimeSpeed = 0.3;
-	} else {
-		m_AnimeSpeed = speed;
-	}
-
-	if (m_Number != animenumber)
-	{
-		m_AnimeLoop = loop;
-		m_Number = animenumber;
-
+		m_AnimeLoop = state.AnimeLoop;
+		m_Number =state.AnimeMotion;
 		m_fbxObject->PlayAnimation(m_Number);
 	}
 }
@@ -389,13 +383,13 @@ void Player::FbxAnimationControl()
 		attackMotion = NON;
 		return;
 	}
-	float timespeed = 0.02f;
+	constexpr float timespeed = 0.02f;
 	if (StopFlag)
 	{
 		//静止時間
 		if ((!m_AnimationStop))
 		{
-			AnimationContol( 9, 1, true);
+			AnimationContol(_AnimeState[AnimeName::ANIMENAME_NON]);
 		}
 	}
 	if (input->TriggerButton(input->B) && OldattackMotion == NON)
@@ -416,9 +410,9 @@ void Player::FbxAnimationControl()
 		attackMotion = FIRST;
 	}
 
-	FbxAttackControls(FIRST, SECOND, 3);
-	FbxAttackControls(THIRD, FIRST, 5);
-	FbxAttackControls(SECOND, THIRD,  8);
+	FbxAttackControls(AnimeName::ANIMENAME_FIRST,AttackMotion::FIRST);
+	FbxAttackControls(AnimeName::ANIMENAME_SECOND, AttackMotion::THIRD);
+	FbxAttackControls(AnimeName::ANIMENAME_THIRD, AttackMotion::SECOND );
 }
 
 

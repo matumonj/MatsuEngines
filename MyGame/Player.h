@@ -34,8 +34,7 @@ public:
 	void RecvDamage_Cool();
 	//ゲームオーバー時のパラメータセット
 	void ReStartSetParam();
-
-	void DamageJump(bool judg, float knockpower);
+	
 
 public:
 	//接地してるか？
@@ -146,15 +145,26 @@ private:
 
 	XMVECTOR Gmove;
 public:
-	
+	enum AnimeName
+	{
+		ANIMENAME_NON,
+		ANIMENAME_RUN ,
+		ANIMENAME_FIRST,
+		ANIMENAME_SECOND,
+		ANIMENAME_THIRD ,
+		ANIMENAME_EVASION,
+		ANIMENAME_DEATH ,
+	};
+
 	enum AttackMotion
 	{
-		NON,
-		RUN,
-		FIRST,
-		SECOND,
-		THIRD,
-		DEATH
+		NON=9,
+		RUN=2,
+		FIRST=3,
+		SECOND=5,
+		THIRD=8,
+		EVASION=6,
+		DEATH=7
 	};
 
 	AttackMotion GetAttackType() { return attackMotion; }
@@ -170,10 +180,10 @@ private:
 
 
 	//アニメーションの数
-	static constexpr auto AnimationSize = 6;
+	static constexpr auto AnimationSize = 7;
 
 	//各アニメーションの基礎パラメータ
-	typedef struct AnimeState
+	struct AnimeState
 	{
 		AttackMotion AnimeMotion;
 		double AnimationSpeed;
@@ -190,8 +200,8 @@ public:
 private:
 	//待機フラグ
 	bool idlef;
-	void AnimationContol(int animenumber, double speed, bool loop);
-	void FbxAttackControls(const AttackMotion& motiiontype, AttackMotion nextmotiontype, int number);
+	void AnimationContol(AnimeState state);
+	void FbxAttackControls(const AnimeName& motiontype, AttackMotion number);
 
 private:
 	//パラメータ読み込み

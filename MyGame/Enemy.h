@@ -9,6 +9,8 @@
 #include"DebugTxt.h"
 #include<list>
 #include"Task.h"
+
+#include"FbxLoader.h"
 #include"DamageManager.h"
 class NodeBase;
 

@@ -142,9 +142,7 @@ void Nail::CircleAttack(int area1, int area2)
 			if (CAttack.phase == PHASE_TWO) {
 			if (col)
 				{
-					PlayerControl::GetIns()->GetPlayer()->DamageJump(col, 1.3f);
-
-					PlayerControl::GetIns()->GetPlayer()->RecvDamage(5);
+						PlayerControl::GetIns()->GetPlayer()->RecvDamage(5);
 				}
 			}
 			MinY += 2.0f; //“Bo‚é‚æ
