@@ -20,7 +20,6 @@ void GuardianShotAttack::Finalize()
 		ArmEffect[i].reset(nullptr);
 	}
 	PlayerDamageEffect.reset(nullptr);
-
 }
 
 
@@ -108,7 +107,7 @@ void GuardianShotAttack::Upda()
 			ArmObj[i]->SetScale({2.f, 2.f, 1.f});
 			ArmObj[i]->SetRotation(ArmRot[i]);
 			ArmObj[i]->SetColor({1.f, 1.f, 1.f, ArmAlpha[i]});
-			ArmObj[i]->Update( camera);
+			ArmObj[i]->Update(camera);
 
 			ArmEffect[i]->CreateParticle(true, {ArmPos[i]});
 			ArmEffect[i]->Upda();

@@ -22,8 +22,8 @@ public:
 	{
 		SMOKE=64,
 		BOM=65,
-
 	};
+
 	void CreateParticle(bool f, XMFLOAT3 pos)
 	{
 		createpos = pos;
@@ -33,6 +33,7 @@ public:
 			m_particles[NORMAL].phase = INIT;
 		}
 	}
+
 	void BCreateParticle(bool f, XMFLOAT3 pos)
 	{
 		createpos = pos;
@@ -42,6 +43,7 @@ public:
 			m_particles[BLEATH].phase = INIT;
 		}
 	}
+
 private:
 	UINT parnum;
 
@@ -90,16 +92,19 @@ private:
 	void EndParticleUpda(ParParam& parparam);
 
 	void InitNormal(ParParam& parparam, XMFLOAT3 pos);
-	void UpadaNormal_A(ParParam& parparam, float addspeed , float addalpha);
+	void UpadaNormal_A(ParParam& parparam, float addspeed, float addalpha);
 	void UpadaNormal_B(ParParam& parparam);
 	void UpadaBleath(ParParam& parparam);
 	void Charge(ParParam& parparam);
-	enum BleathPhase {
+
+	enum BleathPhase
+	{
 		BNON,
 		BCHARGE,
 		BBLEATH,
 		BEND
-	}bPhase;
+	} bPhase;
+
 public:
 	void SetParScl(XMFLOAT2 scl) { BeginParScl = scl; }
 	void SetParColor(XMFLOAT4 color) { BeginParColor = color; }
@@ -112,14 +117,12 @@ public:
 
 	void EndUpda(bool f)
 	{
-		
-			for (int i = 0; i < m_particles[NORMAL].size; i++) { m_particles[NORMAL].EndParUpda[i] = f; }
-		
+		for (int i = 0; i < m_particles[NORMAL].size; i++) { m_particles[NORMAL].EndParUpda[i] = f; }
 	}
+
 	void StartUpda(bool f)
 	{
-			for (int i = 0; i < m_particles[NORMAL].size; i++) { m_particles[NORMAL].EndParUpda[i] = f; }
-
+		for (int i = 0; i < m_particles[NORMAL].size; i++) { m_particles[NORMAL].EndParUpda[i] = f; }
 	}
 
 

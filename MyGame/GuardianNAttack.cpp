@@ -81,8 +81,8 @@ void GuardianNAttack::Upda()
 	normalAttackObj->SetColor({0.7f, 0.7f, 0.7f, 0.5f});
 	normalAttackObj->SetRotation({180.0f, 0.0f, 0.0f});
 	normalAttackObj->SetScale(BeamObjScl);
-	normalAttackObj->Update( camera);
-	
+	normalAttackObj->Update(camera);
+
 	TexAlpha = max(TexAlpha, 0.f);
 }
 

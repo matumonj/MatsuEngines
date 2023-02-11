@@ -354,7 +354,7 @@ void f_Object3d::Update(bool Loop, double Speed, bool& Stop)
 	if (isPlay)
 	{
 		//1ÉtÉåÅ[ÉÄêiÇﬂÇÈ
-		AnimationSpeed += frameTime.GetSecondDouble() * static_cast<double>(Speed);
+		AnimationSpeed += frameTime.GetSecondDouble() * Speed;
 
 		//ç≈å„Ç‹Ç≈çƒê∂ÇµÇΩÇÁêÊì™Ç…ñﬂÇ∑
 		if (Loop)
@@ -598,15 +598,16 @@ XMMATRIX f_Object3d::ExtractScaleMat(XMMATRIX matworld)
 	return XMMatrixScaling(
 		XMVector3Length(XMVECTOR{
 			matworld.r[0].m128_f32[0], matworld.r[0].m128_f32[1], matworld.r[0].m128_f32[2]
-			}).m128_f32[0],
+		}).m128_f32[0],
 		XMVector3Length(XMVECTOR{
 			matworld.r[1].m128_f32[0], matworld.r[1].m128_f32[1], matworld.r[1].m128_f32[2]
-			}).m128_f32[0],
+		}).m128_f32[0],
 		XMVector3Length(XMVECTOR{
 			matworld.r[2].m128_f32[0], matworld.r[2].m128_f32[1], matworld.r[2].m128_f32[2]
-			}).m128_f32[0]
+		}).m128_f32[0]
 	);
 }
+
 XMMATRIX f_Object3d::ExtractPositionMat(XMMATRIX matworld)
 {
 	return XMMatrixTranslation(matworld.r[3].m128_f32[0], matworld.r[3].m128_f32[1], matworld.r[3].m128_f32[2]);

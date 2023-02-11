@@ -97,7 +97,7 @@ void RushAttack::Upda()
 	RushSphereObj->SetScale(rushspherescl);
 	RushSphereObj->SetColor({1.f, 1.f, 1.f, rushspherealpha});
 	RushSphereObj->SetUVf(true);
-	RushSphereObj->Update( CameraControl::GetIns()->GetCamera());
+	RushSphereObj->Update(CameraControl::GetIns()->GetCamera());
 }
 
 #include"imgui.h"
@@ -131,7 +131,7 @@ void RushAttack::RushStart()
 	//”íƒ_ƒ[ƒW
 	const int Damage = 10;
 
-	const bool nextPhaseF= RushAttackCount >= 90;
+	const bool nextPhaseF = RushAttackCount >= 90;
 	rushspherescl.x = Easing::EaseOut(RushEaseTime, 0.0f, 30.0f);
 	rushspherescl.y = Easing::EaseOut(RushEaseTime, 0.0f, 30.0f);
 	rushspherescl.z = Easing::EaseOut(RushEaseTime, 0.0f, 30.0f);

@@ -78,7 +78,7 @@ void PlaceFence::Update(DebugCamera* camera)
 	Obj->SetPosition(pos);
 	Obj->SetRotation(rot);
 	Obj->SetScale(scl);
-	Obj->Update( camera);
+	Obj->Update(camera);
 }
 
 void PlaceFence::Draw()

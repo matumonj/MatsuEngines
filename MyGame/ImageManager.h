@@ -51,7 +51,6 @@ public:
 		CHESTCOUNT_FRAME,
 		//
 		STITLE,
-
 	};
 
 	enum tex2dName

@@ -62,7 +62,7 @@ void Nail::HalfAttack(const HalfAttackArea& area)
 		{
 			Nails[i]->SetPosition({Nails[i]->GetPosition().x, MinY, Nails[i]->GetPosition().z});
 		}
-		
+
 		HAttack.WaitCount = 0;
 		break;
 	case PHASE_THREE:
@@ -93,7 +93,7 @@ void Nail::HalfAttack(const HalfAttackArea& area)
 	for (int i = 0; i < Nails.size(); i++)
 	{
 		Nails[i]->SetRotation({180.0f, 0.0f, 0.0f});
-		Nails[i]->Update( CameraControl::GetIns()->GetCamera());
+		Nails[i]->Update(CameraControl::GetIns()->GetCamera());
 	}
 }
 
@@ -139,10 +139,11 @@ void Nail::CircleAttack(int area1, int area2)
 	case PHASE_TWO:
 		if (MinY <= 20.0f)
 		{
-			if (CAttack.phase == PHASE_TWO) {
-			if (col)
+			if (CAttack.phase == PHASE_TWO)
+			{
+				if (col)
 				{
-						PlayerControl::GetIns()->GetPlayer()->RecvDamage(5);
+					PlayerControl::GetIns()->GetPlayer()->RecvDamage(5);
 				}
 			}
 			MinY += 2.0f; //ìBèoÇÈÇÊ
@@ -186,7 +187,7 @@ void Nail::CircleAttack(int area1, int area2)
 	for (int i = 0; i < Nails.size(); i++)
 	{
 		Nails[i]->SetRotation({180.0f, 0.0f, 0.0f});
-		Nails[i]->Update( CameraControl::GetIns()->GetCamera());
+		Nails[i]->Update(CameraControl::GetIns()->GetCamera());
 	}
 }
 

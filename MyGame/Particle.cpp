@@ -19,6 +19,7 @@ void Particle::Init(UINT num)
 }
 
 #include"PlayerControl.h"
+
 void Particle::Charge(ParParam& parparam)
 {
 	float dis[20];
@@ -27,7 +28,7 @@ void Particle::Charge(ParParam& parparam)
 
 	float disX[20], disY[20], disZ[20];
 
-	XMFLOAT3 mouthPos=EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
+	XMFLOAT3 mouthPos = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
 	if (parparam.phase != UPDA)
 	{
 		return;
@@ -37,9 +38,11 @@ void Particle::Charge(ParParam& parparam)
 	{
 		if (!parparam.f[i])
 		{
-			parparam.vel[i] = { mouthPos.x+rand()%20-10,mouthPos.y+5.f ,
-			mouthPos.z+ rand() % 20 - 10 };
-			parparam.scl[i] = { 2.0f, 2.0f };
+			parparam.vel[i] = {
+				mouthPos.x + rand() % 20 - 10, mouthPos.y + 5.f,
+				mouthPos.z + rand() % 20 - 10
+			};
+			parparam.scl[i] = {2.0f, 2.0f};
 			parparam.speed[i] = 0.0f;
 			parparam.alpha[i] = 1.0f;
 			parparam.f[i] = true;
@@ -47,21 +50,22 @@ void Particle::Charge(ParParam& parparam)
 			break;
 		}
 
-			disX[i] = mouthPos.x -parparam.vel[i].x;
-			disY[i] = mouthPos.y - parparam.vel[i].y;
+		disX[i] = mouthPos.x - parparam.vel[i].x;
+		disY[i] = mouthPos.y - parparam.vel[i].y;
 		disZ[i] = mouthPos.z - parparam.vel[i].z;
-			dis[i] = Collision::GetLength(mouthPos, parparam.vel[i]);
-			//trad=(PlayerControl::GetIns()->GetPlayer()->GetPosition().y - it->position.y, PlayerControl::GetIns()->GetPlayer()->GetPosition().x - it->position.x);
+		dis[i] = Collision::GetLength(mouthPos, parparam.vel[i]);
+		//trad=(PlayerControl::GetIns()->GetPlayer()->GetPosition().y - it->position.y, PlayerControl::GetIns()->GetPlayer()->GetPosition().x - it->position.x);
 
 		//座標のセット
-			if (dis[i] > 1.0f)
-			{
-				//座標のセット
-				parparam.vel[i] = {
-				parparam.vel[i].x + (disX[i] / dis[i]) * centerSpeed,parparam.vel[i].y + (disY[i] / dis[i]) * centerSpeed,
-					parparam.vel[i].z + (disZ[i] / dis[i]) * centerSpeed
-				};
-			}
+		if (dis[i] > 1.0f)
+		{
+			//座標のセット
+			parparam.vel[i] = {
+				parparam.vel[i].x + (disX[i] / dis[i]) * centerSpeed,
+				parparam.vel[i].y + (disY[i] / dis[i]) * centerSpeed,
+				parparam.vel[i].z + (disZ[i] / dis[i]) * centerSpeed
+			};
+		}
 		parparam.speed[i] += 0.002f; //徐々にスピードを速く
 		parparam.alpha[i] -= 0.02f;
 		if (parparam.alpha[i] < 0.0f && parparam.EndParUpda[i] == false)
@@ -72,9 +76,9 @@ void Particle::Charge(ParParam& parparam)
 	for (int i = 0; i < parparam.size; i++)
 	{
 		parparam.partex[i]->SetPosition(parparam.vel[i]);
-		parparam.partex[i]->SetScale({ parparam.scl[i].x, parparam.scl[i].y, 1.0f });
+		parparam.partex[i]->SetScale({parparam.scl[i].x, parparam.scl[i].y, 1.0f});
 		parparam.partex[i]->SetBillboard(TRUE);
-		parparam.partex[i]->SetColor({ 1.f, 1.f, 1.f, parparam.alpha[i] });
+		parparam.partex[i]->SetColor({1.f, 1.f, 1.f, parparam.alpha[i]});
 		parparam.partex[i]->Update(CameraControl::GetIns()->GetCamera());
 	}
 	if (isAryEqual(parparam.alpha) == true)
@@ -90,41 +94,44 @@ void Particle::UpadaBleath(ParParam& parparam)
 	//追跡スピード
 	float centerSpeed = 0.2f;
 
-	float disX[20],disY[20],disZ[20];
+	float disX[20], disY[20], disZ[20];
 
 	//敵とプレイヤーの距離求め
-	for (int i = 0; i < 20; i++) {
+	for (int i = 0; i < 20; i++)
+	{
 		disX[i] = PlayerControl::GetIns()->GetPlayer()->GetPosition().x - m_particles[BLEATH].vel[i].x;
 		disY[i] = PlayerControl::GetIns()->GetPlayer()->GetPosition().y - m_particles[BLEATH].vel[i].y;
 		disZ[i] = PlayerControl::GetIns()->GetPlayer()->GetPosition().z - m_particles[BLEATH].vel[i].z;
 		dis[i] = Collision::GetLength(PlayerControl::GetIns()->GetPlayer()->GetPosition(), m_particles[BLEATH].vel[i]);
 		//trad=(PlayerControl::GetIns()->GetPlayer()->GetPosition().y - it->position.y, PlayerControl::GetIns()->GetPlayer()->GetPosition().x - it->position.x);
 
-	//座標のセット
+		//座標のセット
 		if (dis[i] > 1.0f)
 		{
 			//座標のセット
 			m_particles[BLEATH].vel[i] = {
-			m_particles[BLEATH].vel[i].x + (disX[i] / dis[i]) * centerSpeed,m_particles[BLEATH].vel[i].y + (disY[i] / dis[i]) * centerSpeed,
+				m_particles[BLEATH].vel[i].x + (disX[i] / dis[i]) * centerSpeed,
+				m_particles[BLEATH].vel[i].y + (disY[i] / dis[i]) * centerSpeed,
 				m_particles[BLEATH].vel[i].z + (disZ[i] / dis[i]) * centerSpeed
 			};
 		}
 	}
 }
+
 void Particle::Bleath()
 {
 	InitNormal(m_particles[BLEATH], createpos);
 	Charge(m_particles[BLEATH]);
 }
 
-void Particle::Upda(float addspeed, float addalpha )
+void Particle::Upda(float addspeed, float addalpha)
 {
 	if (Input::GetIns()->TriggerButton(Input::Y))
 	{
 		//	m_particles[ParType::NORMAL].phase = INIT;
 	}
 	InitNormal(m_particles[NORMAL], createpos);
-	UpadaNormal_A(m_particles[NORMAL],addspeed,addalpha);
+	UpadaNormal_A(m_particles[NORMAL], addspeed, addalpha);
 }
 
 void Particle::Upda_B()
@@ -205,7 +212,7 @@ void Particle::InitNormal(ParParam& parparam, XMFLOAT3 pos)
 	parparam.phase = UPDA;
 }
 
-void Particle::UpadaNormal_A(ParParam& parparam, float addspeed , float addalpha )
+void Particle::UpadaNormal_A(ParParam& parparam, float addspeed, float addalpha)
 {
 	if (parparam.phase != UPDA)
 	{

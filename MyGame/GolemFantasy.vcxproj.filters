@@ -226,9 +226,6 @@
     <Filter Include="Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\FirstHalf\Action\Circle">
       <UniqueIdentifier>{279e40b5-7db3-46d6-a070-50d42c25340d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\FirstHalf\Action\Cross">
-      <UniqueIdentifier>{435b93e8-885a-4839-822e-33e95ad772e9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\FirstHalf\Action\Summon">
       <UniqueIdentifier>{c927ed9f-1aa8-4327-9719-c39ba1af8438}</UniqueIdentifier>
     </Filter>
@@ -261,6 +258,9 @@
     </Filter>
     <Filter Include="Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\SecondHalf\Sequence\FrontCircle">
       <UniqueIdentifier>{10d7e598-b293-4fb1-a3da-05c5fc051c11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\FirstHalf\Action\Cross">
+      <UniqueIdentifier>{435b93e8-885a-4839-822e-33e95ad772e9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -703,6 +703,9 @@
       <Filter>Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\SecondHalf\Sequence\FrontCircle</Filter>
     </ClCompile>
     <ClCompile Include="BossEnemyShieldGuard.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="FootSwitch.cpp">
       <Filter>Game</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1173,6 +1176,9 @@
       <Filter>Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\SecondHalf\Sequence\FrontCircle</Filter>
     </ClInclude>
     <ClInclude Include="BossEnemyShieldGuard.h">
+      <Filter>Game\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="FootSwitch.h">
       <Filter>Game\Shader</Filter>
     </ClInclude>
   </ItemGroup>

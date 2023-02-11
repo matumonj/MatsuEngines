@@ -92,6 +92,7 @@ void CircleAttack::Upda()
 	Nail::GetIns()->Update();
 }
 
+
 void CircleAttack::Draw()
 {
 	Texture::PreDraw();
@@ -211,4 +212,3 @@ void CircleAttack::EndAttackAction()
 	CircleSize = {0.0f, 0.0f};
 	NailObj.clear();
 }
-

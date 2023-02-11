@@ -26,7 +26,7 @@ public:
 	void Update() override;
 	//描画
 	void Draw() override;
-	
+
 public:
 	//受攻撃
 	void RecvDamage(int Damage);
@@ -34,13 +34,16 @@ public:
 	void RecvDamage_Cool();
 	//ゲームオーバー時のパラメータセット
 	void ReStartSetParam();
-	
+
 
 public:
 	//接地してるか？
 	constexpr bool GetOnGround() { return onGround; }
 	//OBBの当たり判定に使うプレイヤーの回転行列取得
-	XMMATRIX GetMatrot() { return m_fbxObject->ExtractRotationMat(m_fbxObject->ExtractPositionMat(m_fbxObject->GetMatRot())); };
+	XMMATRIX GetMatrot()
+	{
+		return m_fbxObject->ExtractRotationMat(m_fbxObject->ExtractPositionMat(m_fbxObject->GetMatRot()));
+	};
 	//SelectSwordに使うプレイヤーの手のワールド行列
 	XMMATRIX GetHanMat() { return m_fbxObject->GetHandBoneMatWorld(); }
 
@@ -58,6 +61,7 @@ public:
 	{
 		return m_fbxObject->ExtractRotationMat(m_fbxObject->GetMatRot());
 	}
+
 	//体力
 	constexpr int& GetHP() { return HP; }
 	//体力最大値
@@ -97,27 +101,27 @@ private:
 	//回避処理
 	void Evasion();
 public:
-	
 	//座標の押し戻し
-	inline void isOldPos()
+	void isOldPos()
 	{
 		Position.x = oldpos.x;
 		//Position.y = oldpos.y;
 		Position.z = oldpos.z;
 	}
+
 	//ダメージ受けた時のノックバック
-	void KnockBack(XMFLOAT3 rot,float Knock);
+	void KnockBack(XMFLOAT3 rot, float Knock);
 
 private:
 	//走った時の土煙
-	std::unique_ptr<Particle>runparticle;
+	std::unique_ptr<Particle> runparticle;
 	//発生させるかどうか
 	bool RunParCreate;
 
 	//プレイヤーが持つ剣
 	std::unique_ptr<SwordBase> sword = nullptr;
 	float angle;
-	
+
 	float KnockPower;
 private:
 	//前座標
@@ -148,12 +152,12 @@ public:
 	enum AnimeName
 	{
 		ANIMENAME_NON,
-		ANIMENAME_RUN ,
+		ANIMENAME_RUN,
 		ANIMENAME_FIRST,
 		ANIMENAME_SECOND,
-		ANIMENAME_THIRD ,
+		ANIMENAME_THIRD,
 		ANIMENAME_EVASION,
-		ANIMENAME_DEATH ,
+		ANIMENAME_DEATH,
 	};
 
 	enum AttackMotion
@@ -169,7 +173,7 @@ public:
 
 	AttackMotion GetAttackType() { return attackMotion; }
 	AttackMotion GetAttackTypeOld() { return OldattackMotion; }
-	
+
 private:
 	/*ここから後まとめて消す*/
 	AttackMotion OldattackMotion = NON;
@@ -190,11 +194,10 @@ private:
 		bool AnimeLoop;
 	};
 
-	std::array<AnimeState, AnimationSize>_AnimeState;
+	std::array<AnimeState, AnimationSize> _AnimeState;
 
-	AnimeState AnimationSetParam(AttackMotion motion,double speed,bool loop);
+	AnimeState AnimationSetParam(AttackMotion motion, double speed, bool loop);
 public:
-
 	AttackMotion GetAnimeType() { return attackMotion; }
 
 private:

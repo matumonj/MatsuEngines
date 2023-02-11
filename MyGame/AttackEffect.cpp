@@ -17,20 +17,19 @@ void AttackEffect::Init()
 	Texture::LoadTexture(14, L"Resources/2d/attackEffect/slash_third.png");
 	Texture::LoadTexture(15, L"Resources/2d/attackEffect/inpact.png");
 
-	Texture* l_tex[2];// = nullptr;
+	Texture* l_tex[2]; // = nullptr;
 
 	if (etype == SLASH_FIRST)
 	{
-
 	}
-	for (int i = 0; i < Gsize; i++) {
+	for (int i = 0; i < Gsize; i++)
+	{
 		//攻撃テクスチャ設定
-		l_tex[i] = Texture::Create(12, { 0.0f, 0.0f, 1 }, { 0, 0, 1 }, { 1, 1, 1, 1 });
+		l_tex[i] = Texture::Create(12, {0.0f, 0.0f, 1}, {0, 0, 1}, {1, 1, 1, 1});
 		GuardTex[i].reset(l_tex[i]);
 		GuardTex[i]->CreateTexture();
-		GuardTex[i]->SetAnchorPoint({ 0.5f,0.5f });
+		GuardTex[i]->SetAnchorPoint({0.5f, 0.5f});
 	}
-
 }
 
 void AttackEffect::LoadTex()
@@ -39,10 +38,10 @@ void AttackEffect::LoadTex()
 	TexScl.x = 2.0f;
 
 	//攻撃テクスチャ用
-	
-	Texture* l_tex= Texture::Create(12, { 0.0f, 0.0f, 1 }, { 0, 0, 1 }, { 1, 1, 1, 1 });
+
+	Texture* l_tex = Texture::Create(12, {0.0f, 0.0f, 1}, {0, 0, 1}, {1, 1, 1, 1});
 	// = nullptr;
-	
+
 
 	AttackTex.reset(l_tex);
 	AttackTex->CreateTexture();
@@ -187,56 +186,52 @@ void AttackEffect::Upda()
 	TexScl.y = min(TexScl.y, 4.0f);
 	TexScl.x = max(TexScl.x, 0.0f);
 	texAlpha = max(texAlpha, 0.0f);
-
-
-
 }
 
 void AttackEffect::GuarEffect(XMFLOAT3 pos)
 {
-		switch (gphase)
+	switch (gphase)
+	{
+	case NOGUARD:
+		for (int i = 0; i < Gsize; i++)
 		{
-
-		case NOGUARD:
-			for (int i = 0; i < Gsize; i++)
-			{
-				GuardAlpha[i] = 1.f;
-				GuardSize[i] = { 0.f,0.f,0.f };
-			}
+			GuardAlpha[i] = 1.f;
+			GuardSize[i] = {0.f, 0.f, 0.f};
+		}
 
 		gphase = LARGE;
-			break;
+		break;
 
-		case LARGE:
-			GuardSize[0].x += 0.07f;
-			GuardSize[0].y += 0.07f;
-			GuardAlpha[0] -= 0.01f;
+	case LARGE:
+		GuardSize[0].x += 0.07f;
+		GuardSize[0].y += 0.07f;
+		GuardAlpha[0] -= 0.01f;
 
-			if (GuardSize[0].x > 1.0f)
-			{
-				GuardSize[1].x += 0.07f;
-				GuardSize[1].y += 0.07f;
-				GuardAlpha[1] -= 0.01f;
-			}
-			if (GuardAlpha[1] < 0.0f)
-			{
-				gphase = END;
-			}
-			break;
-
-		case END:
-			break;
+		if (GuardSize[0].x > 1.0f)
+		{
+			GuardSize[1].x += 0.07f;
+			GuardSize[1].y += 0.07f;
+			GuardAlpha[1] -= 0.01f;
 		}
-	
+		if (GuardAlpha[1] < 0.0f)
+		{
+			gphase = END;
+		}
+		break;
+
+	case END:
+		break;
+	}
+
 	for (int i = 0; i < Gsize; i++)
 	{
 		//GuardSize[i] = { 5,5,5 };
 		GuardTex[i]->SetBillboard(FALSE);
 		GuardTex[i]->SetPosition(pos);
-		GuardTex[i]->SetRotation({ defrot.x,defrot.y + 304.f,defrot.z });
+		GuardTex[i]->SetRotation({defrot.x, defrot.y + 304.f, defrot.z});
 
-		GuardTex[i]->SetScale({ GuardSize[i]});
-		GuardTex[i]->SetColor({ 1.0f, 1.0f, 1.0f, GuardAlpha[i]});
+		GuardTex[i]->SetScale({GuardSize[i]});
+		GuardTex[i]->SetColor({1.0f, 1.0f, 1.0f, GuardAlpha[i]});
 		GuardTex[i]->Update(CameraControl::GetIns()->GetCamera());
 	}
 }
@@ -256,9 +251,12 @@ void AttackEffect::Draw()
 		AttackParticle[i]->Draw();
 	}
 
-	for(int i=0;i<Gsize;i++)
+	for (int i = 0; i < Gsize; i++)
 	{
-		if (GuardTex[i] == nullptr)continue;
+		if (GuardTex[i] == nullptr)
+		{
+			continue;
+		}
 		GuardTex[i]->Draw();
 	}
 	if (InpactTex != nullptr)

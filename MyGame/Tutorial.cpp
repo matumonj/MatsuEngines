@@ -52,7 +52,6 @@ void Tutorial::Initialize()
 	SistemConfig::GetIns()->Initialize();
 
 	SelectSword::GetIns()->Initialize();
-	
 }
 
 void Tutorial::LightSet()
@@ -78,7 +77,7 @@ void Tutorial::objUpdate()
 	if (Play)
 	{
 		//csv‚©‚ç‚Ì“Ç‚Ýž‚ÝI‚í‚Á‚Ä‚©‚çXVˆ—
-		
+
 		for (auto obj : AllObjectControl)
 		{
 			obj->Update();
@@ -128,9 +127,10 @@ void Tutorial::Update()
 		Play = false;
 		SceneManager::GetIns()->SetScene(SceneManager::PLAY, sceneManager_);
 	}
-	if(Input::GetIns()->TriggerButton(Input::START))
-	SceneManager::GetIns()->SetScene(SceneManager::BOSS, sceneManager_);
-
+	if (Input::GetIns()->TriggerButton(Input::START))
+	{
+		SceneManager::GetIns()->SetScene(SceneManager::BOSS, sceneManager_);
+	}
 }
 
 void Tutorial::LightUpdate()
@@ -147,7 +147,7 @@ void Tutorial::LightUpdate()
 		lightGroup->SetCircleShadowFactorAngle(0, XMFLOAT2(circleShadowFactorAngle2));
 	}
 	lightGroup->SetCircleShadowDir(1, XMVECTOR({circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0}));
-	lightGroup->SetCircleShadowCasterPos(1, {ppos.x,ppos.y+5.f,ppos.z});
+	lightGroup->SetCircleShadowCasterPos(1, {ppos.x, ppos.y + 5.f, ppos.z});
 	lightGroup->SetCircleShadowAtten(1, XMFLOAT3(circleShadowAtten));
 	lightGroup->SetCircleShadowFactorAngle(1, XMFLOAT2(circleShadowFactorAngle));
 }
@@ -157,7 +157,6 @@ void Tutorial::LightUpdate()
 /*----------obj----------*/
 void Tutorial::MyGameDraw()
 {
-
 	Field::GetIns()->Draw();
 	if (Play)
 	{
@@ -172,7 +171,6 @@ void Tutorial::MyGameDraw()
 
 void Tutorial::SpriteDraw()
 {
-
 	Sprite::PreDraw();
 	if (EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr)
 	{
@@ -183,7 +181,6 @@ void Tutorial::SpriteDraw()
 	UI::GetIns()->HUDDraw();
 	Feed::GetIns()->Draw();
 	SistemConfig::GetIns()->Draw();
-
 }
 
 /*------------------------*/

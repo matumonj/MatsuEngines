@@ -38,8 +38,6 @@ void ImageManager::Load2D()
 	Sprite::LoadTexture(CHESTCOUNT, L"Resources/chestCollect1.png");
 	Sprite::LoadTexture(CHESTCOUNT_FRAME, L"Resources/2d/Expadian.png");
 	Sprite::LoadTexture(STITLE, L"Resources/chestColFrame.png");
-
-	
 }
 
 void ImageManager::Init()
@@ -70,7 +68,6 @@ void ImageManager::Init()
 	LoadTex2D(GAMECLEAR_R, L"Resources/2d/ClearTex/r.png");
 	LoadTex2D(CLEARBACK, L"Resources/skydome/beautiful_tree-beautiful_natural_landscape_wallpaper_1366x768.jpg");
 	LoadTex2D(HELPICON, L"Resources/2d/attackEffect/searchPlwyer.png");
-
 }
 
 void ImageManager::LoadTex2D(const tex2dName imageName, wchar_t* fileName)

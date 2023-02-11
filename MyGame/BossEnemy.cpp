@@ -22,7 +22,6 @@ using namespace DirectX;
 
 BossEnemy::BossEnemy()
 {
-
 	//オブジェのセット
 	ResourcesSet();
 	//ボス攻撃のインスタンス格納
@@ -33,7 +32,6 @@ BossEnemy::BossEnemy()
 	BossAttackAction.emplace_back(BronzeAttack::GetIns());
 	BossAttackAction.emplace_back(ThrowRockAttack::GetIns());
 	//BossAttackAction.emplace_back(HalfAttack::GetIns());
-
 }
 
 /// <summary>
@@ -43,7 +41,6 @@ BossEnemy::~BossEnemy()
 {
 	Destroy_unique(m_Object);
 	Destroy_unique(m_fbxObject);
-
 }
 
 
@@ -66,7 +63,7 @@ void BossEnemy::ResourcesSet()
 	Sprite* BossHPFrame_Inner = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::BOSSHPFRAMEINNER2),
 	                                           {0, 0});
 	m_BossHP.reset(l_Bar);
-	m_BossHP->SetAnchorPoint({ 0.f,0.0f });
+	m_BossHP->SetAnchorPoint({0.f, 0.0f});
 	m_BossHPFrame.reset(BossHPFrame);
 	m_BossHPFrame2.reset(BossHPFrame_Inner);
 
@@ -74,17 +71,15 @@ void BossEnemy::ResourcesSet()
 	Sword = std::make_unique<Object3d>();
 	Sword->Initialize(camera);
 	Sword->SetModel(ModelManager::GetIns()->GetModel(ModelManager::BOSSWEAPON));
-	swordrot={326.f,198.f,297.f};
-	Sword->SetScale({ 9,9,9 });
+	swordrot = {326.f, 198.f, 297.f};
+	Sword->SetScale({9, 9, 9});
 
-	ShieldObj= std::make_unique<Object3d>();
-	
+	ShieldObj = std::make_unique<Object3d>();
+
 	ShieldObj->Initialize(camera);
 	ShieldObj->SetModel(ModelManager::GetIns()->GetModel(ModelManager::SHIELD));
-	swordrot = { 326.f,198.f,297.f };
-	ShieldObj->SetScale({ 38,42,38 });
-
-
+	swordrot = {326.f, 198.f, 297.f};
+	ShieldObj->SetScale({38, 42, 38});
 }
 
 //初期化処理
@@ -97,10 +92,10 @@ void BossEnemy::Initialize()
 
 	Scale = {0.1f, 0.1f, 0.1f};
 	Rotation = {180.0f, 0.0f, -181.0f};
-	
+
 	radius_adjustment = 0;
 	cooltime = 0;
-	
+
 	DeathFlag = false;
 
 	//FollowRotAngleCorrect = -85.0f;
@@ -115,11 +110,11 @@ void BossEnemy::Initialize()
 
 	BarPos = {381.0f, 862.0f};
 	BarFramePos = {122.0f, 830.0f};
-	FrameScl.x = Percent::GetParcent(static_cast<float>(MaxHP), static_cast<float>(EnemyHP)) *17.0f;
+	FrameScl.x = Percent::GetParcent(static_cast<float>(MaxHP), static_cast<float>(EnemyHP)) * 17.0f;
 
 	//各攻撃処理の初期化
-	
-	for (int i = 0; i < BossAttackAction.size(); i++) 
+
+	for (int i = 0; i < BossAttackAction.size(); i++)
 	{
 		BossAttackAction[i]->Init();
 	}
@@ -129,7 +124,6 @@ void BossEnemy::Initialize()
 	HalfAttack::GetIns()->SetAttackPhase(false);
 	RushAttack::GetIns()->SetAttackPhase(false);
 	FrontCircleAttack::GetIns()->SetAttackPhase(false);
-	
 }
 
 //更新処理
@@ -140,7 +134,7 @@ void BossEnemy::Update()
 		return;
 	}
 	//swordrot = { 0,42,164 };
-	
+
 	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
 	et += 0.01f;
@@ -156,12 +150,12 @@ void BossEnemy::Update()
 	//FbxAnimationControl();
 	//座標やスケールの反映
 	m_fbxObject->SetColor({1.0f, 1.0f, 1.0f, alpha});
-	m_fbxObject->SetPosition({ Position.x, Position.y+1.4f, Position.z });
+	m_fbxObject->SetPosition({Position.x, Position.y + 1.4f, Position.z});
 	m_fbxObject->SetRotation(Rotation);
 	m_fbxObject->SetScale(Scale);
 
 	m_Object->SetPosition(Position);
-	
+
 	m_fbxObject->Update(m_AnimeLoop, m_AnimeSpeed, m_AnimationStop);
 	//攻撃後のクールタイム設定
 	AttackCoolTime();
@@ -173,78 +167,76 @@ void BossEnemy::Update()
 	HPGaugeBoss();
 	//持ってる斧の更新
 	Sword->Setf(FALSE);
-	Sword->SetRotation({303,169,306});
-	Sword->Update(handmat_left, { 1.0f, 1.0f, 1.0f, 1.0f }, camera);
+	Sword->SetRotation({303, 169, 306});
+	Sword->Update(handmat_left, {1.0f, 1.0f, 1.0f, 1.0f}, camera);
 
 	ShieldObj->Setf(FALSE);
 	//ShieldObj->SetPosition(HandPos_Right);
 	ShieldObj->SetRotation(swordrot);
 	ShieldObj->SetBloomF(true);
 	//ShieldObj->SetShadowF(false);
-	ShieldObj->Update(handmat_right, { 1.0f, 1.0f, 1.0f, 1.0f }, camera);
+	ShieldObj->Update(handmat_right, {1.0f, 1.0f, 1.0f, 1.0f}, camera);
 
 	Position.x = std::clamp(Position.x, -100.f, 100.f);
 	Position.z = std::clamp(Position.z, -100.f, 100.f);
 
-	for (int i = 0; i < BossAttackAction.size();i++) {
+	for (int i = 0; i < BossAttackAction.size(); i++)
+	{
 		BossAttackAction[i]->Upda();
 	}
 	HalfAttack::GetIns()->Upda();
 
 
-	
-	if(GuardAction)
+	if (GuardAction)
 	{
 		guardtime++;
-	
 	}
 	else
 	{
 		GuarPoint = 0;
 		guardtime = 0;
 	}
-
 }
 
 void BossEnemy::AttackCollide()
 {
 	//右手のボーン座標取る
-	m_fbxObject->GetBoneIndexMat(26,handmat_right);
+	m_fbxObject->GetBoneIndexMat(26, handmat_right);
 	HandPos_Right = {
-	handmat_right.r[3].m128_f32[0], handmat_right.r[3].m128_f32[1], handmat_right.r[3].m128_f32[2]
+		handmat_right.r[3].m128_f32[0], handmat_right.r[3].m128_f32[1], handmat_right.r[3].m128_f32[2]
 	};
 	//
 	m_fbxObject->GetBoneIndexMat(29, handmat_right2);
 	HandPos_Right2 = {
-	handmat_right2.r[3].m128_f32[0], handmat_right2.r[3].m128_f32[1], handmat_right2.r[3].m128_f32[2]
+		handmat_right2.r[3].m128_f32[0], handmat_right2.r[3].m128_f32[1], handmat_right2.r[3].m128_f32[2]
 	};
 	//左
 	m_fbxObject->GetBoneIndexMat(69, handmat_left);
 	HandPos_Left = {
 		handmat_left.r[3].m128_f32[0], handmat_left.r[3].m128_f32[1], handmat_left.r[3].m128_f32[2]
 	};
-	if (m_Number==NowAttackMotion::BNORMAL)
+	if (m_Number == BNORMAL)
 	{
 		if (Collision::GetLength(HandPos_Right,
-			PlayerControl::GetIns()->GetPlayer()->GetPosition()
+		                         PlayerControl::GetIns()->GetPlayer()->GetPosition()
 		) < 10.f)
 		{
 			PlayerControl::GetIns()->GetPlayer()->RecvDamage(5);
 		}
 	}
 	//武器
-	if (m_Number == NowAttackMotion::BNORMAL2 || m_Number == NowAttackMotion::SWING)
+	if (m_Number == BNORMAL2 || m_Number == SWING)
 	{
 		//手のワールド行列から各成分抜き出し
 		HandSiteOBB.SetOBBParam_Pos(Sword->ExtractPositionMat());
 		HandSiteOBB.SetOBBParam_Rot(Sword->ExtractRotationMat());
-		HandSiteOBB.SetOBBParam_Scl({ 5.0f, 6.0f, 10.0f });
+		HandSiteOBB.SetOBBParam_Scl({5.0f, 6.0f, 10.0f});
 		//プレイヤーのインスタンス引き出
 		Player* l_player = PlayerControl::GetIns()->GetPlayer();
 
 		playerOBB.SetOBBParam_Pos(l_player->GetPosition());
 		playerOBB.SetOBBParam_Rot(l_player->GetMatrot());
-		playerOBB.SetOBBParam_Scl({ 3.0f, 9.0f, 3.0f });
+		playerOBB.SetOBBParam_Scl({3.0f, 9.0f, 3.0f});
 
 		if (Collision::CheckOBBCollision(playerOBB, HandSiteOBB) == true)
 		{
@@ -289,10 +281,11 @@ void BossEnemy::Draw()
 	ImGui::Begin("hin");
 	//ImGui::Text("%f", );
 	ImGui::Text("%f", ShieldObj->GetRotation().z);
-	ImGui::SliderFloat("hz", &rotadds, 0, 360);;
+	ImGui::SliderFloat("hz", &rotadds, 0, 360);
 	ImGui::End();
 	//各攻撃のオブジェクト描画
-	for (int i = 0; i < BossAttackAction.size(); i++) {
+	for (int i = 0; i < BossAttackAction.size(); i++)
+	{
 		BossAttackAction[i]->Draw();
 	}
 	HalfAttack::GetIns()->Draw();
@@ -300,7 +293,6 @@ void BossEnemy::Draw()
 
 void BossEnemy::Death()
 {
-
 	if (!DieFlag)
 	{
 		DieFlag = true;
@@ -327,7 +319,6 @@ void BossEnemy::Death()
 
 void BossEnemy::Move()
 {
-	
 }
 
 void BossEnemy::Smoke(bool& createf)
@@ -338,7 +329,6 @@ void BossEnemy::Smoke(bool& createf)
 
 void BossEnemy::AttackCoolTime()
 {
-	
 	if (AfterAttack)
 	{
 		cooltime++;
@@ -383,7 +373,7 @@ void BossEnemy::HPGaugeBoss()
 		{
 			OldFrameX_Inner = OldFrameX;
 		}
-		NowFrameX = Percent::GetParcent(static_cast<float>(MaxHP), static_cast<float>(EnemyHP)) *17.0f;
+		NowFrameX = Percent::GetParcent(static_cast<float>(MaxHP), static_cast<float>(EnemyHP)) * 17.0f;
 		FrameScalingETime += 0.05f;
 		if (FrameScl.x > 0.0f)
 		{
@@ -393,7 +383,7 @@ void BossEnemy::HPGaugeBoss()
 
 	else
 	{
-		OldFrameX = Percent::GetParcent(static_cast<float>(MaxHP), static_cast<float>(EnemyHP)) *17.0f;
+		OldFrameX = Percent::GetParcent(static_cast<float>(MaxHP), static_cast<float>(EnemyHP)) * 17.0f;
 
 		FrameScalingETime = 0.0f;
 	}
@@ -433,5 +423,3 @@ void BossEnemy::HPGaugeBoss()
 	m_BossHPFrame2->SetPosition({122.0f, 832.0f});
 	m_BossHPFrame->SetPosition({116.0f, 830.0f});
 }
-
-

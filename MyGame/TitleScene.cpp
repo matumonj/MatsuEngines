@@ -27,8 +27,7 @@ void TitleScene::Initialize()
 	TitleFieldInit();
 	//タイトルスプライト
 	TitleTexInit();
-	
-	}
+}
 
 /*------------------------*/
 /*-------更新処理--------*/
@@ -67,7 +66,8 @@ void TitleScene::Update()
 	{
 		CameraPos.x = sinf(Cangle * (PI / PI_180)) * 40.0f;
 		CameraPos.y = cosf(Cangle * (PI / PI_180)) * 40.0f;
-	} else
+	}
+	else
 	{
 		//カメラのｚ座標を引く
 		CameraPos.y--;
@@ -84,7 +84,6 @@ void TitleScene::Update()
 }
 
 
-
 void TitleScene::MyGameDraw()
 {
 	//モデル描画
@@ -92,17 +91,17 @@ void TitleScene::MyGameDraw()
 	celestal->Draw();
 	field->Draw();
 	Object3d::PostDraw();
-
 }
+
 bool TitleScene::ChangeScene()
 {
 	bool FadeFlag = CameraPos.y <= -40.0f;
 	float CameraCenterPosX = CameraPos.x - 26.0f;
 	if (feedf)
 	{
-		CamAngleSpeed= 0.5f;
+		CamAngleSpeed = 0.5f;
 
-		float cameratocenter_x = sqrtf(CameraCenterPosX* CameraCenterPosX);
+		float cameratocenter_x = sqrtf(CameraCenterPosX * CameraCenterPosX);
 
 		if (cameratocenter_x < 1.0f && CameraPos.y < -30.0f)
 		{
@@ -111,7 +110,7 @@ bool TitleScene::ChangeScene()
 	}
 	else
 	{
-		CamAngleSpeed= 0.1f;
+		CamAngleSpeed = 0.1f;
 	}
 
 	//回転用アングルの値を足していく
@@ -128,9 +127,8 @@ bool TitleScene::ChangeScene()
 			return true;
 		}
 	}
-	
+
 	return false;
-	
 }
 
 /*------------------------*/
@@ -138,7 +136,6 @@ bool TitleScene::ChangeScene()
 /*-----------------------*/
 void TitleScene::SpriteDraw()
 {
-	
 	//スプライト描画
 	titlesprite->setcolor({1.0f, 1.0f, 1.0f, 0.5f});
 
@@ -186,12 +183,11 @@ void TitleScene::TitleTexInit()
 
 	menuAlpha = 1.0f;
 
-	MenuScale = { 1900.f, 1000.f };
-	MenuPos = { 950.f, 500.f };
+	MenuScale = {1900.f, 1000.f};
+	MenuPos = {950.f, 500.f};
 
 	TitleMenu->SetPosition(MenuPos);
 	TitleMenu->SetAnchorPoint({0.5f, 0.5f});
-	
 }
 
 void TitleScene::TitleTexUpda()
@@ -204,7 +200,7 @@ void TitleScene::TitleTexUpda()
 
 	if (menujudg_Play)
 	{
-		MenuScale.x +=l_MenuSclingSpeed;
+		MenuScale.x += l_MenuSclingSpeed;
 		MenuScale.y += l_MenuSclingSpeed;
 		menuAlpha -= l_MenuSubAlphaSpeed;
 	}
@@ -231,9 +227,8 @@ void TitleScene::TitleFieldInit()
 
 void TitleScene::TitleFieldUpda()
 {
-
-	constexpr XMFLOAT3 FieldScl = { 0.15f, 0.15f, 0.15f };
-	constexpr XMFLOAT3 CelestalScl = { 30.f, 30.1f, 30.1f };
+	constexpr XMFLOAT3 FieldScl = {0.15f, 0.15f, 0.15f};
+	constexpr XMFLOAT3 CelestalScl = {30.f, 30.1f, 30.1f};
 
 	constexpr float addRotYSpeed = 0.1f;
 
@@ -241,7 +236,7 @@ void TitleScene::TitleFieldUpda()
 	FieldRotY += addRotYSpeed;
 
 	//パラメータをセット(地形)
-	field->SetRotation({0.0f,FieldRotY, 0.0f});
+	field->SetRotation({0.0f, FieldRotY, 0.0f});
 	//パラメータをセット(天球)
 	celestal->SetRotation({0.0f, 0.0f, 0.0f});
 	celestal->SetScale(CelestalScl);
@@ -258,5 +253,4 @@ void TitleScene::TitleFieldUpda()
 
 void TitleScene::LightUpdate()
 {
-
 }

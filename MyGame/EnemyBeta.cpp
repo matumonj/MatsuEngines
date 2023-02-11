@@ -115,7 +115,10 @@ void EnemyBeta::Initialize()
 //更新処理
 void EnemyBeta::Update()
 {
-	if(m_fbxObject==nullptr)return;
+	if (m_fbxObject == nullptr)
+	{
+		return;
+	}
 	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
 	state_mob->Update(this);
@@ -146,11 +149,12 @@ void EnemyBeta::Update()
 	m_fbxObject->SetHandBoneIndex(19);
 	//石オブジェの更新
 	ThrowRockObj->SetPosition(RockPos);
-	ThrowRockObj->Update( camera);
-	if (EnemyHP > 0) {
-		if (animeState == AnimationState::DEATH)
+	ThrowRockObj->Update(camera);
+	if (EnemyHP > 0)
+	{
+		if (animeState == DEATH)
 		{
-			animeState = AnimationState::WALK;
+			animeState = WALK;
 		}
 	}
 	//被ダメ表記
@@ -167,7 +171,10 @@ void EnemyBeta::Update()
 //描画処理
 void EnemyBeta::Draw()
 {
-	if (m_fbxObject == nullptr)return;
+	if (m_fbxObject == nullptr)
+	{
+		return;
+	}
 	if (alpha > 0)
 	{
 		//モデル
@@ -213,7 +220,10 @@ void EnemyBeta::FbxAnimationControl()
 
 void EnemyBeta::EnemyHPDraw()
 {
-	if (alpha <= 0.f)return;
+	if (alpha <= 0.f)
+	{
+		return;
+	}
 	//プレイヤーのインスタンス取得
 	Player* l_player = PlayerControl::GetIns()->GetPlayer();
 
@@ -328,7 +338,8 @@ void EnemyBeta::PickRock()
 	{
 		if (Collision::GetLength(l_playerpos, RockPos) < 20.f)
 		{
-			if (!turnoffdrawF) {
+			if (!turnoffdrawF)
+			{
 				PlayerControl::GetIns()->GetPlayer()->RecvDamage(10);
 			}
 		}
@@ -363,7 +374,6 @@ void EnemyBeta::AnimationContol(AnimationState name, int animenumber, double spe
 
 void EnemyBeta::FbxAnimationControls(AnimationState motiontype, int number)
 {
-	
 	if (DeathFlag)
 	{
 		return;
@@ -409,7 +419,8 @@ void EnemyBeta::AttackMotion()
 			attackNum = IDLE;
 		}
 	}
-	if (SceneManager::GetIns()->GetScene() != SceneManager::MAPCREATE) {
+	if (SceneManager::GetIns()->GetScene() != SceneManager::MAPCREATE)
+	{
 		PickRock();
 
 		AttackCol_Rock();

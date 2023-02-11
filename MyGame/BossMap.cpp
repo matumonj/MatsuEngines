@@ -25,7 +25,6 @@ BossMap::~BossMap()
 
 void BossMap::Init()
 {
-
 	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 	for (int i = 0; i < mapHight; i++)
 	{
@@ -39,7 +38,6 @@ void BossMap::Init()
 			//フィールドにモデル割り当て
 		}
 	}
-	
 }
 
 #include"EnemyControl.h"
@@ -63,14 +61,17 @@ void BossMap::Upda()
 	{
 		for (int j = 0; j < mapWidth; j++)
 		{
-			if (mapobj[i][j] == nullptr)continue;
+			if (mapobj[i][j] == nullptr)
+			{
+				continue;
+			}
 			//フィールドにモデル割り当て
 			mapobj[i][j]->SetPosition({j * BlockSize + cpos.x, cpos.y, i * BlockSize + cpos.z});
 			mapobj[i][j]->SetScale(bsize);
 
 			bpoint[i][j].x = mapobj[i][j]->GetPosition().x;
 			bpoint[i][j].y = mapobj[i][j]->GetPosition().z;
-			mapobj[i][j]->Update( camera);
+			mapobj[i][j]->Update(camera);
 		}
 	}
 
@@ -78,7 +79,10 @@ void BossMap::Upda()
 	{
 		for (int j = 0; j < mapWidth; j++)
 		{
-			if (mapobj[i][j] == nullptr)continue;
+			if (mapobj[i][j] == nullptr)
+			{
+				continue;
+			}
 			if (mapSize[i][j] == DAMAGEBLOCK)
 			{
 				blockColorETime[i][j] += 0.02f;
@@ -92,7 +96,7 @@ void BossMap::Upda()
 
 				mapobj[i][j]->SetShadowF(false);
 				mapobj[i][j]->SetUVf(false);
-				mapobj[i][j]->SetColor({blockColor[i][j].x, blockColor[i][j].y, blockColor[i][j].z,1.f});
+				mapobj[i][j]->SetColor({blockColor[i][j].x, blockColor[i][j].y, blockColor[i][j].z, 1.f});
 			}
 
 			blockalpha[i][j] = std::clamp(blockalpha[i][j], 0.f, 1.f);
@@ -104,7 +108,6 @@ void BossMap::Upda()
 			blockColorETime[i][j] = max(blockColorETime[i][j], 0.0f);
 		}
 	}
-	
 }
 
 void BossMap::DrawDamageLine(bool atckjudg, Line2D line)
@@ -113,10 +116,13 @@ void BossMap::DrawDamageLine(bool atckjudg, Line2D line)
 	{
 		for (int j = 0; j < mapWidth; j++)
 		{
-			if (mapobj[i][j] == nullptr)continue;
+			if (mapobj[i][j] == nullptr)
+			{
+				continue;
+			}
 			if (atckjudg)
 			{
-				if (Collision::IsCollidingLineAndCircle(line, bpoint[i][j],40.f) == true)
+				if (Collision::IsCollidingLineAndCircle(line, bpoint[i][j], 40.f) == true)
 				{
 					mapSize[i][j] = DAMAGEBLOCK;
 				}
@@ -137,17 +143,23 @@ void BossMap::DrawDamageLine(bool atckjudg, Line2D line)
 void BossMap::DrawDamageLine(bool atckjudg, Line2D line[4])
 {
 	if (RushAttack::GetIns()->GetPhaseEnd() == RushAttack::PHASETWO ||
-		RushAttack::GetIns()->GetPhaseEnd() == RushAttack::PHASETHREE)return;
+		RushAttack::GetIns()->GetPhaseEnd() == RushAttack::PHASETHREE)
+	{
+		return;
+	}
 	for (int i = 0; i < mapHight; i++)
 	{
 		for (int j = 0; j < mapWidth; j++)
 		{
-			if (mapobj[i][j] == nullptr)continue;
+			if (mapobj[i][j] == nullptr)
+			{
+				continue;
+			}
 			if (atckjudg)
 			{
 				for (int k = 0; k < 4; k++)
 				{
-					if (Collision::IsCollidingLineAndCircle(line[k], bpoint[i][j],20.f) == true)
+					if (Collision::IsCollidingLineAndCircle(line[k], bpoint[i][j], 20.f) == true)
 					{
 						mapSize[i][j] = DAMAGEBLOCK;
 					}
@@ -169,11 +181,13 @@ void BossMap::Draw()
 	{
 		for (int j = 0; j < mapWidth; j++)
 		{
-			if (mapobj[i][j] == nullptr)continue;
+			if (mapobj[i][j] == nullptr)
+			{
+				continue;
+			}
 			mapobj[i][j]->Draw();
 		}
 	}
-	
+
 	Object3d::PostDraw();
-	
 }

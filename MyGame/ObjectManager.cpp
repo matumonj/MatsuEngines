@@ -107,7 +107,7 @@ void ObjectManager::CollisionField()
 		const float adsDistance = 1.2f;
 		// Ú’n‚ðˆÛŽ
 		if (CollisionManager::GetIns()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit,
-		                                             sphereCollider->GetRadius() * 2.5f + adsDistance))
+		                                        sphereCollider->GetRadius() * 2.5f + adsDistance))
 		{
 			onGround = true;
 			Position.y -= (raycastHit.distance - sphereCollider->GetRadius() * 3.0f);
@@ -124,7 +124,7 @@ void ObjectManager::CollisionField()
 	else if (fallV.m128_f32[1] <= 0.0f)
 	{
 		if (CollisionManager::GetIns()->Raycast(ray, COLLISION_ATTR_LANDSHAPE, &raycastHit,
-		                                             sphereCollider->GetRadius() * 3.0f))
+		                                        sphereCollider->GetRadius() * 3.0f))
 		{
 			// ’…’n
 			onGround = true;
@@ -144,7 +144,7 @@ void ObjectManager::ParameterSet_Obj()
 	m_Object->SetRotation(Rotation);
 	m_Object->SetScale(Scale);
 	m_Object->SetColor(Color);
-	m_Object->Update( camera);
+	m_Object->Update(camera);
 }
 
 
@@ -165,7 +165,7 @@ void ObjectManager::ParameterSet_Fbx()
 
 void ObjectManager::ParameterSet_Fbx3()
 {
-	m_fbxObject->SetPosition({ Position.x, Position.y-1.5f , Position.z });
+	m_fbxObject->SetPosition({Position.x, Position.y - 1.5f, Position.z});
 	m_fbxObject->SetRotation(Rotation);
 	m_fbxObject->SetScale(Scale);
 
@@ -207,6 +207,9 @@ void ObjectManager::Draw_Obj(Object3d* obj)
 
 void ObjectManager::Draw_Fbx()
 {
-	if (m_fbxObject == nullptr)return;
+	if (m_fbxObject == nullptr)
+	{
+		return;
+	}
 	m_fbxObject->Draw();
 }

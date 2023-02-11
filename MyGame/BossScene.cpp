@@ -37,19 +37,19 @@ void BossScene::Initialize()
 	// 3Dオブエクトにライトをセット
 	lightGroup->SetDirLightActive(0, false);
 
-	lightGroup->SetCircleShadowActive(ShadowChara::SUMMONENEY_A, true);
-	lightGroup->SetCircleShadowActive(ShadowChara::SUMMONENEY_B, true);
+	lightGroup->SetCircleShadowActive(SUMMONENEY_A, true);
+	lightGroup->SetCircleShadowActive(SUMMONENEY_B, true);
 
-	lightGroup->SetCircleShadowActive(ShadowChara::PLAYER, true);
-	lightGroup->SetCircleShadowActive(ShadowChara::BOSSENEMY, true);
-	
+	lightGroup->SetCircleShadowActive(PLAYER, true);
+	lightGroup->SetCircleShadowActive(BOSSENEMY, true);
+
 	Nail::GetIns()->ModelSet();
 
 	circleShadowAtten[0] = -5.2f;
 	circleShadowAtten[1] = -0.2f;
 	circleShadowAtten[2] = 4.9f;
-	circleShadowAtten2[0] =2.2f;
-	circleShadowAtten2[1] =5.2f;
+	circleShadowAtten2[0] = 2.2f;
+	circleShadowAtten2[1] = 5.2f;
 	circleShadowAtten2[2] = -0.27f;
 }
 
@@ -59,35 +59,35 @@ void BossScene::Initialize()
 void BossScene::Update()
 {
 	//読み込み
-	if (!LoadF&& !Play)
+	if (!LoadF && !Play)
 	{
 		LoadF = true;
 	}
-	
+
 
 	if (Play)
 	{
 		//csvからの読み込み終わってから更新処理
-		for (auto obj: AllObjectControl)
+		for (auto obj : AllObjectControl)
 		{
 			obj->Update();
 		}
 		UI::GetIns()->HUDUpdate(hudload, CameraControl::GetIns()->GetCamera());
 	}
-	
+
 	Field::GetIns()->Update();
 	//各オブジェクトの更新処理
 	//csv読み込み部分(Cameraの更新後にするのでobjUpdate()挟んでから)
 	LoadParam();
 
 	lightGroup->Update();
-	 
+
 	XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 
-	 
+
 	//ライティング更新
 	LightUpdate();
-	
+
 	//ゲームオーバー時の初期化
 	GameOver::GetIns()->Update();
 
@@ -112,24 +112,28 @@ void BossScene::SpriteDraw()
 	GameOver::GetIns()->Draw();
 
 	Feed::GetIns()->Draw();
-	}
+}
 
 void BossScene::MyGameDraw()
 {
-	if (!Play)return;
+	if (!Play)
+	{
+		return;
+	}
 
 	if (Field::GetIns() != nullptr)
 	{
 		Field::GetIns()->Draw();
 	}
-		
-		if (Feed::GetIns()->GetAlpha() < 1.0f) {
-			for (auto obj : AllObjectControl)
-			{
-				obj->Draw();
-			}
+
+	if (Feed::GetIns()->GetAlpha() < 1.0f)
+	{
+		for (auto obj : AllObjectControl)
+		{
+			obj->Draw();
 		}
-		SelectSword::GetIns()->SwordDraw();
+	}
+	SelectSword::GetIns()->SwordDraw();
 }
 
 /*------------------------*/
@@ -143,19 +147,19 @@ void BossScene::Draw()
 	case Blur: //ぼかし　描画準違うだけ
 		postEffect->PreDrawScene();
 		MyGameDraw();
-		
+
 		postEffect->PostDrawScene();
-		
+
 		DirectXCommon::GetIns()->BeginDraw();
 		postEffect->Draw();
-		//MyGameDraw();
+	//MyGameDraw();
 		SpriteDraw();
-		
+
 		DirectXCommon::GetIns()->EndDraw();
 		break;
 
 	case Default: //普通のやつ特に何もかかっていない
-	
+
 		DirectXCommon::GetIns()->BeginDraw();
 		MyGameDraw();
 		SpriteDraw();
@@ -163,6 +167,7 @@ void BossScene::Draw()
 		break;
 	}
 }
+
 /*------------------------*/
 /*--------読込処理--------*/
 /*-----------------------*/
@@ -208,58 +213,59 @@ void BossScene::ChangeScene()
 {
 	XMFLOAT3 ClearStagePos = Field::GetIns()->GetClearTexpos();
 
-	bool nextscenejudg = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]==nullptr&&
+	bool nextscenejudg = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0] == nullptr &&
 		Collision::GetLength(PlayerControl::GetIns()->GetPlayer()->GetPosition(),
-		ClearStagePos) < 5.f;
+		                     ClearStagePos) < 5.f;
 
 	if (nextscenejudg)
 	{
 		PlayerControl::GetIns()->GetPlayer()->SetStopFlag(true);
 		//SceneManager::GetIns()->SetScene(SceneManager::GAMECLEAR, sceneManager_);
 		Feed::GetIns()->Update_White(Feed::FEEDIN);
-		if (Feed::GetIns()->GetAlpha() >= 1.0f) {
-
+		if (Feed::GetIns()->GetAlpha() >= 1.0f)
+		{
 			Play = false;
 			SceneManager::GetIns()->SetScene(SceneManager::GAMECLEAR, sceneManager_);
 		}
 	}
-	
 }
 
 void BossScene::LightUpdate()
 {
 	//プレイヤーの影
-	constexpr XMFLOAT2 PlayerCShadowAngle = { 1.4f,1.9f };
+	constexpr XMFLOAT2 PlayerCShadowAngle = {1.4f, 1.9f};
 	XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
-	LightSetParam(ShadowChara::PLAYER, true, ppos, XMVECTOR({ circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0 }),
-		XMFLOAT3(circleShadowAtten), PlayerCShadowAngle);
+	LightSetParam(PLAYER, true, ppos, XMVECTOR({circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0}),
+	              XMFLOAT3(circleShadowAtten), PlayerCShadowAngle);
 
 	//ボスの影
-	
-	if (EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0] != nullptr) {
 
+	if (EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0] != nullptr)
+	{
 		XMFLOAT3 bpos = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
-		XMFLOAT3 BossCShadowPos = { bpos.x,bpos.y + 20.f,bpos.z };
+		XMFLOAT3 BossCShadowPos = {bpos.x, bpos.y + 20.f, bpos.z};
 
-		LightSetParam(ShadowChara::BOSSENEMY, true, BossCShadowPos, XMVECTOR({ circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0 }),
-			XMFLOAT3(circleShadowAtten2), XMFLOAT2(circleShadowFactorAngle2));
+		LightSetParam(BOSSENEMY, true, BossCShadowPos,
+		              XMVECTOR({circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0}),
+		              XMFLOAT3(circleShadowAtten2), XMFLOAT2(circleShadowFactorAngle2));
 	}
 	else
 	{
-		lightGroup->SetCircleShadowActive(ShadowChara::BOSSENEMY, false);
+		lightGroup->SetCircleShadowActive(BOSSENEMY, false);
 	}
 
 	//ボス召喚する敵の影
-	std::array<XMFLOAT3,2>summonpos;
+	std::array<XMFLOAT3, 2> summonpos;
 	for (int i = 0; i < 2; i++)
 	{
 		if (HalfAttack::GetIns()->GetSummonEnemy(i) != nullptr)
 		{
-			LightSetParam(i, true, { summonpos[i].x,summonpos[i].y + 7.f,summonpos[i].z },
-				XMVECTOR({ circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0 }),
-				XMFLOAT3(circleShadowAtten2),
-				XMFLOAT2(circleShadowFactorAngle2));
-		} else
+			LightSetParam(i, true, {summonpos[i].x, summonpos[i].y + 7.f, summonpos[i].z},
+			              XMVECTOR({circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0}),
+			              XMFLOAT3(circleShadowAtten2),
+			              XMFLOAT2(circleShadowFactorAngle2));
+		}
+		else
 		{
 			lightGroup->SetCircleShadowActive(i, false);
 		}

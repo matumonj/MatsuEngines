@@ -20,9 +20,9 @@ void GuardianBomAttack::Finalize()
 	for (int i = 0; i < ArmObjNum; i++)
 	{
 		ArmObj[i].reset(nullptr);
-		
+
 		ArmEffect[i].reset(nullptr);
-	
+
 		//ミサイル爆発時のエフェクト
 		BomEffect[i].reset(nullptr);
 	}
@@ -110,7 +110,7 @@ void GuardianBomAttack::Upda()
 		break;
 
 	case END:
-		
+
 		Phase_End();
 
 		break;
@@ -118,7 +118,10 @@ void GuardianBomAttack::Upda()
 	TexRotZ++;
 	for (int i = 0; i < ArmObjNum; i++)
 	{
-		if (BomEffect[i] == nullptr)continue;
+		if (BomEffect[i] == nullptr)
+		{
+			continue;
+		}
 		BomEffect[i]->Upda_B();
 		DamageTex[i]->SetScale({5.f, 5.f, 5.f});
 		DamageTex[i]->SetPosition(DtexPos[i]);
@@ -140,7 +143,7 @@ void GuardianBomAttack::Upda()
 			ArmObj[i]->SetScale({2.f, 2.f, 1.f});
 			ArmObj[i]->SetRotation(ArmRot[i]);
 			ArmObj[i]->SetColor({1.f, 1.f, 1.f, ArmAlpha[i]});
-			ArmObj[i]->Update( camera);
+			ArmObj[i]->Update(camera);
 		}
 		for (int i = 0; i < ArmObjNum; i++)
 		{
@@ -230,7 +233,7 @@ void GuardianBomAttack::Phase_Bom()
 	XMFLOAT3 epos = EnemyControl::GetIns()->GetGuardianEnemy()->GetPosition();
 	ShotCount++;
 	ArmShot();
-	if ( DtexAlpha[ArmObjNum - 1] <= 0.0f &&ArmObj[ArmObjNum - 1] == nullptr)
+	if (DtexAlpha[ArmObjNum - 1] <= 0.0f && ArmObj[ArmObjNum - 1] == nullptr)
 	{
 		phase = END;
 	}

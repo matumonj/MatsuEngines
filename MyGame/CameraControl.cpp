@@ -443,17 +443,17 @@ void CameraControl::BossSceneStart()
 	case BOSSCUTEND:
 
 		AttackSceneF = true;
-		
-				CameraPosition.z -= 1.5f;
 
-				Feed::GetIns()->Update_White(Feed::FEEDIN);
-				if (Feed::GetIns()->GetAlpha() >= 0.9f)
-				{
-					PlayerControl::GetIns()->GetPlayer()->SetStopFlag(false);
+		CameraPosition.z -= 1.5f;
 
-					Tstate = PLAYER;
-				}
-			
+		Feed::GetIns()->Update_White(Feed::FEEDIN);
+		if (Feed::GetIns()->GetAlpha() >= 0.9f)
+		{
+			PlayerControl::GetIns()->GetPlayer()->SetStopFlag(false);
+
+			Tstate = PLAYER;
+		}
+
 		break;
 	default:
 		break;
@@ -588,7 +588,6 @@ void CameraControl::PlaySceneStart()
 
 void CameraControl::SetCameraP_toE(Enemy* enemy)
 {
-	
 }
 
 
@@ -683,7 +682,8 @@ void CameraControl::RushTargetBoss()
 
 		if (rCameraEtime > 0.0f)
 		{
-			if (boss != nullptr) {
+			if (boss != nullptr)
+			{
 				TargetPos.y = Easing::EaseOut(rCameraEtime, OldTarget.y, OldTarget.y + 5);
 
 				TargetPos.x = Easing::EaseOut(rCameraEtime, OldTarget.x, boss->GetPosition().x);

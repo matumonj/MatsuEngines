@@ -25,10 +25,6 @@ void AttackCollision::Finalize()
 	BossEnemyOBB.clear();
 }
 
-void AttackCollision::Update()
-{
-}
-
 
 void AttackCollision::GetCol(int damage)
 {
@@ -40,7 +36,8 @@ void AttackCollision::GetCol(int damage)
 	//プレイヤーのインスタンス取得
 	Player* l_player = PlayerControl::GetIns()->GetPlayer();
 	AttackEffect::GetIns()->GuarEffect(l_player->GetPosition());
-	
+
+	//アニメーションが一定フレーム超えたら(振りかぶった瞬間判定取られるの防ぐ)
 	attackcolJudgTime_First = l_player->GetAttackType() == PlayerControl::GetIns()->GetPlayer()->FIRST &&
 		l_player->GetAnimationTime() > 0.4f;
 
@@ -50,74 +47,35 @@ void AttackCollision::GetCol(int damage)
 	attackcolJudgTime_Third = l_player->GetAttackType() == PlayerControl::GetIns()->GetPlayer()->THIRD &&
 		l_player->GetAnimationTime() > 0.9f;
 
+	//判定フラグ切る
 	if (PlayerControl::GetIns()->GetPlayer()->GetAttackType() == PlayerControl::GetIns()->GetPlayer()->NON)
 	{
 		attackCol[0] = false;
 		attackCol[1] = false;
 		HitCol = false;
-		for(int i=0;i< EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE).size();i++)
+		for (int i = 0; i < EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE).size(); i++)
 		{
 			Play_colf[i] = false;
 		}
 		HelpJudg = false;
 	}
+
+	//各シーンごとの当たり判定
 	switch (SceneManager::GetIns()->GetScene())
 	{
 	case SceneManager::TUTORIAL:
 
-		ColOBB(TYTORIAL);
+		OBBParamSet(TYTORIAL);
 		TutorialCol(damage);
 		break;
 
 	case SceneManager::PLAY:
-		ColOBB(PLAY);
-		XMFLOAT3 ppos = l_player->GetPosition();
-		for (int i = 0; i < EnemyOBB.size(); i++)
-		{
-			if (EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i] == nullptr)
-			{
-				continue;
-			}
-			if (Collision::GetLength(EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetPosition(),
-			                         ppos) > 80)
-			{
-				continue;
-			}
-
-			if (attackcolJudgTime_First || attackcolJudgTime_Second || attackcolJudgTime_Third)
-			{
-				if (Collision::CheckOBBCollision(HandObb, EnemyOBB[i]) == true && !Play_colf[i])
-				{
-
-					HelpJudg = true;
-					AttackEffect::GetIns()->SetParticle(
-						EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetPosition());
-					EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->RecvDamage(
-						damage + rand() % 8+ 1);
-					Play_colf[i] = true;
-				}
-			}
-		}
-
-		if (attackcolJudgTime_First || attackcolJudgTime_Second || attackcolJudgTime_Third)
-		{
-			if (EnemyControl::GetIns()->GetGuardianEnemy() != nullptr)
-			{
-				XMFLOAT3 epos = EnemyControl::GetIns()->GetGuardianEnemy()->GetPosition();
-				if (Collision::CheckOBBCollision(HandObb, GuardianEnemyOBB) == true && !HitCol)
-				{
-					AttackEffect::GetIns()->SetParticle({epos.x, epos.y - 10.f, epos.z});
-					EnemyControl::GetIns()->GetGuardianEnemy()->RecvDamage(
-						damage + rand() % 8 + 1);
-					HitCol = true;
-				}
-			}
-		}
+		OBBParamSet(PLAY);
+		ExplorationCol(damage);
 		break;
 
 	case SceneManager::BOSS:
-		ColOBB(BOSS);
-
+		OBBParamSet(BOSS);
 		BossCol(damage);
 		break;
 	default:
@@ -131,12 +89,13 @@ void AttackCollision::BossCol(int damage)
 
 	//例外設定
 	if (EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0] == nullptr) { return; }
-	
+
 	if (!attackcolJudgTime_First && !attackcolJudgTime_Second && !attackcolJudgTime_Third)
 	{
 		return;
 	}
-	if (EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetHP() <= EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetMaxHP() / 2)
+	if (EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetHP() <= EnemyControl::GetIns()->
+		GetEnemy(EnemyControl::BOSS)[0]->GetMaxHP() / 2)
 	{
 		if (UltAttack::GetIns()->GetPhase() != UltAttack::END)
 		{
@@ -144,51 +103,51 @@ void AttackCollision::BossCol(int damage)
 		}
 	}
 
-		if (Collision::CheckOBBCollision(HandObb, BossEnemyOBB[0]) == true && !HitCol)
+	//当たり判定部分
+	if (Collision::CheckOBBCollision(HandObb, BossEnemyOBB[0]) == true && !HitCol)
+	{
+		//ガード中はダメージ受けない
+		if (EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetGuardAction())
 		{
-			
-					//ガード中はダメージ受けない
-					if(EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetGuardAction())
-					{
-						AttackEffect::GetIns()->SetGuadJudg(true);
-						EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->RecvDamage(
-						0);
-					}
-				//通常の被ダメージ処理
-					else {
-						AttackEffect::GetIns()->SetParticle(
-							EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition());
-						EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->RecvDamage(damage);
-					}
-			HitCol = true;
+			AttackEffect::GetIns()->SetGuadJudg(true);
+			EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->RecvDamage(0);
 		}
-
-
-		//召喚的との当たり判定
-		for (int i = 0; i < 2; i++)
+		//通常の被ダメージ処理
+		else
 		{
-			if (HalfAttack::GetIns()->GetSummonEnemy(i) == nullptr)
-			{
-				continue;
-			}
-			if (Collision::CheckOBBCollision(HandObb, SummonEnemyOBB[i]) == true && !attackCol[i])
-			{
-				HalfAttack::GetIns()->GetSummonEnemy(i)->RecvDamage(damage);
-
-				attackCol[i] = true;
-			}
+			AttackEffect::GetIns()->SetParticle(
+				EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition());
+			EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->RecvDamage(damage);
 		}
-	
+		HitCol = true;
+	}
+
+
+	//召喚的との当たり判定
+	for (int i = 0; i < 2; i++)
+	{
+		if (HalfAttack::GetIns()->GetSummonEnemy(i) == nullptr)
+		{
+			continue;
+		}
+		if (Collision::CheckOBBCollision(HandObb, SummonEnemyOBB[i]) == true && !attackCol[i])
+		{
+			HalfAttack::GetIns()->GetSummonEnemy(i)->RecvDamage(damage);
+
+			attackCol[i] = true;
+		}
+	}
+
 	XMFLOAT3 rot = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetRotation();
 	XMFLOAT3 spos = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->HandRightPos2();
 
 	AttackEffect::GetIns()->SetGuardRot(rot);
 	AttackEffect::GetIns()->GuarEffect(spos);
-
 }
 
 void AttackCollision::TutorialCol(int damage)
 {
+	//例外設定
 	if (!attackcolJudgTime_First && !attackcolJudgTime_Second && !attackcolJudgTime_Third)
 	{
 		return;
@@ -197,24 +156,72 @@ void AttackCollision::TutorialCol(int damage)
 	{
 		return;
 	}
-			if (Collision::CheckOBBCollision(HandObb, EnemyOBB[0]) == true && !HitCol)
-			{
-				AttackEffect::GetIns()->SetParticle(
-					EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition());
-				EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL)[0]->RecvDamage(damage);
 
-				HitCol = true;
-			}
-		}
-	
+	//判定部分
+	if (Collision::CheckOBBCollision(HandObb, EnemyOBB[0]) == true && !HitCol)
+	{
+		AttackEffect::GetIns()->SetParticle(
+			EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition());
+		EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL)[0]->RecvDamage(damage);
+
+		HitCol = true;
+	}
+}
 
 
 void AttackCollision::ExplorationCol(int damage)
 {
+	if (!attackcolJudgTime_First && !attackcolJudgTime_Second && !attackcolJudgTime_Third)
+	{
+		return;
+	}
+
+	Player* l_player = PlayerControl::GetIns()->GetPlayer();
+	XMFLOAT3 ppos = l_player->GetPosition();
+
+	//そもそもプレイヤーから一定距離離れてたら判定取らない
+	constexpr float NotColDistance = 30.f;
+
+	for (int i = 0; i < EnemyOBB.size(); i++)
+	{
+		if (EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i] == nullptr)
+		{
+			continue;
+		}
+		if (Collision::GetLength(EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetPosition(),
+			ppos) > NotColDistance)
+		{
+			continue;
+		}
+
+		//雑魚敵
+			if (Collision::CheckOBBCollision(HandObb, EnemyOBB[i]) == true && !Play_colf[i])
+			{
+				HelpJudg = true;
+				AttackEffect::GetIns()->SetParticle(
+					EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetPosition());
+				EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->RecvDamage(
+					damage );
+				Play_colf[i] = true;
+			}
+		}
 	
+
+	//ガーディアン
+		if (EnemyControl::GetIns()->GetGuardianEnemy() != nullptr)
+		{
+			XMFLOAT3 epos = EnemyControl::GetIns()->GetGuardianEnemy()->GetPosition();
+			if (Collision::CheckOBBCollision(HandObb, GuardianEnemyOBB) == true && !HitCol)
+			{
+				AttackEffect::GetIns()->SetParticle({ epos.x, epos.y - 10.f, epos.z });
+				EnemyControl::GetIns()->GetGuardianEnemy()->RecvDamage(
+					damage );
+				HitCol = true;
+			}
+		}
 }
 
-void AttackCollision::ColOBB(ColType Enemytype)
+void AttackCollision::OBBParamSet(ColType Enemytype)
 {
 	switch (Enemytype)
 	{
@@ -242,10 +249,11 @@ void AttackCollision::ColOBB(ColType Enemytype)
 			EnemyOBB[i].SetOBBParam_Rot(EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetMatrot());
 			if (EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetEnemyNumber() == 3)
 			{
-
-				EnemyOBB[i].SetOBBParam_Scl({11.0f, 15.0f, 11.0f });
-			} else {
-				EnemyOBB[i].SetOBBParam_Scl({ 7.0f, 15.0f, 7.0f });
+				EnemyOBB[i].SetOBBParam_Scl({11.0f, 15.0f, 11.0f});
+			}
+			else
+			{
+				EnemyOBB[i].SetOBBParam_Scl({7.0f, 15.0f, 7.0f});
 			}
 		}
 
@@ -261,7 +269,8 @@ void AttackCollision::ColOBB(ColType Enemytype)
 		BossEnemyOBB.resize(1);
 		for (int i = 0; i < 2; i++)
 		{
-			if (HalfAttack::GetIns()->GetSummonEnemy(i) == nullptr|| HalfAttack::GetIns()->GetSummonEnemy(i)->GetPosition().y < 15)
+			if (HalfAttack::GetIns()->GetSummonEnemy(i) == nullptr || HalfAttack::GetIns()->GetSummonEnemy(i)->
+				GetPosition().y < 15)
 			{
 				continue;
 			}

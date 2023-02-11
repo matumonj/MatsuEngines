@@ -18,7 +18,7 @@ private:
 	//天球オブジェクト
 	std::unique_ptr<Object3d> celestal = nullptr;
 	//テクスチャ[Bでゲーム画面へ]
-	std::unique_ptr<Sprite> TitleMenu= {nullptr};
+	std::unique_ptr<Sprite> TitleMenu = {nullptr};
 	//タイトル用カメラ
 	std::unique_ptr<DebugCamera> camera = nullptr;
 
@@ -32,12 +32,12 @@ private:
 	//ボタンテクスチャの座標、スケール、アルファ値
 	float menuAlpha = 1.0;
 	XMFLOAT2 MenuScale = {0.0f, 0.0f};
-	XMFLOAT2 MenuPos= { 0.0f, 0.0f };
+	XMFLOAT2 MenuPos = {0.0f, 0.0f};
 
 	//カメラの回転速度
 	float CamAngleSpeed;
 	float Cangle = 0.0f;
-	XMFLOAT2 CameraPos = { 0.0f, 0.0f };
+	XMFLOAT2 CameraPos = {0.0f, 0.0f};
 	//フィールド回転用
 	float FieldRotY = 0.0f;
 
@@ -52,16 +52,16 @@ public:
 	void Finalize() override;
 private:
 	//ライト更新
-	void LightUpdate()override;
+	void LightUpdate() override;
 	//描画＿オブジェクト
-	void MyGameDraw()override;
+	void MyGameDraw() override;
 	//描画＿スプライト
-	void SpriteDraw()override;
+	void SpriteDraw() override;
 
 private:
 	static constexpr float RotSpeed = 0.1f;
-	static constexpr XMFLOAT3 FieldScl= {0.15f,0.15f, 0.15f};
-	static constexpr XMFLOAT3 CelestalScl = { 30.f, 30.1f, 30.1f };
+	static constexpr XMFLOAT3 FieldScl = {0.15f, 0.15f, 0.15f};
+	static constexpr XMFLOAT3 CelestalScl = {30.f, 30.1f, 30.1f};
 
 	//テクスチャの更新と描画
 	void TitleTexInit();

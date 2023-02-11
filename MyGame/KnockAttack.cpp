@@ -11,7 +11,6 @@ KnockAttack::KnockAttack()
 {
 	Texture::LoadTexture(30, L"Resources/2d/attackeffect/inpact.png");
 	Texture::LoadTexture(31, L"Resources/2d/damage/HammerDamageArea.png");
-	
 }
 
 KnockAttack::~KnockAttack()
@@ -44,13 +43,13 @@ void KnockAttack::Initialize()
 
 	Texture* l_tex[4];
 	Texture* l_tex2[4];
-	
+
 	for (int i = 0; i < axeSize; i++)
 	{
 		AxeObj[i] = std::make_unique<Object3d>();
 		AxeObj[i]->Initialize(CameraControl::GetIns()->GetCamera());
 		AxeObj[i]->SetModel(ModelManager::GetIns()->GetModel(ModelManager::SMALLSWORD));
-		
+
 		l_tex[i] = Texture::Create(30);
 		l_tex2[i] = Texture::Create(31);
 		ImpactTex[i].reset(l_tex[i]);
@@ -72,7 +71,7 @@ void KnockAttack::Initialize()
 	AxePosDownEtime = 0.f;
 	AttackCount = 0;
 	axeDirectionTexAlpha = 0.f;
-	phase = Phase::PHASENON;
+	phase = PHASENON;
 }
 
 void KnockAttack::ActionJudg()
@@ -89,13 +88,15 @@ void KnockAttack::ActionJudg()
 		{
 			phase = PHASETWO;
 		}
-		EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->SetAnimation(BossEnemy::NowAttackMotion::MAGIC, 1.f, false);
+		EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->SetAnimation(
+			BossEnemy::NowAttackMotion::MAGIC, 1.f, false);
 	}
 
 	if (phase == PHASETWO)
 	{
-		EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->SetAnimation(BossEnemy::NowAttackMotion::MAGIC,1.f,false);
-	
+		EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->SetAnimation(
+			BossEnemy::NowAttackMotion::MAGIC, 1.f, false);
+
 		AttackCount = 0;
 		AxePosDownEtime += 0.02f;
 
@@ -107,7 +108,7 @@ void KnockAttack::ActionJudg()
 		{
 			//•€‚ªŒü‚¢‚Ä‚é•ûŒü‚É“®‚­
 			move[i] = {0.0f, 0.0f, 0.1f, 0.0f};
-			matRot[i] = DirectX::XMMatrixRotationY(DirectX::XMConvertToRadians(AxeRot[i].y));
+			matRot[i] = XMMatrixRotationY(XMConvertToRadians(AxeRot[i].y));
 
 			move[i] = XMVector3TransformNormal(move[i], matRot[i]);
 		}
@@ -179,15 +180,18 @@ void KnockAttack::ActionJudg()
 	{
 		for (int i = 0; i < axeSize; i++)
 		{
-			if (AxeObj[i] == nullptr)continue;
-			if(Collision::GetLength(PlayerControl::GetIns()->GetPlayer()->GetPosition(),AxePos[i])<20.f)
+			if (AxeObj[i] == nullptr)
+			{
+				continue;
+			}
+			if (Collision::GetLength(PlayerControl::GetIns()->GetPlayer()->GetPosition(), AxePos[i]) < 20.f)
 			{
 				PlayerControl::GetIns()->GetPlayer()->RecvDamage(10);
 			}
 			AxeObj[i]->SetPosition(AxePos[i]);
 			AxeObj[i]->SetScale({8.f, 8.f, 8.f});
 			AxeObj[i]->SetRotation(AxeRot[i]);
-			AxeObj[i]->Update( CameraControl::GetIns()->GetCamera());
+			AxeObj[i]->Update(CameraControl::GetIns()->GetCamera());
 			ImpactPar[i]->CreateParticle((phase == PHASETHREE && AttackCount > 180 && AxeRot[i].x <= 10), {
 				                             AxePos[i].x + move[i].m128_f32[0] * 40.0f, 14.f,
 				                             AxePos[i].z + move[i].m128_f32[2] * 40.0f

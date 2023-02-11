@@ -87,7 +87,7 @@ void PlaceGrassField::Update(DebugCamera* camera)
 	Obj->SetScale(scl);
 	//	Obj->SetScale({ 2,3,2 });
 
-	Obj->Update( camera);
+	Obj->Update(camera);
 }
 
 void PlaceGrassField::Draw()

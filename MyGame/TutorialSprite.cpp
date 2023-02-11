@@ -101,7 +101,7 @@ void TutorialSprite::Update()
 	Attackcon->setcolor({1, 1, 1, atacka});
 
 	//目標地点ついたら歩きタスクはクリア
-	if (Collision::GetLength({109.f-50.f, -30, -320.f}, PlayerControl::GetIns()->GetPlayer()->GetPosition()) < 10.f)
+	if (Collision::GetLength({109.f - 50.f, -30, -320.f}, PlayerControl::GetIns()->GetPlayer()->GetPosition()) < 10.f)
 	{
 		ClearTaskJudg[WALK] = true;
 	}
@@ -224,9 +224,9 @@ void TutorialSprite::TargetPosTexMove()
 	if (task == TMOVE)
 	{
 		TargetIconPosY = -15.0f + sinf(3.14f * 2.f / 90.f * MoveTime) * -10.0f;
-		TargetPoint_Icon->SetPosition({109.f-50.f, TargetIconPosY, -320.f});
+		TargetPoint_Icon->SetPosition({109.f - 50.f, TargetIconPosY, -320.f});
 		TargetPoint_Ground->SetColor({1.0f, 1.0f, 1.0f, targetAlpha});
-		TargetPoint_Ground->SetPosition({109.f-50.f, -27, -320.f});
+		TargetPoint_Ground->SetPosition({109.f - 50.f, -27, -320.f});
 	}
 
 	if (task == TATTACK)

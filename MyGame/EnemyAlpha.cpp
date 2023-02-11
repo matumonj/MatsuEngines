@@ -109,13 +109,13 @@ void EnemyAlpha::Update()
 	}
 	m_fbxObject->SetColor({1, 0, 0, alpha});
 
-	if (alpha>0.f && SceneManager::GetIns()->GetScene() != SceneManager::MAPCREATE)
+	if (alpha > 0.f && SceneManager::GetIns()->GetScene() != SceneManager::MAPCREATE)
 	{
 		m_fbxObject->SetFogPos(PlayerControl::GetIns()->GetPlayer()->GetPosition());
 
-		
+
 		//if (f_time >= NormalAttackTime + 1.0f) {
-		if (Collision::GetLength(Position,PlayerControl::GetIns()->GetPlayer()->GetPosition())<10.f)
+		if (Collision::GetLength(Position, PlayerControl::GetIns()->GetPlayer()->GetPosition()) < 10.f)
 		{
 			PlayerControl::GetIns()->GetPlayer()->RecvDamage(10);
 		}
@@ -157,7 +157,10 @@ void EnemyAlpha::Death()
 
 void EnemyAlpha::EnemyHPDraw()
 {
-	if (alpha <= 0.f)return;
+	if (alpha <= 0.f)
+	{
+		return;
+	}
 	Player* l_player = PlayerControl::GetIns()->GetPlayer();
 
 	Sprite::PreDraw();

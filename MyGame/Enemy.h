@@ -58,7 +58,7 @@ public:
 	void Respawn();
 	int GetRespawnCount() { return RespawnCount; }
 	void ResetRespawnCount() { RespawnCount = 0; }
-	bool RespawnJudg();//
+	bool RespawnJudg(); //
 
 protected:
 	bool isAlive;
@@ -73,7 +73,7 @@ protected:
 	XMFLOAT3 RespawnPos = {0.0f, 0.0f, 0.0f};
 	bool RecvDamagef = false; //HUD用
 	bool RecvDamagef2 = false; //挙動判定用
-	bool RecvAttackHit = false;//
+	bool RecvAttackHit = false; //
 	bool DamageParticleCreateF = false; //攻撃受けた直後パーティクル発生フラg
 private:
 	//動けるかどうか
@@ -147,7 +147,7 @@ protected:
 	float FollowRotAngleCorrect;
 
 	//各アニメーションの開始タイム
-	
+
 	float DeathMotionTime_Start;
 	float DeathMotionTime_End;
 	float EvaTime = 0.0f;
@@ -239,7 +239,7 @@ protected:
 public:
 	bool getdie() { return DieFlag; }
 	bool getdeath() { return DeathFlag; }
-	
+
 
 	void SetAnimation(int number, bool loop, double speed);
 	bool GetAttack_Start(int Num) { return Attack[Num].start; }
@@ -275,7 +275,7 @@ public: //state切り替え
 
 	int GetNowMotion() { return m_Number; }
 protected:
-	NowAttackMotion attackNum = NowAttackMotion::BIDLE;
+	NowAttackMotion attackNum = BIDLE;
 	OBB ShieldOBB;
 	bool GuardAction;
 	int guardtime;
@@ -316,22 +316,22 @@ protected:
 	EnemyState* state_mob;
 	BossEnemyState* state_boss;
 protected:
-		//両手の行列
-		XMMATRIX handmat_right;
-		XMMATRIX handmat_right2;
-		XMMATRIX handmat_left;
+	//両手の行列
+	XMMATRIX handmat_right;
+	XMMATRIX handmat_right2;
+	XMMATRIX handmat_left;
 
-		//両手の座標
-		XMFLOAT3 HandPos_Right;//18
-		XMFLOAT3 HandPos_Right2;//18
-		XMFLOAT3 HandPos_Left;//43
+	//両手の座標
+	XMFLOAT3 HandPos_Right; //18
+	XMFLOAT3 HandPos_Right2; //18
+	XMFLOAT3 HandPos_Left; //43
 
-		float rotadds;
+	float rotadds;
 
-		bool HelpJudg;
+	bool HelpJudg;
 
 protected:
-	std::unique_ptr<Sprite>HelpIcon;
+	std::unique_ptr<Sprite> HelpIcon;
 	float HelpIconAlpha;
 public:
 	void HelpIconInit();
@@ -343,7 +343,7 @@ public:
 	float Getaddroa() { return rotadds; }
 	XMFLOAT3 HandRightPos() { return HandPos_Right; }
 	XMFLOAT3 HandRightPos2() { return HandPos_Right2; }
-	XMFLOAT3 HandLeftPos() { return HandPos_Left;; }
+	XMFLOAT3 HandLeftPos() { return HandPos_Left; }
 protected:
 	std::array<std::unique_ptr<Sprite>, 4> HPFrame;
 	std::unique_ptr<Sprite> EnemyName;
@@ -365,7 +365,7 @@ protected:
 private:
 	std::list<std::unique_ptr<DamageManager>> dMans_;
 protected:
-	std::unique_ptr<Object3d>ShieldObj;
+	std::unique_ptr<Object3d> ShieldObj;
 	XMFLOAT3 shieldRot;
 
 public:

@@ -133,7 +133,6 @@ void SelectSword::SetSword(SelectWeapon nowsword)
 
 void SelectSword::Update()
 {
-
 	//武器変更ボタン押されたら
 	if (!SelectJudg_Right && !SelectJudg_Left)
 	{
@@ -146,20 +145,19 @@ void SelectSword::Update()
 		//右に移動
 		if (input->TriggerButton(input->RB))
 		{
-
 			if (SceneManager::GetIns()->GetScene() != SceneManager::TUTORIAL)
 			{
 				if (index == 2)
 				{
 					//最大値行ったら最初に戻る
 					index = 0;
-				} else
+				}
+				else
 				{
-
 					index++;
+				}
+				SelectJudg_Right = true;
 			}
-			SelectJudg_Right = true;
-		}
 		}
 		//左に移動
 		if (input->TriggerButton(input->LB))
@@ -170,7 +168,8 @@ void SelectSword::Update()
 				{
 					//最小値行ったら一番最後に
 					index = 2;
-				} else
+				}
+				else
 				{
 					index--;
 				}

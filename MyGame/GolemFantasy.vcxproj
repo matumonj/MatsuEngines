@@ -112,6 +112,7 @@
     <ClCompile Include="BossAttackActionManager.cpp" />
     <ClCompile Include="BossEnemyAttackThrow.cpp" />
     <ClCompile Include="BossEnemyShieldGuard.cpp" />
+    <ClCompile Include="FootSwitch.cpp" />
     <ClCompile Include="RushAttack.cpp" />
     <ClCompile Include="AreaFence.cpp" />
     <ClCompile Include="AttackCollision.cpp" />
@@ -261,6 +262,7 @@
     <ClInclude Include="BossAttackActionManager.h" />
     <ClInclude Include="BossEnemyAttackThrow.h" />
     <ClInclude Include="BossEnemyShieldGuard.h" />
+    <ClInclude Include="FootSwitch.h" />
     <ClInclude Include="RushAttack.h" />
     <ClInclude Include="AreaFence.h" />
     <ClInclude Include="AttackCollision.h" />
