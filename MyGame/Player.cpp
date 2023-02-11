@@ -1,6 +1,8 @@
 #include "Player.h"
 #include <algorithm>
 
+#include"mHelper.h"
+#include <FbxLoader.h>
 #include "AttackEffect.h"
 #include"TargetMarker.h"
 #include"PlayerAttackState.h"
@@ -34,13 +36,17 @@ Player::AnimeState Player::AnimationSetParam( AttackMotion motion, double speed,
 {
 	AnimeState state;
 
+	//アニメーション速度やループするかをセット
 	state.AnimationSpeed = speed;
 	state.AnimeLoop = loop;
 	state.AnimeMotion = motion;
+
+	//ヒットストップのときはスロー
 	if(PlayerAttackState::GetIns()->GetHitStopJudg())
 	{
 		state.AnimationSpeed = 0.3;
 	}
+
 	return state;
 }
 
@@ -80,16 +86,11 @@ void Player::Move()
 	{
 		return;
 	}
-	if (attackMotion != RUN && attackMotion != NON)
-	{
-		//	return;
-	}
 	XMFLOAT3 pos = Position;
 	XMFLOAT3 rot = Rotation;
 
 	float StickX = input->GetLeftControllerX();
 	float StickY = input->GetLeftControllerY();
-	const float pi = 3.14159f;
 	const float STICK_MAX = 32768.0f;
 
 	//スティックの移動処理
@@ -128,21 +129,15 @@ void Player::Move()
 		{
 			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{ -vel, 0, 0, 0 }, angle);
 		}
-		//アニメーションの基礎パラメータセット
-		_AnimeState[AnimeName::ANIMENAME_NON] = AnimationSetParam(AttackMotion::NON, 1.0, true);
-		_AnimeState[AnimeName::ANIMENAME_RUN] = AnimationSetParam(AttackMotion::RUN, 1.0, true);
-		_AnimeState[AnimeName::ANIMENAME_FIRST] = AnimationSetParam(AttackMotion::FIRST, SelectSword::GetIns()->GetSword()->GetAnimationTime(), false);
-		_AnimeState[AnimeName::ANIMENAME_SECOND] = AnimationSetParam(AttackMotion::SECOND, SelectSword::GetIns()->GetSword()->GetAnimationTime(), false);
-		_AnimeState[AnimeName::ANIMENAME_THIRD] = AnimationSetParam(AttackMotion::THIRD, SelectSword::GetIns()->GetSword()->GetAnimationTime(), false);
-		_AnimeState[AnimeName::ANIMENAME_DEATH] = AnimationSetParam(AttackMotion::DEATH, 1.0, false);
-
+		
 		const float rnd_vel = 0.1f;
+
 		XMFLOAT3 vel{};
 
 		vel.x = static_cast<float>(rand()) / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
 		vel.y = static_cast<float>(rand()) / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
 		vel.z = static_cast<float>(rand()) / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-		rot.y = angle + atan2f(StickX, StickY) * (180.0f / pi);
+		rot.y = angle + atan2f(StickX, StickY) * (180.0f / PI);
 
 		//プレイヤーの回転角を取る
 		Rotation = { rot.x, rot.y, rot.z };
@@ -167,17 +162,26 @@ void Player::Move()
 	}
 
 	//探索ステージでの移動制限
+	float l_MoveLimit_x[2];
+	float l_MoveLimit_z[2];
+
 	if (SceneManager::GetIns()->GetScene() == SceneManager::PLAY)
 	{
-		Position.x = std::clamp(Position.x, -300.f, 300.f);
-		Position.z = std::clamp(Position.z, -200.f, 400.f);
+		l_MoveLimit_x[0] = -300.f; l_MoveLimit_x[1] = 300.f;
+		l_MoveLimit_z[0] = -200.f; l_MoveLimit_z[1] = 400.f;
 	}
 	//ボスエリアでの移動制限
 	else if (SceneManager::GetIns()->GetScene() == SceneManager::BOSS)
 	{
-		Position.x = std::clamp(Position.x, -100.f, 100.f);
-		Position.z = std::clamp(Position.z, -100.f, 100.f);
+		l_MoveLimit_x[0] = -130.f; l_MoveLimit_x[1] = 130.f;
+		l_MoveLimit_z[0] = -130.f; l_MoveLimit_z[1] = 130.f;
 	}
+
+	//l_MoveLimit[0]<pos<l_MoveLimit[1]
+	Position.x = std::clamp(Position.x, l_MoveLimit_x[0], l_MoveLimit_x[1]);
+	Position.z = std::clamp(Position.z, l_MoveLimit_z[0], l_MoveLimit_z[1]);
+
+	//走り状態以外は足元の土煙出さない
 	if(attackMotion!=RUN)RunParCreate = false;
 	
 }
@@ -201,8 +205,6 @@ void Player::Death()
 	m_AnimationStop = true;
 }
 
-#include"mHelper.h"
-#include <FbxLoader.h>
 
 void Player::Evasion()
 {
@@ -269,10 +271,21 @@ void Player::Update()
 		return;
 	}
 
+	//アニメーションの基礎パラメータセット
+	_AnimeState[AnimeName::ANIMENAME_NON] = AnimationSetParam(AttackMotion::NON, 1.0, true);
+	_AnimeState[AnimeName::ANIMENAME_RUN] = AnimationSetParam(AttackMotion::RUN, 1.0, true);
+	_AnimeState[AnimeName::ANIMENAME_FIRST] = AnimationSetParam(AttackMotion::FIRST, SelectSword::GetIns()->GetSword()->GetAnimationTime(), false);
+	_AnimeState[AnimeName::ANIMENAME_SECOND] = AnimationSetParam(AttackMotion::SECOND, SelectSword::GetIns()->GetSword()->GetAnimationTime(), false);
+	_AnimeState[AnimeName::ANIMENAME_THIRD] = AnimationSetParam(AttackMotion::THIRD, SelectSword::GetIns()->GetSword()->GetAnimationTime(), false);
+	_AnimeState[AnimeName::ANIMENAME_DEATH] = AnimationSetParam(AttackMotion::DEATH, 1.0, false);
+
+
+	//各種パラメータをCSVから
 	if (!load) {
 		LoadCsv();
 		load = true;
 	}
+
 		//１フレーム前の座標を保存
 		oldpos = Position;
 		//攻撃受けた後のクールタイム
@@ -304,6 +317,7 @@ void Player::Update()
 		//攻撃エフェクト
 		AttackEffect::GetIns()->Upda();
 
+		//回避、停止時は土煙出さない
 		if (!RunParCreate||evasionF)
 		{
 			runparticle->EndUpda(true);
@@ -312,9 +326,13 @@ void Player::Update()
 		{
 			runparticle->EndUpda(false);
 		}
-	runparticle->CreateParticle(true, { Position.x,Position.y-2.f,Position.z });
 
-	runparticle->Upda(0.01f,0.04f);
+		//土煙のパーティクルの速度アルファ値減算値
+		constexpr float l_ParticleVelSpeed = 0.01f;
+		constexpr float l_ParticleAlphaSubVal = 0.04f;
+
+		runparticle->CreateParticle(true, { Position.x,Position.y-2.f,Position.z });
+		runparticle->Upda(l_ParticleVelSpeed , l_ParticleAlphaSubVal);
 
 
 }
@@ -322,12 +340,10 @@ void Player::Update()
 
 void Player::Draw()
 {
-
-
+	//モデル描画
 	Draw_Fbx();
-	
+	//土煙描画
 	runparticle->Draw();
-
 }
 
 void Player::DamageTexDraw()
@@ -456,22 +472,13 @@ void Player::RecvDamage(int Damage)
 	
 		HUD::GetIns()->SetRecvDamageFlag(true); //プレイヤーHPのHUD用
 	}
+	HP = HP - Damage;
+	std::unique_ptr<DamageManager> newdTex;
 
-	if (HP >= 0)
-	{
-		HP = HP - Damage;
-		std::unique_ptr<DamageManager> newdTex;
+	newdTex = std::make_unique<DamageManager>(
+	XMFLOAT3(Position.x, Position.y + float(rand() % 5 - 2), Position.z), Damage);
+	dMans_.push_back(std::move(newdTex));
 
-		newdTex = std::make_unique<DamageManager>(
-			XMFLOAT3(Position.x, Position.y + rand() % 5 - 2, Position.z), Damage);
-
-		dMans_.push_back(std::move(newdTex));
-
-	}
-}
-void BossEnemy::Move()
-{
-	
 }
 
 void Player::DamageTexDisplay()
@@ -488,6 +495,7 @@ void Player::DamageTexDisplay()
 			return dTex->GetAlpha() <= 0.1f;
 		});
 }
+
 XMFLOAT3 Player::MoveVECTOR(XMVECTOR v, float angle)
 {
 	XMMATRIX rot2 = {};
