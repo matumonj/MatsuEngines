@@ -91,7 +91,7 @@ void PlaceStone::Update(DebugCamera* camera)
 	Obj->SetScale(scl);
 	//	Obj->SetScale({ 2,3,2 });
 
-	Obj->Update({1, 0, 1, 0.5}, camera);
+	Obj->Update( camera);
 }
 
 void PlaceStone::Draw()

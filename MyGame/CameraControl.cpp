@@ -1,17 +1,12 @@
 #include "CameraControl.h"
-
 #include <algorithm>
-#include<windows.h>
 #include"Feed.h"
 #include"SceneManager.h"
 #include"PlayerControl.h"
 #include"ChestControl.h"
 #include"EnemyControl.h"
-#include"imgui.h"
 #include"mHelper.h"
 #include"UI.h"
-#include"Field.h"
-#include<array>
 
 #include "FenceControl.h"
 
@@ -242,13 +237,13 @@ void CameraControl::TargetPlayer()
 		{
 			angle += 2.0f;
 			charaAngle += 2.0f;
-			PlayerControl::GetIns()->GetPlayer()->Setangle(charaAngle);
+			PlayerControl::GetIns()->GetPlayer()->SetAngle(charaAngle);
 		}
 		if (input->TiltPushStick(Input::R_LEFT))
 		{
 			angle -= 2.0f;
 			charaAngle -= 2.0f;
-			PlayerControl::GetIns()->GetPlayer()->Setangle(charaAngle);
+			PlayerControl::GetIns()->GetPlayer()->SetAngle(charaAngle);
 		}
 		dis.x = sinf(angle * (PI / 180.0f)) * 30.0f;
 		dis.y = cosf(angle * (PI / 180.0f)) * 30.0f;

@@ -91,6 +91,7 @@ public:
 		GAMECLEAR_R = 33,
 
 		HELPICON=34,
+
 		CLEARBACK
 	};
 

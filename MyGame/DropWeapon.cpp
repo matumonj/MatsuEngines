@@ -155,7 +155,7 @@ void DropWeapon::Upda()
 		WeaponObj[i]->SetScale(WeaponObjScl[i]);
 		WeaponObj[i]->SetRotation(WeaponObjRot[i]);
 		//ƒ‚ƒfƒ‹Š„‚è“–‚Ä
-		WeaponObj[i]->Update({1.f, 1.f, 1.f, 1.f}, camera);
+		WeaponObj[i]->Update(camera);
 
 		tex2DPos[i] = {WeaponObjPos[i].x, WeaponObjPos[i].y, WeaponObjPos[i].z};
 		tex2DPos[i] = MatCal::PosDivi(tex2DPos[i], CameraControl::GetIns()->GetCamera()->GetViewMatrix(), false);

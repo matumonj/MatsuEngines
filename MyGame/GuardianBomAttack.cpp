@@ -140,7 +140,7 @@ void GuardianBomAttack::Upda()
 			ArmObj[i]->SetScale({2.f, 2.f, 1.f});
 			ArmObj[i]->SetRotation(ArmRot[i]);
 			ArmObj[i]->SetColor({1.f, 1.f, 1.f, ArmAlpha[i]});
-			ArmObj[i]->Update({1.f, 1.f, 1.f, ArmAlpha[i]}, camera);
+			ArmObj[i]->Update( camera);
 		}
 		for (int i = 0; i < ArmObjNum; i++)
 		{

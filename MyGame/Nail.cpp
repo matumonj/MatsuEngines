@@ -93,7 +93,7 @@ void Nail::HalfAttack(const HalfAttackArea& area)
 	for (int i = 0; i < Nails.size(); i++)
 	{
 		Nails[i]->SetRotation({180.0f, 0.0f, 0.0f});
-		Nails[i]->Update({1.0f, 1.0f, 1.0f, 1.0f}, CameraControl::GetIns()->GetCamera());
+		Nails[i]->Update( CameraControl::GetIns()->GetCamera());
 	}
 }
 
@@ -142,8 +142,6 @@ void Nail::CircleAttack(int area1, int area2)
 			if (CAttack.phase == PHASE_TWO) {
 			if (col)
 				{
-					PlayerControl::GetIns()->GetPlayer()->SetDamageEva(true);
-
 					PlayerControl::GetIns()->GetPlayer()->DamageJump(col, 1.3f);
 
 					PlayerControl::GetIns()->GetPlayer()->RecvDamage(5);
@@ -190,7 +188,7 @@ void Nail::CircleAttack(int area1, int area2)
 	for (int i = 0; i < Nails.size(); i++)
 	{
 		Nails[i]->SetRotation({180.0f, 0.0f, 0.0f});
-		Nails[i]->Update({1.0f, 1.0f, 1.0f, 1.0f}, CameraControl::GetIns()->GetCamera());
+		Nails[i]->Update( CameraControl::GetIns()->GetCamera());
 	}
 }
 

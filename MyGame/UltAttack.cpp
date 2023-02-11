@@ -69,7 +69,7 @@ void UltAttack::Upda()
 			normalAttackObj[i]->SetPosition(beampos[i]);
 			normalAttackObj[i]->SetRotation({ 180.0f, 0.0f, 0.0f });
 			normalAttackObj[i]->SetScale(beamscl[i]);
-			normalAttackObj[i]->Update({ 1.f, 1.f, 1.f, 0.5f }, camera);
+			normalAttackObj[i]->Update( camera);
 		}
 	}
 }

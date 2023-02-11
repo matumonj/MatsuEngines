@@ -133,7 +133,7 @@ void ObjectManager::CollisionField()
 	}
 
 
-	m_Object->Update({1, 1, 1, 1}, camera);
+	m_Object->Update(camera);
 }
 
 void ObjectManager::ParameterSet_Obj()
@@ -144,7 +144,7 @@ void ObjectManager::ParameterSet_Obj()
 	m_Object->SetRotation(Rotation);
 	m_Object->SetScale(Scale);
 	m_Object->SetColor(Color);
-	m_Object->Update({1, 1, 1, ObjAlpha}, camera);
+	m_Object->Update( camera);
 }
 
 

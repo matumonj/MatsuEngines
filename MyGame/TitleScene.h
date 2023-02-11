@@ -11,64 +11,64 @@ class TitleScene : public BaseScene
 public:
 	TitleScene(SceneManager* sceneManager);
 private:
+	//テクスチャ[GolemFantasy]
 	std::unique_ptr<Sprite> titlesprite = nullptr;
-
+	//フィールドオブジェクト
 	std::unique_ptr<Object3d> field = nullptr;
+	//天球オブジェクト
 	std::unique_ptr<Object3d> celestal = nullptr;
-	std::unique_ptr<Sprite> TitleMenu[2] = {nullptr};
+	//テクスチャ[Bでゲーム画面へ]
+	std::unique_ptr<Sprite> TitleMenu= {nullptr};
+	//タイトル用カメラ
 	std::unique_ptr<DebugCamera> camera = nullptr;
 
+	//チュートリアルボタン押されたか？
 	bool menujudg_Play = false;
-	bool menujudg_Edit = false;
+	//フェード演出用
 	bool feedf = false;
+	//カメラが後ろに下がる
 	bool CameraBackF = false;
 
-	float menuAlpha[2] = {1.0f, 1.0f};
-	XMFLOAT2 MenuScale[2] = {{0.0f, 0.0f}};
+	//ボタンテクスチャの座標、スケール、アルファ値
+	float menuAlpha = 1.0;
+	XMFLOAT2 MenuScale = {0.0f, 0.0f};
+	XMFLOAT2 MenuPos= { 0.0f, 0.0f };
 
-
-private:
+	//カメラの回転速度
+	float CamAngleSpeed;
 	float Cangle = 0.0f;
-	float FieldRotY = 0.0f;
 	XMFLOAT2 CameraPos = { 0.0f, 0.0f };
+	//フィールド回転用
+	float FieldRotY = 0.0f;
 
 public:
+	//初期化
 	void Initialize() override;
+	//更新
 	void Update() override;
+	//描画
 	void Draw() override;
-	void LightUpdate()override;
+	//開放
 	void Finalize() override;
+private:
+	//ライト更新
+	void LightUpdate()override;
+	//描画＿オブジェクト
 	void MyGameDraw()override;
+	//描画＿スプライト
 	void SpriteDraw()override;
 
 private:
-float ambientColor0[3] = { 1.0f, 1.0f, 1.0f };
-	// 光線方向初期値
-	float lightDir0[3] = { 1.0f, 0.0f, 1.0f };
-	float lightColor0[3] = { 1.0f, 0.0f, 0.0f };
+	static constexpr float RotSpeed = 0.1f;
+	static constexpr XMFLOAT3 FieldScl= {0.15f,0.15f, 0.15f};
+	static constexpr XMFLOAT3 CelestalScl = { 30.f, 30.1f, 30.1f };
 
-	float lightDir1[3] = { 1.0f, 1.0f, 0.0f };
-	float lightColor1[3] = { 0.0f, 1.0f, 0.0f };
-
-	float lightDir2[3] = { 1.0f, 0.0f, 0.0f };
-	float lightColor2[3] = { 0.0f, 0.0f, 1.0f };
-
-
-	float pointLightPos[3] = { 0, 0, 0 };
-	float pointLightColor[3] = { 1, 1, 1 };
-	float pointLightAtten[3] = { 0.003f, 0.001f, 0.003f };
-
-	float circleShadowDir[3] = { 0.0f, -1.0f, 0.0f };
-	float circleShadowPos[3] = { 1.0f, 2.0f, 0.0f };
-	float circleShadowAtten[3] = { 0.2f, 10.0f, 10.0f };
-	float circleShadowFactorAngle[2] = { 1.0f, 3.0f };
-	float circleShadowFactorAngle2[2] = { 1.0f, 6.0f };
-	//virtual void SpriteDraw(ID3D12GraphicsCommandList* cmdList) = 0;
-
+	//テクスチャの更新と描画
 	void TitleTexInit();
 	void TitleTexUpda();
 	void TitleTexDraw();
 
+	//フィールドオブジェクトの更新と描画
 	bool ChangeScene();
 	void TitleFieldInit();
 	void TitleFieldUpda();

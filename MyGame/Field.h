@@ -135,4 +135,7 @@ private:
 	void PedestalMoving();
 public:
 	void NameDraw();
+
+private:
+	XMFLOAT3 FieldPosition;
 };

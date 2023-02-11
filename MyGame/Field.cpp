@@ -1,19 +1,18 @@
 #include "Field.h"
 #include <algorithm>
-
 #include "BossMap.h"
-#include"CameraControl.h"
+#include "CameraControl.h"
 #include"TouchableObject.h"
 #include"CollisionManager.h"
 #include"SceneManager.h"
 #include"ModelManager.h"
 #include"Destroy.h"
 #include"CollisionPrimitive.h"
-#include"PlayerControl.h"
-#include"EnemyControl.h"
-#include "mHelper.h"
+#include "EnemyControl.h"
 #include"UltAttack.h"
 #include "Feed.h"
+#include "mHelper.h"
+#include "PlayerControl.h"
 #define PI 3.14f
 
 Field::~Field()
@@ -217,7 +216,7 @@ void Field::Update_Tutorial()
 	FieldObject->setFog(TRUE);
 	SetFieldUpdate(CELESTIALSPHERE, camera, {0.0f, 30.0f, 0.0f}, {40.0f, 40.0f, 40.0f}, FALSE, TRUE);
 	FieldObject->SetColor({0.2f, 0.2f, 0.2f, 1.0f});
-	FieldObject->Update({0.2f, 0.2f, 0.2f, 1.0f}, camera);
+	FieldObject->Update( camera);
 }
 
 void Field::Update_Play()
@@ -251,7 +250,7 @@ void Field::Update_Play()
 	FieldObject->SetColor({0.2f, 0.2f, 0.2f, 1.0f});
 	FieldObject->SetFogCenter(FogCenterPos);
 	FieldObject->setFog(true);
-	FieldObject->Update({0.2f, 0.2f, 0.2f, 1.0f}, camera);
+	FieldObject->Update( camera);
 
 	m_object[BOSSBACK]->SetRotation({0.f, 180.f, 0.f});
 	SetFieldUpdate(BOSSBACK, camera, {22.f-50.f, -70.f, 1010.f-500.f}, {0.6f, 0.6f, 0.6f}, FALSE, true);
@@ -391,10 +390,12 @@ void Field::Update_Edit()
 {
 	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
-	FieldObject->SetPosition({0.0f, -25.0f, 0.0f});
-	FieldObject->SetFogCenter({0.0f, -20.0f, 0.0f});
+	FieldPosition = { 0.0f, -25.0f, 0.0f };
+
+	FieldObject->SetPosition({FieldPosition});
+	FieldObject->SetFogCenter({0.0f, 0.0f, 0.0f});
 	FieldObject->SetColor({0.8f, 0.8f, 0.8f, 1.0f});
-	FieldObject->Update({0.2f, 0.2f, 0.2f, 1.0f}, camera);
+	FieldObject->Update(camera);
 }
 
 void Field::Update_Boss()
@@ -450,40 +451,48 @@ void Field::Update_Boss()
 		m_object[BOSSBACK]->SetColor({ 0.4f,0.4f,0.4f,1.0f });
 		SetFieldUpdate(BOSSBACK, camera, { 0, -19, 0 }, { 1.0f, 1.0f, 1.0f }, false, false);
 	}
-	FieldObject->SetPosition({ 0.0f, -19.0f, 0.0f });
+	FieldPosition = { 0.0f, -19.0f, 0.0f };
 
+	FieldObject->SetPosition(FieldPosition);
 	FieldObject->SetColor({ 0.8f, 0.8f, 0.8f, KoloiamAlpha });
-	FieldObject->Update({ 0.8f, 0.8f, 0.8f, 1.0f }, camera);
+	FieldObject->Update( camera);
+
+
+	constexpr float l_DestSpeed = 4.f;
 
 	if (SkyMapDestF)
 	{
-		SkyMapDestT -= 4;
+		SkyMapDestT -= l_DestSpeed;
 	}
-	if (SkyMapDestT < 0)
-	{
-		SkyMapDestT = 0.f;
-	}
+	SkyMapDestT = std::clamp(SkyMapDestT, 30.f, 0.f);
+
 	for (int i = 0; i < SkyMap.size(); i++) {
 		SkyMap[i]->SetDestFlag(true);
 		SkyMap[i]->SetDestTime(SkyMapDestT);
 		SkyMap[i]->setFog(true);
 		SkyMap[i]->SetFogCenter(camera->GetEye());
-		SkyMap[i]->Update({ 1,1,1,1 }, camera);
+		SkyMap[i]->Update( camera);
 	}
 	for (int i = 0; i < SkyBack.size(); i++) {
-		objroty[i] = float(i) * 90.f;
 		SkyBack[i]->SetDestFlag(true);
 		SkyBack[i]->SetDestTime(SkyMapDestT);
 		SkyBack[i]->setFog(true);
 		SkyBack[i]->SetFogCenter(camera->GetEye());
 		SkyBack[i]->SetPosition(SkyBackPos[i]);
 		SkyBack[i]->SetRotation({ 0.f,objroty[i],0.f });
-		SkyBack[i]->Update({ 1,1,1,1 }, camera);
-	}cleartex->SetPosition({ 0,17,75 });
-	cleartex->SetRotation({ 90,0,0 });
-	cleartex->SetScale({ 3,3,3 });
+		SkyBack[i]->Update( camera);
+	}
+
+	//クリアシーンへのワープテクスチャの基礎パラメータ
+	constexpr XMFLOAT3 l_ClearAreaTexPos = { 0.f,17.f,75.f };
+	constexpr XMFLOAT3 l_ClearAreaTexRot = { 90.f,0.f,0.f };
+	constexpr XMFLOAT3 l_ClearAreaTexScl = { 7.f,7.f,3.f };
+
+	cleartex->SetPosition(l_ClearAreaTexPos);
+	cleartex->SetRotation(l_ClearAreaTexRot);
+	cleartex->SetScale(l_ClearAreaTexScl);
 	cleartex->SetBillboard(false);
-	cleartex->SetColor({ 1,1,1,1 });
+	cleartex->SetColor({ 1.f,1.f,1.f,1.f });
 	cleartex->Update(camera);
 	
 	BossMap::GetIns()->Upda();
@@ -627,7 +636,7 @@ void Field::SetFieldUpdate(ObjType type, DebugCamera* camera, XMFLOAT3 Pos, XMFL
 	m_object[type]->SetScale(Scl);
 	m_object[type]->SetUVf(uvscroll);
 	m_object[type]->setFog(fog);
-	m_object[type]->Update({1.0f, 1.0f, 1.0f, 1.0f}, camera);
+	m_object[type]->Update(camera);
 }
 
 void Field::ModelDraw_nullCheck(ObjType type)

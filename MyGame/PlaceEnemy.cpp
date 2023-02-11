@@ -121,7 +121,7 @@ void PlaceEnemy::Update(DebugCamera* camera)
 	Obj->SetPosition(pos);
 	Obj->SetScale({8, 6, 8});
 	Obj->SetColor({1, 1, 1, 0.5f});
-	Obj->Update({1, 0, 0, 0.5}, camera);
+	Obj->Update( camera);
 
 	for (int i = 0; i < enemys.size(); i++)
 	{

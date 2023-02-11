@@ -126,7 +126,7 @@ void BronzeAttack::ObjUpda()
 			BeamObj[i]->SetUVf(true);
 			BeamObj[i]->SetColor({ 1.f,1.f,1.f, 1.f });
 			BeamObj[i]->SetScale(BeamObjScl[i]);
-			BeamObj[i]->Update({ 1.f, 1.f, 1.f, 0.5f }, camera);
+			BeamObj[i]->Update(camera);
 		}
 	
 	TexAlpha = max(TexAlpha, 0.f);
@@ -203,7 +203,7 @@ void BronzeAttack::SphereMoving()
 		chargesphere[i]->SetPosition(chargespherepos[i]);
 		chargesphere[i]->SetColor({ 1.f,1.f,1.f,0.8f });
 		chargesphere[i]->SetScale({ 1.f,1.f,1.f });
-		chargesphere[i]->Update({ 1.f,1.f,1.f,1.f }, CameraControl::GetIns()->GetCamera());
+		chargesphere[i]->Update(CameraControl::GetIns()->GetCamera());
 	}
 
 }

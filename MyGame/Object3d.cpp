@@ -584,7 +584,7 @@ bool Object3d::Initialize(DebugCamera* camera)
 	return true;
 }
 
-void Object3d::Update(XMFLOAT4 color, DebugCamera* camera)
+void Object3d::Update(DebugCamera* camera)
 {
 	if (uvf)
 	{

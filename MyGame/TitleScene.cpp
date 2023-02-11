@@ -1,7 +1,4 @@
 #include "TitleScene.h"
-
-#include <tchar.h>
-
 #include"Input.h"
 #include"PlayScene.h"
 #include"MapCreateScene.h"
@@ -43,11 +40,7 @@ void TitleScene::Update()
 	if (Input::GetIns()->TriggerButton(Input::B))
 	{
 		CameraBackF = true;
-		//SceneManager::GetIns()->SetScene(SceneManager::TUTORIAL, sceneManager_);
-
-		//押されたら
 		menujudg_Play = true;
-		//押されたら
 		feedf = true;
 	}
 	if (Input::GetIns()->TriggerButton(Input::A))
@@ -60,11 +53,11 @@ void TitleScene::Update()
 	//
 	if (ChangeScene() == true)
 	{
-		SceneManager::GetIns()->SetScene(SceneManager::TUTORIAL,sceneManager_);
+		SceneManager::GetIns()->SetScene(SceneManager::TUTORIAL, sceneManager_);
 	}
 
 	//360言ったら０にリセット
-	if (Cangle >= 360.0f)
+	if (Cangle >= PI_360)
 	{
 		Cangle = 0.0f;
 	}
@@ -72,15 +65,13 @@ void TitleScene::Update()
 	//カメラがフィールド中心に回るように
 	if (!CameraBackF)
 	{
-		CameraPos.x = sinf(Cangle * (PI / 180.0f)) * 40.0f;
-		CameraPos.y = cosf(Cangle * (PI / 180.0f)) * 40.0f;
-	}
-	else
+		CameraPos.x = sinf(Cangle * (PI / PI_180)) * 40.0f;
+		CameraPos.y = cosf(Cangle * (PI / PI_180)) * 40.0f;
+	} else
 	{
 		//カメラのｚ座標を引く
 		CameraPos.y--;
 	}
-
 	//スプライト
 	TitleTexUpda();
 	//フィールド
@@ -90,8 +81,6 @@ void TitleScene::Update()
 	camera->SetEye({CameraPos.x, 2.0f, CameraPos.y});
 	camera->SetTarget({0.0f, 0.0f, 0.0f});
 	camera->Update();
-	//SceneManager::GetIns()->SetScene(SceneManager::TUTORIAL, sceneManager_);
-
 }
 
 
@@ -107,11 +96,14 @@ void TitleScene::MyGameDraw()
 }
 bool TitleScene::ChangeScene()
 {
-	
+	bool FadeFlag = CameraPos.y <= -40.0f;
+	float CameraCenterPosX = CameraPos.x - 26.0f;
 	if (feedf)
 	{
-		Cangle += 0.5f;
-		float cameratocenter_x = sqrtf((CameraPos.x -26.0f) * (CameraPos.x -26.0f));
+		CamAngleSpeed= 0.5f;
+
+		float cameratocenter_x = sqrtf(CameraCenterPosX* CameraCenterPosX);
+
 		if (cameratocenter_x < 1.0f && CameraPos.y < -30.0f)
 		{
 			CameraBackF = true;
@@ -119,19 +111,26 @@ bool TitleScene::ChangeScene()
 	}
 	else
 	{
-		Cangle += 0.1f;
-	}
-	if (CameraPos.y <= -40.0f)
-	{
-		Feed::GetIns()->Update_White(Feed::FEEDIN);
+		CamAngleSpeed= 0.1f;
 	}
 
-	//画面真っ白になったらシーン切り替え
-	if (Feed::GetIns()->GetAlpha() >= 1.0f)
+	//回転用アングルの値を足していく
+	Cangle += CamAngleSpeed;
+
+	//シーン遷移時
+	if (FadeFlag)
 	{
-		return true;
+		Feed::GetIns()->Update_White(Feed::FEEDIN);
+
+		//画面真っ白になったらシーン切り替え
+		if (Feed::GetIns()->GetAlpha() >= 1.0f)
+		{
+			return true;
+		}
 	}
+	
 	return false;
+	
 }
 
 /*------------------------*/
@@ -145,7 +144,7 @@ void TitleScene::SpriteDraw()
 
 	Sprite::PreDraw();
 	titlesprite->Draw();
-	TitleMenu[0]->Draw();
+	TitleMenu->Draw();
 	DebugTextSprite::GetIns()->DrawAll();
 	Sprite::PostDraw();
 
@@ -183,41 +182,31 @@ void TitleScene::TitleTexInit()
 	Sprite* navGameSprite = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::GAMEPLAY), {0, 0.0f});
 	Sprite* navEditSprite = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::GAMEPLAY), {0, 0.0f});
 
-	TitleMenu[0].reset(navGameSprite);
-	TitleMenu[1].reset(navEditSprite);
+	TitleMenu.reset(navGameSprite);
 
-	for (int i = 0; i < 2; i++)
-	{
-		menuAlpha[i] = 1.0f;
-		MenuScale[i] = {1900, 1000};
-		TitleMenu[i]->SetPosition({950, 500});
-		TitleMenu[i]->SetSize({1900, 1000});
-		TitleMenu[i]->SetAnchorPoint({0.5, 0.5});
-	}
+	menuAlpha = 1.0f;
+
+	MenuScale = { 1900.f, 1000.f };
+	MenuPos = { 950.f, 500.f };
+
+	TitleMenu->SetPosition(MenuPos);
+	TitleMenu->SetAnchorPoint({0.5f, 0.5f});
+	
 }
 
 void TitleScene::TitleTexUpda()
 {
-	TitleMenu[0]->SetSize(MenuScale[0]);
-	TitleMenu[1]->SetSize(MenuScale[1]);
+	TitleMenu->SetSize(MenuScale);
+	TitleMenu->setcolor({1.0f, 1.0f, 1.0f, menuAlpha});
 
-	TitleMenu[0]->setcolor({1.0f, 1.0f, 1.0f, menuAlpha[0]});
-	TitleMenu[1]->setcolor({1.0f, 1.0f, 1.0f, menuAlpha[1]});
-
+	constexpr float l_MenuSclingSpeed = 20.f;
+	constexpr float l_MenuSubAlphaSpeed = 0.02f;
 
 	if (menujudg_Play)
 	{
-		MenuScale[0].x += 20.0f;
-		MenuScale[0].y += 20.0f;
-		menuAlpha[0] -= 0.02f;
-		menuAlpha[1] = 0.0f;
-	}
-	if (menujudg_Edit)
-	{
-		MenuScale[1].x += 20.0f;
-		MenuScale[1].y += 20.0f;
-		menuAlpha[1] -= 0.02f;
-		menuAlpha[0] = 0.0f;
+		MenuScale.x +=l_MenuSclingSpeed;
+		MenuScale.y += l_MenuSclingSpeed;
+		menuAlpha -= l_MenuSubAlphaSpeed;
 	}
 	titlesprite->SetSize({WinApp::window_width / 2, WinApp::window_height});
 }
@@ -242,24 +231,29 @@ void TitleScene::TitleFieldInit()
 
 void TitleScene::TitleFieldUpda()
 {
+
+	constexpr XMFLOAT3 FieldScl = { 0.15f, 0.15f, 0.15f };
+	constexpr XMFLOAT3 CelestalScl = { 30.f, 30.1f, 30.1f };
+
+	constexpr float addRotYSpeed = 0.1f;
+
 	//フィールドくるくる回す
-	FieldRotY += 0.1f;
+	FieldRotY += addRotYSpeed;
 
 	//パラメータをセット(地形)
 	field->SetRotation({0.0f,FieldRotY, 0.0f});
-	field->SetScale({0.15f, 0.15f, 0.15f});
-	
 	//パラメータをセット(天球)
 	celestal->SetRotation({0.0f, 0.0f, 0.0f});
-	celestal->SetScale({30.f, 30.1f, 30.1f});
+	celestal->SetScale(CelestalScl);
 
 	//更新処理
 	field->setFog(true);
 	celestal->Setf(true);
 	celestal->setFog(true);
 	celestal->SetFogCenter(camera->GetEye());
-	field->Update({0.6f, 0.6f, 0.6f, 1.0f}, camera.get());
-	celestal->Update({0.6f, 0.6f, 0.6f, 1.0f}, camera.get());
+
+	field->Update(camera.get());
+	celestal->Update(camera.get());
 }
 
 void TitleScene::LightUpdate()

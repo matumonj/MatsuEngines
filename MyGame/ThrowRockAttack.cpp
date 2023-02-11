@@ -41,7 +41,7 @@ void ThrowRockAttack::Upda()
 {
 	//石オブジェの更新
 	ThrowRockObj->SetPosition(RockPos);
-	ThrowRockObj->Update({ 1.f, 1.f, 1.f, 1.f }, camera);
+	ThrowRockObj->Update( camera);
 
 	DestEffect();
 
@@ -52,7 +52,7 @@ void ThrowRockAttack::Upda()
 		DestRock[i]->SetPosition(DestRockPos[i]);
 		DestRock[i]->SetRotation(
 		{0.f,0.f,float(i) * 75.f});
-		DestRock[i]->Update({ 1.f, 1.f, 1.f, 1.f }, camera);
+		DestRock[i]->Update( camera);
 	}
 	//関数テーブルの更新
 	ActionUpda();

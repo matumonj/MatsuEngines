@@ -70,7 +70,7 @@ void BossMap::Upda()
 
 			bpoint[i][j].x = mapobj[i][j]->GetPosition().x;
 			bpoint[i][j].y = mapobj[i][j]->GetPosition().z;
-			mapobj[i][j]->Update({1.f, 0.f, 0.f, 1.f}, camera);
+			mapobj[i][j]->Update( camera);
 		}
 	}
 

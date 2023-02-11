@@ -97,7 +97,7 @@ void RushAttack::Upda()
 	RushSphereObj->SetScale(rushspherescl);
 	RushSphereObj->SetColor({1.f, 1.f, 1.f, rushspherealpha});
 	RushSphereObj->SetUVf(true);
-	RushSphereObj->Update({1.5f, 1.5f, 1.5f, 1.5f}, CameraControl::GetIns()->GetCamera());
+	RushSphereObj->Update( CameraControl::GetIns()->GetCamera());
 }
 
 #include"imgui.h"

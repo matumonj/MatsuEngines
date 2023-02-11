@@ -85,7 +85,7 @@ void PlaceWood::Update(DebugCamera* camera)
 	Obj->SetPosition(pos);
 	Obj->SetScale({12.0f, 9.0f, 12.0f});
 
-	Obj->Update({1, 0, 1, 0.5}, camera);
+	Obj->Update(camera);
 }
 
 void PlaceWood::Draw()

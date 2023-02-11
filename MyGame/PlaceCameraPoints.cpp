@@ -14,7 +14,7 @@ void PlaceCameraPoints::Update(DebugCamera* camera)
 	Obj->SetPosition(pos);
 	Obj->SetRotation(rot);
 	Obj->SetScale({10, 10, 10});
-	Obj->Update({1, 0, 0, 0.5}, camera);
+	Obj->Update(camera);
 }
 
 void PlaceCameraPoints::FileWriting()
@@ -57,7 +57,7 @@ void PlaceCameraPoints::ArgMent(DebugCamera* camera)
 	{
 		if (Fence != nullptr)
 		{
-			Fence->Update({1, 1, 1, 1}, camera);
+			Fence->Update(camera);
 		}
 	}
 	if (DeleteFlag && points.size() > 1)

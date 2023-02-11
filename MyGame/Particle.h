@@ -18,6 +18,12 @@ public:
 	void Upda_B();
 	void Draw();
 
+	enum ParticleTexName
+	{
+		SMOKE=64,
+		BOM=65,
+
+	};
 	void CreateParticle(bool f, XMFLOAT3 pos)
 	{
 		createpos = pos;

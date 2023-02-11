@@ -190,7 +190,7 @@ public: // ƒƒ“ƒoŠÖ”
 	/// <summary>
 	/// –ˆƒtƒŒ[ƒ€ˆ—
 	/// </summary>
-	virtual void Update(XMFLOAT4 color, DebugCamera* camera);
+	virtual void Update(DebugCamera* camera);
 
 	virtual void Update(XMMATRIX matWorld, XMFLOAT4 color, DebugCamera* camera);
 

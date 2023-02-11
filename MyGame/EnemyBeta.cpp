@@ -146,7 +146,7 @@ void EnemyBeta::Update()
 	m_fbxObject->SetHandBoneIndex(19);
 	//石オブジェの更新
 	ThrowRockObj->SetPosition(RockPos);
-	ThrowRockObj->Update({1.f, 1.f, 1.f, 1.f}, camera);
+	ThrowRockObj->Update( camera);
 	if (EnemyHP > 0) {
 		if (animeState == AnimationState::DEATH)
 		{

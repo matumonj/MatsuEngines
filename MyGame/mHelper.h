@@ -1,7 +1,8 @@
 #pragma once
 #include<math.h>
 #define PI 3.14f
-
+#define PI_180 180.f
+#define PI_360 360.f
 namespace Easing
 {
 	inline int EaseIn(int t)

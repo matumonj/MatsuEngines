@@ -1,13 +1,14 @@
 #include "CircleAttack.h"
-#include"CameraControl.h"
 #include"mHelper.h"
 #include"Nail.h"
 #include"BossSpell.h"
+#include "CameraControl.h"
 #include"Collision.h"
-#include"PlayerControl.h"
+#include "Enemy.h"
+#include "EnemyControl.h"
 #include"imgui.h"
+#include "PlayerControl.h"
 
-#include"EnemyControl.h"
 
 CircleAttack::~CircleAttack()
 {
@@ -83,7 +84,7 @@ void CircleAttack::Upda()
 	for (int i = 0; i < NailObj.size(); i++)
 	{
 		NailObj[i]->SetScale({3.0f, 3.0f, 3.0f});
-		NailObj[i]->Update({1.0f, 1.0f, 1.0f, 1.0f}, CameraControl::GetIns()->GetCamera());
+		NailObj[i]->Update(CameraControl::GetIns()->GetCamera());
 	}
 	TexAlpha = min(TexAlpha, 1.0f);
 	TexAlpha = max(TexAlpha, 0.0f);
