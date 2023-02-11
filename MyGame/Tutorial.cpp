@@ -31,6 +31,7 @@ void Tutorial::Initialize()
 	Object3d::SetLightGroup(lightGroup);
 	GrassObj::SetLightGroup(lightGroup);
 
+	feedout = true;
 	//Texture::LoadTexture(47, L"Resources/df.png");
 	/*オブジェクト初期化*/
 	{

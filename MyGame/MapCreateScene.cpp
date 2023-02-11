@@ -96,14 +96,13 @@ void MapCreateScene::Update()
 	//Player::GetIns()->Update({ 1,1,1,1 }, camera);
 	MapCreate::GetIns()->ObjectArgment(CameraControl::GetIns()->GetCamera());
 	//シーンチェンジ
-
 }
 #pragma endregion
 
 void MapCreateScene::LightUpdate()
 {
-
 }
+
 //sプライと以外の描画
 void MapCreateScene::MyGameDraw()
 {
@@ -113,7 +112,6 @@ void MapCreateScene::MyGameDraw()
 
 void MapCreateScene::SpriteDraw()
 {
-
 }
 #pragma endregion
 //↓に入る

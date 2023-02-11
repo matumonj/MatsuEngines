@@ -51,9 +51,9 @@ public:
 	void Draw() override;
 
 	void ImGuiDraw();
-	void LightUpdate()override;
-	void SpriteDraw()override;
-	void MyGameDraw()override;
+	void LightUpdate() override;
+	void SpriteDraw() override;
+	void MyGameDraw() override;
 	void Finalize() override;
 
 private:

@@ -11,22 +11,22 @@
 #include"DebugTxt.h"
 #include"LightGroup.h"
 #include"DirectXCommon.h"
-class ClearScene :
-    public BaseScene
-{
 
+class ClearScene :
+	public BaseScene
+{
 public:
 	ClearScene(SceneManager* sceneManager);
 private:
 	Sprite* titlesprite = nullptr;
 
-	std::array<std::unique_ptr<Sprite>,9> cleartex;
+	std::array<std::unique_ptr<Sprite>, 9> cleartex;
 	std::array<float, 9> texangle;
 	std::array<float, 9> texalpha;
 	std::array<XMFLOAT2, 9> texpos;
 
 
-	std::unique_ptr<Sprite>backgroundtex;
+	std::unique_ptr<Sprite> backgroundtex;
 	LightGroup* lightGroup = nullptr;
 
 	bool menujudg_Play = false;
@@ -36,13 +36,13 @@ private:
 
 	float Cangle = 0.0f;
 	float FieldRotY = 0.0f;
-	XMFLOAT2 MenuScale[2] = { {0.0f, 0.0f} };
-	XMFLOAT2 CameraPos = { 0.0f, 0.0f };
+	XMFLOAT2 MenuScale[2] = {{0.0f, 0.0f}};
+	XMFLOAT2 CameraPos = {0.0f, 0.0f};
 	DebugCamera* cameras = nullptr;
 
 	std::unique_ptr<Object3d> celestal = nullptr;
 
-	XMFLOAT3 FogPos = { 0.0f, 0.0f, 0.0f };
+	XMFLOAT3 FogPos = {0.0f, 0.0f, 0.0f};
 
 	//DirectXCommon* dxcomn;
 public:
@@ -50,9 +50,9 @@ public:
 	void Update() override;
 	void Draw() override;
 	void Finalize() override;
-	void LightUpdate()override;
-	void SpriteDraw()override;
-	void MyGameDraw()override;
+	void LightUpdate() override;
+	void SpriteDraw() override;
+	void MyGameDraw() override;
 private:
 	void TitleTexInit();
 	void TitleTexUpda();
@@ -60,4 +60,3 @@ private:
 
 	bool ChangeScene();
 };
-

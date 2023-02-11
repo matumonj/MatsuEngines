@@ -22,8 +22,8 @@ void SmallSword::Initialize()
 
 	Scale = {1.f, 1.f, 1.f};
 
-	Rotation = {16.f, 0.f , 230.f};
-	SwordObbScl = { 3.f,3.f,4.f };
+	Rotation = {16.f, 0.f, 230.f};
+	SwordObbScl = {3.f, 3.f, 4.f};
 }
 
 void SmallSword::Update()
@@ -35,15 +35,19 @@ void SmallSword::Update()
 		LoadCsv("SD", "SK", "SS", "SM");
 		LoadF = true;
 	}
-	if (m_Object != nullptr) {
+	if (m_Object != nullptr)
+	{
 		m_Object->SetRotation(Rotation);
-		m_Object->Update(PlayerControl::GetIns()->GetPlayer()->GetHanMat(), { 1.0f, 1.0f, 1.0f, 1.0f }, camera);
+		m_Object->Update(PlayerControl::GetIns()->GetPlayer()->GetHanMat(), {1.0f, 1.0f, 1.0f, 1.0f}, camera);
 	}
 }
 
 void SmallSword::Draw()
 {
-	if (m_Object== nullptr)return;
+	if (m_Object == nullptr)
+	{
+		return;
+	}
 	Draw_Obj();
 }
 

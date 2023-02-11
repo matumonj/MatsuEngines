@@ -2,7 +2,7 @@
 #include"BossEnemyState.h"
 #include"Enemy.h"
 
-class BossEnemyAttackBrzBeam:public BossEnemyState
+class BossEnemyAttackBrzBeam : public BossEnemyState
 {
 public:
 	void Initialize(Enemy* enemy) override;

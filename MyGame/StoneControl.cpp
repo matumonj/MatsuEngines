@@ -92,7 +92,7 @@ void StoneControl::Init_Tutorial()
 				std::getline(line_stream, word, ',');
 				float z = static_cast<float>(std::atof(word.c_str()));
 
-				pos[i] = {x, y-2.f, z};
+				pos[i] = {x, y - 2.f, z};
 			}
 			if (word.find("ROTATION") == 0)
 			{
@@ -146,7 +146,6 @@ void StoneControl::Init_Tutorial()
 		Tutorialstones[i]->SetScale(scl[i]);
 
 		Load_StonePosition[i] = pos[i];
-
 	}
 }
 
@@ -274,10 +273,10 @@ void StoneControl::Update_Tutorial()
 	defpos.z = 315.f;
 	for (int i = 0; i < Tutorialstones.size(); i++)
 	{
-		
-		Tutorialstones[i]->SetPosition({ Load_StonePosition[i].x + defpos.x
-,Load_StonePosition[i].y + defpos.y ,
-		Load_StonePosition[i].z + defpos.z });
+		Tutorialstones[i]->SetPosition({
+			Load_StonePosition[i].x + defpos.x, Load_StonePosition[i].y + defpos.y,
+			Load_StonePosition[i].z + defpos.z
+		});
 		Tutorialstones[i]->SetColors({1.0f, 1.0f, 1.0f, 1.0f});
 		Tutorialstones[i]->Update();
 	}

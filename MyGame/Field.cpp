@@ -18,11 +18,11 @@
 Field::~Field()
 {
 	Destroy_unique(m_object[BOSSBACK]);
-	for(int i=0;i<SkyBack.size();i++)
+	for (int i = 0; i < SkyBack.size(); i++)
 	{
 		Destroy_unique(SkyBack[i]);
 	}
-	for(int i=0;i<SkyMap.size();i++)
+	for (int i = 0; i < SkyMap.size(); i++)
 	{
 		Destroy_unique(SkyMap[i]);
 	}
@@ -57,7 +57,6 @@ void Field::Init_Tutorial()
 	//ミニマップ(通常ふぃ－るど)
 	//天球
 	SetFieldModel(CELESTIALSPHERE, ModelManager::GetIns()->GetModel(ModelManager::SKY), camera);
-
 }
 
 void Field::Init_Play()
@@ -78,7 +77,7 @@ void Field::Init_Play()
 		l_tex[i] = Texture::Create(29);
 		GuardArea[i].reset(l_tex[i]);
 		GuardArea[i]->CreateTexture();
-		GuardArea[i]->SetAnchorPoint({ 0.5f, 0.5f });
+		GuardArea[i]->SetAnchorPoint({0.5f, 0.5f});
 
 		GuardAreaAngle[i] = static_cast<float>(i) * (360.f / static_cast<float>(GuardAreaSize));
 		//位置の初期化
@@ -86,20 +85,21 @@ void Field::Init_Play()
 		GuardareaPos[i].z = pedestalpos.z + cosf(GuardAreaAngle[i] * (PI / 180.0f)) * 80.0f;
 	}
 	//ガーディアン出現用の塔
-	pedestalpos = { -300.0f, -32, 270 };
+	pedestalpos = {-300.0f, -32, 270};
 
 	SetFieldModel(PEDESTAL, ModelManager::GetIns()->GetModel(ModelManager::ICECRYSTAL), camera);
 
 	//ボスの背景obj
 	SetFieldModel(BOSSBACK, ModelManager::GetIns()->GetModel(ModelManager::BOSSFIELD), camera);
-
-	
 }
 
 void Field::Init_Boss()
 {
 	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
-	if (camera == nullptr)return;
+	if (camera == nullptr)
+	{
+		return;
+	}
 	//天球
 	SetFieldModel(CELESTIALSPHERE, ModelManager::GetIns()->GetModel(ModelManager::SKY), camera);
 	//ボスの背景obj
@@ -112,43 +112,43 @@ void Field::Init_Boss()
 	Texture* l_tex = Texture::Create(67);
 	cleartex.reset(l_tex);
 	cleartex->CreateTexture();
-	cleartex->SetAnchorPoint({ 0.5f, 0.5f });
+	cleartex->SetAnchorPoint({0.5f, 0.5f});
 
 	//銅像
-	for (int i = 0; i < SkyMap.size(); i++) {
+	for (int i = 0; i < SkyMap.size(); i++)
+	{
 		SkyMap[i].reset(new Object3d());
 		SkyMap[i]->Initialize(camera);
 		SkyMap[i]->SetModel(ModelManager::GetIns()->GetModel(ModelManager::SKYMAP));
-		SkyMap[i]->SetScale({ 1,1,1 });
-		SkyMap[i]->SetRotation({ 0.f,float(i) * -90.f,0.f });
+		SkyMap[i]->SetScale({1, 1, 1});
+		SkyMap[i]->SetRotation({0.f, static_cast<float>(i) * -90.f, 0.f});
 	}
-	SkyMap[0]->SetPosition({ 0.0f,0.0f,-200.0f });
-	SkyMap[1]->SetPosition({ 200.0f,0.0f,0.0f });
-	SkyMap[2]->SetPosition({ 0.0f,0.0f,200.0f });
-	SkyMap[3]->SetPosition({ -200.0f,0.0f,0.0f });
+	SkyMap[0]->SetPosition({0.0f, 0.0f, -200.0f});
+	SkyMap[1]->SetPosition({200.0f, 0.0f, 0.0f});
+	SkyMap[2]->SetPosition({0.0f, 0.0f, 200.0f});
+	SkyMap[3]->SetPosition({-200.0f, 0.0f, 0.0f});
 
 	//塔
-	for (int i = 0; i < SkyBack.size(); i++) {
+	for (int i = 0; i < SkyBack.size(); i++)
+	{
 		SkyBack[i].reset(new Object3d());
 		SkyBack[i]->Initialize(camera);
 		SkyBack[i]->SetModel(ModelManager::GetIns()->GetModel(ModelManager::TOWER));
-		SkyBack[i]->SetScale({ 8,10,8 });
+		SkyBack[i]->SetScale({8, 10, 8});
 	}
-	SkyBackPos[0] = { -150.f,-100.f,140.f };
-	SkyBackPos[1] = { 87.f,-100.f,160.f };
-	SkyBackPos[2] = { 160.f,-100.f,-150.f };
-	SkyBackPos[3] = { -150.f,-100.f,-150.f };
+	SkyBackPos[0] = {-150.f, -100.f, 140.f};
+	SkyBackPos[1] = {87.f, -100.f, 160.f};
+	SkyBackPos[2] = {160.f, -100.f, -150.f};
+	SkyBackPos[3] = {-150.f, -100.f, -150.f};
 	//下地
 	FieldObject = TouchableObject::Create(ModelManager::GetIns()->GetModel(ModelManager::SANDFIELD), camera);
 	Sprite::LoadTexture(40, L"Resources/2d/icon/BossName.png");
 	//ボスのネームプレート
-	BossName = Sprite::Create(40, { WinApp::window_width / 2, WinApp::window_height / 2 });
-	BossName->SetAnchorPoint({ 0.5f, 0.5f });
-	BossName->SetPosition({ WinApp::window_width / 2, WinApp::window_height / 2 });
-	BossName->SetSize({ 800, 800 });
-
+	BossName = Sprite::Create(40, {WinApp::window_width / 2, WinApp::window_height / 2});
+	BossName->SetAnchorPoint({0.5f, 0.5f});
+	BossName->SetPosition({WinApp::window_width / 2, WinApp::window_height / 2});
+	BossName->SetSize({800, 800});
 }
-
 
 
 void Field::Initialize()
@@ -160,7 +160,7 @@ void Field::Initialize()
 	{
 		Init_Boss();
 	}
-	if ( SceneManager::GetIns()->GetScene() ==SceneManager::TUTORIAL)
+	if (SceneManager::GetIns()->GetScene() == SceneManager::TUTORIAL)
 	{
 		Init_Tutorial();
 	}
@@ -172,10 +172,8 @@ void Field::Initialize()
 	if (SceneManager::GetIns()->GetScene() == SceneManager::MAPCREATE)
 	{
 		FieldObject = TouchableObject::Create(ModelManager::GetIns()->GetModel(ModelManager::FIELD), camera);
-	//	FieldObject->SetScale(0.3f);
+		//	FieldObject->SetScale(0.3f);
 	}
-	
-
 }
 
 void Field::PedestalMoving()
@@ -184,7 +182,7 @@ void Field::PedestalMoving()
 	if (Task::GetIns()->TaskThirdClear())
 	{
 		if (Collision::GetLength(PlayerControl::GetIns()->GetPlayer()->GetPosition(),
-			pedestalpos) < 10)
+		                         pedestalpos) < 10)
 		{
 			PedestalDownF = true;
 		}
@@ -197,9 +195,10 @@ void Field::PedestalMoving()
 		}
 	}
 
-		if (PlayerControl::GetIns()->GetPlayer()->GetHP() <= 0) {
+	if (PlayerControl::GetIns()->GetPlayer()->GetHP() <= 0)
+	{
 		PedestalDownF = false;
-		pedestalpos = { -300.0f, -32, 270 };
+		pedestalpos = {-300.0f, -32, 270};
 	}
 }
 
@@ -216,7 +215,7 @@ void Field::Update_Tutorial()
 	FieldObject->setFog(TRUE);
 	SetFieldUpdate(CELESTIALSPHERE, camera, {0.0f, 30.0f, 0.0f}, {40.0f, 40.0f, 40.0f}, FALSE, TRUE);
 	FieldObject->SetColor({0.2f, 0.2f, 0.2f, 1.0f});
-	FieldObject->Update( camera);
+	FieldObject->Update(camera);
 }
 
 void Field::Update_Play()
@@ -250,10 +249,10 @@ void Field::Update_Play()
 	FieldObject->SetColor({0.2f, 0.2f, 0.2f, 1.0f});
 	FieldObject->SetFogCenter(FogCenterPos);
 	FieldObject->setFog(true);
-	FieldObject->Update( camera);
+	FieldObject->Update(camera);
 
 	m_object[BOSSBACK]->SetRotation({0.f, 180.f, 0.f});
-	SetFieldUpdate(BOSSBACK, camera, {22.f-50.f, -70.f, 1010.f-500.f}, {0.6f, 0.6f, 0.6f}, FALSE, true);
+	SetFieldUpdate(BOSSBACK, camera, {22.f - 50.f, -70.f, 1010.f - 500.f}, {0.6f, 0.6f, 0.6f}, FALSE, true);
 
 	GuardAreaTexUpda();
 	PedestalMoving();
@@ -317,7 +316,7 @@ void Field::GuardAreaTexUpda()
 		else //それ以外
 		{
 			//カメラ座標からプレイヤーの方へ線分設定して
-			if (Collision::IsCollidingLineAndCircle(camera_to_player, GuardAreaPoint[i],30.f))
+			if (Collision::IsCollidingLineAndCircle(camera_to_player, GuardAreaPoint[i], 30.f))
 			{
 				//当たったらアルファ値下げる
 				GuardAreaAlphaEtime[i] -= 0.05f;
@@ -344,14 +343,14 @@ void Field::GuardAreaTexUpda()
 						input->TiltPushStick(Input::L_RIGHT, 0.0f) ||
 						input->TiltPushStick(Input::L_LEFT, 0.0f))
 					{
-						if (Collision::IsCollidingLineAndCircle(camera_to_player, GuardAreaPoint[i],30.f))
+						if (Collision::IsCollidingLineAndCircle(camera_to_player, GuardAreaPoint[i], 30.f))
 						{
 							GuardAreaAlphaEtime[i] = 1.f;
 						}
 					}
-						PlayerControl::GetIns()->GetPlayer()->isOldPos();
-					}
+					PlayerControl::GetIns()->GetPlayer()->isOldPos();
 				}
+			}
 		}
 
 		//アルファ値の上下
@@ -390,7 +389,7 @@ void Field::Update_Edit()
 {
 	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
-	FieldPosition = { 0.0f, -25.0f, 0.0f };
+	FieldPosition = {0.0f, -25.0f, 0.0f};
 
 	FieldObject->SetPosition({FieldPosition});
 	FieldObject->SetFogCenter({0.0f, 0.0f, 0.0f});
@@ -401,15 +400,18 @@ void Field::Update_Edit()
 void Field::Update_Boss()
 {
 	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
-	if (camera == nullptr)return;
+	if (camera == nullptr)
+	{
+		return;
+	}
 	if (FieldObject == nullptr)
 	{
 		return;
 	}
 
 	CelestalRot += 0.1f;
-	m_object[CELESTIALSPHERE]->SetRotation({ 0.0f, CelestalRot, 0.0f });
-	SetFieldUpdate(CELESTIALSPHERE, camera, { 0.0f, 30.0f, 0.0f }, { celestalscl, celestalscl, celestalscl }, FALSE, TRUE);
+	m_object[CELESTIALSPHERE]->SetRotation({0.0f, CelestalRot, 0.0f});
+	SetFieldUpdate(CELESTIALSPHERE, camera, {0.0f, 30.0f, 0.0f}, {celestalscl, celestalscl, celestalscl}, FALSE, TRUE);
 	SpriteFeed(TexAlpha_BossName, feed_BossName, feedSpeed_BossName, 1.5f);
 	TexAlpha_BossName = min(TexAlpha_BossName, 3.0f);
 	TexAlpha_BossName = max(TexAlpha_BossName, 0.0f);
@@ -424,7 +426,7 @@ void Field::Update_Boss()
 		destf = false;
 	}
 
-	if ( UltAttack::GetIns()->GetFieldDestG())
+	if (UltAttack::GetIns()->GetFieldDestG())
 	{
 		for (int i = 0; i < SkyBack.size(); i++)
 		{
@@ -441,21 +443,22 @@ void Field::Update_Boss()
 	}
 
 	KoloiamAlpha = std::clamp(KoloiamAlpha, 0.f, 1.f);
-	if (!nextStageF) {
+	if (!nextStageF)
+	{
 		//外周ダメージエリア更新
-		
+
 		m_object[BOSSBACK]->SetDestFlag(true);
 		m_object[BOSSBACK]->SetDestTime(destt);
 		m_object[BOSSBACK]->SetCenter(DestCenter);
 		m_object[BOSSBACK]->Setf(true);
-		m_object[BOSSBACK]->SetColor({ 0.4f,0.4f,0.4f,1.0f });
-		SetFieldUpdate(BOSSBACK, camera, { 0, -19, 0 }, { 1.0f, 1.0f, 1.0f }, false, false);
+		m_object[BOSSBACK]->SetColor({0.4f, 0.4f, 0.4f, 1.0f});
+		SetFieldUpdate(BOSSBACK, camera, {0, -19, 0}, {1.0f, 1.0f, 1.0f}, false, false);
 	}
-	FieldPosition = { 0.0f, -19.0f, 0.0f };
+	FieldPosition = {0.0f, -19.0f, 0.0f};
 
 	FieldObject->SetPosition(FieldPosition);
-	FieldObject->SetColor({ 0.8f, 0.8f, 0.8f, KoloiamAlpha });
-	FieldObject->Update( camera);
+	FieldObject->SetColor({0.8f, 0.8f, 0.8f, KoloiamAlpha});
+	FieldObject->Update(camera);
 
 
 	constexpr float l_DestSpeed = 4.f;
@@ -466,35 +469,37 @@ void Field::Update_Boss()
 	}
 	SkyMapDestT = std::clamp(SkyMapDestT, 30.f, 0.f);
 
-	for (int i = 0; i < SkyMap.size(); i++) {
+	for (int i = 0; i < SkyMap.size(); i++)
+	{
 		SkyMap[i]->SetDestFlag(true);
 		SkyMap[i]->SetDestTime(SkyMapDestT);
 		SkyMap[i]->setFog(true);
 		SkyMap[i]->SetFogCenter(camera->GetEye());
-		SkyMap[i]->Update( camera);
+		SkyMap[i]->Update(camera);
 	}
-	for (int i = 0; i < SkyBack.size(); i++) {
+	for (int i = 0; i < SkyBack.size(); i++)
+	{
 		SkyBack[i]->SetDestFlag(true);
 		SkyBack[i]->SetDestTime(SkyMapDestT);
 		SkyBack[i]->setFog(true);
 		SkyBack[i]->SetFogCenter(camera->GetEye());
 		SkyBack[i]->SetPosition(SkyBackPos[i]);
-		SkyBack[i]->SetRotation({ 0.f,objroty[i],0.f });
-		SkyBack[i]->Update( camera);
+		SkyBack[i]->SetRotation({0.f, objroty[i], 0.f});
+		SkyBack[i]->Update(camera);
 	}
 
 	//クリアシーンへのワープテクスチャの基礎パラメータ
-	constexpr XMFLOAT3 l_ClearAreaTexPos = { 0.f,17.f,75.f };
-	constexpr XMFLOAT3 l_ClearAreaTexRot = { 90.f,0.f,0.f };
-	constexpr XMFLOAT3 l_ClearAreaTexScl = { 7.f,7.f,3.f };
+	constexpr XMFLOAT3 l_ClearAreaTexPos = {0.f, 17.f, 75.f};
+	constexpr XMFLOAT3 l_ClearAreaTexRot = {90.f, 0.f, 0.f};
+	constexpr XMFLOAT3 l_ClearAreaTexScl = {7.f, 7.f, 3.f};
 
 	cleartex->SetPosition(l_ClearAreaTexPos);
 	cleartex->SetRotation(l_ClearAreaTexRot);
 	cleartex->SetScale(l_ClearAreaTexScl);
 	cleartex->SetBillboard(false);
-	cleartex->SetColor({ 1.f,1.f,1.f,1.f });
+	cleartex->SetColor({1.f, 1.f, 1.f, 1.f});
 	cleartex->Update(camera);
-	
+
 	BossMap::GetIns()->Upda();
 }
 
@@ -535,37 +540,45 @@ void Field::Draw()
 		return;
 	}
 
-	
-	 //	if (FieldObject == nullptr)return;
+
+	//	if (FieldObject == nullptr)return;
 	Object3d::PreDraw();
 	if (SceneManager::GetIns()->GetScene() != SceneManager::MAPCREATE)
 	{
 		m_object[CELESTIALSPHERE]->Draw();
 	}
 
-	if (KoloiamAlpha > 0.f) {
+	if (KoloiamAlpha > 0.f)
+	{
 		FieldObject->Draw();
 	}
 	if (SceneManager::GetIns()->GetScene() == SceneManager::BOSS)
 	{
 		if (nextStageF)
 		{
-			for (int i = 0; i < SkyMap.size(); i++) {
-				if (SkyMap[i] == nullptr) continue;
-					SkyMap[i]->Draw();
+			for (int i = 0; i < SkyMap.size(); i++)
+			{
+				if (SkyMap[i] == nullptr)
+				{
+					continue;
+				}
+				SkyMap[i]->Draw();
 			}
-			for (int i = 0; i < SkyBack.size(); i++) {
-				if (SkyBack[i] == nullptr) continue;
+			for (int i = 0; i < SkyBack.size(); i++)
+			{
+				if (SkyBack[i] == nullptr)
+				{
+					continue;
+				}
 				SkyBack[i]->Draw();
 			}
 			m_object[CELESTIALSPHERE]->Draw();
 		}
 
-	if (!nextStageF)
-	{
-		ModelDraw_nullCheck(BOSSBACK);
-	}
-
+		if (!nextStageF)
+		{
+			ModelDraw_nullCheck(BOSSBACK);
+		}
 	}
 	if (SceneManager::GetIns()->GetScene() == SceneManager::PLAY)
 	{
@@ -585,24 +598,25 @@ void Field::WarningDraw()
 {
 	if (SceneManager::GetIns()->GetScene() == SceneManager::BOSS)
 	{
-
 		Texture::PreDraw();
-		if (cleartex != nullptr) {
-			if (EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0] == nullptr) {
+		if (cleartex != nullptr)
+		{
+			if (EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0] == nullptr)
+			{
 				cleartex->Draw();
 			}
 		}
 		Texture::PostDraw();
-
-		
 	}
 }
+
 void Field::SpriteFeed(float& alpha, bool& feed, const float feedSpeed, const float MaxAlphaValue)
 {
 	if (feed)
 	{
 		alpha -= 0.02f;
-	} else
+	}
+	else
 	{
 		alpha += feedSpeed;
 	}
@@ -611,8 +625,10 @@ void Field::SpriteFeed(float& alpha, bool& feed, const float feedSpeed, const fl
 		feed = true;
 	}
 }
+
 void Field::NameDraw()
-{BossName->setcolor({ 1.0f, 1.0f, 1.0f, TexAlpha_BossName });
+{
+	BossName->setcolor({1.0f, 1.0f, 1.0f, TexAlpha_BossName});
 	Sprite::PreDraw();
 	BossName->Draw();
 	Sprite::PostDraw();

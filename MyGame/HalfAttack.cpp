@@ -13,7 +13,6 @@ HalfAttack* HalfAttack::GetIns()
 {
 	static HalfAttack instance;
 	return &instance;
-	
 }
 
 void HalfAttack::Init()
@@ -22,7 +21,6 @@ void HalfAttack::Init()
 	phase = PHASEONE;
 
 	summonEnemyCreate = true;
-	
 }
 
 bool HalfAttack::SummonEnemy()
@@ -33,6 +31,7 @@ bool HalfAttack::SummonEnemy()
 	}
 	return false;
 }
+
 void (HalfAttack::* HalfAttack::actionTable[])() = {
 	nullptr,
 	&HalfAttack::BossLeaveGround,
@@ -40,11 +39,15 @@ void (HalfAttack::* HalfAttack::actionTable[])() = {
 	&HalfAttack::BossReturnGround,
 	&HalfAttack::SummonAttackEnd,
 };
+
 void HalfAttack::Upda()
 {
 	//ボスのインスタンス持ってくる
 	Enemy* boss = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0].get();
-	if (boss == nullptr)return;
+	if (boss == nullptr)
+	{
+		return;
+	}
 
 	(this->*actionTable[phase])();
 }
@@ -56,8 +59,7 @@ void HalfAttack::SummonInit()
 	{
 		SummonEnemys[i] = std::make_unique<MobEnemy>();
 		SummonEnemys[i]->Initialize();
-		SummonEnemys[i]->SetPosition({ 0, -20, 20 });
-
+		SummonEnemys[i]->SetPosition({0, -20, 20});
 	}
 	//敵生成フラグ
 	summonEnemyCreate = false;
@@ -66,7 +68,7 @@ void HalfAttack::SummonInit()
 	//敵登場済みフラグ
 	SummonEnemysApper = false;
 
-	SummonEPos = { 1.f, 1.f, 1.f };
+	SummonEPos = {1.f, 1.f, 1.f};
 
 	Shieldalpha = 0.0f;
 
@@ -75,13 +77,12 @@ void HalfAttack::SummonInit()
 	Texture::LoadTexture(101, L"Resources/2d/attackEffect/ma1b-skyblue.png");
 	for (int i = 0; i < 2; i++)
 	{
-		l_shield[i] = Texture::Create(101, { 1, 1, 1 }, { 0, 0, 0 }, { 1, 1, 1, 1 });
+		l_shield[i] = Texture::Create(101, {1, 1, 1}, {0, 0, 0}, {1, 1, 1, 1});
 		ShieldTex[i].reset(l_shield[i]);
 		ShieldTex[i]->CreateTexture();
-		ShieldTex[i]->SetAnchorPoint({ 0.5f, 0.5f });
-		ShieldTex[i]->SetRotation({ 90, 0, 0 });
+		ShieldTex[i]->SetAnchorPoint({0.5f, 0.5f});
+		ShieldTex[i]->SetRotation({90, 0, 0});
 	}
-	
 }
 
 void HalfAttack::BossLeaveGround()
@@ -89,24 +90,27 @@ void HalfAttack::BossLeaveGround()
 	/*攻撃内容の処理なので後で攻撃専用のクラスに移す*/
 	Enemy* boss = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0].get();
 	//ボス座標
-	XMFLOAT3 bosspos=boss->GetPosition();
+	XMFLOAT3 bosspos = boss->GetPosition();
 
 	const double JumpEndTime = 1.2;
 	const float JumpSpeed = 4.f;
 
-	if (boss->GetNowMotion() != boss->BJUMP)return;
+	if (boss->GetNowMotion() != boss->BJUMP)
+	{
+		return;
+	}
 
-		if(boss->GetAnimationTime()>JumpEndTime)
-		{
-			bosspos.y+=JumpSpeed;
-		}
+	if (boss->GetAnimationTime() > JumpEndTime)
+	{
+		bosspos.y += JumpSpeed;
+	}
 
 	//ボスが一定以上上に移動したら
 	bool nextphase = bosspos.y > 80.f;
 
 	boss->SetPosition(bosspos);
 
-	if(nextphase)
+	if (nextphase)
 	{
 		phase = PHASETWO;
 	}
@@ -119,39 +123,40 @@ void HalfAttack::SummonUpdate()
 	/*攻撃内容の処理なので後で攻撃専用のクラスに移す*/
 	Enemy* boss = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0].get();
 
-	
+
 	SummonEPos.y += 0.1f; //徐々に上に
 
 	for (int i = 0; i < EnemySize; i++)
 	{
 		if (SummonEnemys[i] == nullptr)
-			{
-				continue;
-			}
-		//登場し切るまで
-			if (SummonEPos.y < 18.0f)
-			{
-				ShieldTexPos[0] = { boss->GetPosition().x + 30.f,19.f,boss->GetPosition().z };
-				ShieldTexPos[1] = { boss->GetPosition().x -30.f,19.f,boss->GetPosition().z };
-				//敵がプレイヤー座標まで現れたら
-				Shieldalpha += 0.01f;
-				//下から上に出てくる際は動き止めておく
-				SummonEnemys[i]->SetMoveStop(true);
-				SummonEnemys[0]->SetPosition({ShieldTexPos[0].x, SummonEPos.y,ShieldTexPos[0].z });
-				SummonEnemys[1]->SetPosition({ ShieldTexPos[1].x, SummonEPos.y,ShieldTexPos[1].z });
-			} else
-			{
-				Shieldalpha -= 0.05f;
-				
-				//動き止めていたのを解除
-				SummonEnemys[i]->SetMoveStop(false);
-			}
-			//更新
-			SummonEnemys[i]->SetColors({ 1.0f, 0.2f, 0.2f, 1.0f });
-
-			SummonEnemys[i]->Update();
+		{
+			continue;
 		}
-	
+		//登場し切るまで
+		if (SummonEPos.y < 18.0f)
+		{
+			ShieldTexPos[0] = {boss->GetPosition().x + 30.f, 19.f, boss->GetPosition().z};
+			ShieldTexPos[1] = {boss->GetPosition().x - 30.f, 19.f, boss->GetPosition().z};
+			//敵がプレイヤー座標まで現れたら
+			Shieldalpha += 0.01f;
+			//下から上に出てくる際は動き止めておく
+			SummonEnemys[i]->SetMoveStop(true);
+			SummonEnemys[0]->SetPosition({ShieldTexPos[0].x, SummonEPos.y, ShieldTexPos[0].z});
+			SummonEnemys[1]->SetPosition({ShieldTexPos[1].x, SummonEPos.y, ShieldTexPos[1].z});
+		}
+		else
+		{
+			Shieldalpha -= 0.05f;
+
+			//動き止めていたのを解除
+			SummonEnemys[i]->SetMoveStop(false);
+		}
+		//更新
+		SummonEnemys[i]->SetColors({1.0f, 0.2f, 0.2f, 1.0f});
+
+		SummonEnemys[i]->Update();
+	}
+
 
 	//ザコ敵両方とも倒したら
 	if (SummonEnemys[0] == nullptr && SummonEnemys[1] == nullptr)
@@ -180,10 +185,10 @@ void HalfAttack::SummonUpdate()
 		//テクスチャ回す
 		ShieldRot++;
 		ShieldTex[i]->SetBillboard(false);
-		ShieldTex[i]->SetColor({ 1.0f, 1.0f, 1.0f, Shieldalpha });
-		ShieldTex[i]->SetPosition({ ShieldTexPos[i] });
-		ShieldTex[i]->SetScale({ 5.0f, 5.0f, 1.0f });
-		ShieldTex[i]->SetRotation({ 90.f,0.f,ShieldRot });
+		ShieldTex[i]->SetColor({1.0f, 1.0f, 1.0f, Shieldalpha});
+		ShieldTex[i]->SetPosition({ShieldTexPos[i]});
+		ShieldTex[i]->SetScale({5.0f, 5.0f, 1.0f});
+		ShieldTex[i]->SetRotation({90.f, 0.f, ShieldRot});
 		ShieldTex[i]->Update(camera);
 	}
 
@@ -212,13 +217,12 @@ void HalfAttack::BossReturnGround()
 	XMFLOAT3 bosspos = boss->GetPosition();
 
 	bosspos.y--;
-	
-	if(bosspos.y<14.7f)
+
+	if (bosspos.y < 14.7f)
 	{
 		phase = PHASEFOUR;
 	}
 	boss->SetPosition(bosspos);
-
 }
 
 
@@ -230,7 +234,8 @@ void HalfAttack::Draw_SummonEnemyHP()
 		{
 			continue;
 		}
-		if (SummonEnemys[i]->GetPosition().y > 17.f) {
+		if (SummonEnemys[i]->GetPosition().y > 17.f)
+		{
 			SummonEnemys[i]->EnemyHPDraw();
 		}
 	}
@@ -267,7 +272,7 @@ void HalfAttack::SummonEnemyResetParam()
 		SummonEnemys[i].reset(new MobEnemy());
 		SummonEnemys[i]->Initialize();
 
-		SummonEnemys[i]->SetPosition({ 0, -20, 20 });
+		SummonEnemys[i]->SetPosition({0, -20, 20});
 	}
 	//敵生成フラグ
 	summonEnemyCreate = false;
@@ -276,7 +281,7 @@ void HalfAttack::SummonEnemyResetParam()
 	//敵登場済みフラグ
 	SummonEnemysApper = false;
 
-	SummonEPos = { 1, 1, 1 };
+	SummonEPos = {1, 1, 1};
 	Shieldalpha = 0.0f;
 
 	phase = PHASEONE;
@@ -284,5 +289,4 @@ void HalfAttack::SummonEnemyResetParam()
 
 void HalfAttack::SummonAttackEnd()
 {
-	
 }

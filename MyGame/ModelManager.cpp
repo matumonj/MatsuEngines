@@ -47,7 +47,7 @@ void ModelManager::Initialize()
 void ModelManager::LoadModel(const ModelName modelName, std::string fileName)
 {
 	model[modelName] = new Model();
-	model[modelName] = Model::CreateFromOBJ(fileName,true);
+	model[modelName] = Model::CreateFromOBJ(fileName, true);
 }
 
 void ModelManager::LoadFBXModel(const FBXName modelName, std::string fileName)

@@ -44,7 +44,7 @@ void SwordBase::LoadCsv(std::string damval, std::string knoval, std::string spev
 		if (word.find(modname) == 0)
 		{
 			std::getline(line_stream, word, ',');
-			std::string l_ModelName = static_cast<std::string>((word.c_str()));
+			auto l_ModelName = word.c_str();
 			modelname = l_ModelName;
 			break;
 		}
@@ -67,6 +67,7 @@ void SwordBase::LoadCsv(std::string damval, std::string knoval, std::string spev
 	}
 	//	swordModel.reset(Model::CreateFromOBJ(modelname));
 }
+
 SwordBase::SwordBase()
 {
 }

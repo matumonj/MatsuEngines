@@ -35,15 +35,18 @@ void PlayerAttackState::ComboAction()
 
 void PlayerAttackState::Update()
 {
-	if (PlayerControl::GetIns()->GetPlayer()->ModelSetJudg() == false)return;
+	if (PlayerControl::GetIns()->GetPlayer()->ModelSetJudg() == false)
+	{
+		return;
+	}
 	AttackCollision::GetIns()->Update();
-	
+
 	ComboAction();
 	HitStop();
 	Player* l_player = PlayerControl::GetIns()->GetPlayer();
 
 	int DefaultDamage;
-	if(l_player->GetAttackType() == PlayerControl::GetIns()->GetPlayer()->FIRST)
+	if (l_player->GetAttackType() == PlayerControl::GetIns()->GetPlayer()->FIRST)
 	{
 		DefaultDamage = 5;
 	}
@@ -55,7 +58,7 @@ void PlayerAttackState::Update()
 	{
 		DefaultDamage = 20;
 	}
-	AttackCollision::GetIns()->GetCol(DefaultDamage+SelectSword::GetIns()->GetSword()->GetDamage());
+	AttackCollision::GetIns()->GetCol(DefaultDamage + SelectSword::GetIns()->GetSword()->GetDamage());
 }
 
 void PlayerAttackState::FirstAttack(std::vector<std::unique_ptr<Enemy>>& enemy)
@@ -120,16 +123,17 @@ void PlayerAttackState::SkillCoolDown(int& cooltime)
 
 void PlayerAttackState::DetailAttack(std::vector<std::unique_ptr<Enemy>>& enemy, int cooltime)
 {
-	
 	Skill = None;
 }
 
 #include"CameraControl.h"
+
 void PlayerAttackState::SetHitStopJudg(bool f, int time)
 {
 	HitStopTime = time;
 	HitStopJudg = f;
 }
+
 void PlayerAttackState::HitStop()
 {
 	if (HitStopJudg)

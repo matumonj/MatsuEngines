@@ -45,6 +45,13 @@ public:
 	bool GetHelpJudg() { return HelpJudg; }
 private:
 	bool HelpJudg;
+
+	bool attackcolJudgTime_First;
+	bool attackcolJudgTime_Second;
+	bool attackcolJudgTime_Third;
+
+	void TutorialCol(int damage);
+	void ExplorationCol(int damage);
 	void BossCol(int damage);
 private:
 	enum ColType

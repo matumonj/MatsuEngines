@@ -36,16 +36,16 @@ void Enemy::Action()
 
 void Enemy::HelpIconInit()
 {
-	Sprite* l_frame = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::HELPICON), { 0, 0 });
+	Sprite* l_frame = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::HELPICON), {0, 0});
 
 	HelpIcon.reset(l_frame);
-	HelpIcon->SetAnchorPoint({ 0.5f,0.5f });
+	HelpIcon->SetAnchorPoint({0.5f, 0.5f});
 	HelpIconAlpha = 0.f;
 }
 
 void Enemy::HelpIconShow()
 {
-	if(HelpJudg)
+	if (HelpJudg)
 	{
 		HelpIconAlpha += 0.1f;
 		if (HelpIconAlpha >= 2.f)
@@ -59,21 +59,24 @@ void Enemy::HelpIconShow()
 	}
 
 
-	XMVECTOR tex2DPos = { Position.x, Position.y + 5.f, Position.z };
+	XMVECTOR tex2DPos = {Position.x, Position.y + 5.f, Position.z};
 	tex2DPos = MatCal::PosDivi(tex2DPos, CameraControl::GetIns()->GetCamera()->GetViewMatrix(), false);
 	tex2DPos = MatCal::PosDivi(tex2DPos, CameraControl::GetIns()->GetCamera()->GetProjectionMatrix(), true);
 	tex2DPos = MatCal::WDivi(tex2DPos, false);
 	tex2DPos = MatCal::PosDivi(tex2DPos, CameraControl::GetIns()->GetCamera()->GetViewPort(), false);
 
 	HelpIconAlpha = std::clamp(HelpIconAlpha, 0.0f, 2.f);
-	HelpIcon->SetPosition({ tex2DPos.m128_f32[0],tex2DPos.m128_f32[1] });
-	HelpIcon->setcolor({ 1.f,1.f,1.f,HelpIconAlpha });
-	HelpIcon->SetSize({ 200.f,200.f });
+	HelpIcon->SetPosition({tex2DPos.m128_f32[0], tex2DPos.m128_f32[1]});
+	HelpIcon->setcolor({1.f, 1.f, 1.f, HelpIconAlpha});
+	HelpIcon->SetSize({200.f, 200.f});
 }
 
 void Enemy::HelpIconDraw()
 {
-	if (HelpIconAlpha <= 0.f)return;
+	if (HelpIconAlpha <= 0.f)
+	{
+		return;
+	}
 	Sprite::PreDraw();
 	HelpIcon->Draw();
 	Sprite::PostDraw();
@@ -81,10 +84,10 @@ void Enemy::HelpIconDraw()
 
 
 #include"PlayerAttackState.h"
+
 void Enemy::HelpAction()
 {
 	//3D->2D変換 3引数消す
-
 }
 
 void Enemy::RecvDamage(int Damage)
@@ -141,7 +144,8 @@ void Enemy::RecvDamage(int Damage)
 
 void Enemy::HPFrameUpda()
 {
-	if (SceneManager::GetIns()->GetScene() != SceneManager::TUTORIAL) {
+	if (SceneManager::GetIns()->GetScene() != SceneManager::TUTORIAL)
+	{
 		Position.x = std::clamp(Position.x, -300.f, 300.f);
 		Position.z = std::clamp(Position.z, -200.f, 400.f);
 	}
@@ -236,22 +240,23 @@ void Enemy::HPFrameUpda()
 	//体力バーの横サイズ最大値
 	FrameScl.x = max(FrameScl.x, 0.0f);
 	FrameScl_Inner.x = max(FrameScl_Inner.x, 0.0f);
-
 }
+
 void Enemy::Respawn()
 {
 	//リスポーンカウント
 	RespawnCount++;
 
 
-	if (RespawnJudg() == true) {
-		  EvaMotionStart = false;
-		  MagicMotionStart = false;
-		  RoarMotionFlag = false;
-		  IdleMotionFlag = false;
-		  DeathMotionFlag = false;
-		  SideWalk_RightMotionFlag = false;
-		  SideWalk_LeftMotionFlag = false;
+	if (RespawnJudg() == true)
+	{
+		EvaMotionStart = false;
+		MagicMotionStart = false;
+		RoarMotionFlag = false;
+		IdleMotionFlag = false;
+		DeathMotionFlag = false;
+		SideWalk_RightMotionFlag = false;
+		SideWalk_LeftMotionFlag = false;
 		DeathFlag = false;
 		nowAttack = false;
 		nowDeath = false;
@@ -268,7 +273,7 @@ bool Enemy::RespawnJudg()
 {
 	bool respawnjudg = Collision::GetLength(PlayerControl::GetIns()->GetPlayer()->GetPosition(), Position) > 180.f;
 
-	if (RespawnCount > RespawnCountMax&&respawnjudg)
+	if (RespawnCount > RespawnCountMax && respawnjudg)
 	{
 		return true;
 	}
@@ -277,7 +282,10 @@ bool Enemy::RespawnJudg()
 
 void Enemy::DamageTexDisplay()
 {
-	if (m_fbxObject == nullptr)return;
+	if (m_fbxObject == nullptr)
+	{
+		return;
+	}
 	//ダメージスプライト生成
 	for (std::unique_ptr<DamageManager>& dTex : dMans_)
 	{
@@ -324,7 +332,7 @@ void Enemy::ChangeState_Boss(BossEnemyState* state)
 	state_boss = state;
 }
 
-void Enemy::SetAnimation(int number, bool loop,double speed)
+void Enemy::SetAnimation(int number, bool loop, double speed)
 {
 	if (m_Number != number)
 	{

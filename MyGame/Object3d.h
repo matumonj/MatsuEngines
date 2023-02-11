@@ -253,7 +253,7 @@ protected: // ƒƒ“ƒo•Ï”
 	bool setef = false;
 	bool uvf = false;
 	float uvtime;
-	XMFLOAT3 centerpos={-70.f,0.f,0.f};
+	XMFLOAT3 centerpos = {-70.f, 0.f, 0.f};
 	bool DestF = false;
 	float DestTime = 0;
 public:

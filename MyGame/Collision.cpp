@@ -41,7 +41,7 @@ float Collision::CalculationVectorLength(const XMFLOAT2& vec01)
 	return sqrtf((vec01.x * vec01.x) + (vec01.y * vec01.y));
 }
 
-bool Collision::IsCollidingLineAndCircle(Line2D line, Point circle,float dis)
+bool Collision::IsCollidingLineAndCircle(Line2D line, Point circle, float dis)
 {
 	// ƒxƒNƒgƒ‹‚Ìì¬
 	auto start_to_center = XMFLOAT2(circle.x - line.start.x, circle.y - line.start.y);
@@ -78,7 +78,7 @@ bool Collision::IsCollidingLineAndCircle(Line2D line, Point circle,float dis)
 			‰~‚Ì”¼Œa‚æ‚è‚à’Z‚©‚Á‚½‚ç“–‚½‚è
 		*/
 		if (CalculationVectorLength(start_to_center) < dis ||
-			CalculationVectorLength(end_to_center) <dis)
+			CalculationVectorLength(end_to_center) < dis)
 		{
 			return true;
 		}

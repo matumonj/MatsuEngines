@@ -21,7 +21,6 @@ EnemyControl* EnemyControl::GetIns()
 
 EnemyControl::~EnemyControl()
 {
-	
 }
 
 /*------------------------*/
@@ -45,7 +44,12 @@ void EnemyControl::Finalize()
 
 void EnemyControl::Init_Tutorial()
 {
-	enemys.resize(static_cast<std::vector<std::vector<std::unique_ptr<Enemy, std::default_delete<Enemy>>, std::allocator<std::unique_ptr<Enemy, std::default_delete<Enemy>>>>, std::allocator<std::vector<std::unique_ptr<Enemy, std::default_delete<Enemy>>, std::allocator<std::unique_ptr<Enemy, std::default_delete<Enemy>>>>>>::size_type>(BOSS) + 1);
+	enemys.resize(
+		static_cast<std::vector<std::vector<std::unique_ptr<Enemy, std::default_delete<Enemy>>, std::allocator<
+			                                    std::unique_ptr<Enemy, std::default_delete<Enemy>>>>, std::allocator<
+			                        std::vector<std::unique_ptr<Enemy, std::default_delete<Enemy>>, std::allocator<
+				                                    std::unique_ptr<Enemy, std::default_delete<Enemy>>>>>>::size_type>(
+			BOSS) + 1);
 
 	enemys[TUTORIAL].resize(1);
 	enemys[TUTORIAL][0] = std::make_unique<MobEnemy>();
@@ -99,7 +103,7 @@ void EnemyControl::Init_Play()
 			std::string word;
 			std::getline(line_stream, word, ',');
 
-			if (word.find("//ゴーレム") == 0|| word.find("//ミニゴーレム") == 0|| word.find("//トカゲ") == 0)
+			if (word.find("//ゴーレム") == 0 || word.find("//ミニゴーレム") == 0 || word.find("//トカゲ") == 0)
 			{
 				continue;
 			}
@@ -115,7 +119,7 @@ void EnemyControl::Init_Play()
 				int number = static_cast<int>(std::atof(word.c_str()));
 				Num[i] = number;
 			}
-			
+
 			else if (word.find("POP") == 0)
 			{
 				std::getline(line_stream, word, ',');
@@ -141,7 +145,7 @@ void EnemyControl::Init_Play()
 				std::getline(line_stream, word, ',');
 				float z = static_cast<float>(std::atof(word.c_str()));
 
-				scl[i] = { x+0.02f, y+0.02f, z+0.02f };
+				scl[i] = {x + 0.02f, y + 0.02f, z + 0.02f};
 				break;
 			}
 		}
@@ -193,7 +197,6 @@ void EnemyControl::Init_Boss()
 	enemys[BOSS][0]->SetHP(enemys[BOSS][0]->GetMaxHP());
 	//ザコ敵の初期化もここで
 	//SummonEnemyInit();
-
 }
 
 void EnemyControl::Load()
@@ -243,7 +246,7 @@ void EnemyControl::Update_Play()
 			enemys[PLAYSCENE][i]->Update();
 		}
 
-		if (enemys[PLAYSCENE][i]->GetObjAlpha() <= 0.0f&& enemys[PLAYSCENE][i]->GetRespawnCount()==0)
+		if (enemys[PLAYSCENE][i]->GetObjAlpha() <= 0.0f && enemys[PLAYSCENE][i]->GetRespawnCount() == 0)
 		{
 			if (enemys[PLAYSCENE][i]->GetEnemyNumber() == 0)
 			{
@@ -256,10 +259,10 @@ void EnemyControl::Update_Play()
 				if (Task::GetIns()->GetGolemDesthCount(2))
 				{
 					ChestControl::GetIns()->SetChestAppearance(ChestControl::RED, {
-						                                                enemys[PLAYSCENE][i]->GetPosition().x,
-						                                                enemys[PLAYSCENE][i]->GetPosition().y + 10.0f,
-						                                                enemys[PLAYSCENE][i]->GetPosition().z
-					                                                });
+						                                           enemys[PLAYSCENE][i]->GetPosition().x,
+						                                           enemys[PLAYSCENE][i]->GetPosition().y + 10.0f,
+						                                           enemys[PLAYSCENE][i]->GetPosition().z
+					                                           });
 				}
 			}
 			else if (enemys[PLAYSCENE][i]->GetEnemyNumber() == 1)
@@ -272,11 +275,11 @@ void EnemyControl::Update_Play()
 					if (Task::GetIns()->GetFlogDesthCount(2))
 					{
 						ChestControl::GetIns()->SetChestAppearance(ChestControl::BLUE, {
-							                                                enemys[PLAYSCENE][i]->GetPosition().x,
-							                                                enemys[PLAYSCENE][i]->GetPosition().y +
-							                                                10.0f,
-							                                                enemys[PLAYSCENE][i]->GetPosition().z
-						                                                });
+							                                           enemys[PLAYSCENE][i]->GetPosition().x,
+							                                           enemys[PLAYSCENE][i]->GetPosition().y +
+							                                           10.0f,
+							                                           enemys[PLAYSCENE][i]->GetPosition().z
+						                                           });
 					}
 				}
 			}
@@ -293,11 +296,11 @@ void EnemyControl::Update_Play()
 					if (Task::GetIns()->GetMiniGolemDesthCount(2))
 					{
 						ChestControl::GetIns()->SetChestAppearance(ChestControl::GREEN, {
-							                                                enemys[PLAYSCENE][i]->GetPosition().x,
-							                                                enemys[PLAYSCENE][i]->GetPosition().y +
-							                                                10.0f,
-							                                                enemys[PLAYSCENE][i]->GetPosition().z
-						                                                });
+							                                           enemys[PLAYSCENE][i]->GetPosition().x,
+							                                           enemys[PLAYSCENE][i]->GetPosition().y +
+							                                           10.0f,
+							                                           enemys[PLAYSCENE][i]->GetPosition().z
+						                                           });
 					}
 				}
 			}
@@ -306,11 +309,11 @@ void EnemyControl::Update_Play()
 		if (Guardian != nullptr && Guardian->GetisAlive() == FALSE && Guardian->GetHP() <= 0)
 		{
 			ChestControl::GetIns()->SetChestAppearance(ChestControl::YELLOW, {
-				                                                Guardian->GetPosition().x,
-				                                                Guardian->GetPosition().y +
-				                                                10.0f,
-				                                                Guardian->GetPosition().z
-			                                                });
+				                                           Guardian->GetPosition().x,
+				                                           Guardian->GetPosition().y +
+				                                           10.0f,
+				                                           Guardian->GetPosition().z
+			                                           });
 		}
 	}
 	if (Guardian != nullptr)
@@ -320,32 +323,26 @@ void EnemyControl::Update_Play()
 		{
 			Destroy_unique(Guardian);
 		}
-
-	
 	}
-	
-
 }
 
 void EnemyControl::GuardianCreate()
 {
 	Guardian.reset(new GuardianEnemy());
 	Guardian->Initialize();
-	
 }
 
 void EnemyControl::GuardianReset()
 {
 	if (Guardian != nullptr)
 	{
-		
-			if (PlayerControl::GetIns()->GetPlayer()->GetHP() <= 0)
-			{
-				Destroy_unique(Guardian);
-			}
-		
-	} 
+		if (PlayerControl::GetIns()->GetPlayer()->GetHP() <= 0)
+		{
+			Destroy_unique(Guardian);
+		}
+	}
 }
+
 void EnemyControl::Update_Boss()
 {
 	if (enemys[BOSS][0] == nullptr)
@@ -355,7 +352,7 @@ void EnemyControl::Update_Boss()
 	//bAttack->Upda();
 
 	enemys[BOSS][0]->Update();
-	
+
 	//ボスの開放処理
 	if (enemys[BOSS][0]->GetObjAlpha() <= 0)
 	{
@@ -399,7 +396,6 @@ void EnemyControl::HPFrameDraw()
 	//ボスの召喚敵
 	else if (SceneManager::GetIns()->GetScene() == SceneManager::BOSS)
 	{
-		
 		if (enemys[BOSS].size() > 0 && enemys[BOSS][0] != nullptr)
 		{
 			enemys[BOSS][0]->EnemyHPDraw();
@@ -457,9 +453,6 @@ void EnemyControl::Draw_Boss()
 
 	//ボス描画
 	enemys[BOSS][0]->Draw();
-	
-
-	
 }
 
 
@@ -487,7 +480,7 @@ void EnemyControl::GameOverResetParam()
 	if (SceneManager::GetIns()->GetScene() == SceneManager::BOSS)
 	{
 		enemys[BOSS][0]->Initialize();
-		
+
 		boss_pos = {-1.0f, 14.75f, 20.987f};
 
 		HalfAttack::GetIns()->SummonEnemyResetParam();
@@ -495,5 +488,4 @@ void EnemyControl::GameOverResetParam()
 		enemys[BOSS][0]->SetPosition(boss_pos);
 		enemys[BOSS][0]->SetHP(enemys[BOSS][0]->GetMaxHP());
 	}
-
 }

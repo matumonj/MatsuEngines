@@ -5,9 +5,9 @@
 #include"CollisionPrimitive.h"
 #include"Particle.h"
 #include"BossAttackActionManager.h"
-class RushAttack:public BossAttackActionManager
-{
 
+class RushAttack : public BossAttackActionManager
+{
 private:
 	//ƒ{ƒX‚Ì‰Î‹…
 	std::unique_ptr<Object3d> RushSphereObj;
@@ -15,7 +15,7 @@ private:
 	XMFLOAT3 rushspherescl;
 	XMFLOAT3 rushspherepos;
 	float rushspherealpha;
-	std::array<float,5> rushEtime;
+	std::array<float, 5> rushEtime;
 
 	Particle* p;
 private:
@@ -37,13 +37,13 @@ private:
 	int RushAttackCount = 0;
 public:
 	static RushAttack* GetIns();
-	void Init()override;
+	void Init() override;
 	void ActionJudg();
-	void Upda()override;
-	void Draw()override;
+	void Upda() override;
+	void Draw() override;
 	void Finalize();
 private:
-	std::array<XMFLOAT3 ,5>rushimpactarea;
+	std::array<XMFLOAT3, 5> rushimpactarea;
 
 	Line2D DamageLine;
 public:

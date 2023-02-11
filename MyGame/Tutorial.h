@@ -1,6 +1,7 @@
 #pragma once
 #include"BaseScene.h"
 class CollisionManager;
+
 class Tutorial : public BaseScene
 {
 public:
@@ -31,35 +32,33 @@ public:
 	void Draw() override;
 	bool LoadParam();
 	void Finalize() override;
-	void MyGameDraw()override;
-	void SpriteDraw()override;
+	void MyGameDraw() override;
+	void SpriteDraw() override;
 
-	void LightUpdate()override;
+	void LightUpdate() override;
 private:
 	bool feedout = true;
 public:
-	float ambientColor0[3] = { 1.0f, 1.0f, 1.0f };
+	float ambientColor0[3] = {1.0f, 1.0f, 1.0f};
 	// åıê¸ï˚å¸èâä˙íl
-	float lightDir0[3] = { 0.0f, 0.0f, 1.0f };
-	float lightColor0[3] = { 1.0f, 0.0f, 0.0f };
+	float lightDir0[3] = {0.0f, 0.0f, 1.0f};
+	float lightColor0[3] = {1.0f, 0.0f, 0.0f};
 
-	float lightDir1[3] = { 0.0f, 1.0f, 0.0f };
-	float lightColor1[3] = { 0.0f, 1.0f, 0.0f };
+	float lightDir1[3] = {0.0f, 1.0f, 0.0f};
+	float lightColor1[3] = {0.0f, 1.0f, 0.0f};
 
-	float lightDir2[3] = { 1.0f, 0.0f, 0.0f };
-	float lightColor2[3] = { 0.0f, 0.0f, 1.0f };
+	float lightDir2[3] = {1.0f, 0.0f, 0.0f};
+	float lightColor2[3] = {0.0f, 0.0f, 1.0f};
 
-	float circleShadowDir[3] = { 0.0f, -1.0f, 0.0f };
-	float circleShadowPos[3] = { 1.0f, 2.0f, 0.0f };
-	float circleShadowAtten[3] = { 0.2f, 0.0f, 0.0f };
-	float circleShadowFactorAngle[2] = { 1.0f, 3.0f };
-	float circleShadowFactorAngle2[2] = { 1.0f, 6.0f };
-	float fighterPos[3] = { 1.0f, 0.0f, 0.0f };
-	
+	float circleShadowDir[3] = {0.0f, -1.0f, 0.0f};
+	float circleShadowPos[3] = {1.0f, 2.0f, 0.0f};
+	float circleShadowAtten[3] = {0.2f, 0.0f, 0.0f};
+	float circleShadowFactorAngle[2] = {1.0f, 3.0f};
+	float circleShadowFactorAngle2[2] = {1.0f, 6.0f};
+	float fighterPos[3] = {1.0f, 0.0f, 0.0f};
+
 private:
-
 	bool Play = false;
 	bool hudload = false;
 	bool Load = false;
-
 };

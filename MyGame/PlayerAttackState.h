@@ -66,7 +66,7 @@ private:
 	int HitStopTime;
 	int HitStopCount;
 	int HitStopJudg;
-	
+
 	bool BuffFlag;
 	const int BuffTimeMax = 1200;
 	std::vector<std::unique_ptr<Enemy>> enemys;

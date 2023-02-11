@@ -91,7 +91,7 @@ void main(
 	o[5].col = lerp(_BottomColor, _TopColor, 0.6666f);
 
 	//top
-	o[6].pos = o[5].pos + centerNor  * _HeightRate.z;
+	o[6].pos = o[5].pos + centerNor * _HeightRate.z;
 	o[6].col = _TopColor;
 
 	o[2].pos += wind * _WindPowerRate.x;

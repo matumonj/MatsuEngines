@@ -16,6 +16,7 @@ private:
 	{
 		float bloomalpha;
 	};
+
 	float BloomAlpha;
 	float VignetteVal;
 	bool BloomF;

@@ -36,12 +36,12 @@ void BossEnemyAttack::Update(Enemy* enemy)
 	//ランダム生成処理も専用の関数作ったほうが。。
 	const int SideNum = 30;
 	const int HeightNum = 60;
-	if(randmotion<HeightNum)
+	if (randmotion < HeightNum)
 	{
 		//縦振り
 		enemy->SetAnimation(BossEnemy::NowAttackMotion::BNORMAL, false, 1.0);
 	}
-	else if(randmotion<SideNum)
+	else if (randmotion < SideNum)
 	{
 		//上振り
 		enemy->SetAnimation(BossEnemy::NowAttackMotion::SWING, false, 1.0);
@@ -58,7 +58,8 @@ void BossEnemyAttack::Update(Enemy* enemy)
 	}
 	else
 	{
-		if (enemy->GetAnimationTime() >= enemy->GetFbxTimeEnd() - 0.1) {
+		if (enemy->GetAnimationTime() >= enemy->GetFbxTimeEnd() - 0.1)
+		{
 			//一定以上離れたら状態を追跡に
 			if (Collision::GetLength(enemy->GetPosition(), PlayerControl::GetIns()->GetPlayer()->GetPosition()) > 17.f)
 			{
@@ -72,9 +73,11 @@ void BossEnemyAttack::Update(Enemy* enemy)
 				enemy->ChangeState_Boss(new BossEnemyStay());
 			}
 		}
-		else {
+		else
+		{
 			//0のときだけ乱数を生成するように　正直やり方は変えたい
-			if (randmotion == 0) {
+			if (randmotion == 0)
+			{
 				randmotion = rand() % 100 + 1;
 			}
 		}
@@ -85,5 +88,4 @@ void BossEnemyAttack::Update(Enemy* enemy)
 	{
 		enemy->ChangeState_Boss(new BossEnemyDeath());
 	}
-
 }

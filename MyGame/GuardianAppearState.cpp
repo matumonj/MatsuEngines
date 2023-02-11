@@ -9,8 +9,8 @@ void GuardianAppearState::Initialize(Enemy* enemy)
 
 void GuardianAppearState::Update(Enemy* enemy)
 {
-	DirectX::XMFLOAT3 epos = enemy->GetPosition();
-	if (Task::GetIns()->TaskFourClear()== false)
+	XMFLOAT3 epos = enemy->GetPosition();
+	if (Task::GetIns()->TaskFourClear() == false)
 	{
 		return;
 	}
@@ -40,7 +40,7 @@ void GuardianAppearState::Update(Enemy* enemy)
 void GuardianAppearState::DownMove(Enemy* enemy)
 {
 	EaseTime += 0.01f;
-	DirectX::XMFLOAT3 epos = enemy->GetPosition();
+	XMFLOAT3 epos = enemy->GetPosition();
 
 	if (EaseTime >= 1.f)
 	{

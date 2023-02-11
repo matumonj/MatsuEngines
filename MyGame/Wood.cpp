@@ -45,7 +45,9 @@ void Wood::Update()
 	ParameterSet_Obj();
 	m_Object->Setf(TRUE);
 	m_Object->SetFogCenter(camera->GetEye());
-	if (SceneManager::GetIns()->GetScene() == SceneManager::PLAY|| SceneManager::GetIns()->GetScene() == SceneManager::TUTORIAL) {
+	if (SceneManager::GetIns()->GetScene() == SceneManager::PLAY || SceneManager::GetIns()->GetScene() ==
+		SceneManager::TUTORIAL)
+	{
 		m_Object->setFog(true);
 		m_Object->Setppos(PlayerControl::GetIns()->GetPlayer()->GetPosition());
 		//m_Object->SetBloomF(true);
@@ -54,7 +56,7 @@ void Wood::Update()
 	{
 		m_Object->setFog(false);
 	}
-	
+
 	m_Object->SetDisLen(800);
 	//フィールド
 	CollideWood();

@@ -5,6 +5,7 @@
 #include<fstream>
 #include<string>
 #include<sstream>
+
 class SwordBase :
 	public ObjectManager
 {
@@ -35,7 +36,7 @@ protected:
 	std::stringstream popcom;
 	std::ifstream file;
 
-	std::unique_ptr<Model>swordModel;
+	std::unique_ptr<Model> swordModel;
 	bool LoadF;
 	std::string modelname;
 public:

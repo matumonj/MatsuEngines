@@ -24,5 +24,4 @@ private:
 	std::vector<std::unique_ptr<AreaFence>> fences;
 	int hp;
 	float runspeed;
-	
 };

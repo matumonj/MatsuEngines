@@ -4,7 +4,8 @@
 #include<memory>
 #include"Sprite.h"
 #include"BossAttackActionManager.h"
-class CircleAttack:public BossAttackActionManager
+
+class CircleAttack : public BossAttackActionManager
 {
 public:
 	~CircleAttack();
@@ -49,9 +50,9 @@ private:
 	Phase phase;
 public:
 	static CircleAttack* GetIns();
-	void Init()override;
-	void Upda()override;
-	void Draw()override;
+	void Init() override;
+	void Upda() override;
+	void Draw() override;
 
 private:
 	void PierceNail();

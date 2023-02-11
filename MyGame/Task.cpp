@@ -173,7 +173,8 @@ void Task::Upda()
 			<< MiniGolemDestCount;
 	}
 	//•ê”‚Í‚QŒÅ’è(Œã‚Å•Ï‚¦‚é‚©‚à)
-	if (target != PEDESTAL) {
+	if (target != PEDESTAL)
+	{
 		const std::string amount = "/2";
 		DebugTextSprite2::GetIns()->Print(str.str() + amount, TaskMenuPos.x, TaskMenuPos.y, 0.8f);
 	}
@@ -206,7 +207,7 @@ void Task::Upda()
 		arrowcol = {0.9f, 0.2f, 0.2f, 0.7f};
 		break;
 	case MINIGOLEM:
-		TaskScl = { 404.f,205.f };
+		TaskScl = {404.f, 205.f};
 		TargetPos = targetenemy_MiniGolem->GetPosition();
 		arrowcol = {0.7f, 0.7f, 0.7f, 0.7f};
 		break;
@@ -248,7 +249,7 @@ void Task::Upda()
 	if (Judg[TASK_FOUR] == false && Judg[TASK_THREE] == true)
 	{
 		target = PEDESTAL;
-		if(PlayerControl::GetIns()->GetPlayer()->GetHP()<=0)
+		if (PlayerControl::GetIns()->GetPlayer()->GetHP() <= 0)
 		{
 			Judg[TASK_THREE] = false;
 		}
@@ -352,7 +353,7 @@ void Task::Draw()
 		Sprite::PostDraw();
 	}
 	ImGui::Begin("task");
-	ImGui::SliderFloat("tasksclx", &TaskScl.x,0,1000);
+	ImGui::SliderFloat("tasksclx", &TaskScl.x, 0, 1000);
 	ImGui::SliderFloat("taskscly", &TaskScl.y, 0, 1000);
 
 	ImGui::End();

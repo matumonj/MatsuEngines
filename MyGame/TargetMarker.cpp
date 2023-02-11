@@ -89,7 +89,7 @@ int TargetMarker::NearGolemSearch(std::vector<std::unique_ptr<Enemy>>& enemy, Pl
 	//float distance;
 	for (int i = 0; i < enemy.size()/*enemynum*/; ++i)
 	{
-		if (enemy[i] == nullptr||enemy[i]->getdeath())
+		if (enemy[i] == nullptr || enemy[i]->getdeath())
 		{
 			continue;
 		}

@@ -145,8 +145,9 @@ void MobEnemy::Update()
 
 	HelpIconShow();
 	//“G‚ÌF
-	if (SceneManager::GetIns()->GetScene() != SceneManager::MAPCREATE) {
-		m_fbxObject->SetColor({ 1.0f, 1.0f, 1.0f, alpha });
+	if (SceneManager::GetIns()->GetScene() != SceneManager::MAPCREATE)
+	{
+		m_fbxObject->SetColor({1.0f, 1.0f, 1.0f, alpha});
 	}
 	else
 	{
@@ -237,12 +238,14 @@ void MobEnemy::Draw()
 		Sword->Draw();
 		Object3d::PostDraw();
 	}
-
 }
 
 void MobEnemy::EnemyHPDraw()
 {
-	if (alpha <= 0.f)return;
+	if (alpha <= 0.f)
+	{
+		return;
+	}
 	Player* l_player = PlayerControl::GetIns()->GetPlayer();
 
 	if (Collision::GetLength(Position, l_player->GetPosition()) < 40)

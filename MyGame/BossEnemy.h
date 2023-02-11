@@ -7,6 +7,7 @@
 #include"Sprite.h"
 #include<array>
 #include"BossAttackActionManager.h"
+
 class BossEnemy :
 	public Enemy
 {
@@ -89,7 +90,6 @@ private:
 public:
 	void SetMotion(bool& motionStartJudg, NowAttackMotion motion, float actionStartTime, float actionEndTime);
 private:
-	
 	int hind;
 	bool isendtime;
 	std::unique_ptr<Object3d> Sword;
@@ -97,17 +97,18 @@ private:
 
 private:
 	int attackindex;
-	void AnimationContol( int animenumber, double speed, bool loop);
+	void AnimationContol(int animenumber, double speed, bool loop);
 	void FbxAnimationControls(NowAttackMotion motiontype, int number);
 
 	void AttackMotion();
 
 private:
-	std::vector<BossAttackActionManager*>BossAttackAction;
+	std::vector<BossAttackActionManager*> BossAttackAction;
 
 private:
 	bool LoadF;
 	void LoadDamageCsv();
+
 	enum DamageVal
 	{
 		DAMAGE_NAIL,
@@ -117,14 +118,13 @@ private:
 		DAMAGE_THROW,
 		DAMAGE_NORMAL
 	};
+
 	std::string line;
 	std::stringstream popcom;
 	std::ifstream file;
 
 private:
-
 	OBB ShieldOBB;
 public:
 	OBB GetShieldOBB() { return ShieldOBB; }
-
 };

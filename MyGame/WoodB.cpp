@@ -43,12 +43,13 @@ void WoodB::Update()
 	//m_Object->setFog(true);
 
 	m_Object->SetDisLen(800);
-	if (SceneManager::GetIns()->GetScene() == SceneManager::PLAY) {
+	if (SceneManager::GetIns()->GetScene() == SceneManager::PLAY)
+	{
 		m_Object->setFog(true);
 		m_Object->SetFogCenter(camera->GetEye());
 		m_Object->Setppos(PlayerControl::GetIns()->GetPlayer()->GetPosition());
-
-	} else
+	}
+	else
 	{
 		m_Object->setFog(false);
 	}

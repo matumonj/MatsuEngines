@@ -28,7 +28,7 @@ void EnemyKnockState::Update(Enemy* enemy)
 			enemy->GetPosition().z + move.m128_f32[2] * 15
 		}
 	);
-	PlayerAttackState::GetIns()->SetHitStopJudg(true,50);
+	PlayerAttackState::GetIns()->SetHitStopJudg(true, 50);
 	if (Collision::GetLength(enemy->GetPosition(), PlayerControl::GetIns()->GetPlayer()->GetPosition()) >
 		SelectSword::GetIns()->GetSword()->GetKnockPower())
 	{

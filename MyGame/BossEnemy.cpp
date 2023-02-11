@@ -325,6 +325,11 @@ void BossEnemy::Death()
 	movestop = false;
 }
 
+void BossEnemy::Move()
+{
+	
+}
+
 void BossEnemy::Smoke(bool& createf)
 {
 }

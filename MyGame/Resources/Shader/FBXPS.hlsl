@@ -19,7 +19,7 @@ PSOutPut main(VSOutput input)
 	//Lambert反射
 	float3 light = normalize(float3(1, -1, 1)); //右下奥向きライト
 	float diffuse = saturate(dot(-light, input.normal));
-	float brightness = diffuse ;
+	float brightness = diffuse;
 	//フォグ部分
 	float4 nc = {0.1, 0.1, 0.1, 1}; //cameraPos付近の色
 	float4 c = {0.3, 0.3, 0.4, 1}; //
@@ -34,7 +34,7 @@ PSOutPut main(VSOutput input)
 	//変更後
 	output.target0 = texcolor * color;
 
-	output.target1 = texcolor * color ;
-	
+	output.target1 = texcolor * color;
+
 	return output;
 }

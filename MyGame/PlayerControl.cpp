@@ -105,7 +105,6 @@ void PlayerControl::Update_Tutorial() //チュートリアル時
 
 void PlayerControl::Update_Play() //プレイシーン時
 {
-
 	PlayerAttackState::GetIns()->Update();
 	player->Update();
 
@@ -129,7 +128,7 @@ void PlayerControl::DamageTexUpdate()
 		dalpha = 1.0f;
 	}
 	dalpha -= 0.02f;
-	DamageTex->setcolor({ 1, 1, 1, dalpha });
+	DamageTex->setcolor({1, 1, 1, dalpha});
 	dalpha = max(dalpha, 0.0f);
 	/*if (HUD::GetIns()->GetRecvDamageFlag())
 	{
@@ -142,6 +141,7 @@ void PlayerControl::DamageTexUpdate()
 	vignette -= 0.02f;
 	vignette = max(vignette, 0.0f);*/
 }
+
 void PlayerControl::DamageTexDraw()
 {
 	if (HUD::GetIns()->GetPlayerHP()->GetSize().x > 0.f && GetIns()->GetPlayer()->GetHP() > 0)

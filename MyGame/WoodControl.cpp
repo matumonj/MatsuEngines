@@ -30,8 +30,8 @@ void WoodControl::Init_Tutorial()
 	Tutorialwoods[0]->SetPosition({42.0f, -28.0f, -389.0f});
 	Tutorialwoods[1]->SetPosition({20.0f, -28.0f, -350.0f});
 	Tutorialwoods[2]->SetPosition({70.0f, -28.0f, -340.0f});
-	Tutorialwoods[3]->SetPosition({ 30.0f, -28.0f, -410.0f });
-	Tutorialwoods[4]->SetPosition({ 70.0f, -28.0f, -390.0f });
+	Tutorialwoods[3]->SetPosition({30.0f, -28.0f, -410.0f});
+	Tutorialwoods[4]->SetPosition({70.0f, -28.0f, -390.0f});
 }
 
 void WoodControl::Init_Play()
@@ -193,8 +193,8 @@ void WoodControl::Draw_Play()
 	{
 		if (woods[i] != nullptr)
 		{
-		//ˆê’èˆÈã‚Í‚È‚ê‚½‚ç•`‰æØ‚é
-			if (Collision::GetLength(pPos, woods[i]->GetPosition() )> 300.f)
+			//ˆê’èˆÈã‚Í‚È‚ê‚½‚ç•`‰æØ‚é
+			if (Collision::GetLength(pPos, woods[i]->GetPosition()) > 300.f)
 			{
 				continue;
 			}

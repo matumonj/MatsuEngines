@@ -20,7 +20,7 @@ public:
 	~Field() override;
 
 	static Field* GetIns();
-	
+
 	XMFLOAT3 GetClearTexpos() { return cleartex->GetPosition(); }
 private:
 	TouchableObject* FieldObject = nullptr;
@@ -52,19 +52,19 @@ private:
 	Sprite* BossName = nullptr;
 	bool destf;
 	XMFLOAT3 DestCenter;
-	float destt=0;
+	float destt = 0;
 
 	bool SkyMapDestF;
-	float SkyMapDestT=1000.f;
+	float SkyMapDestT = 1000.f;
 
 	float KoloiamAlpha = 1.f;
-	std::array<std::unique_ptr<Object3d>,4>SkyMap;
+	std::array<std::unique_ptr<Object3d>, 4> SkyMap;
 	//後半フェーズの塔オブジェ
-	std::array<std::unique_ptr<Object3d>, 4>SkyBack;
-	std::array<XMFLOAT3, 4>SkyBackPos;
-	std::array<float, 4>SkyBackEaseT;
-	std::array<float, 4>objroty;
-	float celestalscl=16.f;
+	std::array<std::unique_ptr<Object3d>, 4> SkyBack;
+	std::array<XMFLOAT3, 4> SkyBackPos;
+	std::array<float, 4> SkyBackEaseT;
+	std::array<float, 4> objroty;
+	float celestalscl = 16.f;
 	//Model
 	DirectX::XMFLOAT3 ssp = {0.0f, 0.0f, 0.0f};
 	int EnemyIconSize = 0;
@@ -79,7 +79,7 @@ private:
 	std::array<float, GuardAreaSize> GuardAreaAlpha;
 	Line2D camera_to_player;
 	std::array<Point, GuardAreaSize> GuardAreaPoint;
-	std::unique_ptr<Texture>cleartex;
+	std::unique_ptr<Texture> cleartex;
 	float cleartexrot;
 private:
 	float t = 0.0f;
@@ -127,7 +127,7 @@ private:
 	void FieldDamageAreaCol();
 
 
-bool nextStageF;
+	bool nextStageF;
 	void BossFieldSet_PhaseOne();
 	void BossFieldSet_PhaseTwo();
 private:

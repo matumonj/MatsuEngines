@@ -22,10 +22,10 @@ public:
 
 	void Finalize() override;
 
-	class createimgui {
-
+	class createimgui
+	{
 	public:
-		createimgui(std::string num,float scl,XMFLOAT3 pos);
+		createimgui(std::string num, float scl, XMFLOAT3 pos);
 		void CreateImguiList();
 	private:
 		std::vector<std::string> listnum;
@@ -45,7 +45,7 @@ public:
 		XMFLOAT3 GetPos() { return Pos; }
 		bool GetDelF() { return Del; }
 		bool GetSelectThis() { return Select; }
-		void SetImguiNumber(int index) { imnumber=index; }
+		void SetImguiNumber(int index) { imnumber = index; }
 		int GetImguiNumber() { return imnumber; }
 	public:
 		enum ENumber
@@ -54,15 +54,14 @@ public:
 			AXEGOLEM,
 			LIZARD,
 			THROWGOLEM
-		}enumber;
+		} enumber;
 
 
 		ENumber GetEnumber() { return enumber; }
-		
 	};
 
-	std::vector<std::unique_ptr<createimgui>>imguilist;
-	
+	std::vector<std::unique_ptr<createimgui>> imguilist;
+
 private:
 	//Enemyのみ複数種類配置するのでまた別のフラグ用意
 	bool BossArgmentFlag;
@@ -76,6 +75,7 @@ private:
 		LIZARD,
 		THROWGOLEM
 	};
-	std::vector<bool>SelThis;
-	std::vector<ENumber>enumbers;
+
+	std::vector<bool> SelThis;
+	std::vector<ENumber> enumbers;
 };

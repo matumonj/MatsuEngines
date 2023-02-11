@@ -67,26 +67,29 @@ void EnemyWalkState::do_work(Enemy* enemy)
 
 void EnemyWalkState::Update(Enemy* enemy)
 {
-	if (SceneManager::GetIns()->GetScene() == SceneManager::MAPCREATE)return;
+	if (SceneManager::GetIns()->GetScene() == SceneManager::MAPCREATE)
+	{
+		return;
+	}
 	do_work(enemy);
 
 	BacktoGround(enemy);
 	enemy->SetAnimeState(enemy->WALK);
 
 	bool SearchHelp = Collision::GetLength(enemy->GetPosition(),
-		PlayerControl::GetIns()->GetPlayer()->GetPosition()) < 150.f&&
+	                                       PlayerControl::GetIns()->GetPlayer()->GetPosition()) < 150.f &&
 		AttackCollision::GetIns()->GetHelpJudg();
 	//UŒ‚
 	if (SearchPlayer)
 	{
-		 enemy->ChangeState_Mob(new EnemyFollowState());
+		enemy->ChangeState_Mob(new EnemyFollowState());
 		//’ÇÕ
-		
 	}
-	if(SearchHelp)
+	if (SearchHelp)
 	{
 		if (Collision::GetLength(enemy->GetPosition(),
-			PlayerControl::GetIns()->GetPlayer()->GetPosition()) > 40.f) {
+		                         PlayerControl::GetIns()->GetPlayer()->GetPosition()) > 40.f)
+		{
 			enemy->SetHelpIcon(true);
 
 			enemy->ChangeState_Mob(new EnemyFollowState());

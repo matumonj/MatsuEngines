@@ -40,7 +40,7 @@ void UI::HUDUpdate(bool& hudload, DebugCamera* camera)
 	if (SceneManager::GetIns()->GetScene() == SceneManager::TUTORIAL)
 	{
 		HUD::GetIns()->EnemyHPGauge_MultiUpdate(hudload, camera,
-		                                             EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL));
+		                                        EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL));
 		TutorialSprite::GetIns()->Update();
 	}
 	HUD::GetIns()->SkillBottonUpdate();
@@ -61,7 +61,7 @@ void UI::HUDDraw()
 	if (!TurnOffDrawUI)
 	{
 		HUD::GetIns()->SkillBottonDraw();
-		
+
 		SelectSword::GetIns()->Draw();
 	}
 	if (SceneManager::GetIns()->GetScene() == SceneManager::TUTORIAL)
@@ -91,15 +91,18 @@ void UI::HUDDraw()
 			}
 		}
 	}
-	if (SceneManager::GetIns()->GetScene() == SceneManager::BOSS&&
-		EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS).size()>0&&
-		EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]!=nullptr)
+	if (SceneManager::GetIns()->GetScene() == SceneManager::BOSS &&
+		EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS).size() > 0 &&
+		EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0] != nullptr)
 	{
 		EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->DamageTexDisplay_Draw();
 
 		for (int i = 0; i < 2; i++)
 		{
-			if (HalfAttack::GetIns()->GetSummonEnemy(i) == nullptr)continue;
+			if (HalfAttack::GetIns()->GetSummonEnemy(i) == nullptr)
+			{
+				continue;
+			}
 			HalfAttack::GetIns()->GetSummonEnemy(i)->DamageTexDisplay_Draw();
 		}
 		HalfAttack::GetIns()->Draw_SummonEnemyHP();

@@ -14,7 +14,7 @@ public:
 private:
 	std::vector<XMFLOAT3> Load_EnemyPosition = {};
 
-	std::vector<int>rescount = {};
+	std::vector<int> rescount = {};
 	std::vector<std::vector<std::unique_ptr<Enemy>>> enemys = {};
 
 	XMFLOAT3 tutorial_pos = {0, 0, 0};
@@ -62,7 +62,6 @@ public:
 	void GuardianCreate();
 	void GuardianReset();
 private:
-
 	std::unique_ptr<Enemy> Guardian;
 private:
 	/*XVˆ—*/

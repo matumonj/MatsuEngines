@@ -16,13 +16,13 @@ PSOutPut main(GSOutput input)
 	float diffuse = saturate(dot(-light, input.normal));
 	float brightness = diffuse + 1.0f;
 	//フォグ部分
-	float4 nc = { 0.1, 0.1, 0.1, 1 }; //cameraPos付近の色
-	float4 c = { 0.3, 0.3, 0.4, 1 }; //
+	float4 nc = {0.1, 0.1, 0.1, 1}; //cameraPos付近の色
+	float4 c = {0.3, 0.3, 0.4, 1}; //
 	//cameraPosとあるが今は固定座標
 	float dist = length(cameraPos - input.worldpos.xyz);
 	float4 addcol = float4(lerp(nc.rgb, c.rgb, dist / 500), 0.0);
 
-	float3 fc = { 0.1, 0.1, 0.1 };
+	float3 fc = {0.1, 0.1, 0.1};
 
 	// 光沢度
 	const float shininess = 1.0f;
@@ -35,7 +35,8 @@ PSOutPut main(GSOutput input)
 	// シェーディングによる色
 	float4 shadecolor = float4(ambientColor * ambient, m_alpha);
 	// 丸影
-	if (!bloomf) {
+	if (!bloomf)
+	{
 		for (int cnum = 0; cnum < CIRCLESHADOW_NUM; cnum++)
 		{
 			if (circleShadows[cnum].active)
@@ -47,7 +48,8 @@ PSOutPut main(GSOutput input)
 
 				// 距離減衰係数
 				float atten = saturate(
-					1.0f / (circleShadows[cnum].atten.x + circleShadows[cnum].atten.y * d + circleShadows[cnum].atten.z * d
+					1.0f / (circleShadows[cnum].atten.x + circleShadows[cnum].atten.y * d + circleShadows[cnum].atten.z
+						* d
 						* d));
 				// 距離がマイナスなら0にする
 				atten *= step(0, d);
@@ -61,8 +63,9 @@ PSOutPut main(GSOutput input)
 				float cos = dot(lightv, circleShadows[cnum].dir);
 				// 減衰開始角度から、減衰終了角度にかけて減衰
 				// 減衰開始角度の内側は1倍 減衰終了角度の外側は0倍の輝度
-				float angleatten = smoothstep(circleShadows[cnum].factorAngleCos.y, circleShadows[cnum].factorAngleCos.x,
-					cos);
+				float angleatten = smoothstep(circleShadows[cnum].factorAngleCos.y,
+				                              circleShadows[cnum].factorAngleCos.x,
+				                              cos);
 				// 角度減衰を乗算
 				atten *= angleatten;
 
@@ -84,7 +87,7 @@ PSOutPut main(GSOutput input)
 
 			// 距離減衰係数
 			float atten = 1.0f / (pointLights[pnum].lightatten.x + pointLights[pnum].lightatten.y * d + pointLights[
-				pnum].
+					pnum].
 				lightatten.z * d * d);
 
 			// ライトに向かうベクトルと法線の内積
@@ -122,8 +125,8 @@ PSOutPut main(GSOutput input)
 			// 減衰開始角度から、減衰終了角度にかけて減衰
 			// 減衰開始角度の内側は1倍 減衰終了角度の外側は0倍の輝度
 			float angleatten = smoothstep(spotLights[snum].lightfactoranglecos.y,
-				spotLights[snum].lightfactoranglecos.x,
-				cos);
+			                              spotLights[snum].lightfactoranglecos.x,
+			                              cos);
 			// 角度減衰を乗算
 			atten *= angleatten;
 
@@ -141,7 +144,8 @@ PSOutPut main(GSOutput input)
 		}
 	}
 	// 平行光源
-	if (shadowf) {
+	if (shadowf)
+	{
 		if (dirLights.active)
 		{
 			// ライトに向かうベクトルと法線の内積
@@ -168,10 +172,11 @@ PSOutPut main(GSOutput input)
 	{
 		if (shadowf)
 		{
-			output.target0 = shadecolor * float4(texcolor.rgb*fc, texcolor.a) + addcol;
-			output.target1 = shadecolor * float4(texcolor.rgb*fc, texcolor.a) + addcol;
+			output.target0 = shadecolor * float4(texcolor.rgb * fc, texcolor.a) + addcol;
+			output.target1 = shadecolor * float4(texcolor.rgb * fc, texcolor.a) + addcol;
 		}
-	} else
+	}
+	else
 	{
 		output.target0 = shadecolor * float4(texcolor.rgb * brightness, texcolor.a) * color;
 		output.target1 = shadecolor * float4(texcolor.rgb * brightness, texcolor.a) * color;

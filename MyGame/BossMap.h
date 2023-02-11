@@ -29,7 +29,7 @@ private:
 	std::unique_ptr<Particle> par[mapHight][mapWidth];
 	DirectX::XMFLOAT3 nailPos[mapHight][mapWidth];
 	float blockalpha[mapHight][mapWidth] = {1};
-	
+
 	DirectX::XMFLOAT3 cpos = {-150.f, 11.6f, -150.f};
 	DirectX::XMFLOAT3 blockColor[mapHight][mapWidth];
 	float blockColorETime[mapHight][mapWidth];

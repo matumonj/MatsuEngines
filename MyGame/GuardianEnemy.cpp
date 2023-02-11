@@ -13,7 +13,7 @@ GuardianEnemy::GuardianEnemy()
 
 GuardianEnemy::~GuardianEnemy()
 {
-	for(int i=0;i<HPFrame.size();i++)
+	for (int i = 0; i < HPFrame.size(); i++)
 	{
 		//HPFrame[i].reset(nullptr);
 	}
@@ -56,7 +56,7 @@ void GuardianEnemy::Initialize()
 
 	m_Object->SetModel(Model::CreateFromOBJ("Guardian"));
 
-	MaxHP =400;
+	MaxHP = 400;
 
 	EnemyHP = MaxHP;
 	//パラメータのセット

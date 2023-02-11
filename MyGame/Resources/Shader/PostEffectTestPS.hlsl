@@ -26,9 +26,9 @@ float3 BloomPixel(SamplerState smp, float2 uv, float2 texPixelSize)
 
 float2 Vignette(float2 uv)
 {
-	float v = length(float2 (0.5, 0.5) - uv);
+	float v = length(float2(0.5, 0.5) - uv);
 	v = clamp(v - 0.f, 0.f, 1.f);
-	return float2( vignettecol.g*v, vignettecol.b*v);
+	return float2(vignettecol.g * v, vignettecol.b * v);
 }
 
 float3 Fog()
@@ -57,9 +57,9 @@ float4 bloom(SamplerState smp, float2 uv, float intensity = 1.f)
 {
 	return float4(getBloom(smp, uv, 1.f / 1920) * intensity, 1.f);
 }
+
 float4 main(Output input) : SV_TARGET
 {
-	
 	float4 coltex0 = tex.Sample(smp, input.uv);
 	float4 coltex1 = tex1.Sample(smp, input.uv);
 
@@ -67,9 +67,10 @@ float4 main(Output input) : SV_TARGET
 
 	float4 feed = {0.5, 0.5, 0.5, 1};
 	//	col = feed;
-	
+
 	// ÉuÉãÅ[ÉÄ
-	if (bloomf) {
+	if (bloomf)
+	{
 		col.rgb += bloom(smp, input.uv).rgb;
 	}
 	col.gb -= Vignette(input.uv);

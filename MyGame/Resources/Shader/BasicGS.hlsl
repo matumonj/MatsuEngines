@@ -12,6 +12,7 @@ float CalculationVectorLength(float2 vec01)
 {
 	return sqrt((vec01.x * vec01.x) + (vec01.y * vec01.y));
 }
+
 float2 ConvertToNomalizeVector(float2 outs, float2 ins)
 {
 	float distance = sqrt((ins.x * ins.x) + (ins.y * ins.y));
@@ -19,7 +20,8 @@ float2 ConvertToNomalizeVector(float2 outs, float2 ins)
 	{
 		outs.x = ins.x / distance;
 		outs.y = ins.y / distance;
-	} else
+	}
+	else
 	{
 		outs = float2(0.0f, 0.0f);
 	}
@@ -36,8 +38,8 @@ bool IsCollidinglinesAndCircle(Line2D lines, Point circle)
 	float2 start_to_end = float2(lines.end.x - lines.start.x, lines.end.y - lines.start.y);
 	float2 normal_start_to_end;
 
-	normal_start_to_end= ConvertToNomalizeVector(normal_start_to_end, start_to_end);
-	
+	normal_start_to_end = ConvertToNomalizeVector(normal_start_to_end, start_to_end);
+
 	//射影した線分の長さ
 	float distance_projection = start_to_center.x * normal_start_to_end.y - normal_start_to_end.x * start_to_center.y;
 
@@ -68,6 +70,7 @@ bool IsCollidinglinesAndCircle(Line2D lines, Point circle)
 
 	return false;
 }
+
 // 点の入力から、四角形を出力
 [maxvertexcount(vnum)]
 void main(
@@ -91,7 +94,7 @@ void main(
 	Line2D lines;
 	Point points;
 
-	
+
 	[unroll]
 	for (uint i = 0; i < vnum; i++)
 	{
@@ -101,27 +104,27 @@ void main(
 
 		if (gsflag)
 		{
-
 			lines.end = float2(cameraPos.x, cameraPos.z);
 			lines.start = float2(playerpos.x, playerpos.z);
 
 			points.x = element.svpos.x;
 			points.y = element.svpos.z;
 
-			if (IsCollidinglinesAndCircle(lines, points)) {
+			if (IsCollidinglinesAndCircle(lines, points))
+			{
 				element.svpos.xyz = center + (element.svpos.xyz - center) * (1 - destruction * 1.0);
 			}
 		}
 		if (destF)
 		{
-			input[i].svpos.xy += gnormal.xy * (desttime /2);
-			element.svpos =  input[i].svpos;
+			input[i].svpos.xy += gnormal.xy * (desttime / 2);
+			element.svpos = input[i].svpos;
 		}
 		else if (!destF && !gsflag)
 		{
 			element.svpos = input[i].svpos;
 		}
-		
+
 		element.normal = input[i].normal;
 		element.uv = input[i].uv;
 

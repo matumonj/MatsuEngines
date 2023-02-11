@@ -5,13 +5,14 @@
 #include<memory>
 #include"CollisionPrimitive.h"
 #include"BossAttackActionManager.h"
-class FrontCircleAttack: public BossAttackActionManager
+
+class FrontCircleAttack : public BossAttackActionManager
 {
 public:
 	static FrontCircleAttack* GetIns();
-	void Init()override;
-	void Upda()override;
-	void Draw()override;
+	void Init() override;
+	void Upda() override;
+	void Draw() override;
 	void Finalize();
 
 public:

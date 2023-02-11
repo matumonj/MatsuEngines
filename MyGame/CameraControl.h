@@ -179,7 +179,7 @@ public:
 	void SetAttackSceneF(bool f) { AttackSceneF = f; }
 	int GetMoveBosAreaCam() { return mCamera; }
 
-	void SetCameraP_toE(Enemy*enemy);
+	void SetCameraP_toE(Enemy* enemy);
 	float EaseT;
 	void SetTargetEenemy(bool f) { TargetEnemy = f; }
 private:

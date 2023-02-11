@@ -18,9 +18,9 @@ private:
 	bool ReStartF;
 
 	bool PlayerDestF;
-	DirectX::XMFLOAT2 FrameSize;
+	XMFLOAT2 FrameSize;
 	float FrameScalingT;
-	DirectX::XMFLOAT2 FramePos;
+	XMFLOAT2 FramePos;
 
 	std::unique_ptr<Particle> RestartPar;
 public:

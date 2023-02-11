@@ -64,23 +64,25 @@ public:
 
 	EffectType GetEffectType() { return etype; }
 
-	
+
 private:
 	//斬撃用テクスチャ
-	static constexpr int Gsize=2;
+	static constexpr int Gsize = 2;
 	std::unique_ptr<Texture> AttackTex;
 	std::unique_ptr<Texture> GuardTex[2];
 	float GuardAlpha[2];
 	XMFLOAT3 GuardSize[2];
 	XMFLOAT3 GuardRot[2];
 	bool GuarJudg;
+
 	enum GuarPhase
 	{
 		NOGUARD,
 		LARGE,
 		FEED,
 		END
-	}gphase=END;
+	} gphase = END;
+
 	//攻撃時に出るパーティクル
 	std::vector<std::unique_ptr<Texture>> AttackParticle;
 	//
@@ -107,5 +109,10 @@ private:
 public:
 	void SetMatW(XMMATRIX m) { matwo = m; }
 	void SetGuardRot(XMFLOAT3 rot) { defrot = rot; }
-	void SetGuadJudg(bool f) { gphase =NOGUARD ; GuarJudg = f; }
+
+	void SetGuadJudg(bool f)
+	{
+		gphase = NOGUARD;
+		GuarJudg = f;
+	}
 };

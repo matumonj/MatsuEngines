@@ -37,18 +37,18 @@ void PlayScene::Initialize()
 	Object3d::SetLightGroup(lightGroup);
 
 	/*オブジェクトごとのインスタンスを格納*/
-		AllObjectControl.emplace_back(CameraControl::GetIns());
-		AllObjectControl.emplace_back(EnemyControl::GetIns());
-		AllObjectControl.emplace_back(PlayerControl::GetIns());
-		AllObjectControl.emplace_back(ChestControl::GetIns());
-		AllObjectControl.emplace_back(HouseControl::GetIns());
-		AllObjectControl.emplace_back(WoodControl::GetIns());
-		AllObjectControl.emplace_back(FenceControl::GetIns());
+	AllObjectControl.emplace_back(CameraControl::GetIns());
+	AllObjectControl.emplace_back(EnemyControl::GetIns());
+	AllObjectControl.emplace_back(PlayerControl::GetIns());
+	AllObjectControl.emplace_back(ChestControl::GetIns());
+	AllObjectControl.emplace_back(HouseControl::GetIns());
+	AllObjectControl.emplace_back(WoodControl::GetIns());
+	AllObjectControl.emplace_back(FenceControl::GetIns());
 
-		circleShadowAtten[0] = -5.2f;
-		circleShadowAtten[1] = -0.2f;
-		circleShadowAtten[2] = 4.9f;
-		
+	circleShadowAtten[0] = -5.2f;
+	circleShadowAtten[1] = -0.2f;
+	circleShadowAtten[2] = 4.9f;
+
 	//ポストエフェクト初期化
 	postEffect = new PostEffect();
 	postEffect->Initialize();
@@ -105,8 +105,8 @@ void PlayScene::LightUpdate()
 {
 	XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 
-	lightGroup->SetCircleShadowDir(3, XMVECTOR({ circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0 }));
-	lightGroup->SetCircleShadowCasterPos(3, { ppos.x, ppos.y-3.f, ppos.z });
+	lightGroup->SetCircleShadowDir(3, XMVECTOR({circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0}));
+	lightGroup->SetCircleShadowCasterPos(3, {ppos.x, ppos.y - 3.f, ppos.z});
 	lightGroup->SetCircleShadowAtten(3, XMFLOAT3(circleShadowAtten));
 	//lightGroup->SetCircleShadowFactorAngle(3, XMFLOAT2(1.4f,1.9f));
 
@@ -114,20 +114,21 @@ void PlayScene::LightUpdate()
 	{
 		if (EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i] == nullptr)
 		{
-			lightGroup->SetCircleShadowFactorAngle(i + 4, { 0, 0 });
+			lightGroup->SetCircleShadowFactorAngle(i + 4, {0, 0});
 			continue;
 		}
 		lightGroup->SetCircleShadowDir(i + 4, XMVECTOR({
-										   circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0
-			}));
+			                               circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0
+		                               }));
 		lightGroup->SetCircleShadowCasterPos(i + 4, {
-												 EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->
-												 GetPosition()
-			});
+			                                     EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->
+			                                     GetPosition()
+		                                     });
 		lightGroup->SetCircleShadowAtten(i + 4, XMFLOAT3(circleShadowAtten));
 		lightGroup->SetCircleShadowFactorAngle(i + 4, XMFLOAT2(circleShadowFactorAngle));
 	}
 }
+
 void PlayScene::ChangeSceneJudg()
 {
 	if (Task::GetIns()->GetAllTaskClear())
@@ -174,8 +175,6 @@ void PlayScene::MyGameDraw()
 
 void PlayScene::SpriteDraw()
 {
-	
-	
 	SistemConfig::GetIns()->Draw();
 
 	Feed::GetIns()->Draw();
@@ -196,14 +195,14 @@ void PlayScene::Draw()
 	switch (c_postEffect)
 	{
 	case Blur: //ぼかし　描画準違うだけ
-		
+
 	case Default: //普通のやつ特に何もかかっていない
 		postEffect->PreDrawScene();
-		
+
 		postEffect->PostDrawScene();
 
 		DirectXCommon::GetIns()->BeginDraw();
-		MyGameDraw();//postEffect->Draw();
+		MyGameDraw(); //postEffect->Draw();
 		SpriteDraw();
 		DirectXCommon::GetIns()->EndDraw();
 		break;
@@ -231,7 +230,7 @@ void PlayScene::LoadParam()
 
 		for (int i = 3; i < EnemyControl::GetIns()->GetQuentity() + 4; i++)
 		{
-			lightGroup->SetDirLightActive(i,false);
+			lightGroup->SetDirLightActive(i, false);
 			lightGroup->SetPointLightActive(i, false);
 			lightGroup->SetCircleShadowActive(i, true);
 		}

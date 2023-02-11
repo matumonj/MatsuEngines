@@ -137,7 +137,7 @@ void Player::Move()
 		vel.x = static_cast<float>(rand()) / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
 		vel.y = static_cast<float>(rand()) / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
 		vel.z = static_cast<float>(rand()) / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-		rot.y = angle + atan2f(StickX, StickY) * (180.0f / PI);
+		rot.y = angle + atan2f(StickX, StickY) * (PI_180 / PI);
 
 		//プレイヤーの回転角を取る
 		Rotation = { rot.x, rot.y, rot.z };
@@ -169,17 +169,21 @@ void Player::Move()
 	{
 		l_MoveLimit_x[0] = -300.f; l_MoveLimit_x[1] = 300.f;
 		l_MoveLimit_z[0] = -200.f; l_MoveLimit_z[1] = 400.f;
+
+		Position.x = std::clamp(Position.x, l_MoveLimit_x[0], l_MoveLimit_x[1]);
+		Position.z = std::clamp(Position.z, l_MoveLimit_z[0], l_MoveLimit_z[1]);
+
 	}
 	//ボスエリアでの移動制限
 	else if (SceneManager::GetIns()->GetScene() == SceneManager::BOSS)
 	{
 		l_MoveLimit_x[0] = -130.f; l_MoveLimit_x[1] = 130.f;
 		l_MoveLimit_z[0] = -130.f; l_MoveLimit_z[1] = 130.f;
-	}
 
-	//l_MoveLimit[0]<pos<l_MoveLimit[1]
-	Position.x = std::clamp(Position.x, l_MoveLimit_x[0], l_MoveLimit_x[1]);
-	Position.z = std::clamp(Position.z, l_MoveLimit_z[0], l_MoveLimit_z[1]);
+		Position.x = std::clamp(Position.x, l_MoveLimit_x[0], l_MoveLimit_x[1]);
+		Position.z = std::clamp(Position.z, l_MoveLimit_z[0], l_MoveLimit_z[1]);
+
+	}
 
 	//走り状態以外は足元の土煙出さない
 	if(attackMotion!=RUN)RunParCreate = false;

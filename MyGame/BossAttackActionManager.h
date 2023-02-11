@@ -11,11 +11,8 @@ protected:
 	using XMVECTOR = DirectX::XMVECTOR;
 
 private:
-	
 public:
-	virtual void Init()=0;
-	virtual void Upda()=0;
-	virtual void Draw()=0;
-	
+	virtual void Init() =0;
+	virtual void Upda() =0;
+	virtual void Draw() =0;
 };
-

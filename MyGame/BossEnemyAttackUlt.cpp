@@ -14,7 +14,7 @@ void BossEnemyAttackUlt::Update(Enemy* enemy)
 {
 	enemy->SetRecvDamage2(false);
 	UltAttack::GetIns()->SetAction(true);
-	enemy->SetAnimation(BossEnemy::NowAttackMotion::BROAR, false,1.f);
+	enemy->SetAnimation(BossEnemy::NowAttackMotion::BROAR, false, 1.f);
 
 	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= 50.0f)
 	{

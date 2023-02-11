@@ -50,7 +50,8 @@ void GameOver::Update()
 		if (AlphaEaseT <= 0.0f)
 		{
 			EnemyControl::GetIns()->GameOverResetParam();
-			if (SceneManager::GetIns()->GetScene() == SceneManager::PLAY) {
+			if (SceneManager::GetIns()->GetScene() == SceneManager::PLAY)
+			{
 				EnemyControl::GetIns()->GuardianCreate();
 			}
 			PlayerControl::GetIns()->GameOverResetParam();
@@ -76,7 +77,8 @@ void GameOver::Update()
 			if (AlphaEaseT >= 1.0f && Input::GetIns()->TriggerButton(Input::B))
 			{
 				PlayerControl::GetIns()->TurnoffDraw(true);
-				if (SceneManager::GetIns()->GetScene() == SceneManager::PLAY) {
+				if (SceneManager::GetIns()->GetScene() == SceneManager::PLAY)
+				{
 					EnemyControl::GetIns()->GuardianReset();
 				}
 				PlayerDestF = true;
@@ -115,7 +117,6 @@ void GameOver::Update()
 
 void GameOver::Draw()
 {
-
 	Draw_DestParticle();
 
 	Sprite::PreDraw();

@@ -11,6 +11,7 @@
 #include"ModelManager.h"
 
 #include"atlstr.h"
+
 class CreateObjManager
 {
 protected:

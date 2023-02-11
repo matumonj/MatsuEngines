@@ -623,7 +623,7 @@ void Object3d::Update(DebugCamera* camera)
 	constMap->destTime = DestTime;
 	constMap->shadowf = shadowf;
 
-	constMap->playerpos = ppos;// PlayerControl::GetIns()->GetPlayer()->GetPosition();
+	constMap->playerpos = ppos; // PlayerControl::GetIns()->GetPlayer()->GetPosition();
 	constMap->dislen = dislen;
 	// 定数バッファへデータ転送
 	//ConstBufferDataB0* constMap = nullptr;

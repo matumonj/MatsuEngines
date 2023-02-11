@@ -6,7 +6,6 @@
 #include"SelectSword.h"
 #include"AttackEffect.h"
 #include "HalfAttack.h"
-#include "PlayerAttackState.h"
 #include "UltAttack.h"
 
 AttackCollision* AttackCollision::GetIns()
@@ -41,20 +40,17 @@ void AttackCollision::GetCol(int damage)
 	//プレイヤーのインスタンス取得
 	Player* l_player = PlayerControl::GetIns()->GetPlayer();
 	AttackEffect::GetIns()->GuarEffect(l_player->GetPosition());
-
-	bool CheckColDis_Tutorial;
-
-	bool attackcolJudgTime_First = l_player->GetAttackType() == PlayerControl::GetIns()->GetPlayer()->FIRST &&
+	
+	attackcolJudgTime_First = l_player->GetAttackType() == PlayerControl::GetIns()->GetPlayer()->FIRST &&
 		l_player->GetAnimationTime() > 0.4f;
 
-	bool attackcolJudgTime_Second = l_player->GetAttackType() == PlayerControl::GetIns()->GetPlayer()->SECOND &&
+	attackcolJudgTime_Second = l_player->GetAttackType() == PlayerControl::GetIns()->GetPlayer()->SECOND &&
 		l_player->GetAnimationTime() > 0.6f;
 
-	bool attackcolJudgTime_Third = l_player->GetAttackType() == PlayerControl::GetIns()->GetPlayer()->THIRD &&
+	attackcolJudgTime_Third = l_player->GetAttackType() == PlayerControl::GetIns()->GetPlayer()->THIRD &&
 		l_player->GetAnimationTime() > 0.9f;
 
-	if (
-		PlayerControl::GetIns()->GetPlayer()->GetAttackType() == PlayerControl::GetIns()->GetPlayer()->NON)
+	if (PlayerControl::GetIns()->GetPlayer()->GetAttackType() == PlayerControl::GetIns()->GetPlayer()->NON)
 	{
 		attackCol[0] = false;
 		attackCol[1] = false;
@@ -70,24 +66,7 @@ void AttackCollision::GetCol(int damage)
 	case SceneManager::TUTORIAL:
 
 		ColOBB(TYTORIAL);
-
-		if (attackcolJudgTime_First || attackcolJudgTime_Second || attackcolJudgTime_Third)
-		{
-			if (EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr)
-			{
-				CheckColDis_Tutorial =
-					Collision::GetLength(EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition(), l_player->GetPosition()) < 20.f;
-
-				if (CheckColDis_Tutorial&& Collision::CheckOBBCollision(HandObb, EnemyOBB[0]) == true && !HitCol)
-				{
-					AttackEffect::GetIns()->SetParticle(
-						EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition());
-					EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL)[0]->RecvDamage(
-						damage + rand() % 8 + 1);
-					HitCol = true;
-				}
-			}
-		}
+		TutorialCol(damage);
 		break;
 
 	case SceneManager::PLAY:
@@ -148,62 +127,44 @@ void AttackCollision::GetCol(int damage)
 
 void AttackCollision::BossCol(int damage)
 {
-	if (EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0] == nullptr)return;
-	OBB ob = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetShieldOBB();
-	
 	Player* l_player = PlayerControl::GetIns()->GetPlayer();
-	//bool CheckColDis_Tutorial;
+
+	//例外設定
+	if (EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0] == nullptr) { return; }
 	
-	bool attackcolJudgTime_First = l_player->GetAttackType() == PlayerControl::GetIns()->GetPlayer()->FIRST &&
-		l_player->GetAnimationTime() > 0.4f;
-
-	bool attackcolJudgTime_Second = l_player->GetAttackType() == PlayerControl::GetIns()->GetPlayer()->SECOND &&
-		l_player->GetAnimationTime() > 0.6f;
-
-	bool attackcolJudgTime_Third = l_player->GetAttackType() == PlayerControl::GetIns()->GetPlayer()->THIRD &&
-		l_player->GetAnimationTime() > 0.9f;
-
-
-	if (attackcolJudgTime_First || attackcolJudgTime_Second || attackcolJudgTime_Third)
+	if (!attackcolJudgTime_First && !attackcolJudgTime_Second && !attackcolJudgTime_Third)
 	{
+		return;
+	}
+	if (EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetHP() <= EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetMaxHP() / 2)
+	{
+		if (UltAttack::GetIns()->GetPhase() != UltAttack::END)
+		{
+			return;
+		}
+	}
+
 		if (Collision::CheckOBBCollision(HandObb, BossEnemyOBB[0]) == true && !HitCol)
 		{
-			if (EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetHP() <= EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetMaxHP() / 2)
-			{
-				if (UltAttack::GetIns()->GetPhase() == UltAttack::END)
-				{
+			
+					//ガード中はダメージ受けない
 					if(EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetGuardAction())
 					{
 						AttackEffect::GetIns()->SetGuadJudg(true);
 						EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->RecvDamage(
 						0);
 					}
+				//通常の被ダメージ処理
 					else {
 						AttackEffect::GetIns()->SetParticle(
 							EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition());
-						EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->RecvDamage(
-							damage + rand() % 8 + 1);
+						EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->RecvDamage(damage);
 					}
-				}
-			} else {
-				if (EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetGuardAction())
-				{
-					//if (input->TriggerButton(input->Y)) {
-						AttackEffect::GetIns()->SetGuadJudg(true);
-					
-					EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->RecvDamage(
-						0);
-				} else {
-					AttackEffect::GetIns()->SetParticle(
-						EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition());
-					EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->RecvDamage(
-						damage + rand() % 8 + 1);
-				}
-			}
 			HitCol = true;
 		}
 
 
+		//召喚的との当たり判定
 		for (int i = 0; i < 2; i++)
 		{
 			if (HalfAttack::GetIns()->GetSummonEnemy(i) == nullptr)
@@ -212,19 +173,45 @@ void AttackCollision::BossCol(int damage)
 			}
 			if (Collision::CheckOBBCollision(HandObb, SummonEnemyOBB[i]) == true && !attackCol[i])
 			{
-				HalfAttack::GetIns()->GetSummonEnemy(i)->RecvDamage(
-					damage + rand() % 8 + 1);
+				HalfAttack::GetIns()->GetSummonEnemy(i)->RecvDamage(damage);
 
 				attackCol[i] = true;
 			}
 		}
-	}
+	
 	XMFLOAT3 rot = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetRotation();
 	XMFLOAT3 spos = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->HandRightPos2();
 
 	AttackEffect::GetIns()->SetGuardRot(rot);
 	AttackEffect::GetIns()->GuarEffect(spos);
 
+}
+
+void AttackCollision::TutorialCol(int damage)
+{
+	if (!attackcolJudgTime_First && !attackcolJudgTime_Second && !attackcolJudgTime_Third)
+	{
+		return;
+	}
+	if (EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr)
+	{
+		return;
+	}
+			if (Collision::CheckOBBCollision(HandObb, EnemyOBB[0]) == true && !HitCol)
+			{
+				AttackEffect::GetIns()->SetParticle(
+					EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition());
+				EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL)[0]->RecvDamage(damage);
+
+				HitCol = true;
+			}
+		}
+	
+
+
+void AttackCollision::ExplorationCol(int damage)
+{
+	
 }
 
 void AttackCollision::ColOBB(ColType Enemytype)

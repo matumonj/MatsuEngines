@@ -34,7 +34,7 @@ void BossEnemyFollow::Update(Enemy* enemy)
 		return;
 	}
 	//モーションセット
-	enemy->SetAnimation(BossEnemy::NowAttackMotion::BWALK , 1.f, true);
+	enemy->SetAnimation(BossEnemy::NowAttackMotion::BWALK, 1.f, true);
 	//追跡処理部分//////////
 
 	//敵がプエレイヤーの方向く処理
@@ -47,17 +47,17 @@ void BossEnemyFollow::Update(Enemy* enemy)
 
 	//向きをプレイヤーに
 	float Add_RotVal = FollowRot::FollowA_B(positionA, positionB);
-	
+
 	enemy->SetRotation({
 		enemy->GetRotation().x,
-		Add_RotVal* 60.0f ,
+		Add_RotVal * 60.0f,
 		enemy->GetRotation().z
 	});
 
 	const float FollowSpeed = 4.f;
 
 	//移動ベクトルをy軸周りの角度で回転
-	XMVECTOR move = { 0.0f, 0.0f, 0.1f, 0.0f };
+	XMVECTOR move = {0.0f, 0.0f, 0.1f, 0.0f};
 
 	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(enemy->GetRotation().y + enemy->GetRotRadians()));
 
@@ -76,13 +76,14 @@ void BossEnemyFollow::Update(Enemy* enemy)
 	//////////////////////////////////////////////////////////////
 
 
-	
 	//普通の攻撃
-	const bool attackJudg = Collision::GetLength(enemy->GetPosition(), PlayerControl::GetIns()->GetPlayer()->GetPosition()) < 17.f;
+	const bool attackJudg = Collision::GetLength(enemy->GetPosition(),
+	                                             PlayerControl::GetIns()->GetPlayer()->GetPosition()) < 17.f;
 	if (attackJudg)
 	{
 		//クールタイムが０の時のみ
-		if (enemy->GetCoolTime() == 0) {
+		if (enemy->GetCoolTime() == 0)
+		{
 			enemy->ChangeState_Boss(new BossEnemyAttack());
 		}
 	}
@@ -97,7 +98,8 @@ void BossEnemyFollow::Update(Enemy* enemy)
 		}
 		else
 		{
-			if (Evaprobability > 20) {
+			if (Evaprobability > 20)
+			{
 				enemy->ChangeState_Boss(new BossEnemyShieldGuard());
 				enemy->SetRecvDamage2(false);
 			}
@@ -116,7 +118,8 @@ void BossEnemyFollow::Update(Enemy* enemy)
 	{
 		if (RushAttack::GetIns()->GetPhaseEnd() != RushAttack::PHASEFOUR)
 		{
-			if (enemy->GetAttack_End(enemy->Beam) == false) {
+			if (enemy->GetAttack_End(enemy->Beam) == false)
+			{
 				RushAttack::GetIns()->SetAttackPhase(true);
 				enemy->ChangeState_Boss(new BossEnemyAttackRush());
 			}
@@ -138,7 +141,8 @@ void BossEnemyFollow::Update(Enemy* enemy)
 	{
 		if (UltAttack::GetIns()->GetPhase() != UltAttack::END)
 		{
-			if (enemy->GetAttack_End(enemy->ULT) == false) {
+			if (enemy->GetAttack_End(enemy->ULT) == false)
+			{
 				UltAttack::GetIns()->SetAction(true);
 				enemy->ChangeState_Boss(new BossEnemyAttackUlt());
 			}
@@ -149,19 +153,21 @@ void BossEnemyFollow::Update(Enemy* enemy)
 	{
 		if (BronzeAttack::GetIns()->GetPhase() != BronzeAttack::AREASET)
 		{
-			if (enemy->GetAttack_End(enemy->BRONZEATTACK_W) == false) {
-				BronzeAttack::GetIns()->SetAction(true,BronzeAttack::WIDTH);
+			if (enemy->GetAttack_End(enemy->BRONZEATTACK_W) == false)
+			{
+				BronzeAttack::GetIns()->SetAction(true, BronzeAttack::WIDTH);
 				enemy->ChangeState_Boss(new BossEnemyAttackBrzBeam());
 			}
 		}
 	}
 
 
-	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <=30.0f)
+	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= 30.0f)
 	{
 		if (BronzeAttack::GetIns()->GetPhase() != BronzeAttack::AREASET)
 		{
-			if (enemy->GetAttack_End(enemy->BRONZEATTACK_H) == false) {
+			if (enemy->GetAttack_End(enemy->BRONZEATTACK_H) == false)
+			{
 				BronzeAttack::GetIns()->SetAction(true, BronzeAttack::HEIGHT);
 				enemy->ChangeState_Boss(new BossEnemyAttackBrzBeam());
 			}
@@ -171,7 +177,8 @@ void BossEnemyFollow::Update(Enemy* enemy)
 	{
 		if (HalfAttack::GetIns()->GetPhase() != HalfAttack::PHASEFOUR)
 		{
-			if (enemy->GetAttack_End(enemy->HALF_1) == false) {
+			if (enemy->GetAttack_End(enemy->HALF_1) == false)
+			{
 				//HalfAttack::GetIns()->SetAction(true, BronzeAttack::HEIGHT);
 				enemy->ChangeState_Boss(new BossEnemyAttackHalf());
 			}
@@ -194,7 +201,7 @@ void BossEnemyFollow::AttackStart(Enemy* enemy, int num)
 	{
 	case enemy->CIRCLE_1:
 		enemy->SetRecvDamage2(false);
-		
+
 		break;
 
 	case enemy->KNOCK:
@@ -203,7 +210,7 @@ void BossEnemyFollow::AttackStart(Enemy* enemy, int num)
 		{
 			KnockAttack::GetIns()->SetAttackPhase(true);
 		}
-			break;
+		break;
 
 	case enemy->ULT:
 		UltAttack::GetIns()->SetAction(true);
@@ -225,7 +232,7 @@ void BossEnemyFollow::AttackType(Enemy* enemy, int num)
 	switch (num)
 	{
 	case enemy->CIRCLE_1:
-		
+
 		break;
 	case enemy->CIRCLE_2:
 		if (CircleAttack::GetIns()->GetPhaseEnd() != CircleAttack::PHASEFOUR)

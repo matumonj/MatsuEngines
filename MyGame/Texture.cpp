@@ -504,6 +504,7 @@ void Texture::Update(DebugCamera* camera)
 	constBuff->Unmap(0, nullptr);
 	//TransferVertices();
 }
+
 void Texture::Update(XMMATRIX matw, DebugCamera* camera)
 {
 	//anchorpoint = { 0,0 };
@@ -523,7 +524,7 @@ void Texture::Update(XMMATRIX matw, DebugCamera* camera)
 
 	matWorld = XMMatrixIdentity();
 	matWorld *= matScale; // ワールド行列にスケーリングを反映
-	matWorld *= matRot*matw; // ワールド行列に回転を反映
+	matWorld *= matRot * matw; // ワールド行列に回転を反映
 	if (BillBordflag)
 	{
 		matWorld *= matBillboard;
@@ -546,6 +547,7 @@ void Texture::Update(XMMATRIX matw, DebugCamera* camera)
 	constBuff->Unmap(0, nullptr);
 	//TransferVertices();
 }
+
 void Texture::SetPosition(XMFLOAT3 position)
 {
 	this->position = position;

@@ -506,7 +506,7 @@ void ParticleManager::Update(ParticleType type, XMFLOAT3 position, int lifejudg)
 	result = constBuff->Map(0, nullptr, (void**)&constMap);
 	constMap->color = color;
 	constMap->mat = CameraControl::GetIns()->GetCamera()->GetViewMatrix() * CameraControl::GetIns()->
-		GetCamera()->GetProjectionMatrix(); // s—ñ‚Ì‡¬
+	                                                                        GetCamera()->GetProjectionMatrix(); // s—ñ‚Ì‡¬
 
 	constMap->matBillboard = matBillboard; // s—ñ‚Ì‡¬
 

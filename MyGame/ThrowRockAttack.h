@@ -4,10 +4,11 @@
 #include"Object3d.h"
 #include "Particle.h"
 #include"Texture.h"
-class ThrowRockAttack:public BossAttackActionManager
+
+class ThrowRockAttack : public BossAttackActionManager
 {
 public:
-	static ThrowRockAttack*GetIns();
+	static ThrowRockAttack* GetIns();
 
 private:
 	//岩おぶじぇ
@@ -23,19 +24,19 @@ private:
 	//砕けるエフェクトサイズ
 	static constexpr int EffectSize = 5;
 
-	std::array<std::unique_ptr<Object3d>,EffectSize> DestRock;
+	std::array<std::unique_ptr<Object3d>, EffectSize> DestRock;
 	std::array<float, EffectSize> DestRockAlpha;
 	std::array<float, EffectSize> DestRockAcc;
 	std::array<XMFLOAT3, EffectSize> DestRockPos;
 
 	//投石描画フラグ
 	bool TurnoffDrawF;
-	
+
 	DebugCamera* camera;
 public:
-	void Init()override;
-	void Upda()override;
-	void Draw()override;
+	void Init() override;
+	void Upda() override;
+	void Draw() override;
 
 	//投げる動作の流れ
 	enum ThrowMotion

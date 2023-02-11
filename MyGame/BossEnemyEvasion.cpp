@@ -34,7 +34,7 @@ void BossEnemyEvasion::Update(Enemy* enemy)
 	XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(enemy->GetRotation().y + (enemy->GetRotRadians() + 180.0f)));
 
 	move = XMVector3TransformNormal(move, matRot);
-	if (enemy->GetAnimationTime() >= enemy->GetFbxTimeEnd() - 2.1f&&
+	if (enemy->GetAnimationTime() >= enemy->GetFbxTimeEnd() - 2.1f &&
 		enemy->GetAnimationTime() < enemy->GetFbxTimeEnd() - 0.9f)
 	{
 		enemy->SetPosition({
@@ -51,13 +51,14 @@ void BossEnemyEvasion::Update(Enemy* enemy)
 		enemy->ChangeState_Boss(new BossEnemyAttackThrow());
 	}
 }
+
 void BossEnemyFalter::Update(Enemy* enemy)
 {
 	enemy->SetRecvDamage2(false);
-	enemy->SetAnimation(BossEnemy::NowAttackMotion::FALTER,false, 0.4);
+	enemy->SetAnimation(BossEnemy::NowAttackMotion::FALTER, false, 0.4);
 
-	PlayerAttackState::GetIns()->SetHitStopJudg(true,120);
-	if(enemy->GetAnimationTime()>=enemy->GetFbxTimeEnd()-0.1f)
+	PlayerAttackState::GetIns()->SetHitStopJudg(true, 120);
+	if (enemy->GetAnimationTime() >= enemy->GetFbxTimeEnd() - 0.1f)
 	{
 		enemy->ChangeState_Boss(new BossEnemyEvasion());
 	}

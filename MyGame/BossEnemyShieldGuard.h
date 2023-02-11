@@ -1,7 +1,8 @@
 #pragma once
 #include "BossEnemyState.h"
+
 class BossEnemyShieldGuard :
-    public BossEnemyState
+	public BossEnemyState
 {
 public:
 	void Initialize(Enemy* enemy) override;
@@ -13,4 +14,3 @@ private:
 	int timer;
 	float knockpower;
 };
-

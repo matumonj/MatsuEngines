@@ -34,7 +34,7 @@ public:
 	void Finalize() override;
 
 	void ImGuiDraw();
-	
+
 	Player* GetPlayer() { return player.get(); }
 	void DamageTexDraw();
 	void BossFieldCol();

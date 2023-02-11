@@ -9,8 +9,7 @@ void BossEnemyDeath::Initialize(Enemy* enmey)
 
 void BossEnemyDeath::Update(Enemy* enemy)
 {
-	enemy->SetAnimation(BossEnemy::NowAttackMotion::BDEATH,false,0.5);
+	enemy->SetAnimation(BossEnemy::NowAttackMotion::BDEATH, false, 0.5);
 	PlayerAttackState::GetIns()->SetHitStopJudg(true, 120);
 	enemy->Death();
-
 }
