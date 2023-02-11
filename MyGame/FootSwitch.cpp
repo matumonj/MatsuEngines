@@ -1,3 +1,4 @@
+
 #include "FootSwitch.h"
 
 #include <algorithm>
@@ -11,14 +12,14 @@ void FootSwitch::Init()
 {
 	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
-	for (auto i=0; i<FootSwitchObj.size();i++)
+	for (auto i = 0; i < FootSwitchObj.size(); i++)
 	{
 		FootSwitchObj[i] = std::make_unique<Object3d>();
 		FootSwitchObj[i]->SetModel(ModelManager::GetIns()->GetModel(ModelManager::BEAM));
 		FootSwitchObj[i]->Initialize(camera);
 	}
 
-	
+
 }
 
 void FootSwitch::Upda()
@@ -27,7 +28,7 @@ void FootSwitch::Upda()
 	{
 		//ふまれたらいろかえる
 		if (!FootSwitchJudg[i]) {
-			FootSwitchColor[i] = SwitchChangeColor(FootSwitchPos[i],FootSwitchJudg[i]);
+			FootSwitchColor[i] = SwitchChangeColor(FootSwitchPos[i], FootSwitchJudg[i]);
 		}
 
 		//パラメータのセット
@@ -55,34 +56,33 @@ bool FootSwitch::FootJudg(XMFLOAT3 switchpos)
 
 	ClearSwitchQuantity++;
 
-	if(ColSwitch)
+	if (ColSwitch)
 	{
 		return true;
 	}
 	return false;
 }
 
-FootSwitch::XMFLOAT4 FootSwitch::SwitchChangeColor(XMFLOAT3 switchpos,bool&judg)
+FootSwitch::XMFLOAT4 FootSwitch::SwitchChangeColor(XMFLOAT3 switchpos, bool& judg)
 {
 	XMFLOAT4 color;
 
 	//減算値
 	constexpr float l_ColorSubVal = 0.05f;
 
-	if(FootJudg(switchpos))
+	if (FootJudg(switchpos))
 	{
 		//R,B減算
 		color.x -= l_ColorSubVal;
 		color.z -= l_ColorSubVal;
 
 		//もしふまれて色が完全緑なったらカウンタっ進める　
-		if((color.z|| color.x)<=0.f)
+		if ((color.z || color.x) <= 0.f)
 		{
 			ClearSwitchQuantity++;
 			judg = true;
 		}
-	}
-	else
+	} else
 	{
 		color = { 1.f,1.f,1.f,1.f };
 	}

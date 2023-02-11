@@ -31,12 +31,17 @@ private:
 	//全て踏み終えたか
 	bool AllClear;
 public:
+	//初期化
 	void Init();
+	//更新
 	void Upda();
+	//描画
 	void Draw();
 
 private:
+	//踏まれた判定
 	bool FootJudg(XMFLOAT3 switchpos);
+	//踏まれた時の色変え
 	XMFLOAT4 SwitchChangeColor(XMFLOAT3 switchpos,bool& judg);
 };
 
