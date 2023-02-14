@@ -98,7 +98,6 @@ void Player::Move()
 		input->TiltPushStick(Input::L_RIGHT, 0.0f) ||
 		input->TiltPushStick(Input::L_LEFT, 0.0f))
 	{
-		RunParCreate = true;
 		//状態を走りに
 		attackMotion = RUN;
 
@@ -111,22 +110,22 @@ void Player::Move()
 		//上入力
 		if (input->TiltPushStick(Input::L_UP, 0.0f))
 		{
-			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{0, 0, vel, 0}, angle);
+			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{ 0, 0, vel, 0 }, angle);
 		}
 		//下入力
 		if (input->TiltPushStick(Input::L_DOWN, 0.0f))
 		{
-			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{0, 0, -vel, 0}, angle);
+			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{ 0, 0, -vel, 0 }, angle);
 		}
 		//右入力
 		if (input->TiltPushStick(Input::L_RIGHT, 0.0f))
 		{
-			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{vel, 0, 0, 0}, angle);
+			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{ vel, 0, 0, 0 }, angle);
 		}
 		//左入力
 		if (input->TiltPushStick(Input::L_LEFT, 0.0f))
 		{
-			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{-vel, 0, 0, 0}, angle);
+			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{ -vel, 0, 0, 0 }, angle);
 		}
 
 		const float rnd_vel = 0.1f;
@@ -139,9 +138,9 @@ void Player::Move()
 		rot.y = angle + atan2f(StickX, StickY) * (PI_180 / PI);
 
 		//プレイヤーの回転角を取る
-		Rotation = {rot.x, rot.y, rot.z};
+		Rotation = { rot.x, rot.y, rot.z };
 
-		XMVECTOR move = {0.0f, 0.0f, 0.1f, 0.0f};
+		XMVECTOR move = { 0.0f, 0.0f, 0.1f, 0.0f };
 		XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(Rotation.y));
 		move = XMVector3TransformNormal(move, matRot);
 
@@ -150,9 +149,9 @@ void Player::Move()
 		Position.z += move.m128_f32[2] * AddSpeed;
 
 		Gmove = move;
-	}
-	else
+	} else
 	{
+		attackMotion = NON;
 		RunParCreate = false;
 		//静止時間
 		if ((!m_AnimationStop))
@@ -193,6 +192,8 @@ void Player::Move()
 	if (attackMotion != RUN)
 	{
 		RunParCreate = false;
+	} else {
+		RunParCreate = true;
 	}
 }
 
@@ -258,7 +259,7 @@ void Player::Evasion()
 		{
 			if (m_fbxObject->GetAnimeTime() >= m_fbxObject->GetEndTime() - 0.1f)
 			{
-				AnimationContol(_AnimeState[ANIMENAME_NON]);
+				AnimationContol(_AnimeState[ANIMENAME_EVASION]);
 				m_AnimationStop = false;
 
 				evasionF = false;
@@ -293,7 +294,7 @@ void Player::Update()
 	_AnimeState[ANIMENAME_THIRD] = AnimationSetParam(THIRD, SelectSword::GetIns()->GetSword()->GetAnimationTime(),
 	                                                 false);
 	_AnimeState[ANIMENAME_DEATH] = AnimationSetParam(DEATH, 1.0, false);
-
+	_AnimeState[ANIMENAME_EVASION] = AnimationSetParam(EVASION, 1.0, false);
 
 	//各種パラメータをCSVから
 	if (!load)
@@ -349,6 +350,7 @@ void Player::Update()
 
 	runparticle->CreateParticle(true, {Position.x, Position.y - 2.f, Position.z});
 	runparticle->Upda(l_ParticleVelSpeed, l_ParticleAlphaSubVal);
+	
 }
 
 
@@ -372,7 +374,6 @@ void Player::FbxAttackControls(const AnimeName& motiontype, AttackMotion number)
 {
 	if (attackMotion == number)
 	{
-		//RunParCreate = false;
 		//FBXタイムを剣に持たせたTIME値に開始時に合わせる
 		AnimationContol(_AnimeState[motiontype]);
 		m_AnimationStop = true;
@@ -385,6 +386,7 @@ void Player::FbxAttackControls(const AnimeName& motiontype, AttackMotion number)
 		}
 		else
 		{
+			RunParCreate = false;
 			StopFlag = true;
 		}
 	}
@@ -394,6 +396,7 @@ void Player::AnimationContol(AnimeState state)
 {
 	if (m_Number != state.AnimeMotion)
 	{
+		m_AnimeSpeed = state.AnimationSpeed;
 		m_AnimeLoop = state.AnimeLoop;
 		m_Number = state.AnimeMotion;
 		m_fbxObject->PlayAnimation(m_Number);
@@ -467,7 +470,7 @@ void Player::KnockBack(XMFLOAT3 rot, float Knock)
 void Player::RecvDamage(int Damage)
 {
 	//攻撃受けたあと2秒は無敵
-	if (evasionF || HP < 0)
+	if (DamageCool!= 0 ||evasionF || HP < 0)
 	{
 		return;
 	}

@@ -13,17 +13,8 @@ private:
 	ImageManager& operator=(const ImageManager& r) = default;
 
 public:
-	enum texName
+	enum TexName
 	{
-		//プレイヤー周り
-		PLAYERHP,
-		PLAYERHPFRAME_INNER,
-		PLAYERHPFRAME_BORDER,
-		//敵の体力周り
-
-		BOSSENEMYHP1,
-
-		BOSSENEMYHPFRAME,
 		//チュートリアル時説明スプライト
 		STARTANNOUNCE,
 		MOVEANNOUNCE,
@@ -40,20 +31,18 @@ public:
 		SKILL_3,
 		SKILL_4,
 		COOLDOWN,
-		//コンフィグ周り
-		CONFIG_CUSBUTON,
-		CONFIG_SELSWORD,
-		CONFIG_HUDLAYOUT,
-		CONFIG_SELBOX,
-		CONFIG_MENU,
+		
 		//宝箱回収
 		CHESTCOUNT,
 		CHESTCOUNT_FRAME,
 		//
-		STITLE,
+		STITLE,NAV1,
+		NAV2,
+		NAV3,
+		NAV4
 	};
 
-	enum tex2dName
+	enum SpriteName
 	{
 		ENMEYHP_MULTI,
 		ENMEYHPFRAME1=44,
@@ -91,7 +80,23 @@ public:
 
 		HELPICON=34,
 
-		CLEARBACK
+		CLEARBACK,
+		GETCHEST,
+		NOGETCHEST,
+		DEBUGFONT,
+		TASKFRAME,
+		TASK1,
+		TASK2,
+		TASK3,
+		TASK4,
+		OPENTASK,
+		CLOSETASK
+		/*
+	Texture::LoadTexture(18, L"Resources/2d/icon/nav1.png");
+	Texture::LoadTexture(19, L"Resources/2d/icon/nav2.png");
+	Texture::LoadTexture(20, L"Resources/2d/icon/nav3.png");
+	Texture::LoadTexture(21, L"Resources/2d/icon/nav4.png");*/
+
 	};
 
 public:
@@ -99,10 +104,14 @@ public:
 
 	void Init();
 	void Load2D();
-	void LoadTex2D(tex2dName imageName, wchar_t* fileName);
+	void LoadSprite(SpriteName imageName, wchar_t* fileName);
+	void LoadTex(TexName imageName, wchar_t* fileName);
 	void Finalize();
 
 	UINT GetImage(UINT image) { return image; }
 private:
-	static std::map<tex2dName, Sprite*> tex; //モデル格納マップ
+	static std::map<SpriteName, Sprite*> sprites; //モデル格納マップ
+
+	static std::map<TexName, Texture*> texs; //モデル格納マップ
 };
+

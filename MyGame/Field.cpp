@@ -12,6 +12,7 @@
 #include"UltAttack.h"
 #include "Feed.h"
 #include "mHelper.h"
+#include"FootSwitch.h"
 #include "PlayerControl.h"
 #define PI 3.14f
 
@@ -91,6 +92,8 @@ void Field::Init_Play()
 
 	//ƒ{ƒX‚Ì”wŒiobj
 	SetFieldModel(BOSSBACK, ModelManager::GetIns()->GetModel(ModelManager::BOSSFIELD), camera);
+
+	FootSwitch::GetIns()->Init();
 }
 
 void Field::Init_Boss()
@@ -178,22 +181,22 @@ void Field::Initialize()
 
 void Field::PedestalMoving()
 {
-	//if (PlayerControl::GetIns()->GetPlayer()->GetHP() <= 0)return;
-	if (Task::GetIns()->TaskThirdClear())
-	{
+	constexpr float YPos_Min = -200.f;
+	constexpr float MoveDownSpeed = 0.02f;
+
+	constexpr float PlayerColPedestalDis=10.f;
+	bool DownJudg = PedestalDownF && pedestalpos.y > YPos_Min;
+
 		if (Collision::GetLength(PlayerControl::GetIns()->GetPlayer()->GetPosition(),
-		                         pedestalpos) < 10)
+		                         pedestalpos) < PlayerColPedestalDis)
 		{
 			PedestalDownF = true;
 		}
-		if (PedestalDownF)
+		if (DownJudg)
 		{
-			if (pedestalpos.y > -200)
-			{
-				pedestalpos.y -= 0.2f;
-			}
+			pedestalpos.y -= MoveDownSpeed;
 		}
-	}
+	
 
 	if (PlayerControl::GetIns()->GetPlayer()->GetHP() <= 0)
 	{
@@ -253,6 +256,8 @@ void Field::Update_Play()
 
 	m_object[BOSSBACK]->SetRotation({0.f, 180.f, 0.f});
 	SetFieldUpdate(BOSSBACK, camera, {22.f - 50.f, -70.f, 1010.f - 500.f}, {0.6f, 0.6f, 0.6f}, FALSE, true);
+
+	FootSwitch::GetIns()->Upda();
 
 	GuardAreaTexUpda();
 	PedestalMoving();
@@ -584,6 +589,8 @@ void Field::Draw()
 	{
 		ModelDraw_nullCheck(PEDESTAL);
 		ModelDraw_nullCheck(BOSSBACK);
+
+		FootSwitch::GetIns()->Draw();
 	}
 	Object3d::PostDraw();
 

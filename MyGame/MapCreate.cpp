@@ -5,6 +5,7 @@
 #include"PlaceEnemy.h"
 #include"PlaceStone.h"
 #include"PlaceCameraPoints.h"
+#include"PlaceFootSwitch.h"
 #include"imgui.h"
 #include"PlaceGrassField.h"
 #include "PlaceHouse.h"
@@ -33,6 +34,7 @@ void MapCreate::ObjectInitialize(DebugCamera* camera)
 		placeobj.push_back(new PlaceStone());
 		placeobj.push_back(new PlaceCameraPoints());
 		placeobj.push_back(new PlaceGrassField());
+		placeobj.push_back(new PlaceFootSwitch());
 	}
 	for (int i = 0; i < placeobj.size(); i++)
 	{

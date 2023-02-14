@@ -262,6 +262,9 @@
     <Filter Include="Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\FirstHalf\Action\Cross">
       <UniqueIdentifier>{435b93e8-885a-4839-822e-33e95ad772e9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Editor\配置管理\FootSwitch">
+      <UniqueIdentifier>{67be1350-af6b-4052-aef9-3eceb386198d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sprite.cpp">
@@ -707,6 +710,9 @@
     </ClCompile>
     <ClCompile Include="FootSwitch.cpp">
       <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="PlaceFootSwitch.cpp">
+      <Filter>Editor\配置管理\FootSwitch</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1178,8 +1184,11 @@
     <ClInclude Include="BossEnemyShieldGuard.h">
       <Filter>Game\Shader</Filter>
     </ClInclude>
+    <ClInclude Include="PlaceFootSwitch.h">
+      <Filter>Editor\配置管理\FootSwitch</Filter>
+    </ClInclude>
     <ClInclude Include="FootSwitch.h">
-      <Filter>Game\Shader</Filter>
+      <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

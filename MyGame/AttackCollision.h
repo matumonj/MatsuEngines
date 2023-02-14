@@ -31,6 +31,8 @@ private:
 	//std::vector<OBBCollision*>PlayColOBB;
 	std::vector<Box> EnemyArea;
 	Input* input;
+
+	bool CameraZoom;
 public:
 	void Init();
 
@@ -42,6 +44,7 @@ public:
 
 	void Finalize();
 
+	bool GetCameraZoom() { return CameraZoom; }
 	bool GetHelpJudg() { return HelpJudg; }
 private:
 	bool HelpJudg;

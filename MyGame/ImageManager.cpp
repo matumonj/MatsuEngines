@@ -1,7 +1,8 @@
 #include "ImageManager.h"
 #include "ImageManager.h"
 
-std::map<ImageManager::tex2dName, Sprite*> ImageManager::tex;
+std::map<ImageManager::SpriteName, Sprite*> ImageManager::sprites;
+std::map<ImageManager::TexName, Texture*> ImageManager::texs;
 
 ImageManager* ImageManager::GetIns()
 {
@@ -9,68 +10,59 @@ ImageManager* ImageManager::GetIns()
 	return &instans;
 }
 
-void ImageManager::Load2D()
+void ImageManager::LoadTex(TexName imageName, wchar_t* fileName)
 {
-	// テクスチャ読み込み
-	Sprite::LoadTexture(PLAYERHP, L"Resources/HPTex/HPgauge.png");
-	Sprite::LoadTexture(PLAYERHPFRAME_INNER, L"Resources/HPTex/frame.png");
-	Sprite::LoadTexture(PLAYERHPFRAME_BORDER, L"Resources/HPTex/frame2.png");
-
-	Sprite::LoadTexture(BOSSENEMYHP1, L"Resources/bosshp.png");
-	Sprite::LoadTexture(BOSSENEMYHPFRAME, L"Resources/bosshp.png");
-
-	Sprite::LoadTexture(STARTANNOUNCE, L"Resources/tutorial1.png");
-	Sprite::LoadTexture(MOVEANNOUNCE, L"Resources/tutorial2.png");
-	Sprite::LoadTexture(CONFIGANNOUNCE, L"Resources/tutorial3.png");
-	Sprite::LoadTexture(ATTACKANNOUNCE, L"Resources/tutorial4.png");
-	Sprite::LoadTexture(CHESTANNOUNCE, L"Resources/tutorial5.png");
-	Sprite::LoadTexture(ENDANNOUNCE, L"Resources/tutorial6.png");
-
-	Sprite::LoadTexture(BOSSNAME, L"Resources/BossName.png");
-	Sprite::LoadTexture(FIELDNAME, L"Resources/warning1.png");
-
-	Sprite::LoadTexture(CONFIG_CUSBUTON, L"Resources/custom.png");
-	Sprite::LoadTexture(CONFIG_SELSWORD, L"Resources/swordselect.png");
-	Sprite::LoadTexture(CONFIG_HUDLAYOUT, L"Resources/layout.png");
-	Sprite::LoadTexture(CONFIG_SELBOX, L"Resources/04 選択肢/button_select2_3.png");
-	Sprite::LoadTexture(CONFIG_MENU, L"Resources/03 開閉型メニュー/bg_menu.png");
-
-	Sprite::LoadTexture(CHESTCOUNT, L"Resources/chestCollect1.png");
-	Sprite::LoadTexture(CHESTCOUNT_FRAME, L"Resources/2d/Expadian.png");
-	Sprite::LoadTexture(STITLE, L"Resources/chestColFrame.png");
+	Texture::LoadTexture(imageName, fileName);
 }
 
 void ImageManager::Init()
 {
-	LoadTex2D(ENMEYHPFRAME1, L"Resources/2d/enemy/hpframe1.png");
-	LoadTex2D(ENMEYHPFRAME2, L"Resources/2d/enemy/hpframe2.png");
-	LoadTex2D(ENMEYHPFRAME3, L"Resources/2d/enemy/hpframe3.png");
-	LoadTex2D(ENMEYHPFRAME4, L"Resources/2d/enemy/hpframe4.png");
-	LoadTex2D(ENEMYNAME_GOLEM, L"Resources/2d/enemy/name_golem.png");
-	LoadTex2D(ENEMYNAME_MINIGOLEM, L"Resources/2d/enemy/name_puchigolem.png");
-	LoadTex2D(ENEMYNAME_LIZARD, L"Resources/2d/enemy/name_lizard.png");
-	LoadTex2D(ENEMYNAME_GUARDIAN, L"Resources/2d/enemy/name_guardian.png");
 
-	LoadTex2D(TITLE1, L"Resources/2d/title/titlesp.png");
-	LoadTex2D(TITLE2, L"Resources/title2.png");
+	LoadTex(NAV1, L"Resources/2d/icon/nav1.png");
+	LoadTex(NAV2, L"Resources/2d/icon/nav2.png");
+	LoadTex(NAV3, L"Resources/2d/icon/nav3.png");
+	LoadTex(NAV4, L"Resources/2d/icon/nav4.png");
+	//Sprite
+	LoadSprite(ENMEYHPFRAME1, L"Resources/2d/enemy/hpframe1.png");
+	LoadSprite(ENMEYHPFRAME2, L"Resources/2d/enemy/hpframe2.png");
+	LoadSprite(ENMEYHPFRAME3, L"Resources/2d/enemy/hpframe3.png");
+	LoadSprite(ENMEYHPFRAME4, L"Resources/2d/enemy/hpframe4.png");
+	LoadSprite(ENEMYNAME_GOLEM, L"Resources/2d/enemy/name_golem.png");
+	LoadSprite(ENEMYNAME_MINIGOLEM, L"Resources/2d/enemy/name_puchigolem.png");
+	LoadSprite(ENEMYNAME_LIZARD, L"Resources/2d/enemy/name_lizard.png");
+	LoadSprite(ENEMYNAME_GUARDIAN, L"Resources/2d/enemy/name_guardian.png");
 
-	LoadTex2D(GAMEPLAY, L"Resources/2d/title/gameplay.png");
+	LoadSprite(TITLE1, L"Resources/2d/title/titlesp.png");
+	LoadSprite(TITLE2, L"Resources/title2.png");
 
-	LoadTex2D(BOSSHPFRAME, L"Resources/09 パワーゲージ/gauge_frame2.png");
-	LoadTex2D(BOSSHPFRAMEINNER, L"Resources/09 パワーゲージ/gauge_base_or2.png");
-	LoadTex2D(BOSSHPFRAMEINNER2, L"Resources/09 パワーゲージ/gauge_base_bl.png");
-	LoadTex2D(GAMECLEAR_G, L"Resources/2d/ClearTex/g.png");
-	LoadTex2D(GAMECLEAR_A, L"Resources/2d/ClearTex/a.png");
-	LoadTex2D(GAMECLEAR_M, L"Resources/2d/ClearTex/m.png");
-	LoadTex2D(GAMECLEAR_E, L"Resources/2d/ClearTex/e.png");
-	LoadTex2D(GAMECLEAR_C, L"Resources/2d/ClearTex/c.png");
-	LoadTex2D(GAMECLEAR_L, L"Resources/2d/ClearTex/l.png");
-	LoadTex2D(GAMECLEAR_R, L"Resources/2d/ClearTex/r.png");
-	LoadTex2D(CLEARBACK, L"Resources/skydome/beautiful_tree-beautiful_natural_landscape_wallpaper_1366x768.jpg");
-	LoadTex2D(HELPICON, L"Resources/2d/attackEffect/searchPlwyer.png");
+	LoadSprite(GAMEPLAY, L"Resources/2d/title/gameplay.png");
+
+	LoadSprite(BOSSHPFRAME, L"Resources/09 パワーゲージ/gauge_frame2.png");
+	LoadSprite(BOSSHPFRAMEINNER, L"Resources/09 パワーゲージ/gauge_base_or2.png");
+	LoadSprite(BOSSHPFRAMEINNER2, L"Resources/09 パワーゲージ/gauge_base_bl.png");
+	LoadSprite(GAMECLEAR_G, L"Resources/2d/ClearTex/g.png");
+	LoadSprite(GAMECLEAR_A, L"Resources/2d/ClearTex/a.png");
+	LoadSprite(GAMECLEAR_M, L"Resources/2d/ClearTex/m.png");
+	LoadSprite(GAMECLEAR_E, L"Resources/2d/ClearTex/e.png");
+	LoadSprite(GAMECLEAR_C, L"Resources/2d/ClearTex/c.png");
+	LoadSprite(GAMECLEAR_L, L"Resources/2d/ClearTex/l.png");
+	LoadSprite(GAMECLEAR_R, L"Resources/2d/ClearTex/r.png");
+	LoadSprite(CLEARBACK, L"Resources/skydome/beautiful_tree-beautiful_natural_landscape_wallpaper_1366x768.jpg");
+	LoadSprite(HELPICON, L"Resources/2d/attackEffect/searchPlwyer.png");
+	LoadSprite(GETCHEST, L"Resources/2d/PlayTask/getchest.png");
+	LoadSprite(NOGETCHEST, L"Resources/2d/PlayTask/nogetchest.png");
+	LoadSprite(DEBUGFONT, L"Resources/2d/LevelUp/debugfont - コピー.png");
+	LoadSprite(TASKFRAME, L"Resources/04 選択肢/button_select2_2.png");
+	LoadSprite(TASK1, L"Resources/2d/PlayTask/Task1.png");
+	LoadSprite(TASK2, L"Resources/2d/PlayTask/Task2.png");
+	LoadSprite(TASK3, L"Resources/2d/PlayTask/Task3.png");
+	LoadSprite(TASK4, L"Resources/2d/PlayTask/Task4.png");
+	LoadSprite(OPENTASK, L"Resources/2d/PlayTask/taskmenuopen.png");
+	LoadSprite(CLOSETASK, L"Resources/2d/PlayTask/taskmenuclose.png");
+
 }
 
-void ImageManager::LoadTex2D(const tex2dName imageName, wchar_t* fileName)
+void ImageManager::LoadSprite(const SpriteName imageName, wchar_t* fileName)
 {
 	Sprite::LoadTexture(imageName, fileName);
 }

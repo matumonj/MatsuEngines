@@ -142,13 +142,13 @@ public: // 静的メンバ関数
 
 	void SetAlpha(float alpha) { this->alpha = alpha; }
 
-	void SetColor(XMFLOAT3 color) { this->color = color; }
+	void SetColor(XMFLOAT4 color) { this->color = color; }
 private:
 	bool SizeVariableF = false;
 	int VariableStopT = 0;
 	XMFLOAT2 TexScale = {0.f, 0.f};
 	float alpha = 1.f;
-	XMFLOAT3 color;
+	XMFLOAT4 color;
 	// スプライトデータの配列
 	Sprite* spriteDatas[maxCharCount] = {};
 	// スプライトデータ配列の添え字番号

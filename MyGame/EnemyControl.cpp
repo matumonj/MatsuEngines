@@ -265,24 +265,7 @@ void EnemyControl::Update_Play()
 					                                           });
 				}
 			}
-			else if (enemys[PLAYSCENE][i]->GetEnemyNumber() == 1)
-			{
-				Task::GetIns()->SetFlogDestroyCount();
-
-
-				if (Task::GetIns()->ClearTaskONE() == true)
-				{
-					if (Task::GetIns()->GetFlogDesthCount(2))
-					{
-						ChestControl::GetIns()->SetChestAppearance(ChestControl::BLUE, {
-							                                           enemys[PLAYSCENE][i]->GetPosition().x,
-							                                           enemys[PLAYSCENE][i]->GetPosition().y +
-							                                           10.0f,
-							                                           enemys[PLAYSCENE][i]->GetPosition().z
-						                                           });
-					}
-				}
-			}
+			
 			//
 			else if (enemys[PLAYSCENE][i]->GetEnemyNumber() == 2)
 			{

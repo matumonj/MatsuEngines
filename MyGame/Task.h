@@ -18,20 +18,24 @@ private:
 	using XMMATRIX = DirectX::XMMATRIX;
 
 private:
-	static constexpr int TaskNum = 5;
-	std::unique_ptr<Texture> TargetArrow;
-	XMFLOAT3 TargetArrowRot;
-
-	std::unique_ptr<Sprite> TaskFrame;
-	std::array<std::unique_ptr<Sprite>, 2> navChestSprite;
-	std::array<float, 2> navSpriteAlpha;
+	static constexpr auto TaskNum = 4;
+	static constexpr auto ChestNavNum = 2;
+	static constexpr auto TaskListNavNum = 2;
+	//タスク
+	std::array<std::unique_ptr<Sprite>,TaskNum> TaskFrame;
 	std::array<std::unique_ptr<Sprite>, TaskNum> TasksSprite;
+	//宝箱の回収率用のフレームとうち側てくちゃ
+	std::array<std::unique_ptr<Sprite>,ChestNavNum> navChestSprite;
+	std::array<float, ChestNavNum> navSpriteAlpha;
+	//Yでタスク一覧を表示するかどうかのナビテクスチャ
+	std::array<std::unique_ptr<Sprite>, TaskListNavNum> TaskMenuList;
+	std::array<float, TaskListNavNum>TaskMenuListAlpha;
+	//クリアしたかどうか
 	std::array<bool, TaskNum> Judg;
+	//テクスチャアルファ値
 	std::array<float, TaskNum> TaskSpriteAlpha;
-	std::array<std::unique_ptr<Texture>, 4> TargetIcon;
-	std::array<float, 4> iconalpha;
-	XMFLOAT4 arrowcol;
-
+	std::array<std::unique_ptr<Texture>, TaskNum> TargetIcon;
+	std::array<float, TaskNum> iconalpha;
 	enum Tasks
 	{
 		TASK_ONE,
@@ -42,75 +46,74 @@ private:
 		TASK_COMPLEATE
 	} tasks = TASK_ONE;
 
+	//全てのタスククリアしたか
 	bool TaskAllClear;
 private:
 	XMFLOAT2 TaskMenuPos = {};
 	XMFLOAT2 FramePos;
+
 	XMFLOAT2 FrameScl;
 
-	XMFLOAT2 TaskPos;
+	std::array<XMFLOAT2,TaskNum> TaskPos;
 	XMFLOAT2 TaskScl;
 
+	float SpritePosInter;
 	XMFLOAT2 navTaskPos;
 	XMFLOAT2 navTaskScl;
 
 private:
 	int movement;
 public:
+	//初期化
 	void Init();
+	//更新
 	void Upda();
+	//描画
 	void Draw();
+	//タスク対象表示
 	void TargetDraw();
-	void TaskSequence();
-	float curr;
-
-	enum Target
-	{
-		GOLEM,
-		COW,
-		MINIGOLEM,
-		CHEST,
-		PEDESTAL,
-		Bossarea
-	} target = GOLEM;
-
-	XMFLOAT3 TargetPos;
-	void SetGolemDestroyCount() { GolemDestCount++; }
-	void SetMiniGolemDestroyCount() { MiniGolemDestCount++; }
-	void SetFlogDestroyCount() { FlogDestCount++; }
 
 	bool ClearTaskONE();
 	bool ClearTaskTwo();
 	bool ClearTaskThree();
 	bool GetAllTaskClear() { return TaskAllClear; }
 
-	bool GetGolemDesthCount(int count)
+	inline bool GetGolemDesthCount(int count)
 	{
 		if (GolemDestCount == count) { return true; }
 		return false;
 	}
 
-	bool GetMiniGolemDesthCount(int count)
+	inline bool GetMiniGolemDesthCount(int count)
 	{
 		if (MiniGolemDestCount == count) { return true; }
 		return false;
 	}
 
-	bool GetFlogDesthCount(int count)
-	{
-		if (FlogDestCount == count) { return true; }
-		return false;
-	}
-
-	bool TaskFourClear() { return Judg[TASK_FOUR]; }
-	bool TaskThirdClear() { return Judg[TASK_THREE]; }
-
-	bool TaskFirstClear() { return Judg[TASK_ONE]; }
-
+	bool TaskFourClear(Tasks task) { return Judg[task]; }
+	
 	void GuardianRset();
 private:
+	//ゴーレム倒した数
 	int GolemDestCount;
+	//ミニゴーレム足した数
 	int MiniGolemDestCount;
-	int FlogDestCount;
+	
 	void TaskClear(const Tasks& task, const Tasks& nexttask, bool clearjudg, int chestcunt);
+
+	void NavTaskSequence();
+
+	static constexpr float TaskNumInterPos=120.f;
+	static constexpr float taskNumSize=0.5f;
+public:
+	void SetGolemDestroyCount() { GolemDestCount++; }
+	void SetMiniGolemDestroyCount() { MiniGolemDestCount++; }
+
+private:
+	//タスク一覧表示するかどうか
+	bool OpenJudg;
+	//イージング用カウンタ
+	float MovingFrameECount;
+
+	void OpenTasks();
 };

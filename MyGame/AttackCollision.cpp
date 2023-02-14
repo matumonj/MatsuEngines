@@ -5,6 +5,7 @@
 #include"SceneManager.h"
 #include"SelectSword.h"
 #include"AttackEffect.h"
+#include "CameraControl.h"
 #include "HalfAttack.h"
 #include "UltAttack.h"
 
@@ -53,6 +54,7 @@ void AttackCollision::GetCol(int damage)
 		attackCol[0] = false;
 		attackCol[1] = false;
 		HitCol = false;
+		if (Play_colf.size() == 0)return;
 		for (int i = 0; i < EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE).size(); i++)
 		{
 			Play_colf[i] = false;
@@ -197,6 +199,8 @@ void AttackCollision::ExplorationCol(int damage)
 		//ŽG‹›“G
 			if (Collision::CheckOBBCollision(HandObb, EnemyOBB[i]) == true && !Play_colf[i])
 			{
+				CameraControl::GetIns()->SetZoomF(true);
+				CameraControl::GetIns()->SetZoomTarget(EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetPosition());
 				HelpJudg = true;
 				AttackEffect::GetIns()->SetParticle(
 					EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetPosition());

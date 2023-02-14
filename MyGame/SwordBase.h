@@ -18,14 +18,14 @@ public:
 	void Draw() override;
 	XMMATRIX GetMatrot() { return m_Object->GetMatWorld(); }
 	XMMATRIX GetMatWorld() { return m_Object->GetMatWorld(); }
-	float GetAnimationTime() { return AnimationTime; }
+	double GetAnimationTime() { return AnimationTime; }
 	float GetKnockPower() { return KnockPower; }
 
 	XMFLOAT3 GetSwordObbScl() { return SwordObbScl; }
 protected:
 	int Damage;
 	int CoolTime;
-	float AnimationTime;
+	double AnimationTime;
 	float KnockPower;
 	XMFLOAT3 SwordObbScl;
 

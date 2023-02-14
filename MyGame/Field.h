@@ -135,7 +135,7 @@ private:
 	void PedestalMoving();
 public:
 	void NameDraw();
-
+	const bool& GetPedestalDown() { return PedestalDownF; }
 private:
 	XMFLOAT3 FieldPosition;
 };

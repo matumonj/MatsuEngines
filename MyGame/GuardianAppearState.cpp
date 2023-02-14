@@ -1,4 +1,6 @@
 #include "GuardianAppearState.h"
+
+#include "Field.h"
 #include"GuardianFollowState.h"
 #include "PlayerControl.h"
 #include"Task.h"
@@ -10,7 +12,7 @@ void GuardianAppearState::Initialize(Enemy* enemy)
 void GuardianAppearState::Update(Enemy* enemy)
 {
 	XMFLOAT3 epos = enemy->GetPosition();
-	if (Task::GetIns()->TaskFourClear() == false)
+	if (Field::GetIns()->GetPedestalDown() == false)
 	{
 		return;
 	}

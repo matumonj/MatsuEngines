@@ -48,7 +48,9 @@ public:
 		BOSSWEAPON,
 		SKY,
 		CELESTIALSPHERES,
-		SHIELD
+		SHIELD,
+		SWITCH,
+		CAGE
 	};
 
 	enum FBXName

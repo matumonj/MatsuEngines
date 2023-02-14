@@ -39,8 +39,6 @@ void PlayerAttackState::Update()
 	{
 		return;
 	}
-	AttackCollision::GetIns()->Update();
-
 	ComboAction();
 	HitStop();
 	Player* l_player = PlayerControl::GetIns()->GetPlayer();

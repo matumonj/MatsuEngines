@@ -4,7 +4,7 @@
 #include"Feed.h"
 #include"PlayerControl.h"
 #include"CameraControl.h"
-
+#include"FootSwitch.h"
 #include"UI.h"
 
 ChestControl* ChestControl::GetIns()
@@ -111,6 +111,12 @@ void ChestControl::Init_Play()
 		chests[i]->SetPosition({990, 999, 0});
 	}
 
+	DebugCamera* l_camera = CameraControl::GetIns()->GetCamera();
+	ChestCage = std::make_unique<Object3d>();
+	ChestCage->Initialize(l_camera);
+	ChestCage->SetModel(ModelManager::GetIns()->GetModel(ModelManager::CAGE));
+	
+
 	ParticleManager::LoadTexture(8, L"Resources/ParticleTex/normal.png");
 	for (int i = 0; i < 4; i++)
 	{
@@ -177,13 +183,58 @@ void ChestControl::Update_Play()
 	}
 	if (chests[BLUE] != nullptr)
 	{
+		chests[BLUE]->SetPosition(FootSwitch::GetIns()->Switchs_CenterPos());
 		chests[BLUE]->SetpColor(color_blue);
+
+		ChestCage->SetPosition({ CagePos.x,CagePos.y-5.f,CagePos.z });
+		ChestCage->SetColor({ 1.f,1.f,1.f,0.5f });
+		ChestCage->SetUVf(true);
+		ChestCage->SetScale({ 6.f,3.f,6.f });
+		ChestCage->Update(CameraControl::GetIns()->GetCamera());
 	}
 	if (chests[YELLOW] != nullptr)
 	{
 		chests[YELLOW]->SetpColor(color_yellow);
 	}
+
+	if(FootSwitch::GetIns()->GetClearSwicthsQuantity()>=4)
+	{
+		CagePos.y -= 1.f;
+	}
+	else
+	{
+		CagePos = chests[BLUE]->GetPosition();
+	}
+
+	CageColPlayer();
 }
+
+void ChestControl::CageOBBSet()
+{
+	
+}
+void ChestControl::CageColPlayer()
+{
+	OBB playerOBB, CageOBB;
+	playerOBB.SetOBBParam_Pos(PlayerControl::GetIns()->GetPlayer()->GetPosition());
+	playerOBB.SetOBBParam_Rot(PlayerControl::GetIns()->GetPlayer()->GetMatrot());
+	playerOBB.SetOBBParam_Scl({ 1.0f, 1.0f, 1.0f });
+
+	//ò‚ÌOBB ‰ñ“]ƒxƒNƒgƒ‹
+	CageOBB.SetOBBParam_Pos(CagePos);
+	CageOBB.SetOBBParam_Rot(ChestCage->GetMatrot());
+	CageOBB.SetOBBParam_Scl({
+		ChestCage->GetMatScl().r[0].m128_f32[0] * 5,
+		ChestCage->GetMatScl().r[1].m128_f32[1] * 5,
+		ChestCage->GetMatScl().r[2].m128_f32[2] *5
+		});
+
+	if (Collision::CheckOBBCollision(playerOBB, CageOBB) == true)
+	{
+		PlayerControl::GetIns()->GetPlayer()->isOldPos();
+	}
+}
+
 
 void ChestControl::SetChestAppearance(Color color, XMFLOAT3 position)
 {
@@ -233,6 +284,9 @@ void ChestControl::Draw_Play()
 			chests[i]->Draw();
 		}
 	}
+	Object3d::PreDraw();
+	ChestCage->Draw();
+	Object3d::PostDraw();
 }
 
 void ChestControl::Draw_Boss()

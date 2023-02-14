@@ -1,18 +1,8 @@
 ﻿#pragma once
 #include "ControlBase.h"
 #include"House.h"
-#include<fstream>
-#include<string>
-#include<sstream>
-#include<ostream>
-#include <iostream>
-#include"Wood.h"
-#include"Player.h"
 #include"Enemy.h"
-#include"DebugCamera.h"
 #include<memory>
-
-#include "House.h"
 
 class HouseControl :
 	public ControlBase

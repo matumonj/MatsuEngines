@@ -12,6 +12,8 @@ void SwordBase::LoadCsv(std::string damval, std::string knoval, std::string spev
 	popcom << file.rdbuf();
 
 	file.close();
+	//ƒ_ƒ[ƒW‚Ì’Ç‰Á—”
+	int CorrDamageVal = rand() % 8 - 1;
 
 	while (std::getline(popcom, line))
 	{
@@ -27,7 +29,7 @@ void SwordBase::LoadCsv(std::string damval, std::string knoval, std::string spev
 		{
 			std::getline(line_stream, word, ',');
 			int l_Damage = static_cast<int>(std::atof(word.c_str()));
-			Damage = l_Damage;
+			Damage = l_Damage+CorrDamageVal;
 		}
 		if (word.find(knoval) == 0)
 		{

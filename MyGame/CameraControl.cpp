@@ -1,5 +1,7 @@
 #include "CameraControl.h"
 #include <algorithm>
+
+#include "AttackCollision.h"
 #include"Feed.h"
 #include"SceneManager.h"
 #include"PlayerControl.h"
@@ -278,11 +280,16 @@ void CameraControl::TargetPlayer()
 		{
 			Tstate = MOVEBOSSAREA;
 		}
+		if(ZoomF)
+		{
+			Tstate = BATTLEATART;
+		}
 	}
 	if (Tstate == PLAYER)
 	{
 		sCamera = PLAYCUTSTART;
 		rCamera = NON_RUSH;
+		bscamera = NON_BATTLESTART;
 		mCamera = NON;
 	}
 	//}
@@ -371,7 +378,8 @@ void (CameraControl::* CameraControl::targetTable[])() = {
 	&CameraControl::GuardianCutScene,
 	&CameraControl::BossSceneStart,
 	&CameraControl::RushTargetBoss,
-	&CameraControl::BossDeathStart
+	&CameraControl::BossDeathStart,
+	&CameraControl::BattleStart,
 };
 
 /*------------------------*/
@@ -699,6 +707,51 @@ void CameraControl::RushTargetBoss()
 	}
 
 	camera->SetTarget(TargetPos);
+}
+
+void CameraControl::BattleStart()
+{
+	PlayerControl::GetIns()->GetPlayer()->SetStopFlag(true);
+	if (bscamera== NON_BATTLESTART)
+	{
+		OldPos = camera->GetEye();
+		bscamera = ZOOM_BATTLESTART;
+	}
+	else if (bscamera == ZOOM_BATTLESTART)
+	{
+		if (CameraPosMovingEaseT >= 1.f)
+			bscamera = RETURN_BATTLESTART;
+
+		CameraPosMovingEaseT += 0.02f;
+
+		//OldPos = camera->GetEye();
+		//bscamera = ZOOM_BATTLESTART;
+		CameraPosition.x= Easing::EaseOut(CameraPosMovingEaseT, OldPos.x,((OldPos.x+ZoomTarget.x)/2.f));
+		CameraPosition.z= Easing::EaseOut(CameraPosMovingEaseT, OldPos.z,((OldPos.z+ZoomTarget.z)/2.f));
+		CameraPosition.y = Easing::EaseOut(CameraPosMovingEaseT, OldPos.y,OldPos.y-6.f);
+	}
+	else if(bscamera==RETURN_BATTLESTART)
+	{
+		if (CameraPosMovingEaseT <= 0.f)
+			bscamera = END_BATTLESTART;
+
+		CameraPosMovingEaseT -= 0.02f;
+
+		//OldPos = camera->GetEye();
+		//bscamera = ZOOM_BATTLESTART;
+		CameraPosition.x = Easing::EaseOut(CameraPosMovingEaseT, OldPos.x, ((OldPos.x + ZoomTarget.x) / 2.f));
+		CameraPosition.z = Easing::EaseOut(CameraPosMovingEaseT, OldPos.z, ((OldPos.z + ZoomTarget.z) / 2.f));
+		CameraPosition.y = Easing::EaseOut(CameraPosMovingEaseT, OldPos.y, OldPos.y - 6.f);
+
+	}
+	else if(bscamera == END_BATTLESTART)
+	{
+		ZoomF = false;
+		Tstate = PLAYER;
+	}
+	
+
+	camera->SetEye(CameraPosition);
 }
 
 

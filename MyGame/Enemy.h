@@ -345,7 +345,9 @@ public:
 	XMFLOAT3 HandRightPos2() { return HandPos_Right2; }
 	XMFLOAT3 HandLeftPos() { return HandPos_Left; }
 protected:
-	std::array<std::unique_ptr<Sprite>, 4> HPFrame;
+	static constexpr int FrameSize = 4;
+
+	std::array<std::unique_ptr<Sprite>, FrameSize> HPFrame;
 	std::unique_ptr<Sprite> EnemyName;
 	float NowFrameX;
 	float OldFrameX;

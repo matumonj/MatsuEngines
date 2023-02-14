@@ -24,7 +24,8 @@ public:
 		GUARDIANCUTSCENE,
 		BOSSCUTSCENE,
 		RUSHSCENE,
-		ENDSCENE
+		ENDSCENE,
+		BATTLEATART
 	};
 
 private:
@@ -134,6 +135,14 @@ public:
 		END_PDEATH
 	};
 
+	enum BattleStartcamera
+	{
+		NON_BATTLESTART,
+		ZOOM_BATTLESTART,
+		RETURN_BATTLESTART,
+		END_BATTLESTART
+	};
+
 	SplineCamera GetCameraState_Spline() { return sCamera; }
 private:
 	BossCamera bCamera;
@@ -142,6 +151,7 @@ private:
 	RushAttackCamera rCamera;
 	GuardianCamera gcamera;
 	PlayerDeathCamera pdcamera;
+	BattleStartcamera bscamera;
 private:
 	bool UpStage;
 	int countAreaMove;
@@ -167,7 +177,14 @@ private:
 	XMFLOAT3 EaseTime_EnGuar_pos = {0.0f, 0.0f, 0.0f};
 	int waitCount;
 
+private:
+	float CameraPosMovingEaseT;
+	bool ZoomF;
+	XMFLOAT3 ZoomTarget;
 
+public:
+	void SetZoomF(bool f) { ZoomF = f; }
+	void SetZoomTarget(XMFLOAT3 pos) { ZoomTarget = pos; }
 private:
 	float shakex = 0.0f;
 	float shakey = 0.0f;
@@ -190,6 +207,7 @@ private:
 	void GuardianCutScene();
 	void RushTargetBoss();
 	void BossDeathStart();
+	void BattleStart();
 private:
 	void AngleRotation();
 

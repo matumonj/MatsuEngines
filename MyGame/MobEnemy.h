@@ -1,12 +1,6 @@
 #pragma once
 #include"Object3d.h"
-#include"Model.h"
 #include "Enemy.h"
-#include"Player.h"
-#include"Texture.h"
-#include"Sprite.h"
-#include<array>
-
 class MobEnemy :
 	public Enemy
 {
@@ -34,8 +28,8 @@ public:
 	void Death() override;
 
 	void Move() override;
-	void Smoke(bool& createf) override;
 
+	void Smoke(bool& createf);
 	void DamageParticleSet();
 
 	void EnemyHPDraw() override;

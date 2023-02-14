@@ -278,7 +278,7 @@ void DebugTextSprite2::Print(const std::string& text, float x, float y, float sc
 				static_cast<float>(fontWidth), static_cast<float>(fontHeight)
 			});
 		spriteDatas[spriteIndex]->SetSize({fontWidth * scale, fontHeight * scale});
-
+		spriteDatas[spriteIndex]->setcolor(color);
 		// •¶š‚ğ‚P‚Âi‚ß‚é
 		spriteIndex++;
 	}

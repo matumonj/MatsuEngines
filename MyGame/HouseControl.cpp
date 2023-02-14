@@ -1,11 +1,6 @@
 ﻿#include "HouseControl.h"
-#include "HouseControl.h"
-
 #include "CameraControl.h"
-#include "EnemyControl.h"
 #include"SceneManager.h"
-#include"TutorialSprite.h"
-#include"PlayerControl.h"
 #include"Enemy.h"
 
 HouseControl* HouseControl::GetIns()

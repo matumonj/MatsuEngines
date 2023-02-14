@@ -167,7 +167,7 @@ void BossEnemy::Update()
 	HPGaugeBoss();
 	//Ž‚Á‚Ä‚é•€‚ÌXV
 	Sword->Setf(FALSE);
-	Sword->SetRotation({303, 169, 306});
+	Sword->SetRotation({303.f, 169.f, 306.f});
 	Sword->Update(handmat_left, {1.0f, 1.0f, 1.0f, 1.0f}, camera);
 
 	ShieldObj->Setf(FALSE);
