@@ -52,7 +52,8 @@ private:
 	void ChangeScene();
 private:
 	bool LoadF;
-
+	float posy;
+	XMFLOAT3 atten;
 	enum ShadowChara
 	{
 		SUMMONENEY_A,

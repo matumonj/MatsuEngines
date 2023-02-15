@@ -82,6 +82,11 @@ private:
 	XMFLOAT3 OldPos = {0.0f, 0.0f, 0.0f};
 	int DamageSize = 0;
 	XMFLOAT3 DamageTexPos = {};
+
+protected:
+	//初期位置
+	XMFLOAT3 CreatePos;
+	bool ReturnCreatePos;
 public:
 	//攻撃受けた直後の判定用
 	void RecvDamage(int Damage);
@@ -194,6 +199,10 @@ public:
 	OBB GetHandSiteMat() { return HandSiteOBB; }
 
 	float GetObjAlpha() { return alpha; }
+
+	//初期位置取得(元の位置に戻る処理用)
+	XMFLOAT3 GetCreatePos() { return CreatePos; }
+	bool GetReturnCreatePos() { return ReturnCreatePos; }
 	/*セッター*/
 public:
 	float GetRotRadians() { return addRotRadians; }
@@ -211,6 +220,9 @@ public:
 	void SetRespawnCountMax(int count) { RespawnCountMax = count; }
 
 	void SetEColor(XMFLOAT4 color) { Color = color; }
+
+	void SetCreatePos(XMFLOAT3 pos) { CreatePos = pos; }
+	void SetReturnCreatePos(bool f) { ReturnCreatePos = f; }
 	/*ボス攻撃用 できれば移したいが、、*/
 protected: //攻撃の開始と終了判定用
 	struct Attack_SE

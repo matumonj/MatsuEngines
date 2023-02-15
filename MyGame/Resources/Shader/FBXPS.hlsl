@@ -36,5 +36,6 @@ PSOutPut main(VSOutput input)
 
 	output.target1 = texcolor * color;
 
+
 	return output;
 }

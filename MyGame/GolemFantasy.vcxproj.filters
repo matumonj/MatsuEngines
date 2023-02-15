@@ -714,6 +714,9 @@
     <ClCompile Include="PlaceFootSwitch.cpp">
       <Filter>Editor\配置管理\FootSwitch</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyReturnCreatePos.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sprite.h">
@@ -1189,6 +1192,9 @@
     </ClInclude>
     <ClInclude Include="FootSwitch.h">
       <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyReturnCreatePos.h">
+      <Filter>Game\Shader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

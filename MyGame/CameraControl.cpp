@@ -711,24 +711,36 @@ void CameraControl::RushTargetBoss()
 
 void CameraControl::BattleStart()
 {
-	PlayerControl::GetIns()->GetPlayer()->SetStopFlag(true);
 	if (bscamera== NON_BATTLESTART)
 	{
 		OldPos = camera->GetEye();
+		OldTarget = camera->GetTarget();
+		CameraTarget = OldTarget;
 		bscamera = ZOOM_BATTLESTART;
 	}
 	else if (bscamera == ZOOM_BATTLESTART)
 	{
-		if (CameraPosMovingEaseT >= 1.f)
-			bscamera = RETURN_BATTLESTART;
-
-		CameraPosMovingEaseT += 0.02f;
-
+		if (CameraPosMovingEaseT <= 1.f) {
+			CameraPosMovingEaseT += 0.02f;
+		}
+		else
+		{
+			if (ZoomF == false)
+			{
+				bscamera = RETURN_BATTLESTART;
+			}
+		}
 		//OldPos = camera->GetEye();
 		//bscamera = ZOOM_BATTLESTART;
-		CameraPosition.x= Easing::EaseOut(CameraPosMovingEaseT, OldPos.x,((OldPos.x+ZoomTarget.x)/2.f));
-		CameraPosition.z= Easing::EaseOut(CameraPosMovingEaseT, OldPos.z,((OldPos.z+ZoomTarget.z)/2.f));
-		CameraPosition.y = Easing::EaseOut(CameraPosMovingEaseT, OldPos.y,OldPos.y-6.f);
+			CameraPosition.x = Easing::EaseOut(CameraPosMovingEaseT, OldPos.x, ((OldPos.x + ZoomTarget.x) / 2.f));
+			CameraPosition.z = Easing::EaseOut(CameraPosMovingEaseT, OldPos.z, ((OldPos.z + ZoomTarget.z) / 2.f) );
+			CameraPosition.y = Easing::EaseOut(CameraPosMovingEaseT, OldPos.y, OldPos.y - 6.f);
+
+			CameraTarget.x = Easing::EaseOut(CameraPosMovingEaseT, OldTarget.x,ZoomTarget.x);
+			CameraTarget.y = Easing::EaseOut(CameraPosMovingEaseT, OldTarget.y,ZoomTarget.y);
+			CameraTarget.z = Easing::EaseOut(CameraPosMovingEaseT,OldTarget.z, ZoomTarget.z);
+			
+	
 	}
 	else if(bscamera==RETURN_BATTLESTART)
 	{
@@ -740,8 +752,12 @@ void CameraControl::BattleStart()
 		//OldPos = camera->GetEye();
 		//bscamera = ZOOM_BATTLESTART;
 		CameraPosition.x = Easing::EaseOut(CameraPosMovingEaseT, OldPos.x, ((OldPos.x + ZoomTarget.x) / 2.f));
-		CameraPosition.z = Easing::EaseOut(CameraPosMovingEaseT, OldPos.z, ((OldPos.z + ZoomTarget.z) / 2.f));
+		CameraPosition.z = Easing::EaseOut(CameraPosMovingEaseT, OldPos.z, ((OldPos.z + ZoomTarget.z) / 2.f) );
 		CameraPosition.y = Easing::EaseOut(CameraPosMovingEaseT, OldPos.y, OldPos.y - 6.f);
+
+		CameraTarget.x = Easing::EaseOut(CameraPosMovingEaseT, OldTarget.x, ZoomTarget.x);
+		CameraTarget.y = Easing::EaseOut(CameraPosMovingEaseT, OldTarget.y, ZoomTarget.y);
+		CameraTarget.z = Easing::EaseOut(CameraPosMovingEaseT, OldTarget.z, ZoomTarget.z);
 
 	}
 	else if(bscamera == END_BATTLESTART)
@@ -750,7 +766,7 @@ void CameraControl::BattleStart()
 		Tstate = PLAYER;
 	}
 	
-
+	camera->SetTarget(CameraTarget);
 	camera->SetEye(CameraPosition);
 }
 

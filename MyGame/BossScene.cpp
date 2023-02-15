@@ -43,6 +43,7 @@ void BossScene::Initialize()
 	lightGroup->SetCircleShadowActive(PLAYER, true);
 	lightGroup->SetCircleShadowActive(BOSSENEMY, true);
 
+	
 	Nail::GetIns()->ModelSet();
 
 	circleShadowAtten[0] = -5.2f;

@@ -30,8 +30,8 @@ void Task::Init()
 		TaskFrame[i].reset(Sprite::Create(ImageManager::GetIns()->TASKFRAME, { 0, 0 }));
 	}
 	TasksSprite[TASK_ONE].reset(Sprite::Create(ImageManager::TASK1, {0, 0}));
-	TasksSprite[TASK_TWO].reset(Sprite::Create(ImageManager::TASK2, {0, 0}));
-	TasksSprite[TASK_THREE].reset(Sprite::Create(ImageManager::TASK3, {0, 0}));
+	TasksSprite[TASK_TWO].reset(Sprite::Create(ImageManager::TASK3, {0, 0}));
+	TasksSprite[TASK_THREE].reset(Sprite::Create(ImageManager::TASK2, {0, 0}));
 	TasksSprite[TASK_FOUR].reset(Sprite::Create(ImageManager::TASK4, {0, 0}));
 
 	TaskMenuList[0].reset(Sprite::Create(ImageManager::OPENTASK, { 0, 0 }));

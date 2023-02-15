@@ -15,7 +15,7 @@ void Particle::Init(UINT num)
 	BeginParColor = {1.f, 1.f, 1.f, 1.f};
 	SetParType(7, m_particles[NORMAL], l_tex0);
 
-	SetParType(1, m_particles[BLEATH], l_tex0);
+	SetParType(10, m_particles[FIRE], l_tex0);
 }
 
 #include"PlayerControl.h"
@@ -89,39 +89,67 @@ void Particle::Charge(ParParam& parparam)
 
 void Particle::UpadaBleath(ParParam& parparam)
 {
-	//経過フレーム数をカウント
-	float dis[20];
-	//追跡スピード
-	float centerSpeed = 0.2f;
-
-	float disX[20], disY[20], disZ[20];
-
-	//敵とプレイヤーの距離求め
-	for (int i = 0; i < 20; i++)
-	{
-		disX[i] = PlayerControl::GetIns()->GetPlayer()->GetPosition().x - m_particles[BLEATH].vel[i].x;
-		disY[i] = PlayerControl::GetIns()->GetPlayer()->GetPosition().y - m_particles[BLEATH].vel[i].y;
-		disZ[i] = PlayerControl::GetIns()->GetPlayer()->GetPosition().z - m_particles[BLEATH].vel[i].z;
-		dis[i] = Collision::GetLength(PlayerControl::GetIns()->GetPlayer()->GetPosition(), m_particles[BLEATH].vel[i]);
-		//trad=(PlayerControl::GetIns()->GetPlayer()->GetPosition().y - it->position.y, PlayerControl::GetIns()->GetPlayer()->GetPosition().x - it->position.x);
-
-		//座標のセット
-		if (dis[i] > 1.0f)
-		{
-			//座標のセット
-			m_particles[BLEATH].vel[i] = {
-				m_particles[BLEATH].vel[i].x + (disX[i] / dis[i]) * centerSpeed,
-				m_particles[BLEATH].vel[i].y + (disY[i] / dis[i]) * centerSpeed,
-				m_particles[BLEATH].vel[i].z + (disZ[i] / dis[i]) * centerSpeed
-			};
-		}
+	float f[10];
+	const float rnd_vel[10] = { 0.5f };
+	XMFLOAT3 dvel[10]{};
+	for (int i = 0; i < 10; i++) {
+		
 	}
+		for (int i = 0; i < parparam.size; i++)
+	{
+		if (!parparam.f[i])
+		{
+			
+			parparam.scl[i] = { 2.0f, 2.0f };
+			parparam.speed[i] = 0.0f;
+			parparam.alpha[i] = 1.0f;
+			parparam.ParColor[i] = { 0.2f,1.f,1.f,1.f };
+			parparam.Frame[i] = 0.f;
+			dvel[i] = { (float)rand() / RAND_MAX * rnd_vel[i] - rnd_vel[i] / 2.0f , (float)rand() / RAND_MAX * rnd_vel[i] * 2.0f,1.f };
+
+			parparam.vel[i].x = createpos.x+dvel[i].x;
+			parparam.vel[i].y = createpos.y;
+			parparam.vel[i].z = createpos.z;
+			parparam.f[i] = true;
+
+			break;
+		}
+		XMFLOAT3 pos =createpos;
+		
+		// 経過フレーム数をカウント
+		parparam.Frame[i]+=0.1f;
+		// 進行度を0～1の範囲に換算
+		f[i]= 120.f / parparam.Frame[i];
+		// カラーの線形補間
+		parparam.ParColor[i].x = parparam.ParColor[i].x + (1.f - 0.1f) / f[i];
+		parparam.ParColor[i].y = parparam.ParColor[i].y + (0.2f - 1.f) / f[i];
+		parparam.ParColor[i].z = parparam.ParColor[i].z + (0.2f - 1.f) / f[i];
+		parparam.scl[i].x -= 0.006f;
+		parparam.scl[i].y -= 0.006f;
+		parparam.vel[i].y += 0.02f; //360度に広がるようにする
+		parparam.speed[i] += 0.002f; //徐々にスピードを速く
+			parparam.alpha[i] -= 0.008f;// f + (0.2f - 1.f) / f[i];
+		if (parparam.alpha[i] < 0.0f)
+		{
+			parparam.f[i] = false;
+		}
+		
+	}
+	for (int i = 0; i < parparam.size; i++)
+	{
+		parparam.partex[i]->SetPosition(parparam.vel[i]);
+		parparam.partex[i]->SetScale({ parparam.scl[i].x, parparam.scl[i].y, 1.0f });
+		parparam.partex[i]->SetBillboard(TRUE);
+		parparam.partex[i]->SetColor({1.f,1.f,1.f,parparam.alpha[i]});
+		parparam.partex[i]->Update(CameraControl::GetIns()->GetCamera());
+	}
+
 }
 
 void Particle::Bleath()
 {
-	InitNormal(m_particles[BLEATH], createpos);
-	Charge(m_particles[BLEATH]);
+	InitNormal(m_particles[FIRE], createpos);
+	UpadaBleath(m_particles[FIRE]);
 }
 
 void Particle::Upda(float addspeed, float addalpha)
@@ -134,14 +162,14 @@ void Particle::Upda(float addspeed, float addalpha)
 	UpadaNormal_A(m_particles[NORMAL], addspeed, addalpha);
 }
 
-void Particle::Upda_B()
+void Particle::Upda_B(bool loop)
 {
 	if (Input::GetIns()->TriggerButton(Input::Y))
 	{
 		//	m_particles[ParType::NORMAL].phase = INIT;
 	}
 	InitNormal(m_particles[NORMAL], createpos);
-	UpadaNormal_B(m_particles[NORMAL]);
+	UpadaNormal_B(m_particles[NORMAL],loop);
 }
 
 #include"imgui.h"
@@ -152,6 +180,10 @@ void Particle::Draw()
 	for (int i = 0; i < m_particles[NORMAL].size; i++)
 	{
 		m_particles[NORMAL].partex[i]->Draw();
+	}
+	for (int i = 0; i < m_particles[FIRE].size; i++)
+	{
+		m_particles[FIRE].partex[i]->Draw();
 	}
 	Texture::PostDraw();
 }
@@ -179,6 +211,8 @@ void Particle::SetParType(int size, ParParam& parparam, Texture* tex)
 		parparam.speed.resize(size);
 		parparam.partex.resize(size);
 		parparam.f.resize(size);
+		parparam.ParColor.resize(size);
+		parparam.Frame.resize(size);
 		parparam.EndParUpda.resize(size);
 		std::vector<Texture*> l_tex0;
 		l_tex0.resize(size);
@@ -257,7 +291,7 @@ void Particle::UpadaNormal_A(ParParam& parparam, float addspeed, float addalpha)
 }
 
 
-void Particle::UpadaNormal_B(ParParam& parparam)
+void Particle::UpadaNormal_B(ParParam& parparam,bool loop)
 {
 	if (partype == 0)
 	{
@@ -291,7 +325,12 @@ void Particle::UpadaNormal_B(ParParam& parparam)
 			parparam.vel[i].y += 0.1f; // parparam.speed[i] * sin(parparam.angle[i]); //360度に広がるようにする
 			parparam.speed[i] += 0.002f; //徐々にスピードを速く
 			parparam.alpha[i] -= 0.01f;
-
+			if(loop){
+			if (parparam.alpha[i] < 0.0f)
+			{
+				parparam.f[i] = false;
+			}
+				}
 			parparam.partex[i]->SetPosition(parparam.vel[i]);
 			parparam.partex[i]->SetScale({parparam.scl[i].x, parparam.scl[i].y, 1.0f});
 			parparam.partex[i]->SetBillboard(TRUE);

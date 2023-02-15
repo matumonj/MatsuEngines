@@ -65,6 +65,7 @@ void Player::Initialize()
 	runparticle->SetParScl({0.3f, 0.3f});
 	runparticle->SetParColor({1.f, 1.f, 1.f, 1.f});
 
+	
 	//地形判定のコライダーセット
 	SetCollider();
 

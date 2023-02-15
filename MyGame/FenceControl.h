@@ -1,15 +1,7 @@
 #pragma once
 #include "ControlBase.h"
 #include"AreaFence.h"
-#include<fstream>
-#include<string>
-#include<sstream>
-#include<ostream>
-#include <iostream>
-#include"Wood.h"
-#include"Player.h"
 #include"Enemy.h"
-#include"DebugCamera.h"
 #include<memory>
 
 class FenceControl :

@@ -15,7 +15,8 @@ public:
 	void Init(UINT num);
 	void Upda(float addspeed = 0.1f, float addalpha = 0.02f);
 	void Bleath();
-	void Upda_B();
+	void Upda_B(bool loop=false);
+	void Fire();
 	void Draw();
 
 	enum ParticleTexName
@@ -37,11 +38,7 @@ public:
 	void BCreateParticle(bool f, XMFLOAT3 pos)
 	{
 		createpos = pos;
-		if (f && (m_particles[BLEATH].phase == NON || m_particles[
-			BLEATH].phase == END))
-		{
-			m_particles[BLEATH].phase = INIT;
-		}
+	
 	}
 
 private:
@@ -50,7 +47,7 @@ private:
 	enum Type
 	{
 		NORMAL_1,
-		BLEATH
+	FIRE
 	} type;
 
 	enum Phase
@@ -67,6 +64,8 @@ private:
 		std::vector<std::unique_ptr<Texture>> partex;
 		int size = 0;
 		std::vector<XMFLOAT3> vel = {{0.0f, 0.0f, 0.0f}};
+		std::vector<float>Frame;
+		std::vector<XMFLOAT4>ParColor;
 		std::vector<float> angle = {0.0f};
 		std::vector<XMFLOAT2> scl = {{1.0f, 1.0f}};
 		std::vector<float> speed = {0.0f};
@@ -93,7 +92,7 @@ private:
 
 	void InitNormal(ParParam& parparam, XMFLOAT3 pos);
 	void UpadaNormal_A(ParParam& parparam, float addspeed, float addalpha);
-	void UpadaNormal_B(ParParam& parparam);
+	void UpadaNormal_B(ParParam& parparam,bool loop);
 	void UpadaBleath(ParParam& parparam);
 	void Charge(ParParam& parparam);
 

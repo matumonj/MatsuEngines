@@ -8,6 +8,7 @@
 #include"ObjectManager.h"
 #include"Texture.h"
 #include"CollisionPrimitive.h"
+#include "Particle.h"
 class TouchableObject;
 class CollisionManager;
 
@@ -36,7 +37,13 @@ private:
 		PEDESTAL
 	};
 
-	const static int objNum = 5;
+	static const int objNum = 5;
+	static const int TorchSize = 6;
+	std::array<std::unique_ptr<Object3d>,TorchSize>TorchObj;
+	std::array<XMFLOAT3, TorchSize>TorchPos;
+	static constexpr float posY=30.f;
+	static constexpr float TorchPosAngle = 130.f;
+	std::array<std::unique_ptr<Particle>, TorchSize>FireEffect;
 
 	Texture* playerpoint = nullptr;
 	std::vector<std::unique_ptr<Texture>> Enemyicon;
@@ -130,12 +137,15 @@ private:
 	bool nextStageF;
 	void BossFieldSet_PhaseOne();
 	void BossFieldSet_PhaseTwo();
+
 private:
 	bool PedestalDownF;
 	void PedestalMoving();
 public:
 	void NameDraw();
 	const bool& GetPedestalDown() { return PedestalDownF; }
+
+	const XMFLOAT3& GetTorchPos(int index) { return TorchPos[index]; }
 private:
 	XMFLOAT3 FieldPosition;
 };

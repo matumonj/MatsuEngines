@@ -36,7 +36,6 @@ void AttackCollision::GetCol(int damage)
 
 	//プレイヤーのインスタンス取得
 	Player* l_player = PlayerControl::GetIns()->GetPlayer();
-	AttackEffect::GetIns()->GuarEffect(l_player->GetPosition());
 
 	//アニメーションが一定フレーム超えたら(振りかぶった瞬間判定取られるの防ぐ)
 	attackcolJudgTime_First = l_player->GetAttackType() == PlayerControl::GetIns()->GetPlayer()->FIRST &&
@@ -74,11 +73,26 @@ void AttackCollision::GetCol(int damage)
 	case SceneManager::PLAY:
 		OBBParamSet(PLAY);
 		ExplorationCol(damage);
+		if (PlayerControl::GetIns()->GetPlayer()->GetStopFlag() == false) {
+			if (input->TiltPushStick(Input::L_UP, 0.0f) ||
+				input->TiltPushStick(Input::L_DOWN, 0.0f) ||
+				input->TiltPushStick(Input::L_RIGHT, 0.0f) ||
+				input->TiltPushStick(Input::L_LEFT, 0.0f))
+			{
+				CameraControl::GetIns()->SetZoomF(false);
+			}
+		}
 		break;
 
 	case SceneManager::BOSS:
 		OBBParamSet(BOSS);
 		BossCol(damage);
+
+		XMFLOAT3 rot = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetRotation();
+		XMFLOAT3 spos = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->HandRightPos2();
+
+		AttackEffect::GetIns()->SetGuardRot(rot);
+		AttackEffect::GetIns()->GuarEffect(spos);
 		break;
 	default:
 		break;
@@ -140,11 +154,6 @@ void AttackCollision::BossCol(int damage)
 		}
 	}
 
-	XMFLOAT3 rot = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetRotation();
-	XMFLOAT3 spos = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->HandRightPos2();
-
-	AttackEffect::GetIns()->SetGuardRot(rot);
-	AttackEffect::GetIns()->GuarEffect(spos);
 }
 
 void AttackCollision::TutorialCol(int damage)
@@ -197,34 +206,34 @@ void AttackCollision::ExplorationCol(int damage)
 		}
 
 		//雑魚敵
-			if (Collision::CheckOBBCollision(HandObb, EnemyOBB[i]) == true && !Play_colf[i])
-			{
-				CameraControl::GetIns()->SetZoomF(true);
-				CameraControl::GetIns()->SetZoomTarget(EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetPosition());
-				HelpJudg = true;
-				AttackEffect::GetIns()->SetParticle(
-					EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetPosition());
-				EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->RecvDamage(
-					damage );
-				Play_colf[i] = true;
-			}
+		if (Collision::CheckOBBCollision(HandObb, EnemyOBB[i]) == true && !Play_colf[i])
+		{
+			CameraControl::GetIns()->SetZoomF(true);
+			CameraControl::GetIns()->SetZoomTarget(EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetPosition());
+			HelpJudg = true;
+			AttackEffect::GetIns()->SetParticle(
+				EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetPosition());
+			EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->RecvDamage(
+				damage);
+			Play_colf[i] = true;
 		}
-	
+	}
+
 
 	//ガーディアン
-		if (EnemyControl::GetIns()->GetGuardianEnemy() != nullptr)
+	if (EnemyControl::GetIns()->GetGuardianEnemy() != nullptr)
+	{
+		XMFLOAT3 epos = EnemyControl::GetIns()->GetGuardianEnemy()->GetPosition();
+		if (Collision::CheckOBBCollision(HandObb, GuardianEnemyOBB) == true && !HitCol)
 		{
-			XMFLOAT3 epos = EnemyControl::GetIns()->GetGuardianEnemy()->GetPosition();
-			if (Collision::CheckOBBCollision(HandObb, GuardianEnemyOBB) == true && !HitCol)
-			{
-				AttackEffect::GetIns()->SetParticle({ epos.x, epos.y - 10.f, epos.z });
-				EnemyControl::GetIns()->GetGuardianEnemy()->RecvDamage(
-					damage );
-				HitCol = true;
-			}
+			AttackEffect::GetIns()->SetParticle({ epos.x, epos.y - 10.f, epos.z });
+			EnemyControl::GetIns()->GetGuardianEnemy()->RecvDamage(
+				damage);
+			HitCol = true;
 		}
+	}
+	
 }
-
 void AttackCollision::OBBParamSet(ColType Enemytype)
 {
 	switch (Enemytype)

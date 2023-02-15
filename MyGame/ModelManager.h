@@ -50,7 +50,8 @@ public:
 		CELESTIALSPHERES,
 		SHIELD,
 		SWITCH,
-		CAGE
+		CAGE,
+		TORCH
 	};
 
 	enum FBXName

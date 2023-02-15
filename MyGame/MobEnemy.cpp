@@ -7,6 +7,7 @@
 #include"Collision.h"
 #include"PlayerControl.h"
 #include "CameraControl.h"
+#include "Field.h"
 #include"PlayerAttackState.h"
 #include"ImageManager.h"
 #include "SceneManager.h"
@@ -56,6 +57,7 @@ void MobEnemy::HPFrameInit()
 		HPFrame[i]->SetAnchorPoint({0.0f, 0.0f});
 	}
 	FrameScl.x = Percent::GetParcent(static_cast<float>(MaxHP), static_cast<float>(EnemyHP)) * 2.0f;
+
 
 	HelpIconInit();
 }
@@ -309,6 +311,10 @@ void MobEnemy::FbxAnimationControl()
 	if (DeathFlag)
 	{
 		return;
+	}
+	if (Field::GetIns()->GetPedestalDown())
+	{
+		ReturnCreatePos = true;
 	}
 	//アニメーションスピード
 	float fbxanimationTime;

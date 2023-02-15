@@ -62,6 +62,7 @@ public:
 		return m_fbxObject->ExtractRotationMat(m_fbxObject->GetMatRot());
 	}
 
+	Particle* fire;
 	//‘Ì—Í
 	constexpr int& GetHP() { return HP; }
 	//‘Ì—ÍÅ‘å’l

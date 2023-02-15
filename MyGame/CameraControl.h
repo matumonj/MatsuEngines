@@ -181,7 +181,7 @@ private:
 	float CameraPosMovingEaseT;
 	bool ZoomF;
 	XMFLOAT3 ZoomTarget;
-
+	XMFLOAT3 CameraTarget;
 public:
 	void SetZoomF(bool f) { ZoomF = f; }
 	void SetZoomTarget(XMFLOAT3 pos) { ZoomTarget = pos; }

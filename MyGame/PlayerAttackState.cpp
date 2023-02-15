@@ -145,9 +145,11 @@ void PlayerAttackState::HitStop()
 		{
 			CameraControl::GetIns()->ShakeCamera();
 		}
+		CameraControl::GetIns()->SetZoomF(true);
 	}
 	else
 	{
+		
 		HitStopCount = 0;
 	}
 }

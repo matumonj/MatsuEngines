@@ -151,6 +151,21 @@ void Field::Init_Boss()
 	BossName->SetAnchorPoint({0.5f, 0.5f});
 	BossName->SetPosition({WinApp::window_width / 2, WinApp::window_height / 2});
 	BossName->SetSize({800, 800});
+
+	//松明用
+	for (int i = 0; i < TorchObj.size(); i++)
+	{
+		TorchObj[i].reset(new Object3d());
+		TorchObj[i]->Initialize(camera);
+		TorchObj[i]->SetModel(ModelManager::GetIns()->GetModel(ModelManager::TORCH));
+		TorchObj[i]->SetScale({ 2.f,2.f,2.f });
+
+		FireEffect[i].reset(new Particle());
+		FireEffect[i]->Init(Particle::ParticleTexName::SMOKE);
+		FireEffect[i]->SetParScl({0.3f, 0.3f});
+		FireEffect[i]->SetParColor({1.f, 1.f, 1.f, 1.f});
+
+	}
 }
 
 
@@ -255,7 +270,8 @@ void Field::Update_Play()
 	FieldObject->Update(camera);
 
 	m_object[BOSSBACK]->SetRotation({0.f, 180.f, 0.f});
-	SetFieldUpdate(BOSSBACK, camera, {22.f - 50.f, -70.f, 1010.f - 500.f}, {0.6f, 0.6f, 0.6f}, FALSE, true);
+	BossFieldPos = { 60.f, -46.f, 520.f };
+	SetFieldUpdate(BOSSBACK, camera, BossFieldPos, {0.6f, 0.6f, 0.6f}, FALSE, true);
 
 	FootSwitch::GetIns()->Upda();
 
@@ -493,6 +509,20 @@ void Field::Update_Boss()
 		SkyBack[i]->Update(camera);
 	}
 
+	//松明
+	for (int i = 0; i < TorchObj.size(); i++)
+	{
+		TorchPos[i] = { sinf(static_cast<float>(i) * (360.f / static_cast<float>(TorchSize)) * (PI / 180.0f)) * TorchPosAngle ,
+			posY,
+			  cosf(static_cast<float>(i) * (360.f / static_cast<float>(TorchSize)) * (PI / 180.0f)) * TorchPosAngle
+		};
+		TorchObj[i]->SetPosition(TorchPos[i]);
+		TorchObj[i]->Update(camera);
+
+
+		FireEffect[i]->BCreateParticle(true, TorchPos[i]);
+		FireEffect[i]->Bleath();
+	}
 	//クリアシーンへのワープテクスチャの基礎パラメータ
 	constexpr XMFLOAT3 l_ClearAreaTexPos = {0.f, 17.f, 75.f};
 	constexpr XMFLOAT3 l_ClearAreaTexRot = {90.f, 0.f, 0.f};
@@ -504,6 +534,7 @@ void Field::Update_Boss()
 	cleartex->SetBillboard(false);
 	cleartex->SetColor({1.f, 1.f, 1.f, 1.f});
 	cleartex->Update(camera);
+
 
 	BossMap::GetIns()->Upda();
 }
@@ -583,21 +614,37 @@ void Field::Draw()
 		if (!nextStageF)
 		{
 			ModelDraw_nullCheck(BOSSBACK);
+			Object3d::PreDraw();
+			for(int i=0;i<TorchObj.size();i++)
+			{
+				if (TorchObj[i] == nullptr)continue;
+				TorchObj[i]->Draw();
+			}
+			Object3d::PostDraw();
+			for (int i = 0; i < TorchObj.size(); i++)
+			{
+				if (FireEffect[i] == nullptr)continue;
+				FireEffect[i]->Draw();
+			}
 		}
 	}
 	if (SceneManager::GetIns()->GetScene() == SceneManager::PLAY)
 	{
+
 		ModelDraw_nullCheck(PEDESTAL);
 		ModelDraw_nullCheck(BOSSBACK);
 
 		FootSwitch::GetIns()->Draw();
+
 	}
 	Object3d::PostDraw();
 
 	BossMap::GetIns()->Draw();
 
-	ImGui::Begin("cel");
-	ImGui::SliderFloat("scl", &celestalscl, 10, 40);
+	ImGui::Begin("cel");/*
+	ImGui::SliderFloat("posx", &bacff.x, -60, 60);
+	ImGui::SliderFloat("posy", &bacff.y, -90, 29);
+	ImGui::SliderFloat("posz", &bacff.z, 480, 580);*/
 	ImGui::End();
 }
 

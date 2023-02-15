@@ -175,6 +175,7 @@ void EnemyControl::Init_Play()
 		}
 		enemys[PLAYSCENE][i]->Initialize();
 		enemys[PLAYSCENE][i]->SetPosition(pos[i]);
+		enemys[PLAYSCENE][i]->SetCreatePos(pos[i]);
 		enemys[PLAYSCENE][i]->SetScale(scl[i]);
 		enemys[PLAYSCENE][i]->SetRespawnPos(pos[i]);
 		enemys[PLAYSCENE][i]->SetRespawnCountMax(rescount[i]);
@@ -234,7 +235,7 @@ void EnemyControl::Update_Play()
 		}
 		if (enemys[PLAYSCENE][i]->getdeath() == false)
 		{
-			if (Collision::GetLength(pPos, enemys[PLAYSCENE][i]->GetPosition()) < 100)
+			if (Collision::GetLength(pPos, enemys[PLAYSCENE][i]->GetPosition()) < 150)
 			{
 				enemys[PLAYSCENE][i]->SetMoveFlag(true);
 				enemys[PLAYSCENE][i]->Update();

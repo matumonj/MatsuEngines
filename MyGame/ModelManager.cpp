@@ -44,6 +44,7 @@ void ModelManager::Initialize()
 	LoadModel(SHIELD, "Shield");
 	LoadModel(SWITCH, "FootSwitch");
 	LoadModel(CAGE, "Cage");
+	LoadModel(TORCH, "Torch");
 }
 
 void ModelManager::LoadModel(const ModelName modelName, std::string fileName)

@@ -38,7 +38,7 @@ struct DirLight
 };
 
 // 点光源の数
-static const int POINTLIGHT_NUM = 4;
+static const int POINTLIGHT_NUM = 13;
 
 struct PointLight
 {
@@ -49,7 +49,7 @@ struct PointLight
 };
 
 // スポットライトの数
-static const int SPOTLIGHT_NUM = 3;
+static const int SPOTLIGHT_NUM =13;
 
 struct SpotLight
 {
