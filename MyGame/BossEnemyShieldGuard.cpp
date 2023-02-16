@@ -61,7 +61,6 @@ void BossEnemyShieldGuard::Update(Enemy* enemy)
 	{
 		knockpower = 4.f;
 		enemy->SetGuardPointAdd();
-		PlayerAttackState::GetIns()->SetHitStopJudg(true, 30);
 		enemy->SetRecvDamage2(false);
 	}
 

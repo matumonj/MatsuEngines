@@ -76,5 +76,6 @@ public:
 	AttackSkill GetNowSkill() { return Skill; }
 	void SetHitStopJudg(bool f, int time = 90);
 	bool GetHitStopJudg() { return HitStopJudg; }
+	int GetHitStopTime() { return HitStopCount; }
 	void HitStop();
 };

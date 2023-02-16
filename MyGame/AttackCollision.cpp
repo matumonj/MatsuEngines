@@ -7,6 +7,7 @@
 #include"AttackEffect.h"
 #include "CameraControl.h"
 #include "HalfAttack.h"
+#include "PlayerAttackState.h"
 #include "UltAttack.h"
 
 AttackCollision* AttackCollision::GetIns()
@@ -29,13 +30,13 @@ void AttackCollision::Finalize()
 
 void AttackCollision::GetCol(int damage)
 {
-	//剣のOBBパラメータ
+	
+	//プレイヤーのインスタンス取得
+	Player* l_player = PlayerControl::GetIns()->GetPlayer();
+		//剣のOBBパラメータ
 	HandObb.SetOBBParam_Pos(PlayerControl::GetIns()->GetPlayer()->GetHanMat());
 	HandObb.SetOBBParam_Rot(SelectSword::GetIns()->GetSword()->GetMatrot());
 	HandObb.SetOBBParam_Scl(SelectSword::GetIns()->GetSword()->GetSwordObbScl());
-
-	//プレイヤーのインスタンス取得
-	Player* l_player = PlayerControl::GetIns()->GetPlayer();
 
 	//アニメーションが一定フレーム超えたら(振りかぶった瞬間判定取られるの防ぐ)
 	attackcolJudgTime_First = l_player->GetAttackType() == PlayerControl::GetIns()->GetPlayer()->FIRST &&
@@ -88,11 +89,6 @@ void AttackCollision::GetCol(int damage)
 		OBBParamSet(BOSS);
 		BossCol(damage);
 
-		XMFLOAT3 rot = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetRotation();
-		XMFLOAT3 spos = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->HandRightPos2();
-
-		AttackEffect::GetIns()->SetGuardRot(rot);
-		AttackEffect::GetIns()->GuarEffect(spos);
 		break;
 	default:
 		break;
@@ -122,6 +118,7 @@ void AttackCollision::BossCol(int damage)
 	//当たり判定部分
 	if (Collision::CheckOBBCollision(HandObb, BossEnemyOBB[0]) == true && !HitCol)
 	{
+		PlayerAttackState::GetIns()->SetHitStopJudg(true, 20);
 		//ガード中はダメージ受けない
 		if (EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetGuardAction())
 		{
@@ -131,6 +128,7 @@ void AttackCollision::BossCol(int damage)
 		//通常の被ダメージ処理
 		else
 		{
+			PlayerAttackState::GetIns()->SetHitStopJudg(true, 30);
 			AttackEffect::GetIns()->SetParticle(
 				EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition());
 			EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->RecvDamage(damage);
@@ -148,6 +146,7 @@ void AttackCollision::BossCol(int damage)
 		}
 		if (Collision::CheckOBBCollision(HandObb, SummonEnemyOBB[i]) == true && !attackCol[i])
 		{
+			PlayerAttackState::GetIns()->SetHitStopJudg(true, 30);
 			HalfAttack::GetIns()->GetSummonEnemy(i)->RecvDamage(damage);
 
 			attackCol[i] = true;
@@ -171,6 +170,7 @@ void AttackCollision::TutorialCol(int damage)
 	//判定部分
 	if (Collision::CheckOBBCollision(HandObb, EnemyOBB[0]) == true && !HitCol)
 	{
+		PlayerAttackState::GetIns()->SetHitStopJudg(true, 40);
 		AttackEffect::GetIns()->SetParticle(
 			EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition());
 		EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL)[0]->RecvDamage(damage);
@@ -211,6 +211,7 @@ void AttackCollision::ExplorationCol(int damage)
 			//CameraControl::GetIns()->SetZoomF(true);
 			//CameraControl::GetIns()->SetZoomTarget(EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetPosition());
 			HelpJudg = true;
+			PlayerAttackState::GetIns()->SetHitStopJudg(true, 40);
 			AttackEffect::GetIns()->SetParticle(
 				EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetPosition());
 			EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->RecvDamage(
@@ -226,6 +227,7 @@ void AttackCollision::ExplorationCol(int damage)
 		XMFLOAT3 epos = EnemyControl::GetIns()->GetGuardianEnemy()->GetPosition();
 		if (Collision::CheckOBBCollision(HandObb, GuardianEnemyOBB) == true && !HitCol)
 		{
+			PlayerAttackState::GetIns()->SetHitStopJudg(true, 30);
 			AttackEffect::GetIns()->SetParticle({ epos.x, epos.y - 10.f, epos.z });
 			EnemyControl::GetIns()->GetGuardianEnemy()->RecvDamage(
 				damage);

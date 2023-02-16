@@ -204,7 +204,7 @@ bool Task::ClearTaskONE()
 
 bool Task::ClearTaskTwo()
 {
-	if (tasks == TASK_THREE)
+	if (Judg[TASK_TWO])
 	{
 		return true;
 	}

@@ -290,7 +290,7 @@ void MobEnemy::Death()
 		}
 		if (f_time <= DeathTime + 1.5f)
 		{
-			PlayerAttackState::GetIns()->SetHitStopJudg(true);
+			PlayerAttackState::GetIns()->SetHitStopJudg(true,50);
 		}
 
 		f_time += 0.01f;

@@ -39,16 +39,8 @@ Player::AnimeState Player::AnimationSetParam(AttackMotion motion, double speed, 
 	//アニメーション速度やループするかをセット
 	state.AnimeLoop = loop;
 	state.AnimeMotion = motion;
+	state.AnimationSpeed = speed;
 
-	//ヒットストップのときはスロー
-	if (PlayerAttackState::GetIns()->GetHitStopJudg()==true)
-	{
-		state.AnimationSpeed = 0.3;
-	}
-	else
-	{
-		state.AnimationSpeed = speed;
-	}
 
 	return state;
 }
@@ -401,10 +393,21 @@ void Player::AnimationContol(AnimeState state)
 {
 	if (m_Number != state.AnimeMotion)
 	{
-		m_AnimeSpeed = state.AnimationSpeed;
+		
+		//m_AnimeSpeed = state.AnimationSpeed;
 		m_AnimeLoop = state.AnimeLoop;
 		m_Number = state.AnimeMotion;
 		m_fbxObject->PlayAnimation(m_Number);
+	}
+	//ヒットストップのときはスロー
+	if (PlayerAttackState::GetIns()->GetHitStopJudg())
+	{
+		m_AnimeSpeed = 0.3;
+	} else
+	{
+		//OldAnimeSpeed = m_AnimeSpeed;
+		m_AnimeSpeed =state.AnimationSpeed;
+
 	}
 }
 

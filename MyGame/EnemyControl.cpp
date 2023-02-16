@@ -275,8 +275,6 @@ void EnemyControl::Update_Play()
 				{
 					DropWeapon::GtIns()->Drop(DropWeapon::SWORD, enemys[PLAYSCENE][i]->GetPosition());
 				}
-				if (Task::GetIns()->ClearTaskTwo() == true)
-				{
 					if (Task::GetIns()->GetMiniGolemDesthCount(2))
 					{
 						ChestControl::GetIns()->SetChestAppearance(ChestControl::GREEN, {
@@ -289,7 +287,7 @@ void EnemyControl::Update_Play()
 				}
 			}
 			//Destroy_unique(enemys[PLAYSCENE][i]);
-		}
+		
 		if (Guardian != nullptr && Guardian->GetisAlive() == FALSE && Guardian->GetHP() <= 0)
 		{
 			ChestControl::GetIns()->SetChestAppearance(ChestControl::YELLOW, {

@@ -44,6 +44,7 @@ public:
 	float GetVignetteAlpha() { return vignette; }
 private:
 	float dalpha;
+	int f;
 	void Init_Tutorial() override;
 
 	void Init_Play() override;

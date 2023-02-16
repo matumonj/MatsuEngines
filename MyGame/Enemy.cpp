@@ -94,8 +94,8 @@ void Enemy::HelpAction()
 void Enemy::RecvDamage(int Damage)
 {
 	//HelpJudg = true;
+
 	//被ダメージ時の行動
-	//PlayerAttackState::GetIns()->SetHitStopJudg(true, 80);
 	//例外処理
 	if (this == nullptr || EnemyHP < 0)
 	{
@@ -114,7 +114,7 @@ void Enemy::RecvDamage(int Damage)
 	}
 
 	RecvDamagef = true;
-
+	
 	/*ダメージテクスチャの表示*/
 	{
 		DamageSize = Damage;

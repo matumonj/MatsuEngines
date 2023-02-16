@@ -40,7 +40,7 @@ void PlayerAttackState::Update()
 		return;
 	}
 	ComboAction();
-	HitStop();
+//	HitStop();
 	Player* l_player = PlayerControl::GetIns()->GetPlayer();
 
 	int DefaultDamage;

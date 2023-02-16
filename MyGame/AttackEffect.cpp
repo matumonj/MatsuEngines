@@ -203,9 +203,9 @@ void AttackEffect::GuarEffect(XMFLOAT3 pos)
 		break;
 
 	case LARGE:
-		GuardSize[0].x += 0.07f;
-		GuardSize[0].y += 0.07f;
-		GuardAlpha[0] -= 0.01f;
+		GuardSize[0].x += 0.09f;
+		GuardSize[0].y += 0.09f;
+		GuardAlpha[0] -= 0.02f;
 
 		if (GuardSize[0].x > 1.0f)
 		{

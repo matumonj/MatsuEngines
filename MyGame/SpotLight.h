@@ -111,15 +111,15 @@ public: // メンバ関数
 
 private: // メンバ変数
 	// ライト方向（単位ベクトル）
-	XMVECTOR lightdir = {1, 0, 0, 0};
+	XMVECTOR lightdir = {0, -1, 0, 0};
 	// ライト座標（ワールド座標系）
 	XMFLOAT3 lightpos = {0, 0, 0};
 	// ライト色
 	XMFLOAT3 lightcolor = {1, 1, 1};
 	// ライト距離減衰係数
-	XMFLOAT3 lightAtten = {1.0f, 1.0f, 1.0f};
+	XMFLOAT3 lightAtten = {0.0f, 0.0f, 0.0f};
 	// ライト減衰角度
 	XMFLOAT2 lightFactorAngleCos = {0.2f, 0.5f};
 	// 有効フラグ
-	bool active = false;
+	bool active =false;
 };

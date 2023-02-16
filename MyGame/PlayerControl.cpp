@@ -3,6 +3,8 @@
 #include"TutorialSprite.h"
 #include"PlayerAttackState.h"
 #include"AttackCollision.h"
+#include "AttackEffect.h"
+#include "EnemyControl.h"
 
 PlayerControl* PlayerControl::GetIns()
 {
@@ -116,8 +118,14 @@ void PlayerControl::Update_Play() //プレイシーン時
 void PlayerControl::Update_Boss()
 {
 	PlayerAttackState::GetIns()->Update();
-	player->Update();
 
+	XMFLOAT3 rot = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetRotation();
+	XMFLOAT3 spos = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->HandRightPos2();
+
+	AttackEffect::GetIns()->SetGuardRot(rot);
+	AttackEffect::GetIns()->GuarEffect(spos);
+	player->Update();
+	PlayerAttackState::GetIns()->HitStop();
 	DamageTexUpdate();
 }
 
@@ -164,13 +172,7 @@ void PlayerControl::Draw_Play()
 		return;
 	}
 	player->Draw();
-	ImGui::Begin("pos,,");
-
-	ImGui::SetWindowPos(ImVec2(0, 500));
-	ImGui::SetWindowSize(ImVec2(300, 300));
-	ImGui::Text("%f", player->GetPosition().x);
-	ImGui::Text("%f", player->GetPosition().z);
-	ImGui::End();
+	
 }
 
 void PlayerControl::Draw_Tutorial()
@@ -191,6 +193,20 @@ void PlayerControl::Draw_Tutorial()
 
 void PlayerControl::Draw_Boss()
 {
+	if (PlayerAttackState::GetIns()->GetHitStopJudg())
+	{
+		f = 1;
+	} else
+	{
+		f = 0;
+	}
+	ImGui::Begin("pos,,");
+
+	ImGui::SetWindowPos(ImVec2(0, 500));
+	ImGui::SetWindowSize(ImVec2(300, 300));
+	ImGui::Text("hit %d", f);
+	ImGui::Text("%f", player->GetPosition().z);
+	ImGui::End();
 	if (player == nullptr)
 	{
 		return;

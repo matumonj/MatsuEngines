@@ -56,8 +56,7 @@ void BossEnemyFalter::Update(Enemy* enemy)
 {
 	enemy->SetRecvDamage2(false);
 	enemy->SetAnimation(BossEnemy::NowAttackMotion::FALTER, false, 0.4);
-
-	PlayerAttackState::GetIns()->SetHitStopJudg(true, 120);
+	
 	if (enemy->GetAnimationTime() >= enemy->GetFbxTimeEnd() - 0.1f)
 	{
 		enemy->ChangeState_Boss(new BossEnemyEvasion());
