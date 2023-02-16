@@ -136,7 +136,7 @@ void GuardianEnemy::Death()
 {
 	isAlive = FALSE;
 	alpha -= 0.02f;
-
+	Task::GetIns()->SetGuardianDeathCount(1);
 	SetColors({0.2f, 0.2f, 0.2f, alpha});
 }
 

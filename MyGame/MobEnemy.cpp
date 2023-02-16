@@ -281,18 +281,20 @@ void MobEnemy::Death()
 			f_time = DeathTime;
 		}
 	}
-	//最終フレーム超えたら透明に
-	if (f_time >= m_fbxObject->GetEndTime())
+	else
 	{
-		alpha -= 0.02f;
-	}
-	if (f_time <= DeathTime + 1.5f)
-	{
-		PlayerAttackState::GetIns()->SetHitStopJudg(true);
-	}
+		//最終フレーム超えたら透明に
+		if (f_time >= m_fbxObject->GetEndTime())
+		{
+			alpha -= 0.02f;
+		}
+		if (f_time <= DeathTime + 1.5f)
+		{
+			PlayerAttackState::GetIns()->SetHitStopJudg(true);
+		}
 
-	f_time += 0.01f;
-
+		f_time += 0.01f;
+	}
 	//	PlayerAttackState::GetIns()->SetHitStopJudg(TRUE);
 
 	movestop = false;

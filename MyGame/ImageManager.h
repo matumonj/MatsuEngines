@@ -20,7 +20,7 @@ public:
 		MOVEANNOUNCE,
 		CONFIGANNOUNCE,
 		ATTACKANNOUNCE,
-		CHESTANNOUNCE,
+		CHESTA,
 		ENDANNOUNCE,
 		//ネームプレート
 		BOSSNAME,
@@ -79,7 +79,7 @@ public:
 		GAMECLEAR_R = 33,
 
 		HELPICON=34,
-
+		CHESTANNOUNCE = 80,
 		CLEARBACK,
 		GETCHEST,
 		NOGETCHEST,
@@ -90,7 +90,8 @@ public:
 		TASK3,
 		TASK4,
 		OPENTASK,
-		CLOSETASK
+		CLOSETASK,
+		
 		/*
 	Texture::LoadTexture(18, L"Resources/2d/icon/nav1.png");
 	Texture::LoadTexture(19, L"Resources/2d/icon/nav2.png");

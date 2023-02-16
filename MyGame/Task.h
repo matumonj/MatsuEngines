@@ -24,6 +24,11 @@ private:
 	//タスク
 	std::array<std::unique_ptr<Sprite>,TaskNum> TaskFrame;
 	std::array<std::unique_ptr<Sprite>, TaskNum> TasksSprite;
+	//クリアしたタスクの打ち消し線
+	std::array<std::unique_ptr<Sprite>, TaskNum> ClearTaskLine;
+	std::array<XMFLOAT2, TaskNum> ClearTaskLineScl;
+	std::array<float, TaskNum> ClearTaskLineEaseC;
+
 	//宝箱の回収率用のフレームとうち側てくちゃ
 	std::array<std::unique_ptr<Sprite>,ChestNavNum> navChestSprite;
 	std::array<float, ChestNavNum> navSpriteAlpha;
@@ -90,6 +95,7 @@ public:
 		return false;
 	}
 
+	void SetGuardianDeathCount(int count) { GuardianDeathCount = count; }
 	bool TaskFourClear(Tasks task) { return Judg[task]; }
 	
 	void GuardianRset();
@@ -98,7 +104,8 @@ private:
 	int GolemDestCount;
 	//ミニゴーレム足した数
 	int MiniGolemDestCount;
-	
+
+	int GuardianDeathCount;
 	void TaskClear(const Tasks& task, const Tasks& nexttask, bool clearjudg, int chestcunt);
 
 	void NavTaskSequence();

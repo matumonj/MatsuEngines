@@ -15,6 +15,7 @@
 #include "ImageManager.h"
 #include "UI.h"
 
+#include"mHelper.h"
 Task* Task::GetIns()
 {
 	static Task ins;
@@ -28,6 +29,8 @@ void Task::Init()
 	for(auto i=0;i<TaskNum;i++)
 	{
 		TaskFrame[i].reset(Sprite::Create(ImageManager::GetIns()->TASKFRAME, { 0, 0 }));
+		ClearTaskLine[i].reset(Sprite::Create(ImageManager::CHESTANNOUNCE, { 0, 0 }));
+			
 	}
 	TasksSprite[TASK_ONE].reset(Sprite::Create(ImageManager::TASK1, {0, 0}));
 	TasksSprite[TASK_TWO].reset(Sprite::Create(ImageManager::TASK3, {0, 0}));
@@ -44,13 +47,14 @@ void Task::Init()
 		
 		TaskScl = {350.0f, 240.0f};
 
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < TaskNum; i++)
 		{
 			TaskFrame[i]->SetAnchorPoint({0.5f, 0.5f});
 			FramePos = { 710.0f, 875.0f };
 			FrameScl = { 900.0f, 113.0f };
-			
 			TasksSprite[i]->SetAnchorPoint({0.5, 0.5});
+
+			ClearTaskLine[i]->SetAnchorPoint({ 0.5f,0.5f });
 		}
 		
 	}
@@ -98,9 +102,21 @@ void Task::Upda()
 {
 	//宝箱出現位置
 	Judg[TASK_ONE] = GolemDestCount > 1;
-	Judg[TASK_THREE] = MiniGolemDestCount > 1;
-	Judg[TASK_FOUR] = Field::GetIns()->GetPedestalPos().y < -50.0f;
-	
+	Judg[TASK_TWO] = MiniGolemDestCount > 1;
+	Judg[TASK_THREE] = FootSwitch::GetIns()->GetClearSwicthsQuantity()>3;
+	Judg[TASK_FOUR] = GuardianDeathCount >0;
+
+	for(auto i=0;i<TaskNum;i++)
+	{
+		if(Judg[i])
+		{
+			ClearTaskLineEaseC[i] += 0.04f;
+
+			ClearTaskLineScl[i].y = TaskScl.y;
+			ClearTaskLineScl[i].x = Easing::EaseOut(ClearTaskLineEaseC[i], 0.f, TaskScl.x);
+			ClearTaskLineEaseC[i] = std::clamp(ClearTaskLineEaseC[i], 0.f, 1.f);
+		}
+	}
 	//[宝箱回収]スプライト
 	for (int i = 0; i < 2; i++)
 	{
@@ -130,6 +146,10 @@ void Task::Upda()
 		TasksSprite[i]->SetPosition(TaskPos[i]);
 		TasksSprite[i]->SetSize(TaskScl);
 		TasksSprite[i]->setcolor({1.f, 1.f, 1.f, TaskSpriteAlpha[i]});
+
+		ClearTaskLine[i]->SetPosition(TaskPos[i]);
+		ClearTaskLine[i]->SetSize(ClearTaskLineScl[i]);
+		ClearTaskLine[i]->setcolor({ 1.f,1.f,1.f,TaskSpriteAlpha[i]});
 	}
 
 	//宝箱が五個集まったら
@@ -145,7 +165,7 @@ void Task::Upda()
 		<< FootSwitch::GetIns()->GetClearSwicthsQuantity();
 
 	taskstr[TASK_FOUR] << std::fixed << std::setprecision(0)
-		<< 1;// EnemyControl::GetIns()->GetGuardianEnemy()->getdeath();
+		<< GuardianDeathCount;// EnemyControl::GetIns()->GetGuardianEnemy()->getdeath();
 	
 	//後で関数化スべき
 		const std::string amount_Golem = "/2";
@@ -220,6 +240,7 @@ void Task::Draw()
 		{
 			TaskFrame[i]->Draw();
 			TasksSprite[i]->Draw();
+			ClearTaskLine[i]->Draw();
 		}
 		navChestSprite[0]->Draw();
 		navChestSprite[1]->Draw();
@@ -294,7 +315,6 @@ void Task::NavTaskSequence()
 	}
 }
 
-#include"mHelper.h"
 void Task::OpenTasks()
 {
 

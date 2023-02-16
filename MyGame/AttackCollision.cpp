@@ -208,8 +208,8 @@ void AttackCollision::ExplorationCol(int damage)
 		//ŽG‹›“G
 		if (Collision::CheckOBBCollision(HandObb, EnemyOBB[i]) == true && !Play_colf[i])
 		{
-			CameraControl::GetIns()->SetZoomF(true);
-			CameraControl::GetIns()->SetZoomTarget(EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetPosition());
+			//CameraControl::GetIns()->SetZoomF(true);
+			//CameraControl::GetIns()->SetZoomTarget(EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetPosition());
 			HelpJudg = true;
 			AttackEffect::GetIns()->SetParticle(
 				EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetPosition());

@@ -37,14 +37,17 @@ Player::AnimeState Player::AnimationSetParam(AttackMotion motion, double speed, 
 	AnimeState state;
 
 	//アニメーション速度やループするかをセット
-	state.AnimationSpeed = speed;
 	state.AnimeLoop = loop;
 	state.AnimeMotion = motion;
 
 	//ヒットストップのときはスロー
-	if (PlayerAttackState::GetIns()->GetHitStopJudg())
+	if (PlayerAttackState::GetIns()->GetHitStopJudg()==true)
 	{
 		state.AnimationSpeed = 0.3;
+	}
+	else
+	{
+		state.AnimationSpeed = speed;
 	}
 
 	return state;
@@ -330,6 +333,7 @@ void Player::Update()
 	ParameterSet_Obj();
 	ParameterSet_Fbx3();
 
+	
 	//持つ武器の更新
 	SelectSword::GetIns()->Update();
 	//攻撃エフェクト

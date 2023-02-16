@@ -59,6 +59,7 @@ void ImageManager::Init()
 	LoadSprite(TASK4, L"Resources/2d/PlayTask/Task4.png");
 	LoadSprite(OPENTASK, L"Resources/2d/PlayTask/taskmenuopen.png");
 	LoadSprite(CLOSETASK, L"Resources/2d/PlayTask/taskmenuclose.png");
+	LoadSprite(CHESTANNOUNCE, L"Resources/2d/PlayTask/getchest.png");
 
 }
 

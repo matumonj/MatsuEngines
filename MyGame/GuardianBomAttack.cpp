@@ -47,7 +47,6 @@ void GuardianBomAttack::TexSet()
 	TexScl = {0.0f, 0.f};
 
 	Texture::LoadTexture(66, L"Resources/2d/BossAttackEffect/missileeffect.png");
-
 	XMFLOAT3 Gpos = {-300.0f, -32, 270};
 	for (int i = 0; i < ArmObjNum; i++)
 	{
@@ -62,11 +61,7 @@ void GuardianBomAttack::TexSet()
 		ArmEffect[i]->SetParColor({1.f, 1.f, 1.f, 1.f});
 
 		DTexAngle[i] = static_cast<float>(i) * (360.f / static_cast<float>(ArmObjNum));
-		//ˆÊ’u‚Ì‰Šú‰»
-		DtexPos[i].x = Gpos.x + sinf(DTexAngle[i] * (PI / 180.0f)) * 20.0f;
-		DtexPos[i].z = Gpos.z + cosf(DTexAngle[i] * (PI / 180.0f)) * 20.0f;
-		DtexPos[i].y = -31.f;
-
+	
 		DtexAlpha[i] = 0.0f;
 
 		ArmPos[i] = {DtexPos[i].x, 0.f, DtexPos[i].z};
@@ -92,6 +87,8 @@ void GuardianBomAttack::Upda()
 {
 	XMFLOAT3 epos = EnemyControl::GetIns()->GetGuardianEnemy()->GetPosition();
 	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
+	//ˆÊ’u‚Ì‰Šú‰»
+	XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 
 	switch (phase)
 	{
@@ -99,6 +96,10 @@ void GuardianBomAttack::Upda()
 		TexScl = {0.f, 0.f};
 		TexAlpha = 0.0f;
 		ColorT = 0.0f;
+		for (int i = 0; i < ArmObjNum; i++)
+		{
+			
+		}
 		break;
 
 	case AREASET:
@@ -183,6 +184,12 @@ void GuardianBomAttack::ArmShot()
 
 		if (ArmShotF[i] == false)
 		{
+			DtexPos[i].x = ppos.x;
+			DtexPos[i].z = ppos.z;
+			DtexPos[i].y = -31.f;
+
+			ArmPos[i] = { DtexPos[i].x, 0.f, DtexPos[i].z };
+
 			ArmRot[i] = {
 				90.f, 90.f, 0.f
 			};

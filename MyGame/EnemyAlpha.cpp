@@ -10,6 +10,7 @@
 #include"imgui.h"
 #include"ExpPointSystem.h"
 #include"Collision.h"
+#include "Field.h"
 #include "ImageManager.h"
 #include"PlayerControl.h"
 #include"SceneManager.h"
@@ -120,6 +121,10 @@ void EnemyAlpha::Update()
 			PlayerControl::GetIns()->GetPlayer()->RecvDamage(10);
 		}
 		//}
+	}
+	if (Field::GetIns()->GetPedestalDown())
+	{
+		ReturnCreatePos = true;
 	}
 	FbxAnimationControl();
 	AttackCoolTime();

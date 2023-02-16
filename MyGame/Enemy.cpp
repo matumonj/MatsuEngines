@@ -10,6 +10,7 @@
 #include "ImageManager.h"
 #include "SceneManager.h"
 #include"CameraControl.h"
+#include "SelectSword.h"
 using namespace DirectX;
 
 Enemy::Enemy()
@@ -94,6 +95,7 @@ void Enemy::RecvDamage(int Damage)
 {
 	//HelpJudg = true;
 	//被ダメージ時の行動
+	//PlayerAttackState::GetIns()->SetHitStopJudg(true, 80);
 	//例外処理
 	if (this == nullptr || EnemyHP < 0)
 	{

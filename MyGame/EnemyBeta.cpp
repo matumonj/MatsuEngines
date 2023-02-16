@@ -8,6 +8,7 @@
 #include"imgui.h"
 #include"ExpPointSystem.h"
 #include"Collision.h"
+#include "Field.h"
 #include "ImageManager.h"
 #include"PlayerControl.h"
 #include"SceneManager.h"
@@ -156,6 +157,10 @@ void EnemyBeta::Update()
 		{
 			animeState = WALK;
 		}
+	}
+	if (Field::GetIns()->GetPedestalDown())
+	{
+		ReturnCreatePos = true;
 	}
 	//”íƒ_ƒ•\‹L
 	DamageTexDisplay();
