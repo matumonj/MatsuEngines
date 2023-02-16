@@ -197,9 +197,10 @@ void ChestControl::Update_Play()
 		chests[YELLOW]->SetpColor(color_yellow);
 	}
 
+	constexpr float DownSpeed = 0.3f;
 	if(FootSwitch::GetIns()->GetClearSwicthsQuantity()>=4)
 	{
-		CagePos.y -= 1.f;
+		CagePos.y -= DownSpeed;
 	}
 	else
 	{
@@ -224,9 +225,9 @@ void ChestControl::CageColPlayer()
 	CageOBB.SetOBBParam_Pos(CagePos);
 	CageOBB.SetOBBParam_Rot(ChestCage->GetMatrot());
 	CageOBB.SetOBBParam_Scl({
-		ChestCage->GetMatScl().r[0].m128_f32[0] * 5,
-		ChestCage->GetMatScl().r[1].m128_f32[1] * 5,
-		ChestCage->GetMatScl().r[2].m128_f32[2] *5
+		ChestCage->GetMatScl().r[0].m128_f32[0] * 3.f,
+		ChestCage->GetMatScl().r[1].m128_f32[1] * 3.f,
+		ChestCage->GetMatScl().r[2].m128_f32[2] *3.f
 		});
 
 	if (Collision::CheckOBBCollision(playerOBB, CageOBB) == true)

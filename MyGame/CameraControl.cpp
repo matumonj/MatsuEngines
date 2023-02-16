@@ -280,13 +280,14 @@ void CameraControl::TargetPlayer()
 		{
 			Tstate = MOVEBOSSAREA;
 		}
-		if(ZoomF)
-		{
-			Tstate = BATTLEATART;
-		}
+		
 	}
 	if (Tstate == PLAYER)
 	{
+		if (ZoomF)
+		{
+			Tstate = BATTLEATART;
+		}
 		sCamera = PLAYCUTSTART;
 		rCamera = NON_RUSH;
 		bscamera = NON_BATTLESTART;
@@ -314,15 +315,15 @@ void CameraControl::TargetBossField()
 		this->camera->SetTarget(PlayerControl::GetIns()->GetPlayer()->GetPosition());
 		if (Feed::GetIns()->GetAlpha() >= 1.0f)
 		{
-			CameraPosition = {17.0f, 15.0f, 802.0f};
+			CameraPosition = {60.0f, 15.0f, 350.0f};
 
 			mCamera = TARGETFENCE;
 		}
 		break;
 	case TARGETFENCE:
-		CameraPosition = {17.0f, -30.0f, 720.0f};
+		CameraPosition = {60.0f, -30.0f, 350.0f};
 
-		this->camera->SetTarget({17.0f, -35.0f, 832.0f});
+		this->camera->SetTarget({60.0f, -35.0f, 450.0f});
 
 		Feed::GetIns()->Update_Black(Feed::FEEDOUT);
 
@@ -720,25 +721,35 @@ void CameraControl::BattleStart()
 	}
 	else if (bscamera == ZOOM_BATTLESTART)
 	{
-		if (CameraPosMovingEaseT <= 1.f) {
-			CameraPosMovingEaseT += 0.02f;
-		}
-		else
-		{
-			if (ZoomF == false)
-			{
+		CameraPosMovingEaseT += 0.02f;
+		if (CameraPosMovingEaseT > 1.f) {
+			
+	
+		//	if (ZoomF == false)
+		//	{
 				bscamera = RETURN_BATTLESTART;
-			}
+			//}
 		}
+
+		XMFLOAT3 position = { (OldPos.x + ZoomTarget.x) / 2.f,(OldPos.y + ZoomTarget.y) / 2.f,(OldPos.z+ ZoomTarget.z) / 2.f };           //CenterPointのポジションを中心に配置
+
+		float radx = sqrtf((position.x - ZoomTarget.x) * (position.x - ZoomTarget.x));
+		float radz = sqrtf((position.z - ZoomTarget.z) * (position.z - ZoomTarget.z));
+
+		float disx = radx / sinf(OldCameraPos.x * 0.5f );
+		float disz = radz / sinf(OldCameraPos.z * 0.5f);
+		//distance = (radius + margin) / Mathf.Sin(usingCamera.fieldOfView * 0.5f * Mathf.Deg2Rad);   //カメラの距離を算出
+		//cameraPos.localPosition = new Vector3(, cameraHeight, -distance);    //CameraPositionをカメラの距離をもとに配置
+//
 		//OldPos = camera->GetEye();
 		//bscamera = ZOOM_BATTLESTART;
-			CameraPosition.x = Easing::EaseOut(CameraPosMovingEaseT, OldPos.x, ((OldPos.x + ZoomTarget.x) / 2.f));
-			CameraPosition.z = Easing::EaseOut(CameraPosMovingEaseT, OldPos.z, ((OldPos.z + ZoomTarget.z) / 2.f) );
-			CameraPosition.y = Easing::EaseOut(CameraPosMovingEaseT, OldPos.y, OldPos.y - 6.f);
-
-			CameraTarget.x = Easing::EaseOut(CameraPosMovingEaseT, OldTarget.x,ZoomTarget.x);
-			CameraTarget.y = Easing::EaseOut(CameraPosMovingEaseT, OldTarget.y,ZoomTarget.y);
-			CameraTarget.z = Easing::EaseOut(CameraPosMovingEaseT,OldTarget.z, ZoomTarget.z);
+			CameraTarget.x = Easing::EaseOut(CameraPosMovingEaseT, OldTarget.x, ((OldTarget.x + ZoomTarget.x) / 2.f));
+			CameraTarget.z = Easing::EaseOut(CameraPosMovingEaseT, OldTarget.z, ((OldTarget.z + ZoomTarget.z) / 2.f) );
+	//		CameraTarget.y = Easing::EaseOut(CameraPosMovingEaseT, OldPos.y, OldPos.y - 6.f);
+			
+			//CameraPosition.x = Easing::EaseOut(CameraPosMovingEaseT, OldTarget.x,-disx);
+			//CameraPosition.y = Easing::EaseOut(CameraPosMovingEaseT, OldTarget.y,ZoomTarget.y);
+			//CameraPosition.z = Easing::EaseOut(CameraPosMovingEaseT,OldTarget.z, -disz);
 			
 	
 	}
@@ -751,14 +762,9 @@ void CameraControl::BattleStart()
 
 		//OldPos = camera->GetEye();
 		//bscamera = ZOOM_BATTLESTART;
-		CameraPosition.x = Easing::EaseOut(CameraPosMovingEaseT, OldPos.x, ((OldPos.x + ZoomTarget.x) / 2.f));
-		CameraPosition.z = Easing::EaseOut(CameraPosMovingEaseT, OldPos.z, ((OldPos.z + ZoomTarget.z) / 2.f) );
-		CameraPosition.y = Easing::EaseOut(CameraPosMovingEaseT, OldPos.y, OldPos.y - 6.f);
-
-		CameraTarget.x = Easing::EaseOut(CameraPosMovingEaseT, OldTarget.x, ZoomTarget.x);
-		CameraTarget.y = Easing::EaseOut(CameraPosMovingEaseT, OldTarget.y, ZoomTarget.y);
-		CameraTarget.z = Easing::EaseOut(CameraPosMovingEaseT, OldTarget.z, ZoomTarget.z);
-
+		CameraTarget.x = Easing::EaseOut(CameraPosMovingEaseT, OldTarget.x, ((OldTarget.x + ZoomTarget.x) / 2.f));
+		CameraTarget.z = Easing::EaseOut(CameraPosMovingEaseT, OldTarget.z, ((OldTarget.z + ZoomTarget.z) / 2.f));
+		//	
 	}
 	else if(bscamera == END_BATTLESTART)
 	{

@@ -119,6 +119,9 @@ void AttackCollision::BossCol(int damage)
 	if (Collision::CheckOBBCollision(HandObb, BossEnemyOBB[0]) == true && !HitCol)
 	{
 		PlayerAttackState::GetIns()->SetHitStopJudg(true, 20);
+		CameraControl::GetIns()->SetZoomF(true);
+		CameraControl::GetIns()->SetZoomTarget(EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition());
+
 		//ガード中はダメージ受けない
 		if (EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetGuardAction())
 		{
@@ -129,6 +132,8 @@ void AttackCollision::BossCol(int damage)
 		else
 		{
 			PlayerAttackState::GetIns()->SetHitStopJudg(true, 30);
+			CameraControl::GetIns()->SetZoomF(true);
+			CameraControl::GetIns()->SetZoomTarget(EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition());
 			AttackEffect::GetIns()->SetParticle(
 				EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition());
 			EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->RecvDamage(damage);
@@ -170,6 +175,9 @@ void AttackCollision::TutorialCol(int damage)
 	//判定部分
 	if (Collision::CheckOBBCollision(HandObb, EnemyOBB[0]) == true && !HitCol)
 	{
+		CameraControl::GetIns()->SetZoomF(true);
+		CameraControl::GetIns()->SetZoomTarget(EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition());
+
 		PlayerAttackState::GetIns()->SetHitStopJudg(true, 40);
 		AttackEffect::GetIns()->SetParticle(
 			EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL)[0]->GetPosition());

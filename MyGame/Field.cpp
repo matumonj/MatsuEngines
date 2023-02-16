@@ -158,7 +158,7 @@ void Field::Init_Boss()
 		TorchObj[i].reset(new Object3d());
 		TorchObj[i]->Initialize(camera);
 		TorchObj[i]->SetModel(ModelManager::GetIns()->GetModel(ModelManager::TORCH));
-		TorchObj[i]->SetScale({ 2.f,2.f,2.f });
+		TorchObj[i]->SetScale({ 4.f,3.f,4.f });
 
 		FireEffect[i].reset(new Particle());
 		FireEffect[i]->Init(Particle::ParticleTexName::TOURCHFIRE);

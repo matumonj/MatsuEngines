@@ -131,10 +131,11 @@ void PlayScene::LightUpdate()
 
 void PlayScene::ChangeSceneJudg()
 {
+	constexpr XMFLOAT3 ChangeScenePos = { 60.f, -35,400.f };
 	if (Task::GetIns()->GetAllTaskClear())
 
 	{
-		if (Collision::GetLength(PlayerControl::GetIns()->GetPlayer()->GetPosition(), {17, -35, 820}) < 30)
+		if (Collision::GetLength(PlayerControl::GetIns()->GetPlayer()->GetPosition(),ChangeScenePos) < 30.f)
 		{
 			Feed::GetIns()->Update_White(Feed::FEEDIN);
 			PlayerControl::GetIns()->GetPlayer()->SetStopFlag(TRUE);
