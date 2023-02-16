@@ -22,6 +22,10 @@ void ImageManager::Init()
 	LoadTex(NAV2, L"Resources/2d/icon/nav2.png");
 	LoadTex(NAV3, L"Resources/2d/icon/nav3.png");
 	LoadTex(NAV4, L"Resources/2d/icon/nav4.png");
+	LoadTex(EFFECT_SMOKE, L"Resources/2d/BossAttackEffect/BomParticle.png");
+	LoadTex(EFFECT_POP, L"Resources/2d/mainEffect/pipo-hiteffect034.png");
+	LoadTex(EFFECT_BOM, L"Resources/2d/BossAttackEffect/missileeffect.png");
+
 	//Sprite
 	LoadSprite(ENMEYHPFRAME1, L"Resources/2d/enemy/hpframe1.png");
 	LoadSprite(ENMEYHPFRAME2, L"Resources/2d/enemy/hpframe2.png");

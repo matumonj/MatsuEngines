@@ -162,7 +162,7 @@ void AttackCollision::TutorialCol(int damage)
 	{
 		return;
 	}
-	if (EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL)[0] != nullptr)
+	if (EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL)[0] == nullptr)
 	{
 		return;
 	}
@@ -211,7 +211,7 @@ void AttackCollision::ExplorationCol(int damage)
 			//CameraControl::GetIns()->SetZoomF(true);
 			//CameraControl::GetIns()->SetZoomTarget(EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetPosition());
 			HelpJudg = true;
-			PlayerAttackState::GetIns()->SetHitStopJudg(true, 40);
+		//	PlayerAttackState::GetIns()->SetHitStopJudg(true, 40);
 			AttackEffect::GetIns()->SetParticle(
 				EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetPosition());
 			EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->RecvDamage(
@@ -227,7 +227,7 @@ void AttackCollision::ExplorationCol(int damage)
 		XMFLOAT3 epos = EnemyControl::GetIns()->GetGuardianEnemy()->GetPosition();
 		if (Collision::CheckOBBCollision(HandObb, GuardianEnemyOBB) == true && !HitCol)
 		{
-			PlayerAttackState::GetIns()->SetHitStopJudg(true, 30);
+		//	PlayerAttackState::GetIns()->SetHitStopJudg(true, 30);
 			AttackEffect::GetIns()->SetParticle({ epos.x, epos.y - 10.f, epos.z });
 			EnemyControl::GetIns()->GetGuardianEnemy()->RecvDamage(
 				damage);

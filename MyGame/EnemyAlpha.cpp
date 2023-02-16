@@ -1,6 +1,7 @@
 #include "EnemyAlpha.h"
 
 #include "CameraControl.h"
+#include "ChestControl.h"
 #include"CustomButton.h"
 #include"SphereCollider.h"
 #include"CollisionManager.h"
@@ -122,7 +123,7 @@ void EnemyAlpha::Update()
 		}
 		//}
 	}
-	if (Field::GetIns()->GetPedestalDown())
+	if (Field::GetIns()->GetPedestalDown() || ChestControl::GetIns()->GetChestEventNothing())
 	{
 		ReturnCreatePos = true;
 	}

@@ -1,6 +1,7 @@
 #include "EnemyBeta.h"
 
 #include "CameraControl.h"
+#include "ChestControl.h"
 #include"CustomButton.h"
 #include"SphereCollider.h"
 #include"DebugCamera.h"
@@ -158,7 +159,7 @@ void EnemyBeta::Update()
 			animeState = WALK;
 		}
 	}
-	if (Field::GetIns()->GetPedestalDown())
+	if (Field::GetIns()->GetPedestalDown() || ChestControl::GetIns()->GetChestEventNothing())
 	{
 		ReturnCreatePos = true;
 	}

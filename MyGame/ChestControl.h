@@ -86,6 +86,22 @@ private:
 	ParticleParam PlayPchest[4];
 	void GetChestEffect(Chest* chest, ParticleParam& pParam);
 	void GetChestEvent(Chest* chest, ParticleParam& pParam);
+
+public:
+	inline bool GetChestEventNothing()
+	{
+		int i;
+		for (i = 0; i < 4; i++) {
+			if (PlayPchest[i].ChestEvent != NON&& PlayPchest[i].ChestEvent != END) {
+				break;
+			}
+			
+		}
+		if (i == 4)
+		{
+			return false;
+		} else return true;
+	};
 private:
 	void Init_Tutorial() override;
 

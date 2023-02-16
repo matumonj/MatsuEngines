@@ -161,7 +161,7 @@ void Field::Init_Boss()
 		TorchObj[i]->SetScale({ 2.f,2.f,2.f });
 
 		FireEffect[i].reset(new Particle());
-		FireEffect[i]->Init(Particle::ParticleTexName::SMOKE);
+		FireEffect[i]->Init(Particle::ParticleTexName::TOURCHFIRE);
 		FireEffect[i]->SetParScl({0.3f, 0.3f});
 		FireEffect[i]->SetParColor({1.f, 1.f, 1.f, 1.f});
 

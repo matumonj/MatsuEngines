@@ -125,7 +125,6 @@ void PlayerControl::Update_Boss()
 	AttackEffect::GetIns()->SetGuardRot(rot);
 	AttackEffect::GetIns()->GuarEffect(spos);
 	player->Update();
-	PlayerAttackState::GetIns()->HitStop();
 	DamageTexUpdate();
 }
 
@@ -172,7 +171,20 @@ void PlayerControl::Draw_Play()
 		return;
 	}
 	player->Draw();
-	
+	if (PlayerAttackState::GetIns()->GetHitStopJudg())
+	{
+		f = 1;
+	} else
+	{
+		f = 0;
+	}
+	ImGui::Begin("pos,,");
+
+	ImGui::SetWindowPos(ImVec2(0, 500));
+	ImGui::SetWindowSize(ImVec2(300, 300));
+	ImGui::Text("hit %d", f);
+	ImGui::Text("%f", player->GetPosition().z);
+	ImGui::End();
 }
 
 void PlayerControl::Draw_Tutorial()
@@ -193,20 +205,7 @@ void PlayerControl::Draw_Tutorial()
 
 void PlayerControl::Draw_Boss()
 {
-	if (PlayerAttackState::GetIns()->GetHitStopJudg())
-	{
-		f = 1;
-	} else
-	{
-		f = 0;
-	}
-	ImGui::Begin("pos,,");
-
-	ImGui::SetWindowPos(ImVec2(0, 500));
-	ImGui::SetWindowSize(ImVec2(300, 300));
-	ImGui::Text("hit %d", f);
-	ImGui::Text("%f", player->GetPosition().z);
-	ImGui::End();
+	
 	if (player == nullptr)
 	{
 		return;

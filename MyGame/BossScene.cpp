@@ -282,10 +282,9 @@ void BossScene::LightUpdate()
 	for (int i = 4; i < 10; i++) {
 		lightGroup->SetSpotLightPos(i, { Field::GetIns()->GetTorchPos(i-4).x,Field::GetIns()->GetTorchPos(i-4).y + posy,Field::GetIns()->GetTorchPos(i-4).z });
 		lightGroup->SetSpotLightAtten(i, { atten.x,0,atten.x });
-		lightGroup->SetSpotLightDir(i, { 0,-1,0 });
-		lightGroup->SetSpotLightColor(i, { 1,0,0 });
+		lightGroup->SetSpotLightDir(i, { 0.f,-1.f,0.f });
+		lightGroup->SetSpotLightColor(i, { 1.f,0.5f,0.f });
 		lightGroup->SetSpotLightFactorAngle(i, { spotangle });
-		//lightGroup->SetPointLightAtten(i, { atten.x,atten.x,atten.x });
-		//lightGroup->SetPointLightPos(i, { Field::GetIns()->GetTorchPos(i - 4).x,Field::GetIns()->GetTorchPos(i-4).y + posy,Field::GetIns()->GetTorchPos(i-4).z });
+//lightGroup->SetPointLightAtten(i, { atten.x,atten.x,atten.x });
 	}
 }

@@ -7,6 +7,7 @@
 #include"Collision.h"
 #include"PlayerControl.h"
 #include "CameraControl.h"
+#include "ChestControl.h"
 #include "Field.h"
 #include"PlayerAttackState.h"
 #include"ImageManager.h"
@@ -314,7 +315,7 @@ void MobEnemy::FbxAnimationControl()
 	{
 		return;
 	}
-	if (Field::GetIns()->GetPedestalDown())
+	if (Field::GetIns()->GetPedestalDown()||ChestControl::GetIns()->GetChestEventNothing())
 	{
 		ReturnCreatePos = true;
 	}
@@ -332,7 +333,7 @@ void MobEnemy::FbxAnimationControl()
 		if (nowAttack)
 		{
 			//çUåÇíÜ
-			fbxanimationTime = 0.017f;
+			fbxanimationTime = 0.01f;
 		}
 		else
 		{

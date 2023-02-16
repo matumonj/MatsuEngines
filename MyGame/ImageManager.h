@@ -39,7 +39,10 @@ public:
 		STITLE,NAV1,
 		NAV2,
 		NAV3,
-		NAV4
+		NAV4,
+		EFFECT_SMOKE=64,
+		EFFECT_BOM=66,
+		EFFECT_POP=65
 	};
 
 	enum SpriteName

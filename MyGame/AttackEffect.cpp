@@ -190,6 +190,8 @@ void AttackEffect::Upda()
 
 void AttackEffect::GuarEffect(XMFLOAT3 pos)
 {
+	constexpr float l_ScalingSize = 0.09f;
+	constexpr float l_AlphaFeedVal = 0.02f;
 	switch (gphase)
 	{
 	case NOGUARD:
@@ -203,15 +205,15 @@ void AttackEffect::GuarEffect(XMFLOAT3 pos)
 		break;
 
 	case LARGE:
-		GuardSize[0].x += 0.09f;
-		GuardSize[0].y += 0.09f;
-		GuardAlpha[0] -= 0.02f;
+		GuardSize[0].x += l_ScalingSize;
+		GuardSize[0].y += l_ScalingSize;
+		GuardAlpha[0] -= l_AlphaFeedVal;
 
 		if (GuardSize[0].x > 1.0f)
 		{
-			GuardSize[1].x += 0.07f;
-			GuardSize[1].y += 0.07f;
-			GuardAlpha[1] -= 0.01f;
+			GuardSize[1].x +=l_ScalingSize;
+			GuardSize[1].y += l_ScalingSize;
+			GuardAlpha[1] -= l_AlphaFeedVal;
 		}
 		if (GuardAlpha[1] < 0.0f)
 		{

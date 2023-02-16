@@ -7,14 +7,14 @@
 
 void Particle::Init(UINT num)
 {
-	Texture::LoadTexture(64, L"Resources/2d/BossAttackEffect/BomParticle.png");
-	Texture::LoadTexture(65, L"Resources/2d/mainEffect/pipo-hiteffect034.png");
+
 	Texture* l_tex0 = Texture::Create(num);
 	parnum = num;
 
 	BeginParColor = {1.f, 1.f, 1.f, 1.f};
 	SetParType(7, m_particles[NORMAL], l_tex0);
 
+	
 	SetParType(10, m_particles[FIRE], l_tex0);
 }
 

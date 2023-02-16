@@ -23,6 +23,7 @@ public:
 	{
 		SMOKE=64,
 		BOM=65,
+		TOURCHFIRE=66
 	};
 
 	void CreateParticle(bool f, XMFLOAT3 pos)
