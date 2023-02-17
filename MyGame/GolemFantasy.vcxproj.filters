@@ -510,9 +510,6 @@
     <ClCompile Include="BossEnemyDeath.cpp">
       <Filter>Game\gameobject\GameObject\Boss</Filter>
     </ClCompile>
-    <ClCompile Include="BossSpell.cpp">
-      <Filter>Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29</Filter>
-    </ClCompile>
     <ClCompile Include="SelectSword.cpp">
       <Filter>Game\2d %28DebugTxt  Sprite Texture%29\UI\Config</Filter>
     </ClCompile>
@@ -979,9 +976,6 @@
     </ClInclude>
     <ClInclude Include="BossEnemyDeath.h">
       <Filter>Game\gameobject\GameObject\Boss</Filter>
-    </ClInclude>
-    <ClInclude Include="BossSpell.h">
-      <Filter>Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29</Filter>
     </ClInclude>
     <ClInclude Include="FieldCollision.h">
       <Filter>Game\collision</Filter>

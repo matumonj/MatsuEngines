@@ -189,7 +189,14 @@ void Player::Move()
 	{
 		RunParCreate = false;
 	} else {
-		RunParCreate = true;
+		//入力中のみ煙発生
+		if (input->TiltPushStick(Input::L_UP, 0.0f) ||
+			input->TiltPushStick(Input::L_DOWN, 0.0f) ||
+			input->TiltPushStick(Input::L_RIGHT, 0.0f) ||
+			input->TiltPushStick(Input::L_LEFT, 0.0f))
+		{
+			RunParCreate = true;
+		}
 	}
 }
 
@@ -362,6 +369,7 @@ void Player::Draw()
 
 void Player::DamageTexDraw()
 {
+	//ダメージテクスチャ描画
 	for (std::unique_ptr<DamageManager>& dTex : dMans_)
 	{
 		dTex->Draw();
@@ -394,8 +402,6 @@ void Player::AnimationContol(AnimeState state)
 {
 	if (m_Number != state.AnimeMotion)
 	{
-		
-		//m_AnimeSpeed = state.AnimationSpeed;
 		m_AnimeLoop = state.AnimeLoop;
 		m_Number = state.AnimeMotion;
 		m_fbxObject->PlayAnimation(m_Number);

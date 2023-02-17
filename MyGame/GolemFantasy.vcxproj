@@ -135,7 +135,6 @@
     <ClCompile Include="BossEnemyStay.cpp" />
     <ClCompile Include="BossMap.cpp" />
     <ClCompile Include="BossScene.cpp" />
-    <ClCompile Include="BossSpell.cpp" />
     <ClCompile Include="BossState.cpp" />
     <ClCompile Include="ThrowRockAttack.cpp" />
     <ClCompile Include="UltAttack.cpp" />
@@ -287,7 +286,6 @@
     <ClInclude Include="BossEnemyStay.h" />
     <ClInclude Include="BossMap.h" />
     <ClInclude Include="BossScene.h" />
-    <ClInclude Include="BossSpell.h" />
     <ClInclude Include="BossState.h" />
     <ClInclude Include="ThrowRockAttack.h" />
     <ClInclude Include="UltAttack.h" />

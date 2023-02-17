@@ -31,6 +31,7 @@ void BossScene::Initialize()
 	AllObjectControl.emplace_back(PlayerControl::GetIns());
 	AllObjectControl.emplace_back(EnemyControl::GetIns());
 
+	//ライトの設定
 	lightGroup = LightGroup::Create();
 
 	Object3d::SetLightGroup(lightGroup);
@@ -50,8 +51,6 @@ void BossScene::Initialize()
 	for (int i = 4; i < 10; i++) {
 		lightGroup->SetSpotLightActive(i, true);
 	}
-		Nail::GetIns()->ModelSet();
-
 	circleShadowAtten[0] = -5.2f;
 	circleShadowAtten[1] = -0.2f;
 	circleShadowAtten[2] = 4.9f;
@@ -91,7 +90,6 @@ void BossScene::Update()
 
 	XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 
-
 	//ライティング更新
 	LightUpdate();
 
@@ -115,9 +113,9 @@ void BossScene::SpriteDraw()
 	{
 		UI::GetIns()->HUDDraw();
 	}
-
+	//ゲームオーバーじのてくすちゃ
 	GameOver::GetIns()->Draw();
-
+	//フェードスプライト
 	Feed::GetIns()->Draw();
 }
 
@@ -286,7 +284,6 @@ void BossScene::LightUpdate()
 		lightGroup->SetSpotLightDir(i, { 0.f,-1.f,0.f });
 		lightGroup->SetSpotLightColor(i, { 1.f,0.5f,0.f });
 		lightGroup->SetSpotLightFactorAngle(i, { spotangle });
-//lightGroup->SetPointLightAtten(i, { atten.x,atten.x,atten.x });
 		if (UltAttack::GetIns()->GetFieldDestG())
 		{
 			lightGroup->SetSpotLightActive(i, false);
