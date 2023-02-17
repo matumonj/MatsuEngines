@@ -174,8 +174,7 @@ void FenceControl::Update_Tutorial() //チュートリアル時
 
 void FenceControl::Update_Play() //プレイシーン時
 {
-	BossGateOpen = Task::GetIns()->GetAllTaskClear() == TRUE &&
-		CameraControl::GetIns()->GetMoveBosAreaCam() == CameraControl::TARGETPLAYER;
+	BossGateOpen = Task::GetIns()->GetAllTaskClear() == TRUE ;
 
 	for (int i = 0; i < Quantity; i++)
 	{

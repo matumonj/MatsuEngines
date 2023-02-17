@@ -4,9 +4,9 @@
 
 #include"EnemyControl.h"
 #include"CameraControl.h"
-#include"BossSpell.h"
 #include "PlayerControl.h"
 
+#include"mHelper.h"
 FrontCircleAttack* FrontCircleAttack::GetIns()
 {
 	static FrontCircleAttack instance;
@@ -24,7 +24,7 @@ void FrontCircleAttack::Init()
 		//ミサイル爆発時のエフェクト
 		nail_objses_[i] .PireEffect= std::make_unique<Particle>();
 		nail_objses_[i].PireEffect->Init(Particle::SMOKE);
-		nail_objses_[i].PireEffect->SetParScl({ 4.f, 4.f });
+		nail_objses_[i].PireEffect->SetParScl({ 8.f, 8.f });
 		nail_objses_[i].PireEffect->SetParColor({ 1.f, 1.f, 1.f, 1.f });
 
 		//テクスチャ
@@ -39,12 +39,14 @@ void FrontCircleAttack::Init()
 	}
 	phase = PHASENON;
 }
+
+
 void (FrontCircleAttack::* FrontCircleAttack::actionTable[])() = {
-	&FrontCircleAttack::NonInit,
-	&FrontCircleAttack::SetDamageArea,
-	&FrontCircleAttack::PireNail,
-	&FrontCircleAttack::DestNail,
-	&FrontCircleAttack::AttackEnd
+	&FrontCircleAttack::NonInit,//待機
+	&FrontCircleAttack::SetDamageArea,//エリア指定
+	&FrontCircleAttack::PireNail,//釘突き出す
+	&FrontCircleAttack::DestNail,//引っ込む
+	&FrontCircleAttack::AttackEnd//終了
 };
 
 void FrontCircleAttack::Upda()
@@ -55,21 +57,28 @@ void FrontCircleAttack::Upda()
 	(this->*actionTable[phase])();
 
 	for (auto i = 0; i < nail_objses_.size(); i++) {
-		//テクスチャ
-		nail_objses_[i].AOETexs->SetBillboard(false);
-		nail_objses_[i].AOETexs->SetPosition({ nail_objses_[i].TexPos.x,nail_objses_[i].TexPos.y + 4.f,nail_objses_[i].TexPos.z });
-		nail_objses_[i].AOETexs->SetRotation({ 90.f,0.f,0.f });
-		nail_objses_[i].AOETexs->SetScale({ 8.f,8.f,2.f });
-		nail_objses_[i].AOETexs->SetColor({ 1.f,1.f,1.f,nail_objses_[i].TexAlpha });
-		nail_objses_[i].AOETexs->Update(camera);
+		if (nail_objses_[i].AOETexs != nullptr) {
+			//テクスチャ
+			nail_objses_[i].TexRotY++;
+			nail_objses_[i].AOETexs->SetBillboard(false);
+			nail_objses_[i].AOETexs->SetPosition({ nail_objses_[i].TexPos.x,nail_objses_[i].TexPos.y + 4.f,nail_objses_[i].TexPos.z });
+			nail_objses_[i].AOETexs->SetRotation({ 90.f,0.f,nail_objses_[i].TexRotY});
+			nail_objses_[i].AOETexs->SetScale(nail_objses_[i].TexScl);
+			nail_objses_[i].AOETexs->SetColor({ 1.f,1.f,1.f,nail_objses_[i].TexAlpha });
+			nail_objses_[i].AOETexs->Update(camera);
+		}
 		//オブジェ
-		nail_objses_[i].Obj->SetRotation({ 180.f,0.f,0.f });
-		nail_objses_[i].Obj->SetPosition(nail_objses_[i].ObjPos);
-		nail_objses_[i].Obj->SetScale({ 4.f,8.f,4.f });
-		nail_objses_[i].Obj->Update(camera);
+		if (nail_objses_[i].Obj != nullptr) {
+			nail_objses_[i].Obj->SetRotation({ 180.f,0.f,0.f });
+			nail_objses_[i].Obj->SetPosition(nail_objses_[i].ObjPos);
+			nail_objses_[i].Obj->SetScale({ 8.f,8.f,8.f });
+			nail_objses_[i].Obj->Update(camera);
+		}
 
 		//pa-texikuru
-		nail_objses_[i].PireEffect->Upda_B(false);
+		if (nail_objses_[i].PireEffect != nullptr) {
+			nail_objses_[i].PireEffect->Upda_B(false);
+		}
 
 		nail_objses_[i].TexAlpha = std::clamp(nail_objses_[i].TexAlpha, 0.f, 1.f);
 	}
@@ -77,27 +86,39 @@ void FrontCircleAttack::Upda()
 #include "imgui.h"
 void FrontCircleAttack::Draw()
 {
+	//テクスチャ
 	Texture::PreDraw();
 	for (auto i = 0; i < nail_objses_.size(); i++) {
-		//テクスチャ
+		if (nail_objses_[i].AOETexs == nullptr)continue;
 		nail_objses_[i].AOETexs->Draw();
 	}
 	Texture::PostDraw();
 
+	//釘オブジェ
 	Object3d::PreDraw();
-	for (auto i = 0; i < nail_objses_.size(); i++) {
-		//オブジェ
-		nail_objses_[i].Obj->Draw();
+	if (phase != PHASEFOUR && phase != PHASENON) {
+		for (auto i = 0; i < nail_objses_.size(); i++) {
+			if (nail_objses_[i].Obj == nullptr)continue;
+			nail_objses_[i].Obj->Draw();
+		}
 	}
 	Object3d::PostDraw();
+
+	//パーティクルエフェクト
 	for (auto i = 0; i < nail_objses_.size(); i++) {
+		if (nail_objses_[i].PireEffect == nullptr)continue;
 		nail_objses_[i].PireEffect->Draw();
 	}
 }
 
 void FrontCircleAttack::NonInit()
 {
-	
+	for (auto i = 0; i < nail_objses_.size(); i++)
+	{
+		nail_objses_[i].TexAlpha = 0.f;
+		nail_objses_[i].PosYMovingEaseT = 0.f;
+		nail_objses_[i].TexSclingEaseT = 0.f;
+	}
 }
 
 
@@ -134,11 +155,11 @@ void FrontCircleAttack::SetDamageArea()
 		for (auto i = 1; i < nail_objses_.size(); i++) {
 		//テクスチャランダム
 		if (nail_objses_[i].TexAlpha> 0.f)continue;
-		nail_objses_[i].TexPos = { float(rand() % 200 - 100),bpos.y, float(rand() % 200 - 100) };
+		nail_objses_[i].TexPos = { float(rand() % 100 - 50)*1.2f,bpos.y, float(rand() % 100 - 50)*1.2f };
 		nail_objses_[i].ObjPos = { nail_objses_[i].TexPos.x,-20.f,nail_objses_[i].TexPos.z};
 
 	}
-
+		nail_objses_[0].TexScl = { 8.f,8.f,2.f };
 	//[0]アルファ値加算
 	nail_objses_[0].TexAlpha+= AlphaVal;
 
@@ -147,6 +168,15 @@ void FrontCircleAttack::SetDamageArea()
 	{
 		if (prevAlpha >= 0.6f)
 		{
+			//テクスチャ広げる
+			nail_objses_[i].TexSclingEaseT += 0.02f;
+			nail_objses_[i].TexScl.x = Easing::EaseOut(nail_objses_[i].TexSclingEaseT, 0.f, 8.f);
+			nail_objses_[i].TexScl.y = Easing::EaseOut(nail_objses_[i].TexSclingEaseT, 0.f, 8.f);
+
+			//最大値と最小値
+			nail_objses_[i].TexSclingEaseT = std::clamp(nail_objses_[i].TexSclingEaseT, 0.f, 1.f);
+
+			//アルファ値上げる
 			nail_objses_[i].TexAlpha += AlphaVal;
 			//代入してる値置き換え
 			prevAlpha = nail_objses_[i].TexAlpha;
@@ -166,11 +196,10 @@ void FrontCircleAttack::SetDamageArea()
 
 	
 }
-#include"mHelper.h"
 void FrontCircleAttack::PireNail()
 {
 	//アルファ値の増減
-	constexpr float l_TexAlphaFeedVal = 0.01f;
+	constexpr float l_TexAlphaFeedVal = 0.03f;
 
 	for(auto i = 0; i < nail_objses_.size(); i++)
 	{
@@ -200,7 +229,7 @@ void FrontCircleAttack::DestNail()
 		nail_objses_[i].PosYMovingEaseT -= l_PosYMovingVal;
 
 		//釘下げる
-		if (nail_objses_[i].PosYMovingEaseT >=0.f)
+		if (nail_objses_[i].PosYMovingEaseT >=0.f&& nail_objses_[i].PosYMovingEaseT<=1.f)
 			nail_objses_[i].ObjPos.y = Easing::EaseOut(nail_objses_[i].PosYMovingEaseT, NailMinPosY, NailMaxPosY);
 
 		//テクスチャ薄く
@@ -214,7 +243,13 @@ void FrontCircleAttack::DestNail()
 
 void FrontCircleAttack::AttackEnd()
 {
-	
+	for (auto i = 0; i < nail_objses_.size(); i++)
+	{
+		nail_objses_[i].TexAlpha = 0.f;
+		nail_objses_[i].PosYMovingEaseT = 0.f;
+		nail_objses_[i].TexSclingEaseT = 0.f;
+	}
+	phase = PHASENON;
 }
 
 

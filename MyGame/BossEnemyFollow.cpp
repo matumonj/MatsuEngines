@@ -116,7 +116,7 @@ void BossEnemyFollow::Update(Enemy* enemy)
 	/*-----------UŒ‚‘JˆÚ•”•ª------------*/
 	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= 90.0f)
 	{
-		if (FrontCircleAttack::GetIns()->GetPhaseEnd() != RushAttack::PHASEFOUR)
+		if (FrontCircleAttack::GetIns()->GetPhaseEnd() != FrontCircleAttack::PHASEFOUR)
 		{
 			if (enemy->GetAttack_End(enemy->CIRCLE_1) == false)
 			{

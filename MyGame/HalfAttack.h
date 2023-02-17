@@ -59,7 +59,7 @@ public:
 	void Draw_SummonEnemyHP();
 	bool SummonEnemy();
 	void SummonEnemyResetParam();
-	void SetAttackPhase(bool f) { if (f && phase != PHASEONE) { phase = PHASEONE; } }
+	void SetAttackPhase(bool f) { if (f && phase != PHASEONE) { } }
 	Phase GetPhase() { return phase; }
 
 	static void (HalfAttack::* actionTable[])();

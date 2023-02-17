@@ -14,7 +14,7 @@ void BossEnemyAttackRush::Update(Enemy* enemy)
 	RushAttack::GetIns()->ActionJudg();
 	enemy->SetAnimation(BossEnemy::NowAttackMotion::BWALK, false, 1.f);
 
-	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= 70.0f)
+	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= 99.0f)
 	{
 		enemy->SetAttack_End(enemy->Beam, true);
 	}

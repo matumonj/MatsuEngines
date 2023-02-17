@@ -30,7 +30,7 @@ public:
 
 private:
 	//釘数
-	static constexpr int NailSize = 9;
+	static constexpr int NailSize = 10;
 
 	struct NailObjs
 	{
@@ -44,9 +44,13 @@ private:
 		std::unique_ptr<Particle>PireEffect;
 		//突き出しのイージング用
 		float PosYMovingEaseT;
+		float TexSclingEaseT;
 		//座標周り
 		XMFLOAT3 ObjPos;
 		XMFLOAT3 TexPos;
+		XMFLOAT3 TexScl;
+
+		float TexRotY;
 	};
 
 	//釘位置の最大と最小値
@@ -57,6 +61,7 @@ private:
 	std::array<NailObjs, NailSize>nail_objses_;
 	//攻撃のフェーズ
 	Phase phase;
+	//攻撃のフェーズの関数テーブル
 	static void (FrontCircleAttack::* actionTable[])();
 public:
 	//フェーズセット

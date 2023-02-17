@@ -12,7 +12,7 @@ void BossEnemyAttackCircle::Update(Enemy* enemy)
 {
 	enemy->SetAnimation(BossEnemy::NowAttackMotion::MAGIC, false, 1.f);
 	enemy->SetRecvDamage2(false);
-	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= 90.0f)
+	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= 99.0f)
 	{
 		enemy->SetAttack_End(enemy->CIRCLE_1, true);
 	}

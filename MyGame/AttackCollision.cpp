@@ -69,6 +69,15 @@ void AttackCollision::GetCol(int damage)
 
 		OBBParamSet(TYTORIAL);
 		TutorialCol(damage);
+		if (PlayerControl::GetIns()->GetPlayer()->GetStopFlag() == false) {
+			if (input->TiltPushStick(Input::L_UP, 0.0f) ||
+				input->TiltPushStick(Input::L_DOWN, 0.0f) ||
+				input->TiltPushStick(Input::L_RIGHT, 0.0f) ||
+				input->TiltPushStick(Input::L_LEFT, 0.0f))
+			{
+				CameraControl::GetIns()->SetZoomF(false);
+			}
+		}
 		break;
 
 	case SceneManager::PLAY:
@@ -88,7 +97,15 @@ void AttackCollision::GetCol(int damage)
 	case SceneManager::BOSS:
 		OBBParamSet(BOSS);
 		BossCol(damage);
-
+		if (PlayerControl::GetIns()->GetPlayer()->GetStopFlag() == false) {
+			if (input->TiltPushStick(Input::L_UP, 0.0f) ||
+				input->TiltPushStick(Input::L_DOWN, 0.0f) ||
+				input->TiltPushStick(Input::L_RIGHT, 0.0f) ||
+				input->TiltPushStick(Input::L_LEFT, 0.0f))
+			{
+				CameraControl::GetIns()->SetZoomF(false);
+			}
+		}
 		break;
 	default:
 		break;

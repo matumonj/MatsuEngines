@@ -27,8 +27,9 @@ void BossEnemyAttack::Update(Enemy* enemy)
 		}
 		else
 		{
-			enemy->ChangeState_Boss(new BossEnemyShieldGuard());
-			enemy->SetRecvDamage2(false);
+			enemy->ChangeState_Boss(new BossEnemyFollow());
+			//enemy->ChangeState_Boss(new BossEnemyShieldGuard());
+			///enemy->SetRecvDamage2(false);
 		}
 	}
 	enemy->SetGuardAction(false);

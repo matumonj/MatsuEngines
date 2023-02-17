@@ -55,9 +55,9 @@ void GuardianShotAttack::TexSet()
 	//ミサイル爆発時のエフェクト
 
 	PlayerDamageEffect = std::make_unique<Particle>();
-	PlayerDamageEffect->Init(64);
+	PlayerDamageEffect->Init(Particle::TOURCHFIRE);
 	PlayerDamageEffect->SetParScl({2.f, 2.f});
-	PlayerDamageEffect->SetParColor({1.f, 0.2f, 0.2f, 1.f});
+	PlayerDamageEffect->SetParColor({0.8f, 0.2f, 0.2f, 1.f});
 
 	DestroyEffectF = false;
 	isEndAttack = false;

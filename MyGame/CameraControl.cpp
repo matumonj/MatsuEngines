@@ -333,9 +333,9 @@ void CameraControl::TargetBossField()
 		}
 		break;
 	case TARGETPLAYER:
-		CameraPosition = {17.0f, -30.0f, 720.0f};
+		CameraPosition = {60.0f, -30.0f, 350.0f};
 
-		this->camera->SetTarget({17.0f, -35.0f, 832.0f});
+		this->camera->SetTarget({60.0f, -35.0f, 450.0f});
 
 		if (FenceControl::GetIns()->GetBossGateFence()->FenceYposMin() == TRUE)
 		{
@@ -347,18 +347,18 @@ void CameraControl::TargetBossField()
 		}
 		break;
 	case END_BOSS:
-		//	if (FenceControl::GetIns()->GetBossGateFence()->FenceYposMin() == TRUE)
-		if (Feed::GetIns()->GetAlpha() > 0.0f)
-		{
-			if (Collision::GetLength(PlayerControl::GetIns()->GetPlayer()->GetPosition(), {17, -35, 800}) >= 50)
+		//if (FenceControl::GetIns()->GetBossGateFence()->FenceYposMin() == TRUE) {
+			if (Feed::GetIns()->GetAlpha() > 0.0f)
 			{
-				Feed::GetIns()->Update_Black(Feed::FEEDOUT);
+				if (Collision::GetLength(PlayerControl::GetIns()->GetPlayer()->GetPosition(), { 60, -35, 400 }) >= 50)
+				{
+					Feed::GetIns()->Update_Black(Feed::FEEDOUT);
+				}
+			} else
+			{
+				Tstate = PLAYER;
 			}
-		}
-		else
-		{
-			Tstate = PLAYER;
-		}
+		//}
 		break;
 	default:
 		break;
@@ -477,7 +477,7 @@ void CameraControl::BossCutScene_Spline()
 {
 	nowCount = static_cast<float>(GetTickCount64());
 	elapsedCount = nowCount - startCount;
-	elapsedTime = elapsedCount / 20.0f;
+	elapsedTime = elapsedCount / 320.0f;
 
 	timerate = elapsedTime / maxtime;
 	if (timerate >= 1)
@@ -539,7 +539,7 @@ void CameraControl::PlaySceneStart()
 	case SPLINE:
 		nowCount = static_cast<float>(GetTickCount64());
 		elapsedCount = nowCount - startCount;
-		elapsedTime = elapsedCount / 70.0f;
+		elapsedTime = elapsedCount / 570.0f;
 
 		timerate = elapsedTime / maxtime;
 		if (timerate >= 1)
@@ -712,6 +712,8 @@ void CameraControl::RushTargetBoss()
 
 void CameraControl::BattleStart()
 {
+	XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
+
 	if (bscamera== NON_BATTLESTART)
 	{
 		OldPos = camera->GetEye();
@@ -721,14 +723,18 @@ void CameraControl::BattleStart()
 	}
 	else if (bscamera == ZOOM_BATTLESTART)
 	{
-		CameraPosMovingEaseT += 0.02f;
+		
 		if (CameraPosMovingEaseT > 1.f) {
 			
 	
-		//	if (ZoomF == false)
-		//	{
+			if (ZoomF == false)
+			{
 				bscamera = RETURN_BATTLESTART;
-			//}
+			}
+		}
+		else
+		{
+			CameraPosMovingEaseT += 0.02f;
 		}
 
 		XMFLOAT3 position = { (OldPos.x + ZoomTarget.x) / 2.f,(OldPos.y + ZoomTarget.y) / 2.f,(OldPos.z+ ZoomTarget.z) / 2.f };           //CenterPointのポジションを中心に配置
@@ -738,8 +744,8 @@ void CameraControl::BattleStart()
 
 		float disx = radx / sinf(OldCameraPos.x * 0.5f );
 		float disz = radz / sinf(OldCameraPos.z * 0.5f);
-		CameraTarget.x = Easing::EaseOut(CameraPosMovingEaseT, OldTarget.x, ((OldTarget.x + ZoomTarget.x) / 2.f));
-			CameraTarget.z = Easing::EaseOut(CameraPosMovingEaseT, OldTarget.z, ((OldTarget.z + ZoomTarget.z) / 2.f) );
+		CameraTarget.x = Easing::EaseOut(CameraPosMovingEaseT, ppos.x, ((OldTarget.x + ZoomTarget.x) / 2.f));
+			CameraTarget.z = Easing::EaseOut(CameraPosMovingEaseT, ppos.z, ((OldTarget.z + ZoomTarget.z) / 2.f) );
 	
 	}
 	else if(bscamera==RETURN_BATTLESTART)
@@ -751,8 +757,8 @@ void CameraControl::BattleStart()
 
 		//OldPos = camera->GetEye();
 		//bscamera = ZOOM_BATTLESTART;
-		CameraTarget.x = Easing::EaseOut(CameraPosMovingEaseT, OldTarget.x, ((OldTarget.x + ZoomTarget.x) / 2.f));
-		CameraTarget.z = Easing::EaseOut(CameraPosMovingEaseT, OldTarget.z, ((OldTarget.z + ZoomTarget.z) / 2.f));
+		CameraTarget.x = Easing::EaseOut(CameraPosMovingEaseT,ppos.x , ((OldTarget.x + ZoomTarget.x) / 2.f));
+		CameraTarget.z = Easing::EaseOut(CameraPosMovingEaseT, ppos.z, ((OldTarget.z + ZoomTarget.z) / 2.f));
 		//	
 	}
 	else if(bscamera == END_BATTLESTART)

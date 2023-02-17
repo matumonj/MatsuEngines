@@ -442,11 +442,6 @@ void Field::Update_Boss()
 		SkyMapDestF = true;
 		destf = true;
 	}
-	if (Input::GetIns()->TriggerButton(Input::X))
-	{
-		destf = false;
-	}
-
 	if (UltAttack::GetIns()->GetFieldDestG())
 	{
 		for (int i = 0; i < SkyBack.size(); i++)
@@ -488,7 +483,7 @@ void Field::Update_Boss()
 	{
 		SkyMapDestT -= l_DestSpeed;
 	}
-	SkyMapDestT = std::clamp(SkyMapDestT, 30.f, 0.f);
+	SkyMapDestT = max(SkyMapDestT, 0.f);
 
 	for (int i = 0; i < SkyMap.size(); i++)
 	{
@@ -621,7 +616,7 @@ void Field::Draw()
 				TorchObj[i]->Draw();
 			}
 			Object3d::PostDraw();
-			for (int i = 0; i < TorchObj.size(); i++)
+			for (int i = 0; i < TorchObj.size()-1; i++)
 			{
 				if (FireEffect[i] == nullptr)continue;
 				FireEffect[i]->Draw();

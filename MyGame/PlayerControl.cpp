@@ -118,13 +118,14 @@ void PlayerControl::Update_Play() //プレイシーン時
 void PlayerControl::Update_Boss()
 {
 	PlayerAttackState::GetIns()->Update();
+	if (EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0] != nullptr) {
+		XMFLOAT3 rot = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetRotation();
+		XMFLOAT3 spos = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->HandRightPos2();
 
-	XMFLOAT3 rot = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetRotation();
-	XMFLOAT3 spos = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->HandRightPos2();
-
-	AttackEffect::GetIns()->SetGuardRot(rot);
-	AttackEffect::GetIns()->GuarEffect(spos);
-	player->Update();
+		AttackEffect::GetIns()->SetGuardRot(rot);
+		AttackEffect::GetIns()->GuarEffect(spos);
+	}
+		player->Update();
 	DamageTexUpdate();
 }
 

@@ -95,7 +95,7 @@ void GuardianNAttack::Phase_AreaSet()
 	const float maxScale = 5.f;
 	if (TexAlpha == 0.f)
 	{
-		DamageTex->SetPosition({ppos.x, -33.f, ppos.z});
+		DamageTex->SetPosition({ppos.x, -25.f, ppos.z});
 	}
 
 	//テクスチャ拡大
