@@ -364,6 +364,6 @@ void GuardianBomAttack::DestroyEffect()
 		{
 			DtexAlpha[i] -= 0.05f;
 		}
-		BomEffect[i]->Upda_B();
+		//BomEffect[i]->Upda_B();
 	}
 }

@@ -16,6 +16,7 @@
 #include"Feed.h"
 #include"BossEnemy.h"
 #include "BossEnemyAttackBrzBeam.h"
+#include "BossEnemyAttackCircle.h"
 #include "BossEnemyAttackHalf.h"
 #include "BossEnemyAttackUlt.h"
 #include "BossEnemyEvasion.h"
@@ -113,7 +114,17 @@ void BossEnemyFollow::Update(Enemy* enemy)
 	}
 
 	/*-----------UŒ‚‘JˆÚ•”•ª------------*/
-
+	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= 90.0f)
+	{
+		if (FrontCircleAttack::GetIns()->GetPhaseEnd() != RushAttack::PHASEFOUR)
+		{
+			if (enemy->GetAttack_End(enemy->CIRCLE_1) == false)
+			{
+				FrontCircleAttack::GetIns()->SetAttackPhase(true);
+				enemy->ChangeState_Boss(new BossEnemyAttackCircle());
+			}
+		}
+	}
 	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= 70.0f)
 	{
 		if (RushAttack::GetIns()->GetPhaseEnd() != RushAttack::PHASEFOUR)

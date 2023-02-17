@@ -323,6 +323,7 @@ void Player::Update()
 
 	//オブジェクトの更新
 	ParameterSet_Obj();
+
 	ParameterSet_Fbx3();
 
 	

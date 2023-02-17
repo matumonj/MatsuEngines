@@ -189,7 +189,7 @@ void ChestControl::Update_Play()
 		ChestCage->SetPosition({ CagePos.x,CagePos.y-5.f,CagePos.z });
 		ChestCage->SetColor({ 1.f,1.f,1.f,0.5f });
 		ChestCage->SetUVf(true);
-		ChestCage->SetScale({ 6.f,3.f,6.f });
+		ChestCage->SetScale({ 7.f,3.f,7.f });
 		ChestCage->Update(CameraControl::GetIns()->GetCamera());
 	}
 	if (chests[YELLOW] != nullptr)
@@ -225,9 +225,9 @@ void ChestControl::CageColPlayer()
 	CageOBB.SetOBBParam_Pos(CagePos);
 	CageOBB.SetOBBParam_Rot(ChestCage->GetMatrot());
 	CageOBB.SetOBBParam_Scl({
-		ChestCage->GetMatScl().r[0].m128_f32[0] * 3.f,
+		ChestCage->GetMatScl().r[0].m128_f32[0] * 4.f,
 		ChestCage->GetMatScl().r[1].m128_f32[1] * 3.f,
-		ChestCage->GetMatScl().r[2].m128_f32[2] *3.f
+		ChestCage->GetMatScl().r[2].m128_f32[2] *4.f
 		});
 
 	if (Collision::CheckOBBCollision(playerOBB, CageOBB) == true)

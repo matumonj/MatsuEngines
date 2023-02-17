@@ -10,8 +10,8 @@ scl = { 3, 3, 3};}
 
 void PlaceFootSwitch::FileWriting()
 {
-	
-	file.open("fence.csv");
+	if (switchs.size() == 0)return;
+	file.open("switch.csv");
 
 	popcom << file.rdbuf();
 

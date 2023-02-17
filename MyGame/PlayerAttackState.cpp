@@ -46,15 +46,15 @@ void PlayerAttackState::Update()
 	int DefaultDamage;
 	if (l_player->GetAttackType() == PlayerControl::GetIns()->GetPlayer()->FIRST)
 	{
-		DefaultDamage = 50;
+		DefaultDamage = 5;
 	}
 	if (l_player->GetAttackType() == PlayerControl::GetIns()->GetPlayer()->SECOND)
 	{
-		DefaultDamage = 100;
+		DefaultDamage = 10;
 	}
 	if (l_player->GetAttackType() == PlayerControl::GetIns()->GetPlayer()->THIRD)
 	{
-		DefaultDamage = 200;
+		DefaultDamage = 20;
 	}
 	AttackCollision::GetIns()->GetCol(DefaultDamage + SelectSword::GetIns()->GetSword()->GetDamage());
 }
@@ -68,6 +68,7 @@ void PlayerAttackState::FirstAttack(std::vector<std::unique_ptr<Enemy>>& enemy)
 	OldSkill = First;
 
 	int randDam = rand() % 5 + 1;
+
 	Damage = SelectSword::GetIns()->GetSword()->GetDamage() + FIRSTATTACKDAMAGE + randDam;
 
 	DetailAttack(enemy, 120);

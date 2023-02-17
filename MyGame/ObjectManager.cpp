@@ -96,7 +96,7 @@ void ObjectManager::CollisionField()
 	// 球の上端から球の下端までのレイキャスト
 	Ray ray;
 	ray.start = sphereCollider->center;
-	ray.start.m128_f32[1] += sphereCollider->GetRadius() + 3;
+	ray.start.m128_f32[1] += sphereCollider->GetRadius()+3.f;
 	ray.dir = {0, -1, 0, 0};
 	RaycastHit raycastHit;
 

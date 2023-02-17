@@ -738,19 +738,8 @@ void CameraControl::BattleStart()
 
 		float disx = radx / sinf(OldCameraPos.x * 0.5f );
 		float disz = radz / sinf(OldCameraPos.z * 0.5f);
-		//distance = (radius + margin) / Mathf.Sin(usingCamera.fieldOfView * 0.5f * Mathf.Deg2Rad);   //カメラの距離を算出
-		//cameraPos.localPosition = new Vector3(, cameraHeight, -distance);    //CameraPositionをカメラの距離をもとに配置
-//
-		//OldPos = camera->GetEye();
-		//bscamera = ZOOM_BATTLESTART;
-			CameraTarget.x = Easing::EaseOut(CameraPosMovingEaseT, OldTarget.x, ((OldTarget.x + ZoomTarget.x) / 2.f));
+		CameraTarget.x = Easing::EaseOut(CameraPosMovingEaseT, OldTarget.x, ((OldTarget.x + ZoomTarget.x) / 2.f));
 			CameraTarget.z = Easing::EaseOut(CameraPosMovingEaseT, OldTarget.z, ((OldTarget.z + ZoomTarget.z) / 2.f) );
-	//		CameraTarget.y = Easing::EaseOut(CameraPosMovingEaseT, OldPos.y, OldPos.y - 6.f);
-			
-			//CameraPosition.x = Easing::EaseOut(CameraPosMovingEaseT, OldTarget.x,-disx);
-			//CameraPosition.y = Easing::EaseOut(CameraPosMovingEaseT, OldTarget.y,ZoomTarget.y);
-			//CameraPosition.z = Easing::EaseOut(CameraPosMovingEaseT,OldTarget.z, -disz);
-			
 	
 	}
 	else if(bscamera==RETURN_BATTLESTART)

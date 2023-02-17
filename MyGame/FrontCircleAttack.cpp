@@ -14,14 +14,16 @@ FrontCircleAttack* FrontCircleAttack::GetIns()
 void FrontCircleAttack::Init()
 {
 	Texture::LoadTexture(26, L"Resources/2d/icon/missileicon.png");
-
-	//DamageAreaTex = Texture::Create(26, {0.0f, 0.0f, 0.0f}, {100.0f, 100.0f, 1.0f}, {1.0f, 1.0f, 1.0f, 1.0f});
-	//DamageAreaTex->CreateTexture();
-	//DamageAreaTex->SetAnchorPoint({0.5f, 0.5f});
-
+	
 	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
 	for (auto i = 0; i < nail_objses_.size(); i++) {
+		//ミサイル爆発時のエフェクト
+		nail_objses_[i] .PireEffect= std::make_unique<Particle>();
+		nail_objses_[i].PireEffect->Init(Particle::SMOKE);
+		nail_objses_[i].PireEffect->SetParScl({ 4.f, 4.f });
+		nail_objses_[i].PireEffect->SetParColor({ 1.f, 1.f, 1.f, 1.f });
+
 		//テクスチャ
 		nail_objses_[i].AOETexs.reset(Texture::Create(26));
 		nail_objses_[i].AOETexs->CreateTexture();
@@ -33,26 +35,17 @@ void FrontCircleAttack::Init()
 		nail_objses_[i].TexAlpha = 0.f;
 	}
 	phase = PHASENON;
-	TexAlpha = 0.0f;
 }
 
 void FrontCircleAttack::Upda()
 {
 	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
-	
-	//CameraControl::GetIns()->ShakeCamera();
-	
-	if (Input::GetIns()->TriggerButton(Input::X))
-	{
-		phase = PHASEONE;
-	}
 
 	//フェーズごとの処理
 	switch (phase)
 	{
 	case PHASENON:
-		TexAlpha = 0;
 		break;
 	case PHASEONE:
 		SetDamageArea();
@@ -86,10 +79,10 @@ void FrontCircleAttack::Upda()
 		nail_objses_[i].Obj->SetPosition(nail_objses_[i].ObjPos);
 		nail_objses_[i].Obj->SetScale({ 4.f,8.f,4.f });
 		nail_objses_[i].Obj->Update(camera);
+
+		//pa-texikuru
+		nail_objses_[i].PireEffect->Upda_B(false);
 	}
-	
-	TexAlpha = min(TexAlpha, 1.0f);
-	TexAlpha = max(TexAlpha, 0.0f);
 }
 #include "imgui.h"
 void FrontCircleAttack::Draw()
@@ -107,15 +100,21 @@ void FrontCircleAttack::Draw()
 		nail_objses_[i].Obj->Draw();
 	}
 	Object3d::PostDraw();
-	ImGui::Begin("phase");
-	ImGui::Text("pahse %f", nail_objses_[4].ObjPos.y);
-	ImGui::End();
+	for (auto i = 0; i < nail_objses_.size(); i++) {
+		nail_objses_[i].PireEffect->Draw();
+	}
 }
 
 
 void FrontCircleAttack::Finalize()
 {
-	//Destroy(DamageAreaTex);
+	//開放処理
+	for(auto i=0;i<nail_objses_.size();i++)
+	{
+		Destroy_unique(nail_objses_[i].PireEffect);
+		Destroy_unique(nail_objses_[i].AOETexs);
+		Destroy_unique(nail_objses_[i].Obj);
+	}
 }
 
 void FrontCircleAttack::SetDamageArea()
@@ -162,6 +161,11 @@ void FrontCircleAttack::SetDamageArea()
 	//次のフェーズへ
 	if(nail_objses_[nail_objses_.size()-1].TexAlpha>=1.f)
 	{
+		for (auto i = 0; i < nail_objses_.size(); i++)
+		{
+			nail_objses_[i].PireEffect->SetParF(1);
+			nail_objses_[i].PireEffect->CreateParticle(true, { nail_objses_[i].ObjPos.x, 10.f,nail_objses_[i].ObjPos.z });
+		}
 		phase = Phase::PHASETWO;
 	}
 }
@@ -178,12 +182,12 @@ void FrontCircleAttack::PireNail()
 		//釘突き出す
 		if(nail_objses_[i].PosYMovingEaseT<=1.f)
 		nail_objses_[i].ObjPos.y = Easing::EaseOut(nail_objses_[i].PosYMovingEaseT, NailMinPosY, NailMaxPosY);
-
 	}
 	
 	//次のフェーズへ
-	if (nail_objses_[0].PosYMovingEaseT >= 2.f)
+	if (nail_objses_[0].PosYMovingEaseT >= 2.f) {
 		phase = PHASETHREE;
+	}
 
 }
 
@@ -203,7 +207,7 @@ void FrontCircleAttack::DestNail()
 			nail_objses_[i].ObjPos.y = Easing::EaseOut(nail_objses_[i].PosYMovingEaseT, NailMinPosY, NailMaxPosY);
 
 		//テクスチャ薄く
-		nail_objses_[i].TexAlpha -= l_TexAlphaFeedVal;
+		nail_objses_[i].TexAlpha = Easing::EaseOut(nail_objses_[i].TexAlpha, 0.f, 1.f);
 	}
 	//次のフェーズへ
 	if (nail_objses_[0].PosYMovingEaseT <= 0.f)
