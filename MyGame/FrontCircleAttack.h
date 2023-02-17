@@ -57,13 +57,14 @@ private:
 	std::array<NailObjs, NailSize>nail_objses_;
 	//攻撃のフェーズ
 	Phase phase;
-	
+	static void (FrontCircleAttack::* actionTable[])();
 public:
 	//フェーズセット
 	void SetAttackPhase(bool f) { if (f && phase != PHASEONE) { phase = PHASEONE; } }
 	Phase GetPhaseEnd() { return phase; }
 
 private:
+	void NonInit();
 	//範囲設定
 	void SetDamageArea();
 	//釘出てくる

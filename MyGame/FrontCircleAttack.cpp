@@ -1,4 +1,7 @@
 #include "FrontCircleAttack.h"
+
+#include <algorithm>
+
 #include"EnemyControl.h"
 #include"CameraControl.h"
 #include"BossSpell.h"
@@ -36,36 +39,21 @@ void FrontCircleAttack::Init()
 	}
 	phase = PHASENON;
 }
+void (FrontCircleAttack::* FrontCircleAttack::actionTable[])() = {
+	&FrontCircleAttack::NonInit,
+	&FrontCircleAttack::SetDamageArea,
+	&FrontCircleAttack::PireNail,
+	&FrontCircleAttack::DestNail,
+	&FrontCircleAttack::AttackEnd
+};
 
 void FrontCircleAttack::Upda()
 {
 	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
-
 	//フェーズごとの処理
-	switch (phase)
-	{
-	case PHASENON:
-		break;
-	case PHASEONE:
-		SetDamageArea();
-	//phase = PHASETWO;
-		break;
-	case PHASETWO:
-		PireNail();
-		break;
-	case PHASETHREE:
-		DestNail();
+	(this->*actionTable[phase])();
 
-		
-
-		break;
-	case PHASEFOUR:
-		AttackEnd();
-		break;
-	default:
-		break;
-	}
 	for (auto i = 0; i < nail_objses_.size(); i++) {
 		//テクスチャ
 		nail_objses_[i].AOETexs->SetBillboard(false);
@@ -82,6 +70,8 @@ void FrontCircleAttack::Upda()
 
 		//pa-texikuru
 		nail_objses_[i].PireEffect->Upda_B(false);
+
+		nail_objses_[i].TexAlpha = std::clamp(nail_objses_[i].TexAlpha, 0.f, 1.f);
 	}
 }
 #include "imgui.h"
@@ -103,6 +93,11 @@ void FrontCircleAttack::Draw()
 	for (auto i = 0; i < nail_objses_.size(); i++) {
 		nail_objses_[i].PireEffect->Draw();
 	}
+}
+
+void FrontCircleAttack::NonInit()
+{
+	
 }
 
 
@@ -168,6 +163,8 @@ void FrontCircleAttack::SetDamageArea()
 		}
 		phase = Phase::PHASETWO;
 	}
+
+	
 }
 #include"mHelper.h"
 void FrontCircleAttack::PireNail()
