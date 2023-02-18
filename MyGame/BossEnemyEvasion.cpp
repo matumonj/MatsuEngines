@@ -47,7 +47,7 @@ void BossEnemyEvasion::Update(Enemy* enemy)
 
 	if (enemy->GetAnimationTime() >= enemy->GetFbxTimeEnd() - 0.1f)
 	{
-		ThrowRockAttack::GetIns()->SetAction(true);
+		ThrowRockAttack::GetIns()->SetAttackPhase(true);
 		enemy->ChangeState_Boss(new BossEnemyAttackThrow());
 	}
 }

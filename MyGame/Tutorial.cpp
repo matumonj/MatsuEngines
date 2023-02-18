@@ -160,12 +160,15 @@ void Tutorial::MyGameDraw()
 	Field::GetIns()->Draw();
 	if (Play)
 	{
+		//敵やきのげーむおぶじぇくと
 		for (auto obj : AllObjectControl)
 		{
 			obj->Draw();
 		}
 	}
+	//チュートリアルの案内スプライト
 	TutorialSprite::GetIns()->DrawTargetPos();
+	//プレイヤーの持つ剣
 	SelectSword::GetIns()->SwordDraw();
 }
 

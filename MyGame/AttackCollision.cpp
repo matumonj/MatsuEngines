@@ -126,7 +126,7 @@ void AttackCollision::BossCol(int damage)
 	if (EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetHP() <= EnemyControl::GetIns()->
 		GetEnemy(EnemyControl::BOSS)[0]->GetMaxHP() / 2)
 	{
-		if (UltAttack::GetIns()->GetPhase() != UltAttack::END)
+		if (UltAttack::GetIns()->GetPhase() != UltAttack::PHASE_FOUR)
 		{
 			return;
 		}

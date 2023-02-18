@@ -6,8 +6,8 @@
 #include"Object3d.h"
 #include"Particle.h"
 #include"CollisionPrimitive.h"
-
-class KnockAttack
+#include"BossAttackActionManager.h"
+class KnockAttack:public BossAttackActionManager
 {
 public:
 	KnockAttack();
@@ -41,23 +41,9 @@ private:
 
 public:
 	static KnockAttack* GetIns();
-	void Initialize();
+	void Init()override;
 	void Draw();
-	void ActionJudg();
+	void Upda()override;
 	void Finalize();
-public:
-	enum Phase
-	{
-		PHASENON,
-		PHASEONE,
-		PHASETWO,
-		PHASETHREE,
-		PHASEFOUR
-	};
-
-	Phase GetPhase() { return phase; }
-	void SetAttackPhase(bool f) { if (f && phase != PHASEONE) { phase = PHASEONE; } }
-
-private:
-	Phase phase;
+	
 };

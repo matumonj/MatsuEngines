@@ -20,18 +20,9 @@ private:
 	Particle* p;
 private:
 	Line2D beamRay[2];
-public:
-	enum Phase
-	{
-		PHASENON,
-		PHASEONE,
-		PHASETWO,
-		PHASETHREE,
-		PHASEFOUR
-	};
+
 
 private:
-	Phase phase;
 	float RushEaseTime;
 	float angleRush;
 	int RushAttackCount = 0;
@@ -76,6 +67,4 @@ public:
 
 	float GetFtime(Area area) { return rushEtime[area]; }
 	Area GetNowArea() { return area; }
-	void SetAttackPhase(bool f) { if (f && phase != PHASEONE) { phase = PHASEONE; } }
-	Phase GetPhaseEnd() { return phase; }
 };

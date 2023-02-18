@@ -18,7 +18,7 @@ void BossEnemyAttackRush::Update(Enemy* enemy)
 	{
 		enemy->SetAttack_End(enemy->Beam, true);
 	}
-	if (RushAttack::GetIns()->GetPhaseEnd() == RushAttack::PHASEFOUR)
+	if (RushAttack::GetIns()->GetPhase() == RushAttack::PHASE_FOUR)
 	{
 		enemy->ChangeState_Boss(new BossEnemyFollow());
 	}

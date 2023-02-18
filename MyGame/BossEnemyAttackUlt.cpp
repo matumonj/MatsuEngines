@@ -13,17 +13,16 @@ void BossEnemyAttackUlt::Initialize(Enemy* enmey)
 void BossEnemyAttackUlt::Update(Enemy* enemy)
 {
 	enemy->SetRecvDamage2(false);
-	UltAttack::GetIns()->SetAction(true);
 	enemy->SetAnimation(BossEnemy::NowAttackMotion::BROAR, false, 1.f);
-
-	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= 50.0f)
+	
+	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= 90.0f)
 	{
 		enemy->SetAttack_End(enemy->ULT, true);
 	}
 	//enemy->SetMagicAttackTime(true);
 	CameraControl::GetIns()->ShakeCamera();
 
-	if (UltAttack::GetIns()->GetPhase() == UltAttack::END)
+	if (UltAttack::GetIns()->GetPhase() == UltAttack::PHASE_FOUR)
 	{
 		enemy->ChangeState_Boss(new BossEnemyFollow());
 	}

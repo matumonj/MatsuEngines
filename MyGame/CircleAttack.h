@@ -35,19 +35,7 @@ private:
 
 	int Area1, Area2;
 	bool NailAttackFlag;
-public:
-public:
-	enum Phase
-	{
-		PHASENON,
-		PHASEONE,
-		PHASETWO,
-		PHASETHREE,
-		PHASEFOUR
-	};
 
-private:
-	Phase phase;
 public:
 	static CircleAttack* GetIns();
 	void Init() override;
@@ -71,9 +59,6 @@ public:
 	};
 
 	bool GetNailMove() { return NailAttackFlag; }
-
-	void SetAttackPhase(bool f) { if (f && phase != PHASEONE) { phase = PHASEONE; } }
-	Phase GetPhaseEnd() { return phase; }
 
 private:
 	void CollisonNailPlayer();

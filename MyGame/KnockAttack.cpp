@@ -34,7 +34,7 @@ KnockAttack* KnockAttack::GetIns()
 	return &instance;
 }
 
-void KnockAttack::Initialize()
+void KnockAttack::Init()
 {
 	AxePos[0] = {50.f, 200.f, 50.f};
 	AxePos[1] = {-50.f, 200.f, 50.f};
@@ -71,12 +71,12 @@ void KnockAttack::Initialize()
 	AxePosDownEtime = 0.f;
 	AttackCount = 0;
 	axeDirectionTexAlpha = 0.f;
-	phase = PHASENON;
+	_phase = PHASE_NON;
 }
 
-void KnockAttack::ActionJudg()
+void KnockAttack::Upda()
 {
-	if (phase == PHASEONE)
+	if (_phase == PHASE_ONE)
 	{
 		bool nextPhase = AttackCount > 120;
 		for (int i = 0; i < axeSize; i++)
@@ -86,13 +86,13 @@ void KnockAttack::ActionJudg()
 		AttackCount++;
 		if (nextPhase)
 		{
-			phase = PHASETWO;
+			_phase = PHASE_TWO;
 		}
 		EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->SetAnimation(
 			BossEnemy::NowAttackMotion::MAGIC, 1.f, false);
 	}
 
-	if (phase == PHASETWO)
+	if (_phase == PHASE_TWO)
 	{
 		EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->SetAnimation(
 			BossEnemy::NowAttackMotion::MAGIC, 1.f, false);
@@ -114,11 +114,11 @@ void KnockAttack::ActionJudg()
 		}
 		if (AxePosDownEtime >= 1.0f)
 		{
-			phase = PHASETHREE;
+			_phase = PHASE_THREE;
 		}
 	}
 
-	if (phase == PHASETHREE)
+	if (_phase == PHASE_THREE)
 	{
 		AxePosDownEtime += 1.f;
 
@@ -154,7 +154,7 @@ void KnockAttack::ActionJudg()
 				AxeRot[i].x += 6.f;
 				if (AttackCount > 800)
 				{
-					phase = PHASEFOUR;
+					_phase = PHASE_FOUR;
 				}
 			}
 		}
@@ -169,12 +169,12 @@ void KnockAttack::ActionJudg()
 	}
 
 
-	if (phase == PHASEFOUR)
+	if (_phase == PHASE_FOUR)
 	{
 		BossMap::GetIns()->DrawDamageLine(false, damageLine);
 
 		Finalize();
-		//	phase = PHASENON;
+		//	_phase = PHASE_NON;
 	}
 	else
 	{
@@ -192,7 +192,7 @@ void KnockAttack::ActionJudg()
 			AxeObj[i]->SetScale({8.f, 8.f, 8.f});
 			AxeObj[i]->SetRotation(AxeRot[i]);
 			AxeObj[i]->Update(CameraControl::GetIns()->GetCamera());
-			ImpactPar[i]->CreateParticle((phase == PHASETHREE && AttackCount > 180 && AxeRot[i].x <= 10), {
+			ImpactPar[i]->CreateParticle((_phase == PHASE_THREE && AttackCount > 180 && AxeRot[i].x <= 10), {
 				                             AxePos[i].x + move[i].m128_f32[0] * 40.0f, 14.f,
 				                             AxePos[i].z + move[i].m128_f32[2] * 40.0f
 			                             });
@@ -200,7 +200,7 @@ void KnockAttack::ActionJudg()
 
 			damageLine[i].start = {AxePos[i].x, AxePos[i].z};
 			damageLine[i].end = {SetPos[i].x += move[i].m128_f32[0] * 8.0f, SetPos[i].z += move[i].m128_f32[2] * 8.0f};
-			BossMap::GetIns()->DrawDamageLine(phase == PHASETHREE && AttackCount > 380, damageLine);
+			BossMap::GetIns()->DrawDamageLine(_phase == PHASE_THREE && AttackCount > 380, damageLine);
 
 			AxeDirectionTex[i]->SetPosition({AxePos[i].x, 15.f, AxePos[i].z});
 			AxeDirectionTex[i]->SetScale({7.f, 7.f, 0.f});
@@ -231,7 +231,7 @@ void KnockAttack::ActionJudg()
 void KnockAttack::Draw()
 {
 	int i = 0;
-	if ((phase == PHASETHREE && AttackCount > 179))
+	if ((_phase == PHASE_THREE && AttackCount > 179))
 	{
 		i = 1;
 	}

@@ -134,10 +134,6 @@
     <Filter Include="Game\gameobject\GameObject\Enemy\Derived\alpha">
       <UniqueIdentifier>{f0dec463-be94-4bfc-b8b2-176a68a0c9a8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Shader">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
     <Filter Include="Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Guardian">
       <UniqueIdentifier>{42fec9ba-2ade-4049-9988-06eb19f9e919}</UniqueIdentifier>
     </Filter>
@@ -164,28 +160,6 @@
     </Filter>
     <Filter Include="Game\gameobject\GameObject\Enemy\EnemyAttackSequence\beta">
       <UniqueIdentifier>{f4a48d6b-c967-49f6-917b-5d69db34b8a6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\シェーダー">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="Game\シェーダー\Sprite">
-      <UniqueIdentifier>{bf4a6542-5688-4e14-9ed8-d38ceba9b990}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\シェーダー\Particle">
-      <UniqueIdentifier>{0e393480-4770-4691-8cbc-553e04e52c6f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\シェーダー\Object">
-      <UniqueIdentifier>{d6d353b0-f6f0-4b02-a01f-5e8df6e85c37}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\シェーダー\Tex">
-      <UniqueIdentifier>{ebc9bd48-828a-474c-820f-bac6b5758553}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\シェーダー\Fbx">
-      <UniqueIdentifier>{063aa41a-2940-45e8-8c61-a3afc45888bc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\シェーダー\PostEffect">
-      <UniqueIdentifier>{ef7f1cef-7a15-4b1c-8cef-8bc69ccc595a}</UniqueIdentifier>
     </Filter>
     <Filter Include="Game\gameobject\GameObject\Boss">
       <UniqueIdentifier>{03ed31c6-4630-4966-9fda-66b80c317f82}</UniqueIdentifier>
@@ -264,6 +238,32 @@
     </Filter>
     <Filter Include="Editor\配置管理\FootSwitch">
       <UniqueIdentifier>{67be1350-af6b-4052-aef9-3eceb386198d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Header">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Game\Shader">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Game\Shader\Sprite">
+      <UniqueIdentifier>{bf4a6542-5688-4e14-9ed8-d38ceba9b990}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Shader\Particle">
+      <UniqueIdentifier>{0e393480-4770-4691-8cbc-553e04e52c6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Shader\Object">
+      <UniqueIdentifier>{d6d353b0-f6f0-4b02-a01f-5e8df6e85c37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Shader\Tex">
+      <UniqueIdentifier>{ebc9bd48-828a-474c-820f-bac6b5758553}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Shader\Fbx">
+      <UniqueIdentifier>{063aa41a-2940-45e8-8c61-a3afc45888bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Shader\PostEffect">
+      <UniqueIdentifier>{ef7f1cef-7a15-4b1c-8cef-8bc69ccc595a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -586,7 +586,7 @@
       <Filter>Game\gameobject\Control</Filter>
     </ClCompile>
     <ClCompile Include="BossMap.cpp">
-      <Filter>Game\Shader</Filter>
+      <Filter>Game\Header</Filter>
     </ClCompile>
     <ClCompile Include="EnemyKnockState.cpp">
       <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Mob</Filter>
@@ -840,7 +840,7 @@
       <Filter>Game\collision</Filter>
     </ClInclude>
     <ClInclude Include="mHelper.h">
-      <Filter>Game\Shader</Filter>
+      <Filter>Game\Header</Filter>
     </ClInclude>
     <ClInclude Include="EnemyAlpha.h">
       <Filter>Game\gameobject\GameObject\Enemy\Derived\alpha</Filter>
@@ -924,7 +924,7 @@
       <Filter>Editor\配置管理\CameraPoints</Filter>
     </ClInclude>
     <ClInclude Include="Feed.h">
-      <Filter>Game\Shader</Filter>
+      <Filter>Game\Header</Filter>
     </ClInclude>
     <ClInclude Include="SwordBase.h">
       <Filter>Game\gameobject\GameObject\Sword\基底</Filter>
@@ -1053,13 +1053,13 @@
       <Filter>Game\collision</Filter>
     </ClInclude>
     <ClInclude Include="GameOver.h">
-      <Filter>Game\Shader</Filter>
+      <Filter>Game\Header</Filter>
     </ClInclude>
     <ClInclude Include="HouseControl.h">
       <Filter>Game\gameobject\Control</Filter>
     </ClInclude>
     <ClInclude Include="BossMap.h">
-      <Filter>Game\Shader</Filter>
+      <Filter>Game\Header</Filter>
     </ClInclude>
     <ClInclude Include="EnemyKnockState.h">
       <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Mob</Filter>
@@ -1122,22 +1122,22 @@
       <Filter>Game\gameobject\GameObject\Enemy\Derived\beta</Filter>
     </ClInclude>
     <ClInclude Include="ClearScene.h">
-      <Filter>Game\Shader</Filter>
+      <Filter>Game\Header</Filter>
     </ClInclude>
     <ClInclude Include="Particle.h">
       <Filter>Game\2d %28DebugTxt  Sprite Texture%29\Particle</Filter>
     </ClInclude>
     <ClInclude Include="BossEnemyAttackUlt.h">
-      <Filter>Game\Shader</Filter>
+      <Filter>Game\Header</Filter>
     </ClInclude>
     <ClInclude Include="BossEnemyAttackThrow.h">
-      <Filter>Game\Shader</Filter>
+      <Filter>Game\Header</Filter>
     </ClInclude>
     <ClInclude Include="ThrowRockAttack.h">
       <Filter>Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29</Filter>
     </ClInclude>
     <ClInclude Include="BossAttackActionManager.h">
-      <Filter>Game\Shader</Filter>
+      <Filter>Game\Header</Filter>
     </ClInclude>
     <ClInclude Include="CircleAttack.h">
       <Filter>Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\FirstHalf\Action\Circle</Filter>
@@ -1179,7 +1179,7 @@
       <Filter>Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\SecondHalf\Sequence\FrontCircle</Filter>
     </ClInclude>
     <ClInclude Include="BossEnemyShieldGuard.h">
-      <Filter>Game\Shader</Filter>
+      <Filter>Game\Header</Filter>
     </ClInclude>
     <ClInclude Include="PlaceFootSwitch.h">
       <Filter>Editor\配置管理\FootSwitch</Filter>
@@ -1188,110 +1188,110 @@
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="EnemyReturnCreatePos.h">
-      <Filter>Game\Shader</Filter>
+      <Filter>Game\Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shader\BasicGS.hlsl">
-      <Filter>Game\シェーダー</Filter>
+      <Filter>Game\Shader</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shader\BasicPS.hlsl">
-      <Filter>Game\シェーダー</Filter>
+      <Filter>Game\Shader</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shader\BasicVS.hlsl">
-      <Filter>Game\シェーダー</Filter>
+      <Filter>Game\Shader</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shader\FBXPS.hlsl">
-      <Filter>Game\シェーダー\Fbx</Filter>
+      <Filter>Game\Shader\Fbx</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shader\FBXVS.hlsl">
-      <Filter>Game\シェーダー\Fbx</Filter>
+      <Filter>Game\Shader\Fbx</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shader\ParticleGS.hlsl">
-      <Filter>Game\シェーダー\Particle</Filter>
+      <Filter>Game\Shader\Particle</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shader\ParticleVS.hlsl">
-      <Filter>Game\シェーダー\Particle</Filter>
+      <Filter>Game\Shader\Particle</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shader\ParticlePS.hlsl">
-      <Filter>Game\シェーダー\Particle</Filter>
+      <Filter>Game\Shader\Particle</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shader\Object3dVS.hlsl">
-      <Filter>Game\シェーダー\Object</Filter>
+      <Filter>Game\Shader\Object</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shader\Object3dPS.hlsl">
-      <Filter>Game\シェーダー\Object</Filter>
+      <Filter>Game\Shader\Object</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shader\SpritePS.hlsl">
-      <Filter>Game\シェーダー\Sprite</Filter>
+      <Filter>Game\Shader\Sprite</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shader\TexturePS.hlsl">
-      <Filter>Game\シェーダー\Tex</Filter>
+      <Filter>Game\Shader\Tex</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shader\SpriteVS.hlsl">
-      <Filter>Game\シェーダー\Sprite</Filter>
+      <Filter>Game\Shader\Sprite</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shader\PostEffectTestPS.hlsl">
-      <Filter>Game\シェーダー\PostEffect</Filter>
+      <Filter>Game\Shader\PostEffect</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shader\PostEffectTestVS.hlsl">
-      <Filter>Game\シェーダー\PostEffect</Filter>
+      <Filter>Game\Shader\PostEffect</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shader\BlurVS.hlsl">
-      <Filter>Game\シェーダー\PostEffect</Filter>
+      <Filter>Game\Shader\PostEffect</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shader\BlurPS.hlsl">
-      <Filter>Game\シェーダー\PostEffect</Filter>
+      <Filter>Game\Shader\PostEffect</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shader\MiniMapPS.hlsl">
-      <Filter>Game\シェーダー</Filter>
+      <Filter>Game\Shader</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shader\MiniMapVS.hlsl">
-      <Filter>Game\シェーダー</Filter>
+      <Filter>Game\Shader</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shader\GrassGS.hlsl">
-      <Filter>Game\シェーダー</Filter>
+      <Filter>Game\Shader</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shader\GrassPS.hlsl">
-      <Filter>Game\シェーダー</Filter>
+      <Filter>Game\Shader</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shader\GrassVS.hlsl">
-      <Filter>Game\シェーダー</Filter>
+      <Filter>Game\Shader</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shader\TextureVS.hlsl">
-      <Filter>Game\シェーダー\Tex</Filter>
+      <Filter>Game\Shader\Tex</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shader\Header.hlsli">
-      <Filter>Game\シェーダー</Filter>
+      <Filter>Game\Shader</Filter>
     </None>
     <None Include="Resources\Shader\FBX.hlsli">
-      <Filter>Game\シェーダー\Fbx</Filter>
+      <Filter>Game\Shader\Fbx</Filter>
     </None>
     <None Include="Resources\Shader\Particle.hlsli">
-      <Filter>Game\シェーダー\Particle</Filter>
+      <Filter>Game\Shader\Particle</Filter>
     </None>
     <None Include="Resources\Shader\Object3d.hlsli">
-      <Filter>Game\シェーダー\Object</Filter>
+      <Filter>Game\Shader\Object</Filter>
     </None>
     <None Include="Resources\Shader\Sprite.hlsli">
-      <Filter>Game\シェーダー\Sprite</Filter>
+      <Filter>Game\Shader\Sprite</Filter>
     </None>
     <None Include="Resources\Shader\Texture.hlsli">
-      <Filter>Game\シェーダー\Tex</Filter>
+      <Filter>Game\Shader\Tex</Filter>
     </None>
     <None Include="Resources\Shader\PostEffectTest.hlsli">
-      <Filter>Game\シェーダー\PostEffect</Filter>
+      <Filter>Game\Shader\PostEffect</Filter>
     </None>
     <None Include="Resources\Shader\Blur.hlsli">
-      <Filter>Game\シェーダー\PostEffect</Filter>
+      <Filter>Game\Shader\PostEffect</Filter>
     </None>
     <None Include="Resources\Shader\MiniMap.hlsli">
-      <Filter>Game\シェーダー</Filter>
+      <Filter>Game\Shader</Filter>
     </None>
     <None Include="Resources\Shader\Grass.hlsli">
-      <Filter>Game\シェーダー</Filter>
+      <Filter>Game\Shader</Filter>
     </None>
   </ItemGroup>
 </Project>

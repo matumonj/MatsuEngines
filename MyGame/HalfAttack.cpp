@@ -18,14 +18,14 @@ HalfAttack* HalfAttack::GetIns()
 void HalfAttack::Init()
 {
 	SummonInit();
-	phase = PHASEONE;
+	_phase = PHASE_ONE;
 
 	summonEnemyCreate = true;
 }
 
 bool HalfAttack::SummonEnemy()
 {
-	if (phase == PHASETWO)
+	if (_phase == PHASE_TWO)
 	{
 		return true;
 	}
@@ -49,7 +49,7 @@ void HalfAttack::Upda()
 		return;
 	}
 
-	(this->*actionTable[phase])();
+	(this->*actionTable[_phase])();
 }
 
 void HalfAttack::SummonInit()
@@ -112,7 +112,7 @@ void HalfAttack::BossLeaveGround()
 
 	if (nextphase)
 	{
-		phase = PHASETWO;
+		_phase = PHASE_TWO;
 	}
 }
 
@@ -161,7 +161,7 @@ void HalfAttack::SummonUpdate()
 	//ザコ敵両方とも倒したら
 	if (SummonEnemys[0] == nullptr && SummonEnemys[1] == nullptr)
 	{
-		phase = PHASETHREE;
+		_phase = PHASE_THREE;
 		//盾テクスチャ消す
 		SummonEnemysDeath = true;
 	}
@@ -220,7 +220,7 @@ void HalfAttack::BossReturnGround()
 
 	if (bosspos.y < 14.7f)
 	{
-		phase = PHASEFOUR;
+		_phase = PHASE_FOUR;
 	}
 	boss->SetPosition(bosspos);
 }
@@ -284,7 +284,7 @@ void HalfAttack::SummonEnemyResetParam()
 	SummonEPos = {1, 1, 1};
 	Shieldalpha = 0.0f;
 
-	phase = PHASEONE;
+	_phase = PHASE_ONE;
 }
 
 void HalfAttack::SummonAttackEnd()

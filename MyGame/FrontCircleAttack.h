@@ -18,15 +18,6 @@ public:
 	void Draw() override;
 	void Finalize();
 
-public:
-	enum Phase
-	{
-		PHASENON,
-		PHASEONE,
-		PHASETWO,
-		PHASETHREE,
-		PHASEFOUR
-	};
 
 private:
 	//釘数
@@ -59,14 +50,9 @@ private:
 
 	//釘インス
 	std::array<NailObjs, NailSize>nail_objses_;
-	//攻撃のフェーズ
-	Phase phase;
+
 	//攻撃のフェーズの関数テーブル
 	static void (FrontCircleAttack::* actionTable[])();
-public:
-	//フェーズセット
-	void SetAttackPhase(bool f) { if (f && phase != PHASEONE) { phase = PHASEONE; } }
-	Phase GetPhaseEnd() { return phase; }
 
 private:
 	void NonInit();

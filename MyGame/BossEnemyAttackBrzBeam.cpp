@@ -20,15 +20,22 @@ void BossEnemyAttackBrzBeam::Update(Enemy* enemy)
 	TurnCenter(enemy);
 	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= 20.0f)
 	{
-		enemy->SetAttack_End(enemy->BRONZEATTACK_W, true);
+		if (enemy->GetAttack_End(enemy->BRONZEATTACK_W) == false)
+		{
+			BronzeAttack::GetIns()->SetAction(true, BronzeAttack::WIDTH);
+			enemy->SetAttack_End(enemy->BRONZEATTACK_W, true);
+		}
 	}
 	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= 30.0f)
 	{
-		enemy->SetAttack_End(enemy->BRONZEATTACK_H, true);
+		if (enemy->GetAttack_End(enemy->BRONZEATTACK_H) == false)
+		{
+			BronzeAttack::GetIns()->SetAction(true, BronzeAttack::HEIGHT);
+			enemy->SetAttack_End(enemy->BRONZEATTACK_H, true);
+		}
 	}
 
-
-	if (BronzeAttack::GetIns()->GetPhase() == BronzeAttack::END)
+	if (BronzeAttack::GetIns()->GetPhase() == BronzeAttack::PHASE_FOUR)
 	{
 		enemy->ChangeState_Boss(new BossEnemyFollow());
 	}

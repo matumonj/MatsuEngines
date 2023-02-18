@@ -13,32 +13,10 @@ public:
 	void Draw() override;
 	void Finalize();
 
-	void SetAction(bool f) { if (phase == NON) { phase = AREASET; } }
-
-	bool GetPhaseEnd()
-	{
-		if (phase == END) { return true; }
-		return false;
-	}
-
-	void SetActionNon() { phase = NON; }
-
+	
 	bool GetisEndAttack() { return isEndAttack; }
 	void SetisEndAttack(bool f) { isEndAttack = f; }
 
-
-public:
-	enum Phase
-	{
-		NON,
-		AREASET,
-		BOM,
-		BEAMSMALL,
-		TEXFADE,
-		END
-	} phase;
-
-	Phase GetPhase() { return phase; }
 private:
 	void Phase_AreaSet();
 	void Phase_Bom();

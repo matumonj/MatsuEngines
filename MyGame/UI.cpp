@@ -2,13 +2,10 @@
 #include"SceneManager.h"
 #include"EnemyControl.h"
 #include"TutorialSprite.h"
-#include"BossSpell.h"
 #include"ExpPointSystem.h"
 #include"Task.h"
 #include"DropWeapon.h"
 #include <SelectSword.h>
-
-#include "GameOver.h"
 #include "HalfAttack.h"
 #include "PlayerControl.h"
 
@@ -23,7 +20,6 @@ void UI::Initialize()
 	if (SceneManager::GetIns()->GetScene() == SceneManager::BOSS)
 	{
 	}
-	BossSpell::GetIns()->Initialize();
 	HUD::GetIns()->Initialize();
 	HUD::GetIns()->EnemyHPGaugeInitialize();
 	HUD::GetIns()->SkillButtonInitialize();

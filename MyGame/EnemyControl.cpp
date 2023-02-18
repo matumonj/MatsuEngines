@@ -54,7 +54,7 @@ void EnemyControl::Init_Tutorial()
 	enemys[TUTORIAL].resize(1);
 	enemys[TUTORIAL][0] = std::make_unique<MobEnemy>();
 	enemys[TUTORIAL][0]->Initialize();
-	tutorial_pos = {50.137f, 20.5045f, -320.987f};
+	tutorial_pos = {50.f, 20.5f, -321.f};
 	enemys[TUTORIAL][0]->SetPosition(tutorial_pos);
 	enemys[TUTORIAL][0]->SetRespawnPos(tutorial_pos);
 }

@@ -25,37 +25,13 @@ public:
 	} AttackDir;
 
 	//攻撃フェーズ初期化用
-	void SetAction(bool f, Direction dir)
-	{
-		if (phase != AREASET)
-		{
-			phase = AREASET;
-			AttackDir = dir;
-		}
-	}
-
+	void SetAction(bool f, Direction dir);
 	//フェーズの終了判定
-	bool GetPhaseEnd()
-	{
-		if (phase == END) { return true; }
-		return false;
-	}
 
 	bool GetisEndAttack() { return isEndAttack; }
 	void SetisEndAttack(bool f) { isEndAttack = f; }
 
-public:
-	enum Phase
-	{
-		NON,
-		AREASET,
-		BOM,
-		BEAMSMALL,
-		TEXFADE,
-		END
-	} phase;
 
-	Phase GetPhase() { return phase; }
 private:
 	void Phase_AreaSet();
 	void Phase_Bom();

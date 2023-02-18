@@ -142,8 +142,8 @@ void BossMap::DrawDamageLine(bool atckjudg, Line2D line)
 
 void BossMap::DrawDamageLine(bool atckjudg, Line2D line[4])
 {
-	if (RushAttack::GetIns()->GetPhaseEnd() == RushAttack::PHASETWO ||
-		RushAttack::GetIns()->GetPhaseEnd() == RushAttack::PHASETHREE)
+	if (RushAttack::GetIns()->GetPhase() == RushAttack::PHASE_TWO ||
+		RushAttack::GetIns()->GetPhase() == RushAttack::PHASE_THREE)
 	{
 		return;
 	}

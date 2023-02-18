@@ -37,7 +37,7 @@ void FrontCircleAttack::Init()
 		nail_objses_[i].Obj->SetModel(ModelManager::GetIns()->GetModel(ModelManager::NAIL));
 		nail_objses_[i].TexAlpha = 0.f;
 	}
-	phase = PHASENON;
+	_phase = PHASE_NON;
 }
 
 
@@ -54,7 +54,7 @@ void FrontCircleAttack::Upda()
 	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
 	//フェーズごとの処理
-	(this->*actionTable[phase])();
+	(this->*actionTable[_phase])();
 
 	for (auto i = 0; i < nail_objses_.size(); i++) {
 		if (nail_objses_[i].AOETexs != nullptr) {
@@ -96,7 +96,7 @@ void FrontCircleAttack::Draw()
 
 	//釘オブジェ
 	Object3d::PreDraw();
-	if (phase != PHASEFOUR && phase != PHASENON) {
+	if (_phase != PHASE_FOUR && _phase != PHASE_NON) {
 		for (auto i = 0; i < nail_objses_.size(); i++) {
 			if (nail_objses_[i].Obj == nullptr)continue;
 			nail_objses_[i].Obj->Draw();
@@ -191,7 +191,7 @@ void FrontCircleAttack::SetDamageArea()
 			nail_objses_[i].PireEffect->SetParF(1);
 			nail_objses_[i].PireEffect->CreateParticle(true, { nail_objses_[i].ObjPos.x, 10.f,nail_objses_[i].ObjPos.z });
 		}
-		phase = Phase::PHASETWO;
+		_phase = Phase::PHASE_TWO;
 	}
 
 	
@@ -212,7 +212,7 @@ void FrontCircleAttack::PireNail()
 	
 	//次のフェーズへ
 	if (nail_objses_[0].PosYMovingEaseT >= 2.f) {
-		phase = PHASETHREE;
+		_phase = PHASE_THREE;
 	}
 
 }
@@ -237,7 +237,7 @@ void FrontCircleAttack::DestNail()
 	}
 	//次のフェーズへ
 	if (nail_objses_[0].PosYMovingEaseT <= 0.f)
-		phase = PHASEFOUR;
+		_phase = PHASE_FOUR;
 
 }
 
@@ -249,7 +249,7 @@ void FrontCircleAttack::AttackEnd()
 		nail_objses_[i].PosYMovingEaseT = 0.f;
 		nail_objses_[i].TexSclingEaseT = 0.f;
 	}
-	phase = PHASENON;
+	_phase = PHASE_NON;
 }
 
 

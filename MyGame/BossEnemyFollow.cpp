@@ -30,6 +30,7 @@ void BossEnemyFollow::Initialize(Enemy* enmey)
 
 void BossEnemyFollow::Update(Enemy* enemy)
 {
+
 	if (Feed::GetIns()->GetAlpha() > 0.0f)
 	{
 		return;
@@ -114,170 +115,41 @@ void BossEnemyFollow::Update(Enemy* enemy)
 	}
 
 	/*-----------çUåÇëJà⁄ïîï™------------*/
-	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= 90.0f)
-	{
-		if (FrontCircleAttack::GetIns()->GetPhaseEnd() != FrontCircleAttack::PHASEFOUR)
-		{
-			if (enemy->GetAttack_End(enemy->CIRCLE_1) == false)
-			{
-				FrontCircleAttack::GetIns()->SetAttackPhase(true);
-				enemy->ChangeState_Boss(new BossEnemyAttackCircle());
-			}
-		}
-	}
-	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= 70.0f)
-	{
-		if (RushAttack::GetIns()->GetPhaseEnd() != RushAttack::PHASEFOUR)
-		{
-			if (enemy->GetAttack_End(enemy->Beam) == false)
-			{
-				RushAttack::GetIns()->SetAttackPhase(true);
-				enemy->ChangeState_Boss(new BossEnemyAttackRush());
-			}
-		}
-	}
-	//
-	/*if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= 60.0f)
-	{
-		if (KnockAttack::GetIns()->GetPhase() != KnockAttack::PHASEFOUR)
-		{
-			if (enemy->GetAttack_End(enemy->KNOCK) == false) {
-				KnockAttack::GetIns()->SetAttackPhase(true);
-				enemy->ChangeState_Boss(new BossEnemyAttackKnock());
-			}
-		}
-	}*/
+	ActionSequence(enemy,90.f,FrontCircleAttack::GetIns(), enemy->CIRCLE_1,
+		new BossEnemyAttackCircle());
 
-	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= 50.0f)
-	{
-		if (UltAttack::GetIns()->GetPhase() != UltAttack::END)
-		{
-			if (enemy->GetAttack_End(enemy->ULT) == false)
-			{
-				UltAttack::GetIns()->SetAction(true);
-				enemy->ChangeState_Boss(new BossEnemyAttackUlt());
-			}
-		}
-	}
+	ActionSequence(enemy, 70.f,RushAttack::GetIns(), enemy->Beam,
+		new BossEnemyAttackRush());
 
-	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= 20.0f)
-	{
-		if (BronzeAttack::GetIns()->GetPhase() != BronzeAttack::AREASET)
-		{
-			if (enemy->GetAttack_End(enemy->BRONZEATTACK_W) == false)
-			{
-				BronzeAttack::GetIns()->SetAction(true, BronzeAttack::WIDTH);
-				enemy->ChangeState_Boss(new BossEnemyAttackBrzBeam());
-			}
-		}
-	}
+	ActionSequence(enemy, 50.f, UltAttack::GetIns(), enemy->ULT,
+		new BossEnemyAttackUlt());
 
+	ActionSequence(enemy, 20.f, BronzeAttack::GetIns(), enemy->BRONZEATTACK_W,
+		new BossEnemyAttackBrzBeam());
 
-	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= 30.0f)
-	{
-		if (BronzeAttack::GetIns()->GetPhase() != BronzeAttack::AREASET)
-		{
-			if (enemy->GetAttack_End(enemy->BRONZEATTACK_H) == false)
-			{
-				BronzeAttack::GetIns()->SetAction(true, BronzeAttack::HEIGHT);
-				enemy->ChangeState_Boss(new BossEnemyAttackBrzBeam());
-			}
-		}
-	}
-	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= 85.0f)
-	{
-		if (HalfAttack::GetIns()->GetPhase() != HalfAttack::PHASEFOUR)
-		{
-			if (enemy->GetAttack_End(enemy->HALF_1) == false)
-			{
-				//HalfAttack::GetIns()->SetAction(true, BronzeAttack::HEIGHT);
-				enemy->ChangeState_Boss(new BossEnemyAttackHalf());
-			}
-		}
-	}
+	ActionSequence(enemy, 30.f, BronzeAttack::GetIns(), enemy->BRONZEATTACK_H,
+		new BossEnemyAttackBrzBeam());
+
+	ActionSequence(enemy, 85.f, HalfAttack::GetIns(), enemy->HALF_1,
+		new BossEnemyAttackHalf());
+
 	//KnockAttack::GetIns()->SetAttackPhase(false);
 }
 
-void BossEnemyFollow::AttackSelect(Enemy* enemy, bool judg, int num)
+void BossEnemyFollow::ActionSequence(Enemy* enemy, float percent,BossAttackActionManager*action, int actionnum, BossEnemyState* state)
 {
-	if (judg)
+	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= percent)
 	{
-		AttackType(enemy, num);
+		if (action->GetPhase() !=action->PHASE_FOUR)
+		{
+			if (enemy->GetAttack_End(actionnum) == false)
+			{
+				action->SetAttackPhase(true);
+				enemy->ChangeState_Boss(state);
+			}
+		}
 	}
+
+	
 }
 
-void BossEnemyFollow::AttackStart(Enemy* enemy, int num)
-{
-	switch (num)
-	{
-	case enemy->CIRCLE_1:
-		enemy->SetRecvDamage2(false);
-
-		break;
-
-	case enemy->KNOCK:
-		enemy->SetRecvDamage2(false);
-		if (enemy->GetAttack_End(enemy->KNOCK) == false)
-		{
-			KnockAttack::GetIns()->SetAttackPhase(true);
-		}
-		break;
-
-	case enemy->ULT:
-		UltAttack::GetIns()->SetAction(true);
-		break;
-	case enemy->Beam:
-		enemy->SetRecvDamage2(false);
-		RushAttack::GetIns()->SetAttackPhase(true);
-		break;
-	case enemy->Slam:
-		FrontCircleAttack::GetIns()->SetAttackPhase(true);
-		break;
-	default:
-		break;
-	}
-}
-
-void BossEnemyFollow::AttackType(Enemy* enemy, int num)
-{
-	switch (num)
-	{
-	case enemy->CIRCLE_1:
-
-		break;
-	case enemy->CIRCLE_2:
-		if (CircleAttack::GetIns()->GetPhaseEnd() != CircleAttack::PHASEFOUR)
-		{
-			//5enemy->ChangeState_Boss(new BossEnemyAttackCircle());
-		}
-		break;
-	case enemy->KNOCK:
-		if (KnockAttack::GetIns()->GetPhase() != KnockAttack::PHASETHREE)
-		{
-			enemy->ChangeState_Boss(new BossEnemyAttackKnock());
-		}
-		break;
-	case enemy->ULT:
-		if (UltAttack::GetIns()->GetPhase() != UltAttack::END)
-		{
-			enemy->ChangeState_Boss(new BossEnemyAttackUlt());
-		}
-		break;
-
-	case enemy->Beam:
-		if (RushAttack::GetIns()->GetPhaseEnd() != RushAttack::PHASEFOUR)
-		{
-			enemy->ChangeState_Boss(new BossEnemyAttackRush());
-		}
-		break;
-
-	case enemy->Slam:
-		if (FrontCircleAttack::GetIns()->GetPhaseEnd() != FrontCircleAttack::PHASEFOUR)
-		{
-			enemy->ChangeState_Boss(new BossEnemyAttackSlam());
-		}
-		break;
-	default:
-		break;
-	}
-}

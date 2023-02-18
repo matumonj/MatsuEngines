@@ -19,7 +19,7 @@ void RushAttack::Init()
 	RushSphereObj->Initialize(CameraControl::GetIns()->GetCamera());
 
 	//フェーズ初期化
-	phase = PHASENON;
+	_phase = PHASE_NON;
 	//突進エリア初期化
 	area = FIR;
 	//イージング用タイム
@@ -48,24 +48,24 @@ void RushAttack::ActionJudg()
 	CollisionParamSet();
 
 	//フェーズごとの処理
-	switch (phase)
+	switch (_phase)
 	{
-	case PHASENON:
+	case PHASE_NON:
 		RushEaseTime = 0.0f;
 		break;
-	case PHASEONE:
+	case PHASE_ONE:
 		//CameraControl::GetIns()->SetCameraState(CameraControl::RUSHSCENE);
 
-		phase = PHASETWO;
+		_phase = PHASE_TWO;
 		break;
-	case PHASETWO:
+	case PHASE_TWO:
 		RushStart();
 		break;
-	case PHASETHREE:
+	case PHASE_THREE:
 
 		RushMoving();
 		break;
-	case PHASEFOUR:
+	case PHASE_FOUR:
 
 		RushParamReset();
 
@@ -147,7 +147,7 @@ void RushAttack::RushStart()
 		RushAttackCount++;
 		if (nextPhaseF)
 		{
-			phase = PHASETHREE;
+			_phase = PHASE_THREE;
 		}
 	}
 }
@@ -214,7 +214,7 @@ void RushAttack::RushMoving()
 	if (rushEtime[FIV] >= 1.0f)
 	{
 		BossMap::GetIns()->DrawDamageLine(false, DamageLine);
-		phase = PHASEFOUR;
+		_phase = PHASE_FOUR;
 	}
 	else
 	{

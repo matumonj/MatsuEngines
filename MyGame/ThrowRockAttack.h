@@ -38,20 +38,20 @@ public:
 	void Upda() override;
 	void Draw() override;
 
-	//投げる動作の流れ
-	enum ThrowMotion
-	{
-		NON,
-		SET,
-		PICK,
-		THROW,
-		END
-	} tmotion;
+	////投げる動作の流れ
+	//enum ThrowMotion
+	//{
+	//	NON,
+	//	SET,
+	//	PICK,
+	//	THROW,
+	//	END
+	//} tmotion;
 
-	//フェーズを初期状態に
-	void SetAction(bool f) { if (tmotion != SET) { tmotion = SET; } }
+	////フェーズを初期状態に
+	//void SetAction(bool f) { if (tmotion != SET) { tmotion = SET; } }
 
-	ThrowMotion GetPhase() { return tmotion; }
+	//ThrowMotion GetPhase() { return tmotion; }
 private:
 	void ThrowPhase_Set();
 	void ThrowPhase_Pick();

@@ -52,31 +52,28 @@ void BronzeAttack::Init()
 
 void BronzeAttack::Upda()
 {
-	switch (phase)
+	switch (_phase)
 	{
-	case NON:
+	case PHASE_NON:
 		TexScl = {0.f, 0.f};
 		TexAlpha = 0.0f;
 		ColorT = 0.0f;
 		break;
 
-	case AREASET:
+	case PHASE_ONE:
 		Phase_AreaSet();
 		break;
 
-	case BOM:
+	case PHASE_TWO:
 		//PlayerControl::GetIns()->GetPlayer()->RecvDamage(50);
 		Phase_Bom();
 		break;
 
-	case BEAMSMALL:
+	case PHASE_THREE:
 		Phase_MakeSmall();
 		break;
-	case TEXFADE:
+	case PHASE_FOUR:
 		Phase_TexFade();
-		break;
-	case END:
-		Phase_End();
 		break;
 	}
 
@@ -88,7 +85,7 @@ void BronzeAttack::ObjUpda()
 	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 	XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 
-	if (phase == END)
+	if (_phase == PHASE_FOUR && TexAlpha <= 0.f)
 	{
 		return;
 	}
@@ -142,8 +139,17 @@ void BronzeAttack::ObjUpda()
 	XMFLOAT3 bpos = {EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition()};
 
 
-	ChargeCenter->CreateParticle((phase == AREASET), {bpos});
+	ChargeCenter->CreateParticle((_phase == PHASE_ONE), {bpos});
 	ChargeCenter->Upda();
+}
+
+void BronzeAttack::SetAction(bool f, Direction dir)
+{
+		if (_phase != PHASE_ONE)
+			{
+				_phase = PHASE_ONE;
+				AttackDir = dir;
+			}
 }
 
 void BronzeAttack::SphereMoving()
@@ -251,7 +257,7 @@ void BronzeAttack::Phase_AreaSet()
 	}
 	if (nextPhase)
 	{
-		phase = BOM;
+		_phase = PHASE_TWO;
 	}
 }
 
@@ -263,7 +269,7 @@ void BronzeAttack::Phase_Bom()
 		scalingETime[i] += 0.04f;
 		if (scalingETime[i] >= 2.5f)
 		{
-			phase = BEAMSMALL;
+			_phase = PHASE_THREE;
 		}
 		if (scalingETime[i] < 1.0f)
 		{
@@ -298,7 +304,7 @@ void BronzeAttack::Phase_MakeSmall()
 	}
 	if (scalingETime[4] <= 0.0f)
 	{
-		phase = TEXFADE;
+		_phase = PHASE_FOUR;
 	}
 }
 
@@ -308,7 +314,12 @@ void BronzeAttack::Phase_TexFade()
 	if (TexAlpha < 0.0f)
 	{
 		TexScl = {0.0f, 0.0f};
-		phase = END;
+		TexAlpha = 0.f;
+		for (int i = 0; i < BeamObj.size(); i++)
+		{
+			scalingETime[i] = 0.0f;
+			BeamObjScl[i] = { 0.0f, 50.0f, 0.0f };
+		}
 	}
 }
 
@@ -328,7 +339,7 @@ void BronzeAttack::Phase_End()
 
 void BronzeAttack::Draw()
 {
-	if (phase == END)
+	if (_phase==PHASE_FOUR&&TexAlpha<=0.f)
 	{
 		return;
 	}
@@ -341,7 +352,7 @@ void BronzeAttack::Draw()
 		}
 		BeamObj[i]->Draw();
 	}
-	if (phase == AREASET)
+	if (_phase == PHASE_ONE)
 	{
 		for (int i = 0; i < chargesphere.size(); i++)
 		{

@@ -32,18 +32,9 @@ public:
 	Enemy* GetSummonEnemy(int index) { return SummonEnemys[index].get(); }
 
 public:
-	enum Phase
-	{
-		PHASENON,
-		PHASEONE,
-		PHASETWO,
-		PHASETHREE,
-		PHASEFOUR
-	};
+	
 
 private:
-	Phase phase;
-
 	void SummonInit();
 	void BossLeaveGround();
 	void SummonUpdate();
@@ -59,9 +50,7 @@ public:
 	void Draw_SummonEnemyHP();
 	bool SummonEnemy();
 	void SummonEnemyResetParam();
-	void SetAttackPhase(bool f) { if (f && phase != PHASEONE) { } }
-	Phase GetPhase() { return phase; }
-
-	static void (HalfAttack::* actionTable[])();
+	
+static void (HalfAttack::* actionTable[])();
 	void SetSummonF(bool f) { summonEnemyCreate = f; }
 };

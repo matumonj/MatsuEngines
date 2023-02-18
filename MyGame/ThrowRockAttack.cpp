@@ -34,7 +34,7 @@ void ThrowRockAttack::Init()
 	DestPar->SetParScl({1.3f, 1.3f});
 	DestPar->SetParColor({1.f, 1.f, 1.f, 1.f});
 	//アクションフェーズの初期化
-	tmotion = END;
+	_phase = PHASE_FOUR;
 }
 
 void ThrowRockAttack::Upda()
@@ -130,7 +130,7 @@ void ThrowRockAttack::ThrowPhase_Set()
 
 	if (boss->GetAnimationTime() > PickTime)
 	{
-		tmotion = PICK;
+		_phase = PHASE_TWO;
 	}
 }
 
@@ -148,7 +148,7 @@ void ThrowRockAttack::ThrowPhase_Pick()
 
 	if (boss->GetAnimationTime() > ThrowTime)
 	{
-		tmotion = THROW;
+		_phase = PHASE_THREE;
 	}
 	//岩の座標を手のボーン座標に
 	RockPos = boss->HandLeftPos();
@@ -198,7 +198,7 @@ void ThrowRockAttack::ThrowPhase_Throw()
 
 	if (boss->GetAnimationTime() >= boss->GetFbxTimeEnd() - 0.3f)
 	{
-		tmotion = END;
+		_phase = PHASE_FOUR;
 	}
 }
 
@@ -214,7 +214,7 @@ void (ThrowRockAttack::* ThrowRockAttack::actionTable[])() = {
 void ThrowRockAttack::ActionUpda()
 {
 	//シーンに応じた更新処理
-	(this->*actionTable[tmotion])();
+	(this->*actionTable[_phase])();
 }
 
 void ThrowRockAttack::ThrowPhase_End()

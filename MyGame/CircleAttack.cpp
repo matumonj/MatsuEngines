@@ -1,7 +1,6 @@
 #include "CircleAttack.h"
 #include"mHelper.h"
 #include"Nail.h"
-#include"BossSpell.h"
 #include "CameraControl.h"
 #include"Collision.h"
 #include "Enemy.h"
@@ -34,7 +33,7 @@ void CircleAttack::Init()
 	Direction[EAST] = {60.0f, 0.0f, 0.0f};
 	Direction[WEST] = {-60.0f, 0.0f, 0.0f};
 
-	phase = PHASENON;
+	_phase = PHASE_NON;
 	CircleSize = {0, 0};
 	TexAlpha = 0.0f;
 }
@@ -42,23 +41,23 @@ void CircleAttack::Init()
 void CircleAttack::Upda()
 {
 	Enemy* boss = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0].get();
-	switch (phase)
+	switch (_phase)
 	{
-	case PHASENON:
+	case PHASE_NON:
 		break;
-	case PHASEONE:
+	case PHASE_ONE:
 		//“BŽh‚³‚è‚Ü‚·
 		PierceNail();
 		break;
-	case PHASETWO:
+	case PHASE_TWO:
 		//ƒ_ƒ[ƒWƒGƒŠƒA‚Ì‰~L‚ª‚è‚Ü‚·
 		DamageAreaTexSet();
 		break;
-	case PHASETHREE:
+	case PHASE_THREE:
 		//’n–Ê‚©‚ç“Bo‚Ä‚«‚Ü‚·
 		ProtrudeNail();
 		break;
-	case PHASEFOUR:
+	case PHASE_FOUR:
 
 		//UŒ‚I—¹‚Å‚·
 		EndAttackAction();
@@ -100,7 +99,7 @@ void CircleAttack::Draw()
 	ImpactAreaTex->Draw();
 
 	Texture::PostDraw();
-	if (phase == PHASETHREE)
+	if (_phase == PHASE_THREE)
 	{
 		for (int i = 0; i < NailObj.size(); i++)
 		{
@@ -146,7 +145,7 @@ void CircleAttack::PierceNail()
 	}
 	else
 	{
-		phase = PHASETWO;
+		_phase = PHASE_TWO;
 	}
 	//À•W‡‚í‚¹‚é
 	NailObj[0]->SetPosition(Direction[Area1]);
@@ -172,7 +171,7 @@ void CircleAttack::DamageAreaTexSet()
 
 	if (CircleAreaTime >= 2.0f)
 	{
-		phase = PHASETHREE; //‰~‚Ì‘å‚«‚³‚ªÅ‘å’´‚¦‚½‚çŽŸ‚Ö
+		_phase = PHASE_THREE; //‰~‚Ì‘å‚«‚³‚ªÅ‘å’´‚¦‚½‚çŽŸ‚Ö
 	}
 }
 
@@ -194,7 +193,7 @@ void CircleAttack::ProtrudeNail()
 	TexAlpha -= 0.01f;
 	if (Nail::GetIns()->GetEndAction_Circle())
 	{
-		phase = PHASEFOUR;
+		_phase = PHASE_FOUR;
 	}
 }
 
