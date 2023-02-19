@@ -45,9 +45,9 @@ void GuardianBomAttack::TexSet()
 	//初期化
 	TexAlpha = 0.0f;
 	TexScl = {0.0f, 0.f};
-
+	
 	Texture::LoadTexture(66, L"Resources/2d/BossAttackEffect/missileeffect.png");
-	XMFLOAT3 Gpos = {-300.0f, -32, 270};
+	XMFLOAT3 Gpos = {-300.0f, ArmPosY_Min, 270};
 	for (int i = 0; i < ArmObjNum; i++)
 	{
 		ArmObj[i] = std::make_unique<Object3d>();
@@ -56,7 +56,7 @@ void GuardianBomAttack::TexSet()
 		ArmAlpha[i] = 1.f;
 
 		ArmEffect[i] = std::make_unique<Particle>();
-		ArmEffect[i]->Init(64);
+		ArmEffect[i]->Init(Particle::BOM);
 		ArmEffect[i]->SetParScl({1.f, 1.f});
 		ArmEffect[i]->SetParColor({1.f, 1.f, 1.f, 1.f});
 
@@ -69,7 +69,7 @@ void GuardianBomAttack::TexSet()
 
 		//ミサイル爆発時のエフェクト
 		BomEffect[i] = std::make_unique<Particle>();
-		BomEffect[i]->Init(66);
+		BomEffect[i]->Init(Particle::TOURCHFIRE);
 		BomEffect[i]->SetParScl({2.f, 2.f});
 		BomEffect[i]->SetParColor({1.f, 1.f, 1.f, 1.f});
 
@@ -173,8 +173,13 @@ void GuardianBomAttack::ArmShot()
 	Enemy* Guardian = EnemyControl::GetIns()->GetGuardianEnemy();
 	//プレイヤー座標
 	XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
-	//敵がプエレイヤーの方向く処理
 
+	//フェード値
+	constexpr float l_AlphaFadeVal = 0.02f;
+	//ミサイル降ってくる速度
+	constexpr float l_ArmPosDownSpeed = 0.4f;
+
+	//敵がプエレイヤーの方向く処理
 	for (int i = 0; i < ArmObjNum; i++)
 	{
 		if (ArmObj[i] == nullptr)
@@ -186,7 +191,7 @@ void GuardianBomAttack::ArmShot()
 		{
 			DtexPos[i].x = ppos.x;
 			DtexPos[i].z = ppos.z;
-			DtexPos[i].y = -20.f;
+			DtexPos[i].y = -25.f;
 
 			ArmPos[i] = { DtexPos[i].x, 0.f, DtexPos[i].z };
 
@@ -214,10 +219,11 @@ void GuardianBomAttack::ArmShot()
 		{
 			continue;
 		}
-		DtexAlpha[i] += 0.02f;
+		DtexAlpha[i] +=l_AlphaFadeVal;
+
 		if (DtexAlpha[i] >= 1.f)
 		{
-			ArmPos[i].y -= 0.4f;
+			ArmPos[i].y -= l_ArmPosDownSpeed;
 		}
 	}
 	ColPlayer();
@@ -229,16 +235,15 @@ void GuardianBomAttack::Phase_AreaSet()
 	const float scalingSpeed = 0.05f;
 	const float maxScale = 8.f;
 
-
-	//if (nextPhase) {
 	phase = BOM;
-	//}
 }
 
 void GuardianBomAttack::Phase_Bom()
 {
 	XMFLOAT3 epos = EnemyControl::GetIns()->GetGuardianEnemy()->GetPosition();
+	//カウンタ＋＋　カウンタが一定数立つごとにミサイル
 	ShotCount++;
+	//ミサイル落下
 	ArmShot();
 	if (DtexAlpha[ArmObjNum - 1] <= 0.0f && ArmObj[ArmObjNum - 1] == nullptr)
 	{
@@ -263,6 +268,7 @@ void GuardianBomAttack::Draw()
 	ImGui::Begin("armpos");
 	ImGui::Text("%f", ArmPos[0].y);
 	ImGui::End();
+	//ミサイルオブジェ
 	Object3d::PreDraw();
 	for (int i = 0; i < ArmObjNum; i++)
 	{
@@ -278,6 +284,7 @@ void GuardianBomAttack::Draw()
 	}
 	Object3d::PostDraw();
 
+	//ボムおパーティクル
 	for (int i = 0; i < ArmObjNum; i++)
 	{
 		if (ArmShotF[i] == false)
@@ -291,6 +298,8 @@ void GuardianBomAttack::Draw()
 		ArmEffect[i]->Draw();
 		BomEffect[i]->Draw();
 	}
+
+	//ダメージエリア
 	Texture::PreDraw();
 	for (int i = 0; i < ArmObjNum; i++)
 	{
@@ -303,6 +312,7 @@ void GuardianBomAttack::ColPlayer()
 {
 	//プレイヤーの座標
 	XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
+
 
 	for (int i = 0; i < ArmObjNum; i++)
 	{
@@ -320,20 +330,14 @@ void GuardianBomAttack::ColPlayer()
 			PlayerControl::GetIns()->GetPlayer()->RecvDamage(10);
 			MissileDestFlag[i] = true;
 		}
-		if (ArmPos[i].y < -32)
+		if (ArmPos[i].y < ArmPosY_Min)
 		{
 			MissileDestFlag[i] = true;
 		}
 
-		if (Collision::GetLength(ArmPos[i], {-300.0f, -32, 270}) > 90)
+		if (Collision::GetLength(ArmPos[i], {-300.0f, ArmPosY_Min, 270}) > 90)
 		{
 			ArmAlpha[i] -= 0.05f;
-			//範囲外でても解放
-			if (ArmAlpha[i] <= 0.0f)
-			{
-				//	ArmEffect[i].reset();
-				//ArmObj[i].reset();
-			}
 		}
 	}
 }

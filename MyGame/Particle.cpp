@@ -304,7 +304,7 @@ void Particle::UpadaNormal_B(ParParam& parparam,bool loop)
 		{
 			if (!parparam.f[i])
 			{
-				parparam.vel[i] = createpos;
+				parparam.vel[i] = { createpos.x + float(rand() % 5 - 2),createpos.y,createpos.z+ float(rand() % 5 - 2) };
 				parparam.scl[i] = {BeginParScl};
 				parparam.speed[i] = 0;
 				parparam.alpha[i] = 1;
@@ -321,7 +321,7 @@ void Particle::UpadaNormal_B(ParParam& parparam,bool loop)
 			}
 			parparam.scl[i].x += 0.05f;
 			parparam.scl[i].y += 0.05f;
-			parparam.vel[i].x += parparam.speed[i] * cos(parparam.angle[i]); //360度に広がるようにする
+			//parparam.vel[i].x += parparam.speed[i] * cos(parparam.angle[i]); //360度に広がるようにする
 			parparam.vel[i].y += 0.1f; // parparam.speed[i] * sin(parparam.angle[i]); //360度に広がるようにする
 			parparam.speed[i] += 0.002f; //徐々にスピードを速く
 			parparam.alpha[i] -= 0.01f;

@@ -1,5 +1,8 @@
 #include "GuardianNAttack.h"
 #include "GuardianNAttack.h"
+
+#include <algorithm>
+
 #include"CameraControl.h"
 #include"EnemyControl.h"
 #include"mHelper.h"
@@ -122,8 +125,12 @@ void GuardianNAttack::Phase_Bom()
 	XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 
 	XMFLOAT3 epos = EnemyControl::GetIns()->GetGuardianEnemy()->GetPosition();
+
+	bool l_nextPhase = scalingETime >= 2.5f;
+
 	scalingETime += 0.04f;
-	if (scalingETime >= 2.5f)
+
+	if (l_nextPhase)
 	{
 		phase = BEAMSMALL;
 	}
@@ -133,10 +140,8 @@ void GuardianNAttack::Phase_Bom()
 		BeamObjScl.z = Easing::EaseOut(scalingETime, 0.0f, 10.0f);
 	}
 
-	BeamObjScl.x = min(BeamObjScl.x, 10.0f);
-	BeamObjScl.x = max(BeamObjScl.x, 0.0f);
-	BeamObjScl.z = min(BeamObjScl.z, 10.0f);
-	BeamObjScl.z = max(BeamObjScl.z, 0.0f);
+	BeamObjScl.x = std::clamp(BeamObjScl.x,0.f, 10.0f);
+	BeamObjScl.z = std::clamp(BeamObjScl.z, 0.0f,10.f);
 
 	if (Collision::GetLength(ppos, normalAttackObj->GetPosition()) < 14.f)
 	{
@@ -154,20 +159,20 @@ void GuardianNAttack::Phase_MakeSmall()
 	{
 		PlayerControl::GetIns()->GetPlayer()->RecvDamage(5);
 	}
+
 	TexAlpha = 1.f;
+
 	scalingETime -= 0.04f;
+
 	if (scalingETime <= 0.0f)
 	{
 		phase = TEXFADE;
 	}
-	BeamObjScl.x = Easing::EaseOut(scalingETime, 0.0f, 10.0f);
-	BeamObjScl.z = Easing::EaseOut(scalingETime, 0.0f, 10.0f);
+	BeamObjScl.x = Easing::EaseOut(scalingETime, SclMin, SclMax);
+	BeamObjScl.z = Easing::EaseOut(scalingETime, SclMin, SclMax);
 
-	BeamObjScl.x = min(BeamObjScl.x, 10.0f);
-	BeamObjScl.z = min(BeamObjScl.z, 10.0f);
-
-	BeamObjScl.x = max(BeamObjScl.x, 0.0f);
-	BeamObjScl.z = max(BeamObjScl.z, 0.0f);
+	BeamObjScl.x = std::clamp(BeamObjScl.x,SclMin, SclMax);
+	BeamObjScl.z = std::clamp(BeamObjScl.z, SclMin, SclMax);
 }
 
 void GuardianNAttack::Phase_TexFade()

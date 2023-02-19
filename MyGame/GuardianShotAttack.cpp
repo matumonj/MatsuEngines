@@ -47,7 +47,7 @@ void GuardianShotAttack::TexSet()
 		ArmShotF[i] = false;
 
 		ArmEffect[i] = std::make_unique<Particle>();
-		ArmEffect[i]->Init(64);
+		ArmEffect[i]->Init(Particle::BOM);
 		ArmEffect[i]->SetParScl({1.f, 1.f});
 		ArmEffect[i]->SetParColor({1.f, 0.2f, 0.2f, 1.f});
 	}

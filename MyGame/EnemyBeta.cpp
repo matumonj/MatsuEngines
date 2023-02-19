@@ -208,10 +208,7 @@ void EnemyBeta::Death()
 {
 	if (!DeathFlag)
 	{
-	//	if (m_fbxObject->GetAnimeTime() >= m_fbxObject->GetEndTime() - 0.3f)
-		//{
-			DeathFlag = true;
-		//}
+		DeathFlag = true;
 	}
 	if (m_fbxObject->GetAnimeTime() >= m_fbxObject->GetEndTime() - 0.3f)
 	{

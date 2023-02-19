@@ -7,6 +7,8 @@
 #include<string>
 #include<sstream>
 #include"ObjectManager.h"
+#include "Particle.h"
+
 class FootSwitch
 {
 private:
@@ -30,6 +32,9 @@ private:
 	std::array<std::unique_ptr<Object3d>, SwitchSize>FootSwitchFrameObj;
 	//À•W
 	std::array<XMFLOAT3, SwitchSize>FootSwitchPos;
+	//
+	std::array<std::unique_ptr<Particle>, SwitchSize>FootEffect;
+
 	//‘å‚«‚³
 	static constexpr XMFLOAT3 FootSwitchScl={3.f,3.f,3.f};
 	static constexpr XMFLOAT3 FootSwitchFrameScl = { 5.f,2.5f,5.f };
@@ -65,6 +70,7 @@ private:
 	//“¥‚Ü‚ê‚½‚ÌF•Ï‚¦
 	XMFLOAT4 SwitchChangeColor(XMFLOAT3 switchpos,bool& judg, bool& clearjudg, float& ColoEaseCount);
 
+	void FootEffectUpda();
 private:
 	//CSV“Ç‚İ‚İ•”•ª
 	std::string line;

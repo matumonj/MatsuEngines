@@ -79,7 +79,7 @@ void SelectSword::SpriteSet()
 
 	WeapomScl = {1.f, 1.f, 1.f};
 	WeaponChangeEffect = std::make_unique<Particle>();
-	WeaponChangeEffect->Init(65);
+	WeaponChangeEffect->Init(Particle::BOM);
 }
 
 void SelectSword::Initialize()

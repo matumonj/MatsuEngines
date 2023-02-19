@@ -70,4 +70,7 @@ private:
 	float ColorT;
 
 	bool isEndAttack;
+	//
+	static constexpr float SclMin = 0.f;
+	static constexpr float SclMax = 10.f;
 };

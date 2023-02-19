@@ -51,8 +51,10 @@ private:
 	void ColPlayer();
 	void DestroyEffect();
 private:
+	//ç\ë¢ëÃÇ…ÇµÇΩÇŸÇ§Ç™ó«Ç¢Ç©Ç‡
 	std::array<std::unique_ptr<Particle>, ArmObjNum> ArmEffect;
 	std::array<std::unique_ptr<Object3d>, ArmObjNum> ArmObj;
+
 	std::array<XMFLOAT3, ArmObjNum> ArmRot;
 	std::array<XMFLOAT3, ArmObjNum> ArmPos;
 	std::array<bool, ArmObjNum> ArmShotF;
@@ -60,10 +62,14 @@ private:
 	std::array<float, ArmObjNum> ArmAlpha;
 	std::array<std::unique_ptr<Texture>, ArmObjNum> DamageTex;
 	std::array<std::unique_ptr<Particle>, ArmObjNum> BomEffect;
+
 	std::array<float, ArmObjNum> DTexAngle;
 	std::array<float, ArmObjNum> DtexAlpha;
 	std::array<bool, ArmObjNum> MissileDestFlag;
 	std::array<XMFLOAT3, ArmObjNum> DtexPos;
+
+	static constexpr float ArmPosY_Min = -32.f;
+
 	int ShotCount = 0;
 	XMFLOAT2 TexScl;
 	float TexAlpha;

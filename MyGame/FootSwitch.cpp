@@ -36,6 +36,10 @@ void FootSwitch::Init()
 		FootSwitchFrameObj[i] = std::make_unique<Object3d>();
 		FootSwitchFrameObj[i]->SetModel(ModelManager::GetIns()->GetModel(ModelManager::SWITCH));
 		FootSwitchFrameObj[i]->Initialize(camera);
+
+		//踏んだエフェクト
+		FootEffect[i] = std::make_unique<Particle>();
+		FootEffect[i]->Init(Particle::BOM);
 	}
 
 
@@ -51,7 +55,7 @@ void FootSwitch::Upda()
 	for (auto i = 0; i < FootSwitchObj.size(); i++)
 	{
 		//ふまれたらいろかえる
-
+		FootEffectUpda();
 		//引数部分長くなってしまってるので構造体にしたほうがいいかも
 		if (SwitchClearJudg[i] == false) {
 			FootSwitchColor[i] = SwitchChangeColor(FootSwitchPos[i], FootSwitchJudg[i], SwitchClearJudg[i], FootSwitchEaseCount[i]);
@@ -73,6 +77,24 @@ void FootSwitch::Upda()
 
 }
 
+void FootSwitch::FootEffectUpda()
+{
+	for(auto i=0;i<FootEffect.size();i++)
+	{
+		if(!FootSwitchJudg[i])
+		{
+			if (FootJudg(FootSwitchPos[i]) == true)
+			{
+				FootEffect[i]->SetParF(0);
+			}
+		}
+		FootEffect[i]->CreateParticle(!FootSwitchJudg[i]&& FootJudg(FootSwitchPos[i]) == true,FootSwitchPos[i]);
+
+		FootEffect[i]->Upda_B(true);
+	}
+
+}
+
 void FootSwitch::Draw()
 {
 	//描画
@@ -84,6 +106,12 @@ void FootSwitch::Draw()
 		FootSwitchFrameObj[i]->Draw();
 	}
 	Object3d::PostDraw();
+	//エフェクト
+	for (auto i = 0; i < FootSwitchObj.size(); i++)
+	{
+		if (FootEffect[i] == nullptr)continue;
+		FootEffect[i]->Draw();
+	}
 }
 
 bool FootSwitch::FootJudg(XMFLOAT3 switchpos)

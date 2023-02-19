@@ -1,12 +1,7 @@
 #include "PlayerControl.h"
-
 #include "BossEnemyShieldGuard.h"
-
 #include "AttackEffect.h"
-#include "BossEnemyAttackThrow.h"
-
 #include "BossEnemy.h"
-#include "BossEnemyAttack.h"
 #include "BossEnemyEvasion.h"
 #include "BossEnemyFollow.h"
 #include "mHelper.h"
@@ -19,6 +14,9 @@ void BossEnemyShieldGuard::Initialize(Enemy* enemy)
 
 void BossEnemyShieldGuard::Update(Enemy* enemy)
 {
+	//Rotation補正値
+	constexpr float l_RotCorreVal = 40.f;
+
 	//敵がプエレイヤーの方向く処理
 	XMVECTOR positionA = {
 		PlayerControl::GetIns()->GetPlayer()->GetPosition().x,
@@ -28,11 +26,11 @@ void BossEnemyShieldGuard::Update(Enemy* enemy)
 	XMVECTOR positionB = {enemy->GetPosition().x, enemy->GetPosition().y, enemy->GetPosition().z};
 
 	//向きをプレイヤーに
-	float Add_RotVal = FollowRot::FollowA_B(positionA, positionB);
+	float Add_RotVal = FollowRot::FollowA_B(positionA, positionB)*60.f;
 
 	enemy->SetRotation({
 		enemy->GetRotation().x,
-		Add_RotVal * 60.f + 40.f,
+		Add_RotVal+ l_RotCorreVal,
 		enemy->GetRotation().z
 	});
 
