@@ -1,9 +1,9 @@
 #pragma once
 #include "EnemyState.h"
-class EnemyReturnCreatePos :
-    public EnemyState
-{
 
+class EnemyReturnCreatePos :
+	public EnemyState
+{
 public:
 	void Initialize(Enemy* enemy) override;
 
@@ -12,4 +12,3 @@ public:
 private:
 	float RotY;
 };
-

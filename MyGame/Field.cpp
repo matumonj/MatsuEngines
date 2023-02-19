@@ -158,13 +158,12 @@ void Field::Init_Boss()
 		TorchObj[i].reset(new Object3d());
 		TorchObj[i]->Initialize(camera);
 		TorchObj[i]->SetModel(ModelManager::GetIns()->GetModel(ModelManager::TORCH));
-		TorchObj[i]->SetScale({ 4.f,3.f,4.f });
+		TorchObj[i]->SetScale({4.f, 3.f, 4.f});
 
 		FireEffect[i].reset(new Particle());
 		FireEffect[i]->Init(Particle::ParticleTexName::TOURCHFIRE);
 		FireEffect[i]->SetParScl({0.3f, 0.3f});
 		FireEffect[i]->SetParColor({1.f, 1.f, 1.f, 1.f});
-
 	}
 }
 
@@ -199,19 +198,19 @@ void Field::PedestalMoving()
 	constexpr float YPos_Min = -200.f;
 	constexpr float MoveDownSpeed = 0.02f;
 
-	constexpr float PlayerColPedestalDis=10.f;
+	constexpr float PlayerColPedestalDis = 10.f;
 	bool DownJudg = PedestalDownF && pedestalpos.y > YPos_Min;
 
-		if (Collision::GetLength(PlayerControl::GetIns()->GetPlayer()->GetPosition(),
-		                         pedestalpos) < PlayerColPedestalDis)
-		{
-			PedestalDownF = true;
-		}
-		if (DownJudg)
-		{
-			pedestalpos.y -= MoveDownSpeed;
-		}
-	
+	if (Collision::GetLength(PlayerControl::GetIns()->GetPlayer()->GetPosition(),
+	                         pedestalpos) < PlayerColPedestalDis)
+	{
+		PedestalDownF = true;
+	}
+	if (DownJudg)
+	{
+		pedestalpos.y -= MoveDownSpeed;
+	}
+
 
 	if (PlayerControl::GetIns()->GetPlayer()->GetHP() <= 0)
 	{
@@ -270,7 +269,7 @@ void Field::Update_Play()
 	FieldObject->Update(camera);
 
 	m_object[BOSSBACK]->SetRotation({0.f, 180.f, 0.f});
-	BossFieldPos = { 60.f, -46.f, 520.f };
+	BossFieldPos = {60.f, -46.f, 520.f};
 	SetFieldUpdate(BOSSBACK, camera, BossFieldPos, {0.6f, 0.6f, 0.6f}, FALSE, true);
 
 	FootSwitch::GetIns()->Upda();
@@ -507,9 +506,10 @@ void Field::Update_Boss()
 	//èºñæ
 	for (int i = 0; i < TorchObj.size(); i++)
 	{
-		TorchPos[i] = { sinf(static_cast<float>(i) * (360.f / static_cast<float>(TorchSize)) * (PI / 180.0f)) * TorchPosAngle ,
+		TorchPos[i] = {
+			sinf(static_cast<float>(i) * (360.f / static_cast<float>(TorchSize)) * (PI / 180.0f)) * TorchPosAngle,
 			posY,
-			  cosf(static_cast<float>(i) * (360.f / static_cast<float>(TorchSize)) * (PI / 180.0f)) * TorchPosAngle
+			cosf(static_cast<float>(i) * (360.f / static_cast<float>(TorchSize)) * (PI / 180.0f)) * TorchPosAngle
 		};
 		TorchObj[i]->SetPosition(TorchPos[i]);
 		TorchObj[i]->Update(camera);
@@ -610,33 +610,37 @@ void Field::Draw()
 		{
 			ModelDraw_nullCheck(BOSSBACK);
 			Object3d::PreDraw();
-			for(int i=0;i<TorchObj.size();i++)
+			for (int i = 0; i < TorchObj.size(); i++)
 			{
-				if (TorchObj[i] == nullptr)continue;
+				if (TorchObj[i] == nullptr)
+				{
+					continue;
+				}
 				TorchObj[i]->Draw();
 			}
 			Object3d::PostDraw();
-			for (int i = 0; i < TorchObj.size()-1; i++)
+			for (int i = 0; i < TorchObj.size() - 1; i++)
 			{
-				if (FireEffect[i] == nullptr)continue;
+				if (FireEffect[i] == nullptr)
+				{
+					continue;
+				}
 				FireEffect[i]->Draw();
 			}
 		}
 	}
 	if (SceneManager::GetIns()->GetScene() == SceneManager::PLAY)
 	{
-
 		ModelDraw_nullCheck(PEDESTAL);
 		ModelDraw_nullCheck(BOSSBACK);
 
 		FootSwitch::GetIns()->Draw();
-
 	}
 	Object3d::PostDraw();
 
 	BossMap::GetIns()->Draw();
 
-	ImGui::Begin("cel");/*
+	ImGui::Begin("cel"); /*
 	ImGui::SliderFloat("posx", &bacff.x, -60, 60);
 	ImGui::SliderFloat("posy", &bacff.y, -90, 29);
 	ImGui::SliderFloat("posz", &bacff.z, 480, 580);*/

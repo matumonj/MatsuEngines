@@ -211,7 +211,7 @@ void AttackEffect::GuarEffect(XMFLOAT3 pos)
 
 		if (GuardSize[0].x > 1.0f)
 		{
-			GuardSize[1].x +=l_ScalingSize;
+			GuardSize[1].x += l_ScalingSize;
 			GuardSize[1].y += l_ScalingSize;
 			GuardAlpha[1] -= l_AlphaFeedVal;
 		}

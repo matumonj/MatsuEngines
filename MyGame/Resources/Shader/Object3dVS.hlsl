@@ -1,8 +1,9 @@
 #include "Object3d.hlsli"
 //////////////////////////////////////////////////////////////////////////////
-float random(float2 st) {
+float random(float2 st)
+{
 	return frac(sin(dot(st.xy,
-		float2(12.9898, 78.233))) *
+	                    float2(12.9898, 78.233))) *
 		43758.5453123);
 }
 
@@ -10,7 +11,8 @@ float random(float2 st) {
 //////////////////////////////////////////////////////////////////////////////
 // Based on Morgan McGuire @morgan3d
 // https://www.shadertoy.com/view/4dS3Wd
-float noise(float2 st) {
+float noise(float2 st)
+{
 	float2 i = floor(st);
 	float2 f = frac(st);
 
@@ -30,13 +32,15 @@ float noise(float2 st) {
 //////////////////////////////////////////////////////////////////////////////
 #define OCTAVES 6
 // based on : https://thebookofshaders.com/13/?lan=jp
-float fbm(float2 st) {
+float fbm(float2 st)
+{
 	// Initial values
 	float value = 0.0;
 	float amplitude = .5;
 	float frequency = 0.;
 	// Loop of octaves
-	for (int i = 0; i < OCTAVES; i++) {
+	for (int i = 0; i < OCTAVES; i++)
+	{
 		value += amplitude * noise(st);
 		st *= 2.;
 		amplitude *= .5;
@@ -47,21 +51,23 @@ float fbm(float2 st) {
 //////////////////////////////////////////////////////////////////////////////
 // domain warping pattern
 // based on : http://www.iquilezles.org/www/articles/warp/warp.htm
-float pattern(float2 p, float4 scale_1, float scale_2, float4 add_1, float4 add_2) {
+float pattern(float2 p, float4 scale_1, float scale_2, float4 add_1, float4 add_2)
+{
 	// first domain warping
 	float2 q = float2(
 		fbm(p + scale_1.x * add_1.xy),
 		fbm(p + scale_1.y * add_1.zw)
-		);
+	);
 
 	// second domain warping
 	float2 r = float2(
 		fbm(p + scale_1.z * q + add_2.xy),
 		fbm(p + scale_1.w * q + add_2.zw)
-		);
+	);
 
 	return fbm(p + scale_2 * r);
 }
+
 VSOutput main(float4 pos : POSITION, float3 normal : NORMAL, float2 uv : TEXCOORD)
 {
 	// 法線にワールド行列によるスケーリング・回転を適用
@@ -78,8 +84,10 @@ VSOutput main(float4 pos : POSITION, float3 normal : NORMAL, float2 uv : TEXCOOR
 	p = float2(fbm(p + time), fbm(p));
 	p = p * 8.0;
 	//	uv= fbm(p);
-	if(time!=0)
-	uv -= fbm(p);
+	if (time != 0)
+	{
+		uv -= fbm(p);
+	}
 	output.uv = uv;
 	return output;
 }

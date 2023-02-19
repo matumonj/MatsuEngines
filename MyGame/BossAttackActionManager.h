@@ -18,17 +18,16 @@ public:
 
 
 public:
-enum Phase
-{
-	PHASE_NON,
-	PHASE_ONE,
-	PHASE_TWO,
-	PHASE_THREE,
-	PHASE_FOUR
-}_phase;
+	enum Phase
+	{
+		PHASE_NON,
+		PHASE_ONE,
+		PHASE_TWO,
+		PHASE_THREE,
+		PHASE_FOUR
+	} _phase;
 
 public:
 	Phase GetPhase() { return _phase; }
-	inline void SetAttackPhase(bool f) { if (f && _phase != PHASE_ONE) { _phase = PHASE_ONE; } }
-
+	void SetAttackPhase(bool f) { if (f && _phase != PHASE_ONE) { _phase = PHASE_ONE; } }
 };

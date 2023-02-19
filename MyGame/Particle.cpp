@@ -7,14 +7,13 @@
 
 void Particle::Init(UINT num)
 {
-
 	Texture* l_tex0 = Texture::Create(num);
 	parnum = num;
 
 	BeginParColor = {1.f, 1.f, 1.f, 1.f};
 	SetParType(7, m_particles[NORMAL], l_tex0);
 
-	
+
 	SetParType(10, m_particles[FIRE], l_tex0);
 }
 
@@ -90,36 +89,38 @@ void Particle::Charge(ParParam& parparam)
 void Particle::UpadaBleath(ParParam& parparam)
 {
 	float f[10];
-	const float rnd_vel[10] = { 0.5f };
+	const float rnd_vel[10] = {0.5f};
 	XMFLOAT3 dvel[10]{};
-	for (int i = 0; i < 10; i++) {
-		
+	for (int i = 0; i < 10; i++)
+	{
 	}
-		for (int i = 0; i < parparam.size; i++)
+	for (int i = 0; i < parparam.size; i++)
 	{
 		if (!parparam.f[i])
 		{
-			
-			parparam.scl[i] = { 2.0f, 2.0f };
+			parparam.scl[i] = {2.0f, 2.0f};
 			parparam.speed[i] = 0.0f;
 			parparam.alpha[i] = 1.0f;
-			parparam.ParColor[i] = { 0.2f,1.f,1.f,1.f };
+			parparam.ParColor[i] = {0.2f, 1.f, 1.f, 1.f};
 			parparam.Frame[i] = 0.f;
-			dvel[i] = { (float)rand() / RAND_MAX * rnd_vel[i] - rnd_vel[i] / 2.0f , (float)rand() / RAND_MAX * rnd_vel[i] * 2.0f,1.f };
+			dvel[i] = {
+				static_cast<float>(rand()) / RAND_MAX * rnd_vel[i] - rnd_vel[i] / 2.0f,
+				static_cast<float>(rand()) / RAND_MAX * rnd_vel[i] * 2.0f, 1.f
+			};
 
-			parparam.vel[i].x = createpos.x+dvel[i].x;
+			parparam.vel[i].x = createpos.x + dvel[i].x;
 			parparam.vel[i].y = createpos.y;
 			parparam.vel[i].z = createpos.z;
 			parparam.f[i] = true;
 
 			break;
 		}
-		XMFLOAT3 pos =createpos;
-		
+		XMFLOAT3 pos = createpos;
+
 		// 経過フレーム数をカウント
-		parparam.Frame[i]+=0.1f;
+		parparam.Frame[i] += 0.1f;
 		// 進行度を0～1の範囲に換算
-		f[i]= 120.f / parparam.Frame[i];
+		f[i] = 120.f / parparam.Frame[i];
 		// カラーの線形補間
 		parparam.ParColor[i].x = parparam.ParColor[i].x + (1.f - 0.1f) / f[i];
 		parparam.ParColor[i].y = parparam.ParColor[i].y + (0.2f - 1.f) / f[i];
@@ -128,22 +129,20 @@ void Particle::UpadaBleath(ParParam& parparam)
 		parparam.scl[i].y -= 0.006f;
 		parparam.vel[i].y += 0.02f; //360度に広がるようにする
 		parparam.speed[i] += 0.002f; //徐々にスピードを速く
-			parparam.alpha[i] -= 0.008f;// f + (0.2f - 1.f) / f[i];
+		parparam.alpha[i] -= 0.008f; // f + (0.2f - 1.f) / f[i];
 		if (parparam.alpha[i] < 0.0f)
 		{
 			parparam.f[i] = false;
 		}
-		
 	}
 	for (int i = 0; i < parparam.size; i++)
 	{
 		parparam.partex[i]->SetPosition(parparam.vel[i]);
-		parparam.partex[i]->SetScale({ parparam.scl[i].x, parparam.scl[i].y, 1.0f });
+		parparam.partex[i]->SetScale({parparam.scl[i].x, parparam.scl[i].y, 1.0f});
 		parparam.partex[i]->SetBillboard(TRUE);
-		parparam.partex[i]->SetColor({1.f,1.f,1.f,parparam.alpha[i]});
+		parparam.partex[i]->SetColor({1.f, 1.f, 1.f, parparam.alpha[i]});
 		parparam.partex[i]->Update(CameraControl::GetIns()->GetCamera());
 	}
-
 }
 
 void Particle::Bleath()
@@ -169,7 +168,7 @@ void Particle::Upda_B(bool loop)
 		//	m_particles[ParType::NORMAL].phase = INIT;
 	}
 	InitNormal(m_particles[NORMAL], createpos);
-	UpadaNormal_B(m_particles[NORMAL],loop);
+	UpadaNormal_B(m_particles[NORMAL], loop);
 }
 
 #include"imgui.h"
@@ -291,7 +290,7 @@ void Particle::UpadaNormal_A(ParParam& parparam, float addspeed, float addalpha)
 }
 
 
-void Particle::UpadaNormal_B(ParParam& parparam,bool loop)
+void Particle::UpadaNormal_B(ParParam& parparam, bool loop)
 {
 	if (partype == 0)
 	{
@@ -304,7 +303,10 @@ void Particle::UpadaNormal_B(ParParam& parparam,bool loop)
 		{
 			if (!parparam.f[i])
 			{
-				parparam.vel[i] = { createpos.x + float(rand() % 5 - 2),createpos.y,createpos.z+ float(rand() % 5 - 2) };
+				parparam.vel[i] = {
+					createpos.x + static_cast<float>(rand() % 5 - 2), createpos.y,
+					createpos.z + static_cast<float>(rand() % 5 - 2)
+				};
 				parparam.scl[i] = {BeginParScl};
 				parparam.speed[i] = 0;
 				parparam.alpha[i] = 1;
@@ -325,12 +327,13 @@ void Particle::UpadaNormal_B(ParParam& parparam,bool loop)
 			parparam.vel[i].y += 0.1f; // parparam.speed[i] * sin(parparam.angle[i]); //360度に広がるようにする
 			parparam.speed[i] += 0.002f; //徐々にスピードを速く
 			parparam.alpha[i] -= 0.01f;
-			if(loop){
-			if (parparam.alpha[i] < 0.0f)
+			if (loop)
 			{
-				parparam.f[i] = false;
-			}
+				if (parparam.alpha[i] < 0.0f)
+				{
+					parparam.f[i] = false;
 				}
+			}
 			parparam.partex[i]->SetPosition(parparam.vel[i]);
 			parparam.partex[i]->SetScale({parparam.scl[i].x, parparam.scl[i].y, 1.0f});
 			parparam.partex[i]->SetBillboard(TRUE);

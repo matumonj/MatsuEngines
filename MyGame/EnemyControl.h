@@ -49,7 +49,7 @@ public:
 	int index = 0;
 	std::vector<std::unique_ptr<Enemy>>& GetEnemy(EnemyType type);
 
-	
+
 	Enemy* GetEncountEnemy()
 	{
 		if (encountEnemy != nullptr)

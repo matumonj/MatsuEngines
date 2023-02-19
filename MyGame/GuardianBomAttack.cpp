@@ -45,7 +45,7 @@ void GuardianBomAttack::TexSet()
 	//èâä˙âª
 	TexAlpha = 0.0f;
 	TexScl = {0.0f, 0.f};
-	
+
 	Texture::LoadTexture(66, L"Resources/2d/BossAttackEffect/missileeffect.png");
 	XMFLOAT3 Gpos = {-300.0f, ArmPosY_Min, 270};
 	for (int i = 0; i < ArmObjNum; i++)
@@ -61,7 +61,7 @@ void GuardianBomAttack::TexSet()
 		ArmEffect[i]->SetParColor({1.f, 1.f, 1.f, 1.f});
 
 		DTexAngle[i] = static_cast<float>(i) * (360.f / static_cast<float>(ArmObjNum));
-	
+
 		DtexAlpha[i] = 0.0f;
 
 		ArmPos[i] = {DtexPos[i].x, 0.f, DtexPos[i].z};
@@ -98,7 +98,6 @@ void GuardianBomAttack::Upda()
 		ColorT = 0.0f;
 		for (int i = 0; i < ArmObjNum; i++)
 		{
-			
 		}
 		break;
 
@@ -193,7 +192,7 @@ void GuardianBomAttack::ArmShot()
 			DtexPos[i].z = ppos.z;
 			DtexPos[i].y = -25.f;
 
-			ArmPos[i] = { DtexPos[i].x, 0.f, DtexPos[i].z };
+			ArmPos[i] = {DtexPos[i].x, 0.f, DtexPos[i].z};
 
 			ArmRot[i] = {
 				90.f, 90.f, 0.f
@@ -219,7 +218,7 @@ void GuardianBomAttack::ArmShot()
 		{
 			continue;
 		}
-		DtexAlpha[i] +=l_AlphaFadeVal;
+		DtexAlpha[i] += l_AlphaFadeVal;
 
 		if (DtexAlpha[i] >= 1.f)
 		{

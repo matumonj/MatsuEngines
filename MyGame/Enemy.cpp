@@ -114,7 +114,7 @@ void Enemy::RecvDamage(int Damage)
 	}
 
 	RecvDamagef = true;
-	
+
 	/*ダメージテクスチャの表示*/
 	{
 		DamageSize = Damage;

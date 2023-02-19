@@ -266,7 +266,7 @@ void EnemyControl::Update_Play()
 					                                           });
 				}
 			}
-			
+
 			//
 			else if (enemys[PLAYSCENE][i]->GetEnemyNumber() == 2)
 			{
@@ -275,19 +275,19 @@ void EnemyControl::Update_Play()
 				{
 					DropWeapon::GtIns()->Drop(DropWeapon::SWORD, enemys[PLAYSCENE][i]->GetPosition());
 				}
-					if (Task::GetIns()->GetMiniGolemDesthCount(2))
-					{
-						ChestControl::GetIns()->SetChestAppearance(ChestControl::GREEN, {
-							                                           enemys[PLAYSCENE][i]->GetPosition().x,
-							                                           enemys[PLAYSCENE][i]->GetPosition().y +
-							                                           10.0f,
-							                                           enemys[PLAYSCENE][i]->GetPosition().z
-						                                           });
-					}
+				if (Task::GetIns()->GetMiniGolemDesthCount(2))
+				{
+					ChestControl::GetIns()->SetChestAppearance(ChestControl::GREEN, {
+						                                           enemys[PLAYSCENE][i]->GetPosition().x,
+						                                           enemys[PLAYSCENE][i]->GetPosition().y +
+						                                           10.0f,
+						                                           enemys[PLAYSCENE][i]->GetPosition().z
+					                                           });
 				}
 			}
-			//Destroy_unique(enemys[PLAYSCENE][i]);
-		
+		}
+		//Destroy_unique(enemys[PLAYSCENE][i]);
+
 		if (Guardian != nullptr && Guardian->GetisAlive() == FALSE && Guardian->GetHP() <= 0)
 		{
 			ChestControl::GetIns()->SetChestAppearance(ChestControl::YELLOW, {

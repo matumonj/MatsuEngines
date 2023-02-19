@@ -45,6 +45,7 @@ void ModelManager::Initialize()
 	LoadModel(SWITCH, "FootSwitch");
 	LoadModel(CAGE, "Cage");
 	LoadModel(TORCH, "Torch");
+	LoadModel(CHARGEEFFECT, "ChargeEffect");
 }
 
 void ModelManager::LoadModel(const ModelName modelName, std::string fileName)

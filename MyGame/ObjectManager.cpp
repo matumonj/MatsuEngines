@@ -96,7 +96,7 @@ void ObjectManager::CollisionField()
 	// 球の上端から球の下端までのレイキャスト
 	Ray ray;
 	ray.start = sphereCollider->center;
-	ray.start.m128_f32[1] += sphereCollider->GetRadius()+3.f;
+	ray.start.m128_f32[1] += sphereCollider->GetRadius() + 3.f;
 	ray.dir = {0, -1, 0, 0};
 	RaycastHit raycastHit;
 
@@ -178,7 +178,7 @@ void ObjectManager::ParameterSet_Fbx2()
 {
 	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
-	m_fbxObject->SetPosition({Position.x, Position.y-4.f, Position.z});
+	m_fbxObject->SetPosition({Position.x, Position.y - 4.f, Position.z});
 
 	m_fbxObject->SetRotation(Rotation);
 	m_fbxObject->SetScale(Scale);

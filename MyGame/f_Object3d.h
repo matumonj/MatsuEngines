@@ -57,6 +57,7 @@ public: //サブクラス
 		XMMATRIX world; //ワールド行列
 		XMFLOAT3 cameraPos; //カメラ行列（ワールド座標）
 	};
+
 public: //メンバ関数
 	void SetCollider(BaseCollider* collider);
 

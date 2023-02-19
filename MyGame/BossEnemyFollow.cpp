@@ -26,7 +26,6 @@ void BossEnemyFollow::Initialize(Enemy* enmey)
 
 void BossEnemyFollow::Update(Enemy* enemy)
 {
-
 	if (Feed::GetIns()->GetAlpha() > 0.0f)
 	{
 		return;
@@ -95,14 +94,13 @@ void BossEnemyFollow::Update(Enemy* enemy)
 			enemy->ChangeState_Boss(new BossEnemyFalter());
 		}
 		else if (Evaprobability > 40)
-			{
-				enemy->ChangeState_Boss(new BossEnemyShieldGuard());
-				enemy->SetRecvDamage2(false);
-			}
+		{
+			enemy->ChangeState_Boss(new BossEnemyShieldGuard());
+			enemy->SetRecvDamage2(false);
+		}
 		else
 		{
 			enemy->SetRecvDamage2(false);
-			
 		}
 	}
 
@@ -113,35 +111,36 @@ void BossEnemyFollow::Update(Enemy* enemy)
 	}
 
 	/*-----------UŒ‚‘JˆÚ•”•ª------------*/
-	ActionSequence(enemy,90.f,FrontCircleAttack::GetIns(), enemy->CIRCLE_1,
-		new BossEnemyAttackCircle());
+	ActionSequence(enemy, 90.f, FrontCircleAttack::GetIns(), enemy->CIRCLE_1,
+	               new BossEnemyAttackCircle());
 
 	ActionSequence(enemy, 80.f, FrontCircleAttack::GetIns(), enemy->CIRCLE_2,
-		new BossEnemyAttackCircle());
+	               new BossEnemyAttackCircle());
 
-	ActionSequence(enemy, 70.f,RushAttack::GetIns(), enemy->Beam,
-		new BossEnemyAttackRush());
+	ActionSequence(enemy, 70.f, RushAttack::GetIns(), enemy->Beam,
+	               new BossEnemyAttackRush());
 
 	ActionSequence(enemy, 50.f, UltAttack::GetIns(), enemy->ULT,
-		new BossEnemyAttackUlt());
+	               new BossEnemyAttackUlt());
 
 	ActionSequence(enemy, 20.f, BronzeAttack::GetIns(), enemy->BRONZEATTACK_W,
-		new BossEnemyAttackBrzBeam());
+	               new BossEnemyAttackBrzBeam());
 
 	ActionSequence(enemy, 30.f, BronzeAttack::GetIns(), enemy->BRONZEATTACK_H,
-		new BossEnemyAttackBrzBeam());
+	               new BossEnemyAttackBrzBeam());
 
 	ActionSequence(enemy, 85.f, HalfAttack::GetIns(), enemy->HALF_1,
-		new BossEnemyAttackHalf());
+	               new BossEnemyAttackHalf());
 
 	//KnockAttack::GetIns()->SetAttackPhase(false);
 }
 
-void BossEnemyFollow::ActionSequence(Enemy* enemy, float percent,BossAttackActionManager*action, int actionnum, BossEnemyState* state)
+void BossEnemyFollow::ActionSequence(Enemy* enemy, float percent, BossAttackActionManager* action, int actionnum,
+                                     BossEnemyState* state)
 {
 	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= percent)
 	{
-		if (action->GetPhase() !=action->PHASE_FOUR)
+		if (action->GetPhase() != action->PHASE_FOUR)
 		{
 			if (enemy->GetAttack_End(actionnum) == false)
 			{
@@ -150,7 +149,4 @@ void BossEnemyFollow::ActionSequence(Enemy* enemy, float percent,BossAttackActio
 			}
 		}
 	}
-
-	
 }
-

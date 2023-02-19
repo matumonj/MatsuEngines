@@ -17,7 +17,6 @@ void ImageManager::LoadTex(TexName imageName, wchar_t* fileName)
 
 void ImageManager::Init()
 {
-
 	LoadTex(NAV1, L"Resources/2d/icon/nav1.png");
 	LoadTex(NAV2, L"Resources/2d/icon/nav2.png");
 	LoadTex(NAV3, L"Resources/2d/icon/nav3.png");
@@ -64,7 +63,6 @@ void ImageManager::Init()
 	LoadSprite(OPENTASK, L"Resources/2d/PlayTask/taskmenuopen.png");
 	LoadSprite(CLOSETASK, L"Resources/2d/PlayTask/taskmenuclose.png");
 	LoadSprite(CHESTANNOUNCE, L"Resources/2d/PlayTask/getchest.png");
-
 }
 
 void ImageManager::LoadSprite(const SpriteName imageName, wchar_t* fileName)

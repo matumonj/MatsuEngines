@@ -31,12 +31,13 @@ public:
 		SKILL_3,
 		SKILL_4,
 		COOLDOWN,
-		
+
 		//•ó” ‰ñŽû
 		CHESTCOUNT,
 		CHESTCOUNT_FRAME,
 		//
-		STITLE,NAV1,
+		STITLE,
+		NAV1,
 		NAV2,
 		NAV3,
 		NAV4,
@@ -94,13 +95,12 @@ public:
 		TASK4,
 		OPENTASK,
 		CLOSETASK,
-		
+
 		/*
 	Texture::LoadTexture(18, L"Resources/2d/icon/nav1.png");
 	Texture::LoadTexture(19, L"Resources/2d/icon/nav2.png");
 	Texture::LoadTexture(20, L"Resources/2d/icon/nav3.png");
 	Texture::LoadTexture(21, L"Resources/2d/icon/nav4.png");*/
-
 	};
 
 public:
@@ -118,4 +118,3 @@ private:
 
 	static std::map<TexName, Texture*> texs; //ƒ‚ƒfƒ‹Ši”[ƒ}ƒbƒv
 };
-

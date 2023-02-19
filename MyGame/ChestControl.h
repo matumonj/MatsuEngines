@@ -62,7 +62,7 @@ private:
 
 	bool nowevent;
 
-	std::unique_ptr<Object3d>ChestCage;
+	std::unique_ptr<Object3d> ChestCage;
 	XMFLOAT3 CagePos;
 
 	void CageOBBSet();
@@ -88,19 +88,21 @@ private:
 	void GetChestEvent(Chest* chest, ParticleParam& pParam);
 
 public:
-	inline bool GetChestEventNothing()
+	bool GetChestEventNothing()
 	{
 		int i;
-		for (i = 0; i < 4; i++) {
-			if (PlayPchest[i].ChestEvent != NON&& PlayPchest[i].ChestEvent != END) {
+		for (i = 0; i < 4; i++)
+		{
+			if (PlayPchest[i].ChestEvent != NON && PlayPchest[i].ChestEvent != END)
+			{
 				break;
 			}
-			
 		}
 		if (i == 4)
 		{
 			return false;
-		} else return true;
+		}
+		return true;
 	};
 private:
 	void Init_Tutorial() override;

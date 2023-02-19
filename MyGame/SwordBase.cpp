@@ -29,7 +29,7 @@ void SwordBase::LoadCsv(std::string damval, std::string knoval, std::string spev
 		{
 			std::getline(line_stream, word, ',');
 			int l_Damage = static_cast<int>(std::atof(word.c_str()));
-			Damage = l_Damage+CorrDamageVal;
+			Damage = l_Damage + CorrDamageVal;
 		}
 		if (word.find(knoval) == 0)
 		{

@@ -150,7 +150,6 @@ void PlayerAttackState::HitStop()
 	}
 	else
 	{
-		
 		HitStopCount = 0;
 	}
 }

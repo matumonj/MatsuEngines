@@ -12,6 +12,7 @@ float CalculationVectorLength(float2 vec01)
 {
 	return sqrt((vec01.x * vec01.x) + (vec01.y * vec01.y));
 }
+
 float2 ConvertToNomalizeVector(float2 outs, float2 ins)
 {
 	float distance = sqrt((ins.x * ins.x) + (ins.y * ins.y));
@@ -19,7 +20,8 @@ float2 ConvertToNomalizeVector(float2 outs, float2 ins)
 	{
 		outs.x = ins.x / distance;
 		outs.y = ins.y / distance;
-	} else
+	}
+	else
 	{
 		outs = float2(0.0f, 0.0f);
 	}
@@ -68,6 +70,7 @@ bool IsCollidinglinesAndCircle(Line2D lines, Point circle)
 
 	return false;
 }
+
 // 点の入力から、四角形を出力
 [maxvertexcount(vnum)]
 void main(
@@ -76,7 +79,7 @@ void main(
 	inout TriangleStream<GSOutput> output
 )
 {
-	float3 center = { (input[0].svpos.xyz + input[1].svpos.xyz + input[2].svpos.xyz) / 3 };
+	float3 center = {(input[0].svpos.xyz + input[1].svpos.xyz + input[2].svpos.xyz) / 3};
 	float4 posworld = mul(viewproj, mul(world, float4(center, 1.0f)));
 	float3 dist = length(cameraPos - posworld.xyz);
 	float destruction = clamp(float3(dislen, dislen, dislen) - dist, 0.f, 1.f).x;
@@ -101,14 +104,14 @@ void main(
 
 		if (gsflag)
 		{
-
 			lines.end = float2(cameraPos.x, cameraPos.z);
 			lines.start = float2(playerpos.x, playerpos.z);
 
 			points.x = element.svpos.x;
 			points.y = element.svpos.z;
 
-			if (IsCollidinglinesAndCircle(lines, points)) {
+			if (IsCollidinglinesAndCircle(lines, points))
+			{
 				element.svpos.xyz = center + (element.svpos.xyz - center) * (1 - destruction * 1.0);
 			}
 		}
@@ -116,7 +119,8 @@ void main(
 		{
 			input[i].svpos.xy += gnormal.xy * (desttime / 2);
 			element.svpos = input[i].svpos;
-		} else if (!destF && !gsflag)
+		}
+		else if (!destF && !gsflag)
 		{
 			element.svpos = input[i].svpos;
 		}

@@ -106,12 +106,12 @@ void PlayScene::LightUpdate()
 {
 	XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 
-	lightGroup->SetCircleShadowDir(3, XMVECTOR({ circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0 }));
-	lightGroup->SetCircleShadowCasterPos(3, { ppos.x, ppos.y + 5.f, ppos.z });
-	lightGroup->SetCircleShadowAtten(3, XMFLOAT3(0,0,0));
+	lightGroup->SetCircleShadowDir(3, XMVECTOR({circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0}));
+	lightGroup->SetCircleShadowCasterPos(3, {ppos.x, ppos.y + 5.f, ppos.z});
+	lightGroup->SetCircleShadowAtten(3, XMFLOAT3(0, 0, 0));
 	lightGroup->SetCircleShadowFactorAngle(3, XMFLOAT2(circleShadowFactorAngle));
 
-	for (int i = 0; i <10; i++)
+	for (int i = 0; i < 10; i++)
 	{
 		if (EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i] == nullptr)
 		{
@@ -123,33 +123,33 @@ void PlayScene::LightUpdate()
 		                               }));
 		lightGroup->SetCircleShadowCasterPos(i + 4, {
 			                                     EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->
-			                                     GetPosition().x, EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->
-												 GetPosition().y+15.f,
-			 EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->
-												 GetPosition().z
+			                                     GetPosition().x,
+			                                     EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->
+			                                     GetPosition().y + 15.f,
+			                                     EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->
+			                                     GetPosition().z
 		                                     });
-		lightGroup->SetCircleShadowAtten(i + 4, XMFLOAT3(0,0,0));
+		lightGroup->SetCircleShadowAtten(i + 4, XMFLOAT3(0, 0, 0));
 		lightGroup->SetCircleShadowFactorAngle(i + 4, XMFLOAT2(circleShadowFactorAngle2));
 	}
 }
 
 void PlayScene::ChangeSceneJudg()
 {
-	constexpr XMFLOAT3 ChangeScenePos = { 60.f, -35,400.f };
-	
-		if (Collision::GetLength(PlayerControl::GetIns()->GetPlayer()->GetPosition(),ChangeScenePos) < 30.f)
+	constexpr XMFLOAT3 ChangeScenePos = {60.f, -35, 400.f};
+
+	if (Collision::GetLength(PlayerControl::GetIns()->GetPlayer()->GetPosition(), ChangeScenePos) < 30.f)
+	{
+		Feed::GetIns()->Update_White(Feed::FEEDIN);
+		PlayerControl::GetIns()->GetPlayer()->SetStopFlag(TRUE);
+
+		if (Feed::GetIns()->GetAlpha() >= 1.0f)
 		{
-			Feed::GetIns()->Update_White(Feed::FEEDIN);
-			PlayerControl::GetIns()->GetPlayer()->SetStopFlag(TRUE);
+			PlayerControl::GetIns()->GetPlayer()->SetStopFlag(FALSE);
 
-			if (Feed::GetIns()->GetAlpha() >= 1.0f)
-			{
-				PlayerControl::GetIns()->GetPlayer()->SetStopFlag(FALSE);
-
-				SceneManager::GetIns()->SetScene(SceneManager::BOSS, sceneManager_);
-			}
+			SceneManager::GetIns()->SetScene(SceneManager::BOSS, sceneManager_);
 		}
-	
+	}
 }
 
 /*------------------------*/
@@ -234,7 +234,7 @@ void PlayScene::LoadParam()
 		//グラフィックパイプライン生成
 		f_Object3d::CreateGraphicsPipeline();
 
-	
+
 		//各オブジェクト初期化
 		Field::GetIns()->Initialize();
 		//カメラ挙動をプレイカットシーン

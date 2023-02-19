@@ -14,12 +14,13 @@ public:
 
 	void Update(Enemy* enemy) override;
 
-	
+
 private:
 	bool ActionCount = true, ActionCount2 = true;
 	int Evaprobability;
 	float RotY = 0;
-	
 
-	void ActionSequence(Enemy* enemy, float percent, BossAttackActionManager* action, int actionnum, BossEnemyState* state);
+
+	void ActionSequence(Enemy* enemy, float percent, BossAttackActionManager* action, int actionnum,
+	                    BossEnemyState* state);
 };

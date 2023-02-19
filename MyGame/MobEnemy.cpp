@@ -291,7 +291,7 @@ void MobEnemy::Death()
 		}
 		if (f_time <= DeathTime + 1.5f)
 		{
-			PlayerAttackState::GetIns()->SetHitStopJudg(true,50);
+			PlayerAttackState::GetIns()->SetHitStopJudg(true, 50);
 		}
 
 		f_time += 0.01f;
@@ -315,7 +315,7 @@ void MobEnemy::FbxAnimationControl()
 	{
 		return;
 	}
-	if (Field::GetIns()->GetPedestalDown()||ChestControl::GetIns()->GetChestEventNothing())
+	if (Field::GetIns()->GetPedestalDown() || ChestControl::GetIns()->GetChestEventNothing())
 	{
 		ReturnCreatePos = true;
 	}

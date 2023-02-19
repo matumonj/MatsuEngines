@@ -52,9 +52,10 @@ private:
 	void ChangeScene();
 private:
 	bool LoadF;
-	float posy=15.f;
+	float posy = 15.f;
 	XMFLOAT3 atten;
-	XMFLOAT2 spotangle={27.f,70.f};
+	XMFLOAT2 spotangle = {27.f, 70.f};
+
 	enum ShadowChara
 	{
 		SUMMONENEY_A,

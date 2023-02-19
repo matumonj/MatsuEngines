@@ -13,7 +13,7 @@ public:
 	void Draw() override;
 	void Finalize();
 
-	
+
 	bool GetisEndAttack() { return isEndAttack; }
 	void SetisEndAttack(bool f) { isEndAttack = f; }
 

@@ -121,5 +121,5 @@ private: // メンバ変数
 	// ライト減衰角度
 	XMFLOAT2 lightFactorAngleCos = {0.2f, 0.5f};
 	// 有効フラグ
-	bool active =false;
+	bool active = false;
 };

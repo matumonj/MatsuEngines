@@ -233,14 +233,15 @@ void CameraControl::TargetPlayer()
 	}
 
 
-if (ZoomF)
+	if (ZoomF)
 	{
-			CameraPosMovingEaseT += 0.02f;
-
+		CameraPosMovingEaseT += 0.02f;
 	}
-else {
-	CameraPosMovingEaseT -= 0.02f;
-}CameraPosMovingEaseT = std::clamp(CameraPosMovingEaseT, 0.f, 1.f);
+	else
+	{
+		CameraPosMovingEaseT -= 0.02f;
+	}
+	CameraPosMovingEaseT = std::clamp(CameraPosMovingEaseT, 0.f, 1.f);
 
 
 	CameraTarget.x = Easing::EaseOut(CameraPosMovingEaseT, ppos.x, ((ppos.x + ZoomTarget.x) / 2.f));
@@ -295,11 +296,9 @@ else {
 		{
 			Tstate = MOVEBOSSAREA;
 		}
-		
 	}
 	if (Tstate == PLAYER)
 	{
-		
 		sCamera = PLAYCUTSTART;
 		rCamera = NON_RUSH;
 		bscamera = NON_BATTLESTART;
@@ -360,17 +359,18 @@ void CameraControl::TargetBossField()
 		break;
 	case END_BOSS:
 		//if (FenceControl::GetIns()->GetBossGateFence()->FenceYposMin() == TRUE) {
-			if (Feed::GetIns()->GetAlpha() > 0.0f)
+		if (Feed::GetIns()->GetAlpha() > 0.0f)
+		{
+			if (Collision::GetLength(PlayerControl::GetIns()->GetPlayer()->GetPosition(), {60, -35, 400}) >= 50)
 			{
-				if (Collision::GetLength(PlayerControl::GetIns()->GetPlayer()->GetPosition(), { 60, -35, 400 }) >= 50)
-				{
-					Feed::GetIns()->Update_Black(Feed::FEEDOUT);
-				}
-			} else
-			{
-				Tstate = PLAYER;
+				Feed::GetIns()->Update_Black(Feed::FEEDOUT);
 			}
-		//}
+		}
+		else
+		{
+			Tstate = PLAYER;
+		}
+	//}
 		break;
 	default:
 		break;
@@ -726,18 +726,16 @@ void CameraControl::BattleStart()
 {
 	XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 
-	if (bscamera== NON_BATTLESTART)
+	if (bscamera == NON_BATTLESTART)
 	{
 		OldPos = camera->GetEye();
 		OldTarget = camera->GetTarget();
 		CameraTarget = OldTarget;
 		bscamera = ZOOM_BATTLESTART;
 	}
-	
-	
-		Tstate = PLAYER;
-	
-	
+
+
+	Tstate = PLAYER;
 }
 
 

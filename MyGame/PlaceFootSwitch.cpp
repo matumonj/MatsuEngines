@@ -6,11 +6,15 @@ void PlaceFootSwitch::Initialize(DebugCamera* camera)
 	//	Model = Model::CreateFromOBJ("Fence");
 	Obj = Object3d::Create(camera);
 	Obj->SetModel(Model::CreateFromOBJ("FootSwitch"));
-scl = { 3, 3, 3};}
+	scl = {3, 3, 3};
+}
 
 void PlaceFootSwitch::FileWriting()
 {
-	if (switchs.size() == 0)return;
+	if (switchs.size() == 0)
+	{
+		return;
+	}
 	file.open("switch.csv");
 
 	popcom << file.rdbuf();
@@ -18,7 +22,7 @@ void PlaceFootSwitch::FileWriting()
 	file.close();
 	///std::ofstream pofs("EnemyParam_CSV/position.csv");
 	std::ofstream ofs("Param_CSV/Gimmic.csv"); // ファイルパスを指定する
-	
+
 	for (int i = 0; i < SwitchSize; i++)
 	{
 		ofs << "POSITION" << "," << switchs[i]->GetPosition().x
@@ -45,9 +49,9 @@ void PlaceFootSwitch::ArgMent(DebugCamera* camera)
 		newFence->Initialize(camera);
 		newFence->SetModel(ModelManager::GetIns()->GetModel(ModelManager::SWITCH));
 		newFence->SetPosition(pos);
-		scl = { 3, 3, 3 };
+		scl = {3, 3, 3};
 		newFence->SetScale(scl);
-		newFence->SetColor({ 1,1,1,1 });
+		newFence->SetColor({1, 1, 1, 1});
 		switchs.push_back(std::move(newFence));
 		ArgmentFlag = false;
 	}
@@ -70,7 +74,7 @@ void PlaceFootSwitch::Update(DebugCamera* camera)
 	Obj->SetPosition(pos);
 	Obj->SetRotation(rot);
 	Obj->SetScale(scl);
-	Obj->SetColor({ 1,1,1,1 });
+	Obj->SetColor({1, 1, 1, 1});
 	Obj->Update(camera);
 }
 
@@ -78,12 +82,12 @@ void PlaceFootSwitch::Draw()
 {
 	Object3d::PreDraw();
 	Obj->Draw();
-	
-	for(int i=0;i<switchs.size();i++)
+
+	for (int i = 0; i < switchs.size(); i++)
 	{
 		switchs[i]->Draw();
-	}Object3d::PostDraw();
-
+	}
+	Object3d::PostDraw();
 }
 
 void PlaceFootSwitch::ImGui_Draw()
@@ -105,7 +109,7 @@ void PlaceFootSwitch::ImGui_Draw()
 	{
 		ArgmentFlag = true;
 	}
-	
+
 	ImGui::End();
 }
 
@@ -117,5 +121,4 @@ void PlaceFootSwitch::Finalize()
 
 void PlaceFootSwitch::ColField()
 {
-	
 }

@@ -26,11 +26,11 @@ void BossEnemyShieldGuard::Update(Enemy* enemy)
 	XMVECTOR positionB = {enemy->GetPosition().x, enemy->GetPosition().y, enemy->GetPosition().z};
 
 	//Œü‚«‚ðƒvƒŒƒCƒ„[‚É
-	float Add_RotVal = FollowRot::FollowA_B(positionA, positionB)*60.f;
+	float Add_RotVal = FollowRot::FollowA_B(positionA, positionB) * 60.f;
 
 	enemy->SetRotation({
 		enemy->GetRotation().x,
-		Add_RotVal+ l_RotCorreVal,
+		Add_RotVal + l_RotCorreVal,
 		enemy->GetRotation().z
 	});
 

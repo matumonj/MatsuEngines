@@ -22,7 +22,7 @@ private:
 	static constexpr auto ChestNavNum = 2;
 	static constexpr auto TaskListNavNum = 2;
 	//タスク
-	std::array<std::unique_ptr<Sprite>,TaskNum> TaskFrame;
+	std::array<std::unique_ptr<Sprite>, TaskNum> TaskFrame;
 	std::array<std::unique_ptr<Sprite>, TaskNum> TasksSprite;
 	//クリアしたタスクの打ち消し線
 	std::array<std::unique_ptr<Sprite>, TaskNum> ClearTaskLine;
@@ -30,17 +30,18 @@ private:
 	std::array<float, TaskNum> ClearTaskLineEaseC;
 
 	//宝箱の回収率用のフレームとうち側てくちゃ
-	std::array<std::unique_ptr<Sprite>,ChestNavNum> navChestSprite;
+	std::array<std::unique_ptr<Sprite>, ChestNavNum> navChestSprite;
 	std::array<float, ChestNavNum> navSpriteAlpha;
 	//Yでタスク一覧を表示するかどうかのナビテクスチャ
 	std::array<std::unique_ptr<Sprite>, TaskListNavNum> TaskMenuList;
-	std::array<float, TaskListNavNum>TaskMenuListAlpha;
+	std::array<float, TaskListNavNum> TaskMenuListAlpha;
 	//クリアしたかどうか
 	std::array<bool, TaskNum> Judg;
 	//テクスチャアルファ値
 	std::array<float, TaskNum> TaskSpriteAlpha;
 	std::array<std::unique_ptr<Texture>, TaskNum> TargetIcon;
 	std::array<float, TaskNum> iconalpha;
+
 	enum Tasks
 	{
 		TASK_ONE,
@@ -59,7 +60,7 @@ private:
 
 	XMFLOAT2 FrameScl;
 
-	std::array<XMFLOAT2,TaskNum> TaskPos;
+	std::array<XMFLOAT2, TaskNum> TaskPos;
 	XMFLOAT2 TaskScl;
 
 	float SpritePosInter;
@@ -83,13 +84,13 @@ public:
 	bool ClearTaskThree();
 	bool GetAllTaskClear() { return TaskAllClear; }
 
-	inline bool GetGolemDesthCount(int count)
+	bool GetGolemDesthCount(int count)
 	{
 		if (GolemDestCount == count) { return true; }
 		return false;
 	}
 
-	inline bool GetMiniGolemDesthCount(int count)
+	bool GetMiniGolemDesthCount(int count)
 	{
 		if (MiniGolemDestCount == count) { return true; }
 		return false;
@@ -97,7 +98,7 @@ public:
 
 	void SetGuardianDeathCount(int count) { GuardianDeathCount = count; }
 	bool TaskFourClear(Tasks task) { return Judg[task]; }
-	
+
 	void GuardianRset();
 private:
 	//ゴーレム倒した数
@@ -110,8 +111,8 @@ private:
 
 	void NavTaskSequence();
 
-	static constexpr float TaskNumInterPos=120.f;
-	static constexpr float taskNumSize=0.5f;
+	static constexpr float TaskNumInterPos = 120.f;
+	static constexpr float taskNumSize = 0.5f;
 public:
 	void SetGolemDestroyCount() { GolemDestCount++; }
 	void SetMiniGolemDestroyCount() { MiniGolemDestCount++; }

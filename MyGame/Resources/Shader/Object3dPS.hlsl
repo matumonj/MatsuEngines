@@ -36,9 +36,12 @@ PSOutPut main(GSOutput input)
 	float4 shadecolor = float4(ambientColor * ambient, m_alpha);
 
 	// 平行光源
-	if (shadowf) {
-		for (int i = 0; i < DIRLIGHT_NUM; i++) {
-			if (dirLights[i].active) {
+	if (shadowf)
+	{
+		for (int i = 0; i < DIRLIGHT_NUM; i++)
+		{
+			if (dirLights[i].active)
+			{
 				// ライトに向かうベクトルと法線の内積
 				float3 dotlightnormal = dot(dirLights[i].lightv, input.normal);
 				// 反射光ベクトル
@@ -54,15 +57,18 @@ PSOutPut main(GSOutput input)
 		}
 	}
 	// 点光源
-	for (int nump = 0; nump < POINTLIGHT_NUM; nump++) {
-		if (pointLights[nump].active) {
+	for (int nump = 0; nump < POINTLIGHT_NUM; nump++)
+	{
+		if (pointLights[nump].active)
+		{
 			// ライトへの方向ベクトル
 			float3 lightv = pointLights[nump].lightpos - input.worldpos.xyz;
 			float d = length(lightv);
 			lightv = normalize(lightv);
 
 			// 距離減衰係数
-			float atten = 1.0f / (pointLights[nump].lightatten.x + pointLights[nump].lightatten.y * d + pointLights[nump].lightatten.z * d * d);
+			float atten = 1.0f / (pointLights[nump].lightatten.x + pointLights[nump].lightatten.y * d + pointLights[
+				nump].lightatten.z * d * d);
 
 			// ライトに向かうベクトルと法線の内積
 			float3 dotlightnormal = dot(lightv, input.normal);
@@ -78,61 +84,72 @@ PSOutPut main(GSOutput input)
 		}
 	}
 	//if (shadowf) {
-		// スポットライト
-		for (int nums = 0; nums < SPOTLIGHT_NUM; nums++) {
-			if (spotLights[nums].active) {
-				// ライトへの方向ベクトル
-				float3 lightv = spotLights[nums].lightpos - input.worldpos.xyz;
-				float d = length(lightv);
-				lightv = normalize(lightv);
+	// スポットライト
+	for (int nums = 0; nums < SPOTLIGHT_NUM; nums++)
+	{
+		if (spotLights[nums].active)
+		{
+			// ライトへの方向ベクトル
+			float3 lightv = spotLights[nums].lightpos - input.worldpos.xyz;
+			float d = length(lightv);
+			lightv = normalize(lightv);
 
-				// 距離減衰係数
-				float atten = saturate(1.0f / (spotLights[nums].lightatten.x + spotLights[nums].lightatten.y * d + spotLights[nums].lightatten.z * d * d));
+			// 距離減衰係数
+			float atten = saturate(
+				1.0f / (spotLights[nums].lightatten.x + spotLights[nums].lightatten.y * d + spotLights[nums].lightatten.
+					z * d * d));
 
-				// 角度減衰
-				float cos = dot(lightv, spotLights[nums].lightv);
-				// 減衰開始角度から、減衰終了角度にかけて減衰
-				// 減衰開始角度の内側は1倍 減衰終了角度の外側は0倍の輝度
-				float angleatten = smoothstep(spotLights[nums].lightfactoranglecos.y, spotLights[nums].lightfactoranglecos.x, cos);
-				// 角度減衰を乗算
-				atten *= angleatten;
+			// 角度減衰
+			float cos = dot(lightv, spotLights[nums].lightv);
+			// 減衰開始角度から、減衰終了角度にかけて減衰
+			// 減衰開始角度の内側は1倍 減衰終了角度の外側は0倍の輝度
+			float angleatten = smoothstep(spotLights[nums].lightfactoranglecos.y,
+			                              spotLights[nums].lightfactoranglecos.x, cos);
+			// 角度減衰を乗算
+			atten *= angleatten;
 
-				// ライトに向かうベクトルと法線の内積
-				float3 dotlightnormal = dot(lightv, input.normal);
-				// 反射光ベクトル
-				float3 reflect = normalize(-lightv + 2 * dotlightnormal * input.normal);
-				// 拡散反射光
-				float3 diffuse = dotlightnormal * m_diffuse;
-				// 鏡面反射光
-				float3 specular = pow(saturate(dot(reflect, eyedir)), shininess) * m_specular;
+			// ライトに向かうベクトルと法線の内積
+			float3 dotlightnormal = dot(lightv, input.normal);
+			// 反射光ベクトル
+			float3 reflect = normalize(-lightv + 2 * dotlightnormal * input.normal);
+			// 拡散反射光
+			float3 diffuse = dotlightnormal * m_diffuse;
+			// 鏡面反射光
+			float3 specular = pow(saturate(dot(reflect, eyedir)), shininess) * m_specular;
 
-				// 全て加算する
-				shadecolor.rgb += atten * (diffuse + specular) * spotLights[nums].lightcolor;
-			}
+			// 全て加算する
+			shadecolor.rgb += atten * (diffuse + specular) * spotLights[nums].lightcolor;
 		}
-//	}
+	}
+	//	}
 	// 丸影
-	for (int numc = 0; numc < CIRCLESHADOW_NUM; numc++) {
-		if (circleShadows[numc].active) {
+	for (int numc = 0; numc < CIRCLESHADOW_NUM; numc++)
+	{
+		if (circleShadows[numc].active)
+		{
 			// オブジェクト表面からキャスターへのベクトル
 			float3 casterv = circleShadows[numc].casterPos - input.worldpos.xyz;
 			// 光線方向での距離
 			float d = dot(casterv, circleShadows[numc].dir);
 
 			// 距離減衰係数
-			float atten = saturate(1.0f / (circleShadows[numc].atten.x + circleShadows[numc].atten.y * d + circleShadows[numc].atten.z * d * d));
+			float atten = saturate(
+				1.0f / (circleShadows[numc].atten.x + circleShadows[numc].atten.y * d + circleShadows[numc].atten.z * d
+					* d));
 			// 距離がマイナスなら0にする
 			atten *= step(0, d);
 
 			// ライトの座標
-			float3 lightpos = circleShadows[numc].casterPos + circleShadows[numc].dir * circleShadows[numc].distanceCasterLight;
+			float3 lightpos = circleShadows[numc].casterPos + circleShadows[numc].dir * circleShadows[numc].
+				distanceCasterLight;
 			//  オブジェクト表面からライトへのベクトル（単位ベクトル）
 			float3 lightv = normalize(lightpos - input.worldpos.xyz);
 			// 角度減衰
 			float cos = dot(lightv, circleShadows[numc].dir);
 			// 減衰開始角度から、減衰終了角度にかけて減衰
 			// 減衰開始角度の内側は1倍 減衰終了角度の外側は0倍の輝度
-			float angleatten = smoothstep(circleShadows[numc].factorAngleCos.y, circleShadows[numc].factorAngleCos.x, cos);
+			float angleatten = smoothstep(circleShadows[numc].factorAngleCos.y, circleShadows[numc].factorAngleCos.x,
+			                              cos);
 			// 角度減衰を乗算
 			atten *= angleatten;
 
@@ -163,8 +180,8 @@ PSOutPut main(GSOutput input)
 	}
 	if (!shadowf)
 	{
-		output.target0 = shadecolor * float4(texcolor.rgb, texcolor.a)*color ;
-		output.target1 = shadecolor * float4(texcolor.rgb, texcolor.a)*color;
+		output.target0 = shadecolor * float4(texcolor.rgb, texcolor.a) * color;
+		output.target1 = shadecolor * float4(texcolor.rgb, texcolor.a) * color;
 	}
 
 	return output;

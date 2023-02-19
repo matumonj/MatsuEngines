@@ -140,8 +140,8 @@ void GuardianNAttack::Phase_Bom()
 		BeamObjScl.z = Easing::EaseOut(scalingETime, 0.0f, 10.0f);
 	}
 
-	BeamObjScl.x = std::clamp(BeamObjScl.x,0.f, 10.0f);
-	BeamObjScl.z = std::clamp(BeamObjScl.z, 0.0f,10.f);
+	BeamObjScl.x = std::clamp(BeamObjScl.x, 0.f, 10.0f);
+	BeamObjScl.z = std::clamp(BeamObjScl.z, 0.0f, 10.f);
 
 	if (Collision::GetLength(ppos, normalAttackObj->GetPosition()) < 14.f)
 	{
@@ -171,7 +171,7 @@ void GuardianNAttack::Phase_MakeSmall()
 	BeamObjScl.x = Easing::EaseOut(scalingETime, SclMin, SclMax);
 	BeamObjScl.z = Easing::EaseOut(scalingETime, SclMin, SclMax);
 
-	BeamObjScl.x = std::clamp(BeamObjScl.x,SclMin, SclMax);
+	BeamObjScl.x = std::clamp(BeamObjScl.x, SclMin, SclMax);
 	BeamObjScl.z = std::clamp(BeamObjScl.z, SclMin, SclMax);
 }
 

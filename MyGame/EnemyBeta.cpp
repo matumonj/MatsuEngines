@@ -252,7 +252,10 @@ void EnemyBeta::Move()
 
 void EnemyBeta::AttackCol_Rock()
 {
-	if (DeathFlag)return;
+	if (DeathFlag)
+	{
+		return;
+	}
 	//Î‚ÆƒvƒŒƒCƒ„[‚Ì‚ ‚½‚è‚Í‚ñ‚Ä‚¢
 	XMFLOAT3 l_playerpos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 	const bool ColPlayer = Collision::GetLength(RockPos, l_playerpos) < 5.f;
@@ -378,7 +381,6 @@ void EnemyBeta::AnimationContol(AnimationState name, int animenumber, double spe
 
 void EnemyBeta::FbxAnimationControls(AnimationState motiontype, int number)
 {
-	
 	if (animeState == WALK && motiontype == WALK)
 	{
 		AnimationContol(WALK, number, 1.0, true);

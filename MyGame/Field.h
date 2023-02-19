@@ -39,11 +39,11 @@ private:
 
 	static const int objNum = 5;
 	static const int TorchSize = 6;
-	std::array<std::unique_ptr<Object3d>,TorchSize>TorchObj;
-	std::array<XMFLOAT3, TorchSize>TorchPos;
-	static constexpr float posY=20.f;
+	std::array<std::unique_ptr<Object3d>, TorchSize> TorchObj;
+	std::array<XMFLOAT3, TorchSize> TorchPos;
+	static constexpr float posY = 20.f;
 	static constexpr float TorchPosAngle = 130.f;
-	std::array<std::unique_ptr<Particle>, TorchSize>FireEffect;
+	std::array<std::unique_ptr<Particle>, TorchSize> FireEffect;
 
 	Texture* playerpoint = nullptr;
 	std::vector<std::unique_ptr<Texture>> Enemyicon;

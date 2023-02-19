@@ -145,11 +145,11 @@ void BronzeAttack::ObjUpda()
 
 void BronzeAttack::SetAction(bool f, Direction dir)
 {
-		if (_phase != PHASE_ONE)
-			{
-				_phase = PHASE_ONE;
-				AttackDir = dir;
-			}
+	if (_phase != PHASE_ONE)
+	{
+		_phase = PHASE_ONE;
+		AttackDir = dir;
+	}
 }
 
 void BronzeAttack::SphereMoving()
@@ -318,7 +318,7 @@ void BronzeAttack::Phase_TexFade()
 		for (int i = 0; i < BeamObj.size(); i++)
 		{
 			scalingETime[i] = 0.0f;
-			BeamObjScl[i] = { 0.0f, 50.0f, 0.0f };
+			BeamObjScl[i] = {0.0f, 50.0f, 0.0f};
 		}
 	}
 }
@@ -339,7 +339,7 @@ void BronzeAttack::Phase_End()
 
 void BronzeAttack::Draw()
 {
-	if (_phase==PHASE_FOUR&&TexAlpha<=0.f)
+	if (_phase == PHASE_FOUR && TexAlpha <= 0.f)
 	{
 		return;
 	}

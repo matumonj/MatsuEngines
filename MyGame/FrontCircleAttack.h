@@ -30,9 +30,9 @@ private:
 		//画像アルファ値
 		float TexAlpha;
 		//釘オブジェ
-		std::unique_ptr<Object3d>Obj;
+		std::unique_ptr<Object3d> Obj;
 		//パーティクル
-		std::unique_ptr<Particle>PireEffect;
+		std::unique_ptr<Particle> PireEffect;
 		//突き出しのイージング用
 		float PosYMovingEaseT;
 		float TexSclingEaseT;
@@ -49,7 +49,7 @@ private:
 	static constexpr float NailMinPosY = -20.f;
 
 	//釘インス
-	std::array<NailObjs, NailSize>nail_objses_;
+	std::array<NailObjs, NailSize> nail_objses_;
 
 	//攻撃のフェーズの関数テーブル
 	static void (FrontCircleAttack::* actionTable[])();

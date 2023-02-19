@@ -118,14 +118,15 @@ void PlayerControl::Update_Play() //プレイシーン時
 void PlayerControl::Update_Boss()
 {
 	PlayerAttackState::GetIns()->Update();
-	if (EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0] != nullptr) {
+	if (EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0] != nullptr)
+	{
 		XMFLOAT3 rot = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetRotation();
 		XMFLOAT3 spos = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->HandRightPos2();
 
 		AttackEffect::GetIns()->SetGuardRot(rot);
 		AttackEffect::GetIns()->GuarEffect(spos);
 	}
-		player->Update();
+	player->Update();
 	DamageTexUpdate();
 }
 
@@ -175,7 +176,8 @@ void PlayerControl::Draw_Play()
 	if (PlayerAttackState::GetIns()->GetHitStopJudg())
 	{
 		f = 1;
-	} else
+	}
+	else
 	{
 		f = 0;
 	}
@@ -206,7 +208,6 @@ void PlayerControl::Draw_Tutorial()
 
 void PlayerControl::Draw_Boss()
 {
-	
 	if (player == nullptr)
 	{
 		return;

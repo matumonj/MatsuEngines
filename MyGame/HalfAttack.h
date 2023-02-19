@@ -32,8 +32,6 @@ public:
 	Enemy* GetSummonEnemy(int index) { return SummonEnemys[index].get(); }
 
 public:
-	
-
 private:
 	void SummonInit();
 	void BossLeaveGround();
@@ -50,7 +48,7 @@ public:
 	void Draw_SummonEnemyHP();
 	bool SummonEnemy();
 	void SummonEnemyResetParam();
-	
-static void (HalfAttack::* actionTable[])();
+
+	static void (HalfAttack::* actionTable[])();
 	void SetSummonF(bool f) { summonEnemyCreate = f; }
 };

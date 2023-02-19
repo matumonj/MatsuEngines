@@ -115,7 +115,7 @@ void ChestControl::Init_Play()
 	ChestCage = std::make_unique<Object3d>();
 	ChestCage->Initialize(l_camera);
 	ChestCage->SetModel(ModelManager::GetIns()->GetModel(ModelManager::CAGE));
-	
+
 
 	ParticleManager::LoadTexture(8, L"Resources/ParticleTex/normal.png");
 	for (int i = 0; i < 4; i++)
@@ -186,10 +186,10 @@ void ChestControl::Update_Play()
 		chests[BLUE]->SetPosition(FootSwitch::GetIns()->Switchs_CenterPos());
 		chests[BLUE]->SetpColor(color_blue);
 
-		ChestCage->SetPosition({ CagePos.x,CagePos.y-5.f,CagePos.z });
-		ChestCage->SetColor({ 1.f,1.f,1.f,0.5f });
+		ChestCage->SetPosition({CagePos.x, CagePos.y - 5.f, CagePos.z});
+		ChestCage->SetColor({1.f, 1.f, 1.f, 0.5f});
 		ChestCage->SetUVf(true);
-		ChestCage->SetScale({ 7.f,3.f,7.f });
+		ChestCage->SetScale({7.f, 3.f, 7.f});
 		ChestCage->Update(CameraControl::GetIns()->GetCamera());
 	}
 	if (chests[YELLOW] != nullptr)
@@ -198,7 +198,7 @@ void ChestControl::Update_Play()
 	}
 
 	constexpr float DownSpeed = 0.3f;
-	if(FootSwitch::GetIns()->GetClearSwicthsQuantity()>=4)
+	if (FootSwitch::GetIns()->GetClearSwicthsQuantity() >= 4)
 	{
 		CagePos.y -= DownSpeed;
 	}
@@ -212,14 +212,14 @@ void ChestControl::Update_Play()
 
 void ChestControl::CageOBBSet()
 {
-	
 }
+
 void ChestControl::CageColPlayer()
 {
 	OBB playerOBB, CageOBB;
 	playerOBB.SetOBBParam_Pos(PlayerControl::GetIns()->GetPlayer()->GetPosition());
 	playerOBB.SetOBBParam_Rot(PlayerControl::GetIns()->GetPlayer()->GetMatrot());
-	playerOBB.SetOBBParam_Scl({ 1.0f, 1.0f, 1.0f });
+	playerOBB.SetOBBParam_Scl({1.0f, 1.0f, 1.0f});
 
 	//ò‚ÌOBB ‰ñ“]ƒxƒNƒgƒ‹
 	CageOBB.SetOBBParam_Pos(CagePos);
@@ -227,8 +227,8 @@ void ChestControl::CageColPlayer()
 	CageOBB.SetOBBParam_Scl({
 		ChestCage->GetMatScl().r[0].m128_f32[0] * 4.f,
 		ChestCage->GetMatScl().r[1].m128_f32[1] * 3.f,
-		ChestCage->GetMatScl().r[2].m128_f32[2] *4.f
-		});
+		ChestCage->GetMatScl().r[2].m128_f32[2] * 4.f
+	});
 
 	if (Collision::CheckOBBCollision(playerOBB, CageOBB) == true)
 	{

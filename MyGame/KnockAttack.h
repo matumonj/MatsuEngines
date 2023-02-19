@@ -7,7 +7,8 @@
 #include"Particle.h"
 #include"CollisionPrimitive.h"
 #include"BossAttackActionManager.h"
-class KnockAttack:public BossAttackActionManager
+
+class KnockAttack : public BossAttackActionManager
 {
 public:
 	KnockAttack();
@@ -41,9 +42,8 @@ private:
 
 public:
 	static KnockAttack* GetIns();
-	void Init()override;
-	void Draw();
-	void Upda()override;
+	void Init() override;
+	void Draw() override;
+	void Upda() override;
 	void Finalize();
-	
 };

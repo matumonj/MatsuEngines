@@ -84,7 +84,7 @@ void EnemyFollowState::Update(Enemy* enemy)
 	{
 		enemy->ChangeState_Mob(new EnemyDeathState());
 	}
-	if(enemy->GetReturnCreatePos())
+	if (enemy->GetReturnCreatePos())
 	{
 		enemy->ChangeState_Mob(new EnemyReturnCreatePos());
 	}

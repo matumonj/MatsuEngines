@@ -45,10 +45,12 @@ void BossScene::Initialize()
 	lightGroup->SetCircleShadowActive(PLAYER, true);
 	lightGroup->SetCircleShadowActive(BOSSENEMY, true);
 
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < 4; i++)
+	{
 		lightGroup->SetSpotLightActive(i, false);
 	}
-	for (int i = 4; i < 10; i++) {
+	for (int i = 4; i < 10; i++)
+	{
 		lightGroup->SetSpotLightActive(i, true);
 	}
 	circleShadowAtten[0] = -5.2f;
@@ -243,22 +245,23 @@ void BossScene::ChangeScene()
 void BossScene::LightUpdate()
 {
 	//プレイヤーの影
-	constexpr XMFLOAT2 PlayerCShadowAngle = { 1.4f, 1.9f };
+	constexpr XMFLOAT2 PlayerCShadowAngle = {1.4f, 1.9f};
 	XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
-	LightSetParam(PLAYER, true, ppos, XMVECTOR({ circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0 }),
-		XMFLOAT3(circleShadowAtten), PlayerCShadowAngle);
+	LightSetParam(PLAYER, true, ppos, XMVECTOR({circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0}),
+	              XMFLOAT3(circleShadowAtten), PlayerCShadowAngle);
 
 	//ボスの影
 
 	if (EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0] != nullptr)
 	{
 		XMFLOAT3 bpos = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
-		XMFLOAT3 BossCShadowPos = { bpos.x, bpos.y + 20.f, bpos.z };
+		XMFLOAT3 BossCShadowPos = {bpos.x, bpos.y + 20.f, bpos.z};
 
 		LightSetParam(BOSSENEMY, true, BossCShadowPos,
-			XMVECTOR({ circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0 }),
-			XMFLOAT3(circleShadowAtten2), XMFLOAT2(circleShadowFactorAngle2));
-	} else
+		              XMVECTOR({circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0}),
+		              XMFLOAT3(circleShadowAtten2), XMFLOAT2(circleShadowFactorAngle2));
+	}
+	else
 	{
 		lightGroup->SetCircleShadowActive(BOSSENEMY, false);
 	}
@@ -269,21 +272,27 @@ void BossScene::LightUpdate()
 	{
 		if (HalfAttack::GetIns()->GetSummonEnemy(i) != nullptr)
 		{
-			LightSetParam(i, true, { summonpos[i].x, summonpos[i].y + 7.f, summonpos[i].z },
-				XMVECTOR({ circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0 }),
-				XMFLOAT3(circleShadowAtten2),
-				XMFLOAT2(circleShadowFactorAngle2));
-		} else
+			LightSetParam(i, true, {summonpos[i].x, summonpos[i].y + 7.f, summonpos[i].z},
+			              XMVECTOR({circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0}),
+			              XMFLOAT3(circleShadowAtten2),
+			              XMFLOAT2(circleShadowFactorAngle2));
+		}
+		else
 		{
 			lightGroup->SetCircleShadowActive(i, false);
 		}
 	}
-	for (int i = 4; i <=10; i++) {
-		lightGroup->SetSpotLightPos(i, { Field::GetIns()->GetTorchPos(i-4).x,Field::GetIns()->GetTorchPos(i-4).y + posy,Field::GetIns()->GetTorchPos(i-4).z });
-		lightGroup->SetSpotLightAtten(i, { atten.x,0,atten.x });
-		lightGroup->SetSpotLightDir(i, { 0.f,-1.f,0.f });
-		lightGroup->SetSpotLightColor(i, { 1.f,0.5f,0.f });
-		lightGroup->SetSpotLightFactorAngle(i, { spotangle });
+	for (int i = 4; i <= 10; i++)
+	{
+		lightGroup->SetSpotLightPos(i, {
+			                            Field::GetIns()->GetTorchPos(i - 4).x,
+			                            Field::GetIns()->GetTorchPos(i - 4).y + posy,
+			                            Field::GetIns()->GetTorchPos(i - 4).z
+		                            });
+		lightGroup->SetSpotLightAtten(i, {atten.x, 0, atten.x});
+		lightGroup->SetSpotLightDir(i, {0.f, -1.f, 0.f});
+		lightGroup->SetSpotLightColor(i, {1.f, 0.5f, 0.f});
+		lightGroup->SetSpotLightFactorAngle(i, {spotangle});
 		if (UltAttack::GetIns()->GetFieldDestG())
 		{
 			lightGroup->SetSpotLightActive(i, false);

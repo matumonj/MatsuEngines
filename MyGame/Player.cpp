@@ -60,7 +60,7 @@ void Player::Initialize()
 	runparticle->SetParScl({0.3f, 0.3f});
 	runparticle->SetParColor({1.f, 1.f, 1.f, 1.f});
 
-	
+
 	//地形判定のコライダーセット
 	SetCollider();
 
@@ -106,22 +106,22 @@ void Player::Move()
 		//上入力
 		if (input->TiltPushStick(Input::L_UP, 0.0f))
 		{
-			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{ 0, 0, vel, 0 }, angle);
+			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{0, 0, vel, 0}, angle);
 		}
 		//下入力
 		if (input->TiltPushStick(Input::L_DOWN, 0.0f))
 		{
-			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{ 0, 0, -vel, 0 }, angle);
+			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{0, 0, -vel, 0}, angle);
 		}
 		//右入力
 		if (input->TiltPushStick(Input::L_RIGHT, 0.0f))
 		{
-			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{ vel, 0, 0, 0 }, angle);
+			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{vel, 0, 0, 0}, angle);
 		}
 		//左入力
 		if (input->TiltPushStick(Input::L_LEFT, 0.0f))
 		{
-			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{ -vel, 0, 0, 0 }, angle);
+			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{-vel, 0, 0, 0}, angle);
 		}
 
 		const float rnd_vel = 0.1f;
@@ -134,9 +134,9 @@ void Player::Move()
 		rot.y = angle + atan2f(StickX, StickY) * (PI_180 / PI);
 
 		//プレイヤーの回転角を取る
-		Rotation = { rot.x, rot.y, rot.z };
+		Rotation = {rot.x, rot.y, rot.z};
 
-		XMVECTOR move = { 0.0f, 0.0f, 0.1f, 0.0f };
+		XMVECTOR move = {0.0f, 0.0f, 0.1f, 0.0f};
 		XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(Rotation.y));
 		move = XMVector3TransformNormal(move, matRot);
 
@@ -145,7 +145,8 @@ void Player::Move()
 		Position.z += move.m128_f32[2] * AddSpeed;
 
 		Gmove = move;
-	} else
+	}
+	else
 	{
 		attackMotion = NON;
 		RunParCreate = false;
@@ -188,7 +189,9 @@ void Player::Move()
 	if (attackMotion != RUN)
 	{
 		RunParCreate = false;
-	} else {
+	}
+	else
+	{
 		//入力中のみ煙発生
 		if (input->TiltPushStick(Input::L_UP, 0.0f) ||
 			input->TiltPushStick(Input::L_DOWN, 0.0f) ||
@@ -333,7 +336,7 @@ void Player::Update()
 
 	ParameterSet_Fbx3();
 
-	
+
 	//持つ武器の更新
 	SelectSword::GetIns()->Update();
 	//攻撃エフェクト
@@ -355,7 +358,6 @@ void Player::Update()
 
 	runparticle->CreateParticle(true, {Position.x, Position.y - 2.f, Position.z});
 	runparticle->Upda(l_ParticleVelSpeed, l_ParticleAlphaSubVal);
-	
 }
 
 
@@ -410,11 +412,11 @@ void Player::AnimationContol(AnimeState state)
 	if (PlayerAttackState::GetIns()->GetHitStopJudg())
 	{
 		m_AnimeSpeed = 0.3;
-	} else
+	}
+	else
 	{
 		//OldAnimeSpeed = m_AnimeSpeed;
-		m_AnimeSpeed =state.AnimationSpeed;
-
+		m_AnimeSpeed = state.AnimationSpeed;
 	}
 }
 
@@ -485,7 +487,7 @@ void Player::KnockBack(XMFLOAT3 rot, float Knock)
 void Player::RecvDamage(int Damage)
 {
 	//攻撃受けたあと2秒は無敵
-	if (DamageCool!= 0 ||evasionF || HP < 0)
+	if (DamageCool != 0 || evasionF || HP < 0)
 	{
 		return;
 	}
