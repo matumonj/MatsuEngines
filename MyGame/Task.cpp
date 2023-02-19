@@ -103,7 +103,6 @@ void Task::Upda()
 	Judg[TASK_THREE] = FootSwitch::GetIns()->GetClearSwicthsQuantity() > 3;
 	Judg[TASK_FOUR] = GuardianDeathCount > 0;
 
-
 	for (auto i = 0; i < TaskNum; i++)
 	{
 		if (Judg[i])
@@ -113,6 +112,8 @@ void Task::Upda()
 			ClearTaskLineScl[i].y = TaskScl.y;
 			ClearTaskLineScl[i].x = Easing::EaseOut(ClearTaskLineEaseC[i], 0.f, TaskScl.x);
 			ClearTaskLineEaseC[i] = std::clamp(ClearTaskLineEaseC[i], 0.f, 1.f);
+
+			TaskSpriteAlpha[i] = 0.5f;
 		}
 	}
 	//[宝箱回収]スプライト

@@ -30,7 +30,7 @@ namespace Percent
 
 namespace MatCal
 {
-	inline XMVECTOR WDivi(const XMVECTOR& pos, const XMMATRIX& mat, const bool s)
+	inline DirectX::XMVECTOR WDivi(const DirectX::XMVECTOR& pos, const DirectX::XMMATRIX& mat, const bool s)
 	{
 		float x, y, z, w;
 
@@ -54,10 +54,10 @@ namespace MatCal
 		y = y / w;
 		z = z / w;
 
-		return XMVECTOR{x, y, z, w};
+		return DirectX::XMVECTOR{x, y, z, w};
 	}
 
-	inline XMVECTOR WDivi(const XMVECTOR& pos, const bool s)
+	inline DirectX::XMVECTOR WDivi(const DirectX::XMVECTOR& pos, const bool s)
 	{
 		float x, y, z, w;
 		x = pos.m128_f32[0];
@@ -74,10 +74,10 @@ namespace MatCal
 		y = y / w;
 		z = z / w;
 
-		return XMVECTOR{x, y, z, w};
+		return DirectX::XMVECTOR{x, y, z, w};
 	}
 
-	inline XMVECTOR PosDivi(const XMVECTOR& pos, const XMMATRIX& mat, const bool s)
+	inline DirectX::XMVECTOR PosDivi(const DirectX::XMVECTOR& pos, const DirectX::XMMATRIX& mat, const bool s)
 	{
 		float x, y, z, w;
 
@@ -98,17 +98,17 @@ namespace MatCal
 			w = z;
 		}
 
-		return XMVECTOR{x, y, z, w};
+		return DirectX::XMVECTOR{x, y, z, w};
 	}
 }
 
 
 namespace FollowRot
 {
-	inline float FollowA_B(XMVECTOR A, XMVECTOR B)
+	inline float FollowA_B(DirectX::XMVECTOR A, DirectX::XMVECTOR B)
 	{
 		//プレイヤーと敵のベクトルの長さ(差)を求める
-		XMVECTOR SubVector = XMVectorSubtract(B, A); // positionA - positionB;
+		DirectX::XMVECTOR SubVector = DirectX::XMVectorSubtract(B, A); // positionA - positionB;
 
 		float RotY;
 		//角度の取得 プレイヤーが敵の索敵位置に入ったら向きをプレイヤーの方に
