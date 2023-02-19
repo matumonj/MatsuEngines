@@ -267,7 +267,7 @@ void BronzeAttack::Phase_Bom()
 	for (int i = 0; i < BeamObj.size(); i++)
 	{
 		scalingETime[i] += 0.04f;
-		if (scalingETime[i] >= 2.5f)
+		if (scalingETime[i] >= 1.5f)
 		{
 			_phase = PHASE_THREE;
 		}

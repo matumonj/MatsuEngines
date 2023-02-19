@@ -72,6 +72,7 @@ void FrontCircleAttack::Upda()
 			nail_objses_[i].Obj->SetRotation({ 180.f,0.f,0.f });
 			nail_objses_[i].Obj->SetPosition(nail_objses_[i].ObjPos);
 			nail_objses_[i].Obj->SetScale({ 8.f,8.f,8.f });
+			nail_objses_[i].Obj->SetUVf(true);
 			nail_objses_[i].Obj->Update(camera);
 		}
 
@@ -200,7 +201,7 @@ void FrontCircleAttack::PireNail()
 {
 	//アルファ値の増減
 	constexpr float l_TexAlphaFeedVal = 0.03f;
-
+	
 	for(auto i = 0; i < nail_objses_.size(); i++)
 	{
 		//イージング進める
@@ -209,7 +210,13 @@ void FrontCircleAttack::PireNail()
 		if(nail_objses_[i].PosYMovingEaseT<=1.f)
 		nail_objses_[i].ObjPos.y = Easing::EaseOut(nail_objses_[i].PosYMovingEaseT, NailMinPosY, NailMaxPosY);
 	}
-	
+
+	//釘とあたったらダメージ
+	if(ColNail_Player()==true)
+	{
+		PlayerControl::GetIns()->GetPlayer()->RecvDamage(Damage);
+	}
+
 	//次のフェーズへ
 	if (nail_objses_[0].PosYMovingEaseT >= 2.f) {
 		_phase = PHASE_THREE;
@@ -253,5 +260,21 @@ void FrontCircleAttack::AttackEnd()
 }
 
 
+bool FrontCircleAttack::ColNail_Player()
+{
+	//プレイヤー座標
+	XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
+
+	for(auto i=0;i<nail_objses_.size();i++)
+	{
+		bool L_colJudg=Collision::GetLength(ppos, nail_objses_[i].ObjPos) < 20.f;
+
+		if(L_colJudg)
+		{
+			return true;
+		}
+	}
+	return false;
+}
 
 

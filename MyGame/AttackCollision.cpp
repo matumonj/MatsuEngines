@@ -136,9 +136,7 @@ void AttackCollision::BossCol(int damage)
 	if (Collision::CheckOBBCollision(HandObb, BossEnemyOBB[0]) == true && !HitCol)
 	{
 		PlayerAttackState::GetIns()->SetHitStopJudg(true, 20);
-		CameraControl::GetIns()->SetZoomF(true);
-		CameraControl::GetIns()->SetZoomTarget(EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition());
-
+		
 		//ガード中はダメージ受けない
 		if (EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetGuardAction())
 		{
@@ -168,7 +166,10 @@ void AttackCollision::BossCol(int damage)
 		}
 		if (Collision::CheckOBBCollision(HandObb, SummonEnemyOBB[i]) == true && !attackCol[i])
 		{
-			PlayerAttackState::GetIns()->SetHitStopJudg(true, 30);
+			CameraControl::GetIns()->SetZoomF(true);
+			CameraControl::GetIns()->SetZoomTarget(HalfAttack::GetIns()->GetSummonEnemy(i)->GetPosition());
+
+			PlayerAttackState::GetIns()->SetHitStopJudg(true, 20);
 			HalfAttack::GetIns()->GetSummonEnemy(i)->RecvDamage(damage);
 
 			attackCol[i] = true;

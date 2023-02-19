@@ -16,7 +16,7 @@ void BossEnemyFalter::Initialize(Enemy* enmey)
 
 void BossEnemyEvasion::Update(Enemy* enemy)
 {
-	enemy->SetGuardAction(false);
+	
 	//Ž€–S
 	if (enemy->GetHP() <= 0.f)
 	{
@@ -54,6 +54,7 @@ void BossEnemyEvasion::Update(Enemy* enemy)
 
 void BossEnemyFalter::Update(Enemy* enemy)
 {
+	enemy->SetGuardAction(false);
 	enemy->SetRecvDamage2(false);
 	enemy->SetAnimation(BossEnemy::NowAttackMotion::FALTER, false, 0.4);
 	

@@ -54,6 +54,8 @@ private:
 	//攻撃のフェーズの関数テーブル
 	static void (FrontCircleAttack::* actionTable[])();
 
+	//ダメージ
+	static constexpr int Damage = 8;
 private:
 	void NonInit();
 	//範囲設定
@@ -64,4 +66,7 @@ private:
 	void DestNail();
 
 	void AttackEnd();
+
+	//釘との当たり判定
+	bool ColNail_Player();
 };

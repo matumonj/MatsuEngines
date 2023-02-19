@@ -3,15 +3,10 @@
 #include"PlayerControl.h"
 #include"CameraControl.h"
 #include"BossEnemyAttack.h"
-#include"BossEnemyAttackknock.h"
 #include"mHelper.h"
 #include"RushAttack.h"
 #include"FrontCircleAttack.h"
-#include"HalfAttack.h"
-#include"CircleAttack.h"
 #include"BossEnemyDeath.h"
-#include"KnockAttack.h"
-#include"BossEnemyAttackSlam.h"
 #include"BossEnemyAttackRush.h"
 #include"Feed.h"
 #include"BossEnemy.h"
@@ -22,6 +17,7 @@
 #include "BossEnemyEvasion.h"
 #include "BossEnemyShieldGuard.h"
 #include "BronzeAttack.h"
+#include "HalfAttack.h"
 #include "UltAttack.h"
 
 void BossEnemyFollow::Initialize(Enemy* enmey)
@@ -98,13 +94,15 @@ void BossEnemyFollow::Update(Enemy* enemy)
 		{
 			enemy->ChangeState_Boss(new BossEnemyFalter());
 		}
-		else
-		{
-			if (Evaprobability > 20)
+		else if (Evaprobability > 40)
 			{
 				enemy->ChangeState_Boss(new BossEnemyShieldGuard());
 				enemy->SetRecvDamage2(false);
 			}
+		else
+		{
+			enemy->SetRecvDamage2(false);
+			
 		}
 	}
 
@@ -116,6 +114,9 @@ void BossEnemyFollow::Update(Enemy* enemy)
 
 	/*-----------UŒ‚‘JˆÚ•”•ª------------*/
 	ActionSequence(enemy,90.f,FrontCircleAttack::GetIns(), enemy->CIRCLE_1,
+		new BossEnemyAttackCircle());
+
+	ActionSequence(enemy, 80.f, FrontCircleAttack::GetIns(), enemy->CIRCLE_2,
 		new BossEnemyAttackCircle());
 
 	ActionSequence(enemy, 70.f,RushAttack::GetIns(), enemy->Beam,

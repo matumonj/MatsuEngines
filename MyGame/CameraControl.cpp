@@ -232,7 +232,22 @@ void CameraControl::TargetPlayer()
 		}
 	}
 
-	this->camera->SetTarget({PlayerControl::GetIns()->GetPlayer()->GetPosition()});
+
+if (ZoomF)
+	{
+			CameraPosMovingEaseT += 0.02f;
+
+	}
+else {
+	CameraPosMovingEaseT -= 0.02f;
+}CameraPosMovingEaseT = std::clamp(CameraPosMovingEaseT, 0.f, 1.f);
+
+
+	CameraTarget.x = Easing::EaseOut(CameraPosMovingEaseT, ppos.x, ((ppos.x + ZoomTarget.x) / 2.f));
+	CameraTarget.y = ppos.y;
+	CameraTarget.z = Easing::EaseOut(CameraPosMovingEaseT, ppos.z, ((ppos.z + ZoomTarget.z) / 2.f));
+
+	this->camera->SetTarget({CameraTarget});
 	if (input->TiltPushStick(Input::R_RIGHT) || input->TiltPushStick(Input::R_LEFT))
 	{
 		if (input->TiltPushStick(Input::R_RIGHT))
@@ -284,10 +299,7 @@ void CameraControl::TargetPlayer()
 	}
 	if (Tstate == PLAYER)
 	{
-		if (ZoomF)
-		{
-			Tstate = BATTLEATART;
-		}
+		
 		sCamera = PLAYCUTSTART;
 		rCamera = NON_RUSH;
 		bscamera = NON_BATTLESTART;
@@ -721,54 +733,11 @@ void CameraControl::BattleStart()
 		CameraTarget = OldTarget;
 		bscamera = ZOOM_BATTLESTART;
 	}
-	else if (bscamera == ZOOM_BATTLESTART)
-	{
-		
-		if (CameraPosMovingEaseT > 1.f) {
-			
 	
-			if (ZoomF == false)
-			{
-				bscamera = RETURN_BATTLESTART;
-			}
-		}
-		else
-		{
-			CameraPosMovingEaseT += 0.02f;
-		}
-
-		XMFLOAT3 position = { (OldPos.x + ZoomTarget.x) / 2.f,(OldPos.y + ZoomTarget.y) / 2.f,(OldPos.z+ ZoomTarget.z) / 2.f };           //CenterPointのポジションを中心に配置
-
-		float radx = sqrtf((position.x - ZoomTarget.x) * (position.x - ZoomTarget.x));
-		float radz = sqrtf((position.z - ZoomTarget.z) * (position.z - ZoomTarget.z));
-
-		float disx = radx / sinf(OldCameraPos.x * 0.5f );
-		float disz = radz / sinf(OldCameraPos.z * 0.5f);
-		CameraTarget.x = Easing::EaseOut(CameraPosMovingEaseT, ppos.x, ((OldTarget.x + ZoomTarget.x) / 2.f));
-			CameraTarget.z = Easing::EaseOut(CameraPosMovingEaseT, ppos.z, ((OldTarget.z + ZoomTarget.z) / 2.f) );
 	
-	}
-	else if(bscamera==RETURN_BATTLESTART)
-	{
-		if (CameraPosMovingEaseT <= 0.f)
-			bscamera = END_BATTLESTART;
-
-		CameraPosMovingEaseT -= 0.02f;
-
-		//OldPos = camera->GetEye();
-		//bscamera = ZOOM_BATTLESTART;
-		CameraTarget.x = Easing::EaseOut(CameraPosMovingEaseT,ppos.x , ((OldTarget.x + ZoomTarget.x) / 2.f));
-		CameraTarget.z = Easing::EaseOut(CameraPosMovingEaseT, ppos.z, ((OldTarget.z + ZoomTarget.z) / 2.f));
-		//	
-	}
-	else if(bscamera == END_BATTLESTART)
-	{
-		ZoomF = false;
 		Tstate = PLAYER;
-	}
 	
-	camera->SetTarget(CameraTarget);
-	camera->SetEye(CameraPosition);
+	
 }
 
 

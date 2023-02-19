@@ -450,6 +450,7 @@ void f_Object3d::Updata()
 		constMap->viewproj = matViewProjection;
 		constMap->world = matWorld;
 		constMap->cameraPos = fogpos;
+
 		constBuffTransform->Unmap(0, nullptr);
 	}
 

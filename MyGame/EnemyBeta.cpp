@@ -208,10 +208,10 @@ void EnemyBeta::Death()
 {
 	if (!DeathFlag)
 	{
-		if (m_fbxObject->GetAnimeTime() >= m_fbxObject->GetEndTime() - 0.3f)
-		{
+	//	if (m_fbxObject->GetAnimeTime() >= m_fbxObject->GetEndTime() - 0.3f)
+		//{
 			DeathFlag = true;
-		}
+		//}
 	}
 	if (m_fbxObject->GetAnimeTime() >= m_fbxObject->GetEndTime() - 0.3f)
 	{
@@ -255,6 +255,7 @@ void EnemyBeta::Move()
 
 void EnemyBeta::AttackCol_Rock()
 {
+	if (DeathFlag)return;
 	//Î‚ÆƒvƒŒƒCƒ„[‚Ì‚ ‚½‚è‚Í‚ñ‚Ä‚¢
 	XMFLOAT3 l_playerpos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 	const bool ColPlayer = Collision::GetLength(RockPos, l_playerpos) < 5.f;
@@ -380,10 +381,7 @@ void EnemyBeta::AnimationContol(AnimationState name, int animenumber, double spe
 
 void EnemyBeta::FbxAnimationControls(AnimationState motiontype, int number)
 {
-	if (DeathFlag)
-	{
-		return;
-	}
+	
 	if (animeState == WALK && motiontype == WALK)
 	{
 		AnimationContol(WALK, number, 1.0, true);

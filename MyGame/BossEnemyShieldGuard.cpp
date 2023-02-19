@@ -10,8 +10,6 @@
 #include "BossEnemyEvasion.h"
 #include "BossEnemyFollow.h"
 #include "mHelper.h"
-#include "PlayerAttackState.h"
-#include"ThrowRockAttack.h"
 
 using namespace DirectX;
 
