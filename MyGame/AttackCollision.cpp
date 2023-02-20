@@ -61,7 +61,7 @@ void AttackCollision::GetCol(int damage)
 		{
 			Play_colf[i] = false;
 		}
-		HelpJudg = false;
+		std::get<0>(HelpEnemy)= false;
 	}
 
 	//ŠeƒV[ƒ“‚²‚Æ‚Ì“–‚½‚è”»’è
@@ -246,7 +246,10 @@ void AttackCollision::ExplorationCol(int damage)
 			CameraControl::GetIns()->SetZoomF(true);
 			CameraControl::GetIns()->SetZoomTarget(
 				EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetPosition());
-			HelpJudg = true;
+			//UŒ‚‚µ‚½“G‚Ìî•ñ
+			std::get<0>(HelpEnemy) = true;
+			std::get<1>(HelpEnemy) = EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetEnemyNumber();
+
 			PlayerAttackState::GetIns()->SetHitStopJudg(true, 40);
 			AttackEffect::GetIns()->SetParticle(
 				EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetPosition());

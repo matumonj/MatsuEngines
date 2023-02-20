@@ -112,8 +112,7 @@ void Task::Upda()
 			ClearTaskLineScl[i].y = TaskScl.y;
 			ClearTaskLineScl[i].x = Easing::EaseOut(ClearTaskLineEaseC[i], 0.f, TaskScl.x);
 			ClearTaskLineEaseC[i] = std::clamp(ClearTaskLineEaseC[i], 0.f, 1.f);
-
-			TaskSpriteAlpha[i] = 0.5f;
+			
 		}
 	}
 	//[宝箱回収]スプライト
@@ -331,6 +330,8 @@ void Task::OpenTasks()
 	//メニュー開閉条件
 	bool l_CloseJudg = MovingFrameECount >= 1.f && Input::GetIns()->TriggerButton(Input::Y);
 	bool l_OpenJudg = MovingFrameECount <= 0.f && Input::GetIns()->TriggerButton(Input::Y);
+
+	float l_MaxEaseCount=1.f;
 	if (l_OpenJudg)
 	{
 		OpenJudg = true;
@@ -357,7 +358,12 @@ void Task::OpenTasks()
 	TaskMenuListAlpha[1] = Easing::EaseOut(MovingFrameECount, 0.f, 1.f);
 	for (auto i = 0; i < TaskNum; i++)
 	{
-		TaskSpriteAlpha[i] = Easing::EaseOut(MovingFrameECount, 0.f, 1.f);
+		l_MaxEaseCount = 1.f;
+		if(Judg[i])
+		{
+			l_MaxEaseCount = 0.3f;
+		}
+		TaskSpriteAlpha[i] = Easing::EaseOut(MovingFrameECount, 0.f, l_MaxEaseCount);
 	}
 	//イージングカウンタの上限
 	MovingFrameECount = std::clamp(MovingFrameECount, 0.f, 1.f);

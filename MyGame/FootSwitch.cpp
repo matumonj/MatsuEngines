@@ -82,7 +82,7 @@ void FootSwitch::Upda()
 		{
 			switch_param_[i].CEffectObj[j]->SetPosition(switch_param_[i].CEffectPos[j]);
 			switch_param_[i].CEffectObj[j]->SetScale(FootSwitchFrameScl);
-			switch_param_[i].CEffectObj[j]->SetColor({0.2f, 0.9f, 0.2f, 1.f});
+			switch_param_[i].CEffectObj[j]->SetColor({0.2f, 0.9f, 0.2f, switch_param_[i].CEffectAlpha[j] });
 			switch_param_[i].CEffectObj[j]->Update(camera);
 		}
 	}
@@ -112,7 +112,7 @@ void FootSwitch::FootEffectUpda()
 			//モデルの座標を上へ
 			switch_param_[i].CEffectPos[j].x = switch_param_[i].Pos.x;
 			switch_param_[i].CEffectPos[j].z = switch_param_[i].Pos.z;
-
+			switch_param_[i].CEffectAlpha[j] -= 0.01f;
 			//前の要素のY座標が一定値超えたらフラグON
 			if (j != 0 && switch_param_[i].CEffectPos[j - 1].y > switch_param_[i].Pos.y + 5.f)
 			{
@@ -127,9 +127,11 @@ void FootSwitch::FootEffectUpda()
 			//上限値まで到達したら
 			if (switch_param_[i].CEffectPos[j].y > l_PosYMax[i])
 			{
+				switch_param_[i].CEffectAlpha[j] =1.f ;
 				//元の位置にもどる
 				switch_param_[i].CEffectPos[j].y = switch_param_[i].Pos.y;
 			}
+			switch_param_[i].CEffectAlpha[j] = std::clamp(switch_param_[i].CEffectAlpha[j],0.f,1.f);
 		}
 	}
 }
