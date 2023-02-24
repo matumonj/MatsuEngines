@@ -169,7 +169,12 @@ void FenceControl::Update_Tutorial() //チュートリアル時
 		Tutorialfence[0]->Update();
 		Tutorialfence[0]->SetColors({1.0f, 0.0f, 0.0f, 1.0f});
 	}
-	Tutorialfence[0]->FenceOpenCondition(TutorialFenceOpen);
+	if(Input::GetIns()->TriggerButton(Input::Y))
+	{
+		OpenDebug = true;
+	}
+	Tutorialfence[0]->FenceOpenCondition(OpenDebug);
+	Tutorialfence[0]->FenceOpenCondition((TutorialFenceOpen));
 }
 
 void FenceControl::Update_Play() //プレイシーン時

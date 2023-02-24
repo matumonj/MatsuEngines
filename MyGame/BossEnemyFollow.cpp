@@ -89,7 +89,7 @@ void BossEnemyFollow::Update(Enemy* enemy)
 	{
 		//—”‚ð¶¬->ˆê’èˆÈã‚È‚çó‘Ô‚ð‹¯‚Ý‚É
 		Evaprobability = rand() % 100 + 1;
-		if (Evaprobability > 69)
+		if (Evaprobability > 89)
 		{
 			enemy->ChangeState_Boss(new BossEnemyFalter());
 		}
@@ -109,12 +109,12 @@ void BossEnemyFollow::Update(Enemy* enemy)
 	{
 		enemy->ChangeState_Boss(new BossEnemyDeath());
 	}
-
+	//std::get<AttackInvoPer::CIRCLE_FIR>(_attackInvoPer) = 80.f;
 	/*-----------UŒ‚‘JˆÚ•”•ª------------*/
-	ActionSequence(enemy, 90.f, FrontCircleAttack::GetIns(), enemy->CIRCLE_1,
+	ActionSequence(enemy, 80.f, FrontCircleAttack::GetIns(), enemy->CIRCLE_1,
 	               new BossEnemyAttackCircle());
 
-	ActionSequence(enemy, 80.f, FrontCircleAttack::GetIns(), enemy->CIRCLE_2,
+	ActionSequence(enemy, 20.f, FrontCircleAttack::GetIns(), enemy->CIRCLE_2,
 	               new BossEnemyAttackCircle());
 
 	ActionSequence(enemy, 70.f, RushAttack::GetIns(), enemy->Beam,
@@ -122,9 +122,6 @@ void BossEnemyFollow::Update(Enemy* enemy)
 
 	ActionSequence(enemy, 50.f, UltAttack::GetIns(), enemy->ULT,
 	               new BossEnemyAttackUlt());
-
-	ActionSequence(enemy, 20.f, BronzeAttack::GetIns(), enemy->BRONZEATTACK_W,
-	               new BossEnemyAttackBrzBeam());
 
 	ActionSequence(enemy, 30.f, BronzeAttack::GetIns(), enemy->BRONZEATTACK_H,
 	               new BossEnemyAttackBrzBeam());

@@ -1,5 +1,4 @@
 #include "WoodControl.h"
-#include"SceneManager.h"
 #include"PlayerControl.h"
 #include"mHelper.h"
 #include "WoodB.h"
@@ -21,12 +20,16 @@ WoodControl::~WoodControl()
 
 void WoodControl::Init_Tutorial()
 {
-	Tutorialwoods.resize(5);
+	//チュートリアルの木は5本
+	Tutorialwoods.resize(WoodSize);
+
+	//初期化
 	for (int i = 0; i < Tutorialwoods.size(); i++)
 	{
 		Tutorialwoods[i] = std::make_unique<Wood>();
 		Tutorialwoods[i]->Initialize();
 	}
+
 	Tutorialwoods[0]->SetPosition({42.0f, -28.0f, -389.0f});
 	Tutorialwoods[1]->SetPosition({20.0f, -28.0f, -350.0f});
 	Tutorialwoods[2]->SetPosition({70.0f, -28.0f, -340.0f});
@@ -36,6 +39,7 @@ void WoodControl::Init_Tutorial()
 
 void WoodControl::Init_Play()
 {
+	//CSV読み込み
 	file.open("Param_CSV/wood.csv");
 
 	popcom << file.rdbuf();
@@ -100,14 +104,15 @@ void WoodControl::Init_Play()
 
 	Load_WoodPosition.resize(Quantity);
 
+	//木を2種類の中から番号ごとに割り振り
 	for (int i = 0; i < Quantity; i++)
 	{
 		//初期化処理
-		if (Num[i] == 1)
+		if (Num[i] == WOOD_A)
 		{
 			woods[i] = std::make_unique<Wood>();
 		}
-		if (Num[i] == 2)
+		if (Num[i] == WOOD_B)
 		{
 			woods[i] = std::make_unique<WoodB>();
 		}
@@ -162,7 +167,6 @@ void WoodControl::Update_Play()
 		{
 			continue;
 		}
-		//woods[i]->SetColor({ 0.0f,1.0f,0.0f,1.0f });
 		woods[i]->Update();
 	}
 }

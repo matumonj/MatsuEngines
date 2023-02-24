@@ -29,6 +29,18 @@ float m_alpha : packoffset(c2.w); // アルファ
 }
 
 
+struct Point
+{
+	float x;
+	float y;
+};
+
+struct Line2D
+{
+	float2 start;
+	float2 end;
+};
+
 // 平行光源の数
 static const int DIRLIGHT_NUM = 3;
 
@@ -76,17 +88,6 @@ struct CircleShadow
 	uint active;
 };
 
-struct Point
-{
-	float x;
-	float y;
-};
-
-struct Line2D
-{
-	float2 start;
-	float2 end;
-};
 cbuffer cbuff2 : register(b2)
 {
 float3 ambientColor;

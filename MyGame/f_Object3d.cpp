@@ -22,6 +22,7 @@ ComPtr<ID3D12Device> f_Object3d::device = nullptr;
 Camera* f_Object3d::camera = nullptr;
 ComPtr<ID3D12GraphicsCommandList> f_Object3d::cmdList = nullptr;
 
+LightGroup* f_Object3d::lightGroups = nullptr;
 void f_Object3d::CreateGraphicsPipeline()
 {
 	device = DirectXCommon::GetIns()->GetDev();
@@ -164,14 +165,14 @@ void f_Object3d::CreateGraphicsPipeline()
 	descRangeSRV.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0); // t0 レジスタ
 
 	// ルートパラメータ
-	CD3DX12_ROOT_PARAMETER rootparams[3];
+	CD3DX12_ROOT_PARAMETER rootparams[4];
 	// CBV（座標変換行列用）
 	rootparams[0].InitAsConstantBufferView(0, 0, D3D12_SHADER_VISIBILITY_ALL);
 	// SRV（テクスチャ）
 	rootparams[1].InitAsDescriptorTable(1, &descRangeSRV, D3D12_SHADER_VISIBILITY_ALL);
 	//CBV（スキニング用）
 	rootparams[2].InitAsConstantBufferView(3, 0, D3D12_SHADER_VISIBILITY_ALL);
-
+	rootparams[3].InitAsConstantBufferView(2, 0, D3D12_SHADER_VISIBILITY_ALL);
 	// スタティックサンプラー
 	auto samplerDesc = CD3DX12_STATIC_SAMPLER_DESC(0);
 
@@ -206,6 +207,10 @@ void f_Object3d::Initialize()
 {
 	device = DirectXCommon::GetIns()->GetDev();
 	cmdList = DirectXCommon::GetIns()->GetCmdList();
+	ambient = { 0.3f, 0.3f, 0.3f };
+	diffuse = { 0.0f, 0.0f, 0.0f };
+	specular = { 0.0f, 0.0f, 0.0f };
+	alpha = 1.0f;
 	HRESULT result;
 	//定数バッファ
 	result = device->CreateCommittedResource(
@@ -216,6 +221,14 @@ void f_Object3d::Initialize()
 		nullptr,
 		IID_PPV_ARGS(&constBuffTransform)
 	);
+
+	result = device->CreateCommittedResource(
+		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
+		D3D12_HEAP_FLAG_NONE,
+		&CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferDataB1) + 0xff) & ~0xff),
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&constBuff));
 
 	//定数バッファの生成
 	result = device->CreateCommittedResource(
@@ -268,10 +281,10 @@ void f_Object3d::Updata(bool animeloop)
 		constMap->color = this->color;
 		constMap->viewproj = matViewProjection;
 		constMap->world = matWorld;
-		constMap->cameraPos = fogpos;
+		constMap->cameraPos = camera->GetEye();
 		constBuffTransform->Unmap(0, nullptr);
 	}
-
+	
 	//ボーン配列
 	std::vector<f_Model::Bone>& bones = model->GetBones();
 
@@ -305,6 +318,18 @@ void f_Object3d::Updata(bool animeloop)
 	HandMatWorld = HandMatWorld * matWorld;
 
 	constBuffSkin->Unmap(0, nullptr);
+
+
+	ConstBufferDataB1* constMapB1 = nullptr;
+	result = constBuff->Map(0, nullptr, (void**)&constMapB1);
+	if (SUCCEEDED(result)) {
+		constMapB1->ambient = ambient;
+		constMapB1->diffuse = diffuse;
+		constMapB1->specular = specular;
+		constMapB1->alpha = alpha;
+		constBuff->Unmap(0, nullptr);
+	}
+
 }
 
 void f_Object3d::Update(bool Loop, double Speed, bool& Stop)
@@ -345,6 +370,7 @@ void f_Object3d::Update(bool Loop, double Speed, bool& Stop)
 		constMap->cameraPos = fogpos;
 		constBuffTransform->Unmap(0, nullptr);
 	}
+	
 
 	//ボーン配列
 	std::vector<f_Model::Bone>& bones = model->GetBones();
@@ -411,6 +437,18 @@ void f_Object3d::Update(bool Loop, double Speed, bool& Stop)
 	HandMatWorld = HandMatWorld * matWorld;
 
 	constBuffSkin->Unmap(0, nullptr);
+
+
+	ConstBufferDataB1* constMapB1 = nullptr;
+	result = constBuff->Map(0, nullptr, (void**)&constMapB1);
+	if (SUCCEEDED(result)) {
+		constMapB1->ambient = ambient;
+		constMapB1->diffuse = diffuse;
+		constMapB1->specular = specular;
+		constMapB1->alpha = alpha;
+		constBuff->Unmap(0, nullptr);
+	}
+
 }
 
 void f_Object3d::Updata()
@@ -453,7 +491,9 @@ void f_Object3d::Updata()
 
 		constBuffTransform->Unmap(0, nullptr);
 	}
+      
 
+	
 	//ボーン配列
 	std::vector<f_Model::Bone>& bones = model->GetBones();
 
@@ -486,6 +526,18 @@ void f_Object3d::Updata()
 
 
 	constBuffSkin->Unmap(0, nullptr);
+
+
+	ConstBufferDataB1* constMapB1 = nullptr;
+	result = constBuff->Map(0, nullptr, (void**)&constMapB1);
+	if (SUCCEEDED(result)) {
+		constMapB1->ambient = ambient;
+		constMapB1->diffuse = diffuse;
+		constMapB1->specular = specular;
+		constMapB1->alpha = alpha;
+		constBuff->Unmap(0, nullptr);
+	}
+
 }
 
 void f_Object3d::GetBoneIndexMat(int index, XMMATRIX& matworld)
@@ -516,7 +568,8 @@ void f_Object3d::Draw()
 	cmdList->SetGraphicsRootConstantBufferView(2, constBuffSkin->GetGPUVirtualAddress());
 
 	// ライトの描画
-	//lightGroup->Draw(cmdList, 3);
+
+	lightGroups->Draw(cmdList.Get(), 3);
 
 	//モデル描画
 	model->Draw();

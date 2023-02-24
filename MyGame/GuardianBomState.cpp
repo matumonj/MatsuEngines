@@ -30,17 +30,19 @@ void GuardianBomState::UpMove(Enemy* enemy)
 	{
 		return;
 	}
-	enemy->SetPosition({epos.x, epos.y += 0.5f, epos.z});
-	enemy->SetRotation({erot.x, erot.y += 0.5f, erot.z});
+	enemy->SetPosition({epos.x, epos.y += EnemyPosYCorrVal, epos.z});
+	enemy->SetRotation({erot.x, erot.y += EnemyPosYCorrVal, erot.z});
 }
 
 void GuardianBomState::DownMove(Enemy* enemy)
 {
 	DirectX::XMFLOAT3 epos = enemy->GetPosition();
 
+	constexpr float l_YposMin = -24.f;
 
-	enemy->SetPosition({epos.x, epos.y -= 0.5f, epos.z});
-	if (epos.y < -24.f)
+	enemy->SetPosition({epos.x, epos.y -= EnemyPosYCorrVal, epos.z});
+
+	if (epos.y <l_YposMin)
 	{
 		GuardianBomAttack::GetIns()->SetisEndAttack(TRUE);
 		enemy->ChangeState_Guardian(new GuardianFollowState());

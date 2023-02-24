@@ -109,11 +109,6 @@ void GrassFieldControl::Init_Tutorial()
 			}
 		}
 	}
-	/*for (int i = 0; i < Quantity; i++) {
-		grassfields[i] = std::make_unique<GrassField>();
-		grassfields[i]->Initialize(camera);
-		grassfields[i]->SetPosition(pos[i]);
-	}*/
 	Tutorialgrassfields.resize(Quantity);
 
 	for (int i = 0; i < Tutorialgrassfields.size(); i++)

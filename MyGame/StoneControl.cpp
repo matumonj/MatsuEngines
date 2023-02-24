@@ -124,17 +124,6 @@ void StoneControl::Init_Tutorial()
 			}
 		}
 	}
-	//stones.resize(Quantity);
-
-	//Load_StonePosition.resize(Quantity);
-
-	//for (int i = 0; i < Quantity; i++) {
-
-	//	stones[i] = std::make_unique<Stone>();
-
-	//	stones[i]->Initialize(camera);
-	//	stones[i]->SetPosition(pos[i]);
-	//}
 	Load_StonePosition.resize(Quantity);
 	Tutorialstones.resize(Quantity);
 	for (int i = 0; i < Tutorialstones.size(); i++)

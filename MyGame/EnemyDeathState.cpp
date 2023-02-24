@@ -11,7 +11,6 @@ void EnemyDeathState::Update(Enemy* enemy)
 {
 	enemy->SetAnimeState(enemy->DEATH);
 	enemy->Death();
-	//PlayerAttackState::GetIns()->SetHitStopJudg(true);
 	if (enemy->GetObjAlpha() <= 0.0f)
 	{
 		enemy->ChangeState_Mob(new EnemyRespawnState());

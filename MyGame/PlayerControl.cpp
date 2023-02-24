@@ -1,4 +1,7 @@
 #include "PlayerControl.h"
+
+#include <algorithm>
+
 #include"SceneManager.h"
 #include"TutorialSprite.h"
 #include"PlayerAttackState.h"
@@ -118,6 +121,7 @@ void PlayerControl::Update_Play() //プレイシーン時
 void PlayerControl::Update_Boss()
 {
 	PlayerAttackState::GetIns()->Update();
+	//ボス時の攻撃エフェクト(ガード時)
 	if (EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0] != nullptr)
 	{
 		XMFLOAT3 rot = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetRotation();
@@ -132,23 +136,18 @@ void PlayerControl::Update_Boss()
 
 void PlayerControl::DamageTexUpdate()
 {
+	constexpr float l_AlphaFeedVal = 0.02f;
+
 	if (HUD::GetIns()->GetRecvDamageFlag())
 	{
 		dalpha = 1.0f;
 	}
-	dalpha -= 0.02f;
-	DamageTex->setcolor({1, 1, 1, dalpha});
-	dalpha = max(dalpha, 0.0f);
-	/*if (HUD::GetIns()->GetRecvDamageFlag())
-	{
-		vignette = 0.5f;
-	}
-	if(player->GetHP()<0)
-	{
-		vignette = 0.5f;
-	}
-	vignette -= 0.02f;
-	vignette = max(vignette, 0.0f);*/
+	dalpha -= l_AlphaFeedVal;
+
+	DamageTex->setcolor({1.f, 1.f, 1.f, dalpha});
+
+	dalpha =std::clamp(dalpha, 0.0f,1.f);
+	
 }
 
 void PlayerControl::DamageTexDraw()
@@ -173,21 +172,7 @@ void PlayerControl::Draw_Play()
 		return;
 	}
 	player->Draw();
-	if (PlayerAttackState::GetIns()->GetHitStopJudg())
-	{
-		f = 1;
-	}
-	else
-	{
-		f = 0;
-	}
-	ImGui::Begin("pos,,");
-
-	ImGui::SetWindowPos(ImVec2(0, 500));
-	ImGui::SetWindowSize(ImVec2(300, 300));
-	ImGui::Text("hit %d", f);
-	ImGui::Text("%f", player->GetPosition().z);
-	ImGui::End();
+	
 }
 
 void PlayerControl::Draw_Tutorial()

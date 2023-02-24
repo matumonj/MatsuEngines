@@ -17,7 +17,6 @@ void Framework::Run()
 
 		Draw();
 	}
-	//Finalize();
 }
 
 /// <summary>
@@ -68,7 +67,6 @@ void Framework::Finalize()
 	FbxLoader::GetIns()->Finalize();
 	//delete sceneManger;
 	delete audio;
-	//delete dxcomn;
 	delete input;
 	delete winapp;
 }

@@ -20,6 +20,8 @@ private:
 
 	bool TutorialFenceOpen;
 	bool BossGateOpen;
+
+	bool OpenDebug;
 public:
 	AreaFence* GetBossGateFence() { return BossGate.get(); };
 private:

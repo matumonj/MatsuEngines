@@ -14,7 +14,6 @@ void EnemyRespawnState::Update(Enemy* enemy)
 	//リスポーン
 	enemy->Respawn();
 	//状態を待機状態に
-	//if (enemy->RespawnJudg() == true) {
 	enemy->ChangeState_Mob(new EnemyFollowState());
-	//}
+	
 }

@@ -393,12 +393,6 @@
     <ClCompile Include="Field.cpp">
       <Filter>Game\gameobject\GameObject\Field</Filter>
     </ClCompile>
-    <ClCompile Include="ConfigSprite.cpp">
-      <Filter>Game\2d %28DebugTxt  Sprite Texture%29\UI\Config</Filter>
-    </ClCompile>
-    <ClCompile Include="SistemConfig.cpp">
-      <Filter>Game\2d %28DebugTxt  Sprite Texture%29\UI\Config</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerAttackState.cpp">
       <Filter>Game\gameobject\GameObject\Player</Filter>
     </ClCompile>
@@ -516,9 +510,6 @@
     <ClCompile Include="UI.cpp">
       <Filter>Game\2d %28DebugTxt  Sprite Texture%29\UI</Filter>
     </ClCompile>
-    <ClCompile Include="CustomButton.cpp">
-      <Filter>Game\2d %28DebugTxt  Sprite Texture%29\UI\Config</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyDeathState.cpp">
       <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Mob</Filter>
     </ClCompile>
@@ -571,9 +562,6 @@
       <Filter>Game\2d %28DebugTxt  Sprite Texture%29\UI\HUD</Filter>
     </ClCompile>
     <ClCompile Include="DamageManager.cpp">
-      <Filter>Game\2d %28DebugTxt  Sprite Texture%29\UI\HUD</Filter>
-    </ClCompile>
-    <ClCompile Include="ExpPointSystem.cpp">
       <Filter>Game\2d %28DebugTxt  Sprite Texture%29\UI\HUD</Filter>
     </ClCompile>
     <ClCompile Include="BossEnemyEvasion.cpp">
@@ -866,12 +854,6 @@
     <ClInclude Include="Destroy.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="ConfigSprite.h">
-      <Filter>Game\2d %28DebugTxt  Sprite Texture%29\UI\Config</Filter>
-    </ClInclude>
-    <ClInclude Include="SistemConfig.h">
-      <Filter>Game\2d %28DebugTxt  Sprite Texture%29\UI\Config</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerAttackState.h">
       <Filter>Game\gameobject\GameObject\Player</Filter>
     </ClInclude>
@@ -983,9 +965,6 @@
     <ClInclude Include="SelectSword.h">
       <Filter>Game\2d %28DebugTxt  Sprite Texture%29\UI\Config</Filter>
     </ClInclude>
-    <ClInclude Include="CustomButton.h">
-      <Filter>Game\2d %28DebugTxt  Sprite Texture%29\UI\Config</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyDeathState.h">
       <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Mob</Filter>
     </ClInclude>
@@ -1038,9 +1017,6 @@
       <Filter>Game\2d %28DebugTxt  Sprite Texture%29\UI\HUD</Filter>
     </ClInclude>
     <ClInclude Include="DamageManager.h">
-      <Filter>Game\2d %28DebugTxt  Sprite Texture%29\UI\HUD</Filter>
-    </ClInclude>
-    <ClInclude Include="ExpPointSystem.h">
       <Filter>Game\2d %28DebugTxt  Sprite Texture%29\UI\HUD</Filter>
     </ClInclude>
     <ClInclude Include="AttackEffect.h">

@@ -6,7 +6,6 @@
 #include"MapCreateScene.h"
 #include"Field.h"
 #include"PlayerAttackState.h"
-#include"SistemConfig.h"
 #include"EnemyControl.h"
 #include"WoodControl.h"
 #include"FenceControl.h"
@@ -82,8 +81,6 @@ void PlayScene::Update()
 {
 	lightGroup->Update();
 
-	SistemConfig::GetIns()->Update();
-
 	if (!Load && !PlayGame)
 	{
 		Load = true;
@@ -96,7 +93,10 @@ void PlayScene::Update()
 	LoadParam();
 
 	//postEffect->SetVignette_GB(PlayerControl::GetIns()->GetVignetteAlpha());
-
+	if (Input::GetIns()->TriggerButton(Input::START))
+	{
+		SceneManager::GetIns()->SetScene(SceneManager::BOSS, sceneManager_);
+	}
 	LightUpdate();
 	ChangeSceneJudg();
 	GameOver::GetIns()->Update();
@@ -113,10 +113,16 @@ void PlayScene::LightUpdate()
 
 	for (int i = 0; i < 10; i++)
 	{
-		if (EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i] == nullptr)
+		if (EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i] == nullptr||
+			Collision::GetLength(ppos, EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetPosition())>200.f)
 		{
-			lightGroup->SetCircleShadowFactorAngle(i + 4, {0, 0});
-			continue;
+			//lightGroup->SetCircleShadowFactorAngle(i + 4, {0, 0});
+			lightGroup->SetCircleShadowActive(i+4, false);
+			//continue;
+		}
+		else
+		{
+			lightGroup->SetCircleShadowActive(i + 4, true);
 		}
 		lightGroup->SetCircleShadowDir(i + 4, XMVECTOR({
 			                               circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0
@@ -178,8 +184,6 @@ void PlayScene::MyGameDraw()
 
 void PlayScene::SpriteDraw()
 {
-	SistemConfig::GetIns()->Draw();
-
 	Feed::GetIns()->Draw();
 	if (Feed::GetIns()->GetAlpha() <= 0.0f)
 	{

@@ -1,7 +1,6 @@
 #include "AttackEffect.h"
 #include"PlayerControl.h"
 #include"CameraControl.h"
-#include"CustomButton.h"
 #include"SelectSword.h"
 
 AttackEffect* AttackEffect::GetIns()
@@ -18,6 +17,7 @@ void AttackEffect::Init()
 	Texture::LoadTexture(15, L"Resources/2d/attackEffect/inpact.png");
 
 	Texture* l_tex[2]; // = nullptr;
+	Texture* l_tex1 = Texture::Create(15, { 0.0f, 0.0f, 1 }, { 0, 0, 1 }, { 1, 1, 1, 1 });
 
 	if (etype == SLASH_FIRST)
 	{
@@ -30,6 +30,9 @@ void AttackEffect::Init()
 		GuardTex[i]->CreateTexture();
 		GuardTex[i]->SetAnchorPoint({0.5f, 0.5f});
 	}
+	DamageTex.reset(l_tex1);
+	DamageTex->CreateTexture();
+	DamageTex->SetAnchorPoint({ 0.5f, 0.5f });
 }
 
 void AttackEffect::LoadTex()
@@ -46,6 +49,7 @@ void AttackEffect::LoadTex()
 	AttackTex.reset(l_tex);
 	AttackTex->CreateTexture();
 	AttackTex->SetAnchorPoint({0.5f, 0.0f});
+
 }
 
 void AttackEffect::SetParticle(XMFLOAT3 pos)
@@ -85,6 +89,31 @@ void AttackEffect::SetParticle(XMFLOAT3 pos)
 	eupda = UPDA;
 }
 
+void AttackEffect::DamageEffectUpda()
+{
+	if (DamageEffectCreate) {
+		XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
+
+		DamageTexScl.x += 0.1f;
+		DamageTexScl.y += 0.1f;
+		DamageTexAlpha -= 0.02f;
+
+		if (DamageTexAlpha <= 0.f)
+		{
+			DamageEffectCreate = false;
+		}
+		DamageTex->SetBillboard(TRUE);
+		DamageTex->SetPosition({ ppos });
+		DamageTex->SetColor({ 1.0f, 1.0f, 1.0f,DamageTexAlpha });
+		DamageTex->SetScale({ DamageTexScl.x, DamageTexScl.y, 2.0f });
+		DamageTex->Update(CameraControl::GetIns()->GetCamera());
+	}
+	else
+	{
+		DamageTexAlpha = 1.f;
+		DamageTexScl = { 0.f,0.f ,0.f};
+	}
+}
 void AttackEffect::ParticleUpda()
 {
 	if (AttackParticle.size() < FIRST)
@@ -151,26 +180,9 @@ void AttackEffect::Upda()
 		TexPos = {ppos.x + pmove.m128_f32[0] * 10.f, ppos.y + 3.0f, ppos.z + pmove.m128_f32[2] * 10.f};
 		TexRot = {0.0f, protY, -135.0f};
 	}
-	else if (Input::GetIns()->TriggerButton(Input::B) && PlayerControl::GetIns()->GetPlayer()->
-		GetAttackType() == PlayerControl::GetIns()->GetPlayer()->SECOND)
-	{
-		//UŒ‚‚ÌŽí—Þ
-		etype = SLASH_FIRST;
-		TexScl = {2, 0, 0};
-		TexPos = {ppos.x + pmove.m128_f32[0] * 10.f, ppos.y + 3.0f, ppos.z + pmove.m128_f32[2] * 10.f};
-		TexRot = {0.0f, protY, 45.0f};
-	}
 
-	if (etype == SLASH_FIRST)
-	{
-		TexScl.y += 0.1f;
-		if (TexScl.y >= 4)
-		{
-			TexScl.x -= 0.02f;
-			texAlpha -= 0.02f;
-		}
-	}
 
+	
 
 	if (AttackTex != nullptr)
 	{
@@ -181,11 +193,15 @@ void AttackEffect::Upda()
 		AttackTex->SetColor({1.0f, 1.0f, 1.0f, texAlpha});
 		AttackTex->Update(CameraControl::GetIns()->GetCamera());
 	}
+
+
 	ParticleUpda();
+	DamageEffectUpda();
 	Effect_First();
 	TexScl.y = min(TexScl.y, 4.0f);
 	TexScl.x = max(TexScl.x, 0.0f);
 	texAlpha = max(texAlpha, 0.0f);
+	
 }
 
 void AttackEffect::GuarEffect(XMFLOAT3 pos)
@@ -264,6 +280,10 @@ void AttackEffect::Draw()
 	if (InpactTex != nullptr)
 	{
 		InpactTex->Draw();
+	}
+	if (DamageEffectCreate)
+	{
+		DamageTex->Draw();
 	}
 	Texture::PostDraw();
 

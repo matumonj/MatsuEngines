@@ -127,7 +127,7 @@ void FootSwitch::FootEffectUpda()
 			//上限値まで到達したら
 			if (switch_param_[i].CEffectPos[j].y > l_PosYMax[i])
 			{
-				switch_param_[i].CEffectAlpha[j] =1.f ;
+				switch_param_[i].CEffectAlpha[j] =0.7f ;
 				//元の位置にもどる
 				switch_param_[i].CEffectPos[j].y = switch_param_[i].Pos.y;
 			}
@@ -150,14 +150,12 @@ void FootSwitch::Draw()
 		switch_param_[i].FrameObj->Draw();
 		for (auto j = 0; j < CEffectSize; j++)
 		{
+			if (switch_param_[i].CEffectAlpha[j] <= 0.f)continue;
 			switch_param_[i].CEffectObj[j]->Draw();
 		}
 	}
 	Object3d::PostDraw();
-	//エフェクト
-	for (auto i = 0; i < switch_param_.size(); i++)
-	{
-	}
+	
 }
 
 bool FootSwitch::FootJudg(XMFLOAT3 switchpos)

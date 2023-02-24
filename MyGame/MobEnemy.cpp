@@ -269,7 +269,6 @@ void MobEnemy::EnemyHPDraw()
 	ImGui::End();
 }
 
-#include"ExpPointSystem.h"
 
 void MobEnemy::Death()
 {

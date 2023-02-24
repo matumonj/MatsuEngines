@@ -14,6 +14,9 @@ void EnemyStayState::Initialize(Enemy* enemy)
 
 void EnemyStayState::Update(Enemy* enemy)
 {
+	//‘Ò‹@ŠÔ
+	constexpr int StayMaxCount = 90;
+
 	enemy->ResetRespawnCount();
 	enemy->SetAnimeState(enemy->WALK);
 	float RandMove = static_cast<float>(rand() % 90 + 40);
@@ -35,7 +38,7 @@ void EnemyStayState::Update(Enemy* enemy)
 
 		StayCount++;
 
-		if (StayCount > 90)
+		if (StayCount > StayMaxCount)
 		{
 			//’â~ŠÔ
 			RotTime += 0.01f;

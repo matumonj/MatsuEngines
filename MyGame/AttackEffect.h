@@ -19,6 +19,7 @@ public:
 	void Draw();
 
 	void ParticleUpda();
+	void DamageEffectUpda();
 	void SetParticle(XMFLOAT3 pos);
 
 	void GuarEffect(XMFLOAT3 pos);
@@ -64,16 +65,18 @@ public:
 
 	EffectType GetEffectType() { return etype; }
 
-
+	void SetDamageEffectCreate(bool f) { DamageEffectCreate = f; }
 private:
 	//斬撃用テクスチャ
 	static constexpr int Gsize = 2;
 	std::unique_ptr<Texture> AttackTex;
+	std::unique_ptr<Texture> DamageTex;
 	std::unique_ptr<Texture> GuardTex[2];
 	float GuardAlpha[2];
 	XMFLOAT3 GuardSize[2];
 	XMFLOAT3 GuardRot[2];
 	bool GuarJudg;
+	bool DamageEffectCreate;
 
 	enum GuarPhase
 	{
@@ -91,7 +94,12 @@ private:
 	XMFLOAT3 TexPos;
 	XMFLOAT3 TexRot;
 	XMFLOAT3 TexScl;
+
+	XMFLOAT3 DamageTexPos;
+	XMFLOAT3 DamageTexRot;
+	XMFLOAT3 DamageTexScl;
 	float texAlpha = 1.0f;
+	float DamageTexAlpha = 1.f;
 	//パーティクル発生位置
 	XMFLOAT3 ParCenterPos;
 	//各パーティクル座標、スケール

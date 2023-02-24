@@ -16,7 +16,6 @@ public:
 	~Player() override;
 
 public:
-	static Player* Create(Model* model, DebugCamera* camera);
 	static Player* GetIns();
 
 public:
@@ -61,8 +60,7 @@ public:
 	{
 		return m_fbxObject->ExtractRotationMat(m_fbxObject->GetMatRot());
 	}
-
-	Particle* fire;
+	
 	//体力
 	constexpr int& GetHP() { return HP; }
 	//体力最大値
@@ -92,6 +90,8 @@ private:
 	void Move();
 	//死亡
 	void Death();
+
+	void DamageFlash();
 private:
 	//回避フラグ
 	bool evasionF = false;
@@ -103,16 +103,12 @@ private:
 	void Evasion();
 public:
 	//座標の押し戻し
-	void isOldPos()
+	inline void isOldPos()
 	{
 		Position.x = oldpos.x;
-		//Position.y = oldpos.y;
 		Position.z = oldpos.z;
 	}
-
-	//ダメージ受けた時のノックバック
-	void KnockBack(XMFLOAT3 rot, float Knock);
-
+	
 private:
 	//走った時の土煙
 	std::unique_ptr<Particle> runparticle;
@@ -145,6 +141,11 @@ private:
 private:
 	float vel = 0.0f;
 	XMFLOAT3 MoveVECTOR(DirectX::XMVECTOR v, float angle);
+
+	bool DamageFlashF;
+	float FlashEaseT;
+	int FlashCount;
+	XMFLOAT4 ObjCol;
 private:
 	static constexpr int HandIndex = 21;
 

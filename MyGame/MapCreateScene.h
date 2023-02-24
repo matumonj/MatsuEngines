@@ -28,19 +28,12 @@ private:
 	const float window_width = 1900;
 	const float window_height = 1020;
 	static const int DebugTextSpriteTexNumber = 0;
-	// デバイス
-	static ID3D12Device* device;
-
-	// コマンドリスト
-	static ID3D12GraphicsCommandList* cmdList;
+	
 private:
 	XMFLOAT3 CameraPosition;
 
 	DebugCamera* camera;
-
-private:
-private: //点光源
-
+	
 public:
 	void ModelCreate(DebugCamera* camera);
 	void objUpdate(DebugCamera* camera);

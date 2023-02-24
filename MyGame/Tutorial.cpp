@@ -2,7 +2,6 @@
 #include"SceneManager.h"
 #include"Field.h"
 #include"TutorialSprite.h"
-#include"SistemConfig.h"
 #include"EnemyControl.h"
 #include"WoodControl.h"
 #include"FenceControl.h"
@@ -29,6 +28,7 @@ void Tutorial::Initialize()
 	LightSet();
 	// 3Dオブエクトにライトをセット
 	Object3d::SetLightGroup(lightGroup);
+	f_Object3d::SetLightGroup(lightGroup);
 	GrassObj::SetLightGroup(lightGroup);
 
 	feedout = true;
@@ -47,9 +47,7 @@ void Tutorial::Initialize()
 
 	postEffect = new PostEffect();
 	postEffect->Initialize();
-	c_postEffect = Blur;
-	//各種設定画面
-	SistemConfig::GetIns()->Initialize();
+	c_postEffect = Default;
 
 	SelectSword::GetIns()->Initialize();
 }
@@ -99,8 +97,7 @@ void Tutorial::Update()
 		}
 	}
 	lightGroup->Update();
-
-	SistemConfig::GetIns()->Update();
+	
 	//各オブジェクトの更新処理
 	objUpdate(); //オブジェクトの更新処理
 	//csv読み込み部分(Cameraの更新後にするのでobjUpdate()挟んでから)
@@ -147,7 +144,7 @@ void Tutorial::LightUpdate()
 		lightGroup->SetCircleShadowFactorAngle(0, XMFLOAT2(circleShadowFactorAngle2));
 	}
 	lightGroup->SetCircleShadowDir(1, XMVECTOR({circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0}));
-	lightGroup->SetCircleShadowCasterPos(1, {ppos.x, ppos.y + 5.f, ppos.z});
+	lightGroup->SetCircleShadowCasterPos(1, {ppos.x, ppos.y + lightY, ppos.z});
 	lightGroup->SetCircleShadowAtten(1, XMFLOAT3(circleShadowAtten));
 	lightGroup->SetCircleShadowFactorAngle(1, XMFLOAT2(circleShadowFactorAngle));
 }
@@ -183,7 +180,6 @@ void Tutorial::SpriteDraw()
 	Sprite::PostDraw();
 	UI::GetIns()->HUDDraw();
 	Feed::GetIns()->Draw();
-	SistemConfig::GetIns()->Draw();
 }
 
 /*------------------------*/
@@ -213,6 +209,7 @@ void Tutorial::Draw()
 		DirectXCommon::GetIns()->BeginDraw();
 		MyGameDraw();
 		SpriteDraw();
+		
 		DirectXCommon::GetIns()->EndDraw();
 
 		break;

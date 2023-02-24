@@ -2,7 +2,6 @@
 #include"SceneManager.h"
 #include"EnemyControl.h"
 #include"TutorialSprite.h"
-#include"ExpPointSystem.h"
 #include"Task.h"
 #include"DropWeapon.h"
 #include <SelectSword.h>
@@ -42,10 +41,7 @@ void UI::HUDUpdate(bool& hudload, DebugCamera* camera)
 	HUD::GetIns()->SkillBottonUpdate();
 	HUD::GetIns()->Update();
 	HUD::GetIns()->TaskUpdate(camera);
-	if (SceneManager::GetIns()->GetScene() == SceneManager::BOSS)
-	{
-		ExpPointSystem::GetIns()->Upda();
-	}
+	
 	if (SceneManager::GetIns()->GetScene() == SceneManager::PLAY)
 	{
 		Task::GetIns()->Upda();

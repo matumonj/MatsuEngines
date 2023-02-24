@@ -15,4 +15,6 @@ private:
 	void UpMove(Enemy* enemy);
 	void DownMove(Enemy* enemy);
 	float PosYMovingT;
+
+	static constexpr float EnemyPosYCorrVal = 0.5f;
 };

@@ -144,7 +144,6 @@
     <ClCompile Include="ChestControl.cpp" />
     <ClCompile Include="CircleAttack.cpp" />
     <ClCompile Include="ClearScene.cpp" />
-    <ClCompile Include="ConfigSprite.cpp" />
     <ClCompile Include="ControlBase.cpp" />
     <ClCompile Include="CreateObjManager.cpp" />
     <ClCompile Include="Audio.cpp" />
@@ -155,7 +154,6 @@
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="CollisionPrimitive.cpp" />
-    <ClCompile Include="CustomButton.cpp" />
     <ClCompile Include="DamageManager.cpp" />
     <ClCompile Include="DebugCamera.cpp" />
     <ClCompile Include="DebugTxt.cpp" />
@@ -173,7 +171,6 @@
     <ClCompile Include="EnemyStayState.cpp" />
     <ClCompile Include="EnemyWalkState.cpp" />
     <ClCompile Include="EnemyControl.cpp" />
-    <ClCompile Include="ExpPointSystem.cpp" />
     <ClCompile Include="FbxLoader.cpp" />
     <ClCompile Include="Feed.cpp" />
     <ClCompile Include="FenceControl.cpp" />
@@ -238,7 +235,6 @@
     <ClCompile Include="QueryCallback.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SelectSword.cpp" />
-    <ClCompile Include="SistemConfig.cpp" />
     <ClCompile Include="SmallSword.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="Sprite.cpp" />
@@ -296,7 +292,6 @@
     <ClInclude Include="CircleAttack.h" />
     <ClInclude Include="CircleShadow.h" />
     <ClInclude Include="ClearScene.h" />
-    <ClInclude Include="ConfigSprite.h" />
     <ClInclude Include="ControlBase.h" />
     <ClInclude Include="CreateObjManager.h" />
     <ClInclude Include="DamageManager.h" />
@@ -312,7 +307,6 @@
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="CollisionPrimitive.h" />
     <ClInclude Include="CollisionTypes.h" />
-    <ClInclude Include="CustomButton.h" />
     <ClInclude Include="DebugCamera.h" />
     <ClInclude Include="DebugTxt.h" />
     <ClInclude Include="DirectionalLight.h" />
@@ -330,7 +324,6 @@
     <ClInclude Include="EnemyStayState.h" />
     <ClInclude Include="EnemyWalkState.h" />
     <ClInclude Include="EnemyControl.h" />
-    <ClInclude Include="ExpPointSystem.h" />
     <ClInclude Include="FbxLoader.h" />
     <ClInclude Include="Feed.h" />
     <ClInclude Include="FenceControl.h" />
@@ -397,7 +390,6 @@
     <ClInclude Include="RaycastHit.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SelectSword.h" />
-    <ClInclude Include="SistemConfig.h" />
     <ClInclude Include="SmallSword.h" />
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="SpotLight.h" />

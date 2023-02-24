@@ -27,11 +27,6 @@ Player* Player::GetIns()
 	return &instance;
 }
 
-Player* Player::Create(Model* model, DebugCamera* camera)
-{
-	return GetIns();
-}
-
 Player::AnimeState Player::AnimationSetParam(AttackMotion motion, double speed, bool loop)
 {
 	AnimeState state;
@@ -70,6 +65,8 @@ void Player::Initialize()
 
 	//移動処理用
 	vel /= 5.0f;
+
+	ObjCol = { 1.f,1.f,1.f,1.f };
 
 	AttackEffect::GetIns()->Init();
 }
@@ -192,14 +189,7 @@ void Player::Move()
 	}
 	else
 	{
-		//入力中のみ煙発生
-		if (input->TiltPushStick(Input::L_UP, 0.0f) ||
-			input->TiltPushStick(Input::L_DOWN, 0.0f) ||
-			input->TiltPushStick(Input::L_RIGHT, 0.0f) ||
-			input->TiltPushStick(Input::L_LEFT, 0.0f))
-		{
-			RunParCreate = true;
-		}
+		RunParCreate = true;
 	}
 }
 
@@ -334,9 +324,10 @@ void Player::Update()
 	//オブジェクトの更新
 	ParameterSet_Obj();
 
+	m_fbxObject->SetColor(ObjCol);
 	ParameterSet_Fbx3();
 
-
+	DamageFlash();
 	//持つ武器の更新
 	SelectSword::GetIns()->Update();
 	//攻撃エフェクト
@@ -402,20 +393,23 @@ void Player::FbxAttackControls(const AnimeName& motiontype, AttackMotion number)
 
 void Player::AnimationContol(AnimeState state)
 {
+	constexpr double l_HitStopAnimeSpeed = 0.3;
+
+	//各パラメータをFBXに反映
 	if (m_Number != state.AnimeMotion)
 	{
 		m_AnimeLoop = state.AnimeLoop;
 		m_Number = state.AnimeMotion;
 		m_fbxObject->PlayAnimation(m_Number);
 	}
+
 	//ヒットストップのときはスロー
 	if (PlayerAttackState::GetIns()->GetHitStopJudg())
 	{
-		m_AnimeSpeed = 0.3;
+		m_AnimeSpeed = l_HitStopAnimeSpeed;
 	}
 	else
 	{
-		//OldAnimeSpeed = m_AnimeSpeed;
 		m_AnimeSpeed = state.AnimationSpeed;
 	}
 }
@@ -463,27 +457,6 @@ void Player::FbxAnimationControl()
 	FbxAttackControls(ANIMENAME_THIRD, SECOND);
 }
 
-
-void Player::KnockBack(XMFLOAT3 rot, float Knock)
-{
-	//if (KnockPower <= 0)return;
-	KnockPower = Knock;
-	if (KnockPower > 0.f)
-	{
-		//移動ベクトルをy軸周りの角度で回転
-		XMVECTOR move = {0.0f, 0.0f, 0.1f, 0.0f};
-
-		XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(rot.y));
-
-		move = XMVector3TransformNormal(move, matRot);
-
-		Position.x += move.m128_f32[0] * KnockPower;
-		Position.z += move.m128_f32[2] * KnockPower;
-
-		KnockPower -= 0.1f;
-	}
-}
-
 void Player::RecvDamage(int Damage)
 {
 	//攻撃受けたあと2秒は無敵
@@ -496,7 +469,7 @@ void Player::RecvDamage(int Damage)
 		return;
 	}
 
-
+	DamageFlashF = true;
 	//ダメージくらった時にカメラシェイク
 	if (!HUD::GetIns()->GetRecvDamageFlag())
 	{
@@ -504,7 +477,11 @@ void Player::RecvDamage(int Damage)
 
 		HUD::GetIns()->SetRecvDamageFlag(true); //プレイヤーHPのHUD用
 	}
+	//体力減産
 	HP = HP - Damage;
+
+	AttackEffect::GetIns()->SetDamageEffectCreate(true);
+	//ダメージテクスチャ生成
 	std::unique_ptr<DamageManager> newdTex;
 
 	newdTex = std::make_unique<DamageManager>(
@@ -596,4 +573,33 @@ void Player::LoadCsv()
 
 	//体力初期化
 	HP = MaxHP;
+}
+
+void Player::DamageFlash()
+{
+	if (!DamageFlashF)return;
+
+	constexpr int MaxFlashCount = 6;
+	//イージングでアルファ値の上げ下げ
+	FlashEaseT += 0.05f;
+
+	//6回光ったらフラグ切る
+	if (FlashCount >= MaxFlashCount)
+	{
+		FlashCount = 0;
+		DamageFlashF = false;
+	}
+	else
+	{
+		if (FlashEaseT >= 1.f)
+		{
+			//点滅回数＋＋
+			FlashCount++;
+			FlashEaseT = 0.f;
+		}
+	}
+	ObjCol.y = Easing::EaseOut(FlashEaseT, 1.f, 0.2f);
+	ObjCol.z = Easing::EaseOut(FlashEaseT, 1.f, 0.2f);
+	ObjCol.w = Easing::EaseOut(FlashEaseT, 1.f, 0.f);
+	
 }

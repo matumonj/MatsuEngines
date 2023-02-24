@@ -1,14 +1,11 @@
 #include "HUD.h"
 #include"TargetMarker.h"
 #include"mHelper.h"
-#include"PlayerAttackState.h"
 #include"Collision.h"
 #include"Player.h"
 #include"CameraControl.h"
-#include"CustomButton.h"
 #include"SceneManager.h"
 #include"Input.h"
-#include"CustomButton.h"
 #include"SelectSword.h"
 #include"PlayerControl.h"
 #include"ChestControl.h"
@@ -114,21 +111,7 @@ void HUD::SetSkillIcon(SkillIcon icon)
 
 void HUD::SkillBottonUpdate()
 {
-	//各剣のクールタイム参照
-	TimeSpeed = 1.0f / SelectSword::GetIns()->GetSword()->GetCoolTime();
-	if (CoolTime_Time >= 1.0f)
-	{
-		if (CustomButton::GetIns()->GetAttackAction() || CustomButton::GetIns()->Get2AttackAction() ||
-			CustomButton::GetIns()->Get3AttackAction())
-		{
-			CoolTime_Time = 0.0f;
-		}
-	}
-	else
-	{
-		CoolTime_Time += TimeSpeed;
-	}
-
+	
 
 	if (RecvDamageflag)
 	{

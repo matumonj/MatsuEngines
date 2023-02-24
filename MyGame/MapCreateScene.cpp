@@ -3,18 +3,11 @@
 #include"GrassObj.h"
 #include"DirectXCommon.h"
 #include"SceneManager.h"
-#include"MobEnemy.h"
-#include"BossEnemy.h"
 #include"MapCreate.h"
 #include"PlayScene.h"
 #include"TitleScene.h"
 #include"Field.h"
 #include"CameraControl.h"
-#include<fstream>
-#include<string>
-#include<sstream>
-#include<ostream>
-#include <iostream>
 //シーンのコンストラクタ
 MapCreateScene::MapCreateScene(SceneManager* sceneManager)
 	: BaseScene(sceneManager)
@@ -25,9 +18,6 @@ MapCreateScene::MapCreateScene(SceneManager* sceneManager)
 #pragma region モデルとエフェクトとライトのインスタンス生成
 void MapCreateScene::ModelCreate(DebugCamera* camera)
 {
-	postEffect = new PostEffect();
-	postEffect->Initialize();
-
 	Field::GetIns()->Initialize();
 
 	// ライト生成
@@ -36,8 +26,6 @@ void MapCreateScene::ModelCreate(DebugCamera* camera)
 	Object3d::SetLightGroup(lightGroup);
 	GrassObj::SetLightGroup(lightGroup);
 	//パラメータの設定
-	//lightGroup->LightSetting();
-
 	MapCreate::GetIns()->ObjectInitialize(CameraControl::GetIns()->GetCamera());
 }
 #pragma endregion
@@ -58,16 +46,12 @@ void MapCreateScene::Initialize()
 	CameraControl::GetIns()->ParamSet();
 
 	// 3Dオブジェクトにカメラをセット
-	//	Object3d::SetCamera(CameraControl::GetIns()->GetCamera());
 	ModelCreate(CameraControl::GetIns()->GetCamera()); //
 
 	//カメラをセット
 	f_Object3d::SetCamera(CameraControl::GetIns()->GetCamera());
 	//グラフィックパイプライン生成
 	f_Object3d::CreateGraphicsPipeline();
-
-	//
-	c_postEffect = Default;
 
 	CameraPosition.z = -190;
 	CameraPosition.y = 50;
@@ -79,23 +63,19 @@ void MapCreateScene::Initialize()
 #pragma region 更新処理
 void MapCreateScene::Update()
 {
-	//lightGroup->SpotLightUpdate();
-
 	Input::MouseMove mouseMove = Input::GetIns()->GetMouseMove();
-	//マウスの入力状態取得
-
+	
 	//カメラ関係の処理
 	CameraControl::GetIns()->GetCamera()->SetEye(CameraPosition);
 	CameraControl::GetIns()->GetCamera()->SetTarget({
 		CameraPosition.x, CameraPosition.y - 15, CameraPosition.z + 20
 	});
-
 	CameraControl::GetIns()->GetCamera()->Update();
 
-	objUpdate(CameraControl::GetIns()->GetCamera()); //オブジェクトの更新処理
-	//Player::GetIns()->Update({ 1,1,1,1 }, camera);
+	//オブジェクトの更新処理
+	objUpdate(CameraControl::GetIns()->GetCamera());
+	//配置管理用
 	MapCreate::GetIns()->ObjectArgment(CameraControl::GetIns()->GetCamera());
-	//シーンチェンジ
 }
 #pragma endregion
 
@@ -103,43 +83,22 @@ void MapCreateScene::LightUpdate()
 {
 }
 
-//sプライと以外の描画
+void MapCreateScene::SpriteDraw()
+{
+	
+}
+
+//スプライと以外の描画
 void MapCreateScene::MyGameDraw()
 {
 	Field::GetIns()->Draw();
 	MapCreate::GetIns()->ObjectDraw();
 }
 
-void MapCreateScene::SpriteDraw()
-{
-}
-#pragma endregion
 //↓に入る
 #pragma region 描画(imguiとスプライトとモデルまとめたもの)
 void MapCreateScene::Draw()
 {
-	//ポストエフェクトの場合わけ(Bでぼかし Dがデフォルト)
-	switch (c_postEffect)
-	{
-	case Blur: //ぼかし　描画準違うだけ
-		postEffect->PreDrawScene();
-		MyGameDraw();
-		postEffect->PostDrawScene();
-
-		DirectXCommon::GetIns()->BeginDraw();
-		postEffect->Draw();
-		if (DirectXCommon::GetIns()->GetFullScreen() == false)
-		{
-			ImGuiDraw();
-		}
-		DirectXCommon::GetIns()->EndDraw();
-		break;
-
-	case Default: //普通のやつ特に何もかかっていない
-		postEffect->PreDrawScene();
-		postEffect->Draw();
-		postEffect->PostDrawScene();
-
 		DirectXCommon::GetIns()->BeginDraw();
 		MyGameDraw();
 		if (DirectXCommon::GetIns()->GetFullScreen() == false)
@@ -147,8 +106,7 @@ void MapCreateScene::Draw()
 			ImGuiDraw();
 		}
 		DirectXCommon::GetIns()->EndDraw();
-		break;
-	}
+
 }
 #pragma endregion
 

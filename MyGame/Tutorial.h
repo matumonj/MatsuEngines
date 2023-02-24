@@ -38,6 +38,7 @@ public:
 	void LightUpdate() override;
 private:
 	bool feedout = true;
+	float lightY;
 public:
 	float ambientColor0[3] = {1.0f, 1.0f, 1.0f};
 	// Œõü•ûŒü‰Šú’l

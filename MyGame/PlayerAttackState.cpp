@@ -43,19 +43,25 @@ void PlayerAttackState::Update()
 	HitStop();
 	Player* l_player = PlayerControl::GetIns()->GetPlayer();
 
+	//ダメージ基礎値
 	int DefaultDamage;
+	//1撃目
 	if (l_player->GetAttackType() == PlayerControl::GetIns()->GetPlayer()->FIRST)
 	{
 		DefaultDamage = 5;
 	}
+	//2撃目
 	if (l_player->GetAttackType() == PlayerControl::GetIns()->GetPlayer()->SECOND)
 	{
 		DefaultDamage = 10;
 	}
+	//3撃目
 	if (l_player->GetAttackType() == PlayerControl::GetIns()->GetPlayer()->THIRD)
 	{
 		DefaultDamage = 20;
 	}
+
+	//基礎ダメージ値に各武器のダメージパラメータ反映
 	AttackCollision::GetIns()->GetCol(DefaultDamage + SelectSword::GetIns()->GetSword()->GetDamage());
 }
 
@@ -135,6 +141,7 @@ void PlayerAttackState::SetHitStopJudg(bool f, int time)
 
 void PlayerAttackState::HitStop()
 {
+	//ヒットストップ処理
 	if (HitStopJudg)
 	{
 		HitStopCount++;

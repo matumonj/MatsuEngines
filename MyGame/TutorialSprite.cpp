@@ -1,6 +1,4 @@
 #include "TutorialSprite.h"
-#include"CustomButton.h"
-#include"SistemConfig.h"
 #include"EnemyControl.h"
 #include"FenceControl.h"
 #include"ChestControl.h"

@@ -23,4 +23,19 @@ private:
 
 	void ActionSequence(Enemy* enemy, float percent, BossAttackActionManager* action, int actionnum,
 	                    BossEnemyState* state);
+
+private:
+
+	enum AttackInvoPer
+	{
+		CIRCLE_FIR,
+		CIRCLE_SEC,
+		RUSH_FIR,
+		ULY_FIR,
+		MAGIC_FIR,
+		MAGIC_SEC,
+		SUMMON_FIR
+	};
+	std::array<float,7>_attackInvoPer;
+	
 };
