@@ -1,14 +1,8 @@
 #pragma once
 #include"BaseScene.h"
-#include"Audio.h"
 #include"Sprite.h"
-#include"Input.h"
-#include"WinApp.h"
 #include<array>
 #include"Object3d.h"
-#include"Model.h"
-#include"Collision.h"
-#include"DebugTxt.h"
 #include"LightGroup.h"
 #include"DirectXCommon.h"
 
@@ -38,7 +32,7 @@ private:
 	float FieldRotY = 0.0f;
 	XMFLOAT2 MenuScale[2] = {{0.0f, 0.0f}};
 	XMFLOAT2 CameraPos = {0.0f, 0.0f};
-	DebugCamera* cameras = nullptr;
+	std::unique_ptr<DebugCamera> cameras = nullptr;
 
 	std::unique_ptr<Object3d> celestal = nullptr;
 

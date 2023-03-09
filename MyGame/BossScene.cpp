@@ -5,7 +5,6 @@
 #include"SceneManager.h"
 #include"Field.h"
 #include"EnemyControl.h"
-#include"WoodControl.h"
 #include"CameraControl.h"
 #include"UI.h"
 #include"Feed.h"

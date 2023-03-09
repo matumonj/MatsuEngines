@@ -29,12 +29,6 @@
     <Filter Include="Game\3d %28Model  Obj  Fbx%29\obj">
       <UniqueIdentifier>{7f66ef81-f622-425c-85f0-bc4fc79503dd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\base %28Dxcmn  Winapp  Input%29">
-      <UniqueIdentifier>{d329b92f-f1df-4fd0-8987-7702493d45c0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\base %28Dxcmn  Winapp  Input%29\audio">
-      <UniqueIdentifier>{3a331b0b-7e8a-4e0c-b7a3-7b527867ea08}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\collision">
       <UniqueIdentifier>{a5d15daa-90ff-4b7f-a438-af2ba141053a}</UniqueIdentifier>
     </Filter>
@@ -161,9 +155,6 @@
     <Filter Include="Game\gameobject\GameObject\Enemy\EnemyAttackSequence\beta">
       <UniqueIdentifier>{f4a48d6b-c967-49f6-917b-5d69db34b8a6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\gameobject\GameObject\Boss">
-      <UniqueIdentifier>{03ed31c6-4630-4966-9fda-66b80c317f82}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\Scene\GameScene">
       <UniqueIdentifier>{1c29f6ca-2414-4584-bc7f-019dad1dc8ef}</UniqueIdentifier>
     </Filter>
@@ -175,66 +166,6 @@
     </Filter>
     <Filter Include="Game\2d %28DebugTxt  Sprite Texture%29\UI\Config">
       <UniqueIdentifier>{077ed855-3902-457a-805f-209d6816ad7a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29">
-      <UniqueIdentifier>{c83847d2-65dc-444a-ac0b-10be1dc5ee3c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\FirstHalf">
-      <UniqueIdentifier>{2ed3641d-8ebe-40f6-814e-efefe807737c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\FirstHalf\Sequence">
-      <UniqueIdentifier>{bdb8748a-af21-4e5e-b269-97f63a83b3f6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\FirstHalf\Sequence\Circle">
-      <UniqueIdentifier>{d6a12ea0-25c8-4444-980a-7b33dffea1be}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\FirstHalf\Sequence\Cross">
-      <UniqueIdentifier>{0656cd87-3c2c-4378-983d-e8fc9988a7c6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\FirstHalf\Sequence\Summon">
-      <UniqueIdentifier>{3eaafa97-045e-4a5c-b62a-d4e8888e68c2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\FirstHalf\Action">
-      <UniqueIdentifier>{f45bf99b-b140-4da5-ac78-312ed692bce7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\FirstHalf\Action\Circle">
-      <UniqueIdentifier>{279e40b5-7db3-46d6-a070-50d42c25340d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\FirstHalf\Action\Summon">
-      <UniqueIdentifier>{c927ed9f-1aa8-4327-9719-c39ba1af8438}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\SecondHalf">
-      <UniqueIdentifier>{9fc05f87-29b3-45cd-aaa9-a71bae9ad6ed}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\SecondHalf\Action">
-      <UniqueIdentifier>{39652be0-e727-4160-a478-3daeab95fdb6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\SecondHalf\Action\BronzeBeam">
-      <UniqueIdentifier>{253c6336-3443-4c2c-a756-6a2de039e7b1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\SecondHalf\Action\FrontCircle">
-      <UniqueIdentifier>{be8be202-700d-4fde-ac46-bfd9d8fc0d89}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\SecondHalf\Action\Rush">
-      <UniqueIdentifier>{9616445d-acd7-40c4-ad4f-522884ca2e83}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\SecondHalf\Action\Ultimate">
-      <UniqueIdentifier>{9d554dc7-17d0-40d9-a164-bef05c7f28cf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\SecondHalf\Sequence">
-      <UniqueIdentifier>{20191d69-8eea-4a71-8563-3466169c2c59}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\SecondHalf\Sequence\Rush">
-      <UniqueIdentifier>{6d7d1f03-eada-4cf6-b3e9-93953919325d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\SecondHalf\Sequence\BronzeBeam">
-      <UniqueIdentifier>{e03f378f-b77b-4975-9a7c-ea4e1ff211f7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\SecondHalf\Sequence\FrontCircle">
-      <UniqueIdentifier>{10d7e598-b293-4fb1-a3da-05c5fc051c11}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\FirstHalf\Action\Cross">
-      <UniqueIdentifier>{435b93e8-885a-4839-822e-33e95ad772e9}</UniqueIdentifier>
     </Filter>
     <Filter Include="Editor\配置管理\FootSwitch">
       <UniqueIdentifier>{67be1350-af6b-4052-aef9-3eceb386198d}</UniqueIdentifier>
@@ -264,6 +195,75 @@
     </Filter>
     <Filter Include="Game\Shader\PostEffect">
       <UniqueIdentifier>{ef7f1cef-7a15-4b1c-8cef-8bc69ccc595a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Base %28Dxcmn  Winapp  Input%29">
+      <UniqueIdentifier>{d329b92f-f1df-4fd0-8987-7702493d45c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Base %28Dxcmn  Winapp  Input%29\audio">
+      <UniqueIdentifier>{3a331b0b-7e8a-4e0c-b7a3-7b527867ea08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\GameObject\Enemy\Boss">
+      <UniqueIdentifier>{03ed31c6-4630-4966-9fda-66b80c317f82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29">
+      <UniqueIdentifier>{c83847d2-65dc-444a-ac0b-10be1dc5ee3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29\FirstHalf">
+      <UniqueIdentifier>{2ed3641d-8ebe-40f6-814e-efefe807737c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29\FirstHalf\Sequence">
+      <UniqueIdentifier>{bdb8748a-af21-4e5e-b269-97f63a83b3f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29\FirstHalf\Sequence\Circle">
+      <UniqueIdentifier>{d6a12ea0-25c8-4444-980a-7b33dffea1be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29\FirstHalf\Sequence\Cross">
+      <UniqueIdentifier>{0656cd87-3c2c-4378-983d-e8fc9988a7c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29\FirstHalf\Sequence\Summon">
+      <UniqueIdentifier>{3eaafa97-045e-4a5c-b62a-d4e8888e68c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29\FirstHalf\Action">
+      <UniqueIdentifier>{f45bf99b-b140-4da5-ac78-312ed692bce7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29\FirstHalf\Action\Circle">
+      <UniqueIdentifier>{279e40b5-7db3-46d6-a070-50d42c25340d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29\FirstHalf\Action\Summon">
+      <UniqueIdentifier>{c927ed9f-1aa8-4327-9719-c39ba1af8438}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29\FirstHalf\Action\Cross">
+      <UniqueIdentifier>{435b93e8-885a-4839-822e-33e95ad772e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29\SecondHalf">
+      <UniqueIdentifier>{9fc05f87-29b3-45cd-aaa9-a71bae9ad6ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29\SecondHalf\Action">
+      <UniqueIdentifier>{39652be0-e727-4160-a478-3daeab95fdb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29\SecondHalf\Action\BronzeBeam">
+      <UniqueIdentifier>{253c6336-3443-4c2c-a756-6a2de039e7b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29\SecondHalf\Action\FrontCircle">
+      <UniqueIdentifier>{be8be202-700d-4fde-ac46-bfd9d8fc0d89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29\SecondHalf\Action\Rush">
+      <UniqueIdentifier>{9616445d-acd7-40c4-ad4f-522884ca2e83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29\SecondHalf\Action\Ultimate">
+      <UniqueIdentifier>{9d554dc7-17d0-40d9-a164-bef05c7f28cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29\SecondHalf\Sequence">
+      <UniqueIdentifier>{20191d69-8eea-4a71-8563-3466169c2c59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29\SecondHalf\Sequence\Rush">
+      <UniqueIdentifier>{6d7d1f03-eada-4cf6-b3e9-93953919325d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29\SecondHalf\Sequence\BronzeBeam">
+      <UniqueIdentifier>{e03f378f-b77b-4975-9a7c-ea4e1ff211f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29\SecondHalf\Sequence\FrontCircle">
+      <UniqueIdentifier>{10d7e598-b293-4fb1-a3da-05c5fc051c11}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -301,16 +301,16 @@
       <Filter>Game\3d %28Model  Obj  Fbx%29\obj</Filter>
     </ClCompile>
     <ClCompile Include="Audio.cpp">
-      <Filter>Game\base %28Dxcmn  Winapp  Input%29\audio</Filter>
+      <Filter>Game\Base %28Dxcmn  Winapp  Input%29\audio</Filter>
     </ClCompile>
     <ClCompile Include="DirectXCommon.cpp">
-      <Filter>Game\base %28Dxcmn  Winapp  Input%29</Filter>
+      <Filter>Game\Base %28Dxcmn  Winapp  Input%29</Filter>
     </ClCompile>
     <ClCompile Include="Input.cpp">
-      <Filter>Game\base %28Dxcmn  Winapp  Input%29</Filter>
+      <Filter>Game\Base %28Dxcmn  Winapp  Input%29</Filter>
     </ClCompile>
     <ClCompile Include="WinApp.cpp">
-      <Filter>Game\base %28Dxcmn  Winapp  Input%29</Filter>
+      <Filter>Game\Base %28Dxcmn  Winapp  Input%29</Filter>
     </ClCompile>
     <ClCompile Include="DebugCamera.cpp">
       <Filter>Game\gameobject\camera</Filter>
@@ -447,9 +447,6 @@
     <ClCompile Include="PlaceCameraPoints.cpp">
       <Filter>Editor\配置管理\CameraPoints</Filter>
     </ClCompile>
-    <ClCompile Include="Feed.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerControl.cpp">
       <Filter>Game\gameobject\Control</Filter>
     </ClCompile>
@@ -472,10 +469,10 @@
       <Filter>Game\Scene\GameScene</Filter>
     </ClCompile>
     <ClCompile Include="Nail.cpp">
-      <Filter>Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29</Filter>
+      <Filter>Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29</Filter>
     </ClCompile>
     <ClCompile Include="BossState.cpp">
-      <Filter>Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29</Filter>
+      <Filter>Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29</Filter>
     </ClCompile>
     <ClCompile Include="EnemyAttackState.cpp">
       <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Mob</Filter>
@@ -493,16 +490,16 @@
       <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Mob</Filter>
     </ClCompile>
     <ClCompile Include="BossEnemyAttack.cpp">
-      <Filter>Game\gameobject\GameObject\Boss</Filter>
+      <Filter>Game\gameobject\GameObject\Enemy\Boss</Filter>
     </ClCompile>
     <ClCompile Include="BossEnemyFollow.cpp">
-      <Filter>Game\gameobject\GameObject\Boss</Filter>
+      <Filter>Game\gameobject\GameObject\Enemy\Boss</Filter>
     </ClCompile>
     <ClCompile Include="BossEnemyState.cpp">
-      <Filter>Game\gameobject\GameObject\Boss</Filter>
+      <Filter>Game\gameobject\GameObject\Enemy\Boss</Filter>
     </ClCompile>
     <ClCompile Include="BossEnemyDeath.cpp">
-      <Filter>Game\gameobject\GameObject\Boss</Filter>
+      <Filter>Game\gameobject\GameObject\Enemy\Boss</Filter>
     </ClCompile>
     <ClCompile Include="SelectSword.cpp">
       <Filter>Game\2d %28DebugTxt  Sprite Texture%29\UI\Config</Filter>
@@ -517,7 +514,7 @@
       <Filter>Game\2d %28DebugTxt  Sprite Texture%29\Particle</Filter>
     </ClCompile>
     <ClCompile Include="BossEnemyStay.cpp">
-      <Filter>Game\gameobject\GameObject\Boss</Filter>
+      <Filter>Game\gameobject\GameObject\Enemy\Boss</Filter>
     </ClCompile>
     <ClCompile Include="EnemyRespawnState.cpp">
       <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Mob</Filter>
@@ -565,10 +562,7 @@
       <Filter>Game\2d %28DebugTxt  Sprite Texture%29\UI\HUD</Filter>
     </ClCompile>
     <ClCompile Include="BossEnemyEvasion.cpp">
-      <Filter>Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29</Filter>
-    </ClCompile>
-    <ClCompile Include="GameOver.cpp">
-      <Filter>Game</Filter>
+      <Filter>Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29</Filter>
     </ClCompile>
     <ClCompile Include="HouseControl.cpp">
       <Filter>Game\gameobject\Control</Filter>
@@ -633,74 +627,77 @@
     <ClCompile Include="EnemyBeta.cpp">
       <Filter>Game\gameobject\GameObject\Enemy\Derived\beta</Filter>
     </ClCompile>
-    <ClCompile Include="ClearScene.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
     <ClCompile Include="Particle.cpp">
       <Filter>Game\2d %28DebugTxt  Sprite Texture%29\Particle</Filter>
     </ClCompile>
-    <ClCompile Include="BossEnemyAttackUlt.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="BossEnemyAttackThrow.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
     <ClCompile Include="ThrowRockAttack.cpp">
-      <Filter>Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29</Filter>
-    </ClCompile>
-    <ClCompile Include="BossAttackActionManager.cpp">
-      <Filter>Game</Filter>
+      <Filter>Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29</Filter>
     </ClCompile>
     <ClCompile Include="CircleAttack.cpp">
-      <Filter>Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\FirstHalf\Action\Circle</Filter>
+      <Filter>Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29\FirstHalf\Action\Circle</Filter>
     </ClCompile>
     <ClCompile Include="HalfAttack.cpp">
-      <Filter>Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\FirstHalf\Action\Summon</Filter>
+      <Filter>Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29\FirstHalf\Action\Summon</Filter>
     </ClCompile>
     <ClCompile Include="KnockAttack.cpp">
-      <Filter>Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\FirstHalf\Action\Cross</Filter>
+      <Filter>Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29\FirstHalf\Action\Cross</Filter>
     </ClCompile>
     <ClCompile Include="BossEnemyAttackCircle.cpp">
-      <Filter>Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\FirstHalf\Sequence\Circle</Filter>
+      <Filter>Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29\FirstHalf\Sequence\Circle</Filter>
     </ClCompile>
     <ClCompile Include="BossEnemyAttackKnock.cpp">
-      <Filter>Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\FirstHalf\Sequence\Cross</Filter>
+      <Filter>Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29\FirstHalf\Sequence\Cross</Filter>
     </ClCompile>
     <ClCompile Include="BossEnemyAttackHalf.cpp">
-      <Filter>Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\FirstHalf\Sequence\Summon</Filter>
+      <Filter>Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29\FirstHalf\Sequence\Summon</Filter>
     </ClCompile>
     <ClCompile Include="BronzeAttack.cpp">
-      <Filter>Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\SecondHalf\Action\BronzeBeam</Filter>
+      <Filter>Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29\SecondHalf\Action\BronzeBeam</Filter>
     </ClCompile>
     <ClCompile Include="FrontCircleAttack.cpp">
-      <Filter>Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\SecondHalf\Action\FrontCircle</Filter>
+      <Filter>Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29\SecondHalf\Action\FrontCircle</Filter>
     </ClCompile>
     <ClCompile Include="RushAttack.cpp">
-      <Filter>Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\SecondHalf\Action\Rush</Filter>
+      <Filter>Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29\SecondHalf\Action\Rush</Filter>
     </ClCompile>
     <ClCompile Include="UltAttack.cpp">
-      <Filter>Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\SecondHalf\Action\Ultimate</Filter>
+      <Filter>Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29\SecondHalf\Action\Ultimate</Filter>
     </ClCompile>
     <ClCompile Include="BossEnemyAttackRush.cpp">
-      <Filter>Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\SecondHalf\Sequence\Rush</Filter>
+      <Filter>Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29\SecondHalf\Sequence\Rush</Filter>
     </ClCompile>
     <ClCompile Include="BossEnemyAttackBrzBeam.cpp">
-      <Filter>Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\SecondHalf\Sequence\BronzeBeam</Filter>
+      <Filter>Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29\SecondHalf\Sequence\BronzeBeam</Filter>
     </ClCompile>
     <ClCompile Include="BossEnemyAttackSlam.cpp">
-      <Filter>Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\SecondHalf\Sequence\FrontCircle</Filter>
-    </ClCompile>
-    <ClCompile Include="BossEnemyShieldGuard.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="FootSwitch.cpp">
-      <Filter>Game</Filter>
+      <Filter>Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29\SecondHalf\Sequence\FrontCircle</Filter>
     </ClCompile>
     <ClCompile Include="PlaceFootSwitch.cpp">
       <Filter>Editor\配置管理\FootSwitch</Filter>
     </ClCompile>
+    <ClCompile Include="FootSwitch.cpp">
+      <Filter>Game\gameobject\GameObject\Field</Filter>
+    </ClCompile>
+    <ClCompile Include="BossEnemyAttackThrow.cpp">
+      <Filter>Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29</Filter>
+    </ClCompile>
+    <ClCompile Include="BossEnemyAttackUlt.cpp">
+      <Filter>Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29</Filter>
+    </ClCompile>
+    <ClCompile Include="BossEnemyShieldGuard.cpp">
+      <Filter>Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOver.cpp">
+      <Filter>Game\Scene\basescene</Filter>
+    </ClCompile>
+    <ClCompile Include="Feed.cpp">
+      <Filter>Game\2d %28DebugTxt  Sprite Texture%29\sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="ClearScene.cpp">
+      <Filter>Game\Scene\basescene</Filter>
+    </ClCompile>
     <ClCompile Include="EnemyReturnCreatePos.cpp">
-      <Filter>Game</Filter>
+      <Filter>Game\gameobject\GameObject\Enemy\Boss</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -738,13 +735,13 @@
       <Filter>Game\3d %28Model  Obj  Fbx%29\obj</Filter>
     </ClInclude>
     <ClInclude Include="Audio.h">
-      <Filter>Game\base %28Dxcmn  Winapp  Input%29\audio</Filter>
+      <Filter>Game\Base %28Dxcmn  Winapp  Input%29\audio</Filter>
     </ClInclude>
     <ClInclude Include="DirectXCommon.h">
-      <Filter>Game\base %28Dxcmn  Winapp  Input%29</Filter>
+      <Filter>Game\Base %28Dxcmn  Winapp  Input%29</Filter>
     </ClInclude>
     <ClInclude Include="Input.h">
-      <Filter>Game\base %28Dxcmn  Winapp  Input%29</Filter>
+      <Filter>Game\Base %28Dxcmn  Winapp  Input%29</Filter>
     </ClInclude>
     <ClInclude Include="DebugCamera.h">
       <Filter>Game\gameobject\camera</Filter>
@@ -927,10 +924,10 @@
       <Filter>Game\Scene\GameScene</Filter>
     </ClInclude>
     <ClInclude Include="Nail.h">
-      <Filter>Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29</Filter>
+      <Filter>Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29</Filter>
     </ClInclude>
     <ClInclude Include="BossState.h">
-      <Filter>Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29</Filter>
+      <Filter>Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29</Filter>
     </ClInclude>
     <ClInclude Include="EnemyAttackState.h">
       <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Mob</Filter>
@@ -948,16 +945,16 @@
       <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Mob</Filter>
     </ClInclude>
     <ClInclude Include="BossEnemyAttack.h">
-      <Filter>Game\gameobject\GameObject\Boss</Filter>
+      <Filter>Game\gameobject\GameObject\Enemy\Boss</Filter>
     </ClInclude>
     <ClInclude Include="BossEnemyFollow.h">
-      <Filter>Game\gameobject\GameObject\Boss</Filter>
+      <Filter>Game\gameobject\GameObject\Enemy\Boss</Filter>
     </ClInclude>
     <ClInclude Include="BossEnemyState.h">
-      <Filter>Game\gameobject\GameObject\Boss</Filter>
+      <Filter>Game\gameobject\GameObject\Enemy\Boss</Filter>
     </ClInclude>
     <ClInclude Include="BossEnemyDeath.h">
-      <Filter>Game\gameobject\GameObject\Boss</Filter>
+      <Filter>Game\gameobject\GameObject\Enemy\Boss</Filter>
     </ClInclude>
     <ClInclude Include="FieldCollision.h">
       <Filter>Game\collision</Filter>
@@ -972,7 +969,7 @@
       <Filter>Game\2d %28DebugTxt  Sprite Texture%29\Particle</Filter>
     </ClInclude>
     <ClInclude Include="BossEnemyStay.h">
-      <Filter>Game\gameobject\GameObject\Boss</Filter>
+      <Filter>Game\gameobject\GameObject\Enemy\Boss</Filter>
     </ClInclude>
     <ClInclude Include="EnemyRespawnState.h">
       <Filter>Game\gameobject\GameObject\Enemy\EnemyAttackSequence\Mob</Filter>
@@ -1023,7 +1020,7 @@
       <Filter>Game\2d %28DebugTxt  Sprite Texture%29\UI\HUD</Filter>
     </ClInclude>
     <ClInclude Include="BossEnemyEvasion.h">
-      <Filter>Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29</Filter>
+      <Filter>Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29</Filter>
     </ClInclude>
     <ClInclude Include="WinApp.h">
       <Filter>Game\collision</Filter>
@@ -1110,49 +1107,49 @@
       <Filter>Game\Header</Filter>
     </ClInclude>
     <ClInclude Include="ThrowRockAttack.h">
-      <Filter>Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29</Filter>
+      <Filter>Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29</Filter>
     </ClInclude>
     <ClInclude Include="BossAttackActionManager.h">
       <Filter>Game\Header</Filter>
     </ClInclude>
     <ClInclude Include="CircleAttack.h">
-      <Filter>Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\FirstHalf\Action\Circle</Filter>
+      <Filter>Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29\FirstHalf\Action\Circle</Filter>
     </ClInclude>
     <ClInclude Include="HalfAttack.h">
-      <Filter>Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\FirstHalf\Action\Summon</Filter>
+      <Filter>Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29\FirstHalf\Action\Summon</Filter>
     </ClInclude>
     <ClInclude Include="KnockAttack.h">
-      <Filter>Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\FirstHalf\Action\Cross</Filter>
+      <Filter>Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29\FirstHalf\Action\Cross</Filter>
     </ClInclude>
     <ClInclude Include="BossEnemyAttackCircle.h">
-      <Filter>Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\FirstHalf\Sequence\Circle</Filter>
+      <Filter>Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29\FirstHalf\Sequence\Circle</Filter>
     </ClInclude>
     <ClInclude Include="BossEnemyAttackKnock.h">
-      <Filter>Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\FirstHalf\Sequence\Cross</Filter>
+      <Filter>Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29\FirstHalf\Sequence\Cross</Filter>
     </ClInclude>
     <ClInclude Include="BossEnemyAttackHalf.h">
-      <Filter>Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\FirstHalf\Sequence\Summon</Filter>
+      <Filter>Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29\FirstHalf\Sequence\Summon</Filter>
     </ClInclude>
     <ClInclude Include="BronzeAttack.h">
-      <Filter>Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\SecondHalf\Action\BronzeBeam</Filter>
+      <Filter>Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29\SecondHalf\Action\BronzeBeam</Filter>
     </ClInclude>
     <ClInclude Include="FrontCircleAttack.h">
-      <Filter>Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\SecondHalf\Action\FrontCircle</Filter>
+      <Filter>Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29\SecondHalf\Action\FrontCircle</Filter>
     </ClInclude>
     <ClInclude Include="RushAttack.h">
-      <Filter>Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\SecondHalf\Action\Rush</Filter>
+      <Filter>Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29\SecondHalf\Action\Rush</Filter>
     </ClInclude>
     <ClInclude Include="UltAttack.h">
-      <Filter>Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\SecondHalf\Action\Ultimate</Filter>
+      <Filter>Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29\SecondHalf\Action\Ultimate</Filter>
     </ClInclude>
     <ClInclude Include="BossEnemyAttackRush.h">
-      <Filter>Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\SecondHalf\Sequence\Rush</Filter>
+      <Filter>Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29\SecondHalf\Sequence\Rush</Filter>
     </ClInclude>
     <ClInclude Include="BossEnemyAttackBrzBeam.h">
-      <Filter>Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\SecondHalf\Sequence\BronzeBeam</Filter>
+      <Filter>Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29\SecondHalf\Sequence\BronzeBeam</Filter>
     </ClInclude>
     <ClInclude Include="BossEnemyAttackSlam.h">
-      <Filter>Game\gameobject\GameObject\Boss\AttackAction%28State_Pattern%29\SecondHalf\Sequence\FrontCircle</Filter>
+      <Filter>Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29\SecondHalf\Sequence\FrontCircle</Filter>
     </ClInclude>
     <ClInclude Include="BossEnemyShieldGuard.h">
       <Filter>Game\Header</Filter>
@@ -1160,11 +1157,11 @@
     <ClInclude Include="PlaceFootSwitch.h">
       <Filter>Editor\配置管理\FootSwitch</Filter>
     </ClInclude>
-    <ClInclude Include="FootSwitch.h">
-      <Filter>Game</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyReturnCreatePos.h">
       <Filter>Game\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="FootSwitch.h">
+      <Filter>Game\gameobject\GameObject\Field</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1235,6 +1232,11 @@
       <Filter>Game\Shader</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shader\TextureVS.hlsl">
+      <Filter>Game\Shader\Tex</Filter>
+    </FxCompile>
+    <FxCompile Include="BasicHS.hlsl" />
+    <FxCompile Include="BasicDS.hlsl" />
+    <FxCompile Include="HullShader.hlsl">
       <Filter>Game\Shader\Tex</Filter>
     </FxCompile>
   </ItemGroup>

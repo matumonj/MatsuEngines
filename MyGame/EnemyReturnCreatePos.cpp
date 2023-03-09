@@ -2,8 +2,6 @@
 #include "EnemyFollowState.h"
 #include"PlayerControl.h"
 #include"EnemyAttackState.h"
-#include"EnemyDeathState.h"
-#include"EnemyKnockState.h"
 #include "EnemyStayState.h"
 
 void EnemyReturnCreatePos::Initialize(Enemy* enmey)

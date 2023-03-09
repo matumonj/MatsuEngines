@@ -23,6 +23,7 @@ private:
 	float vig_gb;
 	bool scenechange = false;
 	bool feedflag = false;
+	PostEffect* ps;
 public:
 	void objUpdate();
 	void LightSet();

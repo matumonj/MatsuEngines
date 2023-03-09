@@ -90,7 +90,7 @@ void BossEnemy::Initialize()
 	MaxHP = 690;
 	EnemyHP = MaxHP;
 
-	Scale = {0.1f, 0.1f, 0.1f};
+	Scale = {0.14f, 0.1f, 0.14f};
 	Rotation = {180.0f, 0.0f, -181.0f};
 
 	radius_adjustment = 0;

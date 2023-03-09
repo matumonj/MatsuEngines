@@ -71,6 +71,7 @@ void BossMap::Upda()
 
 			bpoint[i][j].x = mapobj[i][j]->GetPosition().x;
 			bpoint[i][j].y = mapobj[i][j]->GetPosition().z;
+			mapobj[i][j]->SetFogCenter(camera->GetEye());
 			mapobj[i][j]->Update(camera);
 		}
 	}

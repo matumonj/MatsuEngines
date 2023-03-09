@@ -66,7 +66,7 @@ void Player::Initialize()
 	//ˆÚ“®ˆ——p
 	vel /= 5.0f;
 
-	ObjCol = { 1.f,1.f,1.f,1.f };
+	ObjCol = { 0.9f,0.9f,0.9f,1.f };
 
 	AttackEffect::GetIns()->Init();
 }
@@ -598,8 +598,8 @@ void Player::DamageFlash()
 			FlashEaseT = 0.f;
 		}
 	}
-	ObjCol.y = Easing::EaseOut(FlashEaseT, 1.f, 0.2f);
-	ObjCol.z = Easing::EaseOut(FlashEaseT, 1.f, 0.2f);
-	ObjCol.w = Easing::EaseOut(FlashEaseT, 1.f, 0.f);
+	ObjCol.y = Easing::EaseOut(FlashEaseT, 1.f, 4.f);
+	ObjCol.z = Easing::EaseOut(FlashEaseT, 1.f, 4.f);
+	ObjCol.x = Easing::EaseOut(FlashEaseT, 1.f, 4.f);
 	
 }

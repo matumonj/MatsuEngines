@@ -204,10 +204,11 @@ void Tutorial::Draw()
 	case Default: //•’Ê‚Ì‚â‚Â“Á‚É‰½‚à‚©‚©‚Á‚Ä‚¢‚È‚¢
 
 		postEffect->PreDrawScene();
+		MyGameDraw();
 		postEffect->PostDrawScene();
 
 		DirectXCommon::GetIns()->BeginDraw();
-		MyGameDraw();
+		postEffect->Draw();
 		SpriteDraw();
 		
 		DirectXCommon::GetIns()->EndDraw();

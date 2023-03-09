@@ -131,3 +131,36 @@ struct GSOutput
 	float3 normal:NORMAL;
 	float2 uv:TEXCOORD;
 };
+
+//頂点シェーダーからハルシェーダーに渡す構造体
+struct HsInput
+{
+	float4 svpos:SV_POSITION;
+	float4 worldpos : POSITION; // ワールド座標
+	float3 normal:NORMAL;
+	float2 uv:TEXCOORD;
+};
+
+//ハルシェーダーからテッセレーター経由でドメインシェーダーに渡す構造体
+struct HsControlPointOutput
+{
+	float3 position : POSITION;
+	float3 normal : NORMAL;
+	float2 texCoord : TEXCOORD;
+};
+
+//Patch-Constant-Functionからテッセレーター経由でドメインシェーダーに渡す構造体
+struct HsConstantOutput
+{
+	float tessFactor[3] : SV_TessFactor;
+	float insideTessFactor : SV_InsideTessFactor;
+};
+
+//ドメインシェーダーからフラグメントシェーダーに渡す構造体
+struct DsOutput
+{
+	float4 svpos:SV_POSITION;
+	float4 worldpos : POSITION; // ワールド座標
+	float3 normal:NORMAL;
+	float2 uv:TEXCOORD;
+};

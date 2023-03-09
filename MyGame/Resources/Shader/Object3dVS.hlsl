@@ -7,10 +7,6 @@ float random(float2 st)
 		43758.5453123);
 }
 
-
-//////////////////////////////////////////////////////////////////////////////
-// Based on Morgan McGuire @morgan3d
-// https://www.shadertoy.com/view/4dS3Wd
 float noise(float2 st)
 {
 	float2 i = floor(st);
@@ -28,10 +24,7 @@ float noise(float2 st)
 		(c - a) * u.y * (1.0 - u.x) +
 		(d - b) * u.x * u.y;
 }
-
-//////////////////////////////////////////////////////////////////////////////
 #define OCTAVES 6
-// based on : https://thebookofshaders.com/13/?lan=jp
 float fbm(float2 st)
 {
 	// Initial values
@@ -48,9 +41,6 @@ float fbm(float2 st)
 	return value;
 }
 
-//////////////////////////////////////////////////////////////////////////////
-// domain warping pattern
-// based on : http://www.iquilezles.org/www/articles/warp/warp.htm
 float pattern(float2 p, float4 scale_1, float scale_2, float4 add_1, float4 add_2)
 {
 	// first domain warping
@@ -68,14 +58,14 @@ float pattern(float2 p, float4 scale_1, float scale_2, float4 add_1, float4 add_
 	return fbm(p + scale_2 * r);
 }
 
-VSOutput main(float4 pos : POSITION, float3 normal : NORMAL, float2 uv : TEXCOORD)
+HsInput main(float4 pos : POSITION, float3 normal : NORMAL, float2 uv : TEXCOORD)
 {
 	// 法線にワールド行列によるスケーリング・回転を適用
 	float4 wnormal = normalize(mul(world, float4(normal, 0)));
 	float4 wpos = mul(world, pos);
 
-	VSOutput output; // ピクセルシェーダーに渡す値
-	output.svpos = mul(mul(viewproj, world), pos);
+	HsInput output; // ピクセルシェーダーに渡す値
+	output.svpos= mul(mul(viewproj, world), pos);
 
 	output.worldpos = mul(world, pos);
 	output.normal = wnormal.xyz;

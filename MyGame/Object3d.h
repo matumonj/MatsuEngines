@@ -53,6 +53,20 @@ public: // サブクラス
 	};
 
 private: // 定数
+	struct ConstBufferDataB1 {
+		XMFLOAT3 ambient;
+		float pad1;
+		XMFLOAT3 diffuse;
+		float pad2;
+		XMFLOAT3 specular;
+		float alpha;
+	};
+	XMFLOAT3 ambient;
+	XMFLOAT3 diffuse;
+	XMFLOAT3 specular;
+	float alpha;
+	// 定数バッファ
+	ComPtr<ID3D12Resource> constBuff;
 
 private: // 定数
 	float dislen;

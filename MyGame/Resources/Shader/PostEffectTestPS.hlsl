@@ -1,6 +1,6 @@
 #include"Sprite.hlsli"
-//Texture2D<float4> bokeTexture : register(t1);  // ボケ画像
-//Texture2D<float4> depthTexture : register(t0); // 深度テクスチャ
+//input.uvture2D<float4> bokeinput.uvture : register(t1);  // ボケ画像
+//input.uvture2D<float4> depthinput.uvture : register(t0); // 深度テクスチャ
 Texture2D<float4> tex : register(t0); // ボケ画像
 Texture2D<float4> tex1 : register(t1); // 深度テクスチャ
 
@@ -75,8 +75,30 @@ float4 main(Output input) : SV_TARGET
 	}
 	col.gb -= Vignette(input.uv);
 
-	return float4(col.rgb, 1);
+	float4 colors[10];
+	float2 ViewportOffset = (float2(0.5, 0.5) / float2(1900,1000));
+	float2 center = float2(0.5f, 0.5f);
+	float2 dir = center - input.uv;
+	float len = length(dir);
+	float2 offset = normalize(dir) * ViewportOffset;
+	offset *= (20 * len);
 
+	colors[0] = tex.Sample(smp, input.uv) * 0.19f;
+	colors[1] = tex.Sample(smp, input.uv + offset) * 0.17f;
+	colors[2] = tex.Sample(smp, input.uv + offset * 2.0f) * 0.15f;
+	colors[3] = tex.Sample(smp, input.uv + offset * 3.0f) * 0.13f;
+	colors[4] = tex.Sample(smp, input.uv + offset * 4.0f) * 0.11f;
+	colors[5] = tex.Sample(smp, input.uv + offset * 5.0f) * 0.09f;
+	colors[6] = tex.Sample(smp, input.uv + offset * 6.0f) * 0.07f;
+	colors[7] = tex.Sample(smp, input.uv + offset * 7.0f) * 0.05f;
+	colors[8] = tex.Sample(smp, input.uv + offset * 8.0f) * 0.03f;
+	colors[9] = tex.Sample(smp, input.uv + offset * 9.0f) * 0.01f;
+
+	float4 Color = float4(0.0f, 0.0f, 0.0f, 0.0f);
+	Color = (colors[0] + colors[1] + colors[2] + colors[3] + colors[4]
+		+ colors[5] + colors[6] + colors[7] + colors[8] + colors[9]);
+	//return Color;
+	
 	// ボケ画像を出力
-	//return boke;
+	return tex.Sample(smp, input.uv);
 }
