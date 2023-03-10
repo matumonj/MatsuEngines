@@ -56,7 +56,8 @@ private:
 	float posy = 15.f;
 	XMFLOAT3 atten;
 	XMFLOAT2 spotangle = {27.f, 70.f};
-
+	float bloomval;
+	float EaseT;
 	enum ShadowChara
 	{
 		SUMMONENEY_A,

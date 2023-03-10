@@ -97,6 +97,7 @@ void FrontCircleAttack::Upda()
 
 void FrontCircleAttack::Draw()
 {
+	if (_phase == PHASE_NON)return;
 	//テクスチャ
 	Texture::PreDraw();
 	for (auto i = 0; i < nail_objses_.size(); i++)

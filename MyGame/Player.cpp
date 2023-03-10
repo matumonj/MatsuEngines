@@ -71,6 +71,26 @@ void Player::Initialize()
 	AttackEffect::GetIns()->Init();
 }
 
+void Player::KnockBack(XMFLOAT3 pos)
+{
+	
+
+	// 自分の位置と接触してきたオブジェクトの位置とを計算して、距離と方向を出して正規化(速度ベクトルを算出)
+	XMVECTOR pdistination = { Position.x,Position.y,Position.z };
+	XMVECTOR bdistance= {pos.x,pos.y,pos.z };
+
+	XMVECTOR dis = XMVector3Normalize(pdistination - bdistance);
+
+	Position.x += dis.m128_f32[0]*bKnockPower;
+	Position.z += dis.m128_f32[2] * bKnockPower;
+
+	KnockEase += 0.01f;
+
+	KnockEase = std::clamp(KnockEase, 0.f, 1.f);
+
+	bKnockPower = Easing::EaseOut(KnockEase, 2.f, 0.f);
+}
+
 void Player::Move()
 {
 	//移動停止フラグと回避モーション時は動けない
@@ -327,6 +347,7 @@ void Player::Update()
 	m_fbxObject->SetColor(ObjCol);
 	ParameterSet_Fbx3();
 
+	
 	DamageFlash();
 	//持つ武器の更新
 	SelectSword::GetIns()->Update();

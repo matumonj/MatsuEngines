@@ -112,7 +112,7 @@ void PostEffect::CreateGraphicsPipeline()
 	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;
 	blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;
 	blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
-	//
+
 	blenddesc.BlendOpAlpha = D3D12_BLEND_OP_ADD;
 	blenddesc.SrcBlendAlpha = D3D12_BLEND_ONE;
 	blenddesc.DestBlendAlpha = D3D12_BLEND_ZERO;
@@ -123,7 +123,7 @@ void PostEffect::CreateGraphicsPipeline()
 
 	// 深度バッファのフォーマット
 	gpipeline.DSVFormat = DXGI_FORMAT_D32_FLOAT;
-	//
+
 	// 頂点レイアウトの設定
 	gpipeline.InputLayout.pInputElementDescs = inputLayout;
 	gpipeline.InputLayout.NumElements = _countof(inputLayout);
@@ -417,6 +417,7 @@ void PostEffect::Draw()
 		constMap->bloomf = BloomF;
 		constMap->fogcol = {1.f, 1.f, 1.f};
 		constMap->bloomalpha = BloomAlpha;
+		constMap->bloomcenter = BloomCenter;
 		this->constBuff->Unmap(0, nullptr);
 	}
 	constBuff->Unmap(0, nullptr);

@@ -356,6 +356,7 @@ public:
 	XMFLOAT3 HandRightPos() { return HandPos_Right; }
 	XMFLOAT3 HandRightPos2() { return HandPos_Right2; }
 	XMFLOAT3 HandLeftPos() { return HandPos_Left; }
+	void ColPlayer();
 protected:
 	static constexpr int FrameSize = 4;
 

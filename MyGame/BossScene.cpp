@@ -11,6 +11,7 @@
 #include"PlayerControl.h"
 #include "GameOver.h"
 #include "HalfAttack.h"
+#include "mHelper.h"
 #include "Nail.h"
 #include "SelectSword.h"
 #include "UltAttack.h"
@@ -25,6 +26,9 @@ BossScene::BossScene(SceneManager* sceneManager)
 /*-----------------------*/
 void BossScene::Initialize()
 {
+
+	postEffect = new PostEffect();
+	postEffect->Initialize();
 	//各オブジェクトの初期化
 	AllObjectControl.emplace_back(CameraControl::GetIns());
 	AllObjectControl.emplace_back(PlayerControl::GetIns());
@@ -35,6 +39,7 @@ void BossScene::Initialize()
 
 	Object3d::SetLightGroup(lightGroup);
 	f_Object3d::SetLightGroup(lightGroup);
+
 	// 3Dオブエクトにライトをセット
 	lightGroup->SetDirLightActive(0, false);
 
@@ -93,6 +98,17 @@ void BossScene::Update()
 	GameOver::GetIns()->Update();
 
 	ChangeScene();
+
+	XMFLOAT3 Position = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
+	XMVECTOR tex2DPos = { Position.x, Position.y + 5.f, Position.z };
+	tex2DPos = MatCal::PosDivi(tex2DPos, CameraControl::GetIns()->GetCamera()->GetViewMatrix(), false);
+	tex2DPos = MatCal::PosDivi(tex2DPos, CameraControl::GetIns()->GetCamera()->GetProjectionMatrix(), true);
+	tex2DPos = MatCal::WDivi(tex2DPos, false);
+	tex2DPos = MatCal::PosDivi(tex2DPos, CameraControl::GetIns()->GetCamera()->GetViewPort(), false);
+
+	postEffect->SetBloomCenter(XMFLOAT2(tex2DPos.m128_f32[0], tex2DPos.m128_f32[1]));
+	postEffect->SetBloomAlpha(UI::GetIns()->GetBlurPower());
+
 }
 
 
@@ -159,18 +175,18 @@ void BossScene::Draw()
 		break;
 
 	case Default: //普通のやつ特に何もかかっていない
+		postEffect->PreDrawScene();
+		MyGameDraw();
+
+		postEffect->PostDrawScene();
 
 		DirectXCommon::GetIns()->BeginDraw();
-		MyGameDraw();
+		postEffect->Draw();
+		//MyGameDraw();
 		SpriteDraw();
 		ImGui::Begin("Lights");
-		ImGui::Text("Y %f", PlayerControl::GetIns()->GetPlayer()->GetPosition().y);
-		ImGui::SliderFloat("attenx", &circleShadowAtten[0], -10, 10);
-		ImGui::SliderFloat("atteny", &circleShadowAtten[1], -10, 10);
-		ImGui::SliderFloat("attenz", &circleShadowAtten[2], -10, 10);
-
-		ImGui::SliderFloat("attenyxz", &PlayerCShadowAngle.x, -10, 10);
-		ImGui::SliderFloat("attenzx", &PlayerCShadowAngle.y, -10, 10);
+		ImGui::SliderFloat("spox", &spotangle.x, 0, 100);
+		ImGui::SliderFloat("spoy", &spotangle.y, 0, 100);
 		//ImGui::SliderFloat()
 		ImGui::End();
 		DirectXCommon::GetIns()->EndDraw();
@@ -294,7 +310,7 @@ void BossScene::LightUpdate()
 			                            Field::GetIns()->GetTorchPos(i - 4).y + posy,
 			                            Field::GetIns()->GetTorchPos(i - 4).z
 		                            });
-		lightGroup->SetSpotLightAtten(i, {atten.x, 0, atten.x});
+		lightGroup->SetSpotLightAtten(i, {atten.x, 0.f, atten.x});
 		lightGroup->SetSpotLightDir(i, {0.f, -1.f, 0.f});
 		lightGroup->SetSpotLightColor(i, {1.f, 0.5f, 0.f});
 		lightGroup->SetSpotLightFactorAngle(i, {spotangle});

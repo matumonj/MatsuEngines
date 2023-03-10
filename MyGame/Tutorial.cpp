@@ -128,6 +128,7 @@ void Tutorial::Update()
 	{
 		SceneManager::GetIns()->SetScene(SceneManager::BOSS, sceneManager_);
 	}
+	postEffect->SetBloomAlpha(n);
 }
 
 void Tutorial::LightUpdate()
@@ -209,6 +210,9 @@ void Tutorial::Draw()
 
 		DirectXCommon::GetIns()->BeginDraw();
 		postEffect->Draw();
+		ImGui::Begin("bloom");
+		ImGui::SliderFloat("blooms", &n, 0, 100);
+		ImGui::End();
 		SpriteDraw();
 		
 		DirectXCommon::GetIns()->EndDraw();

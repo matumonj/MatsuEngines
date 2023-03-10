@@ -1,4 +1,7 @@
 #include "UI.h"
+
+#include <algorithm>
+
 #include"SceneManager.h"
 #include"EnemyControl.h"
 #include"TutorialSprite.h"
@@ -6,6 +9,7 @@
 #include"DropWeapon.h"
 #include <SelectSword.h>
 #include "HalfAttack.h"
+#include "mHelper.h"
 #include "PlayerControl.h"
 
 UI* UI::GetIns()
@@ -29,6 +33,7 @@ void UI::Initialize()
 	DropWeapon::GtIns()->Init();
 	Task::GetIns()->Init();
 }
+
 
 void UI::HUDUpdate(bool& hudload, DebugCamera* camera)
 {
@@ -105,6 +110,24 @@ void UI::HUDDraw()
 	{
 		PlayerControl::GetIns()->DamageTexDraw();
 	}
+	constexpr float BlurAddVal = 0.01f;
+
+	constexpr float MaxBlurSmp = 90.f;
+
+	if (BlurF) {
+		EaseT += BlurAddVal;
+		if (EaseT > 1.f)
+		{
+			BlurF = false;
+		}
+	} else
+	{
+		EaseT -= BlurAddVal;
+		//EaseT = 0.f;
+	}
+
+	EaseT = std::clamp(EaseT, 0.f, 1.f);
+	bloomval = Easing::EaseOut(EaseT, 0.f, MaxBlurSmp);
 }
 
 void UI::AreaNameDraw()

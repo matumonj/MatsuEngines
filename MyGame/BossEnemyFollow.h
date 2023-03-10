@@ -19,6 +19,7 @@ private:
 	bool ActionCount = true, ActionCount2 = true;
 	int Evaprobability;
 	float RotY = 0;
+	bool BlurF;
 
 
 	void ActionSequence(Enemy* enemy, float percent, BossAttackActionManager* action, int actionnum,

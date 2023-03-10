@@ -140,8 +140,10 @@ void BossEnemy::Update()
 	et += 0.01f;
 	//行動遷移
 	state_boss->Update(this);
-
-	DamageTexDisplay();
+	//if (Input::GetIns()->PushButton(Input::Button_Y))
+	{
+	
+	}DamageTexDisplay();
 
 	Action();
 
@@ -165,6 +167,7 @@ void BossEnemy::Update()
 	m_fbxObject->SetHandBoneIndex(hind);
 
 	HPGaugeBoss();
+	ColPlayer();
 	//持ってる斧の更新
 	Sword->Setf(FALSE);
 	Sword->SetRotation({303.f, 169.f, 306.f});
@@ -195,6 +198,32 @@ void BossEnemy::Update()
 	{
 		GuarPoint = 0;
 		guardtime = 0;
+	}
+}
+
+void BossEnemy::ColPlayer()
+{
+	Player* l_player = PlayerControl::GetIns()->GetPlayer();
+	if (l_player == nullptr)
+	{
+		return;
+	}
+	playerOBB.SetOBBParam_Pos(l_player->GetPosition());
+	playerOBB.SetOBBParam_Scl({ 1.0f, 1.0f, 1.0f });
+	playerOBB.SetOBBParam_Rot(l_player->GetMatrot());
+
+	OBB bossObb;
+	//OBB 回転ベクトル
+	bossObb.SetOBBParam_Pos(m_Object->GetPosition());
+	bossObb.SetOBBParam_Scl({ 6.0f, 20.0f, 6.0f });
+	bossObb.SetOBBParam_Rot(m_Object->GetMatrot());
+
+	if (Collision::GetLength(l_player->GetPosition(), Position) < 20)
+	{
+		if (Collision::CheckOBBCollision(playerOBB, bossObb) == true)
+		{
+			l_player->isOldPos();
+		}
 	}
 }
 

@@ -10,12 +10,13 @@ SamplerState smp:register(s0);
 
 float3 BloomPixel(SamplerState smp, float2 uv, float2 texPixelSize)
 {
+	
 	float2 uv2 = floor(uv / texPixelSize) * texPixelSize;
 	uv2 += texPixelSize * 0.001f;
-	float3 tl = max(tex.Sample(smp, uv2).rgb - bloomalpha, 0.f);
-	float3 tr = max(tex.Sample(smp, uv2 + float2(texPixelSize.x, 0.f)).rgb - bloomalpha, 0.f);
-	float3 bl = max(tex.Sample(smp, uv2 + float2(0.f, texPixelSize.y)).rgb - bloomalpha, 0.f);
-	float3 br = max(tex.Sample(smp, uv2 + float2(texPixelSize.x, texPixelSize.y)).rgb - bloomalpha, 0.f);
+	float3 tl = max(tex.Sample(smp, uv2).rgb - 0.9f, 0.f);
+	float3 tr = max(tex.Sample(smp, uv2 + float2(texPixelSize.x, 0.f)).rgb - 0.9f, 0.f);
+	float3 bl = max(tex.Sample(smp, uv2 + float2(0.f, texPixelSize.y)).rgb - 0.9f, 0.f);
+	float3 br = max(tex.Sample(smp, uv2 + float2(texPixelSize.x, texPixelSize.y)).rgb - 0.9f, 0.f);
 	float2 f = frac(uv / texPixelSize);
 
 	float3 tA = lerp(tl, tr, f.x);
@@ -60,6 +61,7 @@ float4 bloom(SamplerState smp, float2 uv, float intensity = 1.f)
 
 float4 main(Output input) : SV_TARGET
 {
+	
 	float4 coltex0 = tex.Sample(smp, input.uv);
 	float4 coltex1 = tex1.Sample(smp, input.uv);
 
@@ -69,19 +71,18 @@ float4 main(Output input) : SV_TARGET
 	//	col = feed;
 
 	// ブルーム
-	if (bloomf)
-	{
-		col.rgb += bloom(smp, input.uv).rgb;
-	}
-	col.gb -= Vignette(input.uv);
+	
+	col.rgb += bloom(smp, input.uv).rgb;
+	
+	//col.gb -= Vignette(input.uv);
 
 	float4 colors[10];
 	float2 ViewportOffset = (float2(0.5, 0.5) / float2(1900,1000));
-	float2 center = float2(0.5f, 0.5f);
+	float2 center = float2(smoothstep(0,1900, centerpos.x), smoothstep( 0, 1000, centerpos.y));
 	float2 dir = center - input.uv;
 	float len = length(dir);
 	float2 offset = normalize(dir) * ViewportOffset;
-	offset *= (20 * len);
+	offset *= (bloomalpha * len);
 
 	colors[0] = tex.Sample(smp, input.uv) * 0.19f;
 	colors[1] = tex.Sample(smp, input.uv + offset) * 0.17f;
@@ -93,12 +94,12 @@ float4 main(Output input) : SV_TARGET
 	colors[7] = tex.Sample(smp, input.uv + offset * 7.0f) * 0.05f;
 	colors[8] = tex.Sample(smp, input.uv + offset * 8.0f) * 0.03f;
 	colors[9] = tex.Sample(smp, input.uv + offset * 9.0f) * 0.01f;
-
+	//return float4(col.rgb, 1);
 	float4 Color = float4(0.0f, 0.0f, 0.0f, 0.0f);
 	Color = (colors[0] + colors[1] + colors[2] + colors[3] + colors[4]
 		+ colors[5] + colors[6] + colors[7] + colors[8] + colors[9]);
-	//return Color;
+	return float4(Color.xyz,1);
 	
 	// ボケ画像を出力
-	return tex.Sample(smp, input.uv);
+	//return tex.Sample(smp, input.uv);
 }

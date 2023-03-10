@@ -3,6 +3,7 @@
 #include"FrontCircleAttack.h"
 #include"BossEnemy.h"
 #include "mHelper.h"
+#include "PlayerControl.h"
 
 void BossEnemyAttackCircle::Initialize(Enemy* enmey)
 {
@@ -10,16 +11,10 @@ void BossEnemyAttackCircle::Initialize(Enemy* enmey)
 
 void BossEnemyAttackCircle::Update(Enemy* enemy)
 {
-	enemy->SetAnimation(BossEnemy::NowAttackMotion::MAGIC, false, 1.f);
+	enemy->SetAnimation(BossEnemy::NowAttackMotion::BROAR, false, 1.f);
 	enemy->SetRecvDamage2(false);
-	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= 80.0f)
-	{
-		enemy->SetAttack_End(enemy->CIRCLE_1, true);
-	}
-	if (Percent::GetParcent(static_cast<float>(enemy->GetMaxHP()), static_cast<float>(enemy->GetHP())) <= 20.0f)
-	{
-		enemy->SetAttack_End(enemy->CIRCLE_2, true);
-	}
+	PlayerControl::GetIns()->GetPlayer()->KnockBack(enemy->GetPosition());
+
 	if (enemy->GetAnimationTime() >= enemy->GetFbxTimeEnd() - 0.1f)
 	{
 		enemy->SetRecvDamage2(false);

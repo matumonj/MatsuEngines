@@ -23,4 +23,11 @@ public:
 public:
 	void SetTurnoffUIDraw(bool f) { TurnOffDrawUI = f; }
 	bool GetTurnoffUIDraw() { return TurnOffDrawUI; }
+
+	void SetRadBlur(bool active) { BlurF = active; }
+	float GetBlurPower() { return bloomval; }
+private:
+	bool BlurF;
+	float EaseT;
+	float bloomval;
 };

@@ -19,7 +19,7 @@ PSOutPut main(Output input)
 		          ? 1
 		          : -1;
 
-	//clip(v);
+	clip(v);
 	//•ÏXŒã
 	output.target0 = tex.Sample(smp, input.uv) * color;
 	output.target1 = tex.Sample(smp, input.uv) * color;

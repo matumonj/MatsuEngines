@@ -5,6 +5,7 @@
 #include "BossEnemyEvasion.h"
 #include "BossEnemyFollow.h"
 #include "mHelper.h"
+#include "UI.h"
 
 using namespace DirectX;
 
@@ -77,7 +78,6 @@ void BossEnemyShieldGuard::Update(Enemy* enemy)
 	{
 		AttackEffect::GetIns()->SetParticle(
 			enemy->GetPosition());
-
 		enemy->ChangeState_Boss(new BossEnemyFalter());
 	}
 }

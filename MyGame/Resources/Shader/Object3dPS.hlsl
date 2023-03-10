@@ -14,7 +14,7 @@ PSOutPut main(GSOutput input)
 	//環境光
 	float3 light = normalize(float3(1, -1, 1));
 	float diffuse = saturate(dot(-light, input.normal));
-	float brightness = diffuse + 1.0f;
+	float brightness = diffuse +1.0f;
 	//フォグ部分
 	float4 nc = {0.1, 0.1, 0.1, 1}; //cameraPos付近の色
 	float4 c = {0.3, 0.3, 0.4, 1}; //

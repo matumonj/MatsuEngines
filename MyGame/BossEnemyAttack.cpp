@@ -4,9 +4,11 @@
 #include"CameraControl.h"
 #include"PlayerControl.h"
 #include"BossEnemy.h"
+#include "BossEnemyAttackCircle.h"
 #include "BossEnemyDeath.h"
 #include "BossEnemyEvasion.h"
 #include "BossEnemyShieldGuard.h"
+#include "UI.h"
 
 void BossEnemyAttack::Initialize(Enemy* enmey)
 {
@@ -21,11 +23,16 @@ void BossEnemyAttack::Update(Enemy* enemy)
 		//被ダメージ時
 		//乱数を生成し値が一定以上なら怯み状態
 		Evaprobability = rand() % 100 + 1;
-		if (Evaprobability > 85)
+		if (Evaprobability > 50)
 		{
-			enemy->ChangeState_Boss(new BossEnemyFalter());
+			PlayerControl::GetIns()->GetPlayer()->SetKnockF(true);
+
+			UI::GetIns()->SetRadBlur(true);
+			enemy->ChangeState_Boss(new BossEnemyAttackCircle());
+
+			//enemy->ChangeState_Boss(new BossEnemyFalter());
 		}
-		else if(Evaprobability > 65)
+		else if(Evaprobability > 5)
 		{
 			enemy->ChangeState_Boss(new BossEnemyShieldGuard());
 		}

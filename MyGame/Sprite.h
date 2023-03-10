@@ -38,6 +38,7 @@ public:
 		bool bloomf;
 		XMFLOAT3 fogcol;
 		float bloomalpha;
+		XMFLOAT2 bloomcenter;
 	};
 
 	static bool StaticInitialize(int window_width, int window_height);

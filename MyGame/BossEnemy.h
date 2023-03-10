@@ -127,4 +127,6 @@ private:
 	OBB ShieldOBB;
 public:
 	OBB GetShieldOBB() { return ShieldOBB; }
+
+	void ColPlayer();
 };

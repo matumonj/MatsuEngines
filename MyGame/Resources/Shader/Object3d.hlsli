@@ -156,11 +156,31 @@ struct HsConstantOutput
 	float insideTessFactor : SV_InsideTessFactor;
 };
 
-//ドメインシェーダーからフラグメントシェーダーに渡す構造体
-struct DsOutput
+//出力データ
+struct DS_OUTPUT
 {
 	float4 svpos:SV_POSITION;
 	float4 worldpos : POSITION; // ワールド座標
 	float3 normal:NORMAL;
 	float2 uv:TEXCOORD;
+};
+// テッセレータが出力した頂点
+struct HS_CONTROL_POINT_OUTPUT
+{
+		float4 svpos:SV_POSITION;
+		float4 worldpos : POSITION; // ワールド座標
+		float3 normal:NORMAL;
+		float2 uv:TEXCOORD;
+};
+// 出力パッチ定数データ。
+struct HS_CONSTANT_DATA_OUTPUT
+{
+	float EdgeTessFactor[3] : SV_TessFactor;
+	float InsideTessFactor : SV_InsideTessFactor;
+};
+//ドメインシェーダーからフラグメントシェーダーに渡す構造体
+struct DsOutput
+{
+	float4 svpos:SV_POSITION;
+	
 };

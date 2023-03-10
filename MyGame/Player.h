@@ -92,7 +92,13 @@ private:
 	void Death();
 
 	void DamageFlash();
+public:
+	void SetKnockF(bool f) { KnockPower = 2.f; KnockEase = 0.f; KnockF = f; }
+	void KnockBack(XMFLOAT3 pos);
 private:
+	float KnockPower;
+	float KnockEase;
+	bool KnockF;
 	//回避フラグ
 	bool evasionF = false;
 	//イージング用
@@ -119,7 +125,7 @@ private:
 	std::unique_ptr<SwordBase> sword = nullptr;
 	float angle;
 
-	float KnockPower;
+	float bKnockPower;
 private:
 	//前座標
 	XMFLOAT3 oldpos = {};

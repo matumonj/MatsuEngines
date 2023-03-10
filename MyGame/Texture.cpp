@@ -196,10 +196,13 @@ bool Texture::InitializeGraphicsPipeline()
 	D3D12_RENDER_TARGET_BLEND_DESC blenddesc{};
 	blenddesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL; // RBGA全てのチャンネルを描画
 	blenddesc.BlendEnable = true;
-
 	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;
-	blenddesc.SrcBlend = D3D12_BLEND_ONE;
-	blenddesc.DestBlend = D3D12_BLEND_ONE;
+	blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;
+	blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
+
+	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;
+	//blenddesc.SrcBlend = D3D12_BLEND_ONE;
+	//blenddesc.DestBlend = D3D12_BLEND_ONE;
 
 	blenddesc.BlendOpAlpha = D3D12_BLEND_OP_ADD;
 	blenddesc.SrcBlendAlpha = D3D12_BLEND_ONE;
@@ -207,7 +210,6 @@ bool Texture::InitializeGraphicsPipeline()
 
 	// ブレンドステートの設定
 	gpipeline.BlendState.RenderTarget[0] = blenddesc;
-	gpipeline.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
 	//gpipeline.BlendState.AlphaToCoverageEnable = true;
 	// 深度バッファのフォーマット
 	gpipeline.DSVFormat = DXGI_FORMAT_D32_FLOAT;

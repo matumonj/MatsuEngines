@@ -13,11 +13,13 @@
 #include "BossEnemyAttackBrzBeam.h"
 #include "BossEnemyAttackCircle.h"
 #include "BossEnemyAttackHalf.h"
+#include "BossEnemyAttackSlam.h"
 #include "BossEnemyAttackUlt.h"
 #include "BossEnemyEvasion.h"
 #include "BossEnemyShieldGuard.h"
 #include "BronzeAttack.h"
 #include "HalfAttack.h"
+#include "UI.h"
 #include "UltAttack.h"
 
 void BossEnemyFollow::Initialize(Enemy* enmey)
@@ -91,16 +93,15 @@ void BossEnemyFollow::Update(Enemy* enemy)
 		Evaprobability = rand() % 100 + 1;
 		if (Evaprobability > 89)
 		{
-			enemy->ChangeState_Boss(new BossEnemyFalter());
+			PlayerControl::GetIns()->GetPlayer()->SetKnockF(true);
+			UI::GetIns()->SetRadBlur(true);
+			enemy->ChangeState_Boss(new BossEnemyAttackCircle());
+			
 		}
+
 		else if (Evaprobability > 40)
 		{
 			enemy->ChangeState_Boss(new BossEnemyShieldGuard());
-			enemy->SetRecvDamage2(false);
-		}
-		else
-		{
-			enemy->SetRecvDamage2(false);
 		}
 	}
 
@@ -112,10 +113,10 @@ void BossEnemyFollow::Update(Enemy* enemy)
 	//std::get<AttackInvoPer::CIRCLE_FIR>(_attackInvoPer) = 80.f;
 	/*-----------UŒ‚‘JˆÚ•”•ª------------*/
 	ActionSequence(enemy, 80.f, FrontCircleAttack::GetIns(), enemy->CIRCLE_1,
-	               new BossEnemyAttackCircle());
+	               new BossEnemyAttackSlam());
 
 	ActionSequence(enemy, 20.f, FrontCircleAttack::GetIns(), enemy->CIRCLE_2,
-	               new BossEnemyAttackCircle());
+	               new BossEnemyAttackSlam());
 
 	ActionSequence(enemy, 70.f, RushAttack::GetIns(), enemy->Beam,
 	               new BossEnemyAttackRush());
