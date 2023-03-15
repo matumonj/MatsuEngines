@@ -23,7 +23,11 @@ void BossEnemyAttack::Update(Enemy* enemy)
 		//被ダメージ時
 		//乱数を生成し値が一定以上なら怯み状態
 		Evaprobability = rand() % 100 + 1;
-		if (Evaprobability > 50)
+		
+		 if(Evaprobability > 75)
+		{
+			enemy->ChangeState_Boss(new BossEnemyShieldGuard());
+		}else if (Evaprobability > 40)
 		{
 			PlayerControl::GetIns()->GetPlayer()->SetKnockF(true);
 
@@ -32,11 +36,10 @@ void BossEnemyAttack::Update(Enemy* enemy)
 
 			//enemy->ChangeState_Boss(new BossEnemyFalter());
 		}
-		else if(Evaprobability > 5)
+		else
 		{
-			enemy->ChangeState_Boss(new BossEnemyShieldGuard());
+			enemy->ChangeState_Boss(new BossEnemyFollow());
 		}
-		
 	}
 	enemy->SetGuardAction(false);
 	//ランダムで攻撃方法を選出

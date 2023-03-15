@@ -13,10 +13,10 @@ float3 BloomPixel(SamplerState smp, float2 uv, float2 texPixelSize)
 	
 	float2 uv2 = floor(uv / texPixelSize) * texPixelSize;
 	uv2 += texPixelSize * 0.001f;
-	float3 tl = max(tex.Sample(smp, uv2).rgb - 0.9f, 0.f);
-	float3 tr = max(tex.Sample(smp, uv2 + float2(texPixelSize.x, 0.f)).rgb - 0.9f, 0.f);
-	float3 bl = max(tex.Sample(smp, uv2 + float2(0.f, texPixelSize.y)).rgb - 0.9f, 0.f);
-	float3 br = max(tex.Sample(smp, uv2 + float2(texPixelSize.x, texPixelSize.y)).rgb - 0.9f, 0.f);
+	float3 tl = max(tex.Sample(smp, uv2).rgb - 0.95f, 0.f);
+	float3 tr = max(tex.Sample(smp, uv2 + float2(texPixelSize.x, 0.f)).rgb - 0.95f, 0.f);
+	float3 bl = max(tex.Sample(smp, uv2 + float2(0.f, texPixelSize.y)).rgb - 0.95f, 0.f);
+	float3 br = max(tex.Sample(smp, uv2 + float2(texPixelSize.x, texPixelSize.y)).rgb - 0.95f, 0.f);
 	float2 f = frac(uv / texPixelSize);
 
 	float3 tA = lerp(tl, tr, f.x);

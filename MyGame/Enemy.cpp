@@ -336,11 +336,12 @@ void Enemy::ChangeState_Boss(BossEnemyState* state)
 
 void Enemy::SetAnimation(int number, bool loop, double speed)
 {
+
+	m_AnimeSpeed = speed;
 	if (m_Number != number)
 	{
 		m_AnimeLoop = loop;
 		m_Number = number;
-		m_AnimeSpeed = speed;
 		m_fbxObject->PlayAnimation(m_Number);
 	}
 }

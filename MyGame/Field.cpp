@@ -579,10 +579,6 @@ void Field::Draw()
 		m_object[CELESTIALSPHERE]->Draw();
 	}
 
-	if (KoloiamAlpha > 0.f)
-	{
-		FieldObject->Draw();
-	}
 	if (SceneManager::GetIns()->GetScene() == SceneManager::BOSS)
 	{
 		if (nextStageF)
@@ -605,7 +601,6 @@ void Field::Draw()
 			}
 			m_object[CELESTIALSPHERE]->Draw();
 		}
-
 		if (!nextStageF)
 		{
 			ModelDraw_nullCheck(BOSSBACK);
@@ -628,6 +623,11 @@ void Field::Draw()
 				FireEffect[i]->Draw();
 			}
 		}
+	}
+
+	else
+	{
+		FieldObject->Draw();
 	}
 	if (SceneManager::GetIns()->GetScene() == SceneManager::PLAY)
 	{

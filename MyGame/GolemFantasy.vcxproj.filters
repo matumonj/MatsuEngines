@@ -699,6 +699,12 @@
     <ClCompile Include="EnemyReturnCreatePos.cpp">
       <Filter>Game\gameobject\GameObject\Enemy\Boss</Filter>
     </ClCompile>
+    <ClCompile Include="BossEnemyAttackCross.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="LineCrossAttack.cpp">
+      <Filter>Game\gameobject\GameObject\Enemy\Boss\AttackAction%28State_Pattern%29\FirstHalf\Sequence\Cross</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sprite.h">
@@ -1163,6 +1169,12 @@
     <ClInclude Include="FootSwitch.h">
       <Filter>Game\gameobject\GameObject\Field</Filter>
     </ClInclude>
+    <ClInclude Include="LineCrossAttack.h">
+      <Filter>Game\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="BossEnemyAttackCross.h">
+      <Filter>Game\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shader\BasicGS.hlsl">
@@ -1235,7 +1247,6 @@
       <Filter>Game\Shader\Tex</Filter>
     </FxCompile>
     <FxCompile Include="BasicHS.hlsl" />
-    <FxCompile Include="BasicDS.hlsl" />
     <FxCompile Include="HullShader.hlsl">
       <Filter>Game\Shader\Tex</Filter>
     </FxCompile>

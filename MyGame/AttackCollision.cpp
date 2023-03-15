@@ -174,7 +174,9 @@ void AttackCollision::BossCol(int damage)
 		{
 			CameraControl::GetIns()->SetZoomF(true);
 			CameraControl::GetIns()->SetZoomTarget(HalfAttack::GetIns()->GetSummonEnemy(i)->GetPosition());
-
+			AttackEffect::GetIns()->SetParticle(
+				HalfAttack::GetIns()->GetSummonEnemy(i)->GetPosition());
+			//EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->RecvDamage(damage)
 			PlayerAttackState::GetIns()->SetHitStopJudg(true, 20);
 			HalfAttack::GetIns()->GetSummonEnemy(i)->RecvDamage(damage);
 

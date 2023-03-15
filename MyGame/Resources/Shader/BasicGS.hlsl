@@ -74,8 +74,7 @@ bool IsCollidinglinesAndCircle(Line2D lines, Point circle)
 // 点の入力から、四角形を出力
 [maxvertexcount(vnum)]
 void main(
-	triangle DS_OUTPUT input[3]:SV_POSITION,
-	//point VSOutput input[1] : SV_POSITION,
+	triangle VSOutput input[3] : SV_POSITION,
 	inout TriangleStream<GSOutput> output
 )
 {

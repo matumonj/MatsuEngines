@@ -44,6 +44,10 @@ private:
 	Line2D DamageLine;
 	bool damageLineDrawFlag;
 	DirectX::XMFLOAT2 lineendpos;
+
+	float BlockPosY[mapHight][mapWidth];
+
+	float BlockPosYEase[mapHight][mapWidth];
 public:
 	static BossMap* GetIns();
 	void Init();

@@ -285,7 +285,7 @@ void SelectSword::Update()
 	//武器オブジェクトの更新処理
 	Sword->Update();
 
-	WeaponChangeEffect->Upda_B(true);
+	WeaponChangeEffect->Upda_B(false);
 	//武器テクスチャの更新
 	for (int i = 0; i < 3; i++)
 	{

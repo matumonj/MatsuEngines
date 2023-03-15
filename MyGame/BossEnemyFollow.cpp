@@ -16,9 +16,11 @@
 #include "BossEnemyAttackSlam.h"
 #include "BossEnemyAttackUlt.h"
 #include "BossEnemyEvasion.h"
+#include "BossEnemyAttackCross.h"
 #include "BossEnemyShieldGuard.h"
 #include "BronzeAttack.h"
 #include "HalfAttack.h"
+#include "LineCrossAttack.h"
 #include "UI.h"
 #include "UltAttack.h"
 
@@ -33,7 +35,7 @@ void BossEnemyFollow::Update(Enemy* enemy)
 		return;
 	}
 	//モーションセット
-	enemy->SetAnimation(BossEnemy::NowAttackMotion::BWALK, 1.f, true);
+	enemy->SetAnimation(BossEnemy::NowAttackMotion::BWALK,  true,1.f);
 	//追跡処理部分//////////
 
 	//敵がプエレイヤーの方向く処理
@@ -89,19 +91,25 @@ void BossEnemyFollow::Update(Enemy* enemy)
 	//マジックナンバー後々消す
 	if (enemy->GetRecvDamage2())
 	{
+		LineCrossAttack::GetIns()->SetAttackPhase(true);
+		enemy->ChangeState_Boss(new BossEnemyAttackCross());
+
 		//乱数を生成->一定以上なら状態を怯みに
 		Evaprobability = rand() % 100 + 1;
-		if (Evaprobability > 89)
+		if (Evaprobability > 79)
 		{
 			PlayerControl::GetIns()->GetPlayer()->SetKnockF(true);
 			UI::GetIns()->SetRadBlur(true);
 			enemy->ChangeState_Boss(new BossEnemyAttackCircle());
-			
 		}
 
-		else if (Evaprobability > 40)
+		else if (Evaprobability > 50)
 		{
 			enemy->ChangeState_Boss(new BossEnemyShieldGuard());
+		}
+		else
+		{
+			enemy->SetRecvDamage2(false);
 		}
 	}
 

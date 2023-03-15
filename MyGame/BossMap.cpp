@@ -65,9 +65,21 @@ void BossMap::Upda()
 			{
 				continue;
 			}
+			if (Collision::GetLength(boss->GetPosition(),mapobj[i][j]->GetPosition())<20.f)
+			{
+				BlockPosYEase[i][j] += 0.02f;
+				
+			}
+			else
+			{
+				BlockPosYEase[i][j] -= 0.02f;
+				BlockPosY[i][j] = 4.f;
+			}
+			BlockPosY[i][j] = Easing::EaseOut(BlockPosYEase[i][j], 4.f, 3.f);
+			BlockPosYEase[i][j] = std::clamp(BlockPosYEase[i][j], 0.f, 1.f);
 			//フィールドにモデル割り当て
-			mapobj[i][j]->SetPosition({j * BlockSize + cpos.x, cpos.y, i * BlockSize + cpos.z});
-			mapobj[i][j]->SetScale(bsize);
+			mapobj[i][j]->SetPosition({j * BlockSize + cpos.x,cpos.y, i * BlockSize + cpos.z});
+			mapobj[i][j]->SetScale({ bsize.x,BlockPosY[i][j],bsize.z});
 
 			bpoint[i][j].x = mapobj[i][j]->GetPosition().x;
 			bpoint[i][j].y = mapobj[i][j]->GetPosition().z;

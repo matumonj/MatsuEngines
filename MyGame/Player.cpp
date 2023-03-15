@@ -84,7 +84,7 @@ void Player::KnockBack(XMFLOAT3 pos)
 	Position.x += dis.m128_f32[0]*bKnockPower;
 	Position.z += dis.m128_f32[2] * bKnockPower;
 
-	KnockEase += 0.01f;
+	KnockEase += 0.02f;
 
 	KnockEase = std::clamp(KnockEase, 0.f, 1.f);
 
@@ -98,6 +98,7 @@ void Player::Move()
 	{
 		return;
 	}
+	isOld = false;
 	XMFLOAT3 pos = Position;
 	XMFLOAT3 rot = Rotation;
 
@@ -267,9 +268,11 @@ void Player::Evasion()
 		evaTime += l_EvaETimeAccVal;
 		if (evaTime < 1.0f)
 		{
-			//プレイヤーの向いてる方向にイージングで飛ぶ
-			Position.x += Gmove.m128_f32[0] * Easing::EaseOut(evaTime, l_EvaEaseMax, l_EvaEaseMin);
-			Position.z += Gmove.m128_f32[2] * Easing::EaseOut(evaTime, l_EvaEaseMax, l_EvaEaseMin);
+			if (!isOld) {
+				//プレイヤーの向いてる方向にイージングで飛ぶ
+				Position.x += Gmove.m128_f32[0] * Easing::EaseOut(evaTime, l_EvaEaseMax, l_EvaEaseMin);
+				Position.z += Gmove.m128_f32[2] * Easing::EaseOut(evaTime, l_EvaEaseMax, l_EvaEaseMin);
+			}
 		}
 		else
 		{

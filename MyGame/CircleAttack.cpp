@@ -23,16 +23,19 @@ CircleAttack* CircleAttack::GetIns()
 void CircleAttack::Init()
 {
 	Texture::LoadTexture(23, L"Resources/2d/icon/enemyicon.png");
-
-	ImpactAreaTex = Texture::Create(23, {0.0f, 0.0f, 0.0f}, {100.0f, 100.0f, 1.0f}, {1.0f, 1.0f, 1.0f, 1.0f});
+	Texture::LoadTexture(24, L"Resources/2d/gauge/bosshp.png");
+	ImpactAreaTex = Texture::Create(23);
 	ImpactAreaTex->CreateTexture();
 	ImpactAreaTex->SetAnchorPoint({0.5f, 0.5f});
 
-	Direction[NORTH] = {0.0f, 0.0f, 60.0f};
-	Direction[SOUTH] = {0.0f, 0.0f, -60.0f};
-	Direction[EAST] = {60.0f, 0.0f, 0.0f};
-	Direction[WEST] = {-60.0f, 0.0f, 0.0f};
+	AllAreaTex.reset(Texture::Create(24));
+	AllAreaTex->CreateTexture();
+	AllAreaTex->SetAnchorPoint({ 0.5f, 0.5f });
 
+	RingObj.reset(new Object3d());
+	RingObj->Initialize(CameraControl::GetIns()->GetCamera());
+	RingObj->SetModel(ModelManager::GetIns()->GetModel(ModelManager::RING));
+	
 	_phase = PHASE_NON;
 	CircleSize = {0, 0};
 	TexAlpha = 0.0f;
@@ -46,16 +49,15 @@ void CircleAttack::Upda()
 	case PHASE_NON:
 		break;
 	case PHASE_ONE:
+		DamageAreaTexSet();
 		//釘刺さります
-		PierceNail();
 		break;
 	case PHASE_TWO:
 		//ダメージエリアの円広がります
-		DamageAreaTexSet();
+		
 		break;
 	case PHASE_THREE:
 		//地面から釘出てきます
-		ProtrudeNail();
 		break;
 	case PHASE_FOUR:
 
@@ -71,23 +73,31 @@ void CircleAttack::Upda()
 		rotY = 0.0f;
 	}
 	//ダメージエリアテクスチャの各種パラメータ
-
+	DamageAreaTexSet();
 	ImpactAreaTex->Update(CameraControl::GetIns()->GetCamera());
-	ImpactAreaTex->SetScale({CircleSize.x, CircleSize.y, 3.0f});
+	ImpactAreaTex->SetScale({ CircleSize.x, CircleSize.y, 3.0f});
+	ImpactAreaTex->SetBillboard(false);
 	ImpactAreaTex->SetRotation({90.0f, 0.0f, rotY});
-	ImpactAreaTex->SetColor({1.0f, 1.0f, 1.0f, TexAlpha});
+	ImpactAreaTex->SetColor({1.0f, 0.3f, 0.3f, TexAlpha});
 
+
+	AllAreaTex->Update(CameraControl::GetIns()->GetCamera());
+	AllAreaTex->SetScale({ 100.f,100.f, 3.0f });
+	AllAreaTex->SetBillboard(false);
+	AllAreaTex->SetRotation({ 90.0f, 0.0f, 0.f});
+	AllAreaTex->SetColor({ 0.7f, 0.7f, 0.7f, 0.7f });
+
+	RingObj->SetRotation({ 0.f, 0.f, 0.f });
+	RingObj->SetPosition({ boss->GetPosition().x, 18, boss->GetPosition().z });
+	RingObj->SetScale({ CircleSize.x*2.f,5.f,CircleSize.y*2.f});
+	RingObj->SetUVf(true);
+	RingObj->SetColor({ 1.f,0.3f,0.3f,TexAlpha });
+	RingObj->Update(CameraControl::GetIns()->GetCamera());
 	ImpactAreaTex->SetPosition({boss->GetPosition().x, 18, boss->GetPosition().z});
+	AllAreaTex->SetPosition({ boss->GetPosition().x, 18, boss->GetPosition().z });
 
 	//釘オブジェの更新
-	for (int i = 0; i < NailObj.size(); i++)
-	{
-		NailObj[i]->SetScale({3.0f, 3.0f, 3.0f});
-		NailObj[i]->Update(CameraControl::GetIns()->GetCamera());
-	}
-	TexAlpha = min(TexAlpha, 1.0f);
-	TexAlpha = max(TexAlpha, 0.0f);
-
+	
 	Nail::GetIns()->Update();
 }
 
@@ -96,118 +106,46 @@ void CircleAttack::Draw()
 {
 	Texture::PreDraw();
 
-	ImpactAreaTex->Draw();
+	//AllAreaTex->Draw();
+	//ImpactAreaTex->Draw();
 
 	Texture::PostDraw();
-	if (_phase == PHASE_THREE)
-	{
-		for (int i = 0; i < NailObj.size(); i++)
-		{
-			Object3d::PreDraw();
-			NailObj[i]->Draw();
-			Object3d::PostDraw();
-		}
-	}
-	Nail::GetIns()->Draw();
+	Object3d::PreDraw();
+	//RingObj->Draw();
+	Object3d::PostDraw();
 }
 
 void CircleAttack::CollisonNailPlayer()
 {
 	const int Damage = 20;
-
-	if (Collision::GetLength(NailObj[0]->GetPosition(), PlayerControl::GetIns()->GetPlayer()->GetPosition()) < 300)
-	{
-		//PlayerControl::GetIns()->GetPlayer()->RecvDamage(300);
-	}
+	
 }
 
-void CircleAttack::PierceNail()
-{
-	TexAlpha = 1.0f;
-
-	//釘生成
-	NailObj.resize(1);
-	for (int i = 0; i < NailObj.size(); i++)
-	{
-		NailObj[i] = std::make_unique<Object3d>();
-		//フィールドにモデル割り当て
-		NailObj[i]->Initialize(CameraControl::GetIns()->GetCamera());
-		NailObj[i]->SetModel(ModelManager::GetIns()->GetModel(ModelManager::NAIL));
-	}
-	//ビルボード切る(標準がtrueなので、、)
-	ImpactAreaTex->SetBillboard(false);
-
-	//Direction.y->釘のY座標と同じ
-	if (Direction[Area1].y > -17.0f)
-	{
-		Direction[Area1].y--;
-		Direction[Area2].y--;
-	}
-	else
-	{
-		_phase = PHASE_TWO;
-	}
-	//座標合わせる
-	NailObj[0]->SetPosition(Direction[Area1]);
-}
 
 void CircleAttack::DamageAreaTexSet()
 {
 	const float EaseC = 0.01f;
 	const XMFLOAT2 DamageAreaTex_Max = {10.0f, 10.0f};
-	if (Nail::GetIns()->GetEndAction_Circle())
-	{
-		Nail::GetIns()->SetEndAction_Circle(false);
-	}
+	
 	//ダメージエリアの円ひろがる
 	CircleAreaTime += EaseC;
 
 	if (CircleAreaTime <= 1.0f)
 	{
-		CircleSize.x = Easing::EaseOut(CircleAreaTime, 0.0f, DamageAreaTex_Max.x);
-		CircleSize.y = Easing::EaseOut(CircleAreaTime, 0.0f, DamageAreaTex_Max.y);
+		TexAlpha = Easing::EaseOut(CircleAreaTime, 1.0f, 0.f);
+		CircleSize.x += 0.2f;
+		CircleSize.y += 0.2f;
 	}
-	AttackCount = 0;
-
-	if (CircleAreaTime >= 2.0f)
+	if (CircleAreaTime >= 1.0f)
 	{
-		_phase = PHASE_THREE; //円の大きさが最大超えたら次へ
+		CircleSize = { 0.f,0.f};
+		CircleAreaTime = 0.f; //円の大きさが最大超えたら次へ
 	}
 }
 
-void CircleAttack::ProtrudeNail()
-{
-	Nail::GetIns()->CircleAttack(Area1, Area2);
-
-	CollisonNailPlayer();
-
-	CircleAreaTime = 0;
-	Direction[Area1].y++;
-	Direction[Area2].y++;
-
-	XMFLOAT3 Bpos = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
-	//float Ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition().x;
-	XMFLOAT3 Ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
-
-	NailObj[0]->SetPosition(Direction[Area1]);
-	TexAlpha -= 0.01f;
-	if (Nail::GetIns()->GetEndAction_Circle())
-	{
-		_phase = PHASE_FOUR;
-	}
-}
 
 void CircleAttack::EndAttackAction()
 {
 	TexAlpha = 0.5f;
-
-	Direction[NORTH] = {0.0f, 0.0f, 60.0f};
-	Direction[SOUTH] = {0.0f, 0.0f, -60.0f};
-	Direction[EAST] = {60.0f, 0.0f, 0.0f};
-	Direction[WEST] = {-60.0f, 0.0f, 0.0f};
-
-	NailObj[0]->SetPosition(Direction[Area1]);
-
 	CircleSize = {0.0f, 0.0f};
-	NailObj.clear();
 }

@@ -111,10 +111,13 @@ public:
 	//À•W‚Ì‰Ÿ‚µ–ß‚µ
 	inline void isOldPos()
 	{
+		isOld = true;
+		//Gmove.m128_f32[0] = 0.f;
+		//Gmove.m128_f32[2] = 0.f;
 		Position.x = oldpos.x;
 		Position.z = oldpos.z;
 	}
-	
+	bool isOld;
 private:
 	//‘–‚Á‚½‚Ì“y‰Œ
 	std::unique_ptr<Particle> runparticle;

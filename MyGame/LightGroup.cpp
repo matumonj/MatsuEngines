@@ -1,6 +1,9 @@
 #include "LightGroup.h"
 #include <assert.h>
+
+#include "BossScene.h"
 #include"DirectXCommon.h"
+#include "EnemyControl.h"
 using namespace DirectX;
 
 /// <summary>
@@ -323,3 +326,4 @@ void LightGroup::SetCircleShadowFactorAngle(int index, const XMFLOAT2& lightFact
 	circleShadows[index].SetFactorAngle(lightFactorAngle);
 	dirty = true;
 }
+

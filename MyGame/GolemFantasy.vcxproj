@@ -109,10 +109,12 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BossEnemyAttackCross.cpp" />
     <ClCompile Include="BossEnemyAttackThrow.cpp" />
     <ClCompile Include="BossEnemyShieldGuard.cpp" />
     <ClCompile Include="EnemyReturnCreatePos.cpp" />
     <ClCompile Include="FootSwitch.cpp" />
+    <ClCompile Include="LineCrossAttack.cpp" />
     <ClCompile Include="PlaceFootSwitch.cpp" />
     <ClCompile Include="RushAttack.cpp" />
     <ClCompile Include="AreaFence.cpp" />
@@ -256,10 +258,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BossAttackActionManager.h" />
+    <ClInclude Include="BossEnemyAttackCross.h" />
     <ClInclude Include="BossEnemyAttackThrow.h" />
     <ClInclude Include="BossEnemyShieldGuard.h" />
     <ClInclude Include="EnemyReturnCreatePos.h" />
     <ClInclude Include="FootSwitch.h" />
+    <ClInclude Include="LineCrossAttack.h" />
     <ClInclude Include="PlaceFootSwitch.h" />
     <ClInclude Include="RushAttack.h" />
     <ClInclude Include="AreaFence.h" />
@@ -416,12 +420,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="BasicDS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Domain</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Domain</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
-    </FxCompile>
     <FxCompile Include="BasicHS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Hull</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>

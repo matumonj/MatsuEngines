@@ -13,8 +13,8 @@ void BossEnemyAttackCircle::Update(Enemy* enemy)
 {
 	enemy->SetAnimation(BossEnemy::NowAttackMotion::BROAR, false, 1.f);
 	enemy->SetRecvDamage2(false);
-	PlayerControl::GetIns()->GetPlayer()->KnockBack(enemy->GetPosition());
 
+	PlayerControl::GetIns()->GetPlayer()->KnockBack(enemy->GetPosition());
 	if (enemy->GetAnimationTime() >= enemy->GetFbxTimeEnd() - 0.1f)
 	{
 		enemy->SetRecvDamage2(false);

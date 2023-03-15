@@ -14,6 +14,7 @@
 #include "KnockAttack.h"
 #include"UltAttack.h"
 #include"BronzeAttack.h"
+#include "LineCrossAttack.h"
 #include"ThrowRockAttack.h"
 /// <summary>
 /// コンストラクタ
@@ -31,6 +32,7 @@ BossEnemy::BossEnemy()
 	BossAttackAction.emplace_back(UltAttack::GetIns());
 	BossAttackAction.emplace_back(BronzeAttack::GetIns());
 	BossAttackAction.emplace_back(ThrowRockAttack::GetIns());
+	BossAttackAction.emplace_back(LineCrossAttack::GetIns());
 	//BossAttackAction.emplace_back(HalfAttack::GetIns());
 }
 
@@ -152,7 +154,8 @@ void BossEnemy::Update()
 	//FbxAnimationControl();
 	//座標やスケールの反映
 	m_fbxObject->SetColor({1.0f, 1.0f, 1.0f, alpha});
-	m_fbxObject->SetPosition({Position.x, Position.y + 1.4f, Position.z});
+	
+	m_fbxObject->SetPosition({Position.x, Position.y +1.4f, Position.z});
 	m_fbxObject->SetRotation(Rotation);
 	m_fbxObject->SetScale(Scale);
 
@@ -203,28 +206,7 @@ void BossEnemy::Update()
 
 void BossEnemy::ColPlayer()
 {
-	Player* l_player = PlayerControl::GetIns()->GetPlayer();
-	if (l_player == nullptr)
-	{
-		return;
-	}
-	playerOBB.SetOBBParam_Pos(l_player->GetPosition());
-	playerOBB.SetOBBParam_Scl({ 1.0f, 1.0f, 1.0f });
-	playerOBB.SetOBBParam_Rot(l_player->GetMatrot());
-
-	OBB bossObb;
-	//OBB 回転ベクトル
-	bossObb.SetOBBParam_Pos(m_Object->GetPosition());
-	bossObb.SetOBBParam_Scl({ 6.0f, 20.0f, 6.0f });
-	bossObb.SetOBBParam_Rot(m_Object->GetMatrot());
-
-	if (Collision::GetLength(l_player->GetPosition(), Position) < 20)
-	{
-		if (Collision::CheckOBBCollision(playerOBB, bossObb) == true)
-		{
-			l_player->isOldPos();
-		}
-	}
+	
 }
 
 void BossEnemy::AttackCollide()
@@ -368,7 +350,7 @@ void BossEnemy::AttackCoolTime()
 	}
 	else
 	{
-		if (m_Number == BNORMAL)
+		if (m_Number == BNORMAL|| m_Number == BNORMAL2)
 		{
 			AfterAttack = true;
 		}

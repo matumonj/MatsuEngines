@@ -237,6 +237,9 @@ public: // メンバ関数
 	/// <param name="lightFactorAngle">x:減衰開始角度 y:減衰終了角度</param>
 	void SetCircleShadowFactorAngle(int index, const XMFLOAT2& lightFactorAngle);
 
+
+	void LightUpdate();
+
 private: // メンバ変数
 	// 定数バッファ
 	ComPtr<ID3D12Resource> constBuff;

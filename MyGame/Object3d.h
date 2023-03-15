@@ -67,7 +67,13 @@ private: // 定数
 	float alpha;
 	// 定数バッファ
 	ComPtr<ID3D12Resource> constBuff;
-
+	typedef struct _CBUFFER1
+	{
+		float g_fTessFactor;       // ポリゴンのエッジのテッセレーション係数
+		float g_fInsideTessFactor; // ポリゴン内部のテッセレーション係数
+		float g_Dummy2;
+		float g_Dummy3;
+	}CBUFFER1;
 private: // 定数
 	float dislen;
 	XMFLOAT3 FogCenter;

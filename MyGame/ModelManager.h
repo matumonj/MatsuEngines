@@ -52,7 +52,8 @@ public:
 		SWITCH,
 		CAGE,
 		TORCH,
-		CHARGEEFFECT
+		CHARGEEFFECT,
+		RING
 	};
 
 	enum FBXName

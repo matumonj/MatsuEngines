@@ -6,8 +6,6 @@ cbuffer Param : register(b0)
 	float cbInsideFactor;//三角形の内部の分割量の指定
 };
 
-
-// パッチ定数関数の定義
 #define NUM_CONTROL_POINTS 3
 HS_CONSTANT_DATA_OUTPUT CalcHSPatchConstants(
 	InputPatch<VSOutput, NUM_CONTROL_POINTS> ip,
@@ -33,9 +31,9 @@ HS_CONTROL_POINT_OUTPUT main(
 	uint PatchID : SV_PrimitiveID)
 {
 	HS_CONTROL_POINT_OUTPUT Output;
-	Output.svpos = inputPatch[i].svpos;
+	Output.svpos =inputPatch[i].svpos;
 	Output.normal = inputPatch[i].normal;
 	Output.uv = inputPatch[i].uv;
-	Output.worldpos=inputPatch[i].worldpos;
+	Output.worldpos = inputPatch[i].worldpos;
 	return Output;
 }

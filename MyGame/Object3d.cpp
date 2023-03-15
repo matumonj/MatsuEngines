@@ -404,55 +404,7 @@ bool Object3d::InitializeGraphicsPipeline()
 		OutputDebugStringA(errstr.c_str());
 		exit(1);
 	}
-
-	// ピクセルシェーダの読み込みとコンパイル
-	result = D3DCompileFromFile(
-		//L"Resources/shaders/BasicPixelShader.hlsl",	// シェーダファイル名
-		L"BasicHS.hlsl",
-		nullptr,
-		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
-		"main", "hs_5_0", // エントリーポイント名、シェーダーモデル指定
-		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // デバッグ用設定
-		0,
-		&gsBlob, &errorBlob);
-	if (FAILED(result))
-	{
-		// errorBlobからエラー内容をstring型にコピー
-		std::string errstr;
-		errstr.resize(errorBlob->GetBufferSize());
-
-		std::copy_n(static_cast<char*>(errorBlob->GetBufferPointer()),
-			errorBlob->GetBufferSize(),
-			errstr.begin());
-		errstr += "\n";
-		// エラー内容を出力ウィンドウに表示
-		OutputDebugStringA(errstr.c_str());
-		exit(1);
-	}
-	// ピクセルシェーダの読み込みとコンパイル
-	result = D3DCompileFromFile(
-		//L"Resources/shaders/BasicPixelShader.hlsl",	// シェーダファイル名
-		L"BasicDS.hlsl",
-		nullptr,
-		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
-		"main", "ds_5_0", // エントリーポイント名、シェーダーモデル指定
-		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // デバッグ用設定
-		0,
-		&gsBlob, &errorBlob);
-	if (FAILED(result))
-	{
-		// errorBlobからエラー内容をstring型にコピー
-		std::string errstr;
-		errstr.resize(errorBlob->GetBufferSize());
-
-		std::copy_n(static_cast<char*>(errorBlob->GetBufferPointer()),
-			errorBlob->GetBufferSize(),
-			errstr.begin());
-		errstr += "\n";
-		// エラー内容を出力ウィンドウに表示
-		OutputDebugStringA(errstr.c_str());
-		exit(1);
-	}
+	
 	// ピクセルシェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
 		//L"Resources/shaders/BasicPixelShader.hlsl",	// シェーダファイル名

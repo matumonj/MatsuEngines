@@ -11,14 +11,15 @@
 #include"PlayerControl.h"
 #include "GameOver.h"
 #include "HalfAttack.h"
+#include "LineCrossAttack.h"
 #include "mHelper.h"
-#include "Nail.h"
-#include "SelectSword.h"
 #include "UltAttack.h"
+#include <SelectSword.h>
 
 BossScene::BossScene(SceneManager* sceneManager)
 	: BaseScene(sceneManager)
 {
+	
 }
 
 /*------------------------*/
@@ -49,10 +50,6 @@ void BossScene::Initialize()
 	lightGroup->SetCircleShadowActive(PLAYER, true);
 	lightGroup->SetCircleShadowActive(BOSSENEMY, true);
 
-	for (int i = 0; i < 4; i++)
-	{
-		lightGroup->SetSpotLightActive(i, false);
-	}
 	for (int i = 4; i < 10; i++)
 	{
 		lightGroup->SetSpotLightActive(i, true);
@@ -146,9 +143,7 @@ void BossScene::MyGameDraw()
 	if (Feed::GetIns()->GetAlpha() < 1.0f)
 	{
 		for (auto obj : AllObjectControl)
-		{
 			obj->Draw();
-		}
 	}
 	SelectSword::GetIns()->SwordDraw();
 }
@@ -159,39 +154,13 @@ void BossScene::MyGameDraw()
 void BossScene::Draw()
 {
 	//ポストエフェクトの場合わけ(Bでぼかし Dがデフォルト)
-	switch (c_postEffect)
-	{
-	case Blur: //ぼかし　描画準違うだけ
 		postEffect->PreDrawScene();
 		MyGameDraw();
-
 		postEffect->PostDrawScene();
-
 		DirectXCommon::GetIns()->BeginDraw();
 		postEffect->Draw();
 		SpriteDraw();
-
 		DirectXCommon::GetIns()->EndDraw();
-		break;
-
-	case Default: //普通のやつ特に何もかかっていない
-		postEffect->PreDrawScene();
-		MyGameDraw();
-
-		postEffect->PostDrawScene();
-
-		DirectXCommon::GetIns()->BeginDraw();
-		postEffect->Draw();
-		//MyGameDraw();
-		SpriteDraw();
-		ImGui::Begin("Lights");
-		ImGui::SliderFloat("spox", &spotangle.x, 0, 100);
-		ImGui::SliderFloat("spoy", &spotangle.y, 0, 100);
-		//ImGui::SliderFloat()
-		ImGui::End();
-		DirectXCommon::GetIns()->EndDraw();
-		break;
-	}
 }
 
 /*------------------------*/
