@@ -266,19 +266,19 @@ void BronzeAttack::Phase_Bom()
 	XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 	for (int i = 0; i < BeamObj.size(); i++)
 	{
-		scalingETime[i] += 0.04f;
-		if (scalingETime[i] >= 1.5f)
+		scalingETime[i] +=l_EaseSpeed;
+		if (scalingETime[i] >= l_maxeaseCount)
 		{
 			_phase = PHASE_THREE;
 		}
 		if (scalingETime[i] < 1.0f)
 		{
-			BeamObjScl[i].x = Easing::EaseOut(scalingETime[i], 0.0f, 6.f);
-			BeamObjScl[i].z = Easing::EaseOut(scalingETime[i], 0.0f, 6.f);
+			BeamObjScl[i].x = Easing::EaseOut(scalingETime[i], l_minScl, l_maxScl);
+			BeamObjScl[i].z = Easing::EaseOut(scalingETime[i], l_minScl, l_maxScl);
 		}
 
-		BeamObjScl[i].x = std::clamp(BeamObjScl[i].x, 0.f, 6.f);
-		BeamObjScl[i].z = std::clamp(BeamObjScl[i].z, 0.0f, 6.f);
+		BeamObjScl[i].x = std::clamp(BeamObjScl[i].x, l_minScl, l_maxScl);
+		BeamObjScl[i].z = std::clamp(BeamObjScl[i].z, l_minScl, l_maxScl);
 
 		if (Collision::GetLength(ppos, BeamObj[i]->GetPosition()) < 14.f)
 		{
@@ -292,15 +292,15 @@ void BronzeAttack::Phase_MakeSmall()
 	XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 
 	TexAlpha = 1.f;
+
 	for (int i = 0; i < BeamObj.size(); i++)
 	{
-		scalingETime[i] -= 0.04f;
+		scalingETime[i] -= l_EaseSpeed;
+		BeamObjScl[i].x = Easing::EaseOut(scalingETime[i], l_minScl, l_maxScl);
+		BeamObjScl[i].z = Easing::EaseOut(scalingETime[i], l_minScl, l_maxScl);
 
-		BeamObjScl[i].x = Easing::EaseOut(scalingETime[i], 0.0f, 6.f);
-		BeamObjScl[i].z = Easing::EaseOut(scalingETime[i], 0.0f, 6.f);
-
-		BeamObjScl[i].x = std::clamp(BeamObjScl[i].x, 0.f, 6.f);
-		BeamObjScl[i].z = std::clamp(BeamObjScl[i].z, 0.f, 6.f);
+		BeamObjScl[i].x = std::clamp(BeamObjScl[i].x, 0.f, l_maxScl);
+		BeamObjScl[i].z = std::clamp(BeamObjScl[i].z, l_minScl, l_maxScl);
 	}
 	if (scalingETime[4] <= 0.0f)
 	{
@@ -310,8 +310,12 @@ void BronzeAttack::Phase_MakeSmall()
 
 void BronzeAttack::Phase_TexFade()
 {
+	//‰Šú‰»”X
 	TexAlpha -= 0.02f;
-	if (TexAlpha < 0.0f)
+
+	bool l_initJudg = TexAlpha < 0.f;
+
+	if (l_initJudg)
 	{
 		TexScl = {0.0f, 0.0f};
 		TexAlpha = 0.f;

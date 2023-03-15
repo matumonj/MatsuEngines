@@ -5,9 +5,11 @@
 #include"PlayerControl.h"
 #include"BossEnemy.h"
 #include "BossEnemyAttackCircle.h"
+#include "BossEnemyAttackCross.h"
 #include "BossEnemyDeath.h"
 #include "BossEnemyEvasion.h"
 #include "BossEnemyShieldGuard.h"
+#include "LineCrossAttack.h"
 #include "UI.h"
 
 void BossEnemyAttack::Initialize(Enemy* enmey)
@@ -23,11 +25,18 @@ void BossEnemyAttack::Update(Enemy* enemy)
 		//被ダメージ時
 		//乱数を生成し値が一定以上なら怯み状態
 		Evaprobability = rand() % 100 + 1;
-		
-		 if(Evaprobability > 75)
+		 if(Evaprobability > 79)
 		{
-			enemy->ChangeState_Boss(new BossEnemyShieldGuard());
-		}else if (Evaprobability > 40)
+			 if (enemy->GetAttack_End(enemy->ULT)) {
+				 enemy->ChangeState_Boss(new BossEnemyShieldGuard());
+			 }
+			 else
+			 {
+				 LineCrossAttack::GetIns()->SetAttackPhase(true);
+				 enemy->ChangeState_Boss(new BossEnemyAttackCross());
+			 }
+			}
+		else if (Evaprobability > 40)
 		{
 			PlayerControl::GetIns()->GetPlayer()->SetKnockF(true);
 
@@ -36,6 +45,15 @@ void BossEnemyAttack::Update(Enemy* enemy)
 
 			//enemy->ChangeState_Boss(new BossEnemyFalter());
 		}
+		else if (Evaprobability > 20)
+		 {
+			 PlayerControl::GetIns()->GetPlayer()->SetKnockF(true);
+
+			 UI::GetIns()->SetRadBlur(true);
+			 enemy->ChangeState_Boss(new BossEnemyAttackCircle());
+
+			 //enemy->ChangeState_Boss(new BossEnemyFalter());
+		 }
 		else
 		{
 			enemy->ChangeState_Boss(new BossEnemyFollow());

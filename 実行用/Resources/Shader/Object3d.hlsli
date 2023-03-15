@@ -29,6 +29,18 @@ float m_alpha : packoffset(c2.w); // アルファ
 }
 
 
+struct Point
+{
+	float x;
+	float y;
+};
+
+struct Line2D
+{
+	float2 start;
+	float2 end;
+};
+
 // 平行光源の数
 static const int DIRLIGHT_NUM = 3;
 
@@ -76,17 +88,6 @@ struct CircleShadow
 	uint active;
 };
 
-struct Point
-{
-	float x;
-	float y;
-};
-
-struct Line2D
-{
-	float2 start;
-	float2 end;
-};
 cbuffer cbuff2 : register(b2)
 {
 float3 ambientColor;
@@ -129,4 +130,57 @@ struct GSOutput
 	float4 worldpos : POSITION; // ワールド座標
 	float3 normal:NORMAL;
 	float2 uv:TEXCOORD;
+};
+
+//頂点シェーダーからハルシェーダーに渡す構造体
+struct HsInput
+{
+	float4 svpos:SV_POSITION;
+	float4 worldpos : POSITION; // ワールド座標
+	float3 normal:NORMAL;
+	float2 uv:TEXCOORD;
+};
+
+//ハルシェーダーからテッセレーター経由でドメインシェーダーに渡す構造体
+struct HsControlPointOutput
+{
+	float3 position : POSITION;
+	float3 normal : NORMAL;
+	float2 texCoord : TEXCOORD;
+};
+
+//Patch-Constant-Functionからテッセレーター経由でドメインシェーダーに渡す構造体
+struct HsConstantOutput
+{
+	float tessFactor[3] : SV_TessFactor;
+	float insideTessFactor : SV_InsideTessFactor;
+};
+
+//出力データ
+struct DS_OUTPUT
+{
+	float4 svpos:SV_POSITION;
+	float4 worldpos : POSITION; // ワールド座標
+	float3 normal:NORMAL;
+	float2 uv:TEXCOORD;
+};
+// テッセレータが出力した頂点
+struct HS_CONTROL_POINT_OUTPUT
+{
+		float4 svpos:SV_POSITION;
+		float4 worldpos : POSITION; // ワールド座標
+		float3 normal:NORMAL;
+		float2 uv:TEXCOORD;
+};
+// 出力パッチ定数データ。
+struct HS_CONSTANT_DATA_OUTPUT
+{
+	float EdgeTessFactor[3] : SV_TessFactor;
+	float InsideTessFactor : SV_InsideTessFactor;
+};
+//ドメインシェーダーからフラグメントシェーダーに渡す構造体
+struct DsOutput
+{
+	float4 svpos:SV_POSITION;
+	
 };

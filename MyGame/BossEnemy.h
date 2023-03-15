@@ -125,6 +125,9 @@ private:
 
 private:
 	OBB ShieldOBB;
+
+	XMFLOAT3 ShieldScl;
+	XMFLOAT3 SwordScl;
 public:
 	OBB GetShieldOBB() { return ShieldOBB; }
 

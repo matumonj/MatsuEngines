@@ -74,8 +74,7 @@ bool IsCollidinglinesAndCircle(Line2D lines, Point circle)
 // 点の入力から、四角形を出力
 [maxvertexcount(vnum)]
 void main(
-	triangle VSOutput input[3]:SV_POSITION,
-	//point VSOutput input[1] : SV_POSITION,
+	triangle VSOutput input[3] : SV_POSITION,
 	inout TriangleStream<GSOutput> output
 )
 {
@@ -124,7 +123,8 @@ void main(
 		{
 			element.svpos = input[i].svpos;
 		}
-
+		// 法線にワールド行列によるスケーリング・回転を適用
+		//float4 wnormal =input->normal;
 		element.normal = input[i].normal;
 		element.uv = input[i].uv;
 

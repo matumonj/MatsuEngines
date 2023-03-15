@@ -137,12 +137,19 @@ void PlayerControl::Update_Boss()
 void PlayerControl::DamageTexUpdate()
 {
 	constexpr float l_AlphaFeedVal = 0.02f;
-
+	if (player->GetHP() < 0)
+	{
+		vignette = 0.5f;
+	}
 	if (HUD::GetIns()->GetRecvDamageFlag())
 	{
+		vignette = 0.9f;
 		dalpha = 1.0f;
 	}
 	dalpha -= l_AlphaFeedVal;
+
+	vignette -= 0.02f;
+	vignette = max(vignette, 0.0f);
 
 	DamageTex->setcolor({1.f, 1.f, 1.f, dalpha});
 

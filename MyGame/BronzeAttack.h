@@ -70,4 +70,13 @@ private:
 	float ColorT;
 
 	bool isEndAttack;
+
+private:
+	//ビームオブジェの最大値と最小値
+	static constexpr float l_minScl = 0.f;
+	static constexpr float l_maxScl = 6.f;
+
+	static constexpr float l_EaseSpeed = 0.04f;
+	static constexpr float l_maxeaseCount = 1.5f;
+
 };

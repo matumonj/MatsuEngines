@@ -280,11 +280,12 @@ void BossEnemy::Draw()
 	{
 		return;
 	}
-	//ƒ{ƒX•Ší•`‰æ
-	Object3d::PreDraw();
-	Sword->Draw();
-	ShieldObj->Draw();
-	Object3d::PostDraw();
+		//ƒ{ƒX•Ší•`‰æ
+		Object3d::PreDraw();
+		Sword->Draw();
+		ShieldObj->Draw();
+		Object3d::PostDraw();
+	
 
 	//ƒ{ƒX“G•`‰æ
 	Draw_Fbx();

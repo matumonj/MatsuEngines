@@ -9,6 +9,7 @@ float3 vignettecol;
 bool bloomf;
 float3 fogcol;
 float bloomalpha;
+float2 centerpos;
 };
 
 struct Output

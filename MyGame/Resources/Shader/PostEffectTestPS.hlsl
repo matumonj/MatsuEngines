@@ -25,11 +25,11 @@ float3 BloomPixel(SamplerState smp, float2 uv, float2 texPixelSize)
 	return lerp(tA, tB, f.y);
 }
 
-float2 Vignette(float2 uv)
+float3 Vignette(float2 uv)
 {
 	float v = length(float2(0.5, 0.5) - uv);
 	v = clamp(v - 0.f, 0.f, 1.f);
-	return float2(vignettecol.g * v, vignettecol.b * v);
+	return float3(1.f,vignettecol.g * v, vignettecol.b * v);
 }
 
 float3 Fog()
@@ -72,9 +72,7 @@ float4 main(Output input) : SV_TARGET
 
 	// ブルーム
 	
-	col.rgb += bloom(smp, input.uv).rgb;
-	
-	//col.gb -= Vignette(input.uv);
+	//col.rgb += bloom(smp, input.uv).rgb
 
 	float4 colors[10];
 	float2 ViewportOffset = (float2(0.5, 0.5) / float2(1900,1000));
@@ -98,6 +96,8 @@ float4 main(Output input) : SV_TARGET
 	float4 Color = float4(0.0f, 0.0f, 0.0f, 0.0f);
 	Color = (colors[0] + colors[1] + colors[2] + colors[3] + colors[4]
 		+ colors[5] + colors[6] + colors[7] + colors[8] + colors[9]);
+	Color.gb -= Vignette(input.uv).gb;
+	
 	return float4(Color.xyz,1);
 	
 	// ボケ画像を出力

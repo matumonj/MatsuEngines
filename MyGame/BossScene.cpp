@@ -91,21 +91,23 @@ void BossScene::Update()
 	//ライティング更新
 	LightUpdate();
 
+	postEffect->SetVignette_GB(PlayerControl::GetIns()->GetVignetteAlpha());
 	//ゲームオーバー時の初期化
 	GameOver::GetIns()->Update();
 
 	ChangeScene();
 
-	XMFLOAT3 Position = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
-	XMVECTOR tex2DPos = { Position.x, Position.y + 5.f, Position.z };
-	tex2DPos = MatCal::PosDivi(tex2DPos, CameraControl::GetIns()->GetCamera()->GetViewMatrix(), false);
-	tex2DPos = MatCal::PosDivi(tex2DPos, CameraControl::GetIns()->GetCamera()->GetProjectionMatrix(), true);
-	tex2DPos = MatCal::WDivi(tex2DPos, false);
-	tex2DPos = MatCal::PosDivi(tex2DPos, CameraControl::GetIns()->GetCamera()->GetViewPort(), false);
+	if (EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0] != nullptr) {
+		XMFLOAT3 Position = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
+		XMVECTOR tex2DPos = { Position.x, Position.y + 5.f, Position.z };
+		tex2DPos = MatCal::PosDivi(tex2DPos, CameraControl::GetIns()->GetCamera()->GetViewMatrix(), false);
+		tex2DPos = MatCal::PosDivi(tex2DPos, CameraControl::GetIns()->GetCamera()->GetProjectionMatrix(), true);
+		tex2DPos = MatCal::WDivi(tex2DPos, false);
+		tex2DPos = MatCal::PosDivi(tex2DPos, CameraControl::GetIns()->GetCamera()->GetViewPort(), false);
 
-	postEffect->SetBloomCenter(XMFLOAT2(tex2DPos.m128_f32[0], tex2DPos.m128_f32[1]));
-	postEffect->SetBloomAlpha(UI::GetIns()->GetBlurPower());
-
+		postEffect->SetBloomCenter(XMFLOAT2(tex2DPos.m128_f32[0], tex2DPos.m128_f32[1]));
+		postEffect->SetBloomAlpha(UI::GetIns()->GetBlurPower());
+	}
 }
 
 
