@@ -113,11 +113,12 @@ void PlayScene::LightUpdate()
 
 	for (int i = 0; i < 10; i++)
 	{
-		if (EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetObjAlpha() <=0.f||
-			Collision::GetLength(ppos, EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetPosition())>200.f)
+		if (EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetObjAlpha() <= 0.f ||
+			Collision::GetLength(ppos, EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetPosition()) >
+			200.f)
 		{
 			//lightGroup->SetCircleShadowFactorAngle(i + 4, {0, 0});
-			lightGroup->SetCircleShadowActive(i+4, false);
+			lightGroup->SetCircleShadowActive(i + 4, false);
 			//continue;
 		}
 		else

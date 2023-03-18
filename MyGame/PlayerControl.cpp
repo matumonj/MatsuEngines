@@ -11,6 +11,7 @@
 
 #include"HUD.h"
 #include"CameraControl.h"
+
 PlayerControl* PlayerControl::GetIns()
 {
 	static PlayerControl instance;
@@ -37,7 +38,7 @@ void PlayerControl::Init_Play()
 	StartPos = {53.0f, -20.0f, -189.0f};
 
 	player->SetHP(player->GetMaxHP());
-	
+
 	player->SetPosition(StartPos);
 	AttackCollision::GetIns()->Init();
 }
@@ -154,8 +155,7 @@ void PlayerControl::DamageTexUpdate()
 
 	DamageTex->setcolor({1.f, 1.f, 1.f, dalpha});
 
-	dalpha =std::clamp(dalpha, 0.0f,1.f);
-	
+	dalpha = std::clamp(dalpha, 0.0f, 1.f);
 }
 
 void PlayerControl::DamageTexDraw()
@@ -180,7 +180,6 @@ void PlayerControl::Draw_Play()
 		return;
 	}
 	player->Draw();
-	
 }
 
 void PlayerControl::Draw_Tutorial()

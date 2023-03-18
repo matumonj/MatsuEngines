@@ -5,17 +5,19 @@ matrix viewproj; // ビュープロジェクション行列
 matrix world; // ワールド行列
 float3 cameraPos; // カメラ座標（ワールド座標）
 bool gsflag;
+float3 ks2;
 bool flag;
+float3 ks3;
 float time;
+float3 ks4;
 bool destF;
-	float desttime;
-
-//float3 destcenter;
-float dislen;
+float3 destcenter;
+float desttime;
+bool shadowf;
 float3 playerpos;
+float dislen;
+float3 pd5;
 bool bloomf;
-	bool shadowf;
-	float2 pading;
 };
 
 cbuffer cbuff1 : register(b1)
@@ -162,23 +164,25 @@ struct DS_OUTPUT
 	float3 normal:NORMAL;
 	float2 uv:TEXCOORD;
 };
+
 // テッセレータが出力した頂点
 struct HS_CONTROL_POINT_OUTPUT
 {
-		float4 svpos:SV_POSITION;
-		float4 worldpos : POSITION; // ワールド座標
-		float3 normal:NORMAL;
-		float2 uv:TEXCOORD;
+	float4 svpos:SV_POSITION;
+	float4 worldpos : POSITION; // ワールド座標
+	float3 normal:NORMAL;
+	float2 uv:TEXCOORD;
 };
+
 // 出力パッチ定数データ。
 struct HS_CONSTANT_DATA_OUTPUT
 {
 	float EdgeTessFactor[3] : SV_TessFactor;
 	float InsideTessFactor : SV_InsideTessFactor;
 };
+
 //ドメインシェーダーからフラグメントシェーダーに渡す構造体
 struct DsOutput
 {
 	float4 svpos:SV_POSITION;
-	
 };

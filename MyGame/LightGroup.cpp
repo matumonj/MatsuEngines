@@ -326,4 +326,3 @@ void LightGroup::SetCircleShadowFactorAngle(int index, const XMFLOAT2& lightFact
 	circleShadows[index].SetFactorAngle(lightFactorAngle);
 	dirty = true;
 }
-

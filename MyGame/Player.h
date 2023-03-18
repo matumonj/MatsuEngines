@@ -60,7 +60,7 @@ public:
 	{
 		return m_fbxObject->ExtractRotationMat(m_fbxObject->GetMatRot());
 	}
-	
+
 	//‘Ì—Í
 	constexpr int& GetHP() { return HP; }
 	//‘Ì—ÍÅ‘å’l
@@ -93,7 +93,13 @@ private:
 
 	void DamageFlash();
 public:
-	void SetKnockF(bool f) { KnockPower = 2.f; KnockEase = 0.f; KnockF = f; }
+	void SetKnockF(bool f)
+	{
+		KnockPower = 2.f;
+		KnockEase = 0.f;
+		KnockF = f;
+	}
+
 	void KnockBack(XMFLOAT3 pos);
 private:
 	float KnockPower;
@@ -109,7 +115,7 @@ private:
 	void Evasion();
 public:
 	//À•W‚Ì‰Ÿ‚µ–ß‚µ
-	inline void isOldPos()
+	void isOldPos()
 	{
 		isOld = true;
 		//Gmove.m128_f32[0] = 0.f;
@@ -117,6 +123,7 @@ public:
 		Position.x = oldpos.x;
 		Position.z = oldpos.z;
 	}
+
 	bool isOld;
 private:
 	//‘–‚Á‚½‚Ì“y‰Œ

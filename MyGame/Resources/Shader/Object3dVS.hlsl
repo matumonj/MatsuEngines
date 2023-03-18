@@ -24,7 +24,9 @@ float noise(float2 st)
 		(c - a) * u.y * (1.0 - u.x) +
 		(d - b) * u.x * u.y;
 }
+
 #define OCTAVES 6
+
 float fbm(float2 st)
 {
 	// Initial values
@@ -65,7 +67,7 @@ VSOutput main(float4 pos : POSITION, float3 normal : NORMAL, float2 uv : TEXCOOR
 	float4 wpos = mul(world, pos);
 
 	VSOutput output; // ピクセルシェーダーに渡す値
-	output.svpos= mul(mul(viewproj, world), pos);
+	output.svpos = mul(mul(viewproj, world), pos);
 
 	output.worldpos = mul(world, pos);
 	output.normal = wnormal.xyz;

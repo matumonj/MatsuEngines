@@ -112,7 +112,6 @@ void Task::Upda()
 			ClearTaskLineScl[i].y = TaskScl.y;
 			ClearTaskLineScl[i].x = Easing::EaseOut(ClearTaskLineEaseC[i], 0.f, TaskScl.x);
 			ClearTaskLineEaseC[i] = std::clamp(ClearTaskLineEaseC[i], 0.f, 1.f);
-			
 		}
 	}
 	//[宝箱回収]スプライト
@@ -331,7 +330,7 @@ void Task::OpenTasks()
 	bool l_CloseJudg = MovingFrameECount >= 1.f && Input::GetIns()->TriggerButton(Input::Y);
 	bool l_OpenJudg = MovingFrameECount <= 0.f && Input::GetIns()->TriggerButton(Input::Y);
 
-	float l_MaxEaseCount=1.f;
+	float l_MaxEaseCount = 1.f;
 	if (l_OpenJudg)
 	{
 		OpenJudg = true;
@@ -359,7 +358,7 @@ void Task::OpenTasks()
 	for (auto i = 0; i < TaskNum; i++)
 	{
 		l_MaxEaseCount = 1.f;
-		if(Judg[i])
+		if (Judg[i])
 		{
 			l_MaxEaseCount = 0.3f;
 		}

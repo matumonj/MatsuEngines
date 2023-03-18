@@ -46,7 +46,7 @@ void UI::HUDUpdate(bool& hudload, DebugCamera* camera)
 	HUD::GetIns()->SkillBottonUpdate();
 	HUD::GetIns()->Update();
 	HUD::GetIns()->TaskUpdate(camera);
-	
+
 	if (SceneManager::GetIns()->GetScene() == SceneManager::PLAY)
 	{
 		Task::GetIns()->Upda();
@@ -110,20 +110,21 @@ void UI::HUDDraw()
 	{
 		PlayerControl::GetIns()->DamageTexDraw();
 	}
-	constexpr float BlurAddVal = 0.01f;
+	constexpr float BlurAddVal = 0.02f;
 
 	constexpr float MaxBlurSmp = 90.f;
 
-	if (BlurF) {
+	if (BlurF)
+	{
 		EaseT += BlurAddVal;
 		if (EaseT > 1.f)
 		{
 			BlurF = false;
 		}
-	} else
+	}
+	else
 	{
 		EaseT -= BlurAddVal;
-		//EaseT = 0.f;
 	}
 
 	EaseT = std::clamp(EaseT, 0.f, 1.f);

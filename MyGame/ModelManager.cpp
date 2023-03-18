@@ -53,6 +53,11 @@ void ModelManager::LoadModel(const ModelName modelName, std::string fileName)
 {
 	model[modelName] = new Model();
 	model[modelName] = Model::CreateFromOBJ(fileName, true);
+
+	if (modelName == BOX)
+	{
+		model[modelName] = Model::CreateFromOBJ(fileName, false);
+	}
 }
 
 void ModelManager::LoadFBXModel(const FBXName modelName, std::string fileName)

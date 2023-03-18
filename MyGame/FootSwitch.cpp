@@ -82,7 +82,7 @@ void FootSwitch::Upda()
 		{
 			switch_param_[i].CEffectObj[j]->SetPosition(switch_param_[i].CEffectPos[j]);
 			switch_param_[i].CEffectObj[j]->SetScale(FootSwitchFrameScl);
-			switch_param_[i].CEffectObj[j]->SetColor({0.2f, 0.9f, 0.2f, switch_param_[i].CEffectAlpha[j] });
+			switch_param_[i].CEffectObj[j]->SetColor({0.2f, 0.9f, 0.2f, switch_param_[i].CEffectAlpha[j]});
 			switch_param_[i].CEffectObj[j]->Update(camera);
 		}
 	}
@@ -127,11 +127,11 @@ void FootSwitch::FootEffectUpda()
 			//ãŒÀ’l‚Ü‚Å“ž’B‚µ‚½‚ç
 			if (switch_param_[i].CEffectPos[j].y > l_PosYMax[i])
 			{
-				switch_param_[i].CEffectAlpha[j] =0.7f ;
+				switch_param_[i].CEffectAlpha[j] = 0.7f;
 				//Œ³‚ÌˆÊ’u‚É‚à‚Ç‚é
 				switch_param_[i].CEffectPos[j].y = switch_param_[i].Pos.y;
 			}
-			switch_param_[i].CEffectAlpha[j] = std::clamp(switch_param_[i].CEffectAlpha[j],0.f,1.f);
+			switch_param_[i].CEffectAlpha[j] = std::clamp(switch_param_[i].CEffectAlpha[j], 0.f, 1.f);
 		}
 	}
 }
@@ -150,12 +150,14 @@ void FootSwitch::Draw()
 		switch_param_[i].FrameObj->Draw();
 		for (auto j = 0; j < CEffectSize; j++)
 		{
-			if (switch_param_[i].CEffectAlpha[j] <= 0.f)continue;
+			if (switch_param_[i].CEffectAlpha[j] <= 0.f)
+			{
+				continue;
+			}
 			switch_param_[i].CEffectObj[j]->Draw();
 		}
 	}
 	Object3d::PostDraw();
-	
 }
 
 bool FootSwitch::FootJudg(XMFLOAT3 switchpos)

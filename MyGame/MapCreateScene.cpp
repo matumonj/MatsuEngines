@@ -64,7 +64,7 @@ void MapCreateScene::Initialize()
 void MapCreateScene::Update()
 {
 	Input::MouseMove mouseMove = Input::GetIns()->GetMouseMove();
-	
+
 	//カメラ関係の処理
 	CameraControl::GetIns()->GetCamera()->SetEye(CameraPosition);
 	CameraControl::GetIns()->GetCamera()->SetTarget({
@@ -85,7 +85,6 @@ void MapCreateScene::LightUpdate()
 
 void MapCreateScene::SpriteDraw()
 {
-	
 }
 
 //スプライと以外の描画
@@ -99,14 +98,13 @@ void MapCreateScene::MyGameDraw()
 #pragma region 描画(imguiとスプライトとモデルまとめたもの)
 void MapCreateScene::Draw()
 {
-		DirectXCommon::GetIns()->BeginDraw();
-		MyGameDraw();
-		if (DirectXCommon::GetIns()->GetFullScreen() == false)
-		{
-			ImGuiDraw();
-		}
-		DirectXCommon::GetIns()->EndDraw();
-
+	DirectXCommon::GetIns()->BeginDraw();
+	MyGameDraw();
+	if (DirectXCommon::GetIns()->GetFullScreen() == false)
+	{
+		ImGuiDraw();
+	}
+	DirectXCommon::GetIns()->EndDraw();
 }
 #pragma endregion
 

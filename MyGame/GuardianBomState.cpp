@@ -42,7 +42,7 @@ void GuardianBomState::DownMove(Enemy* enemy)
 
 	enemy->SetPosition({epos.x, epos.y -= EnemyPosYCorrVal, epos.z});
 
-	if (epos.y <l_YposMin)
+	if (epos.y < l_YposMin)
 	{
 		GuardianBomAttack::GetIns()->SetisEndAttack(TRUE);
 		enemy->ChangeState_Guardian(new GuardianFollowState());

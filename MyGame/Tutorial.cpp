@@ -97,7 +97,7 @@ void Tutorial::Update()
 		}
 	}
 	lightGroup->Update();
-	
+
 	//各オブジェクトの更新処理
 	objUpdate(); //オブジェクトの更新処理
 	//csv読み込み部分(Cameraの更新後にするのでobjUpdate()挟んでから)
@@ -214,7 +214,7 @@ void Tutorial::Draw()
 		ImGui::SliderFloat("blooms", &n, 0, 100);
 		ImGui::End();
 		SpriteDraw();
-		
+
 		DirectXCommon::GetIns()->EndDraw();
 
 		break;

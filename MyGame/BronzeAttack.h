@@ -78,5 +78,4 @@ private:
 
 	static constexpr float l_EaseSpeed = 0.04f;
 	static constexpr float l_maxeaseCount = 1.5f;
-
 };

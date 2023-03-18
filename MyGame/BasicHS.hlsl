@@ -2,11 +2,12 @@
 
 cbuffer Param : register(b0)
 {
-	float cbEdgeFactor;//三角形の辺の分割量の指定
-	float cbInsideFactor;//三角形の内部の分割量の指定
+float cbEdgeFactor; //三角形の辺の分割量の指定
+float cbInsideFactor; //三角形の内部の分割量の指定
 };
 
 #define NUM_CONTROL_POINTS 3
+
 HS_CONSTANT_DATA_OUTPUT CalcHSPatchConstants(
 	InputPatch<VSOutput, NUM_CONTROL_POINTS> ip,
 	uint PatchID : SV_PrimitiveID)
@@ -31,7 +32,7 @@ HS_CONTROL_POINT_OUTPUT main(
 	uint PatchID : SV_PrimitiveID)
 {
 	HS_CONTROL_POINT_OUTPUT Output;
-	Output.svpos =inputPatch[i].svpos;
+	Output.svpos = inputPatch[i].svpos;
 	Output.normal = inputPatch[i].normal;
 	Output.uv = inputPatch[i].uv;
 	Output.worldpos = inputPatch[i].worldpos;

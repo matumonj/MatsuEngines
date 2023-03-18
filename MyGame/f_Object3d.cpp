@@ -23,6 +23,7 @@ Camera* f_Object3d::camera = nullptr;
 ComPtr<ID3D12GraphicsCommandList> f_Object3d::cmdList = nullptr;
 
 LightGroup* f_Object3d::lightGroups = nullptr;
+
 void f_Object3d::CreateGraphicsPipeline()
 {
 	device = DirectXCommon::GetIns()->GetDev();
@@ -207,9 +208,9 @@ void f_Object3d::Initialize()
 {
 	device = DirectXCommon::GetIns()->GetDev();
 	cmdList = DirectXCommon::GetIns()->GetCmdList();
-	ambient = { 0.3f, 0.3f, 0.3f };
-	diffuse = { 0.0f, 0.0f, 0.0f };
-	specular = { 0.0f, 0.0f, 0.0f };
+	ambient = {0.3f, 0.3f, 0.3f};
+	diffuse = {0.0f, 0.0f, 0.0f};
+	specular = {0.0f, 0.0f, 0.0f};
 	alpha = 1.0f;
 	HRESULT result;
 	//定数バッファ
@@ -284,7 +285,7 @@ void f_Object3d::Updata(bool animeloop)
 		constMap->cameraPos = camera->GetEye();
 		constBuffTransform->Unmap(0, nullptr);
 	}
-	
+
 	//ボーン配列
 	std::vector<f_Model::Bone>& bones = model->GetBones();
 
@@ -322,14 +323,14 @@ void f_Object3d::Updata(bool animeloop)
 
 	ConstBufferDataB1* constMapB1 = nullptr;
 	result = constBuff->Map(0, nullptr, (void**)&constMapB1);
-	if (SUCCEEDED(result)) {
+	if (SUCCEEDED(result))
+	{
 		constMapB1->ambient = ambient;
 		constMapB1->diffuse = diffuse;
 		constMapB1->specular = specular;
 		constMapB1->alpha = alpha;
 		constBuff->Unmap(0, nullptr);
 	}
-
 }
 
 void f_Object3d::Update(bool Loop, double Speed, bool& Stop)
@@ -370,7 +371,7 @@ void f_Object3d::Update(bool Loop, double Speed, bool& Stop)
 		constMap->cameraPos = fogpos;
 		constBuffTransform->Unmap(0, nullptr);
 	}
-	
+
 
 	//ボーン配列
 	std::vector<f_Model::Bone>& bones = model->GetBones();
@@ -441,14 +442,14 @@ void f_Object3d::Update(bool Loop, double Speed, bool& Stop)
 
 	ConstBufferDataB1* constMapB1 = nullptr;
 	result = constBuff->Map(0, nullptr, (void**)&constMapB1);
-	if (SUCCEEDED(result)) {
+	if (SUCCEEDED(result))
+	{
 		constMapB1->ambient = ambient;
 		constMapB1->diffuse = diffuse;
 		constMapB1->specular = specular;
 		constMapB1->alpha = alpha;
 		constBuff->Unmap(0, nullptr);
 	}
-
 }
 
 void f_Object3d::Updata()
@@ -491,9 +492,8 @@ void f_Object3d::Updata()
 
 		constBuffTransform->Unmap(0, nullptr);
 	}
-      
 
-	
+
 	//ボーン配列
 	std::vector<f_Model::Bone>& bones = model->GetBones();
 
@@ -530,14 +530,14 @@ void f_Object3d::Updata()
 
 	ConstBufferDataB1* constMapB1 = nullptr;
 	result = constBuff->Map(0, nullptr, (void**)&constMapB1);
-	if (SUCCEEDED(result)) {
+	if (SUCCEEDED(result))
+	{
 		constMapB1->ambient = ambient;
 		constMapB1->diffuse = diffuse;
 		constMapB1->specular = specular;
 		constMapB1->alpha = alpha;
 		constBuff->Unmap(0, nullptr);
 	}
-
 }
 
 void f_Object3d::GetBoneIndexMat(int index, XMMATRIX& matworld)

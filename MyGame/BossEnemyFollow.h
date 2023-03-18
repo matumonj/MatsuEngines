@@ -26,7 +26,6 @@ private:
 	                    BossEnemyState* state);
 
 private:
-
 	enum AttackInvoPer
 	{
 		CIRCLE_FIR,
@@ -37,6 +36,6 @@ private:
 		MAGIC_SEC,
 		SUMMON_FIR
 	};
-	std::array<float,7>_attackInvoPer;
-	
+
+	std::array<float, 7> _attackInvoPer;
 };

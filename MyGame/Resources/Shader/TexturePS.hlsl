@@ -19,14 +19,15 @@ PSOutPut main(Output input)
 		          input.worldpos.z - DisplayCenterpos.z, 2) <= pow(radius, 2)
 		          ? 1
 		          : -1;
-	
-	if (uvf) {
+
+	if (uvf)
+	{
 		texcolor.w *= input.uv.y;
 	}
-	
+
 	clip(v);
 	//•ÏXŒã
-	output.target0 = texcolor* color;
-	output.target1 = texcolor* color;
+	output.target0 = texcolor * color;
+	output.target1 = texcolor * color;
 	return output;
 }

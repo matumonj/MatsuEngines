@@ -37,19 +37,24 @@ public: // サブクラス
 		XMFLOAT3 cameraPos; // カメラ座標（ワールド座標）
 		//bool shadowf;
 		bool gsflag;
+		XMFLOAT3 ks2;
 		bool f;
+		XMFLOAT3 ks3;
 		float time;
+		XMFLOAT3 ks4;
 		bool destF;
+		XMFLOAT3 ks5;
 		float destTime;
-		float dislen;
-		XMFLOAT3 playerpos;
-		bool bloomf;
 		bool shadowf;
-		XMFLOAT2 pading;
+		XMFLOAT3 playerpos;
+		float dislen;
+		XMFLOAT3 pd6;
+		bool bloomf;
 	};
 
 private: // 定数
-	struct ConstBufferDataB1 {
+	struct ConstBufferDataB1
+	{
 		XMFLOAT3 ambient;
 		float pad1;
 		XMFLOAT3 diffuse;
@@ -57,19 +62,21 @@ private: // 定数
 		XMFLOAT3 specular;
 		float alpha;
 	};
+
 	XMFLOAT3 ambient;
 	XMFLOAT3 diffuse;
 	XMFLOAT3 specular;
 	float alpha;
 	// 定数バッファ
 	ComPtr<ID3D12Resource> constBuff;
-	typedef struct _CBUFFER1
+
+	using CBUFFER1 = struct _CBUFFER1
 	{
-		float g_fTessFactor;       // ポリゴンのエッジのテッセレーション係数
+		float g_fTessFactor; // ポリゴンのエッジのテッセレーション係数
 		float g_fInsideTessFactor; // ポリゴン内部のテッセレーション係数
 		float g_Dummy2;
 		float g_Dummy3;
-	}CBUFFER1;
+	};
 private: // 定数
 	float dislen;
 	XMFLOAT3 FogCenter;

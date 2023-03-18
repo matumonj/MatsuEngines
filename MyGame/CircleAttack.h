@@ -11,19 +11,17 @@ public:
 	~CircleAttack();
 
 public:
-	
-
 private:
 	float rotY;
 	static const int DirectionNum = 4;
-	
+
 	float TexAlpha = 1;
 	float CircleAreaTime = 0;
 	XMFLOAT2 CircleSize = {0, 0};
-	
+
 	Texture* ImpactAreaTex;
-	std::unique_ptr<Texture>AllAreaTex;
-	std::unique_ptr<Object3d>RingObj;
+	std::unique_ptr<Texture> AllAreaTex;
+	std::unique_ptr<Object3d> RingObj;
 public:
 	static CircleAttack* GetIns();
 	void Init() override;
@@ -35,8 +33,6 @@ private:
 	void ImpactAttack();
 	void EndAttackAction();
 public:
-
-	
 private:
 	void CollisonNailPlayer();
 };

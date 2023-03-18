@@ -61,7 +61,7 @@ void AttackCollision::GetCol(int damage)
 		{
 			Play_colf[i] = false;
 		}
-		std::get<0>(HelpEnemy)= false;
+		std::get<0>(HelpEnemy) = false;
 	}
 
 	//ŠeƒV[ƒ“‚²‚Æ‚Ì“–‚½‚è”»’è
@@ -300,7 +300,8 @@ void AttackCollision::OBBParamSet(ColType Enemytype)
 			{
 				continue;
 			}
-			if (EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetObjAlpha() <= 0.f){
+			if (EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetObjAlpha() <= 0.f)
+			{
 				continue;
 			}
 			EnemyOBB[i].SetOBBParam_Pos(

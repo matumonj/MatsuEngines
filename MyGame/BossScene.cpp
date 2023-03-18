@@ -19,7 +19,6 @@
 BossScene::BossScene(SceneManager* sceneManager)
 	: BaseScene(sceneManager)
 {
-	
 }
 
 /*------------------------*/
@@ -27,7 +26,6 @@ BossScene::BossScene(SceneManager* sceneManager)
 /*-----------------------*/
 void BossScene::Initialize()
 {
-
 	postEffect = new PostEffect();
 	postEffect->Initialize();
 	//各オブジェクトの初期化
@@ -54,7 +52,6 @@ void BossScene::Initialize()
 	{
 		lightGroup->SetSpotLightActive(i, true);
 	}
-	
 }
 
 /*------------------------*/
@@ -84,8 +81,6 @@ void BossScene::Update()
 	//csv読み込み部分(Cameraの更新後にするのでobjUpdate()挟んでから)
 	LoadParam();
 
-	lightGroup->Update();
-
 	XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 
 	//ライティング更新
@@ -97,9 +92,11 @@ void BossScene::Update()
 
 	ChangeScene();
 
-	if (EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0] != nullptr) {
+	//ラジアルブラーの中心位置をボス座標に
+	if (EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0] != nullptr)
+	{
 		XMFLOAT3 Position = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
-		XMVECTOR tex2DPos = { Position.x, Position.y + 5.f, Position.z };
+		XMVECTOR tex2DPos = {Position.x, Position.y + 5.f, Position.z};
 		tex2DPos = MatCal::PosDivi(tex2DPos, CameraControl::GetIns()->GetCamera()->GetViewMatrix(), false);
 		tex2DPos = MatCal::PosDivi(tex2DPos, CameraControl::GetIns()->GetCamera()->GetProjectionMatrix(), true);
 		tex2DPos = MatCal::WDivi(tex2DPos, false);
@@ -156,13 +153,14 @@ void BossScene::MyGameDraw()
 void BossScene::Draw()
 {
 	//ポストエフェクトの場合わけ(Bでぼかし Dがデフォルト)
-		postEffect->PreDrawScene();
-		MyGameDraw();
-		postEffect->PostDrawScene();
-		DirectXCommon::GetIns()->BeginDraw();
-		postEffect->Draw();
-		SpriteDraw();
-		DirectXCommon::GetIns()->EndDraw();
+	postEffect->PreDrawScene();
+	MyGameDraw();
+	postEffect->PostDrawScene();
+	DirectXCommon::GetIns()->BeginDraw();
+	postEffect->Draw();
+	SpriteDraw();
+
+	DirectXCommon::GetIns()->EndDraw();
 }
 
 /*------------------------*/
@@ -215,7 +213,6 @@ void BossScene::ChangeScene()
 	if (nextscenejudg)
 	{
 		PlayerControl::GetIns()->GetPlayer()->SetStopFlag(true);
-		//SceneManager::GetIns()->SetScene(SceneManager::GAMECLEAR, sceneManager_);
 		Feed::GetIns()->Update_White(Feed::FEEDIN);
 		if (Feed::GetIns()->GetAlpha() >= 1.0f)
 		{
@@ -227,9 +224,12 @@ void BossScene::ChangeScene()
 
 void BossScene::LightUpdate()
 {
+	lightGroup->Update();
+
 	//プレイヤーの影
 	XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
-	LightSetParam(PLAYER, true, XMFLOAT3(ppos.x,ppos.y+10.f,ppos.z), XMVECTOR({circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0}),
+	LightSetParam(PLAYER, true, XMFLOAT3(ppos.x, ppos.y + 10.f, ppos.z),
+	              XMVECTOR({circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0}),
 	              XMFLOAT3(circleShadowAtten), XMFLOAT2(circleShadowFactorAngle));
 
 	//ボスの影
@@ -237,12 +237,12 @@ void BossScene::LightUpdate()
 	{
 		XMFLOAT3 bpos = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
 
-		XMFLOAT3 BossCShadowPos = { bpos.x, bpos.y + lightY, bpos.z };
+		XMFLOAT3 BossCShadowPos = {bpos.x, bpos.y + lightY, bpos.z};
 
 		LightSetParam(BOSSENEMY, true, BossCShadowPos,
-			XMVECTOR({ circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0 }),
-			XMFLOAT3(circleShadowAtten2), XMFLOAT2(circleShadowFactorAngle2[0], circleShadowFactorAngle2[1]));
-		if(bpos.y > 20.f)
+		              XMVECTOR({circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0}),
+		              XMFLOAT3(circleShadowAtten2), XMFLOAT2(circleShadowFactorAngle2[0], circleShadowFactorAngle2[1]));
+		if (bpos.y > 20.f)
 		{
 			lightGroup->SetCircleShadowActive(BOSSENEMY, false);
 		}
@@ -250,7 +250,8 @@ void BossScene::LightUpdate()
 		{
 			lightGroup->SetCircleShadowActive(BOSSENEMY, true);
 		}
-	} else
+	}
+	else
 	{
 		lightGroup->SetCircleShadowActive(BOSSENEMY, false);
 	}
@@ -261,7 +262,7 @@ void BossScene::LightUpdate()
 	{
 		if (HalfAttack::GetIns()->GetSummonEnemy(i) != nullptr)
 		{
-			summonpos[i]= HalfAttack::GetIns()->GetSummonEnemy(i)->GetPosition();
+			summonpos[i] = HalfAttack::GetIns()->GetSummonEnemy(i)->GetPosition();
 			LightSetParam(i, true, {summonpos[i].x, summonpos[i].y + 17.f, summonpos[i].z},
 			              XMVECTOR({circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0}),
 			              XMFLOAT3(circleShadowAtten2),
@@ -276,10 +277,9 @@ void BossScene::LightUpdate()
 	{
 		lightGroup->SetSpotLightPos(i, {
 			                            Field::GetIns()->GetTorchPos(i).x,
-			                            Field::GetIns()->GetTorchPos(i ).y + posy,
-			                            Field::GetIns()->GetTorchPos(i ).z
+			                            Field::GetIns()->GetTorchPos(i).y + posy,
+			                            Field::GetIns()->GetTorchPos(i).z
 		                            });
-		lightGroup->SetSpotLightAtten(i, {atten.x, 0.f, atten.x});
 		lightGroup->SetSpotLightDir(i, {0.f, -1.f, 0.f});
 		lightGroup->SetSpotLightColor(i, {1.f, 0.5f, 0.f});
 		lightGroup->SetSpotLightFactorAngle(i, {spotangle});

@@ -24,10 +24,10 @@ void BossEnemyAttack::Update(Enemy* enemy)
 		//被ダメージ時
 		//乱数を生成し値が一定以上なら怯み状態
 		Evaprobability = rand() % 100 + 1;
-		 if(Evaprobability > 79)
+		if (Evaprobability > 79)
 		{
-				 enemy->ChangeState_Boss(new BossEnemyShieldGuard());
-			}
+			enemy->ChangeState_Boss(new BossEnemyShieldGuard());
+		}
 		else if (Evaprobability > 40)
 		{
 			PlayerControl::GetIns()->GetPlayer()->SetKnockF(true);
@@ -38,14 +38,14 @@ void BossEnemyAttack::Update(Enemy* enemy)
 			//enemy->ChangeState_Boss(new BossEnemyFalter());
 		}
 		else if (Evaprobability > 20)
-		 {
-			 PlayerControl::GetIns()->GetPlayer()->SetKnockF(true);
+		{
+			PlayerControl::GetIns()->GetPlayer()->SetKnockF(true);
 
-			 UI::GetIns()->SetRadBlur(true);
-			 enemy->ChangeState_Boss(new BossEnemyAttackCircle());
+			UI::GetIns()->SetRadBlur(true);
+			enemy->ChangeState_Boss(new BossEnemyAttackCircle());
 
-			 //enemy->ChangeState_Boss(new BossEnemyFalter());
-		 }
+			//enemy->ChangeState_Boss(new BossEnemyFalter());
+		}
 		else
 		{
 			enemy->ChangeState_Boss(new BossEnemyFollow());

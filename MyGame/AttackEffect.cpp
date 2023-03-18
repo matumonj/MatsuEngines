@@ -17,7 +17,7 @@ void AttackEffect::Init()
 	Texture::LoadTexture(15, L"Resources/2d/attackEffect/inpact.png");
 
 	Texture* l_tex[2]; // = nullptr;
-	Texture* l_tex1 = Texture::Create(15, { 0.0f, 0.0f, 1 }, { 0, 0, 1 }, { 1, 1, 1, 1 });
+	Texture* l_tex1 = Texture::Create(15, {0.0f, 0.0f, 1}, {0, 0, 1}, {1, 1, 1, 1});
 
 	if (etype == SLASH_FIRST)
 	{
@@ -32,7 +32,7 @@ void AttackEffect::Init()
 	}
 	DamageTex.reset(l_tex1);
 	DamageTex->CreateTexture();
-	DamageTex->SetAnchorPoint({ 0.5f, 0.5f });
+	DamageTex->SetAnchorPoint({0.5f, 0.5f});
 }
 
 void AttackEffect::LoadTex()
@@ -49,7 +49,6 @@ void AttackEffect::LoadTex()
 	AttackTex.reset(l_tex);
 	AttackTex->CreateTexture();
 	AttackTex->SetAnchorPoint({0.5f, 0.0f});
-
 }
 
 void AttackEffect::SetParticle(XMFLOAT3 pos)
@@ -91,7 +90,8 @@ void AttackEffect::SetParticle(XMFLOAT3 pos)
 
 void AttackEffect::DamageEffectUpda()
 {
-	if (DamageEffectCreate) {
+	if (DamageEffectCreate)
+	{
 		XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 
 		DamageTexScl.x += 0.1f;
@@ -103,17 +103,18 @@ void AttackEffect::DamageEffectUpda()
 			DamageEffectCreate = false;
 		}
 		DamageTex->SetBillboard(TRUE);
-		DamageTex->SetPosition({ ppos });
-		DamageTex->SetColor({ 1.0f, 1.0f, 1.0f,DamageTexAlpha });
-		DamageTex->SetScale({ DamageTexScl.x, DamageTexScl.y, 2.0f });
+		DamageTex->SetPosition({ppos});
+		DamageTex->SetColor({1.0f, 1.0f, 1.0f, DamageTexAlpha});
+		DamageTex->SetScale({DamageTexScl.x, DamageTexScl.y, 2.0f});
 		DamageTex->Update(CameraControl::GetIns()->GetCamera());
 	}
 	else
 	{
 		DamageTexAlpha = 1.f;
-		DamageTexScl = { 0.f,0.f ,0.f};
+		DamageTexScl = {0.f, 0.f, 0.f};
 	}
 }
+
 void AttackEffect::ParticleUpda()
 {
 	if (AttackParticle.size() < FIRST)
@@ -182,8 +183,6 @@ void AttackEffect::Upda()
 	}
 
 
-	
-
 	if (AttackTex != nullptr)
 	{
 		AttackTex->SetBillboard(FALSE);
@@ -201,7 +200,6 @@ void AttackEffect::Upda()
 	TexScl.y = min(TexScl.y, 4.0f);
 	TexScl.x = max(TexScl.x, 0.0f);
 	texAlpha = max(texAlpha, 0.0f);
-	
 }
 
 void AttackEffect::GuarEffect(XMFLOAT3 pos)

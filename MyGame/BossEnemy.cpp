@@ -144,8 +144,8 @@ void BossEnemy::Update()
 	state_boss->Update(this);
 	//if (Input::GetIns()->PushButton(Input::Button_Y))
 	{
-	
-	}DamageTexDisplay();
+	}
+	DamageTexDisplay();
 
 	Action();
 
@@ -154,8 +154,8 @@ void BossEnemy::Update()
 	//FbxAnimationControl();
 	//À•W‚âƒXƒP[ƒ‹‚Ì”½‰f
 	m_fbxObject->SetColor({1.0f, 1.0f, 1.0f, alpha});
-	
-	m_fbxObject->SetPosition({Position.x, Position.y +1.4f, Position.z});
+
+	m_fbxObject->SetPosition({Position.x, Position.y + 1.4f, Position.z});
 	m_fbxObject->SetRotation(Rotation);
 	m_fbxObject->SetScale(Scale);
 
@@ -206,7 +206,6 @@ void BossEnemy::Update()
 
 void BossEnemy::ColPlayer()
 {
-	
 }
 
 void BossEnemy::AttackCollide()
@@ -280,12 +279,12 @@ void BossEnemy::Draw()
 	{
 		return;
 	}
-		//ƒ{ƒX•Ší•`‰æ
-		Object3d::PreDraw();
-		Sword->Draw();
-		ShieldObj->Draw();
-		Object3d::PostDraw();
-	
+	//ƒ{ƒX•Ší•`‰æ
+	Object3d::PreDraw();
+	Sword->Draw();
+	ShieldObj->Draw();
+	Object3d::PostDraw();
+
 
 	//ƒ{ƒX“G•`‰æ
 	Draw_Fbx();
@@ -351,7 +350,7 @@ void BossEnemy::AttackCoolTime()
 	}
 	else
 	{
-		if (m_Number == BNORMAL|| m_Number == BNORMAL2)
+		if (m_Number == BNORMAL || m_Number == BNORMAL2)
 		{
 			AfterAttack = true;
 		}

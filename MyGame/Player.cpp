@@ -66,22 +66,20 @@ void Player::Initialize()
 	//移動処理用
 	vel /= 5.0f;
 
-	ObjCol = { 0.9f,0.9f,0.9f,1.f };
+	ObjCol = {0.9f, 0.9f, 0.9f, 1.f};
 
 	AttackEffect::GetIns()->Init();
 }
 
 void Player::KnockBack(XMFLOAT3 pos)
 {
-	
-
 	// 自分の位置と接触してきたオブジェクトの位置とを計算して、距離と方向を出して正規化(速度ベクトルを算出)
-	XMVECTOR pdistination = { Position.x,Position.y,Position.z };
-	XMVECTOR bdistance= {pos.x,pos.y,pos.z };
+	XMVECTOR pdistination = {Position.x, Position.y, Position.z};
+	XMVECTOR bdistance = {pos.x, pos.y, pos.z};
 
 	XMVECTOR dis = XMVector3Normalize(pdistination - bdistance);
 
-	Position.x += dis.m128_f32[0]*bKnockPower;
+	Position.x += dis.m128_f32[0] * bKnockPower;
 	Position.z += dis.m128_f32[2] * bKnockPower;
 
 	KnockEase += 0.02f;
@@ -268,7 +266,8 @@ void Player::Evasion()
 		evaTime += l_EvaETimeAccVal;
 		if (evaTime < 1.0f)
 		{
-			if (!isOld) {
+			if (!isOld)
+			{
 				//プレイヤーの向いてる方向にイージングで飛ぶ
 				Position.x += Gmove.m128_f32[0] * Easing::EaseOut(evaTime, l_EvaEaseMax, l_EvaEaseMin);
 				Position.z += Gmove.m128_f32[2] * Easing::EaseOut(evaTime, l_EvaEaseMax, l_EvaEaseMin);
@@ -350,7 +349,7 @@ void Player::Update()
 	m_fbxObject->SetColor(ObjCol);
 	ParameterSet_Fbx3();
 
-	
+
 	DamageFlash();
 	//持つ武器の更新
 	SelectSword::GetIns()->Update();
@@ -601,7 +600,10 @@ void Player::LoadCsv()
 
 void Player::DamageFlash()
 {
-	if (!DamageFlashF)return;
+	if (!DamageFlashF)
+	{
+		return;
+	}
 
 	constexpr int MaxFlashCount = 6;
 	//イージングでアルファ値の上げ下げ
@@ -625,5 +627,4 @@ void Player::DamageFlash()
 	ObjCol.y = Easing::EaseOut(FlashEaseT, 1.f, 4.f);
 	ObjCol.z = Easing::EaseOut(FlashEaseT, 1.f, 4.f);
 	ObjCol.x = Easing::EaseOut(FlashEaseT, 1.f, 4.f);
-	
 }

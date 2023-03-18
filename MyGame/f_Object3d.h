@@ -55,6 +55,7 @@ public: //サブクラス
 		XMMATRIX world; //ワールド行列
 		XMFLOAT3 cameraPos; //カメラ行列（ワールド座標）
 	};
+
 	XMFLOAT3 ambient;
 	XMFLOAT3 diffuse;
 	XMFLOAT3 specular;
@@ -62,14 +63,16 @@ public: //サブクラス
 	// 定数バッファ
 	ComPtr<ID3D12Resource> constBuff;
 
-	struct ConstBufferDataB1 {
-		XMFLOAT3 ambient; 
+	struct ConstBufferDataB1
+	{
+		XMFLOAT3 ambient;
 		float pad1;
-		XMFLOAT3 diffuse; 
-		float pad2; 
+		XMFLOAT3 diffuse;
+		float pad2;
 		XMFLOAT3 specular;
-		float alpha;   
+		float alpha;
 	};
+
 public: //メンバ関数
 	void SetCollider(BaseCollider* collider);
 
@@ -174,10 +177,12 @@ public: //定数
 	// ライト
 	//static LightGroup* lightGroup;
 	static LightGroup* lightGroups;
+
 	static void SetLightGroup(LightGroup* lightGroup)
 	{
-		f_Object3d::lightGroups =lightGroup;
+		lightGroups = lightGroup;
 	}
+
 	int bindexs = 13;
 	void SetFogPos(XMFLOAT3 pos) { fogpos = pos; }
 	void SetHandBoneIndex(int bindex) { bindexs = bindex; }

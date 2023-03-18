@@ -43,10 +43,10 @@ struct PSOutPut
 };
 cbuffer cbuff1 : register(b1)
 {
-	float3 m_ambient : packoffset(c0); // アンビエント係数
-	float3 m_diffuse : packoffset(c1); // ディフューズ係数
-	float3 m_specular : packoffset(c2); // スペキュラー係数
-	float m_alpha : packoffset(c2.w); // アルファ
+float3 m_ambient : packoffset(c0); // アンビエント係数
+float3 m_diffuse : packoffset(c1); // ディフューズ係数
+float3 m_specular : packoffset(c2); // スペキュラー係数
+float m_alpha : packoffset(c2.w); // アルファ
 }
 
 
@@ -58,7 +58,6 @@ struct PSInPut
 	// step-7 カメラ空間でのZ値を記録する変数を追加
 	float3 depthInView : TEXCOORD2; // カメラ空間でのZ値
 };
-
 
 
 // 平行光源の数
@@ -110,9 +109,9 @@ struct CircleShadow
 
 cbuffer cbuff2 : register(b2)
 {
-	float3 ambientColor;
-	DirLight dirLights[DIRLIGHT_NUM];
-	PointLight pointLights[POINTLIGHT_NUM];
-	SpotLight spotLights[SPOTLIGHT_NUM];
-	CircleShadow circleShadows[CIRCLESHADOW_NUM];
+float3 ambientColor;
+DirLight dirLights[DIRLIGHT_NUM];
+PointLight pointLights[POINTLIGHT_NUM];
+SpotLight spotLights[SPOTLIGHT_NUM];
+CircleShadow circleShadows[CIRCLESHADOW_NUM];
 }

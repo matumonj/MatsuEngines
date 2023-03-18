@@ -77,7 +77,7 @@ void EnemyWalkState::Update(Enemy* enemy)
 	enemy->SetAnimeState(enemy->WALK);
 
 	bool SearchHelp = Collision::GetLength(enemy->GetPosition(),
-		PlayerControl::GetIns()->GetPlayer()->GetPosition()) < 150.f &&
+	                                       PlayerControl::GetIns()->GetPlayer()->GetPosition()) < 150.f &&
 		std::get<0>(AttackCollision::GetIns()->GetHelpJudg());
 	//UŒ‚
 	if (SearchPlayer)
@@ -85,7 +85,7 @@ void EnemyWalkState::Update(Enemy* enemy)
 		enemy->ChangeState_Mob(new EnemyFollowState());
 		//’ÇÕ
 	}
-	if (SearchHelp&&enemy->GetEnemyNumber()== std::get<1>(AttackCollision::GetIns()->GetHelpJudg()))
+	if (SearchHelp && enemy->GetEnemyNumber() == std::get<1>(AttackCollision::GetIns()->GetHelpJudg()))
 	{
 		if (Collision::GetLength(enemy->GetPosition(),
 		                         PlayerControl::GetIns()->GetPlayer()->GetPosition()) > 40.f)

@@ -25,7 +25,7 @@ private:
 public:
 	void SetVignette_GB(float gbval) { VignetteVal = gbval; }
 	void SetBloomAlpha(float f) { BloomAlpha = f; }
-	void SetBloomCenter(DirectX::XMFLOAT2 pos) {BloomCenter  = pos; }
+	void SetBloomCenter(DirectX::XMFLOAT2 pos) { BloomCenter = pos; }
 	void SetBloomF(bool f) { BloomF = f; }
 	void SetVignetteF(bool f) { VignetteF = f; }
 private:

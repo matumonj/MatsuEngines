@@ -2,7 +2,7 @@
 #include "BossEnemyState.h"
 
 class BossEnemyAttackCross :
-    public BossEnemyState
+	public BossEnemyState
 {
 public:
 	void Initialize(Enemy* enemy) override;
@@ -12,4 +12,3 @@ public:
 private:
 	double AnimationSpeed = 0.f;
 };
-

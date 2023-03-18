@@ -111,8 +111,6 @@ void HUD::SetSkillIcon(SkillIcon icon)
 
 void HUD::SkillBottonUpdate()
 {
-	
-
 	if (RecvDamageflag)
 	{
 		easetime += 1.0f / 60.f;
@@ -147,12 +145,13 @@ void HUD::SkillBottonUpdate()
 	PlayerHPFrame->SetPosition(PlayerHP->GetPosition());
 	PlayerHPFrame2->SetPosition(PlayerHP->GetPosition());
 }
+
 void HUD::SetMax()
 {
 	PlayerHPSize = static_cast<float>(PlayerControl::GetIns()->GetPlayer()->GetMaxHP()) * 7.0f;
 	OldPlayerHPSize = static_cast<float>(PlayerControl::GetIns()->GetPlayer()->GetMaxHP()) * 7.0f;
-
 }
+
 void HUD::TaskUpdate(DebugCamera* camera)
 {
 	XMFLOAT3 cPos = camera->GetEye();

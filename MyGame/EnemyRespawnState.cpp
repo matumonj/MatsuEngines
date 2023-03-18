@@ -15,5 +15,4 @@ void EnemyRespawnState::Update(Enemy* enemy)
 	enemy->Respawn();
 	//ó‘Ô‚ð‘Ò‹@ó‘Ô‚É
 	enemy->ChangeState_Mob(new EnemyFollowState());
-	
 }

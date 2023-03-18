@@ -28,12 +28,12 @@ private:
 	const float window_width = 1900;
 	const float window_height = 1020;
 	static const int DebugTextSpriteTexNumber = 0;
-	
+
 private:
 	XMFLOAT3 CameraPosition;
 
 	DebugCamera* camera;
-	
+
 public:
 	void ModelCreate(DebugCamera* camera);
 	void objUpdate(DebugCamera* camera);

@@ -404,7 +404,7 @@ bool Object3d::InitializeGraphicsPipeline()
 		OutputDebugStringA(errstr.c_str());
 		exit(1);
 	}
-	
+
 	// ピクセルシェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
 		//L"Resources/shaders/BasicPixelShader.hlsl",	// シェーダファイル名
@@ -556,21 +556,9 @@ bool Object3d::Initialize(DebugCamera* camera)
 {
 	this->camera = camera;
 
-	// nullptrチェック
-
-
 	HRESULT result;
 
 	name = typeid(*this).name();
-
-	//// 定数バッファの生成
-	//result = device->CreateCommittedResource(
-	//	&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD), 	// アップロード可能
-	//	D3D12_HEAP_FLAG_NONE,
-	//	&CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferData) + 0xff) & ~0xff),
-	//	D3D12_RESOURCE_STATE_GENERIC_READ,
-	//	nullptr,
-	//	IID_PPV_ARGS(&constBuff));
 
 	// 定数バッファの生成B0
 	result = device->CreateCommittedResource(
@@ -596,10 +584,6 @@ void Object3d::Update(DebugCamera* camera)
 	}
 	HRESULT result;
 
-	//rotation.y = 90;
-	//rotation.x = 50;
-	// 親オブジェクトがあれば
-
 	const XMMATRIX& matViewProjection = camera->GetViewProjectionMatrix();
 	const XMFLOAT3& cameraPos = camera->GetEye();
 	UpdateWorldMatrix();
@@ -610,27 +594,22 @@ void Object3d::Update(DebugCamera* camera)
 	constMap->color = this->color;
 	constMap->viewproj = camera->GetViewProjectionMatrix();
 	constMap->world = matWorld;
-	constMap->cameraPos = camera->GetEye();
+	constMap->cameraPos = FogCenter;
+	//constMap->shadowf = shadowf;
 	constMap->gsflag = gsf;
+	constMap->ks2 = {0, 0, 0};
 	constMap->f = setef;
+	constMap->ks3 = {0, 0, 0};
 	constMap->time = uvtime;
+	constMap->ks4 = {0, 0, 0};
 	constMap->destF = DestF;
+	constMap->ks5 = centerpos;
 	constMap->destTime = DestTime;
-	
-constMap->dislen = dislen;
-	constMap->playerpos = cameraPos;
-	constMap->bloomf = bloomF;
 	constMap->shadowf = shadowf;
-	 // PlayerControl::GetIns()->GetPlayer()->GetPosition();
+
+	constMap->playerpos = ppos; // PlayerControl::GetIns()->GetPlayer()->GetPosition();
+	constMap->dislen = dislen;
 	// 定数バッファへデータ転送
-	//ConstBufferDataB0* constMap = nullptr;
-	//result = constBuffB0->Map(0, nullptr, (void**)&constMap);
-	//constMap->color = color;
-	//constMap->mat = matWorld * matview * matprojection;	// 行列の合成
-	//result = constBuffB0->Map(0, nullptr, (void**)&constMap);
-	//constMap->viewproj =,matview * matprojection;
-	//constMap->world = matWorld ;
-	//constMap->cameraPos = camera->GetEye();
 
 	constBuffB0->Unmap(0, nullptr);
 
@@ -665,11 +644,13 @@ void Object3d::Update(XMMATRIX matworld, XMFLOAT4 color, DebugCamera* camera)
 	constMap->cameraPos = FogCenter;
 	//	constMap->shadowf = shadowf;
 	constMap->gsflag = gsf;
+	constMap->ks2 = {0, 0, 0};
 	constMap->f = setef;
+	constMap->ks3 = {0, 0, 0};
 	constMap->time = uvtime;
-	//constMap->ks4 = {0, 0, 0};
+	constMap->ks4 = {0, 0, 0};
 	constMap->destF = DestF;
-	//constMap->ks5 = centerpos;
+	constMap->ks5 = centerpos;
 	constMap->destTime = DestTime;
 	constMap->shadowf = shadowf;
 	// 定数バッファへデータ転送

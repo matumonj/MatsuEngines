@@ -13,7 +13,6 @@
 LineCrossAttack::LineCrossAttack()
 {
 	Texture::LoadTexture(30, L"Resources/2d/attackeffect/inpact.png");
-	
 }
 
 LineCrossAttack::~LineCrossAttack()
@@ -39,19 +38,18 @@ LineCrossAttack* LineCrossAttack::GetIns()
 void LineCrossAttack::Init()
 {
 	Texture::LoadTexture(35, L"Resources/2d/gauge/bosshp.png");
-	AxePos[0] = { 50.f, 200.f, 50.f };
-	AxePos[1] = { -50.f, 200.f, 50.f };
-	AxePos[2] = { 50.f, 200.f, -50.f };
-	AxePos[3] = { -50.f, 200.f, -50.f };
+	AxePos[0] = {50.f, 200.f, 50.f};
+	AxePos[1] = {-50.f, 200.f, 50.f};
+	AxePos[2] = {50.f, 200.f, -50.f};
+	AxePos[3] = {-50.f, 200.f, -50.f};
 	DamageTex[0].reset(Texture::Create(35));
 	DamageTex[1].reset(Texture::Create(35));
-		DamageTex[0]->CreateTexture();
-		DamageTex[1]->CreateTexture();
+	DamageTex[0]->CreateTexture();
+	DamageTex[1]->CreateTexture();
 
 	for (int i = 0; i < axeSize; i++)
 	{
-		
-	ImpactPar[i] = std::make_unique<Particle>();
+		ImpactPar[i] = std::make_unique<Particle>();
 		ImpactPar[i]->Init(64);
 		SetPos[i] = AxePos[i];
 	}
@@ -66,16 +64,18 @@ void LineCrossAttack::NonInit()
 {
 	_phase = PHASE_TWO;
 }
+
 void LineCrossAttack::SetDamageArea()
 {
-//	for (auto i = 0; i < axeSize; i++) {
-		ImpactTexAlpha[0] = 1.f;
-		ImpactTexAlpha[1] = 0.2f;
+	//	for (auto i = 0; i < axeSize; i++) {
+	ImpactTexAlpha[0] = 1.f;
+	ImpactTexAlpha[1] = 0.2f;
 	//}
-		AttackCount++;
-		if (AttackCount > 90) {
+	AttackCount++;
+	if (AttackCount > 90)
+	{
 		_phase = PHASE_TWO;
-		}
+	}
 }
 
 void LineCrossAttack::CrossAttack()
@@ -83,14 +83,14 @@ void LineCrossAttack::CrossAttack()
 	Enemy* enemy = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0].get();
 	//if (enemy->GetAnimeState() != enemy->SWING)return;
 	AttackCount = 0;
-	for (auto i = 0; i < axeSize; i++) {
+	for (auto i = 0; i < axeSize; i++)
+	{
 		ImpactTexAlpha[i] -= 0.02f;
 		ImpactTexAlpha[i] = std::clamp(ImpactTexAlpha[i], 0.f, 1.f);
-
 	}
 
-	double EndTime= enemy->GetFbxTimeEnd();
-	if(enemy->GetAnimationTime()>=EndTime-0.1)
+	double EndTime = enemy->GetFbxTimeEnd();
+	if (enemy->GetAnimationTime() >= EndTime - 0.1)
 	{
 		_phase = PHASE_THREE;
 	}
@@ -98,48 +98,50 @@ void LineCrossAttack::CrossAttack()
 
 void LineCrossAttack::AttackEnd()
 {
-	for (auto i = 0; i < axeSize; i++) {
+	for (auto i = 0; i < axeSize; i++)
+	{
 		ImpactTexAlpha[i] -= 0.02f;
 		ImpactTexAlpha[i] = std::clamp(ImpactTexAlpha[i], 0.f, 1.f);
-
 	}
 }
 
 
-
-
 void LineCrossAttack::Upda()
 {
-
 	Enemy* enemy = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0].get();
-//	Enemy* enemy = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0].get();
-	if (enemy->GetNowMotion() !=enemy->SWING)return;
+	//	Enemy* enemy = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0].get();
+	if (enemy->GetNowMotion() != enemy->SWING)
+	{
+		return;
+	}
 	XMVECTOR positionA = {
-	PlayerControl::GetIns()->GetPlayer()->GetPosition().x,
-	PlayerControl::GetIns()->GetPlayer()->GetPosition().y,
-	PlayerControl::GetIns()->GetPlayer()->GetPosition().z
+		PlayerControl::GetIns()->GetPlayer()->GetPosition().x,
+		PlayerControl::GetIns()->GetPlayer()->GetPosition().y,
+		PlayerControl::GetIns()->GetPlayer()->GetPosition().z
 	};
-	XMVECTOR positionB = { enemy->GetPosition().x, enemy->GetPosition().y, enemy->GetPosition().z };
+	XMVECTOR positionB = {enemy->GetPosition().x, enemy->GetPosition().y, enemy->GetPosition().z};
 
-	if (enemy->GetAnimationTime() <= 0.6) {
+	if (enemy->GetAnimationTime() <= 0.6)
+	{
 		Add_RotVal = FollowRot::FollowA_B(positionA, positionB);
 
 		//移動ベクトルをy軸周りの角度で回転
-		move = { 0.0f, 0.0f, 0.1f, 0.0f };
+		move = {0.0f, 0.0f, 0.1f, 0.0f};
 
 		matRot = XMMatrixRotationY(XMConvertToRadians(enemy->GetRotation().y + enemy->GetRotRadians()));
 
 		move = XMVector3TransformNormal(move, matRot);
-	} else {
-		if (enemy->GetAnimationTime() <= 1.3) {
-
+	}
+	else
+	{
+		if (enemy->GetAnimationTime() <= 1.3)
+		{
 			enemy->SetPosition({
 					enemy->GetPosition().x + move.m128_f32[0] * 6.f,
 					enemy->GetPosition().y,
 					enemy->GetPosition().z + move.m128_f32[2] * 6.f
 				}
 			);
-
 		}
 	}
 	//フェーズごとの処理
@@ -151,17 +153,15 @@ void LineCrossAttack::Upda()
 		if (DamageTex[i] == nullptr)
 		{
 			continue;
-
 		}
 		AxeRot[i] = {
-	90.f,
-	Add_RotVal * 55.f,
-	enemy->GetRotation().z
+			90.f,
+			Add_RotVal * 55.f,
+			enemy->GetRotation().z
 
 		};
-	
 	}
-DamageTex[0]->SetUVMove(true);
+	DamageTex[0]->SetUVMove(true);
 	for (int i = 0; i < axeSize; i++)
 	{
 		if (DamageTex[i] == nullptr)
@@ -170,10 +170,10 @@ DamageTex[0]->SetUVMove(true);
 		}
 		DamageTex[i]->SetRotation(AxeRot[0]);
 
-		DamageTex[i]->SetPosition({ enemy->GetPosition().x,enemy->GetPosition().y+4.f,enemy->GetPosition().z });
-		DamageTex[i]->SetScale({ 3.f, 8.f, 8.f });
-		DamageTex[i]->SetColor({ 1.f,1.f,1.f,ImpactTexAlpha[i] });
-		DamageTex[i]->SetAnchorPoint({ 0.5f,0.f });
+		DamageTex[i]->SetPosition({enemy->GetPosition().x, enemy->GetPosition().y + 4.f, enemy->GetPosition().z});
+		DamageTex[i]->SetScale({3.f, 8.f, 8.f});
+		DamageTex[i]->SetColor({1.f, 1.f, 1.f, ImpactTexAlpha[i]});
+		DamageTex[i]->SetAnchorPoint({0.5f, 0.f});
 		DamageTex[i]->Update(CameraControl::GetIns()->GetCamera());
 		DamageTex[i]->SetBillboard(false);
 	}
@@ -183,14 +183,14 @@ DamageTex[0]->SetUVMove(true);
 
 void (LineCrossAttack::* LineCrossAttack::actionTable[])() = {
 	&LineCrossAttack::NonInit, //待機
-	& LineCrossAttack::SetDamageArea, //エリア指定
-	& LineCrossAttack::CrossAttack, //
-	& LineCrossAttack::AttackEnd //終了
+	&LineCrossAttack::SetDamageArea, //エリア指定
+	&LineCrossAttack::CrossAttack, //
+	&LineCrossAttack::AttackEnd //終了
 };
 
 void LineCrossAttack::Draw()
 {
-Texture::PreDraw();
+	Texture::PreDraw();
 	for (int i = 0; i < axeSize; i++)
 	{
 		if (DamageTex[i] == nullptr)

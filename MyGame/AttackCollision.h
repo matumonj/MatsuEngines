@@ -45,9 +45,9 @@ public:
 	void Finalize();
 
 	bool GetCameraZoom() { return CameraZoom; }
-	std::tuple<bool,int> GetHelpJudg() { return HelpEnemy; }
+	std::tuple<bool, int> GetHelpJudg() { return HelpEnemy; }
 private:
-	std::tuple<bool, int>HelpEnemy;
+	std::tuple<bool, int> HelpEnemy;
 
 	bool attackcolJudgTime_First;
 	bool attackcolJudgTime_Second;

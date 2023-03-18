@@ -7,7 +7,8 @@
 #include<memory>
 #include"Object3d.h"
 #include"Particle.h"
-class LineCrossAttack :public BossAttackActionManager
+
+class LineCrossAttack : public BossAttackActionManager
 {
 public:
 	LineCrossAttack();
@@ -20,7 +21,7 @@ private:
 	using XMVECTOR = DirectX::XMVECTOR;
 private:
 	//Texture* KnockTex;
-		//移動ベクトルをy軸周りの角度で回転
+	//移動ベクトルをy軸周りの角度で回転
 	XMVECTOR move;
 
 	XMMATRIX matRot;
@@ -37,8 +38,8 @@ private:
 	float corre;
 	float AxePosDownEtime;
 	int AttackCount;
-	
-	
+
+
 public:
 	//向きをプレイヤーに
 	float Add_RotVal;
@@ -57,6 +58,4 @@ public:
 	void AttackEnd();
 	//攻撃のフェーズの関数テーブル
 	static void (LineCrossAttack::* actionTable[])();
-
 };
-

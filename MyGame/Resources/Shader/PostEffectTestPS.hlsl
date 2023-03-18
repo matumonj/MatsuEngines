@@ -10,7 +10,6 @@ SamplerState smp:register(s0);
 
 float3 BloomPixel(SamplerState smp, float2 uv, float2 texPixelSize)
 {
-	
 	float2 uv2 = floor(uv / texPixelSize) * texPixelSize;
 	uv2 += texPixelSize * 0.001f;
 	float3 tl = max(tex.Sample(smp, uv2).rgb - 0.95f, 0.f);
@@ -29,7 +28,7 @@ float3 Vignette(float2 uv)
 {
 	float v = length(float2(0.5, 0.5) - uv);
 	v = clamp(v - 0.f, 0.f, 1.f);
-	return float3(1.f,vignettecol.g * v, vignettecol.b * v);
+	return float3(1.f, vignettecol.g * v, vignettecol.b * v);
 }
 
 float3 Fog()
@@ -61,7 +60,6 @@ float4 bloom(SamplerState smp, float2 uv, float intensity = 1.f)
 
 float4 main(Output input) : SV_TARGET
 {
-	
 	float4 coltex0 = tex.Sample(smp, input.uv);
 	float4 coltex1 = tex1.Sample(smp, input.uv);
 
@@ -71,12 +69,12 @@ float4 main(Output input) : SV_TARGET
 	//	col = feed;
 
 	// ブルーム
-	
+
 	//col.rgb += bloom(smp, input.uv).rgb
 
 	float4 colors[10];
-	float2 ViewportOffset = (float2(0.5, 0.5) / float2(1900,1000));
-	float2 center = float2(smoothstep(0,1900, centerpos.x), smoothstep( 0, 1000, centerpos.y));
+	float2 ViewportOffset = (float2(0.5, 0.5) / float2(1900, 1000));
+	float2 center = float2(smoothstep(0, 1900, centerpos.x), smoothstep(0, 1000, centerpos.y));
 	float2 dir = center - input.uv;
 	float len = length(dir);
 	float2 offset = normalize(dir) * ViewportOffset;
@@ -97,9 +95,9 @@ float4 main(Output input) : SV_TARGET
 	Color = (colors[0] + colors[1] + colors[2] + colors[3] + colors[4]
 		+ colors[5] + colors[6] + colors[7] + colors[8] + colors[9]);
 	Color.gb -= Vignette(input.uv).gb;
-	
-	return float4(Color.xyz,1);
-	
+
+	return float4(Color.xyz, 1);
+
 	// ボケ画像を出力
 	//return tex.Sample(smp, input.uv);
 }

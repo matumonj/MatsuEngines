@@ -29,7 +29,7 @@ private: // エイリアス
 
 public: // 定数
 	// 平行光源の数
-	static const int DirLightNum = 3;
+	static const int DirLightNum = 13;
 	// 点光源の数
 	static const int PointLightNum = 13;
 	// スポットライトの数

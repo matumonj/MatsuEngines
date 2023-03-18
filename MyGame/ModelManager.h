@@ -73,6 +73,7 @@ public:
 	void LoadModel(ModelName modelName, std::string fileName);
 	void LoadFBXModel(FBXName modelName, std::string fileName);
 	Model* GetModel(ModelName modelName) { return model[modelName]; }
+
 	f_Model* GetFBXModel(FBXName FBXName) { return fbxModel[FBXName]; }
 private:
 	static std::map<ModelName, Model*> model; //ƒ‚ƒfƒ‹Ši”[ƒ}ƒbƒv

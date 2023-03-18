@@ -266,7 +266,7 @@ void BronzeAttack::Phase_Bom()
 	XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
 	for (int i = 0; i < BeamObj.size(); i++)
 	{
-		scalingETime[i] +=l_EaseSpeed;
+		scalingETime[i] += l_EaseSpeed;
 		if (scalingETime[i] >= l_maxeaseCount)
 		{
 			_phase = PHASE_THREE;
