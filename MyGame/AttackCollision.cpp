@@ -300,6 +300,9 @@ void AttackCollision::OBBParamSet(ColType Enemytype)
 			{
 				continue;
 			}
+			if (EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetObjAlpha() <= 0.f){
+				continue;
+			}
 			EnemyOBB[i].SetOBBParam_Pos(
 				EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetPosition());
 			EnemyOBB[i].SetOBBParam_Rot(EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetMatrot());

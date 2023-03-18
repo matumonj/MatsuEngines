@@ -5,19 +5,17 @@ matrix viewproj; // ビュープロジェクション行列
 matrix world; // ワールド行列
 float3 cameraPos; // カメラ座標（ワールド座標）
 bool gsflag;
-float3 ks2;
 bool flag;
-float3 ks3;
 float time;
-float3 ks4;
 bool destF;
-float3 destcenter;
-float desttime;
-bool shadowf;
-float3 playerpos;
+	float desttime;
+
+//float3 destcenter;
 float dislen;
-float3 pd5;
+float3 playerpos;
 bool bloomf;
+	bool shadowf;
+	float2 pading;
 };
 
 cbuffer cbuff1 : register(b1)
@@ -52,7 +50,7 @@ struct DirLight
 };
 
 // 点光源の数
-static const int POINTLIGHT_NUM = 30;
+static const int POINTLIGHT_NUM = 13;
 
 struct PointLight
 {
@@ -63,11 +61,11 @@ struct PointLight
 };
 
 // スポットライトの数
-static const int SPOTLIGHT_NUM = 30;
+static const int SPOTLIGHT_NUM = 13;
 
 struct SpotLight
 {
-	float3 lightv; // ライトの光線方向の逆ベクトル（単位ベクトル）
+	float3 lightvs; // ライトの光線方向の逆ベクトル（単位ベクトル）
 	float3 lightpos; // ライト座標
 	float3 lightcolor; // ライトの色(RGB)
 	float3 lightatten; // ライト距離減衰係数

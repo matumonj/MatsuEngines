@@ -37,19 +37,15 @@ public: // サブクラス
 		XMFLOAT3 cameraPos; // カメラ座標（ワールド座標）
 		//bool shadowf;
 		bool gsflag;
-		XMFLOAT3 ks2;
 		bool f;
-		XMFLOAT3 ks3;
 		float time;
-		XMFLOAT3 ks4;
 		bool destF;
-		XMFLOAT3 ks5;
 		float destTime;
-		bool shadowf;
-		XMFLOAT3 playerpos;
 		float dislen;
-		XMFLOAT3 pd6;
+		XMFLOAT3 playerpos;
 		bool bloomf;
+		bool shadowf;
+		XMFLOAT2 pading;
 	};
 
 private: // 定数

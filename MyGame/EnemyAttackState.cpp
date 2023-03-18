@@ -30,6 +30,7 @@ void EnemyAttackState::Update(Enemy* enemy)
 	}
 	else
 	{
+		
 		enemy->ChangeState_Mob(new EnemyStayState());
 	}
 }

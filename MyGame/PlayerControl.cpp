@@ -9,6 +9,8 @@
 #include "AttackEffect.h"
 #include "EnemyControl.h"
 
+#include"HUD.h"
+#include"CameraControl.h"
 PlayerControl* PlayerControl::GetIns()
 {
 	static PlayerControl instance;
@@ -35,7 +37,7 @@ void PlayerControl::Init_Play()
 	StartPos = {53.0f, -20.0f, -189.0f};
 
 	player->SetHP(player->GetMaxHP());
-
+	
 	player->SetPosition(StartPos);
 	AttackCollision::GetIns()->Init();
 }
@@ -44,6 +46,7 @@ void PlayerControl::Init_Boss()
 {
 	StartPos = {-1.0f, 10.0f, -80.0f};
 	player->SetHP(player->GetMaxHP());
+	HUD::GetIns()->SetMax();
 	player->SetPosition(StartPos);
 	AttackCollision::GetIns()->Init();
 }
@@ -93,8 +96,6 @@ void PlayerControl::GameOverResetParam()
 /*------------------------*/
 /*--------更新処理---------*/
 /*------------------------*/
-#include"HUD.h"
-#include"CameraControl.h"
 //playerの中にある移動処理とかは後でこっち持ってくる
 void PlayerControl::Update_Tutorial() //チュートリアル時
 {

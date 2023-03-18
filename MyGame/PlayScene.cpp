@@ -113,7 +113,7 @@ void PlayScene::LightUpdate()
 
 	for (int i = 0; i < 10; i++)
 	{
-		if (EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i] == nullptr||
+		if (EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetObjAlpha() <=0.f||
 			Collision::GetLength(ppos, EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetPosition())>200.f)
 		{
 			//lightGroup->SetCircleShadowFactorAngle(i + 4, {0, 0});
@@ -211,9 +211,6 @@ void PlayScene::Draw()
 		DirectXCommon::GetIns()->BeginDraw();
 		MyGameDraw(); //postEffect->Draw();
 		SpriteDraw();
-		ImGui::Begin("lightnu");
-		ImGui::Text("%d", EnemyControl::GetIns()->GetQuentity());
-		ImGui::End();
 		DirectXCommon::GetIns()->EndDraw();
 		break;
 	}

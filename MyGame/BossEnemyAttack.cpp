@@ -5,7 +5,6 @@
 #include"PlayerControl.h"
 #include"BossEnemy.h"
 #include "BossEnemyAttackCircle.h"
-#include "BossEnemyAttackCross.h"
 #include "BossEnemyDeath.h"
 #include "BossEnemyEvasion.h"
 #include "BossEnemyShieldGuard.h"
@@ -27,14 +26,7 @@ void BossEnemyAttack::Update(Enemy* enemy)
 		Evaprobability = rand() % 100 + 1;
 		 if(Evaprobability > 79)
 		{
-			 if (enemy->GetAttack_End(enemy->ULT)) {
 				 enemy->ChangeState_Boss(new BossEnemyShieldGuard());
-			 }
-			 else
-			 {
-				 LineCrossAttack::GetIns()->SetAttackPhase(true);
-				 enemy->ChangeState_Boss(new BossEnemyAttackCross());
-			 }
 			}
 		else if (Evaprobability > 40)
 		{

@@ -50,7 +50,7 @@ void BossScene::Initialize()
 	lightGroup->SetCircleShadowActive(PLAYER, true);
 	lightGroup->SetCircleShadowActive(BOSSENEMY, true);
 
-	for (int i = 4; i < 10; i++)
+	for (int i = 0; i < 6; i++)
 	{
 		lightGroup->SetSpotLightActive(i, true);
 	}
@@ -210,9 +210,7 @@ void BossScene::ChangeScene()
 {
 	XMFLOAT3 ClearStagePos = Field::GetIns()->GetClearTexpos();
 
-	bool nextscenejudg = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0] == nullptr &&
-		Collision::GetLength(PlayerControl::GetIns()->GetPlayer()->GetPosition(),
-		                     ClearStagePos) < 5.f;
+	bool nextscenejudg = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0] == nullptr;
 
 	if (nextscenejudg)
 	{
@@ -274,12 +272,12 @@ void BossScene::LightUpdate()
 			lightGroup->SetCircleShadowActive(i, false);
 		}
 	}
-	for (int i = 4; i <= 10; i++)
+	for (int i = 0; i <= 6; i++)
 	{
 		lightGroup->SetSpotLightPos(i, {
-			                            Field::GetIns()->GetTorchPos(i - 4).x,
-			                            Field::GetIns()->GetTorchPos(i - 4).y + posy,
-			                            Field::GetIns()->GetTorchPos(i - 4).z
+			                            Field::GetIns()->GetTorchPos(i).x,
+			                            Field::GetIns()->GetTorchPos(i ).y + posy,
+			                            Field::GetIns()->GetTorchPos(i ).z
 		                            });
 		lightGroup->SetSpotLightAtten(i, {atten.x, 0.f, atten.x});
 		lightGroup->SetSpotLightDir(i, {0.f, -1.f, 0.f});

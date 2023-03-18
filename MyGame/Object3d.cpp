@@ -610,21 +610,18 @@ void Object3d::Update(DebugCamera* camera)
 	constMap->color = this->color;
 	constMap->viewproj = camera->GetViewProjectionMatrix();
 	constMap->world = matWorld;
-	constMap->cameraPos = FogCenter;
-	//constMap->shadowf = shadowf;
+	constMap->cameraPos = camera->GetEye();
 	constMap->gsflag = gsf;
-	constMap->ks2 = {0, 0, 0};
 	constMap->f = setef;
-	constMap->ks3 = {0, 0, 0};
 	constMap->time = uvtime;
-	constMap->ks4 = {0, 0, 0};
 	constMap->destF = DestF;
-	constMap->ks5 = centerpos;
 	constMap->destTime = DestTime;
+	
+constMap->dislen = dislen;
+	constMap->playerpos = cameraPos;
+	constMap->bloomf = bloomF;
 	constMap->shadowf = shadowf;
-
-	constMap->playerpos = ppos; // PlayerControl::GetIns()->GetPlayer()->GetPosition();
-	constMap->dislen = dislen;
+	 // PlayerControl::GetIns()->GetPlayer()->GetPosition();
 	// 定数バッファへデータ転送
 	//ConstBufferDataB0* constMap = nullptr;
 	//result = constBuffB0->Map(0, nullptr, (void**)&constMap);
@@ -668,13 +665,11 @@ void Object3d::Update(XMMATRIX matworld, XMFLOAT4 color, DebugCamera* camera)
 	constMap->cameraPos = FogCenter;
 	//	constMap->shadowf = shadowf;
 	constMap->gsflag = gsf;
-	constMap->ks2 = {0, 0, 0};
 	constMap->f = setef;
-	constMap->ks3 = {0, 0, 0};
 	constMap->time = uvtime;
-	constMap->ks4 = {0, 0, 0};
+	//constMap->ks4 = {0, 0, 0};
 	constMap->destF = DestF;
-	constMap->ks5 = centerpos;
+	//constMap->ks5 = centerpos;
 	constMap->destTime = DestTime;
 	constMap->shadowf = shadowf;
 	// 定数バッファへデータ転送

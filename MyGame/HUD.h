@@ -85,6 +85,7 @@ private:
 public:
 	void SkillButtonInitialize();
 	void SkillBottonUpdate();
+	void SetMax();
 	void TaskUpdate(DebugCamera* camera);
 	void SkillBottonDraw();
 	void ChangePosition(XMFLOAT2 MousePosition, XMFLOAT2& c);
