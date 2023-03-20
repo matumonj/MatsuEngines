@@ -21,12 +21,12 @@ PSOutPut main(VSOutput input)
 	float diffuse = saturate(dot(-light, input.normal));
 	float brightness = diffuse;
 	//フォグ部分
-	float4 nc = {0.1, 0.1, 0.1, 1}; //cameraPos付近の色
-	float4 c = {0.3, 0.3, 0.4, 1}; //
+	float4 nc = { 0.1, 0.1, 0.1, 1 }; //cameraPos付近の色
+	float4 c = { 0.3, 0.3, 0.4, 1 }; //
 	//cameraPosとあるが今は固定座標
 	float dist = length(cameraPos - input.worldpos.xyz);
 	float4 addcol = float4(lerp(nc.rgb, c.rgb, dist / 100), 0.0);
-	float3 fc = {0.1, 0.1, 0.1};
+	float3 fc = { 0.1, 0.1, 0.1 };
 
 
 	//変更後
@@ -38,7 +38,7 @@ PSOutPut main(VSOutput input)
 	float3 eyedir = normalize(cameraPos - input.worldpos.xyz);
 
 	// 環境反射光
-	float3 ambient = float3(1, 1, 1);
+	float3 ambient =float3(1,1,1) ;
 
 	// シェーディングによる色
 	float4 shadecolor = float4(ambientColor * ambient, 1.f);
@@ -54,9 +54,9 @@ PSOutPut main(VSOutput input)
 			// 反射光ベクトル
 			float3 reflect = normalize(-dirLights[i].lightv + 2 * dotlightnormal * input.normal);
 			// 拡散反射光
-			float3 diffuse = dotlightnormal * float3(0.f, 0.f, 0.f);
+			float3 diffuse = dotlightnormal * float3(0.f,0.f,0.f);
 			// 鏡面反射光
-			float3 specular = pow(saturate(dot(reflect, eyedir)), shininess) * float3(0, 0, 0);
+			float3 specular = pow(saturate(dot(reflect, eyedir)), shininess) * float3(0,0,0);
 
 			// 全て加算する
 			shadecolor.rgb += (diffuse + specular) * dirLights[i].lightcolor;
@@ -82,9 +82,9 @@ PSOutPut main(VSOutput input)
 			// 反射光ベクトル
 			float3 reflect = normalize(-lightv + 2 * dotlightnormal * input.normal);
 			// 拡散反射光
-			float3 diffuse = dotlightnormal * float3(0, 0, 0);
+			float3 diffuse = dotlightnormal *float3(0,0,0);
 			// 鏡面反射光
-			float3 specular = pow(saturate(dot(reflect, eyedir)), shininess) * float3(0, 0, 0);
+			float3 specular = pow(saturate(dot(reflect, eyedir)), shininess) * float3(0,0,0);
 
 			// 全て加算する
 			shadecolor.rgb += atten * (diffuse + specular) * pointLights[nump].lightcolor;
@@ -111,7 +111,7 @@ PSOutPut main(VSOutput input)
 			// 減衰開始角度から、減衰終了角度にかけて減衰
 			// 減衰開始角度の内側は1倍 減衰終了角度の外側は0倍の輝度
 			float angleatten = smoothstep(spotLights[nums].lightfactoranglecos.y,
-			                              spotLights[nums].lightfactoranglecos.x, cos);
+				spotLights[nums].lightfactoranglecos.x, cos);
 			// 角度減衰を乗算
 			atten *= angleatten;
 
@@ -120,9 +120,9 @@ PSOutPut main(VSOutput input)
 			// 反射光ベクトル
 			float3 reflect = normalize(-lightv + 2 * dotlightnormal * input.normal);
 			// 拡散反射光
-			float3 diffuse = dotlightnormal * float3(0, 0, 0);
+			float3 diffuse = dotlightnormal * float3(0,0,0);
 			// 鏡面反射光
-			float3 specular = pow(saturate(dot(reflect, eyedir)), shininess) * float3(0, 0, 0);
+			float3 specular = pow(saturate(dot(reflect, eyedir)), shininess) * float3(0,0,0);
 
 			// 全て加算する
 			shadecolor.rgb += atten * (diffuse + specular) * spotLights[nums].lightcolor;
@@ -156,7 +156,7 @@ PSOutPut main(VSOutput input)
 			// 減衰開始角度から、減衰終了角度にかけて減衰
 			// 減衰開始角度の内側は1倍 減衰終了角度の外側は0倍の輝度
 			float angleatten = smoothstep(circleShadows[numc].factorAngleCos.y, circleShadows[numc].factorAngleCos.x,
-			                              cos);
+				cos);
 			// 角度減衰を乗算
 			atten *= angleatten;
 
@@ -164,8 +164,8 @@ PSOutPut main(VSOutput input)
 			shadecolor.rgb -= atten;
 		}
 	}
-	output.target0 = shadecolor * float4(texcolor.rgb, texcolor.a) * color;
-	output.target1 = shadecolor * float4(texcolor.rgb, texcolor.a) * color;
+	output.target0 = shadecolor * float4(texcolor.rgb, texcolor.a)*color;
+	output.target1 = shadecolor * float4(texcolor.rgb, texcolor.a)*color;
 
 	return output;
 }

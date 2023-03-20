@@ -39,8 +39,14 @@ public:
 		XMFLOAT3 fogcol;
 		float bloomalpha;
 		XMFLOAT2 bloomcenter;
+		float uzulen;
+		float uzurad;
 	};
+	float uzulen;
+	float uzurad;
 
+	void SetUzuRen(float ren) { uzulen = ren; }
+	void SetUzurad(float rad) { uzurad = rad; }
 	static bool StaticInitialize(int window_width, int window_height);
 	static bool LoadTexture(UINT texnumber, const wchar_t* filename);
 	static void PreDraw();

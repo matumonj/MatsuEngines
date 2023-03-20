@@ -52,11 +52,11 @@ void ModelManager::Initialize()
 void ModelManager::LoadModel(const ModelName modelName, std::string fileName)
 {
 	model[modelName] = new Model();
-	model[modelName] = Model::CreateFromOBJ(fileName, true);
+	model[modelName] = Model::CreateFromOBJ(fileName,true);
 
-	if (modelName == BOX)
+	if(modelName==BOX)
 	{
-		model[modelName] = Model::CreateFromOBJ(fileName, false);
+		model[modelName] = Model::CreateFromOBJ(fileName,false);
 	}
 }
 

@@ -87,6 +87,13 @@ void BossScene::Update()
 	LightUpdate();
 
 	postEffect->SetVignette_GB(PlayerControl::GetIns()->GetVignetteAlpha());
+	postEffect->SetUzuRen(UI::GetIns()->GetTwistPower());
+	postEffect->SetUzurad(UI::GetIns()->GetTwistRad());
+
+	if(UI::GetIns()->GetTwistRad()>=0.f)
+	{
+		UI::GetIns()->TwistEffect(Play, -3.f, -0.1f);
+	}
 	//ゲームオーバー時の初期化
 	GameOver::GetIns()->Update();
 

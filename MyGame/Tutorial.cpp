@@ -105,6 +105,8 @@ void Tutorial::Update()
 
 	postEffect->SetVignette_GB(PlayerControl::GetIns()->GetVignetteAlpha());
 	LightUpdate();
+	postEffect->SetUzuRen(UI::GetIns()->GetTwistPower());
+	postEffect->SetUzurad(UI::GetIns()->GetTwistRad());
 	//一定数進んだらシーンチェンジ
 	bool ArrivalJudg = PlayerControl::GetIns()->GetPlayer()->GetPosition().z > -210.0f;
 	if (ArrivalJudg)
@@ -126,10 +128,24 @@ void Tutorial::Update()
 	}
 	if (Input::GetIns()->TriggerButton(Input::START))
 	{
-		SceneManager::GetIns()->SetScene(SceneManager::BOSS, sceneManager_);
+		fp = true;
+	}
+
+	input = Input::GetIns();
+	
+	UI::GetIns()->TwistEffect(fp, 10.f, 0.1f);
+	{
+		if(UI::GetIns()->GetTwistRad()>1000.f)
+			Feed::GetIns()->Update_White(Feed::FEEDIN);
+
+		if(Feed::GetIns()->GetAlpha() >= 1.0f)
+			SceneManager::GetIns()->SetScene(SceneManager::BOSS, sceneManager_);
+
 	}
 	postEffect->SetBloomAlpha(n);
 }
+
+
 
 void Tutorial::LightUpdate()
 {
@@ -211,7 +227,8 @@ void Tutorial::Draw()
 		DirectXCommon::GetIns()->BeginDraw();
 		postEffect->Draw();
 		ImGui::Begin("bloom");
-		ImGui::SliderFloat("blooms", &n, 0, 100);
+		ImGui::SliderFloat("rad", &r, 0, 1900);
+		ImGui::SliderFloat("leng", &l, 0, 100);
 		ImGui::End();
 		SpriteDraw();
 

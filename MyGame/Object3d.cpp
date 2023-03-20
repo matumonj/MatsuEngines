@@ -404,7 +404,7 @@ bool Object3d::InitializeGraphicsPipeline()
 		OutputDebugStringA(errstr.c_str());
 		exit(1);
 	}
-
+	
 	// ピクセルシェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
 		//L"Resources/shaders/BasicPixelShader.hlsl",	// シェーダファイル名

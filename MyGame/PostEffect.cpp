@@ -418,6 +418,8 @@ void PostEffect::Draw()
 		constMap->fogcol = {1.f, 1.f, 1.f};
 		constMap->bloomalpha = BloomAlpha;
 		constMap->bloomcenter = BloomCenter;
+		constMap->uzulen=this->uzulen;
+		constMap->uzurad=this->uzurad;
 		this->constBuff->Unmap(0, nullptr);
 	}
 	constBuff->Unmap(0, nullptr);

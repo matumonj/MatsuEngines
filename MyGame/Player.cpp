@@ -88,15 +88,16 @@ void Player::KnockBack(XMFLOAT3 pos)
 
 	bKnockPower = Easing::EaseOut(KnockEase, 2.f, 0.f);
 }
-
-void Player::Move()
+void Player::Walk()
 {
-	//移動停止フラグと回避モーション時は動けない
-	if (evasionF || StopFlag || HP <= 0 || DamageEvaF)
+	//移動停止フラグ動けない
+	if (evasionF)
 	{
 		return;
 	}
+	//前フレーム座標保存
 	isOld = false;
+
 	XMFLOAT3 pos = Position;
 	XMFLOAT3 rot = Rotation;
 
@@ -122,22 +123,22 @@ void Player::Move()
 		//上入力
 		if (input->TiltPushStick(Input::L_UP, 0.0f))
 		{
-			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{0, 0, vel, 0}, angle);
+			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{ 0, 0, vel, 0 }, angle);
 		}
 		//下入力
 		if (input->TiltPushStick(Input::L_DOWN, 0.0f))
 		{
-			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{0, 0, -vel, 0}, angle);
+			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{ 0, 0, -vel, 0 }, angle);
 		}
 		//右入力
 		if (input->TiltPushStick(Input::L_RIGHT, 0.0f))
 		{
-			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{vel, 0, 0, 0}, angle);
+			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{ vel, 0, 0, 0 }, angle);
 		}
 		//左入力
 		if (input->TiltPushStick(Input::L_LEFT, 0.0f))
 		{
-			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{-vel, 0, 0, 0}, angle);
+			XMFLOAT3 vecvel = MoveVECTOR(XMVECTOR{ -vel, 0, 0, 0 }, angle);
 		}
 
 		const float rnd_vel = 0.1f;
@@ -150,9 +151,9 @@ void Player::Move()
 		rot.y = angle + atan2f(StickX, StickY) * (PI_180 / PI);
 
 		//プレイヤーの回転角を取る
-		Rotation = {rot.x, rot.y, rot.z};
+		Rotation = { rot.x, rot.y, rot.z };
 
-		XMVECTOR move = {0.0f, 0.0f, 0.1f, 0.0f};
+		XMVECTOR move = { 0.0f, 0.0f, 0.1f, 0.0f };
 		XMMATRIX matRot = XMMatrixRotationY(XMConvertToRadians(Rotation.y));
 		move = XMVector3TransformNormal(move, matRot);
 
@@ -161,10 +162,9 @@ void Player::Move()
 		Position.z += move.m128_f32[2] * AddSpeed;
 
 		Gmove = move;
-	}
-	else
+	} else
 	{
-		attackMotion = NON;
+		attackMotion = AttackMotion::NON;
 		RunParCreate = false;
 		//静止時間
 		if ((!m_AnimationStop))
@@ -173,7 +173,20 @@ void Player::Move()
 		}
 	}
 
+}
 
+void Player::Move()
+{
+	
+	//移動停止フラグと回避モーション時は動けない
+	if (StopFlag || HP <= 0 || DamageEvaF)
+	{
+		return;
+	}
+	
+	Walk();
+	//回避
+	Evasion();
 	//探索ステージでの移動制限値
 	float l_MoveLimit_x[2];
 	float l_MoveLimit_z[2];
@@ -330,9 +343,7 @@ void Player::Update()
 	Move();
 	//死亡
 	Death();
-
-	//回避
-	Evasion();
+	
 	//プレイヤーに対しての被ダメージ表記
 	DamageTexDisplay();
 	//手のボーン位置設定

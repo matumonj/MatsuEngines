@@ -89,7 +89,7 @@ void BossEnemy::Initialize()
 {
 	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
-	MaxHP = 690;
+	MaxHP = 890;
 	EnemyHP = MaxHP;
 
 	Scale = {0.14f, 0.1f, 0.14f};

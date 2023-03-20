@@ -84,7 +84,7 @@ void DamageManager::DamageDisPlay_Green(int damage, XMFLOAT4 color)
 	tex2DPos = WDivi(tex2DPos, false);
 	tex2DPos = PosDivi(tex2DPos, CameraControl::GetIns()->GetCamera()->GetViewPort(), false);
 
-	DamageTex->SetColor({1.f, 1.f, 1.f});
+	DamageTex->SetColor({10.f, 10.f, 10.f});
 	DamageTex->SetAlpha(TexAlpha);
 	//•\‹L
 	DamageTex->Print(str.str(), tex2DPos.m128_f32[0], tex2DPos.m128_f32[1], TexSize.x);

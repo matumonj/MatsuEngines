@@ -2,6 +2,8 @@ cbuffer cbuff0:register(b0)
 {
 float bloomalpha;
 float2 centerpos;
+float uzulen;
+float uzurad;
 };
 
 struct Output

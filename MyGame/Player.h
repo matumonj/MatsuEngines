@@ -87,6 +87,8 @@ private:
 	//ƒWƒƒƒ“ƒv
 	void Jump();
 	//ˆÚ“®ˆ—‚Ü‚Æ‚ß
+	void Walk();
+
 	void Move();
 	//€–S
 	void Death();

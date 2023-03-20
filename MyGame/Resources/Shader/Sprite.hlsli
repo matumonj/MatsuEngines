@@ -10,6 +10,8 @@ bool bloomf;
 float3 fogcol;
 float bloomalpha;
 float2 centerpos;
+float uzulen;
+float uzurad;
 };
 
 struct Output

@@ -26,6 +26,13 @@ public:
 
 	void SetRadBlur(bool active) { BlurF = active; }
 	float GetBlurPower() { return bloomval; }
+
+	void TwistEffect(bool f,float radiusAddVal,float PowerAddVal);
+
+	float GetTwistRad() { return TwistRad; }
+	float GetTwistPower() { return TwistPower; }
+	bool TwistF;
+	float TwistPower, TwistRad;
 private:
 	bool BlurF;
 	float EaseT;

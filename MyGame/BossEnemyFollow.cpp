@@ -35,7 +35,7 @@ void BossEnemyFollow::Update(Enemy* enemy)
 		return;
 	}
 	//モーションセット
-	enemy->SetAnimation(BossEnemy::NowAttackMotion::BWALK, true, 1.f);
+	enemy->SetAnimation(BossEnemy::NowAttackMotion::BWALK,  true,1.f);
 	//追跡処理部分//////////
 
 	//敵がプエレイヤーの方向く処理

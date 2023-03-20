@@ -46,7 +46,7 @@ void UI::HUDUpdate(bool& hudload, DebugCamera* camera)
 	HUD::GetIns()->SkillBottonUpdate();
 	HUD::GetIns()->Update();
 	HUD::GetIns()->TaskUpdate(camera);
-
+	
 	if (SceneManager::GetIns()->GetScene() == SceneManager::PLAY)
 	{
 		Task::GetIns()->Upda();
@@ -114,15 +114,13 @@ void UI::HUDDraw()
 
 	constexpr float MaxBlurSmp = 90.f;
 
-	if (BlurF)
-	{
+	if (BlurF) {
 		EaseT += BlurAddVal;
 		if (EaseT > 1.f)
 		{
 			BlurF = false;
 		}
-	}
-	else
+	} else
 	{
 		EaseT -= BlurAddVal;
 	}
@@ -131,6 +129,17 @@ void UI::HUDDraw()
 	bloomval = Easing::EaseOut(EaseT, 0.f, MaxBlurSmp);
 }
 
+
+void UI::TwistEffect(bool f, float radiusAddVal, float PowerAddVal)
+{
+	if (f)
+	{
+		TwistRad += radiusAddVal;
+		TwistPower += PowerAddVal; 
+	}
+	TwistRad = std::clamp(TwistRad, 0.f, 1900.f);
+	TwistPower = std::clamp(TwistPower, 0.f, 30.f);
+}
 void UI::AreaNameDraw()
 {
 	HUD::GetIns()->AreaName();

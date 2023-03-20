@@ -24,6 +24,8 @@ private:
 	bool scenechange = false;
 	bool feedflag = false;
 	float n;
+	float r, l;
+	bool fp;
 public:
 	void objUpdate();
 	void LightSet();
