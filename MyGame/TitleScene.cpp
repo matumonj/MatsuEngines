@@ -1,4 +1,7 @@
 #include "TitleScene.h"
+
+#include <algorithm>
+
 #include"Input.h"
 #include"PlayScene.h"
 #include"MapCreateScene.h"
@@ -28,12 +31,15 @@ void TitleScene::Initialize()
 	LoadWords.emplace("ー", Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::LOADWORD_3), { 0, 0.0f }));
 	LoadWords.emplace("ス", Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::LOADWORD_4), { 0, 0.0f }));
 	LoadWords.emplace("読", Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::LOADWORD_5), { 0, 0.0f }));
-	LoadWords.emplace("み", Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::LOADWORD_6), { 0, 0.0f }));
+	LoadWords.emplace("み_1", Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::LOADWORD_6), { 0, 0.0f }));
 	LoadWords.emplace("込", Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::LOADWORD_7), { 0, 0.0f }));
+	LoadWords.emplace("み_2", Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::LOADWORD_6), { 0, 0.0f }));
 	LoadWords.emplace("中", Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::LOADWORD_8), { 0, 0.0f }));
 	LoadWords.emplace("完", Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::LOADWORD_9), { 0, 0.0f }));
 	LoadWords.emplace("了", Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::LOADWORD_10), { 0, 0.0f }));
 
+
+	WordsSize = { 120.f };
 
 	postEffect = new PostEffect();
 	postEffect->Initialize();
@@ -117,10 +123,11 @@ void TitleScene::Update()
 		CameraPos.y--;
 	}
 	//スプライト
+	LoadWordsSetParam();
+
 	TitleTexUpda();
 	//フィールド
 	TitleFieldUpda();
-
 	//カメラ更新(後で移す)
 	camera->SetEye({CameraPos.x, 2.0f, CameraPos.y});
 	camera->SetTarget({0.0f, 0.0f, 0.0f});
@@ -162,7 +169,7 @@ bool TitleScene::ChangeScene()
 	Cangle += CamAngleSpeed;
 
 	//シーン遷移時
-	if (FadeFlag)
+	if (LoadWordsChange&&timef>=600.f)
 	{
 		Feed::GetIns()->Update_White(Feed::FEEDIN);
 
@@ -188,15 +195,18 @@ void TitleScene::SpriteDraw()
 	titlesprite->Draw();
 	TitleMenu->Draw();
 
-	//1文字ずつ読み込む
-	for (auto i = LoadWords.begin(); i != LoadWords.end(); i++) {
-		LoadWords[i->first].get()->Draw();
+	
+
+	if (feedf) {
+		LoadMenuSprite->Draw();
+		//1文字ずつ読み込む
+		for (auto i = LoadWords.begin(); i != LoadWords.end(); i++) {
+			if (LoadWords[i->first] == nullptr)continue;
+			LoadWords[i->first].get()->Draw();
+		}
+	//	DebugTextSprite::GetIns()->DrawAll();
 	}
-
-	if (feedf)
-	LoadMenuSprite->Draw();
-	DebugTextSprite::GetIns()->DrawAll();
-
+	
 	Sprite::PostDraw();
 
 	Feed::GetIns()->Draw();
@@ -309,4 +319,83 @@ void TitleScene::TitleFieldUpda()
 
 void TitleScene::LightUpdate()
 {
+}
+
+
+void TitleScene::LoadWordsSetParam()
+{
+	//上下運動の中心
+	constexpr XMFLOAT2 CenterPos = {200.f,400.f};
+	//文字の間隔
+	constexpr float WordsInter = 100.f;
+
+	//最初の文字だけずっと動かす
+	LoadWordsPosAngle[0] += 1.f;
+	
+
+	if(!LoadWordsChange){
+		for (int i = 0; i < LoadWordsPosAngle.size(); i++)
+		{
+			if (i != 0 && LoadWordsPosAngle[i - 1] > 10.f)
+			{
+				LoadWordsPosAngle[i] += 1.f;
+			}
+			LoadWordsPos[i].x = CenterPos.x + static_cast<float>(i) * WordsInter;
+			LoadWordsPos[i].y = CenterPos.y + sinf(PI * 2.f / 120.f * LoadWordsPosAngle[i]) * WordsInter / 2.f;
+		}
+	}
+	else
+	{
+		for (int i = 0; i < LoadWordsPosAngle.size(); i++)
+		{
+			LoadWordsPos[i].x = CenterPos.x + static_cast<float>(i) * WordsInter;
+			LoadWordsPos[i].y = CenterPos.y;
+		}
+	}
+
+	//わかりやすくするために個々で書いてる
+	if (LoadWordsChange) {
+		LoadWords["読"].get()->SetPosition(LoadWordsPos[0]);
+		LoadWords["み_1"].get()->SetPosition(LoadWordsPos[1]);
+		LoadWords["込"].get()->SetPosition(LoadWordsPos[2]);
+		LoadWords["み_2"].get()->SetPosition(LoadWordsPos[3]);
+		LoadWords["完"].get()->SetPosition(LoadWordsPos[4]);
+		LoadWords["了"].get()->SetPosition(LoadWordsPos[5]);
+
+		//要らなくなったテクスチャは破棄
+		LoadWords["リ"].reset(nullptr);
+		LoadWords["ソ"].reset(nullptr);
+		LoadWords["ー"].reset(nullptr);
+		LoadWords["ス"].reset(nullptr);
+		LoadWords["中"].reset(nullptr);
+
+		WordsSize += 1.2f;
+	}
+	else {
+		LoadWords["リ"] .get()->SetPosition(LoadWordsPos[0]);
+		LoadWords["ソ"].get()->SetPosition(LoadWordsPos[1]);
+		LoadWords["ー"].get()->SetPosition(LoadWordsPos[2]);
+		LoadWords["ス"].get()->SetPosition(LoadWordsPos[3]);
+		LoadWords["読"].get()->SetPosition(LoadWordsPos[4]);
+		LoadWords["み_1"].get()->SetPosition(LoadWordsPos[5]);
+		LoadWords["込"].get()->SetPosition(LoadWordsPos[6]);
+		LoadWords["み_2"].get()->SetPosition(LoadWordsPos[7]);
+		LoadWords["中"].get()->SetPosition(LoadWordsPos[8]);
+
+		if(FadeFlag)
+		{
+			WordsSize -= 1.2f;
+		}
+
+		LoadWordsChange = WordsSize <= 0.f;
+	}
+
+	//文字のサイズ設定
+	for (auto i = LoadWords.begin(); i != LoadWords.end(); i++) {
+		if (LoadWords[i->first] == nullptr)continue;
+		LoadWords[i->first].get()->SetAnchorPoint({ 0.5f,0.5f });
+		LoadWords[i->first].get()->SetSize({WordsSize,WordsSize});
+	}
+
+	WordsSize = std::clamp(WordsSize, 0.f, 100.f);
 }

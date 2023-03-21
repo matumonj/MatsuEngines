@@ -23,12 +23,12 @@ private:
 	std::unique_ptr<Sprite> LoadMenuSprite = { nullptr };
 
 	//読み込み中と完了の文字
-	struct NowLoadSprite {
-		std::unique_ptr<Sprite> LWordSprite = { nullptr };
-		XMFLOAT2 Pos;
-		float Color;
-	};
+	std::array<XMFLOAT2, 11>LoadWordsPos;
+	std::array<float, 11>LoadWordsPosAngle;
 	std::map<std::string,std::unique_ptr<Sprite>>LoadWords;
+
+	float WordsSize;
+	bool LoadWordsChange;
 	//タイトル用カメラ
 	std::unique_ptr<DebugCamera> camera = nullptr;
 
@@ -68,6 +68,7 @@ private:
 	//描画＿スプライト
 	void SpriteDraw() override;
 
+	void LoadWordsSetParam();
 	bool ff;
 	float timef;
 private:
