@@ -23,6 +23,16 @@ void ImageManager::TitleSpriteInit()
 	
 	LoadSprite(LOAD, L"Resources/2d/title/load.png");
 
+	LoadSprite(LOADWORD_1, L"Resources/2d/title/load1.png");
+		LoadSprite(LOADWORD_2, L"Resources/2d/title/load2.png");
+			LoadSprite(LOADWORD_3, L"Resources/2d/title/load3.png");
+				LoadSprite(LOADWORD_4, L"Resources/2d/title/load4.png");
+					LoadSprite(LOADWORD_5, L"Resources/2d/title/load5.png");
+						LoadSprite(LOADWORD_6, L"Resources/2d/title/load6.png");
+							LoadSprite(LOADWORD_7, L"Resources/2d/title/load7.png");
+								LoadSprite(LOADWORD_8, L"Resources/2d/title/load8.png");
+									LoadSprite(LOADWORD_9, L"Resources/2d/title/load9.png");
+									LoadSprite(LOADWORD_10, L"Resources/2d/title/load10.png");
 }
 void ImageManager::Init()
 {

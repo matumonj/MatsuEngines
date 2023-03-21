@@ -96,7 +96,18 @@ public:
 		OPENTASK,
 		CLOSETASK,
 
-		LOAD
+		LOAD,
+		LOADWORD_1,
+		LOADWORD_2,
+		LOADWORD_3,
+		LOADWORD_4,
+		LOADWORD_5,
+		LOADWORD_6,
+		LOADWORD_7,
+		LOADWORD_8,
+		LOADWORD_9,
+		LOADWORD_10
+
 		/*
 	Texture::LoadTexture(18, L"Resources/2d/icon/nav1.png");
 	Texture::LoadTexture(19, L"Resources/2d/icon/nav2.png");

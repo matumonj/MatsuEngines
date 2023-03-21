@@ -28,7 +28,7 @@ private:
 		XMFLOAT2 Pos;
 		float Color;
 	};
-	std::array<NowLoadSprite, 10>LoadWords;
+	std::map<std::string,std::unique_ptr<Sprite>>LoadWords;
 	//タイトル用カメラ
 	std::unique_ptr<DebugCamera> camera = nullptr;
 

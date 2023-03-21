@@ -22,6 +22,18 @@ void TitleScene::Initialize()
 	Object3d::SetLightGroup(lightGroup);
 
 	Feed::GetIns()->initialize();
+	
+	LoadWords.emplace("ƒŠ", Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::LOADWORD_1),{ 0, 0.0f }));
+	LoadWords.emplace("ƒ\", Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::LOADWORD_2), { 0, 0.0f }));
+	LoadWords.emplace("[", Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::LOADWORD_3), { 0, 0.0f }));
+	LoadWords.emplace("ƒX", Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::LOADWORD_4), { 0, 0.0f }));
+	LoadWords.emplace("“Ç", Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::LOADWORD_5), { 0, 0.0f }));
+	LoadWords.emplace("‚Ý", Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::LOADWORD_6), { 0, 0.0f }));
+	LoadWords.emplace("ž", Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::LOADWORD_7), { 0, 0.0f }));
+	LoadWords.emplace("’†", Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::LOADWORD_8), { 0, 0.0f }));
+	LoadWords.emplace("Š®", Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::LOADWORD_9), { 0, 0.0f }));
+	LoadWords.emplace("—¹", Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::LOADWORD_10), { 0, 0.0f }));
+
 
 	postEffect = new PostEffect();
 	postEffect->Initialize();
@@ -175,7 +187,13 @@ void TitleScene::SpriteDraw()
 	Sprite::PreDraw();
 	titlesprite->Draw();
 	TitleMenu->Draw();
-	if(feedf)
+
+	//1•¶Žš‚¸‚Â“Ç‚Ýž‚Þ
+	for (auto i = LoadWords.begin(); i != LoadWords.end(); i++) {
+		LoadWords[i->first].get()->Draw();
+	}
+
+	if (feedf)
 	LoadMenuSprite->Draw();
 	DebugTextSprite::GetIns()->DrawAll();
 
