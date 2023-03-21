@@ -1,6 +1,7 @@
 #include "SceneManager.h"
 
 #include "ClearScene.h"
+#include "ImageManager.h"
 
 SceneManager* SceneManager::GetIns()
 {
@@ -58,6 +59,8 @@ void SceneManager::Update()
 
 		Scene->Initialize(); //移行したら初期化
 	}
+
+	
 	//更新
 	Scene->Update();
 }
@@ -69,4 +72,42 @@ void SceneManager::Update()
 void SceneManager::Draw()
 {
 	Scene->Draw();
+}
+
+
+
+void SceneManager::AsyncLoad()
+{
+	std::thread t = std::thread([&] {ImageManager::GetIns()->Init(), ModelManager::GetIns()->Initialize();
+		});
+
+	//ダミーで1秒待つ
+	auto sleepTime = std::chrono::seconds(1);
+	std::this_thread::sleep_for(sleepTime);
+
+	t.join();
+	// ロード状態=ロード終了
+	m_loadType = LoadEnd;
+}
+
+void SceneManager::LoadScene()
+{
+	if (m_Load == true) {
+		switch (m_loadType)
+		{
+		case SceneManager::NoLoad://ロードしていないとき
+			m_th = std::thread([&] {AsyncLoad(); });
+			m_loadType = LoadStart;
+			break;
+		case SceneManager::LoadStart://ロードしているとき
+			break;
+		case SceneManager::LoadEnd://ロード終わったら
+			m_th.join();
+			m_loadType = NoLoad;
+			m_Load = false;
+			break;
+		default:
+			break;
+		}
+	}
 }

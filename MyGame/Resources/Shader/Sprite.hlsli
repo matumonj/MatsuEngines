@@ -12,6 +12,7 @@ float bloomalpha;
 float2 centerpos;
 float uzulen;
 float uzurad;
+bool SepiaF;
 };
 
 struct Output

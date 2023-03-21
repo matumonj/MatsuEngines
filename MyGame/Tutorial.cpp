@@ -107,6 +107,7 @@ void Tutorial::Update()
 	LightUpdate();
 	postEffect->SetUzuRen(UI::GetIns()->GetTwistPower());
 	postEffect->SetUzurad(UI::GetIns()->GetTwistRad());
+
 	//一定数進んだらシーンチェンジ
 	bool ArrivalJudg = PlayerControl::GetIns()->GetPlayer()->GetPosition().z > -210.0f;
 	if (ArrivalJudg)
@@ -159,7 +160,7 @@ void Tutorial::LightUpdate()
 		                                     });
 		lightGroup->SetCircleShadowAtten(0, XMFLOAT3(circleShadowAtten));
 		lightGroup->SetCircleShadowFactorAngle(0, XMFLOAT2(circleShadowFactorAngle2));
-	}
+}
 	lightGroup->SetCircleShadowDir(1, XMVECTOR({circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0}));
 	lightGroup->SetCircleShadowCasterPos(1, {ppos.x, ppos.y + lightY, ppos.z});
 	lightGroup->SetCircleShadowAtten(1, XMFLOAT3(circleShadowAtten));
@@ -230,7 +231,7 @@ void Tutorial::Draw()
 		ImGui::SliderFloat("rad", &r, 0, 1900);
 		ImGui::SliderFloat("leng", &l, 0, 100);
 		ImGui::End();
-		SpriteDraw();
+		//SpriteDraw();
 
 		DirectXCommon::GetIns()->EndDraw();
 

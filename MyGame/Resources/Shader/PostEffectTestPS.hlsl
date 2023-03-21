@@ -7,6 +7,9 @@ Texture2D<float4> tex1 : register(t1); // 深度テクスチャ
 SamplerState smp:register(s0);
 
 #define bloomR (10.f)
+#define R_LUMINANCE 0.3
+#define G_LUMINANCE 0.6
+#define B_LUMINANCE 0.1
 
 float3 BloomPixel(SamplerState smp, float2 uv, float2 texPixelSize)
 {
@@ -59,43 +62,20 @@ float4 bloom(SamplerState smp, float2 uv, float intensity = 1.f)
 	return float4(getBloom(smp, uv, 1.f / 1920) * intensity, 1.f);
 }
 
-float4 main(Output input) : SV_TARGET
+
+float3 Sepia(float3 Color)
 {
-	
-	float4 coltex0 = tex.Sample(smp, input.uv);
-	float4 coltex1 = tex1.Sample(smp, input.uv);
+	float v = Color.g * R_LUMINANCE + Color.g * G_LUMINANCE + Color.b * B_LUMINANCE;
+	// セピア調に変換（セピアなので赤や緑を多め）
+	if(SepiaF)
+	return float3(v * 0.9, v * 0.7, v * 0.4);
 
-	float4 col = coltex0;
+	return Color;
+}
 
-	float4 feed = {0.5, 0.5, 0.5, 1};
-	//	col = feed;
-
-	// ブルーム
-	
-	//col.rgb += bloom(smp, input.uv).rgb
-
-
-	float2 ScreenSize = float2(1920.f, 1080.f);
-	float2 vCenter = float2(1920.f / 2.0f, 1080.f/2.f);
-	float2 cpos = (input.uv * ScreenSize) - vCenter;
-	float lens = length(cpos);
-
-
-	float uzu = min(max(1.0 - (lens / uzurad), 0.0), 1.0)*uzulen;
-	float x = cpos.x * cos(uzu) - cpos.y * sin(uzu);
-	float y = cpos.x * sin(uzu) + cpos.y * cos(uzu);
-	float2 retPos = (float2(x, y) + vCenter) / ScreenSize;
-
-
-
+float4 RadBlur(float2 retPos,float2 offset)
+{
 	float4 colors[10];
-	float2 ViewportOffset = (float2(0.5, 0.5) / float2(1900,1000));
-	float2 center = float2(smoothstep(0,1900, centerpos.x), smoothstep( 0, 1000, centerpos.y));
-	float2 dir = center - input.uv;
-	float len = length(dir);
-	float2 offset = normalize(dir) * ViewportOffset;
-	offset *= (bloomalpha * len);
-
 
 	colors[0] = tex.Sample(smp, retPos) * 0.19f;
 	colors[1] = tex.Sample(smp, retPos + offset) * 0.17f;
@@ -111,10 +91,46 @@ float4 main(Output input) : SV_TARGET
 	float4 Color = float4(0.0f, 0.0f, 0.0f, 0.0f);
 	Color = (colors[0] + colors[1] + colors[2] + colors[3] + colors[4]
 		+ colors[5] + colors[6] + colors[7] + colors[8] + colors[9]);
+
+	return Color;
+}
+float4 main(Output input) : SV_TARGET
+{
+	
+	float4 coltex0 = tex.Sample(smp, input.uv);
+	float4 coltex1 = tex1.Sample(smp, input.uv);
+
+	float4 Color = coltex0;
+
+	float4 feed = {0.5, 0.5, 0.5, 1};
+	
+	float2 ScreenSize = float2(1920.f, 1080.f);
+	float2 vCenter = float2(1920.f / 2.0f, 1080.f/2.f);
+	float2 cpos = (input.uv * ScreenSize) - vCenter;
+	float lens = length(cpos);
+
+
+	float uzu = min(max(1.0 - (lens / uzurad), 0.0), 1.0)*uzulen;
+	float x = cpos.x * cos(uzu) - cpos.y * sin(uzu);
+	float y = cpos.x * sin(uzu) + cpos.y * cos(uzu);
+	float2 retPos = (float2(x, y) + vCenter) / ScreenSize;
+
+
+
+	
+	float2 ViewportOffset = (float2(0.5, 0.5) / float2(1900,1000));
+	float2 center = float2(smoothstep(0,1900, centerpos.x), smoothstep( 0, 1000, centerpos.y));
+	float2 dir = center - input.uv;
+	float len = length(dir);
+	float2 offset = normalize(dir) * ViewportOffset;
+	offset *= (bloomalpha * len);
+
+
+	Color = RadBlur(retPos, offset);
+	
+	Color.xyz = Sepia(Color.xyz);
 	Color.gb -= Vignette(input.uv).gb;
 	
 	return float4(Color.xyz,1);
 	
-	// ボケ画像を出力
-	//return tex.Sample(smp, input.uv);
 }

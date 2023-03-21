@@ -19,6 +19,16 @@ private:
 	std::unique_ptr<Object3d> celestal = nullptr;
 	//テクスチャ[Bでゲーム画面へ]
 	std::unique_ptr<Sprite> TitleMenu = {nullptr};
+	//ロードシーン
+	std::unique_ptr<Sprite> LoadMenuSprite = { nullptr };
+
+	//読み込み中と完了の文字
+	struct NowLoadSprite {
+		std::unique_ptr<Sprite> LWordSprite = { nullptr };
+		XMFLOAT2 Pos;
+		float Color;
+	};
+	std::array<NowLoadSprite, 10>LoadWords;
 	//タイトル用カメラ
 	std::unique_ptr<DebugCamera> camera = nullptr;
 
@@ -40,7 +50,7 @@ private:
 	XMFLOAT2 CameraPos = {0.0f, 0.0f};
 	//フィールド回転用
 	float FieldRotY = 0.0f;
-
+	bool FadeFlag;
 public:
 	//初期化
 	void Initialize() override;
@@ -58,6 +68,8 @@ private:
 	//描画＿スプライト
 	void SpriteDraw() override;
 
+	bool ff;
+	float timef;
 private:
 	static constexpr float RotSpeed = 0.1f;
 	static constexpr XMFLOAT3 FieldScl = {0.15f, 0.15f, 0.15f};

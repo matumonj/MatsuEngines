@@ -96,6 +96,7 @@ public:
 		OPENTASK,
 		CLOSETASK,
 
+		LOAD
 		/*
 	Texture::LoadTexture(18, L"Resources/2d/icon/nav1.png");
 	Texture::LoadTexture(19, L"Resources/2d/icon/nav2.png");
@@ -105,6 +106,9 @@ public:
 
 public:
 	static ImageManager* GetIns(); //Žæ“¾—p
+
+	void TitleSpriteInit();
+
 
 	void Init();
 	void Load2D();

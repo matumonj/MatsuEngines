@@ -56,7 +56,7 @@ void BossEnemy::ResourcesSet()
 
 	m_fbxObject = std::make_unique<f_Object3d>();
 	m_fbxObject->Initialize();
-	m_fbxObject->SetModel(FbxLoader::GetIns()->LoadModelFromFile("boss"));
+	m_fbxObject->SetModel(ModelManager::GetIns()->GetFBXModel(ModelManager::BOSS));
 	m_fbxObject->LoadAnimation();
 	m_fbxObject->PlayAnimation(1);
 

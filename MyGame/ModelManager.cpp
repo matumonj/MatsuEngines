@@ -10,9 +10,13 @@ ModelManager* ModelManager::GetIns()
 	return &instans;
 }
 
-void ModelManager::Initialize()
+void ModelManager::InitField()
 {
 	LoadModel(FIELD, "LowPoly_Landscape");
+}
+
+void ModelManager::Initialize()
+{
 	LoadModel(BOSSFIELD, "BossField");
 	LoadModel(WOOD, "wood");
 	LoadModel(WOOD2, "wood2");
@@ -47,6 +51,9 @@ void ModelManager::Initialize()
 	LoadModel(TORCH, "Torch");
 	LoadModel(CHARGEEFFECT, "ChargeEffect");
 	LoadModel(RING, "CircleDamage");
+
+	LoadFBXModel(BOSS, "boss");
+	LoadFBXModel(PLAYER, "ko");
 }
 
 void ModelManager::LoadModel(const ModelName modelName, std::string fileName)

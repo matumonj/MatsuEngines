@@ -23,6 +23,8 @@ void TitleScene::Initialize()
 
 	Feed::GetIns()->initialize();
 
+	postEffect = new PostEffect();
+	postEffect->Initialize();
 	//フィールド
 	TitleFieldInit();
 	//タイトルスプライト
@@ -38,21 +40,51 @@ void TitleScene::Update()
 {
 	if (Input::GetIns()->TriggerButton(Input::B))
 	{
+		SceneManager::GetIns()->SetLoad(true);
 		CameraBackF = true;
 		menujudg_Play = true;
-		feedf = true;
+		//feedf = true;
 	}
 	if (Input::GetIns()->TriggerButton(Input::A))
 	{
 		SceneManager::GetIns()->SetScene(SceneManager::MAPCREATE, sceneManager_);
 	}
 
-
+	
 	//画面真っ白になったらシーン切り替え
 	//
+	if (CameraBackF)
+	{
+		if (SceneManager::GetIns()->GetLoad()) {
+			DebugTextSprite::GetIns()->Print("NowLoading", 1000, 600, 3);
+		}
+		else
+		{
+			DebugTextSprite::GetIns()->Print("Clear", 1000, 600, 3);
+		}
+		timef++;
+		SceneManager::GetIns()->LoadScene();
+	}
 	if (ChangeScene() == true)
 	{
 		SceneManager::GetIns()->SetScene(SceneManager::TUTORIAL, sceneManager_);
+	}
+	if(!FadeFlag)
+	{
+		if (feedf)
+		{
+			postEffect->SetSepiaF(true);
+			Feed::GetIns()->Update_Black(Feed::FEEDOUT);
+		} else
+		{
+			if (menujudg_Play) {
+				Feed::GetIns()->Update_Black(Feed::FEEDIN);
+				if (Feed::GetIns()->GetAlpha() >= 1.0f)
+				{
+					feedf = true;
+				}
+			}
+		}
 	}
 
 	//360言ったら０にリセット
@@ -95,9 +127,10 @@ void TitleScene::MyGameDraw()
 
 bool TitleScene::ChangeScene()
 {
-	bool FadeFlag = CameraPos.y <= -40.0f;
+	
+	FadeFlag = timef&&!SceneManager::GetIns()->GetLoad();
 	float CameraCenterPosX = CameraPos.x - 26.0f;
-	if (feedf)
+	if (FadeFlag)
 	{
 		CamAngleSpeed = 0.5f;
 
@@ -142,7 +175,10 @@ void TitleScene::SpriteDraw()
 	Sprite::PreDraw();
 	titlesprite->Draw();
 	TitleMenu->Draw();
+	if(feedf)
+	LoadMenuSprite->Draw();
 	DebugTextSprite::GetIns()->DrawAll();
+
 	Sprite::PostDraw();
 
 	Feed::GetIns()->Draw();
@@ -150,8 +186,10 @@ void TitleScene::SpriteDraw()
 
 void TitleScene::Draw()
 {
+	
 	//ポストエフェクトの描画
 	DirectXCommon::GetIns()->BeginDraw(); //描画コマンドの上らへんに
+	//postEffect->Draw();
 	MyGameDraw();
 	SpriteDraw();
 	DirectXCommon::GetIns()->EndDraw();
@@ -178,9 +216,9 @@ void TitleScene::TitleTexInit()
 
 	Sprite* navGameSprite = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::GAMEPLAY), {0, 0.0f});
 	Sprite* navEditSprite = Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::GAMEPLAY), {0, 0.0f});
-
+	Sprite* loadSprite= Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::LOAD), { 0, 0.0f });
 	TitleMenu.reset(navGameSprite);
-
+	LoadMenuSprite.reset(loadSprite);
 	menuAlpha = 1.0f;
 
 	MenuScale = {1900.f, 1000.f};

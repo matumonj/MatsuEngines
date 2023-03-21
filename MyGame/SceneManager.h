@@ -1,4 +1,6 @@
 #pragma once
+#include <mutex>
+
 #include"BaseScene.h"
 #include<thread>
 #include"Tutorial.h"
@@ -38,4 +40,29 @@ private:
 	std::thread t;
 	BaseScene* Scene;
 	BaseScene* nextScene = nullptr;
+
+
+	// 非同期処理
+	std::thread m_th = {};
+	// ロード状態
+	int m_loadType = NoLoad;
+	// スレッド間で使用する共有リソースを排他制御する
+	std::mutex isLoadedMutex = {};
+	//ロードのタイプ
+	enum LoadType
+	{
+		NoLoad,
+		LoadStart,
+		LoadEnd
+	};
+	bool m_Load;
+
+	// 非同期ロード
+	void AsyncLoad();
+
+	
+public:void LoadScene();
+	//getter setter
+	void SetLoad(bool Load) { this->m_Load = Load; }
+	bool GetLoad() { return  m_Load; }
 };

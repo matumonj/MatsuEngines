@@ -434,9 +434,9 @@ void CameraControl::BossSceneStart()
 	XMFLOAT3 BossPos = EnemyControl::GetIns()->GetEnemy(EnemyControl::BOSS)[0]->GetPosition();
 	if (point.size() == 0)
 	{
-		point.push_back({BossPos.x, BossPos.y + 100.0f, BossPos.z - 10.0f});
-		point.push_back({BossPos.x, BossPos.y + 100.0f, BossPos.z - 10.0f}); //è„Ç©ÇÁ
-		point.push_back({BossPos.x, BossPos.y + 100.0f, BossPos.z - 50.0f}); //â∫Ç÷
+		point.push_back({BossPos.x, BossPos.y + 200.0f, BossPos.z - 140.0f});
+		point.push_back({BossPos.x, BossPos.y + 200.0f, BossPos.z - 140.0f}); //è„Ç©ÇÁ
+		point.push_back({BossPos.x, BossPos.y + 130.0f, BossPos.z - 100.0f}); //â∫Ç÷
 		point.push_back({BossPos.x, BossPos.y + 60.0f, BossPos.z - 10.0f}); //Ç©ÇÁâE
 		point.push_back({BossPos.x + 20.0f, BossPos.y + 40.0f, BossPos.z + 10.0f}); //å„ÇÎâÒÇ¡Çƒ
 		point.push_back({BossPos.x + 0.0f, BossPos.y + 40.0f, BossPos.z + 30.0f}); //ç∂Ç≠ÇÈ

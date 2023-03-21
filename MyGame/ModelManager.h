@@ -70,6 +70,7 @@ public:
 	static ModelManager* GetIns(); //Žæ“¾—p
 
 	void Initialize();
+	void InitField();
 	void LoadModel(ModelName modelName, std::string fileName);
 	void LoadFBXModel(FBXName modelName, std::string fileName);
 	Model* GetModel(ModelName modelName)  { return model[modelName]; }

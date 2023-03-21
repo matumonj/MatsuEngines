@@ -41,12 +41,15 @@ public:
 		XMFLOAT2 bloomcenter;
 		float uzulen;
 		float uzurad;
+		bool SepiaF;
 	};
 	float uzulen;
 	float uzurad;
+	bool SepiaF;
 
 	void SetUzuRen(float ren) { uzulen = ren; }
 	void SetUzurad(float rad) { uzurad = rad; }
+	void SetSepiaF(bool f) { SepiaF = f; }
 	static bool StaticInitialize(int window_width, int window_height);
 	static bool LoadTexture(UINT texnumber, const wchar_t* filename);
 	static void PreDraw();

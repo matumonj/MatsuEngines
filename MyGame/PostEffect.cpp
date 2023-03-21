@@ -195,18 +195,7 @@ void PostEffect::Initialize()
 		static_cast<UINT>(WinApp::window_height),
 		1, 0, 1, 0, D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET
 	);
-
-	// テクスチャ用バッファの生成
-	//result = device->CreateCommittedResource(
-	//	&CD3DX12_HEAP_PROPERTIES(D3D12_CPU_PAGE_PROPERTY_WRITE_BACK, D3D12_MEMORY_POOL_L0),
-	//	D3D12_HEAP_FLAG_NONE,
-	//	&texresDesc,
-	//	D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, // テクスチャ用指定
-	//	&CD3DX12_CLEAR_VALUE(DXGI_FORMAT_R8G8B8A8_UNORM, clearColor),
-	//	IID_PPV_ARGS(&texBuff));
-
-	//変更後
-
+	
 	for (int i = 0; i < 2; i++)
 	{
 		result = device->CreateCommittedResource(
@@ -216,39 +205,9 @@ void PostEffect::Initialize()
 			D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, // テクスチャ用指定
 			&CD3DX12_CLEAR_VALUE(DXGI_FORMAT_R8G8B8A8_UNORM, clearColor),
 			IID_PPV_ARGS(&texBuff[i]));
-
-
-		//result = device->CreateCommittedResource(
-		//	&CD3DX12_HEAP_PROPERTIES(D3D12_CPU_PAGE_PROPERTY_WRITE_BACK, D3D12_MEMORY_POOL_L0),
-		//	D3D12_HEAP_FLAG_NONE,
-		//	&texresDesc,
-		//	D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, // テクスチャ用指定
-		//	&CD3DX12_CLEAR_VALUE(DXGI_FORMAT_R8G8B8A8_UNORM, clearColor),
-		//	IID_PPV_ARGS(&texBuff));
-
+		
 		assert(SUCCEEDED(result));
 
-		//{//テクスチャを赤クリア
-		//	//要素数
-		//	const UINT pixelCount = WinApp::window_width * WinApp::window_height;
-		//	//画像１行分のデータサイズ
-		//	const UINT rowPitch = sizeof(UINT) * WinApp::window_width;
-		//	//画像全体のデータサイズ
-		//	const UINT depthPitch = rowPitch * WinApp::window_height;
-		//	//画像イメージ
-		//	UINT* img = new UINT[pixelCount];
-		//	for (int i = 0; i < pixelCount; i++) {
-		//		img[i] = 0xff0000ff;
-		//	}
-
-		//	//テクスチャバッファにデータ転送
-		//	result = texBuff->WriteToSubresource(0, nullptr,
-		//		img, rowPitch, depthPitch);
-
-		//	assert(SUCCEEDED(result));
-		//	delete[]img;
-		//}
-		//変更後
 		{
 			//テクスチャを赤クリア
 			//要素数
@@ -420,6 +379,7 @@ void PostEffect::Draw()
 		constMap->bloomcenter = BloomCenter;
 		constMap->uzulen=this->uzulen;
 		constMap->uzurad=this->uzurad;
+		constMap->SepiaF = this->SepiaF;
 		this->constBuff->Unmap(0, nullptr);
 	}
 	constBuff->Unmap(0, nullptr);

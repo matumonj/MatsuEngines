@@ -15,6 +15,15 @@ void ImageManager::LoadTex(TexName imageName, wchar_t* fileName)
 	Texture::LoadTexture(imageName, fileName);
 }
 
+void ImageManager::TitleSpriteInit()
+{
+	LoadSprite(TITLE1, L"Resources/2d/title/titlesp.png");
+	LoadSprite(TITLE2, L"Resources/title2.png");
+
+	
+	LoadSprite(LOAD, L"Resources/2d/title/load.png");
+
+}
 void ImageManager::Init()
 {
 	LoadTex(NAV1, L"Resources/2d/icon/nav1.png");
@@ -34,12 +43,6 @@ void ImageManager::Init()
 	LoadSprite(ENEMYNAME_MINIGOLEM, L"Resources/2d/enemy/name_puchigolem.png");
 	LoadSprite(ENEMYNAME_LIZARD, L"Resources/2d/enemy/name_lizard.png");
 	LoadSprite(ENEMYNAME_GUARDIAN, L"Resources/2d/enemy/name_guardian.png");
-
-	LoadSprite(TITLE1, L"Resources/2d/title/titlesp.png");
-	LoadSprite(TITLE2, L"Resources/title2.png");
-
-	LoadSprite(GAMEPLAY, L"Resources/2d/title/gameplay.png");
-
 	LoadSprite(BOSSHPFRAME, L"Resources/09 パワーゲージ/gauge_frame2.png");
 	LoadSprite(BOSSHPFRAMEINNER, L"Resources/09 パワーゲージ/gauge_base_or2.png");
 	LoadSprite(BOSSHPFRAMEINNER2, L"Resources/09 パワーゲージ/gauge_base_bl.png");

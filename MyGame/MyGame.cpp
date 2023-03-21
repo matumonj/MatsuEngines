@@ -18,8 +18,11 @@ void MyGame::Initialize()
 	//初期シーン
 	BaseScene* scene_ = new TitleScene(sceneManger);
 	sceneManger->SetnextScene(scene_);
-	ModelManager::GetIns()->Initialize();
-	ImageManager::GetIns()->Init();
+	//フィールドモデルだけ最初から
+	ModelManager::GetIns()->InitField();
+	//タイトルテクスチャ
+	ImageManager::GetIns()->TitleSpriteInit();
+
 	GameOver::GetIns()->Initialize();
 
 	Sprite::LoadTexture(0, L"Resources/2d/LevelUp/debugfont.png");
