@@ -118,26 +118,27 @@ void BossEnemyFollow::Update(Enemy* enemy)
 	{
 		enemy->ChangeState_Boss(new BossEnemyDeath());
 	}
-	//std::get<AttackInvoPer::CIRCLE_FIR>(_attackInvoPer) = 80.f;
-	/*-----------UŒ‚‘JˆÚ•”•ª------------*/
-	ActionSequence(enemy, 80.f, FrontCircleAttack::GetIns(), enemy->CIRCLE_1,
-	               new BossEnemyAttackSlam());
+	else {
+		//std::get<AttackInvoPer::CIRCLE_FIR>(_attackInvoPer) = 80.f;
+		/*-----------UŒ‚‘JˆÚ•”•ª------------*/
+		ActionSequence(enemy, 80.f, FrontCircleAttack::GetIns(), enemy->CIRCLE_1,
+			new BossEnemyAttackSlam());
 
-	ActionSequence(enemy, 20.f, FrontCircleAttack::GetIns(), enemy->CIRCLE_2,
-	               new BossEnemyAttackSlam());
+		ActionSequence(enemy, 20.f, FrontCircleAttack::GetIns(), enemy->CIRCLE_2,
+			new BossEnemyAttackSlam());
 
-	ActionSequence(enemy, 70.f, RushAttack::GetIns(), enemy->Beam,
-	               new BossEnemyAttackRush());
+		ActionSequence(enemy, 70.f, RushAttack::GetIns(), enemy->Beam,
+			new BossEnemyAttackRush());
 
-	ActionSequence(enemy, 50.f, UltAttack::GetIns(), enemy->ULT,
-	               new BossEnemyAttackUlt());
+		ActionSequence(enemy, 50.f, UltAttack::GetIns(), enemy->ULT,
+			new BossEnemyAttackUlt());
 
-	ActionSequence(enemy, 30.f, BronzeAttack::GetIns(), enemy->BRONZEATTACK_H,
-	               new BossEnemyAttackBrzBeam());
+		ActionSequence(enemy, 30.f, BronzeAttack::GetIns(), enemy->BRONZEATTACK_H,
+			new BossEnemyAttackBrzBeam());
 
-	ActionSequence(enemy, 85.f, HalfAttack::GetIns(), enemy->HALF_1,
-	               new BossEnemyAttackHalf());
-
+		ActionSequence(enemy, 85.f, HalfAttack::GetIns(), enemy->HALF_1,
+			new BossEnemyAttackHalf());
+	}
 	//KnockAttack::GetIns()->SetAttackPhase(false);
 }
 

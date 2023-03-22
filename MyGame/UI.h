@@ -37,4 +37,39 @@ private:
 	bool BlurF;
 	float EaseT;
 	float bloomval;
+
+
+	enum Selectex
+	{
+		
+		EXPLO,
+		BOSS,
+		FRAME
+	};
+
+	float FrameX[2] = { 800.f,1200.f };
+	bool SelectF;
+	int index;
+
+	std::array<bool, 3>AreaSel_F;
+	std::array<float, 3>AreaSel_EaseC;
+	std::array<float, 3>AreaSel_Size;
+
+	std::array<std::unique_ptr<Sprite>,3>AreaSel;
+
+	//ÉVÅ[ÉìêÿÇËë÷Ç¶
+	bool SceneChange_Boss;
+	bool SceneChange_Explo;
+
+	static constexpr float AddEaseTime = 0.02f;
+public:
+	void AreaSelectTexInit();
+	void AreaSelectTexUpda();
+	bool GetAreaSelF() { return SelectF; }
+
+	bool GetSceneChange_Boss() { return SceneChange_Boss; }
+	bool GetSceneChange_Explo() { return SceneChange_Explo; }
+
+	void SelectScene_Open();
+	void SelectScene_Close();
 };

@@ -9,6 +9,7 @@
 #include"DropWeapon.h"
 #include <SelectSword.h>
 #include "HalfAttack.h"
+#include "ImageManager.h"
 #include "mHelper.h"
 #include "PlayerControl.h"
 
@@ -28,10 +29,18 @@ void UI::Initialize()
 	HUD::GetIns()->SkillButtonInitialize();
 	if (SceneManager::GetIns()->GetScene() == SceneManager::TUTORIAL)
 	{
+		AreaSel[BOSS].reset(Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::AREASELECT_BOSS), { 0.f,0.f }));
+		AreaSel[EXPLO].reset(Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::AREASELECT_EXPLO), { 0.f,0.f }));
+		AreaSel[FRAME].reset(Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::AREASELECT_FRAME), { 0.f,0.f }));
+
 		TutorialSprite::GetIns()->Initialize();
 	}
 	DropWeapon::GtIns()->Init();
 	Task::GetIns()->Init();
+}
+
+void UI::AreaSelectTexInit()
+{
 }
 
 
@@ -42,6 +51,7 @@ void UI::HUDUpdate(bool& hudload, DebugCamera* camera)
 		HUD::GetIns()->EnemyHPGauge_MultiUpdate(hudload, camera,
 		                                        EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL));
 		TutorialSprite::GetIns()->Update();
+		
 	}
 	HUD::GetIns()->SkillBottonUpdate();
 	HUD::GetIns()->Update();
@@ -52,6 +62,92 @@ void UI::HUDUpdate(bool& hudload, DebugCamera* camera)
 		Task::GetIns()->Upda();
 	}
 }
+
+void UI::AreaSelectTexUpda()
+{
+	
+	AreaSel[EXPLO]->SetPosition({ 800.f,500.f });
+	AreaSel[BOSS]->SetPosition({ 1200.f,500.f });
+
+	SelectScene_Open();
+	SelectScene_Close();
+
+	//切り替え始まったらウィンドウ閉じる
+	if (SceneChange_Explo || SceneChange_Boss)
+	{
+		for (auto i = 0; i < AreaSel.size(); i++)
+		{
+			AreaSel_EaseC[i] -= AddEaseTime;
+		}
+	}
+	if (SelectF&&Input::GetIns()->TriggerButton(Input::A))
+	{
+		if (index == EXPLO)
+		{
+			SceneChange_Explo = true;
+		}
+		if (index == BOSS)
+		{
+			SceneChange_Boss = true;
+		}
+	}
+
+	
+}
+
+void UI::SelectScene_Open()
+{
+	if (SceneChange_Explo || SceneChange_Boss)
+	{
+		return;
+	}
+	if (!SelectF)return;
+	for (auto i = 0; i < AreaSel.size(); i++)
+	{
+		if (AreaSel[i] == nullptr)continue;
+		AreaSel_EaseC[i] += AddEaseTime;
+	}
+
+	if (Input::GetIns()->TriggerButton(Input::X))
+	{
+		index--;
+	}
+	if (Input::GetIns()->TriggerButton(Input::B))
+	{
+		index++;
+	}
+
+	//もう一度Startでウィンドウ閉じる
+	if (AreaSel_EaseC[0] > 0.9f)
+	{
+		if (Input::GetIns()->TriggerButton(Input::START))
+			SelectF = false;
+	}
+
+	AreaSel[FRAME]->SetPosition({ FrameX[index],500.f });
+}
+
+void UI::SelectScene_Close()
+{
+	if (SceneChange_Explo || SceneChange_Boss)
+	{
+		return;
+	}
+	if (SelectF)return;
+
+	if (AreaSel_EaseC[0] < 0.1f)
+	{
+		if (Input::GetIns()->TriggerButton(Input::START))
+			SelectF = true;
+	}
+	for (auto i = 0; i < AreaSel.size(); i++)
+	{
+		if (AreaSel[i] == nullptr)continue;
+		AreaSel_EaseC[i] -= AddEaseTime;
+
+	}
+}
+
 
 void UI::HUDDraw()
 {
@@ -64,8 +160,22 @@ void UI::HUDDraw()
 	if (SceneManager::GetIns()->GetScene() == SceneManager::TUTORIAL)
 	{
 		TutorialSprite::GetIns()->Draw();
-	}
+			Sprite::PreDraw();
+			for (auto i = 0; i < AreaSel.size(); i++)
+			{
+				if (AreaSel[i] == nullptr)continue;
 
+				AreaSel[i]->SetAnchorPoint({ 0.5f,0.5f });
+
+				AreaSel_EaseC[i] = std::clamp(AreaSel_EaseC[i], 0.f, 1.f);
+
+				AreaSel_Size[i] = Easing::EaseOut(AreaSel_EaseC[i], 0.f, 400.f);
+
+				AreaSel[i]->SetSize({ AreaSel_Size[i],AreaSel_Size[i] });
+				AreaSel[i]->Draw();
+			}
+			Sprite::PostDraw();
+		}
 	EnemyControl::GetIns()->HPFrameDraw();
 	if (!TurnOffDrawUI)
 	{

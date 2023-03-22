@@ -39,7 +39,7 @@ void TitleScene::Initialize()
 	LoadWords.emplace("—¹", Sprite::Create(ImageManager::GetIns()->GetImage(ImageManager::LOADWORD_10), { 0, 0.0f }));
 
 
-	WordsSize = { 120.f };
+	WordsSize = { 220.f };
 
 	postEffect = new PostEffect();
 	postEffect->Initialize();
@@ -61,7 +61,6 @@ void TitleScene::Update()
 		SceneManager::GetIns()->SetLoad(true);
 		CameraBackF = true;
 		menujudg_Play = true;
-		//feedf = true;
 	}
 	if (Input::GetIns()->TriggerButton(Input::A))
 	{
@@ -149,21 +148,8 @@ bool TitleScene::ChangeScene()
 	
 	FadeFlag = timef&&!SceneManager::GetIns()->GetLoad();
 	float CameraCenterPosX = CameraPos.x - 26.0f;
-	if (FadeFlag)
-	{
-		CamAngleSpeed = 0.5f;
-
-		float cameratocenter_x = sqrtf(CameraCenterPosX * CameraCenterPosX);
-
-		if (cameratocenter_x < 1.0f && CameraPos.y < -30.0f)
-		{
-			CameraBackF = true;
-		}
-	}
-	else
-	{
 		CamAngleSpeed = 0.1f;
-	}
+	
 
 	//‰ñ“]—pƒAƒ“ƒOƒ‹‚Ì’l‚ð‘«‚µ‚Ä‚¢‚­
 	Cangle += CamAngleSpeed;
@@ -231,7 +217,14 @@ void TitleScene::Finalize()
 {
 	field.release();
 	celestal.release();
-	//delete postEffect;
+	LoadWords["“Ç"].reset();
+	LoadWords["‚Ý_1"].reset();
+	LoadWords["ž"].reset();
+	LoadWords["‚Ý_2"].reset();
+	LoadWords["Š®"].reset();
+	LoadWords["—¹"].reset();
+
+	delete postEffect;
 	delete lightGroup;
 	Destroy_unique(camera);
 	Destroy_unique(titlesprite);
@@ -325,9 +318,11 @@ void TitleScene::LightUpdate()
 void TitleScene::LoadWordsSetParam()
 {
 	//ã‰º‰^“®‚Ì’†S
-	constexpr XMFLOAT2 CenterPos = {200.f,400.f};
+	constexpr XMFLOAT2 CenterPos = {200.f,800.f};
 	//•¶Žš‚ÌŠÔŠu
 	constexpr float WordsInter = 100.f;
+
+	constexpr float AddMovingVal = 2.2f;
 
 	//Å‰‚Ì•¶Žš‚¾‚¯‚¸‚Á‚Æ“®‚©‚·
 	LoadWordsPosAngle[0] += 1.f;
@@ -369,7 +364,7 @@ void TitleScene::LoadWordsSetParam()
 		LoadWords["ƒX"].reset(nullptr);
 		LoadWords["’†"].reset(nullptr);
 
-		WordsSize += 1.2f;
+		WordsSize += AddMovingVal;
 	}
 	else {
 		LoadWords["ƒŠ"] .get()->SetPosition(LoadWordsPos[0]);
@@ -384,7 +379,7 @@ void TitleScene::LoadWordsSetParam()
 
 		if(FadeFlag)
 		{
-			WordsSize -= 1.2f;
+			WordsSize -= AddMovingVal;
 		}
 
 		LoadWordsChange = WordsSize <= 0.f;
@@ -397,5 +392,5 @@ void TitleScene::LoadWordsSetParam()
 		LoadWords[i->first].get()->SetSize({WordsSize,WordsSize});
 	}
 
-	WordsSize = std::clamp(WordsSize, 0.f, 100.f);
+	WordsSize = std::clamp(WordsSize, 0.f, 200.f);
 }

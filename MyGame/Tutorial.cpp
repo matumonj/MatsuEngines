@@ -44,7 +44,7 @@ void Tutorial::Initialize()
 		AllObjectControl.emplace_back(StoneControl::GetIns()); //Wood
 		AllObjectControl.emplace_back(GrassFieldControl::GetIns()); //Wood
 	}
-
+	UI::GetIns()->AreaSelectTexInit();
 	postEffect = new PostEffect();
 	postEffect->Initialize();
 	c_postEffect = Default;
@@ -119,7 +119,8 @@ void Tutorial::Update()
 	{
 		Feed::GetIns()->Update_White(Feed::FEEDIN); //白くなります
 	}
-
+	//Startボタンでのシーン遷移
+	SceneChangeCustom();
 
 	if (scenechange && Feed::GetIns()->GetAlpha() >= 1.0f)
 	{
@@ -127,25 +128,38 @@ void Tutorial::Update()
 		Play = false;
 		SceneManager::GetIns()->SetScene(SceneManager::PLAY, sceneManager_);
 	}
-	if (Input::GetIns()->TriggerButton(Input::START))
-	{
-		fp = true;
-	}
 
-	input = Input::GetIns();
-	
-	UI::GetIns()->TwistEffect(fp, 10.f, 0.1f);
-	{
-		if(UI::GetIns()->GetTwistRad()>1000.f)
-			Feed::GetIns()->Update_White(Feed::FEEDIN);
+	UI::GetIns()->AreaSelectTexUpda();
 
-		if(Feed::GetIns()->GetAlpha() >= 1.0f)
-			SceneManager::GetIns()->SetScene(SceneManager::BOSS, sceneManager_);
-
-	}
+	postEffect->SetSepiaF(UI::GetIns()->GetAreaSelF());
 	postEffect->SetBloomAlpha(n);
 }
 
+void Tutorial::SceneChangeCustom()
+{
+	if (UI::GetIns()->GetSceneChange_Boss())
+	{
+		SceneChangeB = true;
+	}
+	if (UI::GetIns()->GetSceneChange_Explo())
+	{
+		SceneChangeE = true;
+	}
+
+	UI::GetIns()->TwistEffect((SceneChangeB || SceneChangeE), 10.f, 0.1f);
+	{
+		if (UI::GetIns()->GetTwistRad() > 1000.f)
+			Feed::GetIns()->Update_White(Feed::FEEDIN);
+
+		if (Feed::GetIns()->GetAlpha() >= 1.0f) {
+			Play = false;
+			if (SceneChangeB)
+				SceneManager::GetIns()->SetScene(SceneManager::BOSS, sceneManager_);
+			if (SceneChangeE)
+				SceneManager::GetIns()->SetScene(SceneManager::PLAY, sceneManager_);
+		}
+	}
+}
 
 
 void Tutorial::LightUpdate()
@@ -205,38 +219,15 @@ void Tutorial::SpriteDraw()
 /*---------まとめ---------*/
 void Tutorial::Draw()
 {
-	//ポストエフェクトの場合わけ(Bでぼかし Dがデフォルト)
-	switch (c_postEffect)
-	{
-	case Blur: //ぼかし　描画準違うだけ
-		postEffect->PreDrawScene();
-		postEffect->PostDrawScene();
-
-		DirectXCommon::GetIns()->BeginDraw();
-		MyGameDraw();
-		SpriteDraw();
-		DirectXCommon::GetIns()->EndDraw();
-
-		break;
-
-	case Default: //普通のやつ特に何もかかっていない
-
 		postEffect->PreDrawScene();
 		MyGameDraw();
 		postEffect->PostDrawScene();
 
 		DirectXCommon::GetIns()->BeginDraw();
 		postEffect->Draw();
-		ImGui::Begin("bloom");
-		ImGui::SliderFloat("rad", &r, 0, 1900);
-		ImGui::SliderFloat("leng", &l, 0, 100);
-		ImGui::End();
-		//SpriteDraw();
-
+		SpriteDraw();
 		DirectXCommon::GetIns()->EndDraw();
-
-		break;
-	}
+		
 }
 
 /*------------------------*/

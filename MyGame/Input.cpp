@@ -453,32 +453,32 @@ bool Input::TriggerCrossKey(int CrossKey)
 		switch (gamePadState.rgdwPOV[0])
 		{
 		case 0:
-			is_push[Cross_Up] = true;
+			is_push[ButtonKind::Cross_Up] = true;
 			break;
 		case 4500:
-			is_push[Cross_Up] = true;
-			is_push[Cross_Right] = true;
+			is_push[ButtonKind::Cross_Up] = true;
+			is_push[ButtonKind::Cross_Right] = true;
 			break;
 		case 9000:
-			is_push[Cross_Right] = true;
+			is_push[ButtonKind::Cross_Right] = true;
 			break;
 		case 13500:
-			is_push[Cross_Right] = true;
-			is_push[Cross_Down] = true;
+			is_push[ButtonKind::Cross_Right] = true;
+			is_push[ButtonKind::Cross_Down] = true;
 			break;
 		case 18000:
-			is_push[Cross_Down] = true;
+			is_push[ButtonKind::Cross_Down] = true;
 			break;
 		case 22500:
-			is_push[Cross_Down] = true;
-			is_push[Cross_Left] = true;
+			is_push[ButtonKind::Cross_Down] = true;
+			is_push[ButtonKind::Cross_Left] = true;
 			break;
 		case 27000:
-			is_push[Cross_Left] = true;
+			is_push[ButtonKind::Cross_Left] = true;
 			break;
 		case 31500:
-			is_push[Cross_Left] = true;
-			is_push[Cross_Up] = true;
+			is_push[ButtonKind::Cross_Left] = true;
+			is_push[ButtonKind::Cross_Up] = true;
 			break;
 		}
 
@@ -496,7 +496,6 @@ bool Input::TriggerCrossKey(int CrossKey)
 
 	return false;
 }
-
 bool Input::TiltPushStick(STICK Stick, float DeadZone)
 {
 	StickPos vec;

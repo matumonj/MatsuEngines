@@ -33,6 +33,9 @@ void ImageManager::TitleSpriteInit()
 								LoadSprite(LOADWORD_8, L"Resources/2d/title/load8.png");
 									LoadSprite(LOADWORD_9, L"Resources/2d/title/load9.png");
 									LoadSprite(LOADWORD_10, L"Resources/2d/title/load10.png");
+									LoadSprite(AREASELECT_BOSS, L"Resources/2d/title/AreaSelect.png");
+									LoadSprite(AREASELECT_EXPLO, L"Resources/2d/title/AreaSelect_2.png");
+									LoadSprite(AREASELECT_FRAME, L"Resources/2d/title/AreaSelect_Frame.png");
 }
 void ImageManager::Init()
 {

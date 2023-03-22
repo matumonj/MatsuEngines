@@ -204,10 +204,10 @@ void Player::Move()
 		//ボスエリアでの移動制限
 		else if (SceneManager::GetIns()->GetScene() == SceneManager::BOSS)
 		{
-			l_MoveLimit_x[0] = -130.f;
-			l_MoveLimit_x[1] = 130.f;
-			l_MoveLimit_z[0] = -130.f;
-			l_MoveLimit_z[1] = 130.f;
+			l_MoveLimit_x[0] = -120.f;
+			l_MoveLimit_x[1] = 120.f;
+			l_MoveLimit_z[0] = -120.f;
+			l_MoveLimit_z[1] = 120.f;
 		}
 
 		Position.x = std::clamp(Position.x, l_MoveLimit_x[0], l_MoveLimit_x[1]);

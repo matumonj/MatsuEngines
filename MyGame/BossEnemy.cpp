@@ -135,6 +135,11 @@ void BossEnemy::Update()
 	{
 		return;
 	}
+
+	if(Input::GetIns()->TriggerButton(Input::Y))
+	{
+		EnemyHP = 0;
+	}
 	//swordrot = { 0,42,164 };
 
 	DebugCamera* camera = CameraControl::GetIns()->GetCamera();

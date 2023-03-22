@@ -23,7 +23,6 @@ void ChestControl::Finalize()
 	Num.clear();
 	pos.clear();
 	Tutorial_chest.clear();
-	chests.clear();
 	Load_ChestPosition.clear();
 }
 
@@ -101,8 +100,7 @@ void ChestControl::Init_Play()
 		}
 	}
 	Load_ChestPosition.resize(Quantity);
-
-	chests.resize(4);
+	
 	for (int i = 0; i < 4; i++)
 	{
 		chests[i] = std::make_unique<Chest>();
@@ -156,8 +154,6 @@ void ChestControl::Update_Tutorial()
 
 void ChestControl::Update_Play()
 {
-	chests.resize(4);
-
 	const XMFLOAT4 color_red = {1.0f, 0.1f, 0.1f, 0.7f};
 	const XMFLOAT4 color_green = {0.1f, 1.0f, 0.1f, 0.7f};
 	const XMFLOAT4 color_blue = {0.1f, 0.1f, 1.0f, 0.7f};
@@ -286,6 +282,7 @@ void ChestControl::Draw_Play()
 		}
 	}
 	Object3d::PreDraw();
+	if(ChestCage!=nullptr)
 	ChestCage->Draw();
 	Object3d::PostDraw();
 }

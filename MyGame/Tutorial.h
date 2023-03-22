@@ -25,8 +25,10 @@ private:
 	bool feedflag = false;
 	float n;
 	float r, l;
-	bool fp;
-public:
+	bool SceneChangeB,SceneChangeE;
+
+private:
+	void SceneChangeCustom();
 	void objUpdate();
 	void LightSet();
 public:

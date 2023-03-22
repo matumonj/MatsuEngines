@@ -48,7 +48,7 @@ private:
 
 private:
 	//宝箱オブジェ
-	std::vector<std::unique_ptr<Chest>> chests;
+	std::array<std::unique_ptr<Chest>,4> chests;
 	//座標
 	std::vector<XMFLOAT3> Load_ChestPosition;
 	//チュートリアル用	

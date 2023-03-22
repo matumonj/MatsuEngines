@@ -106,8 +106,10 @@ public:
 		LOADWORD_7,
 		LOADWORD_8,
 		LOADWORD_9,
-		LOADWORD_10
-
+		LOADWORD_10,
+		AREASELECT_BOSS,
+		AREASELECT_EXPLO,
+		AREASELECT_FRAME
 		/*
 	Texture::LoadTexture(18, L"Resources/2d/icon/nav1.png");
 	Texture::LoadTexture(19, L"Resources/2d/icon/nav2.png");
