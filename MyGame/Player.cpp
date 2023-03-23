@@ -87,6 +87,33 @@ void Player::KnockBack(XMFLOAT3 pos)
 	KnockEase = std::clamp(KnockEase, 0.f, 1.f);
 
 	bKnockPower = Easing::EaseOut(KnockEase, 2.f, 0.f);
+
+	//探索ステージでの移動制限値
+	float l_MoveLimit_x[2];
+	float l_MoveLimit_z[2];
+
+	if (SceneManager::GetIns()->GetScene() != SceneManager::TUTORIAL)
+	{
+		//探索シーンでの移動制限
+		if (SceneManager::GetIns()->GetScene() == SceneManager::PLAY)
+		{
+			l_MoveLimit_x[0] = -300.f;
+			l_MoveLimit_x[1] = 300.f;
+			l_MoveLimit_z[0] = -200.f;
+			l_MoveLimit_z[1] = 400.f;
+		}
+		//ボスエリアでの移動制限
+		else if (SceneManager::GetIns()->GetScene() == SceneManager::BOSS)
+		{
+			l_MoveLimit_x[0] = -120.f;
+			l_MoveLimit_x[1] = 120.f;
+			l_MoveLimit_z[0] = -120.f;
+			l_MoveLimit_z[1] = 120.f;
+		}
+
+		Position.x = std::clamp(Position.x, l_MoveLimit_x[0], l_MoveLimit_x[1]);
+		Position.z = std::clamp(Position.z, l_MoveLimit_z[0], l_MoveLimit_z[1]);
+	}
 }
 void Player::Walk()
 {
@@ -635,7 +662,7 @@ void Player::DamageFlash()
 			FlashEaseT = 0.f;
 		}
 	}
-	ObjCol.y = Easing::EaseOut(FlashEaseT, 1.f, 4.f);
-	ObjCol.z = Easing::EaseOut(FlashEaseT, 1.f, 4.f);
-	ObjCol.x = Easing::EaseOut(FlashEaseT, 1.f, 4.f);
+	ObjCol.y = Easing::EaseOut(FlashEaseT, 1.f, 8.f);
+	ObjCol.z = Easing::EaseOut(FlashEaseT, 1.f, 8.f);
+	ObjCol.x = Easing::EaseOut(FlashEaseT, 1.f, 8.f);
 }

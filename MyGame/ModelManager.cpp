@@ -12,6 +12,7 @@ ModelManager* ModelManager::GetIns()
 
 void ModelManager::InitField()
 {
+	LoadModel(SKY, "skydome");
 	LoadModel(FIELD, "LowPoly_Landscape");
 }
 
@@ -33,7 +34,7 @@ void ModelManager::Initialize()
 	LoadModel(MISSILE, "missile");
 	LoadModel(DESTROCK, "DestRock");
 	LoadModel(SMALLSWORD, "Wand");
-	LoadModel(SKY, "skydome");
+	
 	LoadModel(ICECRYSTAL, "crystal");
 	LoadModel(BIGROCK_A, "BigStone_A");
 	LoadModel(HOUSE, "house");

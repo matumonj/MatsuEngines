@@ -72,13 +72,6 @@ void TitleScene::Update()
 	//
 	if (CameraBackF)
 	{
-		if (SceneManager::GetIns()->GetLoad()) {
-			DebugTextSprite::GetIns()->Print("NowLoading", 1000, 600, 3);
-		}
-		else
-		{
-			DebugTextSprite::GetIns()->Print("Clear", 1000, 600, 3);
-		}
 		timef++;
 		SceneManager::GetIns()->LoadScene();
 	}
@@ -299,11 +292,9 @@ void TitleScene::TitleFieldUpda()
 	//パラメータをセット(天球)
 	celestal->SetRotation({0.0f, 0.0f, 0.0f});
 	celestal->SetScale(CelestalScl);
-
+	celestal->SetColor({ 1.f,1.f,1.f,1.f });
 	//更新処理
 	field->setFog(true);
-	celestal->Setf(true);
-	celestal->setFog(true);
 	celestal->SetFogCenter(camera->GetEye());
 
 	field->Update(camera.get());
@@ -347,6 +338,13 @@ void TitleScene::LoadWordsSetParam()
 			LoadWordsPos[i].y = CenterPos.y;
 		}
 	}
+	//文字のサイズ設定
+	for (auto i = LoadWords.begin(); i != LoadWords.end(); i++) {
+		if (LoadWords[i->first] == nullptr)continue;
+		LoadWords[i->first].get()->SetAnchorPoint({ 0.5f,0.5f });
+		LoadWords[i->first].get()->SetSize({ WordsSize,WordsSize });
+	}
+
 
 	//わかりやすくするために個々で書いてる
 	if (LoadWordsChange) {
@@ -364,7 +362,7 @@ void TitleScene::LoadWordsSetParam()
 		LoadWords["ス"].reset(nullptr);
 		LoadWords["中"].reset(nullptr);
 
-		WordsSize += AddMovingVal;
+		WordsSize += AddMovingVal*2.f;
 	}
 	else {
 		LoadWords["リ"] .get()->SetPosition(LoadWordsPos[0]);
@@ -377,6 +375,10 @@ void TitleScene::LoadWordsSetParam()
 		LoadWords["み_2"].get()->SetPosition(LoadWordsPos[7]);
 		LoadWords["中"].get()->SetPosition(LoadWordsPos[8]);
 
+		//文字隠し
+		LoadWords["完"].get()->SetSize({0.f,0.f});
+		LoadWords["了"].get()->SetSize({0.f,0.f});
+
 		if(FadeFlag)
 		{
 			WordsSize -= AddMovingVal;
@@ -385,12 +387,6 @@ void TitleScene::LoadWordsSetParam()
 		LoadWordsChange = WordsSize <= 0.f;
 	}
 
-	//文字のサイズ設定
-	for (auto i = LoadWords.begin(); i != LoadWords.end(); i++) {
-		if (LoadWords[i->first] == nullptr)continue;
-		LoadWords[i->first].get()->SetAnchorPoint({ 0.5f,0.5f });
-		LoadWords[i->first].get()->SetSize({WordsSize,WordsSize});
-	}
 
 	WordsSize = std::clamp(WordsSize, 0.f, 200.f);
 }

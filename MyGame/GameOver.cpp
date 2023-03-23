@@ -92,7 +92,7 @@ void GameOver::Update()
 	GameOverTexFrame->SetPosition({960.f, 480.f});
 	GameOverTexFrame->SetSize(FrameSize);
 	GameOverTex->SetSize({1900.f, 400.f});
-	GameOverTex->SetPosition({960.f, 480.f});
+	GameOverTex->SetPosition({960.f, 465.f});
 	GameOverTex->setcolor({1.f, 1.f, 1.f, TexAlpha});
 
 
