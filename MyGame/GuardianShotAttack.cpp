@@ -161,7 +161,7 @@ void GuardianShotAttack::ArmShot()
 		{
 			ArmPos[i] = {
 				EnemyControl::GetIns()->GetGuardianEnemy()->GetPosition().x,
-				-30.f,
+				-40.f,
 				EnemyControl::GetIns()->GetGuardianEnemy()->GetPosition().z
 			};
 
@@ -193,7 +193,7 @@ void GuardianShotAttack::ArmShot()
 		}
 		ArmPos[i] = {
 			ArmPos[i].x + move[i].m128_f32[0] * 2.f,
-			-30.f,
+			-40.f,
 			ArmPos[i].z + move[i].m128_f32[2] * 2.f
 		};
 	}

@@ -104,64 +104,48 @@ void Tutorial::Update()
 	LoadParam();
 
 	postEffect->SetVignette_GB(PlayerControl::GetIns()->GetVignetteAlpha());
-	LightUpdate();
 	postEffect->SetUzuRen(UI::GetIns()->GetTwistPower());
 	postEffect->SetUzurad(UI::GetIns()->GetTwistRad());
 
+	postEffect->SetSepiaF(UI::GetIns()->GetAreaSelF());
+	postEffect->SetBloomAlpha(n);
+	LightUpdate();
+
 	//一定数進んだらシーンチェンジ
-	bool ArrivalJudg = PlayerControl::GetIns()->GetPlayer()->GetPosition().z > -210.0f;
+	bool ArrivalJudg = PlayerControl::GetIns()->GetPlayer()->GetPosition().z >= -210.0f;
+
 	if (ArrivalJudg)
 	{
-		scenechange = true;
-	}
-
-	if (scenechange)
-	{
-		Feed::GetIns()->Update_White(Feed::FEEDIN); //白くなります
+		PlayerControl::GetIns()->GetPlayer()->SetStopFlag(true);
 	}
 	//Startボタンでのシーン遷移
 	SceneChangeCustom();
 
-	if (scenechange && Feed::GetIns()->GetAlpha() >= 1.0f)
-	{
-		//画面真っ白なったら
-		Play = false;
-		SceneManager::GetIns()->SetScene(SceneManager::PLAY, sceneManager_);
-	}
-
 	UI::GetIns()->AreaSelectTexUpda();
 
-	postEffect->SetSepiaF(UI::GetIns()->GetAreaSelF());
-	postEffect->SetBloomAlpha(n);
+	
 }
 
 void Tutorial::SceneChangeCustom()
 {
-	if (UI::GetIns()->GetSceneChange_Boss())
-	{
-		SceneChangeB = true;
-	}
-	if (UI::GetIns()->GetSceneChange_Explo())
-	{
-		SceneChangeE = true;
-	}
+	if (UI::GetIns()->GetSceneChange_Boss())SceneChangeB = true;
 
-	UI::GetIns()->TwistEffect((SceneChangeB || SceneChangeE), 10.f, 0.1f);
+	if (UI::GetIns()->GetSceneChange_Explo())SceneChangeE = true;
+
+
+	UI::GetIns()->TwistEffect((PlayerControl::GetIns()->GetPlayer()->GetPosition().z > -210.f), 10.f, 0.1f);
 	{
-		if (UI::GetIns()->GetTwistRad() > 1000.f)
+		if (UI::GetIns()->GetTwistRad() > 10.f)
 			Feed::GetIns()->Update_White(Feed::FEEDIN);
 
-		if (Feed::GetIns()->GetAlpha() >= 1.0f) {
+		if (Feed::GetIns()->GetAlpha() >= 1.0f&& (PlayerControl::GetIns()->GetPlayer()->GetPosition().z > -210.f)) {
+			PlayerControl::GetIns()->GetPlayer()->SetStopFlag(false);
 			Play = false;
-			if (SceneChangeB)
-				SceneManager::GetIns()->SetScene(SceneManager::BOSS, sceneManager_);
-			if (SceneChangeE)
-				SceneManager::GetIns()->SetScene(SceneManager::PLAY, sceneManager_);
+			SceneManager::GetIns()->SetScene(SceneManager::PLAY, sceneManager_);
 		}
 	}
+
 }
-
-
 void Tutorial::LightUpdate()
 {
 	XMFLOAT3 ppos = PlayerControl::GetIns()->GetPlayer()->GetPosition();
@@ -208,7 +192,6 @@ void Tutorial::SpriteDraw()
 	{
 		EnemyControl::GetIns()->GetEnemy(EnemyControl::TUTORIAL)[0]->DamageTexDisplay_Draw();
 	}
-	DebugTextSprite::GetIns()->DrawAll();
 	Sprite::PostDraw();
 	UI::GetIns()->HUDDraw();
 	Feed::GetIns()->Draw();

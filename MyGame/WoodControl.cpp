@@ -95,7 +95,7 @@ void WoodControl::Init_Play()
 				std::getline(line_stream, word, ',');
 				float z = static_cast<float>(std::atof(word.c_str()));
 
-				pos[i] = {x, y - 8, z};
+				pos[i] = {x, y - 10.5f, z};
 				break;
 			}
 		}

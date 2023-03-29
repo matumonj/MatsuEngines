@@ -242,7 +242,7 @@ void FootSwitch::LoadCSV()
 				std::getline(line_stream, word, ',');
 				float z = static_cast<float>(std::atof(word.c_str()));
 
-				switch_param_[i].Pos = {x, y, z};
+				switch_param_[i].Pos = {x, y-8.f, z};
 				break;
 			}
 		}

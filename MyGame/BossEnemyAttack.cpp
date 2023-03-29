@@ -28,24 +28,15 @@ void BossEnemyAttack::Update(Enemy* enemy)
 		{
 			enemy->ChangeState_Boss(new BossEnemyShieldGuard());
 		}
-		else if (Evaprobability > 40)
+		else if (Evaprobability > 50)
 		{
 			PlayerControl::GetIns()->GetPlayer()->SetKnockF(true);
 
 			UI::GetIns()->SetRadBlur(true);
 			enemy->ChangeState_Boss(new BossEnemyAttackCircle());
-
-			//enemy->ChangeState_Boss(new BossEnemyFalter());
+			
 		}
-		else if (Evaprobability > 20)
-		{
-			PlayerControl::GetIns()->GetPlayer()->SetKnockF(true);
-
-			UI::GetIns()->SetRadBlur(true);
-			enemy->ChangeState_Boss(new BossEnemyAttackCircle());
-
-			//enemy->ChangeState_Boss(new BossEnemyFalter());
-		}
+		
 		else
 		{
 			enemy->ChangeState_Boss(new BossEnemyFollow());

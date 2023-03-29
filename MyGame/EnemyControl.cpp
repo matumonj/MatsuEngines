@@ -235,7 +235,7 @@ void EnemyControl::Update_Play()
 		}
 		if (enemys[PLAYSCENE][i]->getdeath() == false)
 		{
-			if (Collision::GetLength(pPos, enemys[PLAYSCENE][i]->GetPosition()) < 150)
+			if (Collision::GetLength(pPos, enemys[PLAYSCENE][i]->GetPosition()) < 200)
 			{
 				enemys[PLAYSCENE][i]->SetMoveFlag(true);
 				enemys[PLAYSCENE][i]->Update();
@@ -413,7 +413,7 @@ void EnemyControl::Draw_Play()
 		if (enemys[PLAYSCENE][i] != nullptr)
 		{
 			//ˆê’èˆÈã‚Í‚È‚ê‚½‚ç•`‰æØ‚é
-			if (Collision::GetLength(pPos, enemys[PLAYSCENE][i]->GetPosition()) < 100)
+			if (Collision::GetLength(pPos, enemys[PLAYSCENE][i]->GetPosition()) < 200)
 			{
 				enemys[PLAYSCENE][i]->Draw();
 			}

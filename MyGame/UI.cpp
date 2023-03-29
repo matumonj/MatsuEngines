@@ -137,8 +137,8 @@ void UI::SelectScene_Close()
 
 	if (AreaSel_EaseC[0] < 0.1f)
 	{
-		if (Input::GetIns()->TriggerButton(Input::START))
-			SelectF = true;
+		//if (Input::GetIns()->TriggerButton(Input::START))
+		//	SelectF = true;
 	}
 	for (auto i = 0; i < AreaSel.size(); i++)
 	{
@@ -220,7 +220,7 @@ void UI::HUDDraw()
 	{
 		PlayerControl::GetIns()->DamageTexDraw();
 	}
-	constexpr float BlurAddVal = 0.02f;
+	constexpr float BlurAddVal = 0.05f;
 
 	constexpr float MaxBlurSmp = 90.f;
 

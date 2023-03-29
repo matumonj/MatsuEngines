@@ -70,7 +70,7 @@ void GuardianEnemy::Initialize()
 	//FBX切り替わりのタイム指定
 	NormalAttackTime = 0.9f;
 	DeathTime = 6.9f;
-	Position = {-300.f, -50.f, 270.f};
+	Position = {-242.f, -50.f, 333.f};
 	GuardianBomAttack::GetIns()->TexSet();
 	GuardianShotAttack::GetIns()->TexSet();
 	GuardianNAttack::GetIns()->TexSet();

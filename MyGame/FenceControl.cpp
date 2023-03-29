@@ -23,7 +23,7 @@ void FenceControl::Init_Tutorial()
 	Tutorialfence[0]->SetScale({3.39f, 7.0f, 4.0f});
 	BossGate = std::make_unique<AreaFence>();
 	BossGate->Initialize();
-	BossGate->SetPosition({60.f, -35.0f, 430.0f});
+	BossGate->SetPosition({60.f, -45.0f, 400.0f});
 	BossGate->SetRotation({0.0f, 0.0f, 0.0f});
 	BossGate->SetScale({8.39f, 10.0f, 4.0f});
 }

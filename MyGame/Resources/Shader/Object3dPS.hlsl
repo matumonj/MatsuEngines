@@ -17,15 +17,15 @@ PSOutPut main(GSOutput input)
 	//float brightness = diffuse + 1.0f;
 	//フォグ部分
 	float4 nc = { 0.1, 0.1, 0.1, 1 }; //cameraPos付近の色
-	float4 c = { 0.3, 0.3, 0.4, 1 }; //
+	float4 c = { 0.7, 0.7, 0.7, 1 }; //
 	//cameraPosとあるが今は固定座標
 	float dist = length(cameraPos - input.worldpos.xyz);
 	float4 addcol = float4(lerp(nc.rgb, c.rgb, dist / 500), 0.0);
 
-	float3 fc = { 0.1, 0.1, 0.1 };
+	float3 fc = { 0.5, 0.5, 0.5};
 
 	// 光沢度
-	const float shininess = 1.0f;
+	const float shininess = 4.0f;
 	// 頂点から視点への方向ベクトル
 	float3 eyedir = normalize(cameraPos - input.worldpos.xyz);
 

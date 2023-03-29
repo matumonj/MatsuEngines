@@ -190,7 +190,7 @@ void GuardianBomAttack::ArmShot()
 		{
 			DtexPos[i].x = ppos.x;
 			DtexPos[i].z = ppos.z;
-			DtexPos[i].y = -25.f;
+			DtexPos[i].y = -35.f;
 
 			ArmPos[i] = {DtexPos[i].x, 0.f, DtexPos[i].z};
 

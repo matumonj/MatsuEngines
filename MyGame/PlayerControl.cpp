@@ -167,6 +167,13 @@ void PlayerControl::DamageTexDraw()
 		DamageTex->Draw();
 		Sprite::PostDraw();
 	}
+	ImGui::Begin("pos,,");
+
+	ImGui::SetWindowPos(ImVec2(0, 500));
+	ImGui::SetWindowSize(ImVec2(300, 300));
+	ImGui::Text("%f", player->GetPosition().x);
+	ImGui::Text("%f", player->GetPosition().z);
+	ImGui::End();
 }
 
 /*------------------------*/
@@ -189,13 +196,7 @@ void PlayerControl::Draw_Tutorial()
 		return;
 	}
 	player->Draw();
-	ImGui::Begin("pos,,");
-
-	ImGui::SetWindowPos(ImVec2(0, 500));
-	ImGui::SetWindowSize(ImVec2(300, 300));
-	ImGui::Text("%f", player->GetPosition().x);
-	ImGui::Text("%f", player->GetPosition().z);
-	ImGui::End();
+	
 }
 
 void PlayerControl::Draw_Boss()

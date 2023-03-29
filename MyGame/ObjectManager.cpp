@@ -140,6 +140,7 @@ void ObjectManager::ParameterSet_Obj()
 {
 	DebugCamera* camera = CameraControl::GetIns()->GetCamera();
 
+	//CollisionField();
 	m_Object->SetPosition({Position.x, Position.y - 3, Position.z});
 	m_Object->SetRotation(Rotation);
 	m_Object->SetScale(Scale);

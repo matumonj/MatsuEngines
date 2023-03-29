@@ -95,7 +95,7 @@ void PlayScene::Update()
 	//postEffect->SetVignette_GB(PlayerControl::GetIns()->GetVignetteAlpha());
 	if (Input::GetIns()->TriggerButton(Input::START))
 	{
-		SceneManager::GetIns()->SetScene(SceneManager::BOSS, sceneManager_);
+		//SceneManager::GetIns()->SetScene(SceneManager::BOSS, sceneManager_);
 	}
 	LightUpdate();
 	ChangeSceneJudg();
@@ -111,20 +111,21 @@ void PlayScene::LightUpdate()
 	lightGroup->SetCircleShadowAtten(3, XMFLOAT3(0, 0, 0));
 	lightGroup->SetCircleShadowFactorAngle(3, XMFLOAT2(circleShadowFactorAngle));
 
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 12; i++)
 	{
-		if (EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetObjAlpha() <= 0.f ||
-			Collision::GetLength(ppos, EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetPosition()) >
-			200.f)
-		{
-			//lightGroup->SetCircleShadowFactorAngle(i + 4, {0, 0});
+		if (EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetObjAlpha() <= 0.f) {
 			lightGroup->SetCircleShadowActive(i + 4, false);
-			//continue;
 		}
-		else
-		{
-			lightGroup->SetCircleShadowActive(i + 4, true);
-		}
+			if (Collision::GetLength(ppos, EnemyControl::GetIns()->GetEnemy(EnemyControl::PLAYSCENE)[i]->GetPosition()) >
+				190.f)
+			{
+				lightGroup->SetCircleShadowActive(i + 4, false);
+				//continue;
+			} else
+			{	lightGroup->SetCircleShadowActive(i + 4, true);
+				
+			}
+		
 		lightGroup->SetCircleShadowDir(i + 4, XMVECTOR({
 			                               circleShadowDir[0], circleShadowDir[1], circleShadowDir[2], 0
 		                               }));

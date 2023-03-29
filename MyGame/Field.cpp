@@ -86,7 +86,7 @@ void Field::Init_Play()
 		GuardareaPos[i].z = pedestalpos.z + cosf(GuardAreaAngle[i] * (PI / 180.0f)) * 80.0f;
 	}
 	//ガーディアン出現用の塔
-	pedestalpos = {-300.0f, -32, 270};
+	pedestalpos = {-242.0f, -45.f, 333.f};
 
 	SetFieldModel(PEDESTAL, ModelManager::GetIns()->GetModel(ModelManager::ICECRYSTAL), camera);
 
@@ -257,19 +257,21 @@ void Field::Update_Play()
 		return;
 	}
 	CelestalRot += 0.1f;
+	
 	m_object[CELESTIALSPHERE]->SetRotation({90.0f, CelestalRot, 180.0f});
-	SetFieldUpdate(CELESTIALSPHERE, camera, {0.0f, 2290.0f, 0.0f}, {30.0f, 30.0f, 30.0f}, FALSE, TRUE);
+	SetFieldUpdate(CELESTIALSPHERE, camera, {0.0f, 2290.0f, 0.0f}, {30.0f, 30.0f, 30.0f}, FALSE, false);
+	m_object[CELESTIALSPHERE]->SetColor({ 3.f,3.f,3.f,0.2f });
 	SetFieldUpdate(PEDESTAL, camera, pedestalpos, {2, 2, 2});
 
 	FieldObject->Setf(true);
 	FieldObject->SetPosition({0.0f, -25.0f, 0.0f});
-	FieldObject->SetColor({0.2f, 0.2f, 0.2f, 1.0f});
+	FieldObject->SetColor({0.9f, 0.9f, 0.9f, 1.0f});
 	FieldObject->SetFogCenter(FogCenterPos);
 	FieldObject->setFog(true);
 	FieldObject->Update(camera);
 
 	m_object[BOSSBACK]->SetRotation({0.f, 180.f, 0.f});
-	BossFieldPos = {60.f, -46.f, 520.f};
+	BossFieldPos = {60.f, -56.f, 500.f};
 	SetFieldUpdate(BOSSBACK, camera, BossFieldPos, {0.6f, 0.6f, 0.6f}, FALSE, true);
 
 	FootSwitch::GetIns()->Upda();

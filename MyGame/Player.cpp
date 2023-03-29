@@ -97,10 +97,10 @@ void Player::KnockBack(XMFLOAT3 pos)
 		//探索シーンでの移動制限
 		if (SceneManager::GetIns()->GetScene() == SceneManager::PLAY)
 		{
-			l_MoveLimit_x[0] = -300.f;
-			l_MoveLimit_x[1] = 300.f;
+			l_MoveLimit_x[0] = -290.f;
+			l_MoveLimit_x[1] = 290.f;
 			l_MoveLimit_z[0] = -200.f;
-			l_MoveLimit_z[1] = 400.f;
+			l_MoveLimit_z[1] = 380.f;
 		}
 		//ボスエリアでの移動制限
 		else if (SceneManager::GetIns()->GetScene() == SceneManager::BOSS)
@@ -218,8 +218,6 @@ void Player::Move()
 	float l_MoveLimit_x[2];
 	float l_MoveLimit_z[2];
 
-	if (SceneManager::GetIns()->GetScene() != SceneManager::TUTORIAL)
-	{
 		//探索シーンでの移動制限
 		if (SceneManager::GetIns()->GetScene() == SceneManager::PLAY)
 		{
@@ -236,10 +234,19 @@ void Player::Move()
 			l_MoveLimit_z[0] = -120.f;
 			l_MoveLimit_z[1] = 120.f;
 		}
+		if (SceneManager::GetIns()->GetScene() == SceneManager::TUTORIAL)
+		{
+			if (Position.z <= -200.f) {
+				l_MoveLimit_x[0] = 33.f;
+				l_MoveLimit_x[1] = 60.f;
 
-		Position.x = std::clamp(Position.x, l_MoveLimit_x[0], l_MoveLimit_x[1]);
-		Position.z = std::clamp(Position.z, l_MoveLimit_z[0], l_MoveLimit_z[1]);
-	}
+				Position.x = std::clamp(Position.x, l_MoveLimit_x[0], l_MoveLimit_x[1]);
+			}
+		} else
+		{
+			Position.x = std::clamp(Position.x, l_MoveLimit_x[0], l_MoveLimit_x[1]);
+			Position.z = std::clamp(Position.z, l_MoveLimit_z[0], l_MoveLimit_z[1]);
+		}
 
 	//走り状態以外は足元の土煙出さない
 	if (attackMotion != RUN)

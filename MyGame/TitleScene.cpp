@@ -121,6 +121,7 @@ void TitleScene::Update()
 	//フィールド
 	TitleFieldUpda();
 	//カメラ更新(後で移す)
+	LoadMenuSprite->SetSize({ 1900.f,1000.f });
 	camera->SetEye({CameraPos.x, 2.0f, CameraPos.y});
 	camera->SetTarget({0.0f, 0.0f, 0.0f});
 	camera->Update();

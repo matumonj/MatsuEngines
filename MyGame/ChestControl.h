@@ -63,7 +63,7 @@ private:
 	bool nowevent;
 
 	std::unique_ptr<Object3d> ChestCage;
-	XMFLOAT3 CagePos;
+	XMFLOAT3 CagePos={282.f,0.f,136.f};
 
 	void CageOBBSet();
 	void CageColPlayer();
